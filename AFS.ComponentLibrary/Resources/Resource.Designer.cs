@@ -169,11 +169,29 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to на початок року.
+        /// </summary>
+        internal static string atBeginOfYear {
+            get {
+                return ResourceManager.GetString("atBeginOfYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to На кінець звітного періоду.
         /// </summary>
         internal static string AtEndingReportingPeriod {
             get {
                 return ResourceManager.GetString("AtEndingReportingPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to на кінець року.
+        /// </summary>
+        internal static string atEndOfYear {
+            get {
+                return ResourceManager.GetString("atEndOfYear", resourceCulture);
             }
         }
         
@@ -219,6 +237,24 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string CapitalInRevaluations {
             get {
                 return ResourceManager.GetString("CapitalInRevaluations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Характеристика капіталу.
+        /// </summary>
+        internal static string CharacteristicsOfCapital {
+            get {
+                return ResourceManager.GetString("CharacteristicsOfCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Таблиця {0}. Характеристика капіталу {1} за {2}-{3} роки.
+        /// </summary>
+        internal static string CharacteristicsOfCapitalTablName {
+            get {
+                return ResourceManager.GetString("CharacteristicsOfCapitalTablName", resourceCulture);
             }
         }
         
@@ -327,6 +363,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string DeferredTaxLiabilities {
             get {
                 return ResourceManager.GetString("DeferredTaxLiabilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to відхилення.
+        /// </summary>
+        internal static string deviation {
+            get {
+                return ResourceManager.GetString("deviation", resourceCulture);
             }
         }
         
@@ -457,6 +502,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to темп роста.
+        /// </summary>
+        internal static string growthRate {
+            get {
+                return ResourceManager.GetString("growthRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to у тому числі з податку на прибуток.
         /// </summary>
         internal static string includingIncomeTax {
@@ -489,6 +543,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string IncompleteCapitalInvestments {
             get {
                 return ResourceManager.GetString("IncompleteCapitalInvestments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Показники.
+        /// </summary>
+        internal static string Indicators {
+            get {
+                return ResourceManager.GetString("Indicators", resourceCulture);
             }
         }
         
@@ -696,6 +759,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string NonCurrentAssetsHeldForSale {
             get {
                 return ResourceManager.GetString("NonCurrentAssetsHeldForSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № п/п.
+        /// </summary>
+        internal static string NumberInOrder {
+            get {
+                return ResourceManager.GetString("NumberInOrder", resourceCulture);
             }
         }
         
@@ -925,6 +997,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Зберегти у файл.
+        /// </summary>
+        internal static string SaveToFile {
+            get {
+                return ResourceManager.GetString("SaveToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Витрати на збут.
         /// </summary>
         internal static string SellingExpenses {
@@ -997,11 +1078,29 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Таблиця.
+        /// </summary>
+        internal static string Table {
+            get {
+                return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Цільове фінансування.
         /// </summary>
         internal static string TargetedFinancing {
             get {
                 return ResourceManager.GetString("TargetedFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to тис.грн..
+        /// </summary>
+        internal static string thousandUAH {
+            get {
+                return ResourceManager.GetString("thousandUAH", resourceCulture);
             }
         }
         
@@ -1042,6 +1141,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Завантажити з файлу.
+        /// </summary>
+        internal static string UploadFromFile {
+            get {
+                return ResourceManager.GetString("UploadFromFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to знос.
         /// </summary>
         internal static string wear {
@@ -1074,6 +1182,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string WithdrawnCapital {
             get {
                 return ResourceManager.GetString("WithdrawnCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to рік.
+        /// </summary>
+        internal static string year {
+            get {
+                return ResourceManager.GetString("year", resourceCulture);
             }
         }
     }

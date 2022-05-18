@@ -153,8 +153,14 @@
   <data name="AtBeginningReportingPeriod" xml:space="preserve">
     <value>На початок звітного періоду</value>
   </data>
+  <data name="atBeginOfYear" xml:space="preserve">
+    <value>на початок року</value>
+  </data>
   <data name="AtEndingReportingPeriod" xml:space="preserve">
     <value>На кінець звітного періоду</value>
+  </data>
+  <data name="atEndOfYear" xml:space="preserve">
+    <value>на кінець року</value>
   </data>
   <data name="AverageNumberOrdinaryShares" xml:space="preserve">
     <value>Середньорічна кількість простих акцій</value>
@@ -170,6 +176,12 @@
   </data>
   <data name="CapitalInRevaluations" xml:space="preserve">
     <value>Капітал у дооцінках</value>
+  </data>
+  <data name="CharacteristicsOfCapital" xml:space="preserve">
+    <value>Характеристика капіталу</value>
+  </data>
+  <data name="CharacteristicsOfCapitalTablName" xml:space="preserve">
+    <value>Таблиця {0}. Характеристика капіталу {1} за {2}-{3} роки</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
     <value>Назва компанії</value>
@@ -206,6 +218,9 @@
   </data>
   <data name="DeferredTaxLiabilities" xml:space="preserve">
     <value>Відстрочені податкові зобов'язання</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>відхилення</value>
   </data>
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Дивіденди на одну просту акцію</value>
@@ -249,6 +264,9 @@
   <data name="Gross" xml:space="preserve">
     <value>Валовий</value>
   </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>темп роста</value>
+  </data>
   <data name="includingIncomeTax" xml:space="preserve">
     <value>у тому числі з податку на прибуток</value>
   </data>
@@ -260,6 +278,9 @@
   </data>
   <data name="IncompleteCapitalInvestments" xml:space="preserve">
     <value>Незавершені капітальні інвестиції</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>Показники</value>
   </data>
   <data name="initialCost" xml:space="preserve">
     <value>первісна вартість</value>
@@ -329,6 +350,9 @@
   </data>
   <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Необоротні активи, утримувані для продажу, та групи вибуття</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>№ п/п</value>
   </data>
   <data name="onIssuedAdvances" xml:space="preserve">
     <value>за виданими авансами</value>
@@ -405,6 +429,9 @@
   <data name="SalaryExpenses" xml:space="preserve">
     <value>Витрати на оплату праці</value>
   </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Зберегти у файл</value>
+  </data>
   <data name="SellingExpenses" xml:space="preserve">
     <value>Витрати на збут</value>
   </data>
@@ -429,8 +456,14 @@
   <data name="Stocks" xml:space="preserve">
     <value>Запаси</value>
   </data>
+  <data name="Table" xml:space="preserve">
+    <value>Таблиця</value>
+  </data>
   <data name="TargetedFinancing" xml:space="preserve">
     <value>Цільове фінансування</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>тис.грн.</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Разом</value>
@@ -444,6 +477,9 @@
   <data name="UnpaidCapital" xml:space="preserve">
     <value>Неоплачений капітал</value>
   </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>Завантажити з файлу</value>
+  </data>
   <data name="wear" xml:space="preserve">
     <value>знос</value>
   </data>
@@ -455,5 +491,8 @@
   </data>
   <data name="WithdrawnCapital" xml:space="preserve">
     <value>Вилучений капітал</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>рік</value>
   </data>
 </root>
