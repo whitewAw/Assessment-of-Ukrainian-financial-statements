@@ -4,6 +4,7 @@
 @using Microsoft.Extensions.Localization
 @using Microsoft.JSInterop
 @using AFS.Core.Model
+@using AFS.Core.Services.DataCalculations;
 @using Radzen
 @using Radzen.Blazor
 @using AFS.ComponentLibrary.Components.YearSelectComponents
@@ -12,6 +13,8 @@
 @using AFS.ComponentLibrary.Components.TableComponents
 @using Blazored.LocalStorage;
 @using Microsoft.AspNetCore.Components.Routing
+
 @inject AFSModel MainModel
 @inject IStringLocalizer<Resource> ResLoc
+@inject AFSConstraints Constraints
 

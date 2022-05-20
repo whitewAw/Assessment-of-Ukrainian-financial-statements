@@ -2,6 +2,7 @@ using AFS;
 using AFS.Core.Interfaces;
 using AFS.Core.Model;
 using AFS.Core.Services;
+using AFS.Core.Services.DataCalculations;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -21,6 +22,8 @@ builder.Services.AddScoped<IModelStorageHandler, LocalStorageModelHandler>();
 builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler>();
 builder.Services.AddScoped<JsInterop>();
 
+builder.Services.AddTransient<CharacteristicsOfCapital>();
+
 builder.Logging.SetMinimumLevel(LogLevel.Warning);
 
 var host = builder.Build();
@@ -37,5 +40,3 @@ if (modelStorageHandler != null)
 }
 
 await host.RunAsync();
-
-
