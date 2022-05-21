@@ -6,7 +6,8 @@
         public int MaxYear { get; private set; } = DateTime.Now.AddYears(-1).Year;
         public string FileExtension { get; private set; } = ".json";
         public int MaxFileSize { get; private set; } = 15*1024;
-
+        public static string LangCultureName { get; private set; } = "langCulture";
+        public static string ModelJsonName { get; private set; } = "modelJson";
         public static int DurationOAnalyzedPeriod { get; private set; } = 360;
         public static double RoundStat(double value, int digits=1) => Math.Round(value, digits, MidpointRounding.AwayFromZero);
         public static string RoundStrStat(double value, int digits = 1)
