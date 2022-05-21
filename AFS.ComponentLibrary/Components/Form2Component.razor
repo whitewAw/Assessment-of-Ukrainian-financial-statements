@@ -19,26 +19,8 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">I. @ResLoc["FinancialResults"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["NetIncomeFromSalesOfProducts"]</TdComponent>
-            <TdComponent>2000</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2000.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2000.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["CostOfGoodsSold"]</TdComponent>
-            <TdComponent>2050</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2050.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2050.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2000 FieldNumber="2000" FieldName=@ResLoc["NetIncomeFromSalesOfProducts"] />
+        <TrF2Component Field=@F2.F2050 FieldNumber="2050" FieldName=@ResLoc["CostOfGoodsSold"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["Gross"]):</TdComponent>
             <TdComponent Rowspan="2">2090</TdComponent>
@@ -54,46 +36,10 @@
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2095Curent()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2095Previous()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["OtherOperatingIncome"]</TdComponent>
-            <TdComponent>2120</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2120.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2120.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["AdministrativeExpenses"]</TdComponent>
-            <TdComponent>2130</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2130.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2130.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["SellingExpenses"]</TdComponent>
-            <TdComponent>2150</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2150.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2150.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["OtherOperatingExpenses"]</TdComponent>
-            <TdComponent>2180</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2180.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2180.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2120 FieldNumber="2120" FieldName=@ResLoc["OtherOperatingIncome"] />
+        <TrF2Component Field=@F2.F2130 FieldNumber="2130" FieldName=@ResLoc["AdministrativeExpenses"] />
+        <TrF2Component Field=@F2.F2150 FieldNumber="2150" FieldName=@ResLoc["SellingExpenses"] />
+        <TrF2Component Field=@F2.F2180 FieldNumber="2180" FieldName=@ResLoc["OtherOperatingExpenses"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["FinancialResultFromOperatingActivities"]):</TdComponent>
             <TdComponent Rowspan="2">2190</TdComponent>
@@ -109,66 +55,12 @@
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2195Curent()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2195Previous()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["IncomeFromEquityParticipation"])</TdComponent>
-            <TdComponent>2200</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2200.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2200.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherFinancialIncome"])</TdComponent>
-            <TdComponent>2220</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2220.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2220.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherIncome"])</TdComponent>
-            <TdComponent>2240</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2240.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2240.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["FinancialExpenses"])</TdComponent>
-            <TdComponent>2250</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2250.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2250.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["LossesFromEquityParticipation"])</TdComponent>
-            <TdComponent>2255</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2255.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2255.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherExpenses"])</TdComponent>
-            <TdComponent>2270</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2270.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2270.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2200 FieldNumber="2200" FieldName=@ResLoc["IncomeFromEquityParticipation"] />
+        <TrF2Component Field=@F2.F2220 FieldNumber="2220" FieldName=@ResLoc["OtherFinancialIncome"] />
+        <TrF2Component Field=@F2.F2240 FieldNumber="2240" FieldName=@ResLoc["OtherIncome"] />
+        <TrF2Component Field=@F2.F2250 FieldNumber="2250" FieldName=@ResLoc["FinancialExpenses"] />
+        <TrF2Component Field=@F2.F2255 FieldNumber="2255" FieldName=@ResLoc["LossesFromEquityParticipation"] />
+        <TrF2Component Field=@F2.F2270 FieldNumber="2270" FieldName=@ResLoc["OtherExpenses"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["FinancialResultBeforeTax"]):</TdComponent>
             <TdComponent Rowspan="2">2290</TdComponent>
@@ -184,26 +76,8 @@
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2295Curent()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F2.GetF2295Previous()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ExpensesIncomeFromIncomeTax"])</TdComponent>
-            <TdComponent>2300</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2300.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2300.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ProfitLossFromDiscontinuedOperationsAfterTax"])</TdComponent>
-            <TdComponent>2305</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2305.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2305.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2300 FieldNumber="2300" FieldName=@ResLoc["ExpensesIncomeFromIncomeTax"] />
+        <TrF2Component Field=@F2.F2305 FieldNumber="2305" FieldName=@ResLoc["ProfitLossFromDiscontinuedOperationsAfterTax"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["NetFinancialResult"]):</TdComponent>
             <TdComponent Rowspan="2">2350</TdComponent>
@@ -222,72 +96,18 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">II. @ResLoc["ComprehensiveIncome"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["RevaluationDepreciationNonCurrentAssets"])</TdComponent>
-            <TdComponent>2400</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2400.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2400.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["RevaluationDepreciationFinancialInstruments"])</TdComponent>
-            <TdComponent>2405</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2405.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2405.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["AccumulatedExchangeRateDifferences"])</TdComponent>
-            <TdComponent>2410</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2410.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2410.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ShareOtherComprehensiveIncome"])</TdComponent>
-            <TdComponent>2415</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2415.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2415.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherTotalIncome"])</TdComponent>
-            <TdComponent>2445</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2445.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2445.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2400 FieldNumber="2400" FieldName=@ResLoc["RevaluationDepreciationNonCurrentAssets"] />
+        <TrF2Component Field=@F2.F2405 FieldNumber="2405" FieldName=@ResLoc["RevaluationDepreciationFinancialInstruments"] />
+        <TrF2Component Field=@F2.F2410 FieldNumber="2410" FieldName=@ResLoc["AccumulatedExchangeRateDifferences"] />
+        <TrF2Component Field=@F2.F2415 FieldNumber="2415" FieldName=@ResLoc["ShareOtherComprehensiveIncome"] />
+        <TrF2Component Field=@F2.F2445 FieldNumber="2445" FieldName=@ResLoc["OtherTotalIncome"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["OtherAggregatePreTaxIncome"])</ThComponent>
             <ThComponent>2450</ThComponent>
             <ThComponent Align="MR" Spacing="pr-4">@F2.GetF2450Curent()</ThComponent>
             <ThComponent Align="MR" Spacing="pr-4">@F2.GetF2450Previous()</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["IncomeTaxRelatedOtherComprehensiveIncome"])</TdComponent>
-            <TdComponent>2455</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2455.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2455.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2455 FieldNumber="2455" FieldName=@ResLoc["IncomeTaxRelatedOtherComprehensiveIncome"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["OtherAggregateIncomeAfterTax"])</ThComponent>
             <ThComponent>2460</ThComponent>
@@ -303,56 +123,11 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">III. @ResLoc["ElementsOperatingCosts"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["MaterialCosts"])</TdComponent>
-            <TdComponent>2500</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2500.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2500.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["SalaryExpenses"])</TdComponent>
-            <TdComponent>2505</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2505.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2505.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["DeductionsSocialEvents"])</TdComponent>
-            <TdComponent>2510</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2510.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2510.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["Amortization"])</TdComponent>
-            <TdComponent>2515</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2515.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2515.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherOperatingExpenses"])</TdComponent>
-            <TdComponent>2520</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2520.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2520.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2500 FieldNumber="2500" FieldName=@ResLoc["MaterialCosts"] />
+        <TrF2Component Field=@F2.F2505 FieldNumber="2505" FieldName=@ResLoc["SalaryExpenses"] />
+        <TrF2Component Field=@F2.F2510 FieldNumber="2510" FieldName=@ResLoc["DeductionsSocialEvents"] />
+        <TrF2Component Field=@F2.F2515 FieldNumber="2515" FieldName=@ResLoc["Amortization"] />
+        <TrF2Component Field=@F2.F2520 FieldNumber="2520" FieldName=@ResLoc["OtherOperatingExpenses"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["Total"])</ThComponent>
             <ThComponent>2550</ThComponent>
@@ -362,56 +137,11 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">ІV. @ResLoc["CalculationStockProfitabilityIndicators"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["AverageNumberOrdinaryShares"])</TdComponent>
-            <TdComponent>2600</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2600.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2600.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["AdjustedAverageNumberOrdinaryShares"])</TdComponent>
-            <TdComponent>2605</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2605.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2605.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["NetProfitLossPerOrdinaryShare"])</TdComponent>
-            <TdComponent>2610</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2610.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2610.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["AdjustedNetProfitLossPerOrdinaryShare"])</TdComponent>
-            <TdComponent>2615</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2615.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2615.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["Divid.PrevioussPerSimpleShare"])</TdComponent>
-            <TdComponent>2650</TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2650.Curent Class="w-100" />
-            </TdComponent>
-            <TdComponent Align="MR">
-                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F2.F2650.Previous Class="w-100" />
-            </TdComponent>
-        </tr>
+        <TrF2Component Field=@F2.F2600 FieldNumber="2600" FieldName=@ResLoc["AverageNumberOrdinaryShares"] />
+        <TrF2Component Field=@F2.F2605 FieldNumber="2605" FieldName=@ResLoc["AdjustedAverageNumberOrdinaryShares"] />
+        <TrF2Component Field=@F2.F2610 FieldNumber="2610" FieldName=@ResLoc["NetProfitLossPerOrdinaryShare"] />
+        <TrF2Component Field=@F2.F2615 FieldNumber="2615" FieldName=@ResLoc["AdjustedNetProfitLossPerOrdinaryShare"] />
+        <TrF2Component Field=@F2.F2650 FieldNumber="2650" FieldName=@ResLoc["DividendsPerSimpleShare"] />
     </tbody>
 </table>
 

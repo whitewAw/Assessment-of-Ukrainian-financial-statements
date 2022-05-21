@@ -25,41 +25,19 @@
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1000Begin()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1000End()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["initialCost"]</TdComponent>
-            <TdsF1Component Field=@F1.F1001 FieldNumber="1001" />
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["accumulatedDepreciation"]</TdComponent>
-            <TdsF1Component Field=@F1.F1002 FieldNumber="1002" />
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["IncompleteCapitalInvestments"]</TdComponent>
-            <TdsF1Component Field=@F1.F1005 FieldNumber="1005" />
-        </tr>
+        <TrF1Component Field=@F1.F1001 FieldNumber="1001" Spacing="pl-4" FieldName=@ResLoc["initialCost"] />
+        <TrF1Component Field=@F1.F1002 FieldNumber="1002" Spacing="pl-4" FieldName=@ResLoc["accumulatedDepreciation"] />
+        <TrF1Component Field=@F1.F1005 FieldNumber="1005" FieldName=@ResLoc["IncompleteCapitalInvestments"] />
         <tr>
             <TdComponent Align="ML">@ResLoc["FixedAssets"]</TdComponent>
             <TdComponent>1010</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1010Begin()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1010End()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["initialCost"]</TdComponent>
-            <TdsF1Component Field=@F1.F1011 FieldNumber="1011" />
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["wear"]</TdComponent>
-            <TdsF1Component Field=@F1.F1012 FieldNumber="1012"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["InvestmentProperty"]</TdComponent>
-            <TdComponent>1015</TdComponent>
-            <TdsF1Component Field=@F1.F1015 FieldNumber="1015"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["LongTermBiologicalAssets"]</TdComponent>
-            <TdsF1Component Field=@F1.F1020 FieldNumber="1020"/>
-        </tr>
+        <TrF1Component Field=@F1.F1011 FieldNumber="1011" Spacing="pl-4" FieldName=@ResLoc["initialCost"] />
+        <TrF1Component Field=@F1.F1012 FieldNumber="1012" Spacing="pl-4" FieldName=@ResLoc["wear"] />
+        <TrF1Component Field=@F1.F1015 FieldNumber="1015" FieldName=@ResLoc["InvestmentProperty"] />
+        <TrF1Component Field=@F1.F1020 FieldNumber="1020" FieldName=@ResLoc["LongTermBiologicalAssets"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["LongTermFinancialIvestments"])</TdComponent>
             <TdComponent Rowspan=2>1030</TdComponent>
@@ -73,22 +51,10 @@
         <tr>
             <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["whichAccountedForUsingEquityMethod"])</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["otherFinancialInvestments"]</TdComponent>
-            <TdsF1Component Field=@F1.F1035 FieldNumber="1035"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["LongTermReceivables"]</TdComponent>
-            <TdsF1Component Field=@F1.F1040 FieldNumber="1040" />
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["Відстрочені податкові активи"]</TdComponent>
-            <TdsF1Component Field=@F1.F1045 FieldNumber="1045"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@ResLoc["OtherFixedAssets"]</TdComponent>
-            <TdsF1Component Field=@F1.F1090 FieldNumber="1090"/>
-        </tr>
+        <TrF1Component Field=@F1.F1035 FieldNumber="1035" Spacing="pl-4" FieldName=@ResLoc["otherFinancialInvestments"] />
+        <TrF1Component Field=@F1.F1040 FieldNumber="1040" FieldName=@ResLoc["LongTermReceivables"] />
+        <TrF1Component Field=@F1.F1045 FieldNumber="1045" FieldName=@ResLoc["PostponedTaxAssets"] />
+        <TrF1Component Field=@F1.F1090 FieldNumber="1090" FieldName=@ResLoc["OtherFixedAssets"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["TotalSection"]+" I")</ThComponent>
             <ThComponent>1095</ThComponent>
@@ -104,35 +70,14 @@
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1100Begin()</TdComponent>
             <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1100End()</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["productionStocks"])</TdComponent>
-            <TdsF1Component Field=@F1.F1101 FieldNumber="1101"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["unfinishedProduction"])</TdComponent>
-            <TdsF1Component Field=@F1.F1102 FieldNumber="1102"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["finishedProducts"])</TdComponent>
-            <TdsF1Component Field=@F1.F1103 FieldNumber="1103"/>
-        </tr>
+        <TrF1Component Field=@F1.F1101 FieldNumber="1101" Spacing="pl-4" FieldName=@ResLoc["productionStocks"] />
+        <TrF1Component Field=@F1.F1102 FieldNumber="1102" Spacing="pl-4" FieldName=@ResLoc["unfinishedProduction"] />
+        <TrF1Component Field=@F1.F1103 FieldNumber="1103" Spacing="pl-4" FieldName=@ResLoc["finishedProducts"] />
 
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["cargo"])</TdComponent>
-            <TdsF1Component Field=@F1.F1104 FieldNumber="1104"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["CurrentBiologicalAssets"])</TdComponent>
-            <TdsF1Component Field=@F1.F1110 FieldNumber="1110"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["PromissoryNotesReceived"])</TdComponent>
-            <TdsF1Component Field=@F1.F1120 FieldNumber="1120"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ReceivablesForProducts"])</TdComponent>
-            <TdsF1Component Field=@F1.F1125 FieldNumber="1125"/>
-        </tr>
+        <TrF1Component Field=@F1.F1104 FieldNumber="1104" Spacing="pl-4" FieldName=@ResLoc["cargo"] />
+        <TrF1Component Field=@F1.F1110 FieldNumber="1110" FieldName=@ResLoc["CurrentBiologicalAssets"] />
+        <TrF1Component Field=@F1.F1120 FieldNumber="1120" FieldName=@ResLoc["PromissoryNotesReceived"] />
+        <TrF1Component Field=@F1.F1125 FieldNumber="1125" FieldName=@ResLoc["ReceivablesForProducts"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["AccountsReceivableForDebts"])</TdComponent>
             <TdComponent Rowspan=2>1130</TdComponent>
@@ -146,42 +91,15 @@
         <tr>
             <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["onIssuedAdvances"])</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["withBudget"]</TdComponent>
-            <TdsF1Component Field=@F1.F1135 FieldNumber="1135"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-5">@ResLoc["includingIncomeTax"]</TdComponent>
-            <TdsF1Component Field=@F1.F1136 FieldNumber="1136"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["fromAccruedIncome"])</TdComponent>
-            <TdsF1Component Field=@F1.F1140 FieldNumber="1140"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["fromInternalSettlements"])</TdComponent>
-            <TdsF1Component Field=@F1.F1145 FieldNumber="1145"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherCurrentReceivables"])</TdComponent>
-            <TdsF1Component Field=@F1.F1155 FieldNumber="1155"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["CurrentFinancialInvestments"])</TdComponent>
-            <TdsF1Component Field=@F1.F1160 FieldNumber="1160"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["MoneyAndTheirEquivalents"])</TdComponent>
-            <TdsF1Component Field=@F1.F1165 FieldNumber="1165"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["FutureExpenses"])</TdComponent>
-            <TdsF1Component Field=@F1.F1170 FieldNumber="1170"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherCurrentAssets"])</TdComponent>
-            <TdsF1Component Field=@F1.F1190 FieldNumber="1190"/>
-        </tr>
+        <TrF1Component Field=@F1.F1135 FieldNumber="1135" Spacing="pl-4" FieldName=@ResLoc["withBudget"] />
+        <TrF1Component Field=@F1.F1136 FieldNumber="1136" Spacing="pl-5" FieldName=@ResLoc["includingIncomeTax"] />
+        <TrF1Component Field=@F1.F1140 FieldNumber="1140" Spacing="pl-4" FieldName=@ResLoc["fromAccruedIncome"] />
+        <TrF1Component Field=@F1.F1145 FieldNumber="1145" Spacing="pl-4" FieldName=@ResLoc["fromInternalSettlements"] />
+        <TrF1Component Field=@F1.F1155 FieldNumber="1155" FieldName=@ResLoc["OtherCurrentReceivables"] />
+        <TrF1Component Field=@F1.F1160 FieldNumber="1160" FieldName=@ResLoc["CurrentFinancialInvestments"] />
+        <TrF1Component Field=@F1.F1165 FieldNumber="1165" FieldName=@ResLoc["MoneyAndTheirEquivalents"] />
+        <TrF1Component Field=@F1.F1170 FieldNumber="1170" FieldName=@ResLoc["FutureExpenses"] />
+        <TrF1Component Field=@F1.F1190 FieldNumber="1190" FieldName=@ResLoc["OtherCurrentAssets"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["TotalSection"]+" II")</ThComponent>
             <ThComponent>1195</ThComponent>
@@ -190,7 +108,13 @@
         </tr>
         <tr>
             <ThComponent Align="ML" Spacing="pl-5">III. @ResLoc["NonCurrentAssetsHeldForSale"]</ThComponent>
-            <TdsF1Component Field=@F1.F1200 FieldNumber="1200"/>
+            <ThComponent>1200</ThComponent>
+            <ThComponent Align="MR">
+                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F1.F1200.Begin Class="w-100" />
+            </ThComponent>
+            <ThComponent Align="MR">
+                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F1.F1200.End Class="w-100" />
+            </ThComponent>
         </tr>
         <tr>
             <ThComponent Align="ML">@ResLoc["Balance"]</ThComponent>
@@ -220,34 +144,13 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">I. @ResLoc["Equity"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["RegisteredСapital"])</TdComponent>
-            <TdsF1Component Field=@F1.F1400 FieldNumber="1400"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["CapitalInRevaluations"])</TdComponent>
-            <TdsF1Component Field=@F1.F1405 FieldNumber="1405"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["AdditionalCapital"])</TdComponent>
-            <TdsF1Component Field=@F1.F1410 FieldNumber="1410"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ReserveCapital"])</TdComponent>
-            <TdsF1Component Field=@F1.F1415 FieldNumber="1415"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["RetainedEarnings"])</TdComponent>
-            <TdsF1Component Field=@F1.F1420 FieldNumber="1420"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["UnpaidCapital"])</TdComponent>
-            <TdsF1Component Field=@F1.F1425 FieldNumber="1425"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["WithdrawnCapital"])</TdComponent>
-            <TdsF1Component Field=@F1.F1430 FieldNumber="1430"/>
-        </tr>
+        <TrF1Component Field=@F1.F1400 FieldNumber="1400" FieldName=@ResLoc["RegisteredСapital"] />
+        <TrF1Component Field=@F1.F1405 FieldNumber="1405" FieldName=@ResLoc["CapitalInRevaluations"] />
+        <TrF1Component Field=@F1.F1410 FieldNumber="1410" FieldName=@ResLoc["AdditionalCapital"] />
+        <TrF1Component Field=@F1.F1415 FieldNumber="1415" FieldName=@ResLoc["ReserveCapital"] />
+        <TrF1Component Field=@F1.F1420 FieldNumber="1420" FieldName=@ResLoc["RetainedEarnings"] />
+        <TrF1Component Field=@F1.F1425 FieldNumber="1425" FieldName=@ResLoc["UnpaidCapital"] />
+        <TrF1Component Field=@F1.F1430 FieldNumber="1430" FieldName=@ResLoc["WithdrawnCapital"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["TotalSection"]+" I")</ThComponent>
             <ThComponent>1495</ThComponent>
@@ -257,26 +160,11 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">II. @ResLoc["LongTermLiabilitiesAndCollateral"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["DeferredTaxLiabilities"])</TdComponent>
-            <TdsF1Component Field=@F1.F1500 FieldNumber="1500"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["LongTermBankCredits"])</TdComponent>
-            <TdsF1Component Field=@F1.F1510 FieldNumber="1510"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherLongTermLiabilities"])</TdComponent>
-            <TdsF1Component Field=@F1.F1515 FieldNumber="1515"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["LongTermLoans"])</TdComponent>
-            <TdsF1Component Field=@F1.F1520 FieldNumber="1520"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["TargetedFinancing"])</TdComponent>
-            <TdsF1Component Field=@F1.F1525 FieldNumber="1525"/>
-        </tr>
+        <TrF1Component Field=@F1.F1500 FieldNumber="1500" FieldName=@ResLoc["DeferredTaxLiabilities"] />
+        <TrF1Component Field=@F1.F1510 FieldNumber="1510" FieldName=@ResLoc["LongTermBankCredits"] />
+        <TrF1Component Field=@F1.F1515 FieldNumber="1515" FieldName=@ResLoc["OtherLongTermLiabilities"] />
+        <TrF1Component Field=@F1.F1520 FieldNumber="1520" FieldName=@ResLoc["LongTermLoans"] />
+        <TrF1Component Field=@F1.F1525 FieldNumber="1525" FieldName=@ResLoc["TargetedFinancing"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["TotalSection"]+" II")</ThComponent>
             <ThComponent>1595</ThComponent>
@@ -286,14 +174,8 @@
         <tr>
             <ThComponent Colspan=4 Align="ML" Spacing="pl-5">III. @ResLoc["CurrentLiabilitiesAndProvisions"]</ThComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["ShortTermBankCredits"])</TdComponent>
-            <TdsF1Component Field=@F1.F1600 FieldNumber="1600"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["PromissoryNotesIssued"])</TdComponent>
-            <TdsF1Component Field=@F1.F1605 FieldNumber="1605"/>
-        </tr>
+        <TrF1Component Field=@F1.F1600 FieldNumber="1600" FieldName=@ResLoc["ShortTermBankCredits"] />
+        <TrF1Component Field=@F1.F1605 FieldNumber="1605" FieldName=@ResLoc["PromissoryNotesIssued"] />
         <tr>
             <TdComponent Align="ML">@(ResLoc["CurrentAccountsPayableFor"])</TdComponent>
             <TdComponent Rowspan=2>1610</TdComponent>
@@ -307,50 +189,17 @@
         <tr>
             <TdComponent Align="ML" Spacing="pl-4">@(ResLoc["longTermLiabilities"])</TdComponent>
         </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["goodsWorksServices"]</TdComponent>
-            <TdsF1Component Field=@F1.F1615 FieldNumber="1615"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["settlementsWithBudget"]</TdComponent>
-            <TdsF1Component Field=@F1.F1620 FieldNumber="1620"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-5">@ResLoc["includingIncomeTax"]</TdComponent>
-            <TdsF1Component Field=@F1.F1621 FieldNumber="1621"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["settlementsWithInsurance"]</TdComponent>
-            <TdsF1Component Field=@F1.F1625 FieldNumber="1625"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["settlementsWithPayroll"]</TdComponent>
-            <TdsF1Component Field=@F1.F1630 FieldNumber="1630"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["onReceivedAdvances"]</TdComponent>
-            <TdsF1Component Field=@F1.F1635 FieldNumber="1635"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["bySettlementsWithParticipants"]</TdComponent>
-            <TdsF1Component Field=@F1.F1640 FieldNumber="1640"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML" Spacing="pl-4">@ResLoc["fromInternalSettlements"]</TdComponent>
-            <TdsF1Component Field=@F1.F1645 FieldNumber="1645"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["CurrentSupplies"])</TdComponent>
-            <TdsF1Component Field=@F1.F1660 FieldNumber="1660"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["FutureIncome"])</TdComponent>
-            <TdsF1Component Field=@F1.F1665 FieldNumber="1665"/>
-        </tr>
-        <tr>
-            <TdComponent Align="ML">@(ResLoc["OtherCurrentLiabilities"])</TdComponent>
-            <TdsF1Component Field=@F1.F1690 FieldNumber="1690"/>
-        </tr>
+        <TrF1Component Field=@F1.F1615 FieldNumber="1615" Spacing="pl-4" FieldName=@ResLoc["goodsWorksServices"] />
+        <TrF1Component Field=@F1.F1620 FieldNumber="1620" Spacing="pl-4" FieldName=@ResLoc["settlementsWithBudget"] />
+        <TrF1Component Field=@F1.F1621 FieldNumber="1621" Spacing="pl-5" FieldName=@ResLoc["includingIncomeTax"] />
+        <TrF1Component Field=@F1.F1625 FieldNumber="1625" Spacing="pl-4" FieldName=@ResLoc["settlementsWithInsurance"] />
+        <TrF1Component Field=@F1.F1630 FieldNumber="1630" Spacing="pl-4" FieldName=@ResLoc["settlementsWithPayroll"] />
+        <TrF1Component Field=@F1.F1635 FieldNumber="1635" Spacing="pl-4" FieldName=@ResLoc["onReceivedAdvances"] />
+        <TrF1Component Field=@F1.F1640 FieldNumber="1640" Spacing="pl-4" FieldName=@ResLoc["bySettlementsWithParticipants"] />
+        <TrF1Component Field=@F1.F1645 FieldNumber="1645" Spacing="pl-4" FieldName=@ResLoc["fromInternalSettlements"] />
+        <TrF1Component Field=@F1.F1660 FieldNumber="1660" FieldName=@ResLoc["CurrentSupplies"] />
+        <TrF1Component Field=@F1.F1665 FieldNumber="1665" FieldName=@ResLoc["FutureIncome"] />
+        <TrF1Component Field=@F1.F1690 FieldNumber="1690" FieldName=@ResLoc["OtherCurrentLiabilities"] />
         <tr>
             <ThComponent Align="ML">@(ResLoc["TotalSection"]+" III")</ThComponent>
             <ThComponent>1695</ThComponent>
@@ -359,7 +208,13 @@
         </tr>
         <tr>
             <ThComponent Align="ML" Spacing="pl-5">III. @ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]</ThComponent>
-            <TdsF1Component Field=@F1.F1700 FieldNumber="1700"/>
+            <ThComponent>1700</ThComponent>
+            <ThComponent Align="MR">
+                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F1.F1700.Begin Class="w-100" />
+            </ThComponent>
+            <ThComponent Align="MR">
+                <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@F1.F1700.End Class="w-100" />
+            </ThComponent>
         </tr>
         <tr>
             <ThComponent Align="ML">@ResLoc["Balance"]</ThComponent>
