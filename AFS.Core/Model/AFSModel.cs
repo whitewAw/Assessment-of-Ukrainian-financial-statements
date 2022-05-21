@@ -10,10 +10,8 @@
 
         public AFSModel()
         {
-            AFSConstraints constraints = new();
-
-            CurrentYear = constraints.MaxYear;
-            BaseYear = constraints.MaxYear - 1;
+            CurrentYear = AFSConstraints.MaxYear;
+            BaseYear = AFSConstraints.MaxYear - 1;
         }
 
         public Form1 F1Base { get; set; } = new();
@@ -45,7 +43,6 @@
             set
             {
                 currentYear = value;
-
                 NotifyStateChanged();
             }
         }
@@ -71,8 +68,8 @@
             F2Current.OnChange += onChange;
             F1Base.SubscribeOnChange(onChange);
             F1Current.SubscribeOnChange(onChange);
-            //F2Base.SubscribeOnChange(onChange);
-            //F2Current.SubscribeOnChange(onChange);
+            F2Base.SubscribeOnChange(onChange);
+            F2Current.SubscribeOnChange(onChange);
         }
         public void UnSubscribeOnChange(Action? onChange)
         {
@@ -85,13 +82,10 @@
                 F2Current.OnChange -= OnChange;
                 F1Base.UnSubscribeOnChange(onChange);
                 F1Current.UnSubscribeOnChange(onChange);
-                //F2Base.UnSubscribeOnChange(onChange);
-                //F2Current.UnSubscribeOnChange(onChange);
+                F2Base.UnSubscribeOnChange(onChange);
+                F2Current.UnSubscribeOnChange(onChange);
             }
         }
-        private void NotifyStateChanged()
-        {
-            OnChange?.Invoke();
-        }
+        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

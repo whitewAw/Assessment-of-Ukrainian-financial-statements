@@ -65,8 +65,8 @@ namespace AFS.Core.Services.DataCalculations
         }
         private void NetIncomeFromSalesInit(AFSModel model)
         {
-            NetIncomeFromSales.BaseYear = model.F2Base.F2000curent;
-            NetIncomeFromSales.CurrentYear = model.F2Current.F2000curent;
+            NetIncomeFromSales.BaseYear = model.F2Base.F2000.Curent;
+            NetIncomeFromSales.CurrentYear = model.F2Current.F2000.Curent;
         }
         private void OneDaySalesRevenueInit()
         {
