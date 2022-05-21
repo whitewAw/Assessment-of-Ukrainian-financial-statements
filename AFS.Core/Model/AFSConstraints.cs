@@ -3,7 +3,7 @@
     public class AFSConstraints
     {
         public string FileExtension { get; private set; } = ".json";
-        public int MaxFileSize { get; private set; } = 15*1024;
+        public int MaxFileSize { get; private set; } = 13*1024;
         public static int MinYear { get; private set; } = 2014;
         public static int MaxYear { get; private set; } = DateTime.Now.AddYears(-1).Year;
         public static string LangCultureName { get; private set; } = "langCulture";

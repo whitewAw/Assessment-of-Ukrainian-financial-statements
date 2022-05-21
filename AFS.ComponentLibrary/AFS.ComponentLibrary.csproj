@@ -52,9 +52,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Form1\" />
-    <Folder Include="Components\Form2\" />
-  </ItemGroup>
-
 </Project>
