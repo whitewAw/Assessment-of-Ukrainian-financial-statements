@@ -69,6 +69,10 @@
             F1Current.OnChange += onChange;
             F2Base.OnChange += onChange;
             F2Current.OnChange += onChange;
+            F1Base.SubscribeOnChange(onChange);
+            F1Current.SubscribeOnChange(onChange);
+            //F2Base.SubscribeOnChange(onChange);
+            //F2Current.SubscribeOnChange(onChange);
         }
         public void UnSubscribeOnChange(Action? onChange)
         {
@@ -79,6 +83,10 @@
                 F1Current.OnChange -= OnChange;
                 F2Base.OnChange -= OnChange;
                 F2Current.OnChange -= OnChange;
+                F1Base.UnSubscribeOnChange(onChange);
+                F1Current.UnSubscribeOnChange(onChange);
+                //F2Base.UnSubscribeOnChange(onChange);
+                //F2Current.UnSubscribeOnChange(onChange);
             }
         }
         private void NotifyStateChanged()
