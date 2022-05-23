@@ -12,7 +12,7 @@
         public static double RoundStat(double value, int digits = 1) => Math.Round(value, digits, MidpointRounding.AwayFromZero);
         public static string RoundStrStat(double value, int digits = 1)
         {
-            if (value == 0 || Double.IsNaN(value))
+            if (value == 0 || Double.IsNaN(value) || Double.IsInfinity(value))
             {
                 return String.Empty;
             }
