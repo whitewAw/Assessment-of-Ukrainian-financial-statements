@@ -29,8 +29,8 @@ namespace AFS.Core.Services.DataCalculations
         private void NetIncomeFromSalesInit(AFSModel model)
         {
             NetIncomeFromSales.Number = "1.";
-            NetIncomeFromSales.BaseYear = model.F2Base.F2000.Curent;
-            NetIncomeFromSales.CurrentYear = model.F2Current.F2000.Curent;
+            NetIncomeFromSales.BaseYear = model.F2Base.F2000.Current;
+            NetIncomeFromSales.CurrentYear = model.F2Current.F2000.Current;
         }
         private void AverageWorkingCapitalBalancesInit(IndicatorsOfTurnoverOfCurrentAssets iTCA)
         {
@@ -41,8 +41,8 @@ namespace AFS.Core.Services.DataCalculations
         private void NetProfitInit(AFSModel model)
         {
             NetProfit.Number = "3.";
-            NetProfit.BaseYear = model.F2Base.GetF2465Curent();
-            NetProfit.CurrentYear = model.F2Current.GetF2465Curent();
+            NetProfit.BaseYear = model.F2Base.GetF2465Current();
+            NetProfit.CurrentYear = model.F2Current.GetF2465Current();
         }
         private void TurnoverOfWorkingCapitalTimesInit(IndicatorsOfTurnoverOfCurrentAssets iTCA)
         {
