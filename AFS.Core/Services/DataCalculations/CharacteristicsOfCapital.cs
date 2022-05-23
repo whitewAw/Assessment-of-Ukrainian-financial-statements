@@ -5,7 +5,6 @@ namespace AFS.Core.Services.DataCalculations
 {
     public class CharacteristicsOfCapital
     {
-        public CharacteristicsOfCapital(AFSModel model) => Init(model);
         public TotalAssets TotalAssets { get; set; } = new();
         public NonCurrentImmobilizedFunds NonCurrentImmobilizedFunds { get; set; } = new();
         public CurrentMobileAssets CurrentMobileAssets { get; set; } = new();
@@ -16,6 +15,7 @@ namespace AFS.Core.Services.DataCalculations
         public OtherCurrentAssets OtherCurrentAssets { get; set; } = new();
         public AccountsReceivable AccountsReceivable { get; set; } = new();
 
+        public CharacteristicsOfCapital(AFSModel model) => Init(model);
         private void Init(AFSModel model)
         {
             TotalAssets.Init(model);

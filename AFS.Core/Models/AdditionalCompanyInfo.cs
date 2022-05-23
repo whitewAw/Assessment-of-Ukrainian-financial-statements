@@ -87,7 +87,7 @@ namespace AFS.Core.Models
                 NotifyStateChanged();
             }
         }
-        public double WithdrawnFixedAssets
+        public double LeftFixedAssets
         {
             get => withdrawnFixedAssets;
             set
@@ -110,7 +110,7 @@ namespace AFS.Core.Models
         {
             receivedFixedAssets = info.ReceivedFixedAssets;
             receivedNewFixedAssets = info.ReceivedNewFixedAssets;
-            withdrawnFixedAssets = info.WithdrawnFixedAssets;
+            withdrawnFixedAssets = info.LeftFixedAssets;
             liquidatedFixedAssets = info.LiquidatedFixedAssets;
 
             NotifyStateChanged();

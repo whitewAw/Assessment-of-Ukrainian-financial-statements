@@ -171,6 +171,12 @@
   <data name="atEndOfYear" xml:space="preserve">
     <value>на кінець року</value>
   </data>
+  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Наявність та рух основних засобів</value>
+  </data>
+  <data name="AvailabilityAndMovementOfFixedAssetsTablName" xml:space="preserve">
+    <value>Таблиця {0}. Наявність та рух основних засобів {1} за {2}-{3} роки</value>
+  </data>
   <data name="averageBalances" xml:space="preserve">
     <value>середніх залишків</value>
   </data>
@@ -185,6 +191,15 @@
   </data>
   <data name="Balance" xml:space="preserve">
     <value>Баланс</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>Залишок на початок року за первісною вартістю</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>Залишок на кінець року за первісною вартістю</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>Залишок на кінець року за мінусом зносу</value>
   </data>
   <data name="BaseYear" xml:space="preserve">
     <value>Базовий рік</value>
@@ -531,6 +546,9 @@
   <data name="people" xml:space="preserve">
     <value>чол.</value>
   </data>
+  <data name="Period" xml:space="preserve">
+    <value>Період</value>
+  </data>
   <data name="PostponedTaxAssets" xml:space="preserve">
     <value>Відстрочені податкові активи</value>
   </data>
@@ -560,6 +578,9 @@
   </data>
   <data name="ReceivedFixedAssets" xml:space="preserve">
     <value>Надійшло основні засоби</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>Надійшло за звітний період</value>
   </data>
   <data name="RegisteredСapital" xml:space="preserve">
     <value>Зареєстрований (пайовий) капітал</value>
@@ -686,6 +707,9 @@
   </data>
   <data name="WithdrawnCapital" xml:space="preserve">
     <value>Вилучений капітал</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>Вибуло в звітному періоді</value>
   </data>
   <data name="year" xml:space="preserve">
     <value>рік</value>

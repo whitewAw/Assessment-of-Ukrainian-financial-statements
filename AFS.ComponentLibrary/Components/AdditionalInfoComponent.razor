@@ -38,7 +38,7 @@
         </thead>
         <tbody>
             <tr>
-                <TdComponent>@MainModel.BaseYear @ResLoc["year"]</TdComponent>
+                <TdComponent>@MainModel.BaseYear&nbsp;@ResLoc["year"]</TdComponent>
                 <TdComponent Align="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedFixedAssets Class="w-100" />
                 </TdComponent>
@@ -46,14 +46,14 @@
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedNewFixedAssets Class="w-100" />
                 </TdComponent>
                 <TdComponent Align="MR">
-                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.WithdrawnFixedAssets Class="w-100" />
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LeftFixedAssets Class="w-100" />
                 </TdComponent>
                 <TdComponent Align="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LiquidatedFixedAssets Class="w-100" />
                 </TdComponent>
             </tr>
             <tr>
-                <TdComponent>@MainModel.CurrentYear @ResLoc["year"]</TdComponent>
+                <TdComponent>@MainModel.CurrentYear&nbsp;@ResLoc["year"]</TdComponent>
                 <TdComponent Align="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedFixedAssets Class="w-100" />
                 </TdComponent>
@@ -61,7 +61,7 @@
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedNewFixedAssets Class="w-100" />
                 </TdComponent>
                 <TdComponent Align="MR">
-                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.WithdrawnFixedAssets Class="w-100" />
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LeftFixedAssets Class="w-100" />
                 </TdComponent>
                 <TdComponent Align="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LiquidatedFixedAssets Class="w-100" />
@@ -69,8 +69,6 @@
             </tr>
         </tbody>
     </table>
-
-
 </RadzenCard>
 
 @code {

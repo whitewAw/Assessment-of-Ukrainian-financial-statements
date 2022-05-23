@@ -223,6 +223,24 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Наявність та рух основних засобів.
+        /// </summary>
+        internal static string AvailabilityAndMovementOfFixedAssets {
+            get {
+                return ResourceManager.GetString("AvailabilityAndMovementOfFixedAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Таблиця {0}. Наявність та рух основних засобів {1} за {2}-{3} роки.
+        /// </summary>
+        internal static string AvailabilityAndMovementOfFixedAssetsTablName {
+            get {
+                return ResourceManager.GetString("AvailabilityAndMovementOfFixedAssetsTablName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to середніх залишків.
         /// </summary>
         internal static string averageBalances {
@@ -264,6 +282,33 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string Balance {
             get {
                 return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Залишок на початок року за первісною вартістю.
+        /// </summary>
+        internal static string BalanceAtBeginOfYearAtOriginalCost {
+            get {
+                return ResourceManager.GetString("BalanceAtBeginOfYearAtOriginalCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Залишок на кінець року за первісною вартістю.
+        /// </summary>
+        internal static string BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost {
+            get {
+                return ResourceManager.GetString("BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Залишок на кінець року за мінусом зносу.
+        /// </summary>
+        internal static string BalanceAtEndOfYearMinusDepreciation {
+            get {
+                return ResourceManager.GetString("BalanceAtEndOfYearMinusDepreciation", resourceCulture);
             }
         }
         
@@ -1303,6 +1348,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Період.
+        /// </summary>
+        internal static string Period {
+            get {
+                return ResourceManager.GetString("Period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Відстрочені податкові активи.
         /// </summary>
         internal static string PostponedTaxAssets {
@@ -1389,6 +1443,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string ReceivedFixedAssets {
             get {
                 return ResourceManager.GetString("ReceivedFixedAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Надійшло за звітний період.
+        /// </summary>
+        internal static string ReceivedForReportingPeriod {
+            get {
+                return ResourceManager.GetString("ReceivedForReportingPeriod", resourceCulture);
             }
         }
         
@@ -1767,6 +1830,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string WithdrawnCapital {
             get {
                 return ResourceManager.GetString("WithdrawnCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вибуло в звітному періоді.
+        /// </summary>
+        internal static string WithdrewInReportingPeriod {
+            get {
+                return ResourceManager.GetString("WithdrewInReportingPeriod", resourceCulture);
             }
         }
         
