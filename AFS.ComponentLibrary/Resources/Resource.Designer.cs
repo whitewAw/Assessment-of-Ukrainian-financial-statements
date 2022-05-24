@@ -673,6 +673,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Факторний аналіз фондовіддачі основних засобів.
+        /// </summary>
+        internal static string FactorAnalysisOfFixedAssets {
+            get {
+                return ResourceManager.GetString("FactorAnalysisOfFixedAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Фактори, що впливають на оборотність оборотних засобів.
         /// </summary>
         internal static string FactorsAffectingTurnoverOfWorkingCapital {
@@ -1074,6 +1083,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string InvestmentProperty {
             get {
                 return ResourceManager.GetString("InvestmentProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Фондоозброєність праці одного середньоспискового працівника.
+        /// </summary>
+        internal static string LaborCapitalOfOneAverageEmployee {
+            get {
+                return ResourceManager.GetString("LaborCapitalOfOneAverageEmployee", resourceCulture);
             }
         }
         
@@ -1506,6 +1524,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string productionStocks {
             get {
                 return ResourceManager.GetString("productionStocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Продуктивність праці одного середньоспискового працівника.
+        /// </summary>
+        internal static string ProductivityOfOneAverageEmployee {
+            get {
+                return ResourceManager.GetString("ProductivityOfOneAverageEmployee", resourceCulture);
             }
         }
         
@@ -2046,6 +2073,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string year {
             get {
                 return ResourceManager.GetString("year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to роки.
+        /// </summary>
+        internal static string years {
+            get {
+                return ResourceManager.GetString("years", resourceCulture);
             }
         }
     }
