@@ -180,9 +180,6 @@
   <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
     <value>Наявність та рух основних засобів</value>
   </data>
-  <data name="AvailabilityAndMovementOfFixedAssetsTablName" xml:space="preserve">
-    <value>Таблиця {0}. Наявність та рух основних засобів {1} за {2}-{3} роки</value>
-  </data>
   <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
     <value>Середньорічна вартість основних засобів</value>
   </data>
@@ -236,9 +233,6 @@
   </data>
   <data name="CharacteristicsOfCapital" xml:space="preserve">
     <value>Характеристика капіталу</value>
-  </data>
-  <data name="CharacteristicsOfCapitalTablName" xml:space="preserve">
-    <value>Таблиця {0}. Характеристика капіталу {1} за {2}-{3} роки</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
     <value>Назва компанії</value>
@@ -326,9 +320,6 @@
   </data>
   <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
     <value>Фактори, що впливають на оборотність оборотних засобів</value>
-  </data>
-  <data name="FactorsAffectingTurnoverOfWorkingCapitalTablName" xml:space="preserve">
-    <value>Таблиця {0}. Фактори, що впливають на оборотність оборотних засобів {1} за {2}-{3} роки</value>
   </data>
   <data name="FinancialExpenses" xml:space="preserve">
     <value>Фінансові витрати</value>
@@ -420,20 +411,11 @@
   <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
     <value>Показники ефективності використання оборотних засобів</value>
   </data>
-  <data name="IndicatorsOfEfficiencyOfWorkingCapitalTablName" xml:space="preserve">
-    <value>Таблиця {0}. Показники ефективності використання оборотних засобів {1} за {2}-{3} роки</value>
-  </data>
   <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
     <value>Показники стану та руху основних засобів</value>
   </data>
-  <data name="IndicatorsOfStateAndMovementOfFixedAssetsTablName" xml:space="preserve">
-    <value>Таблиця {0}. Показники стану та руху основних засобів {1} за {2}-{3} роки</value>
-  </data>
   <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
     <value>Показники оборотності оборотних засобів</value>
-  </data>
-  <data name="IndicatorsOfTurnoverOfCurrentAssetsTablName" xml:space="preserve">
-    <value>Таблиця {0}. Показники оборотності оборотних засобів {1} за {2}-{3} роки</value>
   </data>
   <data name="initialCost" xml:space="preserve">
     <value>первісна вартість</value>
