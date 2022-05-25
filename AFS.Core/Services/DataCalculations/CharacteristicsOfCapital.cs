@@ -8,7 +8,7 @@ namespace AFS.Core.Services.DataCalculations
         public TotalAssets TotalAssets { get; set; } = new();
         public NonCurrentImmobilizedFunds NonCurrentImmobilizedFunds { get; set; } = new();
         public CurrentMobileAssets CurrentMobileAssets { get; set; } = new();
-        public LiabilitiesRelatedNonCurrentAssetsHeldForSale LiabilitiesRelatedNonCurrentAssetsHeldForSale { get; set; } = new();
+        public NonCurrentAssetsHeldForSale NonCurrentAssetsHeldForSale { get; set; } = new();
         public TangibleCurrentAssets TangibleCurrentAssets { get; set; } = new();
         public FutureExpenses FutureExpenses { get; set; } = new();
         public CashCurrentFinancialInvestments CashCurrentFinancialInvestments { get; set; } = new();
@@ -21,7 +21,7 @@ namespace AFS.Core.Services.DataCalculations
             TotalAssets.Init(model);
             NonCurrentImmobilizedFunds.Init(model);
             CurrentMobileAssets.Init(model);
-            LiabilitiesRelatedNonCurrentAssetsHeldForSale.Init(model);
+            NonCurrentAssetsHeldForSale.Init(model);
             TangibleCurrentAssets.Init(model);
             FutureExpenses.Init(model);
             CashCurrentFinancialInvestments.Init(model);
@@ -206,7 +206,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfCurrentAssetsCurrent.EndOfYear = Current.EndOfYear / model.F1Current.GetF1195End() * 100;
         }
     }
-    public class LiabilitiesRelatedNonCurrentAssetsHeldForSale
+    public class NonCurrentAssetsHeldForSale
     {
         public string Number { get; private set; } = "3.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();

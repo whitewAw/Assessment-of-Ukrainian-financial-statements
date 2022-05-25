@@ -8,7 +8,7 @@ namespace AFS.Core.Services.DataCalculations
         public TotalSourcesOfCapital TotalSourcesOfCapital { get; set; } = new();
         public Equity Equity { get; set; } = new();
         public RaisedCapital RaisedCapital { get; set; } = new();
-        public NonCurrentAssetsHeldForSale LiabilitiesRelatedNonCurrentAssetsHeldForSale { get; set; } = new();
+        public LiabilitiesRelatedNonCurrentAssetsHeldForSale LiabilitiesRelatedNonCurrentAssetsHeldForSale { get; set; } = new();
         public OwnCurrentAssets OwnCurrentAssets { get; set; } = new();
         public LongTermLiabilities LongTermLiabilities { get; private set; } = new();
         public ShortTermLoans ShortTermLoans { get; private set; } = new();
@@ -255,7 +255,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class NonCurrentAssetsHeldForSale
+    public class LiabilitiesRelatedNonCurrentAssetsHeldForSale
     {
         public string Number { get; private set; } = "3.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
