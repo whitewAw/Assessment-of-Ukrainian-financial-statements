@@ -864,4 +864,19 @@
   <data name="WithPayroll" xml:space="preserve">
     <value>З оплати праці</value>
   </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Ви впевнені?</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>Завантажується, зачекайте...</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Стерти дані</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Так</value>
+  </data>
 </root>

@@ -196,6 +196,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ви впевнені?.
+        /// </summary>
+        internal static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Стаття.
         /// </summary>
         internal static string Article {
@@ -1177,6 +1186,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Завантажується, зачекайте....
+        /// </summary>
+        internal static string LoadingPleaseWait {
+            get {
+                return ResourceManager.GetString("LoadingPleaseWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Довгострокові кредити банків.
         /// </summary>
         internal static string LongTermBankCredits {
@@ -1344,6 +1362,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string NetProfitLossPerOrdinaryShare {
             get {
                 return ResourceManager.GetString("NetProfitLossPerOrdinaryShare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ні.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -1951,6 +1978,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Стерти дані.
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Коефіцієнт придатності на початок року.
         /// </summary>
         internal static string SuitabilityRatioForBegin {
@@ -2298,6 +2334,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string years {
             get {
                 return ResourceManager.GetString("years", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Так.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
