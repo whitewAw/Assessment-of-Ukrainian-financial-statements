@@ -1,236 +1,38 @@
-﻿<RadzenChart>
-    <RadzenDonutSeries Data="@assets" Title=@ResLoc["Value"] CategoryProperty="Item" ValueProperty="Value">
+﻿@using AFS.Core.Models
+<RadzenChart>
+    <RadzenDonutSeries Data="@Assets" Title=@ResLoc["Value"] CategoryProperty="Item" ValueProperty="Value">
         <TitleTemplate>
-            <div class="rz-donut-content" >
-                <div>@GetPeriod()</div>
+            <div class="rz-donut-content">
+                <div>@Period</div>
             </div>
         </TitleTemplate>
     </RadzenDonutSeries>
-    <RadzenValueAxis FormatString=@valueformat/>
-    <RadzenLegend Visible=false/>
+    <RadzenValueAxis FormatString=@valueformat />
+    <RadzenCategoryAxis Formatter="@FormatCategory"/>
+
 </RadzenChart>
 
 @code {
 
     [Parameter]
     public string? Period { get; set; }
-    [Parameter, EditorRequired]
-    public CharacteristicsOfCapital CharacteristicsOfCapital { get; set; }
+
     [Parameter]
-    public bool Begin { get; set; }
-    [Parameter]
-    public bool Base { get; set; }
+    public List<ChartDataItem> Assets { get; set; } = new();
 
     string? valueformat { get; set; }
-
-    List<DataItem> assets = new();
 
     protected override void OnInitialized()
     {
         valueformat = "{0} " + @ResLoc["thousandUAH"];
-        InitData();
         base.OnInitialized();
     }
-
-    string GetPeriod()
+    string FormatCategory(object value)
     {
-        if (Begin == true)
+        if (value is string srt)
         {
-            return @ResLoc["atBeginOfYear"];
+            return @ResLoc[srt];
         }
-        return @ResLoc["atEndOfYear"];
-    }
-
-    void InitData()
-    {
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["NonCurrentImmobilizedAssets"],
-                Value = GetNonCurrentImmobilizedFunds()
-            });
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["TangibleCurrentAssets"],
-                Value = GetTangibleCurrentAssets()
-            });
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["AccountsReceivable"],
-                Value = GetAccountsReceivable()
-            });
-
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["CashCurrentFinancialInvestments"],
-                Value = GetCashCurrentFinancialInvestments()
-            });
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["OtherCurrentAssets"],
-                Value = GetOtherCurrentAssets()
-            });
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["NonCurrentAssetsHeldForSale"],
-                Value = GetNonCurrentAssetsHeldForSale()
-            });
-        assets.Add(new DataItem
-            {
-                Item = @ResLoc["FutureExpenses"],
-                Value = GetFutureExpenses()
-            });
-    }
-
-    public double GetNonCurrentImmobilizedFunds()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetTangibleCurrentAssets()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.TangibleCurrentAssets.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.TangibleCurrentAssets.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.TangibleCurrentAssets.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.TangibleCurrentAssets.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetAccountsReceivable()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.AccountsReceivable.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.AccountsReceivable.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.AccountsReceivable.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.AccountsReceivable.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetCashCurrentFinancialInvestments()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetOtherCurrentAssets()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.OtherCurrentAssets.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.OtherCurrentAssets.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.OtherCurrentAssets.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.OtherCurrentAssets.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetNonCurrentAssetsHeldForSale()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    public double GetFutureExpenses()
-    {
-        if (Begin == true && Base == true)
-        {
-            return CharacteristicsOfCapital.FutureExpenses.Base.BeginningOfyear;
-        }
-        else if (Begin == false && Base == true)
-        {
-            return CharacteristicsOfCapital.FutureExpenses.Base.EndOfYear;
-        }
-        else if (Begin == true && Base == false)
-        {
-            return CharacteristicsOfCapital.FutureExpenses.Current.BeginningOfyear;
-        }
-        else if (Begin == false && Base == false)
-        {
-            return CharacteristicsOfCapital.FutureExpenses.Current.EndOfYear;
-        }
-        return 0;
-    }
-
-    class DataItem
-    {
-        public string Item { get; set; }
-        public double Value { get; set; }
+        return String.Empty;
     }
 }

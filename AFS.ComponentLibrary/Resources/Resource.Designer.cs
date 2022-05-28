@@ -556,6 +556,15 @@ namespace AFS.ComponentLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to базовий період.
+        /// </summary>
+        internal static string basePeriod {
+            get {
+                return ResourceManager.GetString("basePeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Базовий рік.
         /// </summary>
         internal static string BaseYear {
@@ -885,6 +894,15 @@ namespace AFS.ComponentLibrary.Resources {
         internal static string CurrentMobileAssets {
             get {
                 return ResourceManager.GetString("CurrentMobileAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to звітний період.
+        /// </summary>
+        internal static string currentPeriod {
+            get {
+                return ResourceManager.GetString("currentPeriod", resourceCulture);
             }
         }
         
