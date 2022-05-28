@@ -1,0 +1,36 @@
+﻿@inject CharacteristicsOfCapital CharacteristicsOfCapital
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <CompositionOfAssetsDonutChartComponent Base=true Begin=true CharacteristicsOfCapital=CharacteristicsOfCapital />
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <CompositionOfAssetsDonutChartComponent Base=true Begin=false CharacteristicsOfCapital=CharacteristicsOfCapital />
+        </div>
+    </div>
+    <h3 class="text-center">@MainModel.BaseYear&nbsp;@ResLoc["year"]</h3>
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <CompositionOfAssetsDonutChartComponent Base=false Begin=true CharacteristicsOfCapital=CharacteristicsOfCapital />
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <CompositionOfAssetsDonutChartComponent Base=false Begin=false CharacteristicsOfCapital=CharacteristicsOfCapital />
+        </div>
+    </div>
+    <h3 class="text-center">@MainModel.CurrentYear&nbsp;@ResLoc["year"]</h3>
+</RadzenCard>
+
+@code {
+    private string? tableName;
+
+    protected override void OnInitialized()
+    {
+        string name = ResLoc["CompositionOfAssets"];
+        string number = "A.";
+
+        tableName = $"{number} {ResLoc["CompositionOfAssets"]}";
+        base.OnInitialized();
+    }
+}
