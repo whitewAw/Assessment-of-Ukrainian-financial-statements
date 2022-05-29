@@ -3,12 +3,12 @@ using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
-    public class WorkingCapitalTurnoverTime
+    public class WorkingCapitalTurnoverTimeChart
     {
         FactorsAffectingTurnoverOfWorkingCapital FactorsAffectingTurnoverOfWorkingCapital { get; set; }
         AFSModel model { get; set; }
 
-        public WorkingCapitalTurnoverTime(AFSModel model) => Init(model);
+        public WorkingCapitalTurnoverTimeChart(AFSModel model) => Init(model);
         private void Init(AFSModel model)
         {
             FactorsAffectingTurnoverOfWorkingCapital = new(model);

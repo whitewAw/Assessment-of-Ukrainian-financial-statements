@@ -3,11 +3,11 @@ using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
-    public class CompositionOfAssets
+    public class CompositionOfAssetsChart
     {
         CharacteristicsOfCapital? CharacteristicsOfCapital { get; set; }
 
-        public CompositionOfAssets(AFSModel model) => Init(model);
+        public CompositionOfAssetsChart(AFSModel model) => Init(model);
 
         private void Init(AFSModel model)
         {
