@@ -42,7 +42,7 @@
 
         fieldChanged += async (sender, e) =>
         {
-            await InvokeAsync(StateHasChanged);
+            StateHasChanged();
             await SaveModelToLocalStorage(MainModel);
         };
 

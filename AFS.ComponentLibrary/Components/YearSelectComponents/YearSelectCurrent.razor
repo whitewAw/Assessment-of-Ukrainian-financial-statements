@@ -21,10 +21,7 @@
 
     protected override void OnInitialized()
     {
-        fieldChanged += async (sender, e) =>
-        {
-            await InvokeAsync(StateHasChanged);
-        };
+        fieldChanged += async (sender, e) => await InvokeAsync(StateHasChanged);
         MainModel.PropertyChanged += fieldChanged;
         FillYearList();
         base.OnInitialized();
