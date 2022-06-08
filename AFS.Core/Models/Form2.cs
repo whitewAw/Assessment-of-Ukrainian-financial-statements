@@ -2,8 +2,6 @@
 {
     public class Form2
     {
-        public event Action? OnChange;
-
         public CurrentPrevious F2000 { get; set; } = new();
         public CurrentPrevious F2050 { get; set; } = new();
         public CurrentPrevious F2120 { get; set; } = new();
@@ -34,8 +32,6 @@
         public CurrentPrevious F2610 { get; set; } = new();
         public CurrentPrevious F2615 { get; set; } = new();
         public CurrentPrevious F2650 { get; set; } = new();
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
 
         internal void Init(Form2 form2)
         {
@@ -69,8 +65,6 @@
             F2610.Init(form2.F2610);
             F2615.Init(form2.F2615);
             F2650.Init(form2.F2650);
-
-            NotifyStateChanged();
         }
 
         internal void SubscribeOnChange(Action onChange)
@@ -139,7 +133,6 @@
             F2610.OnChange -= onChange;
             F2615.OnChange -= onChange;
             F2650.OnChange -= onChange;
-
         }
 
         public double GetF2090Current() => F2000.Current > F2050.Current ? F2000.Current - F2050.Current : 0;

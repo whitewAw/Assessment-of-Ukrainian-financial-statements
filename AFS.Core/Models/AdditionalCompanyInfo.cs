@@ -2,13 +2,10 @@
 
 namespace AFS.Core.Models
 {
-    public class AdditionalCompanyInfo
+    public class AdditionalCompanyInfo : TrackedEntity
     {
-
         private double averageNumberOfEmployeesBase;
         private double averageNumberOfEmployeesCurrent;
-
-        public event Action? OnChange;
 
         public FixedAssetsInfo FixedAssetsInfoBase { get; set; } = new();
         public FixedAssetsInfo FixedAssetsInfoCurrent { get; set; } = new();
@@ -18,8 +15,11 @@ namespace AFS.Core.Models
             get => averageNumberOfEmployeesBase;
             set
             {
-                averageNumberOfEmployeesBase = value;
-                NotifyStateChanged();
+                if (!averageNumberOfEmployeesBase.Equals(value))
+                {
+                    averageNumberOfEmployeesBase = value;
+                    NotifyStateChanged();
+                }
             }
         }
         public double AverageNumberOfEmployeesCurrent
@@ -27,12 +27,13 @@ namespace AFS.Core.Models
             get => averageNumberOfEmployeesCurrent;
             set
             {
-                averageNumberOfEmployeesCurrent = value;
-                NotifyStateChanged();
+                if (!averageNumberOfEmployeesCurrent.Equals(value))
+                {
+                    averageNumberOfEmployeesCurrent = value;
+                    NotifyStateChanged();
+                }
             }
         }
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
 
         internal void Init(AdditionalCompanyInfo info)
         {
@@ -40,8 +41,6 @@ namespace AFS.Core.Models
             averageNumberOfEmployeesCurrent = info.AverageNumberOfEmployeesCurrent;
             FixedAssetsInfoBase.Init(info.FixedAssetsInfoBase);
             FixedAssetsInfoCurrent.Init(info.FixedAssetsInfoCurrent);
-
-            NotifyStateChanged();
         }
 
         public void SubscribeOnChange(Action onChange)
@@ -61,21 +60,22 @@ namespace AFS.Core.Models
         }
     }
 
-    public class FixedAssetsInfo
+    public class FixedAssetsInfo : TrackedEntity
     {
         private double receivedFixedAssets;
         private double receivedNewFixedAssets;
         private double withdrawnFixedAssets;
         private double liquidatedFixedAssets;
-
-        public event Action? OnChange;
         public double ReceivedFixedAssets
         {
             get => receivedFixedAssets;
             set
             {
-                receivedFixedAssets = AFSConstraints.RoundStat(value);
-                NotifyStateChanged();
+                if (!receivedFixedAssets.Equals(value))
+                {
+                    receivedFixedAssets = AFSConstraints.RoundStat(value);
+                    NotifyStateChanged();
+                }
             }
         }
         public double ReceivedNewFixedAssets
@@ -83,8 +83,11 @@ namespace AFS.Core.Models
             get => receivedNewFixedAssets;
             set
             {
-                receivedNewFixedAssets = AFSConstraints.RoundStat(value);
-                NotifyStateChanged();
+                if (!receivedNewFixedAssets.Equals(value))
+                {
+                    receivedNewFixedAssets = AFSConstraints.RoundStat(value);
+                    NotifyStateChanged();
+                }
             }
         }
         public double LeftFixedAssets
@@ -92,8 +95,11 @@ namespace AFS.Core.Models
             get => withdrawnFixedAssets;
             set
             {
-                withdrawnFixedAssets = AFSConstraints.RoundStat(value);
-                NotifyStateChanged();
+                if (!withdrawnFixedAssets.Equals(value))
+                {
+                    withdrawnFixedAssets = AFSConstraints.RoundStat(value);
+                    NotifyStateChanged();
+                }
             }
         }
         public double LiquidatedFixedAssets
@@ -101,8 +107,11 @@ namespace AFS.Core.Models
             get => liquidatedFixedAssets;
             set
             {
-                liquidatedFixedAssets = AFSConstraints.RoundStat(value);
-                NotifyStateChanged();
+                if (!liquidatedFixedAssets.Equals(value))
+                {
+                    liquidatedFixedAssets = AFSConstraints.RoundStat(value);
+                    NotifyStateChanged();
+                }
             }
         }
 
@@ -112,10 +121,6 @@ namespace AFS.Core.Models
             receivedNewFixedAssets = info.ReceivedNewFixedAssets;
             withdrawnFixedAssets = info.LeftFixedAssets;
             liquidatedFixedAssets = info.LiquidatedFixedAssets;
-
-            NotifyStateChanged();
         }
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

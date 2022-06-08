@@ -1,17 +1,17 @@
-﻿namespace AFS.Core.Model
+﻿using AFS.Core.Models;
+
+namespace AFS.Core.Model
 {
-    public class CurrentPrevious
+    public class CurrentPrevious : TrackedEntity
     {
         private double current;
         private double previous;
-
-        public event Action? OnChange;
         public double Current
         {
             get => current;
             set
             {
-                if (current != value)
+                if (!current.Equals(value))
                 {
                     current = AFSConstraints.RoundStat(value);
                     NotifyStateChanged();
@@ -23,7 +23,7 @@
             get => previous;
             set
             {
-                if (previous != value)
+                if (!previous.Equals(value))
                 {
                     previous = AFSConstraints.RoundStat(value);
                     NotifyStateChanged();
@@ -36,7 +36,5 @@
             current = fild.Current;
             previous = fild.Previous;
         }
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

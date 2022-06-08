@@ -2,8 +2,6 @@
 {
     public class Form1
     {
-        public event Action? OnChange;
-
         public BeginEnd F1001 { get; set; } = new();
         public BeginEnd F1002 { get; set; } = new();
         public BeginEnd F1005 { get; set; } = new();
@@ -61,8 +59,6 @@
         public BeginEnd F1665 { get; set; } = new();
         public BeginEnd F1690 { get; set; } = new();
         public BeginEnd F1700 { get; set; } = new();
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
 
         internal void Init(Form1 form1)
         {
@@ -123,8 +119,6 @@
             F1665.Init(form1.F1665);
             F1690.Init(form1.F1690);
             F1700.Init(form1.F1700);
-
-            NotifyStateChanged();
         }
 
         internal void SubscribeOnChange(Action onChange)

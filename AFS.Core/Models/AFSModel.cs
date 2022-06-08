@@ -2,13 +2,11 @@
 
 namespace AFS.Core.Model
 {
-    public class AFSModel
+    public class AFSModel: TrackedEntity
     {
         private int baseYear;
         private int currentYear;
         private string? companyName;
-
-        public event Action? OnChange;
 
         public AFSModel()
         {
@@ -27,8 +25,11 @@ namespace AFS.Core.Model
             get => companyName ?? string.Empty;
             set
             {
-                companyName = value;
-                NotifyStateChanged();
+                if (!string.Equals(companyName, value))
+                {
+                    companyName = value;
+                    NotifyStateChanged();
+                }
             }
         }
         public int BaseYear
@@ -36,7 +37,7 @@ namespace AFS.Core.Model
             get => baseYear;
             set
             {
-                if (baseYear != value)
+                if (!baseYear.Equals(value))
                 {
                     baseYear = value;
                     if (baseYear + 1 != CurrentYear)
@@ -52,7 +53,7 @@ namespace AFS.Core.Model
             get => currentYear;
             set
             {
-                if (currentYear != value)
+                if (!currentYear.Equals(value))
                 {
                     currentYear = value;
                     if (currentYear - 1 != BaseYear)
@@ -80,11 +81,6 @@ namespace AFS.Core.Model
         public void SubscribeOnChange(Action onChange)
         {
             OnChange += onChange;
-            F1Base.OnChange += onChange;
-            F1Current.OnChange += onChange;
-            F2Base.OnChange += onChange;
-            F2Current.OnChange += onChange;
-            AdditionalInfo.OnChange += onChange;
             F1Base.SubscribeOnChange(onChange);
             F1Current.SubscribeOnChange(onChange);
             F2Base.SubscribeOnChange(onChange);
@@ -97,11 +93,6 @@ namespace AFS.Core.Model
             if (onChange != null)
             {
                 OnChange -= onChange;
-                F1Base.OnChange -= OnChange;
-                F1Current.OnChange -= OnChange;
-                F2Base.OnChange -= OnChange;
-                F2Current.OnChange -= OnChange;
-                AdditionalInfo.OnChange -= onChange;
                 F1Base.UnSubscribeOnChange(onChange);
                 F1Current.UnSubscribeOnChange(onChange);
                 F2Base.UnSubscribeOnChange(onChange);
@@ -109,6 +100,5 @@ namespace AFS.Core.Model
                 AdditionalInfo.UnSubscribeOnChange(onChange);
             }
         }
-        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }
