@@ -9,26 +9,12 @@ namespace AFS.Core.Model
         public double Current
         {
             get => current;
-            set
-            {
-                if (!current.Equals(value))
-                {
-                    current = AFSConstraints.RoundStat(value);
-                    NotifyStateChanged();
-                }
-            }
+            set => SetProperty(ref current, AFSConstraints.RoundStat(value));
         }
         public double Previous
         {
             get => previous;
-            set
-            {
-                if (!previous.Equals(value))
-                {
-                    previous = AFSConstraints.RoundStat(value);
-                    NotifyStateChanged();
-                }
-            }
+            set => SetProperty(ref previous, AFSConstraints.RoundStat(value));
         }
 
         internal void Init(CurrentPrevious fild)

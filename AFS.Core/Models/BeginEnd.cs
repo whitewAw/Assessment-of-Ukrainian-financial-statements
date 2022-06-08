@@ -9,26 +9,12 @@ namespace AFS.Core.Model
         public double Begin
         {
             get => begin;
-            set
-            {
-                if (!begin.Equals(value))
-                {
-                    begin = AFSConstraints.RoundStat(value);
-                    NotifyStateChanged();
-                }
-            }
+            set => SetProperty(ref begin, AFSConstraints.RoundStat(value));
         }
         public double End
         {
             get => end;
-            set
-            {
-                if (!end.Equals(value))
-                {
-                    end = AFSConstraints.RoundStat(value);
-                    NotifyStateChanged();
-                }
-            }
+            set => SetProperty(ref end, AFSConstraints.RoundStat(value));
         }
 
         internal void Init(BeginEnd fild)
