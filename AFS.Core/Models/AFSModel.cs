@@ -1,4 +1,5 @@
 ﻿using AFS.Core.Models;
+using System.ComponentModel;
 
 namespace AFS.Core.Model
 {
@@ -69,7 +70,7 @@ namespace AFS.Core.Model
 
             OnPropertyChanged();
         }
-        public void SubscribeOnChange(Action propertyChanged)
+        public void SubscribeOnChange(PropertyChangedEventHandler propertyChanged)
         {
             PropertyChanged += propertyChanged;
             F1Base.SubscribeOnChange(propertyChanged);
