@@ -14,7 +14,7 @@ namespace AFS.Core.Models
         {
             get => averageNumberOfEmployeesBase;
             set => SetProperty(ref averageNumberOfEmployeesBase, AFSConstraints.RoundStat(value));
-          }
+        }
         public double AverageNumberOfEmployeesCurrent
         {
             get => averageNumberOfEmployeesCurrent;
@@ -29,7 +29,7 @@ namespace AFS.Core.Models
             FixedAssetsInfoCurrent.Init(info.FixedAssetsInfoCurrent);
         }
 
-        public void SubscribeOnChange(PropertyChangedEventHandler propertyChanged)
+        public void SubscribeOnChange(Action propertyChanged)
         {
             PropertyChanged += propertyChanged;
             FixedAssetsInfoBase.PropertyChanged += propertyChanged;

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace AFS.Core.Model
+﻿namespace AFS.Core.Model
 {
     public class Form2
     {
@@ -69,7 +67,7 @@ namespace AFS.Core.Model
             F2650.Init(form2.F2650);
         }
 
-        internal void SubscribeOnChange(PropertyChangedEventHandler propertyChanged)
+        internal void SubscribeOnChange(Action propertyChanged)
         {
             F2000.PropertyChanged += propertyChanged;
             F2050.PropertyChanged += propertyChanged;
