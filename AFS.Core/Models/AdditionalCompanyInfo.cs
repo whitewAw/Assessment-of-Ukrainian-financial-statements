@@ -35,7 +35,7 @@ namespace AFS.Core.Models
             FixedAssetsInfoBase.PropertyChanged += propertyChanged;
             FixedAssetsInfoCurrent.PropertyChanged += propertyChanged;
         }
-        public void UnSubscribeOnChange(Action propertyChanged)
+        public void UnSubscribeOnChange(Action? propertyChanged)
         {
             if (propertyChanged != null)
             {

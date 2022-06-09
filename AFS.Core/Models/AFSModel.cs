@@ -79,7 +79,7 @@ namespace AFS.Core.Model
             AdditionalInfo.SubscribeOnChange(propertyChanged);
 
         }
-        public void UnSubscribeOnChange(Action propertyChanged)
+        public void UnSubscribeOnChange(Action? propertyChanged)
         {
             if (propertyChanged != null)
             {
