@@ -1,19 +1,19 @@
-# Contributing to Assessment of Ukrainian Financial Statements
+﻿# Contributing to Assessment of Ukrainian Financial Statements
 
-Thank you for your interest in contributing! ??
+Thank you for your interest in contributing! 🎉
 
 This project aims to provide a comprehensive tool for analyzing Ukrainian financial statements. We welcome contributions from developers, accountants, financial analysts, and anyone interested in improving financial analysis tools.
 
-## ?? Ways to Contribute
+## 🌟 Ways to Contribute
 
-- ?? **Report bugs** - Found an issue? Let us know!
-- ?? **Suggest features** - Have ideas for improvements?
-- ?? **Improve documentation** - Help others understand the project
-- ?? **Add translations** - Support more languages
-- ?? **Submit code** - Fix bugs or implement features
-- ?? **Add financial indicators** - Expand analysis capabilities
+- 🐛 **Report bugs** - Found an issue? Let us know!
+- 💡 **Suggest features** - Have ideas for improvements?
+- 📝 **Improve documentation** - Help others understand the project
+- 🌍 **Add translations** - Support more languages
+- 💻 **Submit code** - Fix bugs or implement features
+- 📊 **Add financial indicators** - Expand analysis capabilities
 
-## ?? Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -31,7 +31,7 @@ This project aims to provide a comprehensive tool for analyzing Ukrainian financ
 2. **Clone your fork**
    ```bash
    git clone https://github.com/YOUR-USERNAME/Assessment-of-Ukrainian-financial-statements.git
-   cd Assessment-of-Ukrainian-financial-statements
+ cd Assessment-of-Ukrainian-financial-statements
    ```
 
 3. **Create a branch**
@@ -45,24 +45,24 @@ This project aims to provide a comprehensive tool for analyzing Ukrainian financ
    dotnet run --project AFS
    ```
 
-## ?? Project Structure
+## 📋 Project Structure
 
 ```
 Assessment-of-Ukrainian-financial-statements/
-??? AFS/             # Main Blazor WASM application
-??? AFS.ComponentLibrary/     # Reusable Blazor components
-?   ??? Components/
-?   ?   ??? Charts/      # Chart components
-?   ?   ??? Tables/        # Table components
-?   ?   ??? TableComponents/   # Shared table parts
-?   ??? Resources/   # Localization resources
-??? AFS.Core/     # Business logic and services
-    ??? Models/    # Data models
-    ??? Services/     # Business services
-    ??? Json/        # JSON serialization
+├── AFS/    # Main Blazor WASM application
+├── AFS.ComponentLibrary/     # Reusable Blazor components
+│   ├── Components/
+│   │   ├── Charts/  # Chart components
+│   │   ├── Tables/        # Table components
+│   │   └── TableComponents/   # Shared table parts
+│   └── Resources/       # Localization resources
+└── AFS.Core/     # Business logic and services
+    ├── Models/    # Data models
+    ├── Services/     # Business services
+    └── Json/        # JSON serialization
 ```
 
-## ?? Development Guidelines
+## 🔧 Development Guidelines
 
 ### Code Style
 
@@ -94,7 +94,7 @@ We support multiple languages (Ukrainian, English, German, Spanish, French, Russ
 2. Add translations to language-specific `.resx` files
 3. Use `@ResLoc["Key"]` in components
 
-## ?? Testing
+## 🧪 Testing
 
 Before submitting:
 
@@ -109,17 +109,17 @@ dotnet run --project AFS
 dotnet build --no-incremental
 ```
 
-## ?? Commit Guidelines
+## 📝 Commit Guidelines
 
 Use clear, descriptive commit messages:
 
 ```
-? Good:
+✅ Good:
 - Add solvency ratio calculation component
 - Fix chart rendering in mobile view
 - Update Ukrainian translations for tables
 
-? Avoid:
+❌ Avoid:
 - Fix bug
 - Update code
 - Changes
@@ -143,7 +143,7 @@ Use clear, descriptive commit messages:
 - `test:` Adding tests
 - `chore:` Build/tooling changes
 
-## ?? Pull Request Process
+## 🔄 Pull Request Process
 
 1. **Update your branch**
    ```bash
@@ -156,11 +156,11 @@ Use clear, descriptive commit messages:
 3. **Commit your changes**
    ```bash
    git add .
- git commit -m "feat: add working capital analysis component"
+   git commit -m "feat: add working capital analysis component"
    ```
 
 4. **Push to your fork**
-   ```bash
+ ```bash
    git push origin feature/your-feature-name
    ```
 
@@ -180,7 +180,7 @@ Use clear, descriptive commit messages:
 - [ ] Tested in browser (Chrome, Firefox, Edge)
 - [ ] Tested responsive design (mobile/tablet)
 
-## ?? Adding Language Support
+## 🌍 Adding Language Support
 
 To add a new language:
 
@@ -189,7 +189,7 @@ To add a new language:
 3. Add language to `CultureSelector.razor`
 4. Update this CONTRIBUTING.md
 
-## ?? Reporting Bugs
+## 🐛 Reporting Bugs
 
 Use GitHub Issues with this information:
 
@@ -200,7 +200,7 @@ Use GitHub Issues with this information:
 - **Browser**: Chrome/Firefox/Edge + version
 - **Screenshots**: If applicable
 
-## ?? Feature Requests
+## 💡 Feature Requests
 
 We love new ideas! Open an issue with:
 
@@ -209,7 +209,7 @@ We love new ideas! Open an issue with:
 - **Financial Context**: How it helps financial analysis
 - **Priority**: Nice-to-have vs. essential
 
-## ?? Resources
+## 📚 Resources
 
 ### Financial Analysis Background
 - [Ukrainian Accounting Standards](https://mof.gov.ua/en/accounting-standards)
@@ -220,15 +220,15 @@ We love new ideas! Open an issue with:
 - [Radzen Blazor Components](https://blazor.radzen.com/)
 - [.NET 9 Documentation](https://learn.microsoft.com/dotnet/core/whats-new/dotnet-9/overview)
 
-## ?? License
+## 📜 License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
 
-## ?? Questions?
+## 🙏 Questions?
 
 Feel free to open a discussion or issue if you need help!
 
-## ?? Good First Issues
+## 🎯 Good First Issues
 
 Look for issues labeled:
 - `good first issue` - Perfect for newcomers
@@ -236,10 +236,10 @@ Look for issues labeled:
 - `documentation` - Improve docs
 - `translation` - Add language support
 
-## ?? Thank You!
+## 💖 Thank You!
 
 Every contribution helps make financial analysis more accessible. Thank you for being part of this project!
 
 ---
 
-**Happy Contributing!** ??
+**Happy Contributing!** 🚀
