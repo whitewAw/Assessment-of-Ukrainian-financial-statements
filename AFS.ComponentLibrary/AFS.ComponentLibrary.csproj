@@ -36,12 +36,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="wwwroot\PJSC_AZOVSTAL_IRON_AND_STEEL_WORKS_2019_2020.json">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="wwwroot\JsInterop.js">
 			<SubType>Code</SubType>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
