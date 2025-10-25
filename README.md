@@ -264,8 +264,6 @@ The project includes automated deployment to GitHub Pages using GitHub Actions.
 - ✅ Automatic base path handling
 - ✅ PWA manifest generation
 
-See [.github/WORKFLOW_IMPROVEMENTS.md](.github/WORKFLOW_IMPROVEMENTS.md) for detailed workflow documentation.
-
 #### Manual Deployment
 
 ```bash
@@ -300,7 +298,6 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 - [Contributing Guide](CONTRIBUTING.md)
 - [Architecture Overview](MIGRATION_SUMMARY.md)
 - [Workflow Documentation](.github/WORKFLOW_IMPROVEMENTS.md)
-- [API Documentation](docs/API.md) _(coming soon)_
 
 ### Technical Resources
 - [Blazor WebAssembly Docs](https://learn.microsoft.com/aspnet/core/blazor/)
