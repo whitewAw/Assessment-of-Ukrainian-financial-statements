@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using System.ComponentModel;
 
 namespace AFS.Core.Models
 {
@@ -21,7 +21,7 @@ namespace AFS.Core.Models
         [JsonPropertyName("Value")]
         [JsonInclude]
         [Browsable(true)]
-        public double? Value 
+        public double? Value
         {
             get => AFSConstraints.RoundStat(_value.GetValueOrDefault(0));
             set => _value = value;

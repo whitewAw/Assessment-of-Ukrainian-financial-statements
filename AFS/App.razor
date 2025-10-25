@@ -1,6 +1,7 @@
 ﻿@* Main application router with enhanced error handling and accessibility *@
 <CascadingValue Value="this">
-    <Router AppAssembly="@typeof(App).Assembly">
+    <Router AppAssembly="@typeof(App).Assembly" 
+            AdditionalAssemblies="new[] { typeof(AFS.ComponentLibrary.Components.MainInputComponent).Assembly }">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />

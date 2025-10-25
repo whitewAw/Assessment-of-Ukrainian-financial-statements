@@ -1,5 +1,6 @@
-﻿@using AFS.Core.Models
-@inject WorkingCapitalTurnoverTimeChart WorkingCapitalTurnoverTime
+﻿@page "/workingcapitalturnovertime"
+@using AFS.Core.Models
+@inject WorkingCapitalTurnoverTimeChart WorkingCapitalTurnoverTimeChart
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -10,7 +11,7 @@
         <RadzenLineSeries Data="@receivables" CategoryProperty="Date" Title="@ResLoc["AccountsReceivable"]" ValueProperty="Value">
             <RadzenMarkers MarkerType="MarkerType.Circle" />
         </RadzenLineSeries>
-         <RadzenLineSeries Data="@materialValues" CategoryProperty="Date" Title="@ResLoc["Tangibles"]" ValueProperty="Value">
+        <RadzenLineSeries Data="@materialValues" CategoryProperty="Date" Title="@ResLoc["Tangibles"]" ValueProperty="Value">
             <RadzenMarkers MarkerType="MarkerType.Triangle" />
         </RadzenLineSeries>
         <RadzenCategoryAxis FormatString="{0:MM/yyyy}" />
@@ -22,7 +23,7 @@
             <RadzenMarkers MarkerType="MarkerType.Square" />
         </RadzenLineSeries>
     </RadzenChart>
- </RadzenCard>
+</RadzenCard>
 
 @code {
     private string? tableName;
@@ -38,9 +39,9 @@
 
         tableName = $"{number} {name}";
 
-        money = WorkingCapitalTurnoverTime.GetMoney();
-        receivables= WorkingCapitalTurnoverTime.GetReceivables();
-        materialValues= WorkingCapitalTurnoverTime.GetMaterialValues();
+        money = WorkingCapitalTurnoverTimeChart.GetMoney();
+        receivables = WorkingCapitalTurnoverTimeChart.GetReceivables();
+        materialValues = WorkingCapitalTurnoverTimeChart.GetMaterialValues();
 
         base.OnInitialized();
     }

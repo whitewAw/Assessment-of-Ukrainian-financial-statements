@@ -54,12 +54,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Pages\" />
 		<Folder Include="wwwroot\images\" />
-	</ItemGroup>
-	
-	<!-- Runtime directives for AOT compilation -->
-	<ItemGroup>
-		<RdXmlFile Include="rd.xml" />
 	</ItemGroup>
 	
 	<!-- Preserve Blazor components and framework assemblies from aggressive trimming -->

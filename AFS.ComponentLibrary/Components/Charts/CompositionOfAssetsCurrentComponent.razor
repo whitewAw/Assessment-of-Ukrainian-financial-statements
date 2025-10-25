@@ -1,5 +1,6 @@
-﻿@using AFS.Core.Models
-@inject CompositionOfAssetsChart CompositionOfAssets
+﻿@page "/compositionofassetscurrent"
+@using AFS.Core.Models
+@inject CompositionOfAssetsChart CompositionOfAssetsChart
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -19,8 +20,8 @@
 
         tableName = $"{number} {name} - {MainModel.CurrentYear} {@ResLoc["year"]}";
 
-        baseList = CompositionOfAssets.GetDataItem(false, true);
-        currentList = CompositionOfAssets.GetDataItem(false, false);
+        baseList = CompositionOfAssetsChart.GetDataItem(false, true);
+        currentList = CompositionOfAssetsChart.GetDataItem(false, false);
 
         base.OnInitialized();
     }

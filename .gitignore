@@ -10,6 +10,8 @@ publish/
 
 # Large files
 *.wasm
+*.wasm.gz
+*.wasm.br
 *.pdb
 *.dll.br
 *.dll.gz
