@@ -1,21 +1,64 @@
 /* ========================================
-   Navigation Menu Styles
+   NAVIGATION MENU STYLES - MOBILE FIRST
    ======================================== */
 
 /* Top Navigation Bar */
 .top-row {
     height: 3.5rem;
     background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    position: relative;
 }
 
 /* Brand / Logo */
 .navbar-brand {
     font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    flex-grow: 1;
+    padding: 0.5rem;
+}
+
+.navbar-brand:hover {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Toggle Button for Mobile */
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-toggler:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.navbar-toggler-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
 }
 
 /* Icon Styles */
@@ -24,86 +67,242 @@
     font-size: 1.1rem;
     vertical-align: text-top;
     top: -2px;
+    margin-right: 0.5rem;
 }
 
 /* ========================================
-   Navigation Items
+   NAVIGATION ITEMS
    ======================================== */
 
 .nav-item {
     font-size: 0.9rem;
-    padding-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
 }
 
-    /* First navigation item spacing */
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
+.nav-item:first-of-type {
+    padding-top: 1rem;
+}
 
-    /* Last navigation item spacing */
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
+.nav-item:last-of-type {
+    padding-bottom: 1rem;
+}
 
-    /* Navigation Links */
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        background-color: transparent;
-        border-radius: 4px;
-        display: block;
-        padding: 0.5rem;
-        text-align: left;
-        text-decoration: none;
-        line-height: 1.5;
-        word-wrap: break-word;
-        white-space: normal;
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    }
+/* Navigation Links */
+.nav-item ::deep a {
+    color: #d7d7d7;
+    background-color: transparent;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    text-decoration: none;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: normal;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    min-height: 44px;
+}
 
-        /* Active Link State */
-        .nav-item ::deep a.active {
-            background-color: rgba(255, 255, 255, 0.25);
-            color: white;
-            font-weight: 500;
-        }
+.nav-item ::deep a.active {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    font-weight: 500;
+    border-left: 3px solid #fff;
+    padding-left: calc(1rem - 3px);
+}
 
-        /* Hover Link State */
-        .nav-item ::deep a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
+.nav-item ::deep a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateX(2px);
+}
 
-        /* Focus State for Accessibility */
-        .nav-item ::deep a:focus {
-            outline: 2px solid rgba(255, 255, 255, 0.5);
-            outline-offset: 2px;
-        }
+.nav-item ::deep a:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.nav-item ::deep a:focus-visible {
+    outline: 2px solid #90caf9;
+    outline-offset: 2px;
+}
 
 /* ========================================
-   Responsive Styles
+   COLLAPSIBLE MENU
    ======================================== */
 
-@media (min-width: 641px) {
-    /* Hide toggle button on wider screens */
+.collapse {
+    display: none;
+}
+
+.collapse.show {
+    display: block;
+}
+
+/* ========================================
+   MOBILE STYLES (< 641px)
+ ======================================== */
+
+@media (max-width: 640px) {
+    .nav-item ::deep a {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    .top-row {
+        height: 4rem;
+        padding: 0 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .nav-item {
+        padding: 0.125rem 0.5rem;
+    }
+
+    .oi {
+        font-size: 1.25rem;
+        width: 2.5rem;
+    }
+
+    .collapse {
+        background-color: rgba(0, 0, 0, 0.2);
+        margin-top: 0.5rem;
+        border-radius: 0.25rem;
+    }
+}
+
+/* ========================================
+   TABLET STYLES (641px - 1024px)
+   ======================================== */
+
+@media (min-width: 641px) and (max-width: 1024px) {
     .navbar-toggler {
         display: none;
     }
 
-    /* Never collapse the sidebar for wide screens */
     .collapse {
-        display: block;
+        display: block !important;
+    }
+
+    .nav-item ::deep a {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.9rem;
+    }
+
+    .top-row {
+        height: 3.5rem;
     }
 }
 
-@media (max-width: 640px) {
-    /* Improve touch targets on mobile */
-    .nav-item ::deep a {
-        padding: 0.75rem;
-        font-size: 1rem;
+/* ========================================
+   DESKTOP STYLES (> 1024px)
+   ======================================== */
+
+@media (min-width: 1025px) {
+    .navbar-toggler {
+        display: none;
     }
 
-    /* Increase top bar height on mobile */
+    .collapse {
+        display: block !important;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .nav-item ::deep a {
+        padding: 0.625rem 1rem;
+    }
+}
+
+/* ========================================
+ TOUCH DEVICE OPTIMIZATIONS
+   ======================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    .nav-item ::deep a {
+        min-height: 48px;
+        padding: 1rem;
+    }
+
+    .navbar-toggler {
+        min-width: 48px;
+        min-height: 48px;
+    }
+
+    .nav-item ::deep a:hover {
+        transform: none;
+    }
+
+    .nav-item ::deep a:active {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(0.98);
+    }
+}
+
+/* ========================================
+   LANDSCAPE ORIENTATION (MOBILE)
+   ======================================== */
+
+@media (max-width: 896px) and (orientation: landscape) {
     .top-row {
-        height: 4rem;
+        height: 3rem;
+    }
+
+    .nav-item ::deep a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY & PERFORMANCE
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-item ::deep a,
+    .navbar-toggler {
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .nav-item ::deep a.active {
+        border-left-width: 4px;
+    }
+
+    .nav-item ::deep a:focus {
+        outline-width: 3px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .navbar-toggler {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-item ::deep a {
+        color: #e0e0e0;
+    }
+
+    .nav-item ::deep a.active {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+@media print {
+    .top-row,
+    .navbar-toggler,
+    .collapse {
+        display: none !important;
     }
 }

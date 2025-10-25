@@ -1,26 +1,128 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+/* ========================================
+   BASE STYLES & TYPOGRAPHY
+   ======================================== */
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first font sizing */
+html {
+    font-size: 16px;
+}
+
+@media (max-width: 575px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 h1:focus {
     outline: none;
 }
 
+/* Mobile-optimized heading sizes */
+@media (max-width: 767px) {
+  h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+     font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* ========================================
+   LINKS & BUTTONS
+   ======================================== */
+
 a, .btn-link {
     color: #0071c1;
+    text-decoration: none;
+}
+
+a:hover, .btn-link:hover {
+    color: #005a9c;
+    text-decoration: underline;
+}
+
+/* Touch-friendly link sizing on mobile */
+@media (max-width: 767px) {
+    a, .btn-link, button {
+min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem;
+}
 }
 
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease-in-out;
 }
+
+.btn-primary:hover {
+    background-color: #1861ac;
+    border-color: #164e8e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   LAYOUT & CONTENT
+   ======================================== */
 
 .content {
     padding-top: 1.1rem;
 }
+
+/* Mobile-optimized content padding */
+@media (max-width: 767px) {
+    .content {
+        padding: 0.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+.content {
+        padding: 1rem 1.5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .content {
+        padding: 1.5rem 2rem;
+    }
+}
+
+/* ========================================
+   FORMS & VALIDATION
+   ======================================== */
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
@@ -32,7 +134,35 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }
+
+/* Mobile-friendly form inputs */
+@media (max-width: 767px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 44px;
+      padding: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+  label {
+        display: block;
+        margin-bottom: 0.25rem;
+  font-weight: 500;
+    }
+}
+
+/* ========================================
+   ERROR HANDLING
+   ======================================== */
 
 #blazor-error-ui {
     background: lightyellow;
@@ -46,19 +176,221 @@ a, .btn-link {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+ right: 0.75rem;
+    top: 0.5rem;
+}
+
+/* Mobile-responsive error UI */
+@media (max-width: 575px) {
+    #blazor-error-ui {
+    padding: 1rem;
+        font-size: 0.875rem;
     }
 
+    #blazor-error-ui .dismiss {
+        position: static;
+        display: block;
+        margin-top: 0.5rem;
+    }
+}
+
 .blazor-error-boundary {
-    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+/* Mobile-responsive error boundary */
+@media (max-width: 575px) {
+    .blazor-error-boundary {
+        padding: 1rem;
+     background-position: center top 0.5rem;
+        padding-top: 3rem;
+text-align: center;
     }
+}
+
+/* ========================================
+   TABLES - MOBILE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 767px) {
+  /* Stack table on mobile */
+    table {
+        display: block;
+   width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tbody,
+    table tr,
+    table td {
+        display: block;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 1rem;
+      border: 1px solid #ddd;
+        border-radius: 0.25rem;
+   padding: 0.5rem;
+    }
+
+ table td {
+        text-align: right;
+        padding: 0.5rem;
+position: relative;
+        padding-left: 50%;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.5rem;
+      width: 45%;
+   padding-right: 0.5rem;
+        text-align: left;
+    font-weight: bold;
+  }
+}
+
+/* ========================================
+   RADZEN COMPONENTS - MOBILE OPTIMIZATION
+   ======================================== */
+
+@media (max-width: 767px) {
+    /* Radzen Dialog - Full screen on mobile */
+    .rz-dialog {
+        width: 95vw !important;
+   max-width: none !important;
+      margin: 2.5vh auto !important;
+        max-height: 95vh !important;
+    }
+
+    .rz-dialog-content {
+        max-height: calc(95vh - 100px) !important;
+        overflow-y: auto !important;
+    }
+
+  /* Radzen DataGrid - Horizontal scroll */
+    .rz-datatable-scrollable-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Radzen Chart - Responsive */
+    .rz-chart {
+        max-width: 100%;
+        height: auto !important;
+        min-height: 300px;
+    }
+
+    /* Radzen Buttons - Touch-friendly */
+    .rz-button {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Hide on mobile */
+.d-mobile-none {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    .d-mobile-none {
+   display: block !important;
+    }
+}
+
+/* Hide on desktop */
+.d-desktop-none {
+    display: block !important;
+}
+
+@media (min-width: 768px) {
+    .d-desktop-none {
+        display: none !important;
+    }
+}
+
+/* Mobile text alignment */
+@media (max-width: 767px) {
+    .text-mobile-center {
+  text-align: center !important;
+    }
+}
+
+/* Touch-friendly spacing */
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* GPU acceleration for animations */
+.animated {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+  scroll-behavior: smooth;
+    }
+}
+
+/* Reduce animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+     animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+   transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .sidebar,
+    .navbar,
+    footer,
+    button {
+        display: none !important;
+    }
+
+    main {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .content {
+        padding: 0 !important;
+    }
+}
