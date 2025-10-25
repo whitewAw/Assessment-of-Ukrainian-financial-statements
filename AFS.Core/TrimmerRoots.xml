@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+	<!-- Preserve chart model properties for Radzen chart reflection -->
+	<assembly fullname="AFS.Core">
+		<type fullname="AFS.Core.Models.ChartDataItem" preserve="all">
+			<property name="Item" />
+			<property name="Value" />
+		</type>
+		<type fullname="AFS.Core.Models.ChartDateTimeItem" preserve="all">
+			<property name="Date" />
+			<property name="Item" />
+			<property name="Value" />
+		</type>
+	</assembly>
+
+	<!-- Preserve Radzen property access helpers -->
+	<assembly fullname="Radzen.Blazor">
+		<type fullname="Radzen.PropertyAccess" preserve="all" />
+	</assembly>
+</linker>

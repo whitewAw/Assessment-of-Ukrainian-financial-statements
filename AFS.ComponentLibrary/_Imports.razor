@@ -1,0 +1,30 @@
+﻿@* Global imports for AFS Component Library *@
+
+@* Third-party UI Libraries *@
+@using Radzen
+@using Radzen.Blazor
+@using Blazored.LocalStorage
+
+@* Core Blazor namespaces *@
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.Extensions.Localization
+@using Microsoft.JSInterop
+
+@* Application Core *@
+@using AFS.Core.Interfaces
+@using AFS.Core.Models
+@using AFS.Core.Models.TablsModels
+@using AFS.Core.Services.DataCalculations
+
+@* Component Library *@
+@using AFS.ComponentLibrary.Components.YearSelectComponents
+@using AFS.ComponentLibrary.Components.TableComponents
+@using AFS.ComponentLibrary.Components.ChartsComponents
+@using AFS.ComponentLibrary.Resources
+
+@* Injected Services - Available in all components *@
+@inject AFSModel MainModel
+@inject IStringLocalizer<Resource> ResLoc
+@inject AFSConstraints Constraints
+

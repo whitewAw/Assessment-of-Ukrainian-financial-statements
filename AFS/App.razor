@@ -1,0 +1,26 @@
+﻿@* Main application router with enhanced error handling and accessibility *@
+<CascadingValue Value="this">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Page Not Found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <div class="container text-center py-5" role="alert" aria-live="polite">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <h1 class="display-1">404</h1>
+                            <h2 class="mb-4">Page Not Found</h2>
+                            <p class="lead mb-4">Sorry, there's nothing at this address. The page you're looking for doesn't exist or has been moved.</p>
+                            <a href="" class="btn btn-primary btn-lg">
+                                <span class="oi oi-home" aria-hidden="true"></span> Return to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingValue>

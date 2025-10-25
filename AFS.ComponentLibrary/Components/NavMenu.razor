@@ -1,0 +1,88 @@
+﻿<nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
+    <div class="container-fluid px-1">
+        <a class="navbar-brand" href="" aria-label="@homeLabel">
+            @ResLoc["AssessmentOfFinancialStatements"]
+        </a>
+        <button title="@toggleMenuLabel"
+                class="navbar-toggler"
+                @onclick="ToggleNavMenu"
+                aria-expanded="@(!collapseNavMenu)"
+                aria-controls="main-nav"
+                aria-label="@toggleMenuLabel">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="@NavMenuCssClass" id="main-nav" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                @ResLoc["InputData"]
+            </NavLink>
+        </div>
+
+        @foreach (var item in navigationItems)
+        {
+            <div class="nav-item px-3" @key="item.Href">
+                <NavLink class="nav-link" href="@item.Href">
+                    @if (!string.IsNullOrEmpty(item.Number))
+                    {
+                        @item.Number
+                
+                        @:. @item.Label
+                    }
+                    else
+                    {
+                        @item.Label
+                    }
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string mainNavigationLabel => ResLoc?["MainNavigation"] ?? "Main Navigation";
+    private string homeLabel => ResLoc?["Home"] ?? "Home";
+    private string toggleMenuLabel => ResLoc?["ToggleNavigation"] ?? "Toggle Navigation";
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private IReadOnlyList<NavMenuItem> navigationItems => new[]
+    {
+        new NavMenuItem("1", ResLoc["CharacteristicsOfCapital"], "characteristicsofcapital"),
+        new NavMenuItem("2", ResLoc["IndicatorsOfTurnoverOfCurrentAssets"], "indicatorsofturnoverofcurrentassets"),
+        new NavMenuItem("3", ResLoc["FactorsAffectingTurnoverOfWorkingCapital"], "factorsaffectingturnoverofworkingcapital"),
+        new NavMenuItem("4", ResLoc["IndicatorsOfEfficiencyOfWorkingCapital"], "indicatorsofefficiencyofworkingcapital"),
+        new NavMenuItem("5", ResLoc["AvailabilityAndMovementOfFixedAssets"], "availabilityandmovementoffixedassets"),
+        new NavMenuItem("6", ResLoc["IndicatorsOfStateAndMovementOfFixedAssets"], "indicatorsofstateandmovementoffixedassets"),
+        new NavMenuItem("7", ResLoc["CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets"], "calculationofindicatorsofefficiencyofuseoffixedassets"),
+        new NavMenuItem("8", ResLoc["FactorAnalysisOfFixedAssets"], "factoranalysisoffixedassets"),
+        new NavMenuItem("9", ResLoc["IndicatorsOfEfficiencyOfUseOfIntangibleAssets"], "indicatorsofefficiencyofuseofintangibleassets"),
+        new NavMenuItem("10", ResLoc["SourcesOfCapitalFormation"], "sourcesofcapitalformation"),
+        new NavMenuItem("11", ResLoc["AssessmentOfReceivableAndPayable"], "assessmentofreceivableandpayable"),
+        new NavMenuItem("12", ResLoc["IndicatorsOfBusinessActivity"], "indicatorsofbusinessactivity"),
+        new NavMenuItem("13", ResLoc["LiquidityIndicatorsOfBalance"], "liquidityindicatorsofbalance"),
+        new NavMenuItem("14", ResLoc["SolvencyRatios"], "solvencyratios"),
+        new NavMenuItem("15", ResLoc["GeneralIndicatorsOfFinancialStability"], "generalindicatorsoffinancialstability"),
+        new NavMenuItem("16", ResLoc["ClassificationOfTypesOfFinancialStability"], "classificationoftypesoffinancialstability"),
+        new NavMenuItem("17", ResLoc["IndicatorsOfFinancialStability"], "indicatorsoffinancialstability"),
+        new NavMenuItem("I", $"{ResLoc["CompositionOfAssets"]} - {ResLoc["basePeriod"]}", "compositionofassetsbase"),
+        new NavMenuItem("II", $"{ResLoc["CompositionOfAssets"]} - {ResLoc["currentPeriod"]}", "compositionofassetscurrent"),
+        new NavMenuItem("III", ResLoc["WorkingCapitalTurnoverTime"], "workingcapitalturnovertime"),
+        new NavMenuItem("IV", $"{ResLoc["SourcesOfCapitalFormation"]} - {ResLoc["basePeriod"]}", "sourcesofcapitalformationbase"),
+        new NavMenuItem("V", $"{ResLoc["SourcesOfCapitalFormation"]} - {ResLoc["currentPeriod"]}", "sourcesofcapitalformationcurrent"),
+        new NavMenuItem("VI", $"{ResLoc["StructureOfAccountsPayable"]} - {ResLoc["basePeriod"]}", "structureofaccountspayablebase"),
+        new NavMenuItem("VII", $"{ResLoc["StructureOfAccountsPayable"]} - {ResLoc["currentPeriod"]}", "structureofaccountspayablecurrent")
+    };
+
+    private sealed record NavMenuItem(string Number, string Label, string Href);
+}

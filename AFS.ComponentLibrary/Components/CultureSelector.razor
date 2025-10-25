@@ -1,0 +1,66 @@
+﻿@using System.Globalization
+@inject ICultureStorageHandler CultureHandler
+@inject NavigationManager Navigator
+
+<div class="culture-selector" role="region" aria-label="@selectLanguageLabel">
+    <RadzenDropDown TValue="CultureInfo"
+                    Data="@supportedCultures"
+                    TextProperty="Text"
+                    ValueProperty="Value"
+                    @bind-Value="@currentCulture"
+                    Change="CultureChanged"
+                    Style="min-width: 150px;"
+                    Placeholder="@selectLanguageLabel"
+                    aria-label="@selectLanguageLabel" />
+</div>
+
+@code {
+    private readonly IReadOnlyList<CultureData> supportedCultures = new[]
+    {
+        new CultureData(CultureInfo.GetCultureInfo("en"), "English", "🇺🇸"),
+        new CultureData(CultureInfo.GetCultureInfo("uk-UA"), "Українська", "🇺🇦"),
+        new CultureData(CultureInfo.GetCultureInfo("ru"), "Русский", "🇷🇺"),
+        new CultureData(CultureInfo.GetCultureInfo("es"), "Español", "🇪🇸"),
+        new CultureData(CultureInfo.GetCultureInfo("de"), "Deutsch", "🇩🇪"),
+        new CultureData(CultureInfo.GetCultureInfo("fr"), "Français", "🇫🇷")
+    };
+
+    private CultureInfo currentCulture = CultureInfo.GetCultureInfo("en");
+    private string selectLanguageLabel => ResLoc?["SelectLanguage"] ?? "Select Language";
+
+    protected override void OnInitialized()
+    {
+        // Get the current culture and find the matching supported culture
+        var current = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.CurrentCulture;
+
+        // Try to find exact match first, then by two-letter ISO code
+        var matchingCulture = supportedCultures.FirstOrDefault(c => c.Value.Name == current.Name) ?? supportedCultures.FirstOrDefault(c => c.Value.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName);
+
+        currentCulture = matchingCulture?.Value ?? CultureInfo.GetCultureInfo("en");
+
+        base.OnInitialized();
+    }
+
+    private async Task CultureChanged(object? param)
+    {
+        if (param is CultureInfo newCulture)
+        {
+            try
+            {
+                await CultureHandler.WriteCultureAsync(newCulture);
+                Navigator.NavigateTo(Navigator.Uri, forceLoad: true);
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't break the app
+                Console.Error.WriteLine($"Failed to change culture: {ex.Message}");
+            }
+        }
+    }
+
+    // Helper class for dropdown with flag emojis
+    private sealed record CultureData(CultureInfo Value, string NativeName, string Flag)
+    {
+        public string Text => $"{Flag} {NativeName}";
+    }
+}

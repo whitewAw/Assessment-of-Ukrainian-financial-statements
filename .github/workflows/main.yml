@@ -1,0 +1,119 @@
+﻿name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Cache .NET workloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/packs
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+
+      - name: Install .NET WebAssembly Tools
+        run: dotnet workload install wasm-tools
+
+      - name: Install the wasm-experimental workload
+        run: dotnet workload install wasm-experimental
+
+      - name: Restore dependencies
+        run: dotnet restore AFS/AFS.csproj
+
+      - name: Publish .NET Project with AOT
+        run: |
+          dotnet publish AFS/AFS.csproj \
+            -c Release \
+            -o release \
+            --nologo \
+            --no-restore \
+            -p:RunAOTCompilation=true \
+            -p:WasmStripILAfterAOT=true \
+            -p:PublishTrimmed=true \
+            -p:TrimMode=partial \
+            -p:BlazorEnableCompression=true
+
+      - name: Change base-tag in index.html
+        run: |
+          sed -i 's/<base href="\/" \/>/<base href="\/Assessment-of-Ukrainian-financial-statements\/" \/>/g' release/wwwroot/index.html
+
+      - name: Fix service-worker-assets.js hashes
+        working-directory: release/wwwroot
+        run: |
+          jsFile=$(<service-worker-assets.js)
+          json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
+          assets=$(echo "$json" | jq '.assets[]' -c)
+          for asset in $assets
+          do
+            oldHash=$(echo "$asset" | jq '.hash')
+            oldHash="${oldHash:1:-1}"
+            path=$(echo "$asset" | jq '.url')
+            path="${path:1:-1}"
+            
+            # Skip index.html - it's cached without integrity check in service worker
+            if [[ "$path" == *"index.html"* ]]; then
+              echo "Skipping hash update for $path (cached without integrity check)"
+              continue
+            fi
+  
+            newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
+  
+            if [ $oldHash != $newHash ]; then
+              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+              newHash=$(echo "$newHash" | sed 's;/;\\/;g')
+              echo "Updating hash for $path from $oldHash to $newHash"
+              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+              jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
+            fi
+          done
+          echo -n "$jsFile" > service-worker-assets.js
+
+      - name: Optimize static assets
+        working-directory: release/wwwroot
+        run: |
+          # Add cache headers configuration
+          echo "Optimizing static assets..."
+          find . -type f -name "*.css" -o -name "*.js" | wc -l
+
+      - name: Copy index.html to 404.html
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+      - name: Add .nojekyll file
+        run: touch release/wwwroot/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: release/wwwroot
+          clean: true
+          single-commit: true

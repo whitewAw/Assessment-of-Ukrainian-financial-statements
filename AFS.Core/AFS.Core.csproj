@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		
+		<!-- Performance Optimizations -->
+		<BlazorEnableCompression>true</BlazorEnableCompression>
+		
+		<!-- Trimming Settings -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		
+		<!-- AOT Settings -->
+		<PublishAot>false</PublishAot>
+		<IlcOptimizationPreference>Size</IlcOptimizationPreference>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+	</ItemGroup>
+
+	<!-- Trimmer configuration to preserve ChartDataItem for Radzen reflection -->
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+	</ItemGroup>
+
+</Project>

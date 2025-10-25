@@ -1,0 +1,31 @@
+﻿@inject IndicatorsOfEfficiencyOfWorkingCapital IndicatorsOfEfficiencyOfWorkingCapital
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadCommonComponent />
+        <tbody>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales>@ResLoc["NetIncomeFromSales"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.AverageWorkingCapitalBalances>@ResLoc["AverageWorkingCapitalBalances"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.NetProfit>@ResLoc["NetProfit"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets Digits=2>@ResLoc["TurnoverOfCurrentAssets"], @ResLoc["times"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.ProfitabilityOfCurrentAssets Digits=2
+                                                IsShowGrowthRate=false>@ResLoc["ProfitabilityOfCurrentAssets"] %</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfEfficiencyOfWorkingCapital.IntegratedIndicatorOfEfficiencyOfCurrentAssets Digits=3
+                                                IsShowGrowthRate=false>@ResLoc["IntegratedIndicatorOfEfficiencyOfCurrentAssets"]</TrTwoYearsCalculationDataComponent>
+        </tbody>
+    </table>
+</RadzenCard>
+
+@code {
+    private string? tableName;
+
+    protected override void OnInitialized()
+    {
+        string name = ResLoc["IndicatorsOfEfficiencyOfWorkingCapital"];
+        int number = 4;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        base.OnInitialized();
+    }
+}

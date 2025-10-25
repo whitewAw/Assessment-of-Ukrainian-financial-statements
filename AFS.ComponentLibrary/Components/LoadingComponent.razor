@@ -1,0 +1,41 @@
+@* Reusable loading component with customizable styling *@
+
+<div class="loading-container @ContainerClass" role="status" aria-live="polite" aria-busy="true">
+    @if (ShowSpinner)
+    {
+        <div class="spinner-container">
+            <div class="spinner-border @SpinnerClass" role="status">
+                <span class="visually-hidden">@loadingText</span>
+            </div>
+        </div>
+    }
+
+    @if (ShowMessage && !string.IsNullOrWhiteSpace(Message))
+    {
+        <div class="loading-message @MessageClass">
+            <p class="mb-0">@Message</p>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public bool ShowSpinner { get; set; } = true;
+
+    [Parameter]
+    public bool ShowMessage { get; set; } = true;
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public string ContainerClass { get; set; } = "d-flex flex-column align-items-center justify-content-center p-5";
+
+    [Parameter]
+    public string SpinnerClass { get; set; } = "text-primary";
+
+    [Parameter]
+    public string MessageClass { get; set; } = "mt-3 text-muted";
+
+    private string loadingText => Message ?? ResLoc?["Loading"] ?? "Loading...";
+}

@@ -1,0 +1,46 @@
+﻿<th scope="col" rowspan="@Rowspan" colspan="@Colspan" class="@GetAlign() @GetSpacing()">@ChildContent</th>
+
+@code {
+    [Parameter]
+    public int Rowspan { get; set; } = 1;
+
+    [Parameter]
+    public int Colspan { get; set; } = 1;
+
+    [Parameter]
+    public string? Align { get; set; } = "MC";
+
+    [Parameter]
+    public string? Spacing { get; set; } = "";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected string GetAlign() =>
+        Align switch
+        {
+            "MC" => "align-middle text-center",
+            "MR" => "align-middle text-end",      // Changed from text-right to text-end (Bootstrap 5)
+            "ML" => "align-middle text-start",   // Changed from text-left to text-start (Bootstrap 5)
+            _ => throw new ArgumentException("Invalid enum value for command", nameof(Align)),
+        };
+
+    protected string GetSpacing() =>
+        Spacing switch
+        {
+            "" => "",
+            // Support both Bootstrap 4 and Bootstrap 5 naming
+            "pr-2" => "pe-2",  // padding-end (right in LTR)
+            "pr-4" => "pe-4",
+            "pl-3" => "ps-3",  // padding-start (left in LTR)
+            "pl-4" => "ps-4",
+            "pl-5" => "ps-5",
+            // Also support Bootstrap 5 directly
+            "pe-2" => "pe-2",
+            "pe-4" => "pe-4",
+            "ps-3" => "ps-3",
+            "ps-4" => "ps-4",
+            "ps-5" => "ps-5",
+            _ => Spacing ?? "",  // Pass through any other spacing classes
+        };
+}

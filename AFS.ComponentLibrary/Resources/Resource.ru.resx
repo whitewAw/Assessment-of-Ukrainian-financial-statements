@@ -1,0 +1,1137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A1A2A3&lt;P1" xml:space="preserve">
+    <value>А1+A2+A3 &lt; П1</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2" xml:space="preserve">
+    <value>А1+A2+A3 &lt; П1+П2</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
+    <value>А1+A2 +A3 &lt; П1+П2+П3</value>
+  </data>
+  <data name="A1A2A3P1" xml:space="preserve">
+    <value>А1+A2+A3 &gt;= П1</value>
+  </data>
+  <data name="A1A2A3P1P2" xml:space="preserve">
+    <value>А1+A2+A3 &gt;= П1+П2</value>
+  </data>
+  <data name="A1A2A3P1P2P3" xml:space="preserve">
+    <value>А1+A2 +A3 &gt;= П1+П2+П3</value>
+  </data>
+  <data name="A1A2P1" xml:space="preserve">
+    <value>А1+A2 &gt;= П1</value>
+  </data>
+  <data name="A1A2P1P2" xml:space="preserve">
+    <value>А1+A2 &gt;= П1+П2</value>
+  </data>
+  <data name="A1A2P1P2P3" xml:space="preserve">
+    <value>А1+A2 &gt;= П1+П2+П3</value>
+  </data>
+  <data name="A1P1" xml:space="preserve">
+    <value>А1 &gt;= П1</value>
+  </data>
+  <data name="A1P1P2" xml:space="preserve">
+    <value>А1 &gt;= П1+П2</value>
+  </data>
+  <data name="A1P1P2P3" xml:space="preserve">
+    <value>А1 &gt;= П1+П2+П3</value>
+  </data>
+  <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
+    <value>Абсолютная финансовая устойчивость</value>
+  </data>
+  <data name="AbsoluteLiquidityRatio" xml:space="preserve">
+    <value>Коэффициент абсолютной ликвидности</value>
+  </data>
+  <data name="accounts" xml:space="preserve">
+    <value>дебиторской</value>
+  </data>
+  <data name="AccountsPayable" xml:space="preserve">
+    <value>Кредиторская задолженность</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Дебиторская задолженность</value>
+  </data>
+  <data name="AccountsReceivableForDebts" xml:space="preserve">
+    <value>Дебиторская задолженность по расчетам</value>
+  </data>
+  <data name="AccruedDepreciationAtBegin" xml:space="preserve">
+    <value>Сумма начисленного износа на начало года</value>
+  </data>
+  <data name="AccruedDepreciationAtEnd" xml:space="preserve">
+    <value>Сумма начисленного износа на конец года</value>
+  </data>
+  <data name="accumulatedDepreciation" xml:space="preserve">
+    <value>накопленная амортизация</value>
+  </data>
+  <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
+    <value>Накопленные курсовые разницы</value>
+  </data>
+  <data name="AdditionalCapital" xml:space="preserve">
+    <value>Дополнительный капитал</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Дополнительная информация</value>
+  </data>
+  <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Скорректированное среднегодовое количество простых акций</value>
+  </data>
+  <data name="adjustedIndicator" xml:space="preserve">
+    <value>скорректированный показатель</value>
+  </data>
+  <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Скорректированная чистая прибыль (убыток) на одну простую акцию</value>
+  </data>
+  <data name="AdministrativeExpenses" xml:space="preserve">
+    <value>Административные расходы</value>
+  </data>
+  <data name="Amortization" xml:space="preserve">
+    <value>Амортизация</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Вы уверены?</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Статья</value>
+  </data>
+  <data name="AssessmentOfFinancialStatements" xml:space="preserve">
+    <value>Оценка финансовой отчетности</value>
+  </data>
+  <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
+    <value>Сравнительная оценка дебиторской и кредиторской задолженности</value>
+  </data>
+  <data name="Asset" xml:space="preserve">
+    <value>Актив</value>
+  </data>
+  <data name="AtBeginningReportingPeriod" xml:space="preserve">
+    <value>В начало отчетного периода</value>
+  </data>
+  <data name="atBeginOfYear" xml:space="preserve">
+    <value>на начало года</value>
+  </data>
+  <data name="AtEndingReportingPeriod" xml:space="preserve">
+    <value>На конец отчетного периода</value>
+  </data>
+  <data name="atEndOf" xml:space="preserve">
+    <value>на конец {0} года</value>
+  </data>
+  <data name="atEndOfYear" xml:space="preserve">
+    <value>на конец года</value>
+  </data>
+  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Наличие и движение основных средств</value>
+  </data>
+  <data name="AvailabilityForStockFormation" xml:space="preserve">
+    <value>Наличие собственных оборотных, долгосрочных и краткосрочных привлеченных средств для формирования запасов</value>
+  </data>
+  <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
+    <value>Наличие собственных оборотных и долгосрочных привлеченных средств формирования запасов</value>
+  </data>
+  <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
+    <value>Наличие собственных оборотных средств для формирования запасов</value>
+  </data>
+  <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
+    <value>Среднегодовая стоимость основных средств</value>
+  </data>
+  <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
+    <value>Среднегодовая стоимость нематериальных активов</value>
+  </data>
+  <data name="averageBalances" xml:space="preserve">
+    <value>средних остатков</value>
+  </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>Среднесписочная численность работников</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Среднегодовое количество простых акций</value>
+  </data>
+  <data name="AverageWorkingCapitalBalances" xml:space="preserve">
+    <value>Средние остатки оборотных средств</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>Остаток на начало года по первоначальной стоимости</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>Остаток на конец года по первоначальной стоимости</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>Остаток на конец года за минусом износа</value>
+  </data>
+  <data name="BalanceIsLiquid" xml:space="preserve">
+    <value>Баланс ликвидный</value>
+  </data>
+  <data name="BalanceIsNotLiquid" xml:space="preserve">
+    <value>Баланс неликвидный</value>
+  </data>
+  <data name="basePeriod" xml:space="preserve">
+    <value>базовый период</value>
+  </data>
+  <data name="BaseYear" xml:space="preserve">
+    <value>Базовый год</value>
+  </data>
+  <data name="bySettlementsWithParticipants" xml:space="preserve">
+    <value>по расчетам с участниками</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
+    <value>Расчет обобщающих показателей эффективности использования основных средств</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
+    <value>Таблица {0}. Расчет обобщающих показателей эффективности использования основных средств {1} за {2}-{3} года</value>
+  </data>
+  <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
+    <value>Расчет показателей доходности акций</value>
+  </data>
+  <data name="CapitalInRevaluations" xml:space="preserve">
+    <value>Капитал в дооценках</value>
+  </data>
+  <data name="CapitalIntensityOfProducts" xml:space="preserve">
+    <value>Фондоемкость продукции</value>
+  </data>
+  <data name="cargo" xml:space="preserve">
+    <value>товары</value>
+  </data>
+  <data name="CashCurrentFinancialInvestments" xml:space="preserve">
+    <value>Денежные средства и текущие финансовые инвестиции</value>
+  </data>
+  <data name="CharacteristicsOfCapital" xml:space="preserve">
+    <value>Характеристика капитала</value>
+  </data>
+  <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
+    <value>Классификация типов финансовой устойчивости исходя из степени ликвидности оборотных средств</value>
+  </data>
+  <data name="CoefficientOfBusinessActivity" xml:space="preserve">
+    <value>Коэффициент деловой активности</value>
+  </data>
+  <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
+    <value>Коэффициент концентрации привлеченного капитала</value>
+  </data>
+  <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
+    <value>Коэффициент эффективности использования финансовых ресурсов</value>
+  </data>
+  <data name="CoefficientOfFinancialDependence" xml:space="preserve">
+    <value>Коэффициент финансовой зависимости</value>
+  </data>
+  <data name="CoefficientOfFinancialStability" xml:space="preserve">
+    <value>Коэффициент финансовой стойкости</value>
+  </data>
+  <data name="CoefficientOfIndependence" xml:space="preserve">
+    <value>Коэффициент независимости (концентрация собственного капитала)</value>
+  </data>
+  <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
+    <value>Коэффициент длительности привлечения заемных средств</value>
+  </data>
+  <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
+    <value>Коэффициент маневренности собственного капитала</value>
+  </data>
+  <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
+    <value>Коэффициент использования собственных средств</value>
+  </data>
+  <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
+    <value>Коэффициент устойчивости экономического роста</value>
+  </data>
+  <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
+    <value>Коэффициент структуры долгосрочных вложений</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Название компании</value>
+  </data>
+  <data name="CompositionOfAssets" xml:space="preserve">
+    <value>Состав активов</value>
+  </data>
+  <data name="ComprehensiveIncome" xml:space="preserve">
+    <value>Совокупный доход</value>
+  </data>
+  <data name="CostOfGoodsSold" xml:space="preserve">
+    <value>Себестоимость реализованной продукции (товаров, работ, услуг)</value>
+  </data>
+  <data name="CostOfLeftFixedAssets" xml:space="preserve">
+    <value>Стоимость выбывших основных фондов</value>
+  </data>
+  <data name="CrisisFinancialStability" xml:space="preserve">
+    <value>Кризисная финансовая устойчивость</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>грн.</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Текущая</value>
+  </data>
+  <data name="CurrentAccountsPayableFor" xml:space="preserve">
+    <value>Текущая кредиторская задолженность за</value>
+  </data>
+  <data name="CurrentAssets" xml:space="preserve">
+    <value>Оборотные активы</value>
+  </data>
+  <data name="CurrentBiologicalAssets" xml:space="preserve">
+    <value>Текущие биологические активы</value>
+  </data>
+  <data name="CurrentFinancialInvestments" xml:space="preserve">
+    <value>Текущие финансовые инвестиции</value>
+  </data>
+  <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
+    <value>Текущие обязательства и обеспечение</value>
+  </data>
+  <data name="CurrentLiquidityFactor" xml:space="preserve">
+    <value>Коэффициент текущей ликвидности</value>
+  </data>
+  <data name="CurrentMobileAssets" xml:space="preserve">
+    <value>Оборотные (мобильные) средства</value>
+  </data>
+  <data name="currentPeriod" xml:space="preserve">
+    <value>отчетный период</value>
+  </data>
+  <data name="CurrentSupplies" xml:space="preserve">
+    <value>Текущие обеспечения</value>
+  </data>
+  <data name="CurrentYear" xml:space="preserve">
+    <value>Текущий год</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>дней</value>
+  </data>
+  <data name="DeductionsSocialEvents" xml:space="preserve">
+    <value>Отчисления на социальные мероприятия</value>
+  </data>
+  <data name="DeferredTaxLiabilities" xml:space="preserve">
+    <value>Отложенные налоговые обязательства</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
+    <value>Коэффициент износа основных средств на начало года</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
+    <value>Коэффициент износа основных средств на конец года</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>отклонение</value>
+  </data>
+  <data name="Deviation_" xml:space="preserve">
+    <value>Отклонение</value>
+  </data>
+  <data name="DisposalRate" xml:space="preserve">
+    <value>Коэффициент выбытия</value>
+  </data>
+  <data name="DividendsPerSimpleShare" xml:space="preserve">
+    <value>Дивиденды на одну простую акцию</value>
+  </data>
+  <data name="Dynamics" xml:space="preserve">
+    <value>Динамика</value>
+  </data>
+  <data name="ElementsOperatingCosts" xml:space="preserve">
+    <value>Элементы операционных расходов</value>
+  </data>
+  <data name="Equity" xml:space="preserve">
+    <value>Собственный капитал</value>
+  </data>
+  <data name="EraseData" xml:space="preserve">
+    <value>Стереть данные</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
+    <value>Оценка ликвидности баланса {0} до начала {1} года</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
+    <value>Оценка ликвидности баланса {0} к концу {1} года</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+    <value>Избыток (+), недостаток (-) собственных оборотных средств, долгосрочных и краткосрочных привлеченных средств для формирования запасов</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+    <value>Избыток (+), недостаток (-) собственных оборотных средств и долгосрочных привлеченных средств для формирования запасов</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+    <value>Избыток (+), недостаток (-) собственных оборотных средств для формирования запасов</value>
+  </data>
+  <data name="ExcessOfDebt" xml:space="preserve">
+    <value>Превышение задолженности</value>
+  </data>
+  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+    <value>Расходы (доход) по налогу на прибыль</value>
+  </data>
+  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+    <value>Факторный анализ фондоотдачи основных средств</value>
+  </data>
+  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+    <value>Факторы, влияющие на оборачиваемость оборотных средств</value>
+  </data>
+  <data name="FinancialExpenses" xml:space="preserve">
+    <value>Финансовые расходы</value>
+  </data>
+  <data name="FinancialResultBeforeTax" xml:space="preserve">
+    <value>Финансовый результат для налогообложения</value>
+  </data>
+  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+    <value>Финансовый результат от операционной деятельности</value>
+  </data>
+  <data name="FinancialResults" xml:space="preserve">
+    <value>Финансовые результаты</value>
+  </data>
+  <data name="finishedProducts" xml:space="preserve">
+    <value>готовая продукция</value>
+  </data>
+  <data name="FixedAssets" xml:space="preserve">
+    <value>Основные средства</value>
+  </data>
+  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+    <value>Коэффициент закрепления оборотных средств</value>
+  </data>
+  <data name="ForBills" xml:space="preserve">
+    <value>По векселям</value>
+  </data>
+  <data name="ForReportingPeriod" xml:space="preserve">
+    <value>За отчетный период</value>
+  </data>
+  <data name="ForSamePeriodLastYear" xml:space="preserve">
+    <value>За аналогичный период предыдущего года</value>
+  </data>
+  <data name="fromAccruedIncome" xml:space="preserve">
+    <value>с начисленных доходов</value>
+  </data>
+  <data name="FromInsurance" xml:space="preserve">
+    <value>По страхованию</value>
+  </data>
+  <data name="fromInternalSettlements" xml:space="preserve">
+    <value>по внутренним расчетам</value>
+  </data>
+  <data name="fromMoney" xml:space="preserve">
+    <value>денежных средств</value>
+  </data>
+  <data name="fromReceivables" xml:space="preserve">
+    <value>дебиторской задолженности</value>
+  </data>
+  <data name="fromTangibleAssets" xml:space="preserve">
+    <value>материальных ценностей</value>
+  </data>
+  <data name="FutureExpenses" xml:space="preserve">
+    <value>Расходы будущих периодов</value>
+  </data>
+  <data name="FutureIncome" xml:space="preserve">
+    <value>Доходы будущих периодов</value>
+  </data>
+  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+    <value>Общие показатели финансовой устойчивости</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Общая информация</value>
+  </data>
+  <data name="goodsWorksServices" xml:space="preserve">
+    <value>товары, работы, услуги</value>
+  </data>
+  <data name="Gross" xml:space="preserve">
+    <value>Валовой</value>
+  </data>
+  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+    <value>Валовая прибыль на 1 руб. реализованной продукции</value>
+  </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>темп роста</value>
+  </data>
+  <data name="HardToSellAssets" xml:space="preserve">
+    <value>Труднореализуемые активы (А4)</value>
+  </data>
+  <data name="in%OfBorrowedCapital" xml:space="preserve">
+    <value>То же в % к привлеченному капиталу</value>
+  </data>
+  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+    <value>в % к оборотным средствам</value>
+  </data>
+  <data name="in%ToEquity" xml:space="preserve">
+    <value>То же в % к собственному капиталу</value>
+  </data>
+  <data name="in%toSourcesOfCapital" xml:space="preserve">
+    <value>То же в % к источникам капитала</value>
+  </data>
+  <data name="includingDueTo" xml:space="preserve">
+    <value>в том числе за счет</value>
+  </data>
+  <data name="includingEliminated" xml:space="preserve">
+    <value>в т.ч. ликвидирован</value>
+  </data>
+  <data name="includingIncomeTax" xml:space="preserve">
+    <value>в том числе по налогу на прибыль</value>
+  </data>
+  <data name="includingNew" xml:space="preserve">
+    <value>в т.ч. новые</value>
+  </data>
+  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+    <value>Доход от участия в капитале</value>
+  </data>
+  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+    <value>Налог на прибыль, связанный с другим совокупным доходом</value>
+  </data>
+  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+    <value>Незавершенные капитальные инвестиции</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>Показатели</value>
+  </data>
+  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+    <value>Показатели деловой активности</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+    <value>Показатели эффективности использования нематериальных активов</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+    <value>Показатели эффективности использования оборотных средств</value>
+  </data>
+  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+    <value>Показатели финансовой стойкости</value>
+  </data>
+  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Показатели состояния и движения основных средств</value>
+  </data>
+  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+    <value>Показатели оборачиваемости оборотных средств</value>
+  </data>
+  <data name="initialCost" xml:space="preserve">
+    <value>первоначальная стоимость</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+    <value>Первоначальная стоимость основных средств на начало периода</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+    <value>Первоначальная стоимость основных средств на конец периода</value>
+  </data>
+  <data name="InLongTerm" xml:space="preserve">
+    <value>В долгосрочной перспективе</value>
+  </data>
+  <data name="InputData" xml:space="preserve">
+    <value>Входные данные</value>
+  </data>
+  <data name="InShortTerm" xml:space="preserve">
+    <value>В краткосрочной перспективе</value>
+  </data>
+  <data name="IntangibleAssets" xml:space="preserve">
+    <value>Нематериальные активы</value>
+  </data>
+  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+    <value>Интегральный показатель эффективности использования оборотных средств</value>
+  </data>
+  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+    <value>Интегральный показатель эффективности использования основных средств</value>
+  </data>
+  <data name="IntermediateCoverageRatio" xml:space="preserve">
+    <value>Промежуточный коэффициент покрытия</value>
+  </data>
+  <data name="InvestmentProperty" xml:space="preserve">
+    <value>Инвестиционная недвижимость</value>
+  </data>
+  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+    <value>Фондовооруженность труда одного среднесписочного работника</value>
+  </data>
+  <data name="LaborProductivity" xml:space="preserve">
+    <value>Производительность труда</value>
+  </data>
+  <data name="Liabilities" xml:space="preserve">
+    <value>Пассив</value>
+  </data>
+  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Обязательства, связанные с необоротными активами, удерживаемыми для продажи, и группами выбытия</value>
+  </data>
+  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+    <value>Обязательства, связанные с необоротными активами для продажи</value>
+  </data>
+  <data name="LineСode" xml:space="preserve">
+    <value>Код строки</value>
+  </data>
+  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+    <value>Показатели ликвидности баланса</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>Загружается, подождите...</value>
+  </data>
+  <data name="LongTermBankCredits" xml:space="preserve">
+    <value>Долгосрочные кредиты банков</value>
+  </data>
+  <data name="LongTermBiologicalAssets" xml:space="preserve">
+    <value>Долгосрочные биологические активы</value>
+  </data>
+  <data name="LongTermFinancialIvestments" xml:space="preserve">
+    <value>Долгосрочные финансовые инвестиции</value>
+  </data>
+  <data name="longTermLiabilities" xml:space="preserve">
+    <value>долгосрочными обязательствами</value>
+  </data>
+  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+    <value>Долгосрочные обязательства и обеспечение</value>
+  </data>
+  <data name="LongTermLiabilitiesP" xml:space="preserve">
+    <value>Долгосрочные пассивы (П3)</value>
+  </data>
+  <data name="LongTermLiabilities_" xml:space="preserve">
+    <value>Долгосрочные обязательства</value>
+  </data>
+  <data name="LongTermLoans" xml:space="preserve">
+    <value>Долгосрочные обеспечения</value>
+  </data>
+  <data name="LongTermReceivables" xml:space="preserve">
+    <value>Долгосрочная дебиторская задолженность</value>
+  </data>
+  <data name="loss" xml:space="preserve">
+    <value>ущерб</value>
+  </data>
+  <data name="LossesFromEquityParticipation" xml:space="preserve">
+    <value>Потери от участия в капитале</value>
+  </data>
+  <data name="MaterialCosts" xml:space="preserve">
+    <value>Материальные затраты</value>
+  </data>
+  <data name="materialValuesTurnover" xml:space="preserve">
+    <value>оборачиваемость материальных ценностей</value>
+  </data>
+  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+    <value>Деньги и их эквиваленты</value>
+  </data>
+  <data name="moneyTurnover" xml:space="preserve">
+    <value>оборачиваемость денежных средств</value>
+  </data>
+  <data name="MostLiquidAssets" xml:space="preserve">
+    <value>Наиболее ликвидные активы (А1)</value>
+  </data>
+  <data name="MostUrgentCommitments" xml:space="preserve">
+    <value>Наиболее срочные обязательства (П1)</value>
+  </data>
+  <data name="NetFinancialResult" xml:space="preserve">
+    <value>Чистый финансовый результат</value>
+  </data>
+  <data name="NetIncomeFromSales" xml:space="preserve">
+    <value>Чистый доход (выручка) от реализации</value>
+  </data>
+  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+    <value>Чистый доход от реализации продукции (товаров, работ, услуг)</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>Чистая прибыль</value>
+  </data>
+  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Чистая прибыль (убыток) на одну простую акцию</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NonCurrentAssets" xml:space="preserve">
+    <value>Внеоборотные активы</value>
+  </data>
+  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Необоротные активы, содержащиеся для продажи, и группы выбытия</value>
+  </data>
+  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+    <value>Необратимые (иммобилизованные) средства</value>
+  </data>
+  <data name="NormalFinancialStability" xml:space="preserve">
+    <value>Нормальная финансовая устойчивость</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>№ п/п</value>
+  </data>
+  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+    <value>Количество оборотов оборотных средств</value>
+  </data>
+  <data name="OneDaySalesRevenue" xml:space="preserve">
+    <value>Однодневная выручка от реализации</value>
+  </data>
+  <data name="onIssuedAdvances" xml:space="preserve">
+    <value>по выданным авансам</value>
+  </data>
+  <data name="onReceivedAdvances" xml:space="preserve">
+    <value>по полученным авансам</value>
+  </data>
+  <data name="OperatingCycleDuration" xml:space="preserve">
+    <value>Продолжительность операционного цикла</value>
+  </data>
+  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+    <value>Другой совокупный доход после налогообложения</value>
+  </data>
+  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+    <value>Другой совокупный доход к налогообложению</value>
+  </data>
+  <data name="OtherCurrentAssets" xml:space="preserve">
+    <value>Прочие оборотные активы</value>
+  </data>
+  <data name="OtherCurrentLiabilities" xml:space="preserve">
+    <value>Другие текущие обязательства</value>
+  </data>
+  <data name="OtherCurrentReceivables" xml:space="preserve">
+    <value>Другая текущая дебиторская задолженность</value>
+  </data>
+  <data name="OtherExpenses" xml:space="preserve">
+    <value>Прочие расходы</value>
+  </data>
+  <data name="OtherFinancialIncome" xml:space="preserve">
+    <value>Прочие финансовые доходы</value>
+  </data>
+  <data name="otherFinancialInvestments" xml:space="preserve">
+    <value>другие финансовые инвестиции</value>
+  </data>
+  <data name="OtherFixedAssets" xml:space="preserve">
+    <value>Прочие внеоборотные активы</value>
+  </data>
+  <data name="OtherIncome" xml:space="preserve">
+    <value>Другие доходы</value>
+  </data>
+  <data name="OtherLongTermLiabilities" xml:space="preserve">
+    <value>Прочие долгосрочные обязательства</value>
+  </data>
+  <data name="OtherOperatingExpenses" xml:space="preserve">
+    <value>Прочие операционные расходы</value>
+  </data>
+  <data name="OtherOperatingIncome" xml:space="preserve">
+    <value>Прочие операционные доходы</value>
+  </data>
+  <data name="OtherTotalIncome" xml:space="preserve">
+    <value>Другой совокупный доход</value>
+  </data>
+  <data name="OverallLiquidityRatio" xml:space="preserve">
+    <value>Общий показатель ликвидности</value>
+  </data>
+  <data name="OwnCurrentAssets" xml:space="preserve">
+    <value>Собственные оборотные средства</value>
+  </data>
+  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+    <value>Платежный избыток (+) или недостаток (-)</value>
+  </data>
+  <data name="people" xml:space="preserve">
+    <value>чел.</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="PermanentLiabilities" xml:space="preserve">
+    <value>Постоянные пассивы (П4)</value>
+  </data>
+  <data name="PostponedTaxAssets" xml:space="preserve">
+    <value>Отложенные налоговые активы</value>
+  </data>
+  <data name="PreCrisisFinancialStability" xml:space="preserve">
+    <value>Предкризисная финансовая устойчивость</value>
+  </data>
+  <data name="ProceedsFromSales" xml:space="preserve">
+    <value>Выручка от реализации продукции</value>
+  </data>
+  <data name="productionStocks" xml:space="preserve">
+    <value>производственные запасы</value>
+  </data>
+  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+    <value>Производительность труда одного среднесписочного работника</value>
+  </data>
+  <data name="profit" xml:space="preserve">
+    <value>прибыль</value>
+  </data>
+  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+    <value>Рентабельность оборотных средств</value>
+  </data>
+  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+    <value>Рентабельность основных средств</value>
+  </data>
+  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+    <value>Коэффициент выгодности предприятия</value>
+  </data>
+  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+    <value>Прибыль от операционной деятельности</value>
+  </data>
+  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+    <value>Прибыль (убыток) от прекращенной деятельности после налогообложения</value>
+  </data>
+  <data name="PromissoryNotesIssued" xml:space="preserve">
+    <value>Векселя изданы</value>
+  </data>
+  <data name="PromissoryNotesReceived" xml:space="preserve">
+    <value>Векселя получены</value>
+  </data>
+  <data name="QuickSellingAssets" xml:space="preserve">
+    <value>Быстрореализуемые активы (А2)</value>
+  </data>
+  <data name="RaisedCapital" xml:space="preserve">
+    <value>Привлеченный капитал</value>
+  </data>
+  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+    <value>Коэффициент структуры привлеченного капитала</value>
+  </data>
+  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+    <value>Коэффициент соотношения привлеченного и собственного капитала</value>
+  </data>
+  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+    <value>Коэффициент соотношения мобильных средств к иммобилизованным</value>
+  </data>
+  <data name="receivable" xml:space="preserve">
+    <value>кредиторской</value>
+  </data>
+  <data name="ReceivablesForProducts" xml:space="preserve">
+    <value>Дебиторская задолженность за продукцию, товары, работы, услуги</value>
+  </data>
+  <data name="receivablesTurnover" xml:space="preserve">
+    <value>оборачиваемость дебиторской задолженности</value>
+  </data>
+  <data name="ReceivedFixedAssets" xml:space="preserve">
+    <value>Поступило основные средства</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>Поступило за отчетный период</value>
+  </data>
+  <data name="RecoveryRate" xml:space="preserve">
+    <value>Коэффициент восстановления</value>
+  </data>
+  <data name="RegisteredСapital" xml:space="preserve">
+    <value>Зарегистрированный (долевой) капитал</value>
+  </data>
+  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+    <value>Увольнение (-), отсутствие оборотных активов (+) из-за изменения их оборачиваемости</value>
+  </data>
+  <data name="ReserveCapital" xml:space="preserve">
+    <value>Резервный капитал</value>
+  </data>
+  <data name="RetainedEarnings" xml:space="preserve">
+    <value>Нераспределенная прибыль (непокрытый убыток)</value>
+  </data>
+  <data name="RetiredFixedAssets" xml:space="preserve">
+    <value>Выведены из эксплуатации основные средства</value>
+  </data>
+  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+    <value>Период окупаемости собственного капитала</value>
+  </data>
+  <data name="ReturnOnFixedAssets" xml:space="preserve">
+    <value>Фондоотдача основных средств</value>
+  </data>
+  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+    <value>Фондоотдача нематериальных активов</value>
+  </data>
+  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+    <value>Дооценка (уценка) финансовых инструментов</value>
+  </data>
+  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+    <value>Дооценка (уценка) внеоборотных активов</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>выручки</value>
+  </data>
+  <data name="revolutions" xml:space="preserve">
+    <value>оборотов</value>
+  </data>
+  <data name="SalaryExpenses" xml:space="preserve">
+    <value>Расходы на оплату труда</value>
+  </data>
+  <data name="Samein%OfAssets" xml:space="preserve">
+    <value>То же в % к активам</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="SellingExpenses" xml:space="preserve">
+    <value>Расходы на сбыт</value>
+  </data>
+  <data name="Settlements" xml:space="preserve">
+    <value>Расчеты</value>
+  </data>
+  <data name="settlementsWithBudget" xml:space="preserve">
+    <value>расчетами с бюджетом</value>
+  </data>
+  <data name="settlementsWithInsurance" xml:space="preserve">
+    <value>расчетами по страхованию</value>
+  </data>
+  <data name="settlementsWithPayroll" xml:space="preserve">
+    <value>расчетами по оплате труда</value>
+  </data>
+  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+    <value>Доля другого совокупного дохода ассоциированных и совместных предприятий</value>
+  </data>
+  <data name="ShortTermBankCredits" xml:space="preserve">
+    <value>Краткосрочные кредиты банков</value>
+  </data>
+  <data name="ShortTermLiabilities" xml:space="preserve">
+    <value>Краткосрочные пассивы (П2)</value>
+  </data>
+  <data name="ShortTermLoans" xml:space="preserve">
+    <value>Краткосрочные кредиты</value>
+  </data>
+  <data name="SlowSellingAssets" xml:space="preserve">
+    <value>Медленно реализуемые активы (А3)</value>
+  </data>
+  <data name="SolvencyLossRatio" xml:space="preserve">
+    <value>Коэффициент утраты платежеспособности</value>
+  </data>
+  <data name="SolvencyRatios" xml:space="preserve">
+    <value>Показатели платежеспособности</value>
+  </data>
+  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+    <value>Коэффициент восстановления платежеспособности</value>
+  </data>
+  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+    <value>Источники формирования капитала</value>
+  </data>
+  <data name="StabilityType" xml:space="preserve">
+    <value>Тип стойкости</value>
+  </data>
+  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+    <value>Отчет о финансовых результатах (Отчет о совокупном доходе)</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Запасы</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Стереть данные</value>
+  </data>
+  <data name="StructureOfAccountsPayable" xml:space="preserve">
+    <value>Структура кредиторской задолженности</value>
+  </data>
+  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+    <value>Коэффициент годности на начало года</value>
+  </data>
+  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+    <value>Коэффициент годности на конец года</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="TangibleCurrentAssets" xml:space="preserve">
+    <value>Материальные оборотные средства</value>
+  </data>
+  <data name="Tangibles" xml:space="preserve">
+    <value>Материальные ценности</value>
+  </data>
+  <data name="TargetedFinancing" xml:space="preserve">
+    <value>Целевое финансирование</value>
+  </data>
+  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+    <value>Стоимость введенных в действие новых основных фондов</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>тыс.грн.</value>
+  </data>
+  <data name="times" xml:space="preserve">
+    <value>раз</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>вместе</value>
+  </data>
+  <data name="TotalAssets" xml:space="preserve">
+    <value>Всего капитала (активов)</value>
+  </data>
+  <data name="TotalCoverageRatio" xml:space="preserve">
+    <value>Общий коэффициент покрытия</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Совокупный доход</value>
+  </data>
+  <data name="TotalReturnOnAssets" xml:space="preserve">
+    <value>Общая капиталоотдача всего имущества</value>
+  </data>
+  <data name="TotalSection" xml:space="preserve">
+    <value>Всего по разделу</value>
+  </data>
+  <data name="TotalSourcesOfCapital" xml:space="preserve">
+    <value>Всего источников капитала</value>
+  </data>
+  <data name="TotalWorkingCapital" xml:space="preserve">
+    <value>Всего оборотных средств</value>
+  </data>
+  <data name="total_" xml:space="preserve">
+    <value>всего</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>Оборачиваемость</value>
+  </data>
+  <data name="TurnoverInSettlements" xml:space="preserve">
+    <value>Оборачиваемость средств в расчетах</value>
+  </data>
+  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+    <value>Оборачиваемость оборотных средств</value>
+  </data>
+  <data name="TurnoverOfEquity" xml:space="preserve">
+    <value>Оборачиваемость собственного капитала</value>
+  </data>
+  <data name="TurnoverOfInventories" xml:space="preserve">
+    <value>Оборачиваемость производственных запасов</value>
+  </data>
+  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+    <value>Оборачиваемость всего капитала</value>
+  </data>
+  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+    <value>Оборачиваемость оборотных средств</value>
+  </data>
+  <data name="TypesOfCurrentAssets" xml:space="preserve">
+    <value>Виды оборотных средств</value>
+  </data>
+  <data name="unfinishedProduction" xml:space="preserve">
+    <value>незавершенное производство</value>
+  </data>
+  <data name="UnpaidCapital" xml:space="preserve">
+    <value>Неоплаченный капитал</value>
+  </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>Загрузить из файла</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="wear" xml:space="preserve">
+    <value>износ</value>
+  </data>
+  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+    <value>которые учитываются по методу участия в капитале других предприятий</value>
+  </data>
+  <data name="WithAccruedIncome" xml:space="preserve">
+    <value>С начисленных доходов</value>
+  </data>
+  <data name="WithAdvances" xml:space="preserve">
+    <value>По авансам</value>
+  </data>
+  <data name="withBudget" xml:space="preserve">
+    <value>с бюджетом</value>
+  </data>
+  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+    <value>С бюджетом и внебюджетными фондами</value>
+  </data>
+  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+    <value>С покупателями или поставщиками</value>
+  </data>
+  <data name="WithdrawnCapital" xml:space="preserve">
+    <value>Изъятый капитал</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>Выбыло в отчетном периоде</value>
+  </data>
+  <data name="WithInternalCashSettlements" xml:space="preserve">
+    <value>Из внутренних расчетов</value>
+  </data>
+  <data name="WithLongTermLiabilities" xml:space="preserve">
+    <value>С долгосрочными обязательствами</value>
+  </data>
+  <data name="WithOther" xml:space="preserve">
+    <value>С другими</value>
+  </data>
+  <data name="WithParticipants" xml:space="preserve">
+    <value>С участниками</value>
+  </data>
+  <data name="WithPayroll" xml:space="preserve">
+    <value>По оплате труда</value>
+  </data>
+  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+    <value>Время оборота оборотных средств</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>год</value>
+  </data>
+  <data name="years" xml:space="preserve">
+    <value>годы</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+</root>

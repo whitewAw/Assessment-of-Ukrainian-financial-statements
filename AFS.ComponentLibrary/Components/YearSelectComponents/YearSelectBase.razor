@@ -1,0 +1,25 @@
+<RadzenDropDown TValue="int" Class="w-100"
+                Data=@YearList
+                @bind-Value=@MainModel.BaseYear />
+
+@code {
+    [Parameter]
+    public Action? FieldChanged {get; set;}
+    
+    protected List<int> YearList = new();
+
+    protected void FillYearList()
+    {
+        for (int firstYear = AFSConstraints.MinYear - 1, lastYear = AFSConstraints.MaxYear - 1; firstYear < lastYear; lastYear--)
+        {
+            YearList.Add(lastYear);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        FillYearList();
+        base.OnInitialized();
+    }
+}
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <!-- Preserve assemblies that are dynamically loaded -->
+  <assembly fullname="AFS" preserve="all" />
+  <assembly fullname="AFS.Core" preserve="all" />
+  <assembly fullname="AFS.ComponentLibrary" preserve="all" />
+  
+  <!-- Preserve Radzen components -->
+  <assembly fullname="Radzen.Blazor">
+    <type fullname="Radzen.*" preserve="all" />
+  </assembly>
+  
+  <!-- Preserve localization infrastructure -->
+  <assembly fullname="Microsoft.Extensions.Localization.Abstractions" preserve="all" />
+  <assembly fullname="Microsoft.Extensions.Localization" preserve="all" />
+  
+  <!-- Preserve resource types and properties -->
+  <assembly fullname="AFS.ComponentLibrary">
+    <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all">
+      <method signature="System.String get_Item(System.String)" preserve="all" />
+    </type>
+  </assembly>
+  
+  <!-- Preserve ChartDataItem and ChartDateTimeItem for Radzen chart reflection -->
+  <assembly fullname="AFS.Core">
+    <type fullname="AFS.Core.Models.ChartDataItem" preserve="all">
+      <property name="Item" />
+      <property name="Value" />
+    </type>
+    <type fullname="AFS.Core.Models.ChartDateTimeItem" preserve="all">
+      <property name="Date" />
+      <property name="Item" />
+      <property name="Value" />
+    </type>
+  </assembly>
+  
+  <!-- Preserve LocalStorage -->
+  <assembly fullname="Blazored.LocalStorage">
+    <type fullname="Blazored.LocalStorage.*" preserve="all" />
+  </assembly>
+</linker>

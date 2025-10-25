@@ -1,0 +1,92 @@
+﻿@inject IModelStorageHandler modelStorag
+@implements IAsyncDisposable
+
+<RadzenTabs TabPosition="0" RenderMode="TabRenderMode.Client" @ref="tabsRef">
+    <Tabs>
+        <RadzenTabsItem class="align-middle text-center" Text="@ResLoc["GeneralInformation"]">
+            <GeneralInformationComponent FieldChanged="@OnFieldChanged" />
+            <SaveLoadEraseComponent />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@ResLoc["AdditionalInfo"]">
+            <AdditionalInfoComponent FieldChanged="@OnFieldChanged" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@baseYearF1">
+            <Form1Component F1="@MainModel.F1Base" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@currentYearF1">
+            <Form1Component F1="@MainModel.F1Current" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@baseYearF2">
+            <Form2Component F2="@MainModel.F2Base" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@currentYearF2">
+            <Form2Component F2="@MainModel.F2Current" />
+        </RadzenTabsItem>
+    </Tabs>
+</RadzenTabs>
+
+@code
+{
+    private RadzenTabs? tabsRef;
+    private CancellationTokenSource? _cts;
+
+    private string currentYearF1 => $"{ResLoc["Balance"]} ({MainModel.CurrentYear})";
+
+    private string baseYearF1 => $"{ResLoc["Balance"]} ({MainModel.BaseYear})";
+
+    private string currentYearF2 => $"{ResLoc["StatementOfFinancialPerformance"]} ({MainModel.CurrentYear})";
+
+    private string baseYearF2 => $"{ResLoc["StatementOfFinancialPerformance"]} ({MainModel.BaseYear})";
+
+    protected override void OnInitialized()
+    {
+        _cts = new CancellationTokenSource();
+        MainModel.SubscribeOnChange(OnFieldChanged);
+        base.OnInitialized();
+    }
+
+    private async void OnFieldChanged()
+    {
+        try
+        {
+            // Use InvokeAsync to ensure we're on the correct synchronization context
+            await InvokeAsync(StateHasChanged);
+            await SaveModelToLocalStorageAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error in field change handler: {ex.Message}");
+        }
+    }
+
+    private async Task SaveModelToLocalStorageAsync()
+    {
+        if (_cts?.Token.IsCancellationRequested == false)
+        {
+            try
+            {
+                await modelStorag.WriteModelAsync(MainModel);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error saving model to local storage: {ex.Message}");
+            }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        MainModel.UnSubscribeOnChange(OnFieldChanged);
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+
+        await Task.CompletedTask;
+    }
+}

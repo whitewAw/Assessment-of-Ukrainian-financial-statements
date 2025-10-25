@@ -1,0 +1,44 @@
+<RadzenCard Style="width: 100%;" aria-label="@generalInfoLabel">
+    <h3 class="mb-3">@ResLoc["GeneralInformation"]</h3>
+
+    <div class="row mb-3">
+        <div class="col-md-3 col-lg-2 d-flex align-items-center">
+            <RadzenLabel Text="@ResLoc["CompanyName"]" Component="companyName" class="fw-semibold" />
+        </div>
+        <div class="col-md-9 col-lg-10">
+            <RadzenTextBox @bind-Value="@MainModel.CompanyName"
+                           MaxLength="100"
+                           Class="w-100"
+                           Name="companyName"
+                           Placeholder="@companyNamePlaceholder"
+                           aria-label="@ResLoc["CompanyName"]"
+                           aria-required="true" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3 col-lg-2 d-flex align-items-center">
+            <RadzenLabel Text="@ResLoc["BaseYear"]" Component="baseYear" class="fw-semibold" />
+        </div>
+        <div class="col-md-9 col-lg-10">
+            <YearSelectBase FieldChanged="@FieldChanged" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3 col-lg-2 d-flex align-items-center">
+            <RadzenLabel Text="@ResLoc["CurrentYear"]" Component="currentYear" class="fw-semibold" />
+        </div>
+        <div class="col-md-9 col-lg-10">
+            <YearSelectCurrent FieldChanged="@FieldChanged" />
+        </div>
+    </div>
+</RadzenCard>
+
+@code {
+    [Parameter]
+    public Action FieldChanged { get; set; } = () => { };
+
+    private string generalInfoLabel => ResLoc?["GeneralInformation"] ?? "General Information";
+    private string companyNamePlaceholder => ResLoc?["EnterCompanyName"] ?? "Enter company name";
+}

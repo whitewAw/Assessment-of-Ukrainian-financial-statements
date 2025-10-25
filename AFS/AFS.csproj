@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+		
+		<!-- Globalization Settings - Optimize for specific cultures -->
+		<InvariantGlobalization>false</InvariantGlobalization>
+		<BlazorWebAssemblyLoadAllGlobalizationData>false</BlazorWebAssemblyLoadAllGlobalizationData>
+		<BlazorIcuDataFileName>icudt.dat</BlazorIcuDataFileName>
+		
+		<!-- Performance Optimizations -->
+		<BlazorEnableCompression>true</BlazorEnableCompression>
+		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		
+		<!-- AOT Compilation -->
+		<RunAOTCompilation>true</RunAOTCompilation>
+		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
+		
+		<!-- Trimming Settings - Changed to partial for Blazor component compatibility -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>partial</TrimMode>
+		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IlcOptimizationPreference>Size</IlcOptimizationPreference>
+		
+		<!-- Additional Optimizations -->
+		<!-- Removed JsonSerializerIsReflectionEnabledByDefault - incompatible with Blazored.LocalStorage -->
+		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+		<InvariantTimezone>false</InvariantTimezone>
+		<WasmBuildNative>true</WasmBuildNative>
+		<WasmNativeStrip>true</WasmNativeStrip>
+		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
+		
+		<!-- Enable expression tree support for Radzen reflection -->
+		<IlcDisableReflection>false</IlcDisableReflection>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.10" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AFS.ComponentLibrary\AFS.ComponentLibrary.csproj" />
+		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="wwwroot\images\" />
+	</ItemGroup>
+	
+	<!-- Runtime directives for AOT compilation -->
+	<ItemGroup>
+		<RdXmlFile Include="rd.xml" />
+	</ItemGroup>
+	
+	<!-- Preserve Blazor components and framework assemblies from aggressive trimming -->
+	<ItemGroup>
+		<TrimmerRootAssembly Include="AFS" />
+		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+		<TrimmerRootAssembly Include="AFS.Core" />
+		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly" />
+		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.Web" />
+		<TrimmerRootAssembly Include="Radzen.Blazor" />
+	</ItemGroup>
+
+</Project>

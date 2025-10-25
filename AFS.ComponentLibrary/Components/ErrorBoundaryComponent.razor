@@ -1,0 +1,78 @@
+@using Microsoft.AspNetCore.Components.Web
+
+<ErrorBoundary @ref="errorBoundary">
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+    <ErrorContent Context="exception">
+        <div class="alert alert-danger m-3" role="alert">
+            <h4 class="alert-heading">
+                <span class="oi oi-warning" aria-hidden="true"></span>
+                @errorTitle
+            </h4>
+            <p>@errorMessage</p>
+
+            @if (ShowDetails)
+            {
+                <hr />
+                <details>
+                    <summary class="mb-2">@detailsText</summary>
+                    <pre class="bg-light p-2 rounded">
+                    <code>@exception.ToString()</code>
+         </pre>
+                </details>
+            }
+
+            <hr />
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" @onclick="Recover">
+                    <span class="oi oi-reload" aria-hidden="true"></span>
+                    @tryAgainText
+                </button>
+
+                @if (ShowHomeButton)
+                {
+                    <a href="" class="btn btn-secondary">
+                        <span class="oi oi-home" aria-hidden="true"></span>
+                        @goHomeText
+                    </a>
+                }
+            </div>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    private ErrorBoundary? errorBoundary;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool ShowDetails { get; set; } = false;
+
+    [Parameter]
+    public bool ShowHomeButton { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnError { get; set; }
+
+    private string errorTitle => ResLoc?["ErrorOccurred"] ?? "An Error Occurred";
+    private string errorMessage => ResLoc?["ErrorMessage"] ?? "Something went wrong. Please try again or return to the home page.";
+    private string detailsText => ResLoc?["TechnicalDetails"] ?? "Technical Details";
+    private string tryAgainText => ResLoc?["TryAgain"] ?? "Try Again";
+    private string goHomeText => ResLoc?["GoToHome"] ?? "Go to Home";
+
+    private void Recover()
+    {
+        errorBoundary?.Recover();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (OnError.HasDelegate)
+        {
+            await OnError.InvokeAsync();
+        }
+    }
+}

@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		
+		<!-- Performance Optimizations -->
+		<BlazorEnableCompression>true</BlazorEnableCompression>
+		
+		<!-- Trimming Support -->
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>partial</TrimMode>
+		
+		<!-- AOT Support -->
+		<PublishAot>false</PublishAot>
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <ApplicationDefinition Include="Resources\Resource.en.resx" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.10" />
+		<PackageReference Include="Radzen.Blazor" Version="8.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="wwwroot\PJSC_AZOVSTAL_IRON_AND_STEEL_WORKS_2019_2020.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\JsInterop.js">
+			<SubType>Code</SubType>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Resource.de.resx">
+		<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.es.resx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.fr.resx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.resx">
+		  <SubType>Designer</SubType>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.ru.resx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.ua.resx">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	
+	<!-- Preserve Resource class for localization -->
+	<ItemGroup>
+		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+	</ItemGroup>
+
+</Project>

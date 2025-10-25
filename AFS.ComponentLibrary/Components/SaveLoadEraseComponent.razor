@@ -1,0 +1,75 @@
+﻿@using AFS.Core.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Text
+@inject IModelExportImportHandler ExportImportHandler
+@inject JsInterop JsInterop
+@inject DialogService DialogService
+
+<div class="row mb-4 align-middle text-right">
+    <div class="col">
+        <RadzenButton Icon="save" BusyText="Saving ..." IsBusy=@isSave Click=@OnLoadClick Text="@ResLoc["SaveToFile"]" ButtonStyle="ButtonStyle.Success" />
+        <RadzenButton Icon="upload_file" BusyText="Uploading ..." IsBusy=@isUpload Click=@OnUploadClick Text="@ResLoc["UploadFromFile"]" ButtonStyle="ButtonStyle.Secondary" />
+        <RadzenButton Icon="delete_forever" BusyText="Erasing ..." IsBusy=@isErase Click=@OnEraseClick Text="@ResLoc["EraseData"]" ButtonStyle="ButtonStyle.Primary" />
+        <InputFile id="@filePickerId" accept="@Constraints.FileExtension" OnChange="@LoadFiles" hidden />
+    </div>
+</div>
+
+@code {
+
+    bool isSave;
+    bool isUpload;
+    bool isErase;
+
+    string filePickerId = "filePickerId";
+
+    async Task OnLoadClick()
+    {
+        isSave = true;
+        await ExportImportHandler.ExportAsync(MainModel);
+        isSave = false;
+    }
+
+    async Task OnUploadClick()
+    {
+        await JsInterop.TriggerClick(filePickerId);
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs file)
+    {
+        if (file.File.Size < Constraints.MaxFileSize)
+        {
+            isUpload = true;
+            UploadingDialog();
+            await Task.Delay(100);
+            using var stream = file.File.OpenReadStream();
+            AFSModel? model = await ExportImportHandler.ImportAsync(stream);
+            ExportImportHandler.InitializeModel(model);
+            DialogService.Close();
+            isUpload = false;
+        }
+    }
+
+    async Task OnEraseClick()
+    {
+        isErase = true;
+        var res = await DialogService.Confirm(ResLoc["AreYouSure"], ResLoc["EraseData"], new ConfirmOptions() { OkButtonText = ResLoc["Yes"], CancelButtonText = ResLoc["No"] });
+        if (res == true)
+        {
+            ExportImportHandler.InitializeModel(new());
+        }
+        isErase = false;
+    }
+
+    void UploadingDialog()
+    {
+        DialogService.Open("", ds =>
+            @<div>
+                <div class="row">
+                    <div class="col text-center p-5">
+                        <RadzenImage Path="images/community.svg" Style="display: block; width: 200px; margin-bottom: 40px;" />
+                        <b>@ResLoc["LoadingPleaseWait"]</b>
+                    </div>
+                </div>
+            </div>, new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = false });
+    }
+}
