@@ -1,0 +1,332 @@
+/* ========================================
+   RADZEN DARK THEME OVERRIDES
+   Complete fix for Radzen components in dark mode
+   ======================================== */
+
+/* Force all Radzen components to respect theme */
+[data-theme="dark"] .rz-datatable,
+[data-theme="dark"] .rz-grid,
+[data-theme="dark"] .rz-datatable-table,
+[data-theme="dark"] .rz-grid-table {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .rz-datatable-thead,
+[data-theme="dark"] .rz-grid-thead {
+    background-color: #2d2d2d !important;
+}
+
+    [data-theme="dark"] .rz-datatable-thead th,
+    [data-theme="dark"] .rz-grid-thead th {
+        background-color: #2d2d2d !important;
+        color: #e8e8e8 !important;
+        border-color: #4a4a4a !important;
+    }
+
+[data-theme="dark"] .rz-datatable-data tr,
+[data-theme="dark"] .rz-grid-data tr {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+}
+
+    [data-theme="dark"] .rz-datatable-data tr:hover,
+    [data-theme="dark"] .rz-grid-data tr:hover {
+        background-color: #2d2d2d !important;
+    }
+
+[data-theme="dark"] .rz-datatable-data td,
+[data-theme="dark"] .rz-grid-data td {
+    background-color: transparent !important;
+    color: #e8e8e8 !important;
+    border-color: #4a4a4a !important;
+}
+
+/* Radzen Tabs - COMPLETE FIX WITH ALL SELECTORS */
+[data-theme="dark"] .rz-tabview,
+[data-theme="dark"] .rz-tabview-panels,
+[data-theme="dark"] .rz-tabview-panel,
+[data-theme="dark"] .rz-tabview-panel-content {
+    background-color: #1a1a1a !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .rz-tabview-nav,
+[data-theme="dark"] .rz-tabview-nav-container,
+[data-theme="dark"] .rz-tabview-header {
+    background-color: #2d2d2d !important;
+    border-bottom-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .rz-tabview-nav-link,
+[data-theme="dark"] .rz-tabview-nav-item,
+[data-theme="dark"] .rz-tabview-nav-link-label {
+    color: #c0c0c0 !important;
+    background-color: #2d2d2d !important;
+}
+
+    [data-theme="dark"] .rz-tabview-nav-link:hover,
+    [data-theme="dark"] .rz-tabview-nav-item:hover {
+        color: #e8e8e8 !important;
+        background-color: #3a3a3a !important;
+    }
+
+    [data-theme="dark"] .rz-tabview-nav-link.rz-tabview-selected,
+    [data-theme="dark"] .rz-tabview-nav-item.rz-tabview-nav-item-selected,
+    [data-theme="dark"] .rz-tabview-nav-link[aria-selected="true"] {
+        color: #e8e8e8 !important;
+        background-color: #1a1a1a !important;
+        border-bottom-color: #1a1a1a !important;
+    }
+
+/* Radzen TabStrip (alternative component) */
+[data-theme="dark"] .rz-tabstrip,
+[data-theme="dark"] .rz-tabstrip-panels {
+    background-color: #1a1a1a !important;
+}
+
+[data-theme="dark"] .rz-tabstrip-nav {
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] .rz-tabstrip-nav-link {
+    background-color: #2d2d2d !important;
+    color: #c0c0c0 !important;
+}
+
+    [data-theme="dark"] .rz-tabstrip-nav-link:hover {
+        background-color: #3a3a3a !important;
+        color: #e8e8e8 !important;
+    }
+
+    [data-theme="dark"] .rz-tabstrip-nav-link.rz-state-active {
+        background-color: #1a1a1a !important;
+        color: #e8e8e8 !important;
+    }
+
+/* Additional specific selectors for tab headers */
+[data-theme="dark"] .rz-tabview > ul,
+[data-theme="dark"] .rz-tabview-nav > ul {
+    background-color: #2d2d2d !important;
+}
+
+    [data-theme="dark"] .rz-tabview > ul > li,
+    [data-theme="dark"] .rz-tabview-nav > ul > li {
+        background-color: #2d2d2d !important;
+    }
+
+        [data-theme="dark"] .rz-tabview > ul > li > a,
+        [data-theme="dark"] .rz-tabview-nav > ul > li > a {
+            background-color: #2d2d2d !important;
+            color: #c0c0c0 !important;
+        }
+
+            [data-theme="dark"] .rz-tabview > ul > li > a:hover {
+                background-color: #3a3a3a !important;
+                color: #e8e8e8 !important;
+            }
+
+        [data-theme="dark"] .rz-tabview > ul > li.rz-state-active > a,
+        [data-theme="dark"] .rz-tabview-nav > ul > li.rz-state-active > a {
+            background-color: #1a1a1a !important;
+            color: #e8e8e8 !important;
+        }
+
+/* Force white cards in dark mode to be dark */
+[data-theme="dark"] .card,
+[data-theme="dark"] .rz-card {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+    border-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .card-header,
+[data-theme="dark"] .rz-card-header {
+    background-color: #2d2d2d !important;
+    color: #e8e8e8 !important;
+    border-bottom-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .card-body,
+[data-theme="dark"] .rz-card-body {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+}
+
+/* Radzen Panel */
+[data-theme="dark"] .rz-panel,
+[data-theme="dark"] .rz-panel-content {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+    border-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .rz-panel-titlebar {
+    background-color: #2d2d2d !important;
+    color: #e8e8e8 !important;
+    border-bottom-color: #4a4a4a !important;
+}
+
+/* Radzen Forms */
+[data-theme="dark"] .rz-textbox,
+[data-theme="dark"] .rz-numeric,
+[data-theme="dark"] .rz-datepicker,
+[data-theme="dark"] .rz-dropdown {
+    background-color: #2d2d2d !important;
+    color: #e8e8e8 !important;
+    border-color: #4a4a4a !important;
+}
+
+    [data-theme="dark"] .rz-textbox:focus,
+    [data-theme="dark"] .rz-numeric:focus,
+    [data-theme="dark"] .rz-datepicker:focus,
+    [data-theme="dark"] .rz-dropdown:focus {
+        background-color: #2d2d2d !important;
+        border-color: #5da3db !important;
+        box-shadow: 0 0 0 0.2rem rgba(93, 163, 219, 0.25) !important;
+    }
+
+/* Radzen Dialog */
+[data-theme="dark"] .rz-dialog,
+[data-theme="dark"] .rz-dialog-content {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .rz-dialog-titlebar {
+    background-color: #2d2d2d !important;
+    color: #e8e8e8 !important;
+    border-bottom-color: #4a4a4a !important;
+}
+
+/* Radzen Dropdown Panel */
+[data-theme="dark"] .rz-dropdown-panel,
+[data-theme="dark"] .rz-dropdown-items-wrapper {
+    background-color: #242424 !important;
+    border-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .rz-dropdown-item {
+    color: #e8e8e8 !important;
+}
+
+    [data-theme="dark"] .rz-dropdown-item:hover {
+        background-color: #2d2d2d !important;
+    }
+
+/* Radzen Calendar */
+[data-theme="dark"] .rz-calendar,
+[data-theme="dark"] .rz-calendar-panel {
+    background-color: #242424 !important;
+    color: #e8e8e8 !important;
+    border-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .rz-calendar-header {
+    background-color: #2d2d2d !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .rz-calendar-day {
+    color: #e8e8e8 !important;
+}
+
+    [data-theme="dark"] .rz-calendar-day:hover {
+        background-color: #2d2d2d !important;
+    }
+
+/* Ensure all text in Radzen components is visible */
+[data-theme="dark"] .rz-datatable *,
+[data-theme="dark"] .rz-grid *,
+[data-theme="dark"] .rz-tabview *,
+[data-theme="dark"] .rz-panel *,
+[data-theme="dark"] .rz-card * {
+    color: #e8e8e8;
+}
+
+/* Nuclear option - override ANY inline white/light background */
+[data-theme="dark"] [style*="background: white"],
+[data-theme="dark"] [style*="background: #fff"],
+[data-theme="dark"] [style*="background: #ffffff"],
+[data-theme="dark"] [style*="background:white"],
+[data-theme="dark"] [style*="background:#fff"],
+[data-theme="dark"] [style*="background:#ffffff"],
+[data-theme="dark"] [style*="background-color: white"],
+[data-theme="dark"] [style*="background-color: #fff"],
+[data-theme="dark"] [style*="background-color: #ffffff"],
+[data-theme="dark"] [style*="background-color:white"],
+[data-theme="dark"] [style*="background-color:#fff"],
+[data-theme="dark"] [style*="background-color:#ffffff"] {
+    background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+}
+
+/* Fix for light gray backgrounds (like #f0f0f0, #e0e0e0, etc) */
+[data-theme="dark"] [style*="background: #f"],
+[data-theme="dark"] [style*="background: #e"],
+[data-theme="dark"] [style*="background: #d"],
+[data-theme="dark"] [style*="background-color: #f"],
+[data-theme="dark"] [style*="background-color: #e"],
+[data-theme="dark"] [style*="background-color: #d"] {
+    background: #2d2d2d !important;
+    background-color: #2d2d2d !important;
+}
+
+/* Specific fix for light gray (#e8e8e8, #eeeeee, #f5f5f5, etc) */
+[data-theme="dark"] [style*="background-color: rgb(232"],
+[data-theme="dark"] [style*="background-color: rgb(238"],
+[data-theme="dark"] [style*="background-color: rgb(245"],
+[data-theme="dark"] [style*="background-color: rgb(240"],
+[data-theme="dark"] [style*="background-color: rgb(248"],
+[data-theme="dark"] [style*="background-color: rgb(250"],
+[data-theme="dark"] [style*="background-color: rgb(255"] {
+    background-color: #2d2d2d !important;
+}
+
+/* Fix for rgba light backgrounds */
+[data-theme="dark"] [style*="background-color: rgba(255"],
+[data-theme="dark"] [style*="background-color: rgba(240"],
+[data-theme="dark"] [style*="background-color: rgba(250"] {
+    background-color: #2d2d2d !important;
+}
+
+/* Radzen Button */
+.rz-button {
+    background-color: var(--button-primary) !important;
+    border-color: var(--button-primary) !important;
+    color: #ffffff !important;
+}
+
+    .rz-button:hover {
+        background-color: var(--button-primary-hover) !important;
+        color: #ffffff !important;
+    }
+
+.rz-button-secondary {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Force white text on all Radzen buttons in dark mode */
+[data-theme="dark"] .rz-button,
+[data-theme="dark"] .rz-button-primary,
+[data-theme="dark"] .rz-button-info,
+[data-theme="dark"] .rz-button-success,
+[data-theme="dark"] .rz-button-warning,
+[data-theme="dark"] .rz-button-danger,
+[data-theme="dark"] button.rz-button {
+    color: #ffffff !important;
+    background-color: var(--button-primary) !important;
+}
+
+    [data-theme="dark"] .rz-button:hover,
+    [data-theme="dark"] .rz-button-primary:hover {
+        color: #ffffff !important;
+        background-color: var(--button-primary-hover) !important;
+    }
+
+    /* Ensure button text is always visible */
+    [data-theme="dark"] .rz-button span,
+    [data-theme="dark"] .rz-button-text {
+        color: #ffffff !important;
+    }

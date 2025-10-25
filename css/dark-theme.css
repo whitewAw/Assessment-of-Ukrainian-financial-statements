@@ -1,0 +1,756 @@
+/* ========================================
+   DARK THEME STYLES
+   Complete Dark Mode Implementation for UFIN
+   ======================================== */
+
+/* ========================================
+   CSS VARIABLES FOR THEMING
+   ======================================== */
+
+:root {
+    /* Light Theme Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #868e96;
+    --border-color: #dee2e6;
+    --link-color: #0071c1;
+    --link-hover: #005a9c;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --sidebar-bg-start: rgb(5, 39, 103);
+    --sidebar-bg-end: #3a0647;
+    --header-bg: #f7f7f7;
+    --header-border: #d6d5d5;
+    --button-primary: #1b6ec2;
+    --button-primary-hover: #1861ac;
+    --success-color: #26b050;
+    --error-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+}
+
+/* Dark Theme Colors */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3a3a3a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #c0c0c0;
+    --text-muted: #999999;
+    --border-color: #4a4a4a;
+    --link-color: #6db3e8;
+    --link-hover: #8ec5ef;
+    --card-bg: #242424;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    --input-bg: #2d2d2d;
+    --input-border: #4a4a4a;
+    --sidebar-bg-start: #1a1f3a;
+    --sidebar-bg-end: #2d1a40;
+    --header-bg: #2d2d2d;
+    --header-border: #4a4a4a;
+    --button-primary: #5da3db;
+    --button-primary-hover: #7bb8e5;
+    --success-color: #4caf50;
+    --error-color: #f44336;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+}
+
+/* Auto Dark Mode based on system preference */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --bg-tertiary: #3a3a3a;
+        --text-primary: #e8e8e8;
+        --text-secondary: #c0c0c0;
+        --text-muted: #999999;
+        --border-color: #4a4a4a;
+        --link-color: #6db3e8;
+        --link-hover: #8ec5ef;
+        --card-bg: #242424;
+        --card-shadow: rgba(0, 0, 0, 0.5);
+        --input-bg: #2d2d2d;
+        --input-border: #4a4a4a;
+        --sidebar-bg-start: #1a1f3a;
+        --sidebar-bg-end: #2d1a40;
+        --header-bg: #2d2d2d;
+        --header-border: #4a4a4a;
+        --button-primary: #5da3db;
+        --button-primary-hover: #7bb8e5;
+        --success-color: #4caf50;
+        --error-color: #f44336;
+        --warning-color: #ff9800;
+        --info-color: #2196f3;
+    }
+}
+
+/* ========================================
+   BASE THEME APPLICATION
+   ======================================== */
+
+html, body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================
+   LAYOUT COMPONENTS
+   ======================================== */
+
+.page {
+    background-color: var(--bg-primary);
+}
+
+.sidebar {
+    background-image: linear-gradient(180deg, var(--sidebar-bg-start) 0%, var(--sidebar-bg-end) 70%);
+}
+
+.top-row {
+    background-color: var(--header-bg);
+    border-bottom-color: var(--header-border);
+}
+
+.content {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+main {
+    background-color: var(--bg-primary) !important;
+}
+
+article {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary) !important;
+}
+
+p, span, div, label, small {
+    color: var(--text-primary);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+/* ========================================
+   LINKS & BUTTONS
+   ======================================== */
+
+a {
+    color: var(--link-color);
+}
+
+    a:hover {
+        color: var(--link-hover);
+    }
+
+.btn-primary {
+    background-color: var(--button-primary) !important;
+    border-color: var(--button-primary) !important;
+    color: #ffffff !important;
+}
+
+    .btn-primary:hover {
+        background-color: var(--button-primary-hover) !important;
+        border-color: var(--button-primary-hover) !important;
+        color: #ffffff !important;
+    }
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+    .btn-secondary:hover {
+        background-color: var(--bg-secondary);
+    }
+
+.btn-link {
+    color: var(--link-color);
+}
+
+    .btn-link:hover {
+        color: var(--link-hover);
+    }
+
+/* Ensure all buttons have proper contrast */
+button, .btn {
+    color: #ffffff !important;
+}
+
+    button:hover, .btn:hover {
+        color: #ffffff !important;
+    }
+
+/* Radzen Buttons - Fix contrast */
+.rz-button {
+    color: #ffffff !important;
+}
+
+    .rz-button:hover {
+        color: #ffffff !important;
+    }
+
+/* Fix button text contrast in light mode */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .rz-button-primary {
+    color: #ffffff !important;
+}
+
+/* Fix button text contrast in dark mode */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .rz-button,
+[data-theme="dark"] .rz-button-primary {
+    background-color: var(--button-primary) !important;
+    color: #ffffff !important;
+    border-color: var(--button-primary) !important;
+}
+
+    [data-theme="dark"] .btn-primary:hover,
+    [data-theme="dark"] .rz-button:hover,
+    [data-theme="dark"] .rz-button-primary:hover {
+        background-color: var(--button-primary-hover) !important;
+        color: #ffffff !important;
+    }
+
+/* ========================================
+   FORMS & INPUTS
+   ======================================== */
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--input-border) !important;
+}
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        background-color: var(--input-bg) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--button-primary) !important;
+        box-shadow: 0 0 0 0.2rem rgba(93, 163, 219, 0.25) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--text-muted) !important;
+    }
+
+label {
+    color: var(--text-primary) !important;
+}
+
+.form-control {
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--input-border) !important;
+}
+
+    .form-control:focus {
+        background-color: var(--input-bg) !important;
+        color: var(--text-primary) !important;
+    }
+
+.form-select {
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--input-border) !important;
+}
+
+/* ========================================
+   CARDS & PANELS
+   ======================================== */
+
+.card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 2px 4px var(--card-shadow);
+    color: var(--text-primary) !important;
+}
+
+.card-header {
+    background-color: var(--bg-secondary) !important;
+    border-bottom-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.card-body {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.card-footer {
+    background-color: var(--bg-secondary) !important;
+    border-top-color: var(--border-color) !important;
+}
+
+/* ========================================
+   TABLES - COMPREHENSIVE DARK MODE FIX
+   ======================================== */
+
+table {
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+    background-color: var(--card-bg) !important;
+}
+
+.table {
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+    background-color: var(--card-bg) !important;
+}
+
+    .table thead th {
+        background-color: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+
+    .table tbody tr {
+        background-color: var(--card-bg) !important;
+        border-color: var(--border-color) !important;
+        color: var(--text-primary) !important;
+    }
+
+        .table tbody tr:hover {
+            background-color: var(--bg-secondary) !important;
+        }
+
+    .table tbody td {
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-secondary) !important;
+}
+
+.table-bordered {
+    border-color: var(--border-color) !important;
+}
+
+    .table-bordered th,
+    .table-bordered td {
+        border-color: var(--border-color) !important;
+        color: var(--text-primary) !important;
+    }
+
+/* Force table cells to use theme colors */
+[data-theme="dark"] table td,
+[data-theme="dark"] table th {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+
+.nav-item a {
+    color: var(--text-secondary);
+}
+
+    .nav-item a:hover {
+        color: var(--text-primary);
+    }
+
+    .nav-item a.active {
+        color: #ffffff;
+    }
+
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+/* ========================================
+   RADZEN COMPONENTS - ENHANCED DARK MODE
+   ======================================== */
+
+/* Radzen Dialog */
+.rz-dialog {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.rz-dialog-titlebar {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.rz-dialog-content {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Radzen DataGrid */
+.rz-datatable,
+.rz-grid {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.rz-datatable-header,
+.rz-grid-header {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.rz-datatable-data,
+.rz-grid-data {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+    .rz-datatable-data tr:hover,
+    .rz-grid-data tr:hover {
+        background-color: var(--bg-secondary) !important;
+    }
+
+    .rz-datatable-data td,
+    .rz-grid-data td {
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+
+/* Radzen Tabs */
+.rz-tabview,
+.rz-tabview-panels,
+.rz-tabview-panel {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.rz-tabview-nav {
+    background-color: var(--bg-secondary) !important;
+}
+
+.rz-tabview-nav-link {
+    color: var(--text-secondary) !important;
+}
+
+    .rz-tabview-nav-link:hover {
+        color: var(--text-primary) !important;
+        background-color: var(--bg-tertiary) !important;
+    }
+
+    .rz-tabview-nav-link.rz-tabview-selected {
+        color: var(--text-primary) !important;
+        background-color: var(--card-bg) !important;
+    }
+
+/* Radzen Chart */
+.rz-chart {
+    background-color: var(--card-bg) !important;
+}
+
+/* Radzen Button */
+.rz-button {
+    background-color: var(--button-primary) !important;
+    border-color: var(--button-primary) !important;
+    color: #ffffff !important;
+}
+
+    .rz-button:hover {
+        background-color: var(--button-primary-hover) !important;
+    }
+
+.rz-button-secondary {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Radzen Dropdown */
+.rz-dropdown {
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--input-border) !important;
+}
+
+.rz-dropdown-panel {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.rz-dropdown-item {
+    color: var(--text-primary) !important;
+}
+
+    .rz-dropdown-item:hover {
+        background-color: var(--bg-secondary) !important;
+    }
+
+/* Radzen Checkbox */
+.rz-chkbox-box {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+}
+
+/* Radzen RadioButton */
+.rz-radiobutton-box {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+}
+
+/* ========================================
+   ALERTS & NOTIFICATIONS
+   ======================================== */
+
+.alert {
+    border-color: var(--border-color);
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.alert-warning {
+    background-color: rgba(255, 152, 0, 0.2);
+    color: var(--warning-color);
+    border-color: var(--warning-color);
+}
+
+.alert-info {
+    background-color: rgba(33, 150, 243, 0.2);
+    color: var(--info-color);
+    border-color: var(--info-color);
+}
+
+/* ========================================
+   MODALS
+   ======================================== */
+
+.modal-content {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.modal-header {
+    background-color: var(--bg-secondary) !important;
+    border-bottom-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.modal-body {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.modal-footer {
+    background-color: var(--bg-secondary) !important;
+    border-top-color: var(--border-color) !important;
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+======================================== */
+
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+    [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+        background: var(--border-color);
+    }
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+    border-top: 1px solid var(--border-color);
+}
+
+    footer a {
+        color: var(--link-color) !important;
+    }
+
+        footer a:hover {
+            color: var(--link-hover) !important;
+        }
+
+    footer small {
+        color: var(--text-secondary) !important;
+    }
+
+/* Ensure footer bg-light class is overridden */
+[data-theme="dark"] footer.bg-light {
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] footer .text-dark {
+    color: #e8e8e8 !important;
+}
+
+/* ========================================
+   CODE BLOCKS
+   ======================================== */
+
+code {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+pre {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* ========================================
+   BADGES
+   ======================================== */
+
+.badge {
+    color: #ffffff;
+}
+
+.badge-primary {
+    background-color: var(--button-primary);
+}
+
+.badge-secondary {
+    background-color: var(--text-secondary);
+}
+
+.badge-success {
+    background-color: var(--success-color);
+}
+
+.badge-danger {
+    background-color: var(--error-color);
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+}
+
+.badge-info {
+    background-color: var(--info-color);
+}
+
+/* ========================================
+   LOADING SPINNER
+   ======================================== */
+
+.spinner-border {
+    color: var(--button-primary);
+}
+
+.loading-text {
+    color: var(--text-muted);
+}
+
+/* ========================================
+   THEME TOGGLE BUTTON - FIXED ICON DISPLAY
+   ======================================== */
+
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--button-primary);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+    .theme-toggle svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+    .theme-toggle:hover {
+        background-color: var(--button-primary-hover);
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px var(--card-shadow);
+    }
+
+    .theme-toggle:active {
+        transform: scale(0.95);
+    }
+
+    .theme-toggle:focus {
+        outline: 2px solid var(--button-primary);
+        outline-offset: 2px;
+    }
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+    }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+}

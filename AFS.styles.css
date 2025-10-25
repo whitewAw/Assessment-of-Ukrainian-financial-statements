@@ -1,0 +1,193 @@
+@import '_content/AFS.ComponentLibrary/AFS.ComponentLibrary.a0d3ncds7b.bundle.scp.css';
+
+/* /Shared/MainLayout.razor.rz.scp.css */
+/* ========================================
+   COMPONENT-SPECIFIC STYLES
+   (Critical styles moved to index.html)
+   ======================================== */
+
+.top-row[b-hfn6yell0p]  a,
+.top-row[b-hfn6yell0p]  .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
+
+    .top-row[b-hfn6yell0p]  a:hover,
+    .top-row[b-hfn6yell0p]  .btn-link:hover {
+     text-decoration: underline;
+    }
+
+    .top-row[b-hfn6yell0p]  a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 640.98px) {
+    .sidebar[b-hfn6yell0p] {
+        max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .content[b-hfn6yell0p] {
+        padding: 0.5rem !important;
+    }
+
+    .top-row:not(.auth)[b-hfn6yell0p] {
+        padding: 0.5rem;
+  }
+
+    .top-row.auth[b-hfn6yell0p] {
+        justify-content: space-between;
+    }
+
+    .top-row[b-hfn6yell0p]  a,
+    .top-row[b-hfn6yell0p]  .btn-link {
+        margin-left: 0;
+        padding: 0.5rem;
+    }
+
+    footer[b-hfn6yell0p] {
+        font-size: 0.75rem;
+      padding: 0.5rem !important;
+    }
+
+   footer .p-3[b-hfn6yell0p] {
+            padding: 0.5rem !important;
+        }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .sidebar[b-hfn6yell0p] {
+        width: 200px;
+        overflow-y: auto;
+    }
+
+    .top-row[b-hfn6yell0p],
+    article[b-hfn6yell0p] {
+        padding-left: 1rem !important;
+ padding-right: 1rem !important;
+    }
+}
+
+@media (min-width: 1025px) {
+    .sidebar[b-hfn6yell0p] {
+        overflow-y: auto;
+    }
+
+ .top-row.auth[b-hfn6yell0p]  a:first-child {
+        flex: 1;
+     text-align: right;
+        width: 0;
+ }
+
+    .top-row[b-hfn6yell0p],
+    article[b-hfn6yell0p] {
+      padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+
+@media (min-width: 1441px) {
+    .sidebar[b-hfn6yell0p] {
+        width: 280px;
+    }
+
+    .top-row[b-hfn6yell0p],
+    article[b-hfn6yell0p] {
+        padding-left: 2.5rem !important;
+        padding-right: 2rem !important;
+    }
+}
+
+/* ========================================
+   LANDSCAPE ORIENTATION (MOBILE)
+   ======================================== */
+
+@media (max-width: 896px) and (orientation: landscape) {
+    .sidebar[b-hfn6yell0p] {
+        width: 180px;
+        font-size: 0.875rem;
+    }
+
+    .top-row[b-hfn6yell0p] {
+ height: 3rem;
+    }
+
+    .content[b-hfn6yell0p] {
+        padding: 0.5rem !important;
+    }
+}
+
+/* ========================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ======================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    .top-row[b-hfn6yell0p]  a,
+ .top-row[b-hfn6yell0p]  button,
+    .top-row[b-hfn6yell0p]  .btn-link {
+        min-height: 44px;
+        display: inline-flex;
+     align-items: center;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.sidebar[b-hfn6yell0p]  a:focus-visible,
+.top-row[b-hfn6yell0p]  a:focus-visible {
+    outline: 2px solid #0071c1;
+    outline-offset: 2px;
+}
+
+.skip-to-content[b-hfn6yell0p] {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #0071c1;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+    .skip-to-content:focus[b-hfn6yell0p] {
+        top: 0;
+    }
+
+/* ========================================
+   DARK MODE ENHANCEMENTS
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+    .top-row[b-hfn6yell0p]  a {
+ color: #90caf9;
+    }
+}
+
+/* ========================================
+   PRINT OPTIMIZATION
+   ======================================== */
+
+@media print {
+    .sidebar[b-hfn6yell0p],
+ .top-row[b-hfn6yell0p] {
+        display: none !important;
+    }
+
+    .page[b-hfn6yell0p] {
+     display: block;
+  }
+
+    main[b-hfn6yell0p] {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+}
