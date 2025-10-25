@@ -393,85 +393,41 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" />
+    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" crossorigin="anonymous" />
     <link rel="preload" href="css/bootstrap/bootstrap.min.css" as="style" />
+    <link rel="preload" href="css/critical.css" as="style" />
     <link rel="preload" href="css/app.css" as="style" />
-    <link rel="modulepreload" href="_framework/blazor.webassembly.js" />
+
+    <!-- Prefetch key components -->
+    <link rel="prefetch" href="js/utils.js" as="script" />
+    <link rel="prefetch" href="js/app.js" as="script" />
+    <link rel="prefetch" href="css/dark-theme.css" as="style" />
 
     <!-- Stylesheets with optimized loading -->
+    <!-- Critical CSS first (inline or first link) -->
+    <link href="css/critical.css" rel="stylesheet" />
+
+    <!-- Essential styles -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
-    <link href="css/mobile-responsive.css" rel="stylesheet" />
-    <link href="AFS.styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css" />
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css" />
 
-    <!-- Mobile-Specific Styles -->
-    <style>
-        /* Mobile-Optimized Loading Spinner */
-        @media (max-width: 767px) {
-            #app .spinner-border {
-                width: 2.5rem !important;
-                height: 2.5rem !important;
-            }
+    <!-- Progressive enhancement styles (can load later) -->
+    <link href="css/dark-theme.css" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link href="css/radzen-dark-theme.css" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link href="AFS.styles.css" rel="stylesheet" media="print" onload="this.media='all'" />
 
-            #app .loading-text {
-                font-size: 0.875rem;
-            }
+    <!-- Radzen styles -->
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css" media="print" onload="this.media='all'" />
 
-            .vh-100 {
-                min-height: -webkit-fill-available;
-            }
-        }
-
-        /* Touch-Friendly Elements */
-        body {
-            -webkit-tap-highlight-color: rgba(81, 43, 212, 0.3);
-            -webkit-touch-callout: none;
-            touch-action: manipulation;
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        /* Prevent Mobile Safari Bottom Bar Overlap */
-        body {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Enhanced Error UI for Mobile */
-        #blazor-error-ui {
-            padding: 1rem;
-            font-size: 0.875rem;
-        }
-
-        @media (max-width: 575px) {
-            #blazor-error-ui {
-                flex-direction: column !important;
-                text-align: center;
-            }
-
-                #blazor-error-ui .reload {
-                    margin: 0.5rem 0 !important;
-                }
-        }
-
-        /* Improve Touch Targets */
-        a, button, input, select, textarea {
-            touch-action: manipulation;
-        }
-
-        /* Loading State Optimization */
-        #app {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-        }
-    </style>
+    <!-- Fallback for browsers that don't support media queries -->
+    <noscript>
+        <link href="css/dark-theme.css" rel="stylesheet" />
+        <link href="css/radzen-dark-theme.css" rel="stylesheet" />
+        <link href="AFS.styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css" />
+        <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css" />
+    </noscript>
 
     <!-- PWA Manifest -->
     <link href="manifest.json" rel="manifest" />
@@ -500,12 +456,29 @@
 
 <body>
     <div id="app">
+        <!-- Static content renders immediately (no Blazor needed) -->
         <div class="d-flex align-items-center justify-content-center vh-100">
-            <div class="text-center px-3">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div class="text-center px-3" style="max-width: 600px;">
+                <!-- Immediate skeleton content -->
+                <div class="mb-4">
+                    <h1 class="display-4" style="color: #512BD4; font-weight: 600;">UFIN</h1>
+                    <h2 class="h5 text-muted">Financial Analysis Tool</h2>
+                </div>
+
+                <!-- Animated spinner -->
+                <div class="spinner-border text-primary" role="status" aria-label="Loading">
                     <span class="visually-hidden">Loading UFIN Financial Analysis Tool...</span>
                 </div>
-                <p class="mt-3 text-muted loading-text">Loading Financial Analysis Tool...</p>
+                <p class="mt-3 text-muted loading-text">Loading application...</p>
+
+                <!-- Progress hint -->
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <span id="load-progress">Initializing</span>
+                        <span class="loading-dots"></span>
+                    </small>
+                </div>
+
                 <noscript>
                     <p class="text-danger mt-3">
                         <strong>JavaScript Required:</strong> This application requires JavaScript to run.
@@ -526,127 +499,41 @@
 
     <!-- Blazor WebAssembly script -->
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script>
-        // Mobile Detection and Optimization
-        (function () {
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-            // Add mobile class to body
-            if (isMobile) {
-                document.body.classList.add('mobile-device');
-            }
+    <!-- Utilities (MUST load first!) -->
+    <script src="js/utils.js"></script>
 
-            // iOS specific optimizations
-            if (isIOS) {
-                document.body.classList.add('ios-device');
+    <!-- Mobile Detection & Optimization -->
+    <script src="js/mobile-detection.js"></script>
 
-                // Prevent iOS from zooming on input focus
-                document.addEventListener('touchstart', function () {
-                    var meta = document.querySelector('meta[name="viewport"]');
-                    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
-                });
-            }
+    <!-- Blazor Initialization -->
+    <script src="js/app.js"></script>
 
-            // Prevent double-tap zoom on mobile
-            var lastTouchEnd = 0;
-            document.addEventListener('touchend', function (event) {
-                var now = (new Date()).getTime();
-                if (now - lastTouchEnd <= 300) {
-                    event.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, false);
-        })();
-
-        // Initialize Blazor with optimized settings
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                // Optimize resource loading with cache busting
-                if (type === 'dotnetjs' || type === 'dotnetwasm') {
-                    return defaultUri + (integrity ? '?v=' + integrity : '');
-                }
-                return defaultUri;
-            },
-            // Enable detailed errors for debugging
-            environment: 'Production'
-        }).then(() => {
-            console.log('UFIN Financial Analysis Tool loaded successfully');
-
-            // Remove loading class after Blazor loads
-            document.body.classList.add('blazor-loaded');
-        }).catch(error => {
-            console.error('Failed to start Blazor:', error);
-        });
-    </script>
-
-    <!-- Service Worker Registration with enhanced error handling -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(function (registration) {
-                        console.log('Service Worker registered successfully:', registration.scope);
-
-                        // Update service worker on page load
-                        registration.update();
-                    })
-                    .catch(function (error) {
-                        console.warn('Service Worker registration failed:', error);
-                    });
-
-                // Handle service worker updates
-                navigator.serviceWorker.addEventListener('controllerchange', function () {
-                    console.log('Service Worker updated, reloading...');
-                    window.location.reload();
-                });
-            });
-        }
-    </script>
+    <!-- Service Worker Registration -->
+    <script src="js/service-worker-init.js"></script>
 
     <!-- Radzen Blazor script -->
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js" defer></script>
 
-    <!-- Performance and Mobile Optimization monitoring -->
+    <!-- Performance Monitoring -->
+    <script src="js/performance.js" defer></script>
+
+    <!-- Loading progress indicator -->
     <script>
-        // Log performance metrics
-        window.addEventListener('load', function () {
-            if (window.performance && window.performance.timing) {
-                var loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
-                console.log('Page load time:', loadTime + 'ms');
+        (function () {
+            const messages = ['Initializing', 'Loading runtime', 'Loading components', 'Almost ready'];
+            let index = 0;
+            const progressEl = document.getElementById('load-progress');
 
-                // Log additional mobile-specific metrics
-                if (window.performance.memory) {
-                    console.log('Memory usage:', {
-                        used: (window.performance.memory.usedJSHeapSize / 1048576).toFixed(2) + ' MB',
-                        total: (window.performance.memory.totalJSHeapSize / 1048576).toFixed(2) + ' MB'
-                    });
-                }
+            if (progressEl) {
+                const interval = setInterval(() => {
+                    index = (index + 1) % messages.length;
+                    progressEl.textContent = messages[index];
+                }, 800);
+
+                window.addEventListener('ufin:loaded', () => clearInterval(interval));
             }
-
-            // Detect connection quality for mobile optimization
-            if ('connection' in navigator) {
-                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                if (connection) {
-                    console.log('Connection type:', connection.effectiveType);
-                    console.log('Save data mode:', connection.saveData ? 'enabled' : 'disabled');
-                }
-            }
-        });
-
-        // Handle orientation changes on mobile
-        window.addEventListener('orientationchange', function () {
-            console.log('Orientation changed to:', window.orientation);
-        });
-
-        // Handle online/offline status
-        window.addEventListener('online', function () {
-            console.log('Application is online');
-        });
-
-        window.addEventListener('offline', function () {
-            console.log('Application is offline - PWA mode active');
-        });
+        })();
     </script>
 </body>
 </html>

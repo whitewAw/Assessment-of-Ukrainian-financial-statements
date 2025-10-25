@@ -1,0 +1,616 @@
+/* ========================================
+   DARK THEME - CONSOLIDATED & OPTIMIZED
+   Single source for all dark mode styles
+   ======================================== */
+
+/* ========================================
+   CSS VARIABLES (Single Source of Truth)
+   ======================================== */
+:root {
+    /* Light Theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #868e96;
+    --border-color: #dee2e6;
+    --link-color: #0071c1;
+    --link-hover: #005a9c;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --sidebar-bg: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    --header-bg: #f7f7f7;
+    --header-border: #d6d5d5;
+    --button-primary: #1b6ec2;
+    --button-primary-hover: #1861ac;
+    --success: #26b050;
+    --error: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3a3a3a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #c0c0c0;
+    --text-muted: #999999;
+    --border-color: #4a4a4a;
+    --link-color: #6db3e8;
+    --link-hover: #8ec5ef;
+    --card-bg: #242424;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    --input-bg: #2d2d2d;
+    --input-border: #4a4a4a;
+    --sidebar-bg: linear-gradient(180deg, #1a1f3a 0%, #2d1a40 70%);
+    --header-bg: #2d2d2d;
+    --header-border: #4a4a4a;
+    --button-primary: #5da3db;
+    --button-primary-hover: #7bb8e5;
+    --success: #4caf50;
+    --error: #f44336;
+    --warning: #ff9800;
+    --info: #2196f3;
+}
+
+/* Auto Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --bg-tertiary: #3a3a3a;
+        --text-primary: #e8e8e8;
+        --text-secondary: #c0c0c0;
+        --text-muted: #999999;
+        --border-color: #4a4a4a;
+        --link-color: #6db3e8;
+        --link-hover: #8ec5ef;
+        --card-bg: #242424;
+        --card-shadow: rgba(0, 0, 0, 0.5);
+        --input-bg: #2d2d2d;
+        --input-border: #4a4a4a;
+        --sidebar-bg: linear-gradient(180deg, #1a1f3a 0%, #2d1a40 70%);
+        --header-bg: #2d2d2d;
+        --header-border: #4a4a4a;
+        --button-primary: #5da3db;
+        --button-primary-hover: #7bb8e5;
+        --success: #4caf50;
+        --error: #f44336;
+        --warning: #ff9800;
+        --info: #2196f3;
+    }
+}
+
+/* ========================================
+   BASE APPLICATION
+   ======================================== */
+html, body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page {
+    background-color: var(--bg-primary);
+}
+
+.sidebar {
+    background-image: var(--sidebar-bg);
+}
+
+.top-row {
+    background-color: var(--header-bg);
+    border-bottom-color: var(--header-border);
+}
+
+.content,
+main,
+article {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+}
+
+p, span, div, label, small {
+    color: var(--text-primary);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   INTERACTIVE ELEMENTS
+   ======================================== */
+a {
+    color: var(--link-color);
+    &:hover
+
+{
+    color: var(--link-hover);
+}
+
+}
+
+/* Buttons - Consolidated from 3 files */
+.btn-primary,
+button.btn-primary,
+a.btn-primary,
+.rz-button-primary {
+    background-color: var(--button-primary);
+    border-color: var(--button-primary);
+    color: #ffffff;
+    &:hover
+
+{
+    background-color: var(--button-primary-hover);
+    border-color: var(--button-primary-hover);
+    color: #ffffff;
+}
+
+}
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+    &:hover
+
+{
+    background-color: var(--bg-secondary);
+}
+
+}
+
+/* ========================================
+   FORMS & INPUTS
+   ======================================== */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+select,
+textarea,
+.form-control {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--input-border);
+    &:focus
+
+{
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--button-primary);
+    box-shadow: 0 0 0 0.2rem rgba(93, 163, 219, 0.25);
+}
+
+&::placeholder {
+    color: var(--text-muted);
+}
+
+}
+
+label {
+    color: var(--text-primary);
+}
+
+/* ========================================
+   CARDS & PANELS
+   ======================================== */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: 0 2px 4px var(--card-shadow);
+    color: var(--text-primary);
+}
+
+.card-header {
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.card-body {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.card-footer {
+    background-color: var(--bg-secondary);
+    border-top-color: var(--border-color);
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+table,
+.table {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    background-color: var(--card-bg);
+}
+
+    .table thead th {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+    .table tbody tr {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+        color: var(--text-primary);
+        &:hover
+
+{
+    background-color: var(--bg-secondary);
+}
+
+}
+
+.table tbody td {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-secondary);
+}
+
+/* ========================================
+   RADZEN COMPONENTS
+   ======================================== */
+
+/* DataGrid/Grid */
+[data-theme="dark"] {
+    .rz-datatable, .rz-grid
+
+{
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.rz-datatable-thead,
+.rz-grid-thead {
+    background-color: var(--bg-secondary);
+}
+
+    .rz-datatable-thead th,
+    .rz-grid-thead th {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+.rz-datatable-data tr,
+.rz-grid-data tr {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    &:hover
+
+{
+    background-color: var(--bg-secondary);
+}
+
+}
+
+.rz-datatable-data td,
+.rz-grid-data td {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+/* Tabs */
+.rz-tabview,
+.rz-tabview-panels,
+.rz-tabview-panel {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.rz-tabview-nav {
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
+}
+
+.rz-tabview-nav-link {
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    &:hover
+
+{
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
+&.rz-tabview-selected {
+    color: var(--text-primary);
+    background-color: var(--card-bg);
+}
+
+}
+
+/* Dialogs */
+.rz-dialog {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.rz-dialog-titlebar {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-bottom-color: var(--border-color);
+}
+
+/* Forms */
+.rz-textbox,
+.rz-numeric,
+.rz-datepicker,
+.rz-dropdown {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--input-border);
+    &:focus
+
+{
+    border-color: var(--button-primary);
+    box-shadow: 0 0 0 0.2rem rgba(93, 163, 219, 0.25);
+}
+
+}
+
+.rz-dropdown-panel {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.rz-dropdown-item {
+    color: var(--text-primary);
+    &:hover
+
+{
+    background-color: var(--bg-secondary);
+}
+
+}
+
+/* Buttons */
+.rz-button {
+    background-color: var(--button-primary);
+    border-color: var(--button-primary);
+    color: #ffffff;
+    &:hover
+
+{
+    background-color: var(--button-primary-hover);
+    color: #ffffff;
+}
+
+span {
+    color: #ffffff;
+}
+
+}
+
+/* Nuclear Option - Override inline styles */
+[style*="background: white"],
+[style*="background: #fff"],
+[style*="background-color: white"],
+[style*="background-color: #fff"],
+[style*="background-color: rgb(255"] {
+    background-color: var(--bg-secondary) !important;
+}
+
+}
+
+/* ========================================
+   ALERTS & NOTIFICATIONS
+   ======================================== */
+.alert {
+    border-color: var(--border-color);
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.alert-warning {
+    background-color: rgba(255, 152, 0, 0.2);
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.alert-info {
+    background-color: rgba(33, 150, 243, 0.2);
+    color: var(--info);
+    border-color: var(--info);
+}
+
+/* ========================================
+   MODALS
+   ======================================== */
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.modal-header {
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.modal-footer {
+    background-color: var(--bg-secondary);
+    border-top-color: var(--border-color);
+}
+
+/* ========================================
+   SCROLLBAR
+ ======================================== */
+[data-theme="dark"] {
+    :: -webkit-scrollbar
+
+{
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    &:hover
+
+{
+    background: var(--border-color);
+}
+
+}
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    a
+
+{
+    color: var(--link-color);
+    &:hover
+
+{
+    color: var(--link-hover);
+}
+
+}
+
+small {
+    color: var(--text-secondary);
+}
+
+}
+
+[data-theme="dark"] {
+    footer .bg-light
+
+{
+    background-color: var(--bg-secondary) !important;
+}
+
+footer .text-dark {
+    color: var(--text-primary) !important;
+}
+
+}
+
+/* ========================================
+   THEME TOGGLE BUTTON
+======================================== */
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--button-primary);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    svg
+
+{
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+}
+
+&:hover {
+    background-color: var(--button-primary-hover);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px var(--card-shadow);
+}
+
+&:active {
+    transform: scale(0.95);
+}
+
+&:focus {
+    outline: 2px solid var(--button-primary);
+    outline-offset: 2px;
+}
+
+}
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        svg
+
+{
+    width: 20px;
+    height: 20px;
+}
+
+}
+}
+
+/* ========================================
+   LOADING SPINNER
+   ======================================== */
+.spinner-border {
+    color: var(--button-primary);
+}
+
+.loading-text {
+    color: var(--text-muted);
+}

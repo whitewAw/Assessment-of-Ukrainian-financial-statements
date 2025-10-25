@@ -27,8 +27,10 @@
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IlcOptimizationPreference>Size</IlcOptimizationPreference>
 		
+		<!-- Enable linking in Debug builds too (reduces bundle size) -->
+		<BlazorWebAssemblyEnableLinking Condition="'$(Configuration)' == 'Debug'">true</BlazorWebAssemblyEnableLinking>
+		
 		<!-- Additional Optimizations -->
-		<!-- Removed JsonSerializerIsReflectionEnabledByDefault - incompatible with Blazored.LocalStorage -->
 		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
 		<InvariantTimezone>false</InvariantTimezone>
 		<WasmBuildNative>true</WasmBuildNative>
