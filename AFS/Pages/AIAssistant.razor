@@ -1,0 +1,216 @@
+@page "/ai-assistant"
+@using AFS.ComponentLibrary.Components
+
+<PageTitle>AI Financial Assistant - UFIN</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header mb-4">
+                <h1>
+                    <i class="oi oi-brain me-2"></i>
+                    AI Financial Assistant
+                </h1>
+                <p class="lead text-muted">
+                    Get instant insights and recommendations powered by AI
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="oi oi-comment-square me-2"></i>
+                        Chat with AI
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <AIFinancialChatComponent />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="oi oi-info me-2"></i>
+                        How to Use
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold">Quick Actions</h6>
+                    <ul class="small">
+                        <li>Click <strong>Financial Health</strong> for overall analysis</li>
+                        <li>Click <strong>Get Recommendations</strong> for actionable advice</li>
+                        <li>Click <strong>Explain Key Ratios</strong> to understand metrics</li>
+                    </ul>
+
+                    <h6 class="fw-bold mt-3">Ask Questions</h6>
+                    <ul class="small">
+                        <li>"What does my current ratio mean?"</li>
+                        <li>"How can I improve liquidity?"</li>
+                        <li>"Compare this year vs last year"</li>
+                        <li>"What are my biggest risks?"</li>
+                    </ul>
+
+                    <h6 class="fw-bold mt-3">Tips</h6>
+                    <ul class="small mb-0">
+                        <li>Be specific in your questions</li>
+                        <li>Reference specific ratios or metrics</li>
+                        <li>Ask follow-up questions for clarity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="oi oi-shield me-2"></i>
+                        Privacy & Security
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success mb-0" role="alert">
+                        <p class="small mb-2">
+                            <strong>? 100% Private</strong><br />
+                            All AI processing happens in your browser
+                        </p>
+                        <p class="small mb-2">
+                            <strong>? No Data Sent</strong><br />
+                            Your financial data never leaves your device
+                        </p>
+                        <p class="small mb-0">
+                            <strong>? Offline Capable</strong><br />
+                            Works without internet after setup
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="oi oi-wrench me-2"></i>
+                        Setup Required
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-2">
+                        <strong>Browser AI (Chrome 127+)</strong>
+                    </p>
+                    <ol class="small mb-3">
+                        <li>Enable Chrome AI flags</li>
+                        <li>Download Gemini Nano model</li>
+                        <li>Restart Chrome</li>
+                    </ol>
+                    <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
+                       target="_blank"
+                       class="btn btn-sm btn-warning w-100">
+                        <i class="oi oi-external-link me-1"></i>
+                        View Setup Guide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="oi oi-question-mark me-2"></i>
+                        Frequently Asked Questions
+                    </h5>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Is this really free?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Browser AI uses Chrome's built-in Gemini Nano model.
+                                    No API keys, no costs, no usage limits.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    How is this different from ChatGPT?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    ChatGPT runs on OpenAI's servers (requires internet/API key).
+                                    Browser AI runs entirely in your browser (no server, no API key,
+                                    works offline after setup).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Is my data safe?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely! All AI processing happens locally in your browser.
+                                    Your financial data never leaves your device. No data is sent
+                                    to any server, including Google or Microsoft.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Which browsers are supported?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Currently supported: Chrome 127+, Chrome Canary, Edge 127+ (Chromium-based).
+                                    Coming soon: Firefox and Safari.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+        .page-header h1 {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .card {
+            border-radius: 8px;
+    }
+
+        .card-header {
+            font-weight: 500;
+        }
+
+        .accordion-button:not(.collapsed) {
+          background-color: #e7f3ff;
+            color: #0d6efd;
+        }
+</style>
