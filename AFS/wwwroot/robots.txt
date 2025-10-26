@@ -1,0 +1,70 @@
+# robots.txt for UFIN - Ukrainian Financial Statement Analysis Tool
+# https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
+
+# Allow all bots to crawl everything
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/sitemap.xml
+
+# Crawl delay (optional, helps prevent server overload)
+Crawl-delay: 1
+
+# Disallow specific paths (if any)
+# Uncomment and modify as needed
+# Disallow: /_framework/
+# Disallow: /service-worker.js
+
+# Allow specific important resources
+Allow: /icon-512.png
+Allow: /icon-192.png
+Allow: /manifest.json
+
+# Instructions for major search engines
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Google Image Bot
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex (popular in Ukraine and Russia)
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Common bad bots (block these)
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Social Media Bots (allow for rich previews)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
