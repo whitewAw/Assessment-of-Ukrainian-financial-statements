@@ -3,6 +3,7 @@ using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
+using AFS.Core.Components;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -48,6 +49,7 @@ builder.Services.AddScoped<ICultureStorageHandler, LocalStorageCultureHandler>()
 builder.Services.AddScoped<IModelStorageHandler, LocalStorageModelHandler>();
 builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler>();
 builder.Services.AddScoped<JsInterop>();
+builder.Services.AddScoped<PageSeoHelper>();
 
 // Transient services (lightweight calculation services)
 builder.Services.AddTransient<CharacteristicsOfCapital>();
