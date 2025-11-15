@@ -3,6 +3,7 @@ using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
+using AFS.Core.Components;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -49,6 +50,7 @@ builder.Services.AddScoped<ICultureStorageHandler, LocalStorageCultureHandler>()
 builder.Services.AddScoped<IModelStorageHandler, LocalStorageModelHandler>();
 builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler>();
 builder.Services.AddScoped<JsInterop>();
+builder.Services.AddScoped<PageSeoHelper>();
 
 // AI Services - Configure based on appsettings.json
 var aiEnabled = builder.Configuration.GetValue<bool>("AI:Enabled", true);

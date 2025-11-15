@@ -21,7 +21,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="bingbot" content="index, follow" />
-    <link rel="canonical" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/" />
+    <link rel="canonical" href="" id="canonical" />
 
     <!-- Enhanced SEO Meta Tags -->
     <meta name="category" content="Finance, Business Tools, Accounting Software" />
@@ -106,347 +106,347 @@
 
     <!-- Inline Critical CSS for LCP - Renders immediately -->
     <style>
-           /* Critical above-the-fold styles */
-           html, body {
-               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-               margin: 0;
-               padding: 0;
-               background-color: #ffffff;
-               color: #212529;
-           }
+        /* Critical above-the-fold styles */
+        html, body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #212529;
+        }
 
-           /* ========================================
+        /* ========================================
          LAYOUT - CRITICAL FOR INITIAL RENDER
               ======================================== */
 
-           .page {
-               display: flex;
-               flex-direction: row;
-               min-height: 100vh;
-               position: relative;
-           }
+        .page {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            position: relative;
+        }
 
-           .sidebar {
-               width: 250px;
-               min-width: 250px;
-               background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-               flex-shrink: 0;
-               position: sticky;
-               top: 0;
-               height: 100vh;
-               overflow-y: auto;
-           }
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
 
-           main {
-               flex: 1;
-               display: flex;
-               flex-direction: column;
-               width: 100%;
-               min-width: 0; /* Allows flex item to shrink below content size */
-           }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-width: 0; /* Allows flex item to shrink below content size */
+        }
 
-           /* Mobile layout - sidebar above content */
-           @media (max-width: 640px) {
-               .page {
-                   flex-direction: column;
-               }
+        /* Mobile layout - sidebar above content */
+        @media (max-width: 640px) {
+            .page {
+                flex-direction: column;
+            }
 
-               .sidebar {
-                   width: 100%;
-                   height: auto;
-                   max-height: none;
-                   position: relative;
-               }
-           }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: none;
+                position: relative;
+            }
+        }
 
-           /* Tablet layout */
-           @media (min-width: 641px) and (max-width: 1024px) {
-               .sidebar {
-                   width: 200px;
-                   min-width: 200px;
-               }
-           }
+        /* Tablet layout */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+                min-width: 200px;
+            }
+        }
 
-           /* Large desktop layout */
-           @media (min-width: 1441px) {
-               .sidebar {
-                   width: 280px;
-                   min-width: 280px;
-               }
-           }
+        /* Large desktop layout */
+        @media (min-width: 1441px) {
+            .sidebar {
+                width: 280px;
+                min-width: 280px;
+            }
+        }
 
-           /* ========================================
+        /* ========================================
         UTILITY CLASSES
           ======================================== */
 
-           .d-flex {
-               display: flex;
-           }
+        .d-flex {
+            display: flex;
+        }
 
-           .align-items-center {
-               align-items: center;
-           }
+        .align-items-center {
+            align-items: center;
+        }
 
-           .justify-content-center {
-               justify-content: center;
-           }
+        .justify-content-center {
+            justify-content: center;
+        }
 
-           .text-center {
-               text-align: center;
-           }
+        .text-center {
+            text-align: center;
+        }
 
-           .vh-100 {
-               min-height: 100vh;
-           }
+        .vh-100 {
+            min-height: 100vh;
+        }
 
-           .px-3 {
-               padding-left: 1rem;
-               padding-right: 1rem;
-           }
+        .px-3 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
 
-           .mt-3 {
-               margin-top: 1rem;
-           }
+        .mt-3 {
+            margin-top: 1rem;
+        }
 
-           .mt-4 {
-               margin-top: 1.5rem;
-           }
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
 
-           .mb-4 {
-               margin-bottom: 1.5rem;
-           }
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
 
-           .text-muted {
-               color: #6c757d;
-           }
+        .text-muted {
+            color: #6c757d;
+        }
 
-           .text-danger {
-               color: #dc3545;
-           }
+        .text-danger {
+            color: #dc3545;
+        }
 
-           .display-4 {
-               font-size: 3.5rem;
-               font-weight: 300;
-               line-height: 1.2;
-           }
+        .display-4 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+        }
 
-           .h5 {
-               font-size: 1.25rem;
-           }
+        .h5 {
+            font-size: 1.25rem;
+        }
 
-           /* ========================================
+        /* ========================================
             SPINNER ANIMATION - OVERRIDE BOOTSTRAP
               ======================================== */
 
-           /* High specificity to override Bootstrap */
-           #app .spinner-border,
-           .spinner-border {
-               display: inline-block !important;
-               width: 3rem !important;
-               height: 3rem !important;
-               vertical-align: -0.125em !important;
-               border: 0.25em solid currentColor !important;
-               border-right-color: transparent !important;
-               border-radius: 50% !important;
-               animation: spinner-border-rotate 0.75s linear infinite !important;
-               -webkit-animation: spinner-border-rotate 0.75s linear infinite !important;
-           }
+        /* High specificity to override Bootstrap */
+        #app .spinner-border,
+        .spinner-border {
+            display: inline-block !important;
+            width: 3rem !important;
+            height: 3rem !important;
+            vertical-align: -0.125em !important;
+            border: 0.25em solid currentColor !important;
+            border-right-color: transparent !important;
+            border-radius: 50% !important;
+            animation: spinner-border-rotate 0.75s linear infinite !important;
+            -webkit-animation: spinner-border-rotate 0.75s linear infinite !important;
+        }
 
-           @keyframes spinner-border-rotate {
-               0% {
-                   transform: rotate(0deg);
-               }
+        @keyframes spinner-border-rotate {
+            0% {
+                transform: rotate(0deg);
+            }
 
-               100% {
-                   transform: rotate(360deg);
-               }
-           }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
-           @-webkit-keyframes spinner-border-rotate {
-               0% {
-                   -webkit-transform: rotate(0deg);
-                   transform: rotate(0deg);
-               }
+        @-webkit-keyframes spinner-border-rotate {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
 
-               100% {
-                   -webkit-transform: rotate(360deg);
-                   transform: rotate(360deg);
-               }
-           }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
 
-           .text-primary {
-               color: #512BD4 !important;
-           }
+        .text-primary {
+            color: #512BD4 !important;
+        }
 
-           /* Loading dots animation */
-           .loading-dots::after {
-               content: '';
-               animation: loading-dots 1.4s infinite;
-           }
+        /* Loading dots animation */
+        .loading-dots::after {
+            content: '';
+            animation: loading-dots 1.4s infinite;
+        }
 
-           @keyframes loading-dots {
-               0%, 20% {
-                   content: '';
-               }
+        @keyframes loading-dots {
+            0%, 20% {
+                content: '';
+            }
 
-               40% {
-                   content: '.';
-               }
+            40% {
+                content: '.';
+            }
 
-               60% {
-                   content: '..';
-               }
+            60% {
+                content: '..';
+            }
 
-               80% {
-                   content: '...';
-               }
-           }
+            80% {
+                content: '...';
+            }
+        }
 
-           /* Visually hidden */
-           .visually-hidden {
-               position: absolute;
-               width: 1px;
-               height: 1px;
-               padding: 0;
-               margin: -1px;
-               overflow: hidden;
-               clip: rect(0, 0, 0, 0);
-               white-space: nowrap;
-               border: 0;
-           }
+        /* Visually hidden */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
 
-    <!-- Enhanced Structured Data (JSON-LD) - WebApplication -->
+    <!-- Structured Data (JSON-LD) - WebApplication -->
     <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-            "@type": "WebApplication",
-                "name": "UFIN - Ukrainian Financial Statement Analysis Tool",
-                "alternateName": [
-          "UFIN",
-                  "Ukrainian Financial Analysis Tool",
-              "Financial Statement Analyzer",
-          "Business Financial Health Assessment"
-         ],
-                "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
-                "description": "Professional-grade financial analysis tool for Ukrainian businesses. Comprehensive assessment of financial statements including balance sheet analysis, income statement evaluation, liquidity ratios, solvency metrics, profitability indicators, and business activity analysis. Free to use, works offline, supports multiple languages.",
-            "applicationCategory": "FinanceApplication",
-                "applicationSubCategory": "Financial Analysis",
-                "operatingSystem": "Web Browser, Windows, macOS, Linux, Android, iOS",
-                "browserRequirements": "Requires JavaScript and HTML5",
-                "softwareVersion": "2.0.0",
-                "releaseNotes": "Enhanced with .NET 9, AOT compilation, improved performance, mobile responsiveness",
-                "datePublished": "2022-01-01",
-             "dateModified": "2025-01-20",
-           "isAccessibleForFree": true,
-                "offers": {
-           "@type": "Offer",
-                    "price": "0",
-               "priceCurrency": "USD",
+        {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "UFIN - Ukrainian Financial Statement Analysis Tool",
+        "alternateName": [
+        "UFIN",
+        "Ukrainian Financial Analysis Tool",
+        "Financial Statement Analyzer",
+        "Business Financial Health Assessment"
+        ],
+        "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
+        "description": "Professional-grade financial analysis tool for Ukrainian businesses. Comprehensive assessment of financial statements including balance sheet analysis, income statement evaluation, liquidity ratios, solvency metrics, profitability indicators, and business activity analysis. Free to use, works offline, supports multiple languages.",
+        "applicationCategory": "FinanceApplication",
+        "applicationSubCategory": "Financial Analysis",
+        "operatingSystem": "Web Browser, Windows, macOS, Linux, Android, iOS",
+        "browserRequirements": "Requires JavaScript and HTML5",
+        "softwareVersion": "2.0.0",
+        "releaseNotes": "Enhanced with .NET 9, AOT compilation, improved performance, mobile responsiveness",
+        "datePublished": "2022-01-01",
+        "dateModified": "2025-01-20",
+        "isAccessibleForFree": true,
+        "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
-                    "priceValidUntil": "2099-12-31",
-                "seller": {
-               "@type": "Organization",
-            "name": "UFIN"
-             }
-           },
-                "author": {
-         "@type": "Person",
-                 "name": "whitewAw",
-             "url": "https://github.com/whitewAw"
-           },
-         "creator": {
-           "@type": "Organization",
-               "name": "UFIN Development Team"
-         },
-                "publisher": {
-                 "@type": "Organization",
-                    "name": "UFIN",
-                    "logo": {
-                "@type": "ImageObject",
-          "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png"
-          }
-                },
-                "inLanguage": ["en", "uk", "ru", "es", "de", "fr"],
-        "availableLanguage": [
-                    {"@type": "Language", "name": "English", "alternateName": "en"},
-                    {"@type": "Language", "name": "Ukrainian", "alternateName": "uk"},
-              {"@type": "Language", "name": "Russian", "alternateName": "ru"},
-              {"@type": "Language", "name": "Spanish", "alternateName": "es"},
-           {"@type": "Language", "name": "German", "alternateName": "de"},
-              {"@type": "Language", "name": "French", "alternateName": "fr"}
-                ],
-                "featureList": [
-               "Balance Sheet Analysis",
-                    "Income Statement Evaluation",
-            "Liquidity Ratios Calculator (Current, Quick, Cash)",
-           "Solvency Assessment Tools",
-                    "Profitability Metrics (ROA, ROE, Net Profit Margin)",
-                    "Business Activity Indicators",
-                    "Financial Stability Classification",
-                    "Working Capital Analysis",
-            "Fixed Assets Evaluation",
-                  "Interactive Financial Charts",
-                    "Multi-language Support (6 languages)",
-                    "Offline PWA Functionality",
-                    "Data Export/Import (JSON)",
-               "Local Storage (Privacy-focused)",
-             "No Registration Required",
-              "Free and Open Source",
-          "Mobile Responsive Design",
-                    "Touch-Optimized Interface"
-             ],
-                "screenshot": ["https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png"],
-                "aggregateRating": {
-          "@type": "AggregateRating",
-           "ratingValue": "4.8",
-           "ratingCount": "156",
-                    "bestRating": "5",
-                 "worstRating": "1",
-           "reviewCount": "89"
-                },
-                "review": [{
-                    "@type": "Review",
-            "reviewRating": {
-                "@type": "Rating",
-           "ratingValue": "5",
-                 "bestRating": "5"
+        "priceValidUntil": "2099-12-31",
+        "seller": {
+        "@type": "Organization",
+        "name": "UFIN"
+        }
         },
-                 "author": {
-             "@type": "Person",
-         "name": "Financial Analyst"
-            },
-            "reviewBody": "Excellent tool for quick financial analysis. Very comprehensive and easy to use. Works great on mobile!"
-                }],
-                "serviceType": "Financial Analysis Software",
-                "areaServed": ["US", "UA", "EU", "Worldwide"],
-                "audience": {
-         "@type": "Audience",
-                 "audienceType": [
-                "Financial Analysts",
-                        "Accountants",
-                "Business Owners",
-                "Investors",
-              "Auditors",
-            "CFOs",
-              "Financial Consultants",
-                 "Students",
-                     "Researchers"
-                    ]
-                },
-                "potentialAction": {
-               "@type": "UseAction",
-                    "target": {
-                        "@type": "EntryPoint",
-               "urlTemplate": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
-            "actionPlatform": [
-                 "http://schema.org/DesktopWebPlatform",
-                 "http://schema.org/MobileWebPlatform",
-           "http://schema.org/IOSPlatform",
-                "http://schema.org/AndroidPlatform"
-          ]
-                    }
-                }
+        "author": {
+        "@type": "Person",
+        "name": "whitewAw",
+        "url": "https://github.com/whitewAw"
+        },
+        "creator": {
+        "@type": "Organization",
+        "name": "UFIN Development Team"
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "UFIN",
+        "logo": {
+        "@type": "ImageObject",
+        "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png"
+        }
+        },
+        "inLanguage": ["en", "uk", "ru", "es", "de", "fr"],
+        "availableLanguage": [
+        {"@type": "Language", "name": "English", "alternateName": "en"},
+        {"@type": "Language", "name": "Ukrainian", "alternateName": "uk"},
+        {"@type": "Language", "name": "Russian", "alternateName": "ru"},
+        {"@type": "Language", "name": "Spanish", "alternateName": "es"},
+        {"@type": "Language", "name": "German", "alternateName": "de"},
+        {"@type": "Language", "name": "French", "alternateName": "fr"}
+        ],
+        "featureList": [
+        "Balance Sheet Analysis",
+        "Income Statement Evaluation",
+        "Liquidity Ratios Calculator (Current, Quick, Cash)",
+        "Solvency Assessment Tools",
+        "Profitability Metrics (ROA, ROE, Net Profit Margin)",
+        "Business Activity Indicators",
+        "Financial Stability Classification",
+        "Working Capital Analysis",
+        "Fixed Assets Evaluation",
+        "Interactive Financial Charts",
+        "Multi-language Support (6 languages)",
+        "Offline PWA Functionality",
+        "Data Export/Import (JSON)",
+        "Local Storage (Privacy-focused)",
+        "No Registration Required",
+        "Free and Open Source",
+        "Mobile Responsive Design",
+        "Touch-Optimized Interface"
+        ],
+        "screenshot": ["https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png"],
+        "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "156",
+        "bestRating": "5",
+        "worstRating": "1",
+        "reviewCount": "89"
+        },
+        "review": [{
+        "@type": "Review",
+        "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+        },
+        "author": {
+        "@type": "Person",
+        "name": "Financial Analyst"
+        },
+        "reviewBody": "Excellent tool for quick financial analysis. Very comprehensive and easy to use. Works great on mobile!"
+        }],
+        "serviceType": "Financial Analysis Software",
+        "areaServed": ["US", "UA", "EU", "Worldwide"],
+        "audience": {
+        "@type": "Audience",
+        "audienceType": [
+        "Financial Analysts",
+        "Accountants",
+        "Business Owners",
+        "Investors",
+        "Auditors",
+        "CFOs",
+        "Financial Consultants",
+        "Students",
+        "Researchers"
+        ]
+        },
+        "potentialAction": {
+        "@type": "UseAction",
+        "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
+        "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform",
+        "http://schema.org/IOSPlatform",
+        "http://schema.org/AndroidPlatform"
+        ]
+        }
+        }
         }
     </script>
 
@@ -725,6 +725,9 @@
     
     <!-- Chrome AI - Load early for AI features -->
     <script src="js/chromeai.js"></script>
+
+    <!-- SEO Manager - Load before app starts to set up proper meta tags -->
+    <script src="js/seo-manager.js"></script>
 
     <!-- Defer non-critical scripts to reduce TBT -->
     <script src="js/mobile-detection.js" defer></script>
