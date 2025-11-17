@@ -1,5 +1,10 @@
-ï»¿@page "/factoranalysisoffixedassets"
+@page "/factoranalysisoffixedassets"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject FactorAnalysisOfFixedAssets FactorAnalysisOfFixedAssets
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -17,15 +22,640 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeFactorAnalysis" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeFixedAssetsFactors"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing factor decomposition...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["FactorAnalysisOfFixedAssets"];
         int number = 8;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeFactorAnalysis()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildFactorAnalysisPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildFactorAnalysisPrompt()
+    {
+        // Detect current UI language from CultureInfo
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageName = currentCulture.EnglishName;
+        var cultureName = currentCulture.Name;
+        
+        // Map culture to language instruction
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : languageName;
+
+        // Helper to safely get value or default
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        // Helper to calculate percentage change
+        double CalculatePercentageChange(double baseValue, double currentValue)
+        {
+            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
+            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
+            var result = ((currentValue - baseValue) / baseValue) * 100;
+            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
+            return result;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            NetRevenueFromSales = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.NetIncomeFromSales.BaseYear,
+                    FactorAnalysisOfFixedAssets.NetIncomeFromSales.CurrentYear)
+            },
+            
+            AverageNumberOfEmployees = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.BaseYear,
+                    FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.CurrentYear)
+            },
+            
+            LaborProductivity = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.BaseYear,
+                    FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.CurrentYear)
+            },
+            
+            AverageCostOfFixedAssets = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.BaseYear,
+                    FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear)
+            },
+            
+            CapitalIntensity = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.BaseYear,
+                    FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.CurrentYear)
+            },
+            
+            FixedAssetTurnover = new
+            {
+                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.BaseYear),
+                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.CurrentYear),
+                Deviations = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.BaseYear,
+                    FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.CurrentYear)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in factor analysis, labor productivity, and capital efficiency. Analyze the following Factor Analysis of Fixed Assets for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables in your response
+- DO NOT repeat the raw data values in table format
+- The user can already see all the data in the table above your analysis
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS only
+- Use narrative prose with clear sections and bullet points
+- Reference specific numbers when making points, but integrate them into sentences
+
+DATA STRUCTURE EXPLANATION:
+You are performing FACTOR ANALYSIS - decomposing Fixed Asset Turnover into its underlying components to identify root causes of efficiency changes.
+
+This is ADVANCED ANALYSIS that breaks down efficiency into TWO KEY FACTORS:
+1. Labor Productivity (output per employee)
+2. Capital Intensity (assets per employee)
+
+IMPORTANT NAMING CONVENTIONS:
+Use PROPER READABLE NAMES instead of technical field names:
+
+YEAR REFERENCES:
+- Use ""{MainModel.BaseYear}"" instead of ""BaseYear""
+- Use ""{MainModel.CurrentYear}"" instead of ""CurrentYear""
+
+FINANCIAL METRICS - Use these readable names:
+1. ""Net Revenue from Sales"" (total output)
+2. ""Average Number of Employees"" in people (workforce size)
+3. ""Labor Productivity of One Average Employee"" (revenue per employee)
+4. ""Average Cost of Fixed Assets"" (capital employed)
+5. ""Capital Intensity per Employee"" or ""Fixed Assets per Employee"" (capital per worker)
+6. ""Fixed Asset Turnover"" in UAH (revenue per UAH of assets)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+CRITICAL FORMULAS - THE FACTOR DECOMPOSITION:
+
+**Primary Relationship:**
+Fixed Asset Turnover = Revenue ÷ Fixed Assets
+
+**Factor Decomposition:**
+Fixed Asset Turnover = (Revenue ÷ Employees) ÷ (Fixed Assets ÷ Employees)
+                     = Labor Productivity ÷ Capital Intensity
+
+**This means:**
+- If Labor Productivity INCREASES ? Turnover INCREASES (positive)
+- If Capital Intensity INCREASES ? Turnover DECREASES (negative)
+
+**The factors work inversely:**
+- Higher labor productivity = GOOD for turnover
+- Higher capital intensity = BAD for turnover (more capital needed per worker)
+
+RESPONSE FORMAT:
+- Write in clear, professional narrative style
+- Use headings with ** for section titles (e.g., **1. Executive Summary**)
+- Use bullet points (•) for lists
+- Integrate numbers naturally into sentences
+- NO tables, NO raw data dumps
+- Focus on what the numbers MEAN, not just what they ARE
+
+ANALYSIS REQUIREMENTS:
+
+Provide a comprehensive FACTOR ANALYSIS examining the root causes of fixed asset turnover changes.
+
+DATA TO ANALYZE (6 Key Metrics):
+1. Net Revenue from Sales (thousand UAH) - output
+2. Average Number of Employees (people) - workforce
+3. Labor Productivity per Employee (thousand UAH per person) - efficiency factor 1
+4. Average Cost of Fixed Assets (thousand UAH) - capital
+5. Capital Intensity per Employee (thousand UAH per person) - efficiency factor 2
+6. Fixed Asset Turnover (UAH per UAH) - result being decomposed
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - The Factor Story**:
+   - Provide 2-3 sentences on what drove the Fixed Asset Turnover change
+   - Identify the PRIMARY factor: Labor Productivity or Capital Intensity?
+   - State the direction: Did labor get more productive? Did capital intensity increase?
+   - Quick verdict: Which factor had the bigger impact?
+
+**2. Fixed Asset Turnover Recap**:
+   - State the turnover change from {MainModel.BaseYear} to {MainModel.CurrentYear}
+   - Remind: This is what we're DECOMPOSING into factors
+   - Set up the question: WHY did it change?
+
+**3. Revenue and Workforce Base Analysis**:
+   - Analyze Net Revenue from Sales performance
+   - Analyze Average Number of Employees changes
+   - Calculate revenue per employee (Labor Productivity)
+   - Assess workforce efficiency
+
+**4. Labor Productivity Factor Analysis** (Factor #1):
+   - Formula: Revenue ÷ Employees
+   - {MainModel.BaseYear}: [productivity] thousand UAH per employee
+   - {MainModel.CurrentYear}: [productivity] thousand UAH per employee
+   - Change: [absolute] thousand UAH, [percentage]%
+   
+   **Interpretation:**
+   - Did employees become MORE or LESS productive?
+   - Is revenue per worker improving or declining?
+   - This factor's impact on turnover:
+     • If Labor Productivity UP ? Helps turnover INCREASE
+     • If Labor Productivity DOWN ? Causes turnover DECREASE
+   
+   **Root Causes:**
+   - If productivity improved: Better training? Technology? Processes?
+   - If productivity declined: Why? Efficiency issues? Market conditions?
+
+**5. Fixed Assets and Capital Intensity Analysis**:
+   - Analyze Average Cost of Fixed Assets changes
+   - Calculate assets per employee (Capital Intensity)
+   - Assess capital allocation per worker
+
+**6. Capital Intensity Factor Analysis** (Factor #2):
+   - Formula: Fixed Assets ÷ Employees
+   - {MainModel.BaseYear}: [intensity] thousand UAH per employee
+   - {MainModel.CurrentYear}: [intensity] thousand UAH per employee
+   - Change: [absolute] thousand UAH, [percentage]%
+   
+   **Interpretation:**
+   - Did capital intensity PER WORKER increase or decrease?
+   - Is the company becoming MORE or LESS capital intensive?
+   - This factor's impact on turnover:
+     • If Capital Intensity UP ? Causes turnover DECREASE (more capital per worker)
+     • If Capital Intensity DOWN ? Helps turnover INCREASE (leaner operation)
+   
+   **Root Causes:**
+   - If intensity increased: Heavy investment? Automation? Overcapitalization?
+   - If intensity decreased: Asset efficiency? Capital optimization?
+
+**7. Factor Decomposition - The Complete Picture**:
+   **Formula Breakdown:**
+   ```
+   Fixed Asset Turnover = Labor Productivity ÷ Capital Intensity
+   ```
+   
+   **{MainModel.BaseYear}:**
+   - Labor Productivity: [value]
+   - Capital Intensity: [value]
+   - Turnover: [value] = [productivity] ÷ [intensity]
+   
+   **{MainModel.CurrentYear}:**
+   - Labor Productivity: [value]
+   - Capital Intensity: [value]
+   - Turnover: [value] = [productivity] ÷ [intensity]
+   
+   **Impact Analysis:**
+   - Labor Productivity contribution: [+/-]%
+   - Capital Intensity contribution: [+/-]%
+   - Net effect: [total change]%
+   
+   **Which factor DOMINATED?**
+
+**8. Factor Interaction and Trade-offs**:
+   - Four possible scenarios:
+   
+   **Scenario 1: Both Positive**
+   • Labor Productivity UP + Capital Intensity DOWN = Excellent
+   • Employees more productive AND leaner capital base
+   
+   **Scenario 2: Labor Wins**
+   • Labor Productivity UP > Capital Intensity UP
+   • Productivity gains offset capital investment
+   
+   **Scenario 3: Capital Drags**
+   • Labor Productivity UP but Capital Intensity UP MORE
+   • Productivity gains lost to capital intensity
+   
+   **Scenario 4: Both Negative**
+   • Labor Productivity DOWN + Capital Intensity UP = Poor
+   • Declining efficiency AND heavier capital
+   
+   - Which scenario applies to {MainModel.CompanyName}?
+   - Strategic implications
+
+**9. Root Cause Identification**:
+   **For Labor Productivity changes:**
+   - Workforce quality or training changes?
+   - Process improvements or deterioration?
+   - Technology adoption impact?
+   - Market conditions affecting output per worker?
+   
+   **For Capital Intensity changes:**
+   - New capital investments (automation, expansion)?
+   - Asset base optimization or bloat?
+   - Strategic shift to more/less capital-intensive operations?
+   - Asset disposal or acquisition effects?
+   
+   **Overall:**
+   - What was the PRIMARY driver of turnover change?
+   - What was the SECONDARY factor?
+   - Were changes intentional (strategic) or circumstantial?
+
+**10. Strategic Recommendations**:
+    Provide specific, factor-based recommendations:
+    
+    **For Improving Labor Productivity**:
+    • If declining: Urgent actions to restore efficiency
+      - Training programs
+      - Process optimization
+      - Technology investments
+      - Performance management
+    • If improving: Sustain and accelerate
+      - Best practice sharing
+      - Scaling successful initiatives
+      - Continuous improvement culture
+    • Target: [specific UAH per employee]
+    
+    **For Optimizing Capital Intensity**:
+    • If excessive: Capital rationalization
+      - Asset utilization review
+      - Divestment of underperforming assets
+      - Lean capital approach
+      - ROI-driven investments
+    • If appropriate: Maintain or strategic growth
+      - Balanced capital allocation
+      - Technology upgrades where justified
+      - Automation where ROI positive
+    • Target: [specific UAH per employee]
+    
+    **For Improving Fixed Asset Turnover**:
+    • Primary lever: Focus on [dominant factor]
+    • Secondary lever: Optimize [other factor]
+    • Balanced approach if both need work
+    • Target turnover: [specific UAH per UAH]
+    
+    **Strategic Choices**:
+    • Labor-intensive vs Capital-intensive strategy
+    • Automation vs Workforce expansion
+    • Asset-light vs Asset-heavy model
+    • Optimal balance for the industry
+    
+    **Implementation Roadmap**:
+    • Immediate (30 days): Quick wins for [dominant factor]
+    • Short-term (3-6 months): Tactical improvements
+    • Long-term (1-2 years): Strategic transformation
+    • Monthly monitoring: Track both factors
+
+INTERPRETATION GUIDANCE:
+- Labor Productivity: HIGHER is BETTER (more revenue per worker)
+- Capital Intensity: LOWER is often BETTER (less capital needed per worker)
+- Fixed Asset Turnover: HIGHER is BETTER (efficient capital use)
+
+**The Relationship:**
+```
+? Labor Productivity ? ? Turnover (positive factor)
+? Capital Intensity ? ? Turnover (negative factor)
+```
+
+CRITICAL INSIGHTS TO PROVIDE:
+1. Which factor drove turnover change more?
+2. Was the change in each factor intentional or circumstantial?
+3. Is the current factor balance optimal?
+4. Should focus be on people or capital efficiency?
+5. What's the ideal labor productivity vs capital intensity trade-off?
+
+WRITING STYLE:
+- Be direct and professional
+- Use active voice
+- Integrate numbers into narrative (e.g., ""Labor Productivity declined by 13.4%, from 5,453 to 4,725 thousand UAH per employee, which was the PRIMARY driver of the 18.6% decline in Fixed Asset Turnover"")
+- Explain WHY factors matter and HOW they interact
+- Provide actionable factor-specific guidance
+- Be analytical, insightful, and strategic
+
+All amounts are in thousand UAH except employee counts. Productivity and intensity are in thousand UAH per employee. Turnover is in UAH per UAH. Remember to write your entire response in {languageInstruction} using proper readable names for all metrics. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

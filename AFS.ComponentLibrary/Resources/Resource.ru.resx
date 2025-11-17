@@ -201,14 +201,116 @@
   <data name="AdministrativeExpenses" xml:space="preserve">
     <value>Административные расходы</value>
   </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>ИИ анализирует ваши финансовые данные...</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>ИИ-ассистент</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>страницу AI Ассистента</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>Получите мгновенную аналитику и рекомендации на основе ИИ</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>AI Финансовый Анализ</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>AI Финансовый Ассистент</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>Пожалуйста, следуйте инструкциям выше, чтобы включить Chrome AI</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI недоступен</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>ИИ-ассистент не готов</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>Chrome AI готов к использованию</value>
+  </data>
   <data name="Amortization" xml:space="preserve">
     <value>Амортизация</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>Анализировать состав активов ({0})</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>Анализировать деловую активность</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>Анализировать источники капитала</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>Анализировать источники капитала ({0})</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>Анализировать характеристики капитала</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>Анализировать факторы влияния на оборачиваемость</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>Анализируйте общее финансовое состояние моей компании на основе доступных данных</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>Анализировать показатели финансовой устойчивости</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>Анализировать эффективность основных средств</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>Анализировать факторный анализ основных средств</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>Анализировать движение основных средств</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>Анализировать состояние основных средств</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>Анализировать общую финансовую устойчивость</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>Анализировать эффективность нематериальных активов</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>Анализировать показатели ликвидности</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>Анализировать структуру кредиторской задолженности ({0})</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>Анализировать дебиторскую и кредиторскую задолженность</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>Анализировать показатели платежеспособности</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>Анализировать классификацию устойчивости</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>Анализировать показатели оборачиваемости</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>Анализировать эффективность оборотного капитала</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>Анализировать оборачиваемость оборотного капитала</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>Вы уверены?</value>
   </data>
   <data name="Article" xml:space="preserve">
     <value>Статья</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>Спросите о своих финансовых данных...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>Задавайте вопросы</value>
   </data>
   <data name="AssessmentOfFinancialStatements" xml:space="preserve">
     <value>Оценка финансовой отчетности</value>
@@ -288,6 +390,9 @@
   <data name="BaseYear" xml:space="preserve">
     <value>Базовый год</value>
   </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>Браузерный ИИ (Chrome 127+)</value>
+  </data>
   <data name="bySettlementsWithParticipants" xml:space="preserve">
     <value>по расчетам с участниками</value>
   </data>
@@ -315,8 +420,23 @@
   <data name="CharacteristicsOfCapital" xml:space="preserve">
     <value>Характеристика капитала</value>
   </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>Чат с ИИ</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>Проверка доступности ИИ...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome AI недоступен</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome AI в настоящее время недоступен. Пожалуйста, посетите</value>
+  </data>
   <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
     <value>Классификация типов финансовой устойчивости исходя из степени ликвидности оборотных средств</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Очистить</value>
   </data>
   <data name="CoefficientOfBusinessActivity" xml:space="preserve">
     <value>Коэффициент деловой активности</value>
@@ -432,11 +552,17 @@
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Дивиденды на одну простую акцию</value>
   </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>Загрузка модели Gemini Nano... {0}%</value>
+  </data>
   <data name="Dynamics" xml:space="preserve">
     <value>Динамика</value>
   </data>
   <data name="ElementsOperatingCosts" xml:space="preserve">
     <value>Элементы операционных расходов</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>Включите Chrome AI, чтобы начать чат...</value>
   </data>
   <data name="Equity" xml:space="preserve">
     <value>Собственный капитал</value>
@@ -449,6 +575,18 @@
   </data>
   <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
     <value>Оценка ликвидности баланса {0} к концу {1} года</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>"Что означает мой коэффициент текущей ликвидности?"</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>"Как я могу улучшить ликвидность?"</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>"Сравните этот год с прошлым годом"</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"Каковы мои самые большие риски?"</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
     <value>Избыток (+), недостаток (-) собственных оборотных средств, долгосрочных и краткосрочных привлеченных средств для формирования запасов</value>
@@ -465,14 +603,47 @@
   <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
     <value>Расходы (доход) по налогу на прибыль</value>
   </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>Объяснить ключевые коэффициенты</value>
+  </data>
   <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
     <value>Факторный анализ фондоотдачи основных средств</value>
   </data>
   <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
     <value>Факторы, влияющие на оборачиваемость оборотных средств</value>
   </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>Часто задаваемые вопросы</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>Да! Браузерный ИИ использует встроенную модель Gemini Nano в Chrome. Без API-ключей, без затрат, без ограничений использования.</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT работает на серверах OpenAI (требуется интернет/API-ключ). Браузерный ИИ работает полностью в вашем браузере (без сервера, без API-ключа, работает офлайн после настройки).</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>Абсолютно! Вся обработка ИИ происходит локально в вашем браузере. Ваши финансовые данные никогда не покидают ваше устройство. Никакие данные не отправляются ни на один сервер, включая Google или Microsoft.</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>В настоящее время поддерживаются: Chrome 127+, Chrome Canary, Edge 127+ (на основе Chromium). Скоро: Firefox и Safari.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Это действительно бесплатно?</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>Чем это отличается от ChatGPT?</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>Безопасны ли мои данные?</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>Какие браузеры поддерживаются?</value>
+  </data>
   <data name="FinancialExpenses" xml:space="preserve">
     <value>Финансовые расходы</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>Финансовое здоровье</value>
   </data>
   <data name="FinancialResultBeforeTax" xml:space="preserve">
     <value>Финансовый результат для налогообложения</value>
@@ -500,6 +671,9 @@
   </data>
   <data name="ForSamePeriodLastYear" xml:space="preserve">
     <value>За аналогичный период предыдущего года</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>для инструкций по настройке.</value>
   </data>
   <data name="fromAccruedIncome" xml:space="preserve">
     <value>с начисленных доходов</value>
@@ -531,6 +705,9 @@
   <data name="GeneralInformation" xml:space="preserve">
     <value>Общая информация</value>
   </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>Получить рекомендации</value>
+  </data>
   <data name="goodsWorksServices" xml:space="preserve">
     <value>товары, работы, услуги</value>
   </data>
@@ -545,6 +722,9 @@
   </data>
   <data name="HardToSellAssets" xml:space="preserve">
     <value>Труднореализуемые активы (А4)</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>Как пользоваться</value>
   </data>
   <data name="in%OfBorrowedCapital" xml:space="preserve">
     <value>То же в % к привлеченному капиталу</value>
@@ -625,13 +805,16 @@
     <value>Интегральный показатель эффективности использования оборотных средств</value>
   </data>
   <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
-    <value>Интегральный показатель эффективности использования основных средств</value>
+    <value>Chrome AI is ready to use</value>
   </data>
   <data name="IntermediateCoverageRatio" xml:space="preserve">
     <value>Промежуточный коэффициент покрытия</value>
   </data>
   <data name="InvestmentProperty" xml:space="preserve">
     <value>Инвестиционная недвижимость</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>Объясните самые важные финансовые коэффициенты, на которые следует обратить внимание</value>
   </data>
   <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
     <value>Фондовооруженность труда одного среднесписочного работника</value>
@@ -726,6 +909,12 @@
   <data name="No" xml:space="preserve">
     <value>Нет</value>
   </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>Ваши финансовые данные никогда не покидают ваше устройство</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>Данные не отправляются</value>
+  </data>
   <data name="NonCurrentAssets" xml:space="preserve">
     <value>Внеоборотные активы</value>
   </data>
@@ -743,6 +932,12 @@
   </data>
   <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
     <value>Количество оборотов оборотных средств</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>Работает без интернета после настройки</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>Работает офлайн</value>
   </data>
   <data name="OneDaySalesRevenue" xml:space="preserve">
     <value>Однодневная выручка от реализации</value>
@@ -822,6 +1017,15 @@
   <data name="PreCrisisFinancialStability" xml:space="preserve">
     <value>Предкризисная финансовая устойчивость</value>
   </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>Конфиденциальность и безопасность</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>Вся обработка ИИ происходит в вашем браузере</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100% Приватно</value>
+  </data>
   <data name="ProceedsFromSales" xml:space="preserve">
     <value>Выручка от реализации продукции</value>
   </data>
@@ -855,6 +1059,18 @@
   <data name="PromissoryNotesReceived" xml:space="preserve">
     <value>Векселя получены</value>
   </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>Нажмите &lt;strong&gt;Финансовое здоровье&lt;/strong&gt; для общего анализа</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>Нажмите &lt;strong&gt;Получить рекомендации&lt;/strong&gt; для практических советов</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>Нажмите &lt;strong&gt;Объяснить ключевые показатели&lt;/strong&gt; для понимания метрик</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Быстрые действия</value>
+  </data>
   <data name="QuickSellingAssets" xml:space="preserve">
     <value>Быстрореализуемые активы (А2)</value>
   </data>
@@ -885,6 +1101,12 @@
   <data name="ReceivedForReportingPeriod" xml:space="preserve">
     <value>Поступило за отчетный период</value>
   </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>Проверить доступность снова</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>Какие ваши основные рекомендации для улучшения финансового положения моей компании?</value>
+  </data>
   <data name="RecoveryRate" xml:space="preserve">
     <value>Коэффициент восстановления</value>
   </data>
@@ -896,6 +1118,9 @@
   </data>
   <data name="ReserveCapital" xml:space="preserve">
     <value>Резервный капитал</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[Ответ остановлен пользователем]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
     <value>Нераспределенная прибыль (непокрытый убыток)</value>
@@ -936,6 +1161,9 @@
   <data name="SellingExpenses" xml:space="preserve">
     <value>Расходы на сбыт</value>
   </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Отправить сообщение</value>
+  </data>
   <data name="Settlements" xml:space="preserve">
     <value>Расчеты</value>
   </data>
@@ -947,6 +1175,18 @@
   </data>
   <data name="settlementsWithPayroll" xml:space="preserve">
     <value>расчетами по оплате труда</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>Требуется настройка</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Включите флаги Chrome AI</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Загрузите модель Gemini Nano</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Перезапустите Chrome</value>
   </data>
   <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
     <value>Доля другого совокупного дохода ассоциированных и совместных предприятий</value>
@@ -984,6 +1224,12 @@
   <data name="Stocks" xml:space="preserve">
     <value>Запасы</value>
   </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>Остановить анализ</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>Остановить генерацию</value>
+  </data>
   <data name="String" xml:space="preserve">
     <value>Стереть данные</value>
   </data>
@@ -1016,6 +1262,18 @@
   </data>
   <data name="times" xml:space="preserve">
     <value>раз</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>Будьте конкретны в своих вопросах</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>Ссылайтесь на конкретные коэффициенты или показатели</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>Задавайте дополнительные вопросы для ясности</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Советы</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>вместе</value>
@@ -1080,6 +1338,9 @@
   <data name="Value" xml:space="preserve">
     <value>Значение</value>
   </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>Просмотреть руководство по настройке</value>
+  </data>
   <data name="wear" xml:space="preserve">
     <value>износ</value>
   </data>
@@ -1133,5 +1394,8 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Да</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>Вы</value>
   </data>
 </root>

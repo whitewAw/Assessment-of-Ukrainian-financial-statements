@@ -1,5 +1,10 @@
-ï»¿@page "/sourcesofcapitalformation"
+@page "/sourcesofcapitalformation"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject SourcesOfCapitalFormation SourcesOfCapitalFormation
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -97,15 +102,593 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeCapitalStructure" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeCapitalSources"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing capital structure...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["SourcesOfCapitalFormation"];
         int number = 10;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeCapitalStructure()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildCapitalStructurePrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildCapitalStructurePrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        double CalculateChange(double begin, double end)
+        {
+            return SafeValue(end - begin);
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            TotalCapital = new
+            {
+                Base_Begin = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.BeginningOfyear),
+                Base_End = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear),
+                Base_Change = CalculateChange(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.BeginningOfyear, SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear),
+                Current_Begin = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.BeginningOfyear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear),
+                Current_Change = CalculateChange(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.BeginningOfyear, SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear)
+            },
+            
+            Equity = new
+            {
+                Base_Begin = SafeValue(SourcesOfCapitalFormation.Equity.Base.BeginningOfyear),
+                Base_End = SafeValue(SourcesOfCapitalFormation.Equity.Base.EndOfYear),
+                Base_PercentBegin = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsBase.BeginningOfyear),
+                Base_PercentEnd = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsBase.EndOfYear),
+                Current_Begin = SafeValue(SourcesOfCapitalFormation.Equity.Current.BeginningOfyear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.Equity.Current.EndOfYear),
+                Current_PercentBegin = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent.BeginningOfyear),
+                Current_PercentEnd = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent.EndOfYear)
+            },
+            
+            OwnCurrentAssets = new
+            {
+                Base_End = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.Base.EndOfYear),
+                Base_PercentOfEquity = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityBase.EndOfYear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.Current.EndOfYear),
+                Current_PercentOfEquity = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityCurrent.EndOfYear)
+            },
+            
+            BorrowedCapital = new
+            {
+                Base_Begin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Base.BeginningOfyear),
+                Base_End = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Base.EndOfYear),
+                Base_PercentBegin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsBase.BeginningOfyear),
+                Base_PercentEnd = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsBase.EndOfYear),
+                Current_Begin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Current.BeginningOfyear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Current.EndOfYear),
+                Current_PercentBegin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent.BeginningOfyear),
+                Current_PercentEnd = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent.EndOfYear)
+            },
+            
+            LongTermLiabilities = new
+            {
+                Base_End = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.Base.EndOfYear),
+                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalBase.EndOfYear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.Current.EndOfYear),
+                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+            },
+            
+            ShortTermLoans = new
+            {
+                Base_End = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.Base.EndOfYear),
+                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalBase.EndOfYear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.Current.EndOfYear),
+                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+            },
+            
+            AccountsPayable = new
+            {
+                Base_End = SafeValue(SourcesOfCapitalFormation.AccountsPayable.Base.EndOfYear),
+                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalBase.EndOfYear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.AccountsPayable.Current.EndOfYear),
+                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+            },
+            
+            OtherCurrentLiabilities = new
+            {
+                Base_End = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.Base.EndOfYear),
+                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalBase.EndOfYear),
+                Current_End = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.Current.EndOfYear),
+                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in capital structure, financial leverage, and corporate finance. Analyze the following Sources of Capital Formation for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+You are analyzing FOUR data points per metric (2 years × 2 time points):
+- {MainModel.BaseYear} Beginning and End
+- {MainModel.CurrentYear} Beginning and End
+
+This table shows CAPITAL STRUCTURE - how the company finances its operations.
+
+CAPITAL HIERARCHY:
+Total Capital Sources (100%)
++- 1. Equity (Own Capital) + % of Total
+¦  +- 1.1 Own Current Assets + % of Equity
++- 2. Borrowed Capital + % of Total
+¦  +- 2.1 Long-term Liabilities + % of Debt
+¦  +- 2.2 Short-term Loans + % of Debt
+¦  +- 2.3 Accounts Payable + % of Debt
+¦  +- 2.4 Other Current Liabilities + % of Debt
+¦  +- 2.5 Liabilities for Assets Held for Sale
++- 3. Future Period Income
+
+NAMING CONVENTIONS:
+Use proper names:
+- ""Equity"" or ""Shareholders' Equity"" (not ""Own Capital"")
+- ""Borrowed Capital"" or ""Total Debt"" (not ""Raised Capital"")
+- ""Accounts Payable"" (supplier credit)
+- ""Own Current Assets"" (working capital from equity)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+KEY FORMULAS:
+- Equity Ratio = Equity ÷ Total Capital × 100
+- Debt Ratio = Borrowed Capital ÷ Total Capital × 100
+- Equity-to-Debt Ratio = Equity ÷ Borrowed Capital
+- Financial Leverage = Total Capital ÷ Equity
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on MEANING
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Capital Structure Verdict**:
+   - 2-3 sentences on overall capital structure
+   - Primary finding: Financial independence or over-leveraged?
+   - Key trend: Equity increasing or decreasing?
+   - Quick verdict on financial health
+
+**2. Total Capital Sources Analysis**:
+   - Total funding trend
+   - {MainModel.BaseYear}: Begin vs End
+   - {MainModel.CurrentYear}: Begin vs End
+   - Capital adequacy assessment
+   - Growth or contraction interpretation
+
+**3. Equity (Shareholders' Equity) Analysis**:
+   - Equity level and trend
+   - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
+   - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
+   - **Interpretation:**
+     • >50% = Strong financial independence ?
+     • 40-50% = Balanced, healthy
+     • 30-40% = Moderate leverage
+     • <30% = High leverage, risky ??
+   - Trend: improving or deteriorating?
+
+**4. Own Current Assets Analysis - CRITICAL**:
+   - {MainModel.BaseYear}: [amount] ([percent]% of equity)
+   - {MainModel.CurrentYear}: [amount] ([percent]% of equity)
+   - **Interpretation:**
+     • Positive & Large = Equity finances working capital (conservative) ?
+     • Near Zero = Equity covers only fixed assets (balanced)
+     • NEGATIVE = Working capital ENTIRELY from debt (risky) ??
+   - **This metric reveals HOW working capital is financed**
+   - Assessment and implications
+
+**5. Borrowed Capital Analysis**:
+   - Total debt and trend
+   - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
+   - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
+   - **Interpretation:**
+     • <50% = Conservative, low risk ?
+     • 50-60% = Moderate leverage
+     • 60-70% = Aggressive leverage
+     • >70% = High risk ??
+   - Debt reliance assessment
+
+**6. Equity vs Debt Balance**:
+   - Calculate Equity-to-Debt Ratio for both years
+   - {MainModel.BaseYear}: Equity/Debt = [ratio]
+   - {MainModel.CurrentYear}: Equity/Debt = [ratio]
+   - **Benchmarks:**
+     • >1.0 = More equity than debt (conservative)
+     • 0.5-1.0 = Balanced
+     • <0.5 = Debt heavy (risky)
+   - Optimal capital structure assessment
+
+**7. Debt Component Decomposition**:
+   
+   **Long-term Liabilities:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Strategic debt for investments
+   - Maturity structure
+   
+   **Short-term Loans:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Operating credit lines
+   - Usually minimal
+   
+   **Accounts Payable (KEY):**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Supplier credit = FREE financing ?
+   - Typically largest component
+   - Payment terms assessment
+   
+   **Other Current Liabilities:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Accrued expenses, taxes
+   
+   **Which component dominates? Is this optimal?**
+
+**8. Debt Maturity Profile**:
+   - Long-term vs Short-term debt ratio
+   - Maturity balance assessment
+   - **Risks:**
+     • Too much short-term = Refinancing risk
+     • All long-term = Higher cost
+   - Optimal maturity mix recommendation
+
+**9. Capital Structure Evolution**:
+   - Four-point trend analysis
+   - Intra-year changes (within each year)
+   - Inter-year changes (2019 vs 2020)
+   - **Identify trend:**
+     • Increasing leverage?
+     • Deleveraging?
+     • Stable structure?
+   - Financial strategy assessment
+
+**10. Strategic Recommendations**:
+    
+    **Capital Structure Optimization:**
+    • Target equity % (recommend 40-50%)
+    • Target debt % (recommend 50-60%)
+    • Optimal leverage level
+    
+    **If Equity is LOW (<30%):**
+    • Retain earnings instead of dividends
+    • Consider equity injection
+    • Reduce debt where possible
+    • Target: 40% equity within 2 years
+    
+    **If Debt is HIGH (>70%):**
+    • Debt reduction priority
+    • Refinancing opportunities
+    • Asset sales if needed
+    • Target: <60% debt
+    
+    **Own Current Assets Strategy:**
+    • If NEGATIVE: Increase equity for working capital
+    • Target: At least break-even
+    • Reduce fixed asset investments temporarily
+    • Build equity buffer
+    
+    **Debt Composition Optimization:**
+    • Maximize Accounts Payable (free credit)
+    • Extend payment terms with suppliers
+    • Minimize costly bank loans
+    • Balance long-term vs short-term
+    
+    **Working Capital Financing:**
+    • How much from equity vs debt?
+    • Optimal mix for liquidity
+    • Credit line management
+    
+    **Implementation Timeline:**
+    • Immediate (30 days): [specific actions]
+    • Short-term (3-6 months): [tactical changes]
+    • Long-term (1-2 years): [strategic transformation]
+    • Quarterly monitoring: [key metrics]
+
+INTERPRETATION GUIDANCE:
+- Equity %: HIGHER is better (financial independence)
+- Debt %: LOWER is better (less risk)
+- Own Current Assets: POSITIVE is better (equity covers working capital)
+- Accounts Payable %: HIGHER is good (free financing)
+- Equity-to-Debt Ratio: HIGHER is more conservative
+
+CRITICAL INSIGHTS:
+1. Is the company financially independent or over-leveraged?
+2. Is equity % increasing (good) or decreasing (bad)?
+3. Is working capital funded by equity or debt?
+4. What's the debt composition? (long-term vs short-term, AP vs loans)
+5. Is Accounts Payable being used effectively?
+6. Are there refinancing risks?
+7. What's the optimal capital structure target?
+8. Should the company raise equity or reduce debt?
+
+WRITING STYLE:
+- Direct and professional
+- Active voice
+- Integrate numbers naturally
+- Explain WHY changes matter
+- Provide strategic context
+- Be analytical and actionable
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

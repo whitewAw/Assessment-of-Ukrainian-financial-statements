@@ -1,9 +1,9 @@
 using AFS;
+using AFS.Core.Components;
 using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
-using AFS.Core.Components;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Radzen;
 using System.Globalization;
 using System.Web;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -66,11 +65,11 @@ if (aiEnabled)
     else if (aiProvider.Equals("OpenAI", StringComparison.OrdinalIgnoreCase))
     {
         // Use OpenAI - Requires API key in appsettings.json
-        builder.Services.AddScoped<IAIFinancialAdvisor>(sp =>
+        builder.Services.AddScoped<IAIFinancialAdvisor>(sp => //Todo
         {
             var httpClient = sp.GetRequiredService<HttpClient>();
             var apiKey = builder.Configuration.GetValue<string>("OpenAI:ApiKey", "");
-            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini");
+            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini"); 
             return new OpenAIFinancialAdvisor(httpClient, apiKey, model);
         });
     }

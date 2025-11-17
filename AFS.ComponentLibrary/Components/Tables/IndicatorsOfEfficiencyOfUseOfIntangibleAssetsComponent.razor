@@ -1,5 +1,10 @@
-ï»¿@page "/indicatorsofefficiencyofuseofintangibleassets"
+@page "/indicatorsofefficiencyofuseofintangibleassets"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject IndicatorsOfEfficiencyOfUseOfIntangibleAssets IndicatorsOfEfficiencyOfUseOfIntangibleAssets
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -15,15 +20,632 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeIntangibleAssetsEfficiency" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeIntangibleAssetsEfficiency"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing intangible assets efficiency...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["IndicatorsOfEfficiencyOfUseOfIntangibleAssets"];
         int number = 9;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeIntangibleAssetsEfficiency()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildIntangibleAssetsPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildIntangibleAssetsPrompt()
+    {
+        // Detect current UI language from CultureInfo
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageName = currentCulture.EnglishName;
+        var cultureName = currentCulture.Name;
+        
+        // Map culture to language instruction
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : languageName;
+
+        // Helper to safely get value or default
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        // Helper to calculate percentage change
+        double CalculatePercentageChange(double baseValue, double currentValue)
+        {
+            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
+            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
+            var result = ((currentValue - baseValue) / baseValue) * 100;
+            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
+            return result;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            NetRevenueFromSales = new
+            {
+                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.CurrentYear),
+                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.BaseYear,
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.CurrentYear)
+            },
+            
+            AverageCostOfIntangibleAssets = new
+            {
+                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.CurrentYear),
+                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.BaseYear,
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.CurrentYear)
+            },
+            
+            IntangibleAssetTurnover_UAH = new
+            {
+                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.CurrentYear),
+                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.BaseYear,
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.CurrentYear)
+            },
+            
+            CapitalIntensityOfProduction_UAH = new
+            {
+                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.CurrentYear),
+                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.Deviations),
+                PercentageChange = CalculatePercentageChange(
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.BaseYear,
+                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.CurrentYear)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in intangible assets management, intellectual property valuation, and knowledge capital efficiency. Analyze the following Indicators of Efficiency of Use of Intangible Assets for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables in your response
+- DO NOT repeat the raw data values in table format
+- The user can already see all the data in the table above your analysis
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS only
+- Use narrative prose with clear sections and bullet points
+- Reference specific numbers when making points, but integrate them into sentences
+
+DATA STRUCTURE EXPLANATION:
+You are analyzing TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}) of INTANGIBLE ASSETS efficiency.
+
+INTANGIBLE ASSETS include:
+- Patents, licenses, and intellectual property
+- Software and technology
+- Trademarks and brands
+- Copyrights
+- Customer relationships and databases
+- Research and development investments
+- Goodwill (in some contexts)
+
+These are NON-PHYSICAL assets that drive value through knowledge, innovation, and competitive advantage.
+
+IMPORTANT NAMING CONVENTIONS:
+Use PROPER READABLE NAMES instead of technical field names:
+
+YEAR REFERENCES:
+- Use ""{MainModel.BaseYear}"" instead of ""BaseYear""
+- Use ""{MainModel.CurrentYear}"" instead of ""CurrentYear""
+
+FINANCIAL METRICS - Use these readable names:
+1. ""Net Revenue from Sales"" (revenue generated)
+2. ""Average Cost of Intangible Assets"" (intellectual capital invested)
+3. ""Intangible Asset Turnover"" in UAH (revenue per UAH of intangibles)
+4. ""Capital Intensity of Production"" in UAH (intangibles per UAH of revenue - inverse of turnover)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+KEY FORMULAS TO UNDERSTAND:
+- Intangible Asset Turnover = Revenue ÷ Intangible Assets (UAH per UAH)
+- Capital Intensity = Intangible Assets ÷ Revenue = 1 ÷ Turnover (UAH per UAH)
+
+**Relationship:**
+- Turnover and Capital Intensity are INVERSE metrics
+- Higher Turnover = Lower Capital Intensity = Better efficiency
+- Lower Turnover = Higher Capital Intensity = Less efficient
+
+RESPONSE FORMAT:
+- Write in clear, professional narrative style
+- Use headings with ** for section titles (e.g., **1. Executive Summary**)
+- Use bullet points (•) for lists
+- Integrate numbers naturally into sentences
+- NO tables, NO raw data dumps
+- Focus on what the numbers MEAN, not just what they ARE
+
+ANALYSIS REQUIREMENTS:
+
+Provide a comprehensive INTANGIBLE ASSETS EFFICIENCY ANALYSIS examining intellectual capital productivity and knowledge-based value creation.
+
+DATA TO ANALYZE (4 Key Indicators):
+1. Net Revenue from Sales (thousand UAH) - output
+2. Average Cost of Intangible Assets (thousand UAH) - intellectual capital base
+3. Intangible Asset Turnover (UAH/UAH) - efficiency metric
+4. Capital Intensity of Production (UAH/UAH) - inverse efficiency metric
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Intangible Assets Performance**:
+   - Provide 2-3 sentences on overall intangible assets efficiency
+   - State primary finding: Did intellectual capital become more or less productive?
+   - Assess the intangible asset base size and trend
+   - Quick verdict on knowledge capital efficiency
+
+**2. Intangible Assets Base Analysis**:
+   - Analyze Average Cost of Intangible Assets from {MainModel.BaseYear} to {MainModel.CurrentYear}
+   - Assess the size of intellectual capital investment
+   - Compare to tangible fixed assets (if context allows)
+   - Interpret trend:
+     • Growing = Investing in IP, software, brands
+     • Stable = Maintaining existing knowledge capital
+     • Declining = Amortization exceeding new investments
+   
+   **Context:**
+   - Are intangible assets significant for this company?
+   - Is this a knowledge-intensive or innovation-driven business?
+
+**3. Revenue Generation from Intangibles**:
+   - Analyze Net Revenue from Sales performance
+   - Assess revenue growth/decline
+   - Consider: How much of revenue is driven by intangible assets?
+   - Evaluate revenue sustainability
+
+**4. Intangible Asset Turnover Analysis** (Indicator #3):
+   - Formula: Revenue ÷ Intangible Assets
+   - {MainModel.BaseYear}: [turnover] UAH revenue per UAH of intangibles
+   - {MainModel.CurrentYear}: [turnover] UAH revenue per UAH of intangibles
+   - Change: [absolute], [percentage]%
+   
+   **Interpretation:**
+   - This measures how effectively intangible assets generate revenue
+   - VERY HIGH turnover (>100) = Highly efficient, lean intangible base
+   - HIGH turnover (10-100) = Good efficiency
+   - MODERATE turnover (2-10) = Adequate
+   - LOW turnover (<2) = Inefficient, over-investment in intangibles
+   
+   **Benchmark Context:**
+   - Intangible turnover is typically MUCH HIGHER than fixed asset turnover
+   - Why? Intangible assets often have lower book value but high revenue impact
+   - Patents, software, brands can generate massive revenue with small balance sheet value
+   
+   **Analysis:**
+   - Did turnover improve or decline?
+   - Root cause: Revenue performance or intangible asset changes?
+   - Is efficiency trending in the right direction?
+
+**5. Capital Intensity of Production Analysis** (Indicator #4):
+   - Formula: Intangible Assets ÷ Revenue = 1 ÷ Turnover
+   - {MainModel.BaseYear}: [intensity] UAH of intangibles per UAH of revenue
+   - {MainModel.CurrentYear}: [intensity] UAH of intangibles per UAH of revenue
+   - Change: [absolute], [percentage]%
+   
+   **Interpretation:**
+   - This is the INVERSE of turnover
+   - LOWER capital intensity = BETTER (less intangible investment needed per UAH of revenue)
+   - HIGHER capital intensity = WORSE (more intangible capital required)
+   
+   **Typical Values:**
+   - <0.01 (1%) = Highly efficient
+   - 0.01-0.10 (1-10%) = Normal range
+   - >0.10 (>10%) = Capital intensive intangibles
+   
+   **Relationship to Turnover:**
+   - Verify: Capital Intensity × Turnover should equal 1
+   - They tell the same story from different perspectives
+
+**6. Turnover vs Capital Intensity - The Complete Picture**:
+   **Mathematical Relationship:**
+   ```
+   Capital Intensity = 1 ÷ Turnover
+   ```
+   
+   **What Happened:**
+   - If Turnover INCREASED ? Capital Intensity DECREASED (good)
+   - If Turnover DECREASED ? Capital Intensity INCREASED (concerning)
+   
+   **Interpretation:**
+   - Improving turnover + declining intensity = Excellent trend
+   - Declining turnover + rising intensity = Concerning trend
+   - Analyze which scenario applies
+
+**7. Intangible Assets Productivity Assessment**:
+   - Overall assessment: Are intangibles being used efficiently?
+   - Compare to industry norms (if knowledge available)
+   - Assess return on intellectual capital investment
+   - Evaluate innovation effectiveness
+   
+   **Key Questions:**
+   - Is the company getting adequate revenue from its IP, software, brands?
+   - Should more or less be invested in intangibles?
+   - Are existing intangibles underutilized or optimized?
+
+**8. Efficiency Drivers and Root Causes**:
+   **If Turnover Improved (Efficiency UP):**
+   - Strong revenue growth from existing intangibles?
+   - Successful monetization of IP, brands, software?
+   - Lean intangible asset management?
+   - Effective R&D commercialization?
+   
+   **If Turnover Declined (Efficiency DOWN):**
+   - Revenue challenges?
+   - Over-investment in intangibles not yet productive?
+   - New IP/software acquisitions in investment phase?
+   - Amortization rates too slow?
+   
+   **Strategic Implications:**
+   - What does the trend reveal about innovation strategy?
+   - Is intellectual capital being managed effectively?
+
+**9. Comparative Context and Benchmarking**:
+   - How does intangible asset efficiency compare to fixed assets?
+   - Are intangibles more or less productive than tangible assets?
+   - Industry context:
+     • Tech/software companies: High intangible turnover expected
+     • Manufacturing: Lower intangible intensity
+     • Consumer brands: Moderate intangibles (trademarks)
+     • Services: Varies by type
+   
+   - Assess if the company's intangible efficiency is appropriate for its sector
+
+**10. Strategic Recommendations**:
+    Provide specific, actionable recommendations:
+    
+    **For Improving Intangible Asset Turnover**:
+    • If turnover is low (<10): Monetization strategies
+      - License unused IP
+      - Leverage brands more effectively
+      - Maximize software ROI
+      - Divest non-strategic intangibles
+    • If turnover is adequate: Sustain and optimize
+      - Continue effective IP management
+      - Protect key intangibles
+      - Strategic renewal of IP portfolio
+    • Target turnover: [specific UAH per UAH]
+    
+    **For Reducing Capital Intensity**:
+    • If intensity is high (>0.05): Efficiency programs
+      - Audit intangible asset portfolio
+      - Identify underperforming IP
+      - Accelerate amortization where appropriate
+      - Lean approach to new intangible investments
+    • Target intensity: <0.01 (less than 1%)
+    
+    **Intellectual Capital Strategy**:
+    • Should the company invest MORE or LESS in intangibles?
+    • R&D investment priorities
+    • IP acquisition vs organic development
+    • Brand building vs other priorities
+    • Software/technology investments
+    
+    **Monetization Opportunities**:
+    • Licensing unused patents or IP
+    • Franchising brands
+    • Software-as-a-service models
+    • Strategic partnerships leveraging IP
+    • IP portfolio optimization
+    
+    **Protection and Management**:
+    • IP protection strategies
+    • Patent renewal decisions
+    • Trademark enforcement
+    • Software license management
+    • Customer relationship preservation
+    
+    **Implementation Timeline**:
+    • Immediate (30 days): Intangible asset inventory and audit
+    • Short-term (3-6 months): Monetization quick wins
+    • Long-term (1-2 years): Strategic IP portfolio optimization
+    • Ongoing: Quarterly intangible efficiency monitoring
+
+INTERPRETATION GUIDANCE:
+- Intangible Asset Turnover: HIGHER is BETTER (more revenue per UAH)
+- Capital Intensity: LOWER is BETTER (less capital needed)
+- Turnover and Intensity are INVERSE (multiply to equal 1)
+
+**Typical Benchmarks:**
+- Turnover >100 = Exceptional efficiency
+- Turnover 10-100 = Good efficiency
+- Turnover <10 = Review needed
+- Intensity <0.01 = Lean intangible base
+- Intensity >0.10 = Heavy intangible investment
+
+CRITICAL INSIGHTS TO PROVIDE:
+1. Are intangible assets generating adequate revenue?
+2. Is the intangible asset base appropriately sized?
+3. Should investment in IP, software, brands increase or decrease?
+4. Are existing intangibles being fully monetized?
+5. What's the optimal intellectual capital strategy?
+
+SPECIAL CONSIDERATIONS FOR INTANGIBLE ASSETS:
+- They're often undervalued on balance sheets (book value << market value)
+- High turnover is expected and normal
+- Low book value ? low importance
+- Future-oriented value creation
+- Competitive advantage drivers
+- Often company's most valuable assets despite small balance sheet presence
+
+WRITING STYLE:
+- Be direct and professional
+- Use active voice
+- Integrate numbers into narrative (e.g., ""Intangible Asset Turnover of 1,358 UAH means each UAH of intellectual capital generated 1,358 UAH of revenue—exceptionally high efficiency indicating a lean, productive IP portfolio"")
+- Explain WHY efficiency matters for knowledge-based value creation
+- Provide strategic intellectual capital guidance
+- Be analytical and insightful
+
+All amounts are in thousand UAH. Turnover and intensity are in UAH per UAH. Remember to write your entire response in {languageInstruction} using proper readable names for all metrics. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

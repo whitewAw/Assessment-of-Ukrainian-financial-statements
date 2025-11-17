@@ -1,5 +1,11 @@
-ï»¿@page "/factorsaffectingturnoverofworkingcapital"
+@page "/factorsaffectingturnoverofworkingcapital"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject FactorsAffectingTurnoverOfWorkingCapital FactorsAffectingTurnoverOfWorkingCapital
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
+
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
     <table class="table table-bordered py-0 table-sm table-striped">
@@ -41,15 +47,499 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeFactorsAffectingTurnover" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeFactorsAffectingTurnover"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing turnover factors...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["FactorsAffectingTurnoverOfWorkingCapital"];
         int number = 3;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeFactorsAffectingTurnover()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildFactorsAnalysisPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildFactorsAnalysisPrompt()
+    {
+        // Detect current UI language from CultureInfo
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageName = currentCulture.EnglishName;
+        var cultureName = currentCulture.Name;
+        
+        // Map culture to language instruction
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : languageName;
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 3: FACTORS AFFECTING TURNOVER OF WORKING CAPITAL
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+Unit: Turnover in DAYS (lower is better)
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**1. MONEY AND ITS EQUIVALENTS (Cash)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.Money.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.Money.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.Money.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.Money.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days
+
+**2. ACCOUNTS RECEIVABLE**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.DueToAverageBalances:N2} days
+
+**3. MATERIAL VALUES (Inventory)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.DueToAverageBalances:N2} days
+
+**4. TOTAL CURRENT ASSETS (Working Capital)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.DueToAverageBalances:N2} days
+
+**5. ONE-DAY REVENUE FROM SALES** [Baseline metric]
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.BaseYear:N2} thousand UAH
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.CurrentYear:N2} thousand UAH
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Total:N2} thousand UAH
+";
+
+        return $@"You are a financial analyst specializing in working capital efficiency and factor analysis. Analyze the Factors Affecting Turnover of Working Capital for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING FACTOR ANALYSIS:
+This table shows HOW and WHY turnover periods changed by decomposing the total change into TWO FACTORS:
+
+**TOTAL DEVIATION** = Change from {MainModel.BaseYear} to {MainModel.CurrentYear}
+  • Formula: Current year - Base year
+  • Example: 8.55 - 6.61 = 1.94 days (cash turnover WORSENED by 1.94 days)
+
+**ADJUSTED INDICATOR** = What turnover WOULD BE if ONLY revenue changed
+  • Formula: Base year average balance / Current year one-day revenue
+  • Shows isolated impact of revenue growth/decline
+  • Example: If revenue drops, this increases (takes more days to turn over same balance)
+
+**DUE TO REVENUE** = Impact of revenue changes on turnover
+  • Formula: Adjusted indicator - Base year
+  • Positive = revenue decline WORSENED turnover (more days needed)
+  • Negative = revenue growth IMPROVED turnover (fewer days needed)
+
+**DUE TO AVERAGE BALANCES** = Impact of balance changes on turnover
+  • Formula: Current year - Adjusted indicator
+  • Positive = balances grew, WORSENING turnover (more capital tied up)
+  • Negative = balances shrank, IMPROVING turnover (less capital needed)
+
+**VERIFICATION**: Total deviation = Due to revenue + Due to average balances
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat the raw data I provided
+- The user can see all data in the table
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall working capital efficiency: improved or declined?
+- PRIMARY driver: revenue changes or balance management?
+- Overall verdict
+
+**2. One-Day Revenue Context** (Row 5)
+- Revenue trend from {MainModel.BaseYear} to {MainModel.CurrentYear}
+- Impact on operational baseline
+- Sets context for all other rows
+
+**3. Cash Turnover Analysis** (Row 1)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (faster or slower?)
+- Adjusted indicator: what revenue alone would have caused
+- Factor breakdown:
+  • Revenue impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days - explain direction
+  • Balance impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days - explain direction
+- Dominant factor: revenue or balances?
+- Business implications: good cash management or not?
+
+**4. Accounts Receivable Turnover Analysis** (Row 2)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (collection faster or slower?)
+- Adjusted indicator interpretation
+- Factor breakdown:
+  • Revenue impact: explain what it means
+  • Balance impact: AR growing too much or shrinking appropriately?
+- Dominant factor
+- Collection efficiency assessment: improving or declining?
+- Credit policy implications
+
+**5. Inventory Turnover Analysis** (Row 3)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (turning faster or slower?)
+- Adjusted indicator context
+- Factor breakdown:
+  • Revenue impact
+  • Balance impact: inventory accumulation or reduction?
+- Dominant factor
+- Inventory management quality: excellent, good, or concerning?
+
+**6. Total Working Capital Analysis** (Row 4)
+- Overall turnover change
+- Aggregate factor impacts
+- Synthesis: revenue vs balance management dominance
+- Overall capital efficiency verdict
+
+**7. Component Comparison**
+- Rank rows 1-3 by:
+  • Biggest total improvement/decline
+  • Most affected by revenue
+  • Most affected by balance changes
+- Identify problem areas vs strengths
+
+**8. Factor Dominance Assessment**
+- Were changes driven MORE by:
+  • Revenue performance (external/market)?
+  • Balance management (internal/operational)?
+- For each component: passive or active management?
+- Strategic control assessment
+
+**9. Efficiency vs Growth Trade-offs**
+- Did revenue decline help or hurt efficiency?
+- Were balance increases justified by business needs?
+- Company positioning:
+  • Scaling efficiently (balances growing slower than revenue drop justifies)?
+  • Over-investing (balances too high)?
+  • Under-investing (balances too low for operations)?
+
+**10. Key Findings** (3-5 bullets)
+- Most dramatic changes
+- Best managed component
+- Worst managed component
+- Surprising insights
+
+**11. Strategic Recommendations**
+**For Cash Management**:
+- If revenue-driven: [revenue strategy recommendations]
+- If balance-driven: [cash optimization recommendations]
+- Target: X days cash turnover
+
+**For Accounts Receivable**:
+- If revenue-driven: [sales/credit policy recommendations]
+- If balance-driven: [collection/AR management recommendations]
+- Target: X days collection period
+
+**For Inventory**:
+- If revenue-driven: [demand/sales recommendations]
+- If balance-driven: [inventory optimization recommendations]
+- Target: X days inventory holding
+
+**Overall Working Capital**:
+- Primary focus area (based on factor analysis)
+- Balance optimization targets
+- Timeline: Immediate (30 days), Short-term (3 months), Long-term (6-12 months)
+
+INTERPRETATION GUIDE:
+? GOOD SIGNS:
+- Total deviation is NEGATIVE (turnover shortened = faster)
+- Due to revenue is POSITIVE but small (revenue drop had minimal impact)
+- Due to balances is NEGATIVE (actively reduced balances = good management)
+
+? BAD SIGNS:
+- Total deviation is POSITIVE (turnover lengthened = slower)
+- Due to balances is POSITIVE and large (balances growing = capital tied up)
+- Balances growing faster than revenue justifies
+
+FACTOR INTERPRETATION:
+**Revenue factor** (Row X DueToRevenue):
+- Positive: Revenue decline INCREASED days needed (bad external factor)
+- Negative: Revenue growth DECREASED days needed (good external factor)
+
+**Balance factor** (Row X DueToAverageBalances):
+- Positive: Balances grew, INCREASED days (internal management choice)
+- Negative: Balances shrank, DECREASED days (internal management choice)
+
+EXAMPLE NARRATIVE:
+""Cash turnover worsened from 6.61 to 8.55 days (increase of 1.94 days). Factor analysis reveals that revenue decline contributed +0.88 days to this deterioration, while growing cash balances added another +1.06 days. This indicates that BOTH external (revenue) and internal (balance management) factors negatively impacted cash efficiency, with balance management being the slightly larger contributor.""
+
+WRITING STYLE:
+- Professional and analytical
+- Active voice
+- Integrate numbers with interpretation
+- Explain WHY each factor matters
+- Distinguish between controllable (balances) and uncontrollable (revenue) factors
+- Provide actionable insights
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on FACTOR ANALYSIS and what it reveals about management decisions vs external conditions.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

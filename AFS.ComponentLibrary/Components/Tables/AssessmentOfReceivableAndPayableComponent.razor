@@ -1,6 +1,10 @@
-ï»¿@page "/assessmentofreceivableandpayable"
+@page "/assessmentofreceivableandpayable"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject AssessmentOfReceivableAndPayable AssessmentOfReceivableAndPayable
-@inject AssessmentOfReceivableAndPayable AssessmentOfReceivableAndPayable
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -78,15 +82,602 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeReceivablePayable" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeReceivablesPayables"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing receivables and payables...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["AssessmentOfReceivableAndPayable"];
         int number = 11;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeReceivablePayable()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildReceivablePayablePrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildReceivablePayablePrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        var totalRecBase = SafeValue(AssessmentOfReceivableAndPayable.Total.ReceivableBase);
+        var totalRecCurrent = SafeValue(AssessmentOfReceivableAndPayable.Total.ReceivableCurrent);
+        var totalPayBase = SafeValue(AssessmentOfReceivableAndPayable.Total.PayableBase);
+        var totalPayCurrent = SafeValue(AssessmentOfReceivableAndPayable.Total.PayableCurrent);
+        
+        var netPositionBase = totalRecBase - totalPayBase;
+        var netPositionCurrent = totalRecCurrent - totalPayCurrent;
+        
+        var ratioBase = totalPayBase > 0 ? totalRecBase / totalPayBase : 0;
+        var ratioCurrent = totalPayCurrent > 0 ? totalRecCurrent / totalPayCurrent : 0;
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            Summary = new
+            {
+                TotalReceivables_Base = totalRecBase,
+                TotalReceivables_Current = totalRecCurrent,
+                TotalPayables_Base = totalPayBase,
+                TotalPayables_Current = totalPayCurrent,
+                NetPosition_Base = netPositionBase,
+                NetPosition_Current = netPositionCurrent,
+                ReceivableToPayableRatio_Base = ratioBase,
+                ReceivableToPayableRatio_Current = ratioCurrent
+            },
+            
+            BuyersSuppliers = new
+            {
+                Receivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ReceivableBase),
+                Receivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ReceivableCurrent),
+                Payable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableBase),
+                Payable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableCurrent),
+                ExcessReceivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ExceedingReceivableBase),
+                ExcessReceivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ExceedingReceivableCurrent),
+                ExcessPayable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ExceedingPayableBase),
+                ExcessPayable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.ExceedingPayableCurrent)
+            },
+            
+            BudgetFunds = new
+            {
+                Receivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.ReceivableBase),
+                Receivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.ReceivableCurrent),
+                Payable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableBase),
+                Payable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableCurrent),
+                ExcessReceivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.ExceedingReceivableBase),
+                ExcessReceivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.ExceedingReceivableCurrent)
+            },
+            
+            Advances = new
+            {
+                Receivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.ReceivableBase),
+                Receivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.ReceivableCurrent),
+                Payable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.PayableBase),
+                Payable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.PayableCurrent),
+                ExcessPayable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.ExceedingPayableBase),
+                ExcessPayable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithAdvances.ExceedingPayableCurrent)
+            },
+            
+            Others = new
+            {
+                Receivable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithOther.ReceivableBase),
+                Receivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithOther.ReceivableCurrent),
+                Payable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithOther.PayableBase),
+                Payable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithOther.PayableCurrent),
+                ExcessReceivable_Current = SafeValue(AssessmentOfReceivableAndPayable.WithOther.ExceedingReceivableCurrent),
+                ExcessPayable_Base = SafeValue(AssessmentOfReceivableAndPayable.WithOther.ExceedingPayableBase)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in working capital management, liquidity analysis, and credit risk assessment. Analyze the following Assessment of Receivable and Payable for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes the BALANCE between what the company OWES (payables) and what is OWED TO the company (receivables) across 11 settlement categories for TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+
+SETTLEMENT CATEGORIES:
+1. With Buyers or Suppliers (Trade)
+2. With Long-term Liabilities
+3. Bills Receivable
+4. From Insurance
+5. With Budget and Off-Budget Funds (Taxes)
+6. From Accrued Income
+7. With Labor Payment (Salaries)
+8. In Advances (Prepayments)
+9. With Participants (Shareholders)
+10. With Internal Settlements
+11. With Others
+
+NAMING CONVENTIONS:
+- ""Accounts Receivable"" (money owed TO the company)
+- ""Accounts Payable"" (money the company OWES)
+- ""Excess Receivable"" (receivable > payable = net asset)
+- ""Excess Payable"" (payable > receivable = net liability)
+- ""Net Position"" (total receivable - total payable)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+KEY FORMULAS:
+- Excess Receivable = Max(0, Receivable - Payable) for each category
+- Excess Payable = Max(0, Payable - Receivable) for each category
+- Net Position = Total Receivables - Total Payables
+- Receivable-to-Payable Ratio = Total Receivables ÷ Total Payables
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on MEANING and LIQUIDITY IMPLICATIONS
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Receivables vs Payables Balance**:
+   - 2-3 sentences on overall position
+   - Primary finding: Net debtor or net creditor?
+   - Key trend: Balance improving or deteriorating?
+   - Liquidity verdict
+
+**2. Total Receivables Analysis**:
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - Change: [absolute] ([percentage]%)
+   - Collection performance assessment
+   - Receivable quality
+
+**3. Total Payables Analysis**:
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - Change: [absolute] ([percentage]%)
+   - Payment obligations
+   - Credit management
+
+**4. Net Position Assessment - CRITICAL**:
+   - Net Position = Receivables - Payables
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - **Interpretation:**
+     • POSITIVE = Net creditor (owed more than owing) ?
+     • NEGATIVE = Net debtor (owing more than owed) ??
+     • ZERO = Balanced
+   - **Liquidity Impact:**
+     • If negative: Must fund this gap from operations/credit
+     • Direct working capital drain
+     • Cash management critical
+
+**5. Receivable-to-Payable Ratio**:
+   - {MainModel.BaseYear}: [ratio]
+   - {MainModel.CurrentYear}: [ratio]
+   - **Benchmarks:**
+     • >1.0 = More receivable (favorable position)
+     • 1.0 = Balanced
+     • <1.0 = More payable (net debtor) ??
+   - Trend analysis
+
+**6. Category-by-Category Analysis**:
+   
+   **Buyers/Suppliers (Trade - LARGEST):**
+   - Receivable: [base] ? [current]
+   - Payable: [base] ? [current]
+   - Net: Excess [receivable/payable]
+   - % of total: [percentage]
+   - Trade credit analysis
+   - Collection vs payment dynamics
+   
+   **Budget and Funds (Taxes):**
+   - Receivable: [amount] (tax refunds)
+   - Payable: [amount] (taxes owed)
+   - Net: Usually receivable (favorable) ?
+   - Government settlement timing
+   
+   **Advances (Prepayments):**
+   - Receivable: Prepayments TO suppliers
+   - Payable: Customer prepayments received
+   - Net position assessment
+   - Working capital tie-up
+   
+   **Others:**
+   - Trend analysis
+   - Cleanup of miscellaneous items
+   - Risk assessment
+
+**7. Cash Flow Implications**:
+   - If all settlements occurred simultaneously:
+     • Net cash inflow or outflow?
+     • Amount: [net position]
+   - **Working Capital Requirements:**
+     • Must fund payable excess from where?
+     • Credit line adequacy
+   - Payment timing management
+
+**8. Collection vs Payment Dynamics**:
+   - Receivables declining faster/slower than payables?
+   - **Possible scenarios:**
+     • Both declining: Contraction
+     • Receivables down, payables stable: Collection acceleration
+     • Both growing: Expansion
+   - Implications for cash management
+   - Days Sales Outstanding vs Days Payable Outstanding trend
+
+**9. Liquidity and Working Capital Assessment**:
+   - Net position impact on liquidity
+   - **If net debtor (negative position):**
+     • Immediate funding need
+     • Credit line requirements
+     • Cash buffer necessity
+   - **If net creditor (positive position):**
+     • Cash collection strategy
+     • Investment of excess funds
+   - Trade credit leverage analysis
+
+**10. Strategic Recommendations**:
+    
+    **Receivable Management:**
+    • Accelerate collections if possible
+    • Review credit terms with customers
+    • Identify slow-paying customers
+    • Consider factoring for large receivables
+    • Target DSO reduction
+    • Target receivable level: [specific amount]
+    
+    **Payable Management:**
+    • Negotiate extended payment terms
+    • Optimize payment timing (don't pay early)
+    • Leverage supplier credit effectively
+    • Don't damage relationships with late payment
+    • Manage cash disbursements strategically
+    • Target payable level: [specific amount]
+    
+    **Net Position Improvement:**
+    • Current net position: [amount]
+    • Target net position: [recommended amount]
+    • Timeline: [12-18 months]
+    • **Methods:**
+      - If net debtor: Increase collections, extend payables
+      - If net creditor: Maintain favorable position
+      - Balance growth with liquidity
+    
+    **By Category Priorities:**
+    1. **Buyers/Suppliers:** [specific actions - largest impact]
+    2. **Budget/Funds:** [maintain/accelerate tax refunds]
+    3. **Advances:** [reduce/optimize prepayments]
+    4. **Others:** [clean up miscellaneous items]
+    
+    **Cash Management:**
+    • Forecast settlement funding need: [amount]
+    • Ensure adequate credit lines: [recommended amount]
+    • Monitor payment cycles closely
+    • Optimize working capital daily
+    • Weekly cash flow forecasting
+    
+    **Working Capital Targets:**
+    • Receivable-to-Payable Ratio: Target >0.90
+    • Net Position: Target <5M excess payable
+    • DSO (Days Sales Outstanding): Target [X days]
+    • DPO (Days Payable Outstanding): Target [Y days]
+    
+    **Implementation Timeline:**
+    • Immediate (30 days):
+      - Cash forecast & credit line review
+      - Identify collection opportunities
+      - Assess payment obligations
+    
+    • Short-term (3-6 months):
+      - Collection acceleration program
+      - Payment term negotiations
+      - Working capital optimization
+    
+    • Long-term (1-2 years):
+      - Structural improvement in net position
+      - Sustainable working capital model
+      - Target net position achievement
+
+INTERPRETATION GUIDANCE:
+- Net Position: POSITIVE is better (net creditor)
+- Receivable-to-Payable Ratio: HIGHER is better (>1.0 ideal)
+- Excess Receivable: Asset (will receive cash)
+- Excess Payable: Liability (must pay cash)
+
+CRITICAL INSIGHTS:
+1. Is the company a net debtor or net creditor?
+2. Is the net position improving or deteriorating?
+3. What's the receivable-to-payable ratio trend?
+4. Which category dominates the imbalance?
+5. What's the cash flow impact of settlements?
+6. Is working capital being managed effectively?
+7. Are there liquidity risks from excess payables?
+8. What's the optimal net position target?
+
+SPECIAL CONSIDERATIONS:
+- Trade receivables/payables typically largest
+- Tax receivables usually favorable (refunds)
+- Advances can tie up working capital
+- Timing mismatches create cash flow issues
+- Net debtor position = funding requirement
+
+WRITING STYLE:
+- Direct and professional
+- Active voice
+- Integrate numbers naturally
+- Explain WHY balance matters for liquidity
+- Provide cash management context
+- Be analytical and actionable
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

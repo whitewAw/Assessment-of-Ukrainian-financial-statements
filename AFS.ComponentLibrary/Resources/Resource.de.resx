@@ -201,14 +201,116 @@
   <data name="AdministrativeExpenses" xml:space="preserve">
     <value>Verwaltungsaufwendungen</value>
   </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>KI analysiert Ihre Finanzdaten...</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>KI-Assistent</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>KI-Assistent-Seite</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>Erhalten Sie sofortige Einblicke und Empfehlungen mithilfe von KI.</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>KI-Finanzanalyse</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>KI-Finanzassistent</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>Bitte folgen Sie den obigen Anweisungen, um Chrome AI zu aktivieren</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI nicht verfügbar</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>KI-Assistent nicht bereit</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>Chrome AI ist einsatzbereit</value>
+  </data>
   <data name="Amortization" xml:space="preserve">
     <value>Abschreibung</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>Vermögensstruktur analysieren ({0})</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>Geschäftstätigkeit analysieren</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>Kapitalquellen analysieren</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>Kapitalquellen analysieren ({0})</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>Kapitalmerkmale analysieren</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>Faktoren analysieren, die den Umsatz beeinflussen</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>Analysieren Sie die finanzielle Gesamtlage meines Unternehmens basierend auf den verfügbaren Daten</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>Finanzstabilitätsindikatoren analysieren</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>Effizienz des Anlagevermögens analysieren</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>Anlagevermögensfaktoren analysieren</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>Bewegung des Anlagevermögens analysieren</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>Zustand des Anlagevermögens analysieren</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>Allgemeine Finanzstabilität analysieren</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>Effizienz immaterieller Vermögenswerte analysieren</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>Liquiditätskennzahlen analysieren</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>Struktur der Verbindlichkeiten analysieren ({0})</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>Forderungen und Verbindlichkeiten analysieren</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>Solvabilitätskennzahlen analysieren</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>Stabilitätsklassifizierung analysieren</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>Umsatzkennzahlen analysieren</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>Effizienz des Betriebskapitals analysieren</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>Umschlag des Betriebskapitals analysieren</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>Sind Sie sicher?</value>
   </data>
   <data name="Article" xml:space="preserve">
     <value>Artikel</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>Fragen Sie nach Ihren Finanzdaten...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>Fragen stellen</value>
   </data>
   <data name="AssessmentOfFinancialStatements" xml:space="preserve">
     <value>Bewertung des Finanzberichts</value>
@@ -288,6 +390,9 @@
   <data name="BaseYear" xml:space="preserve">
     <value>Basisjahr</value>
   </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>Browser-KI (Chrome 127+)</value>
+  </data>
   <data name="bySettlementsWithParticipants" xml:space="preserve">
     <value>aufgrund von Geschäftsbeziehungen</value>
   </data>
@@ -315,8 +420,23 @@
   <data name="CharacteristicsOfCapital" xml:space="preserve">
     <value>Merkmale des Kapitals</value>
   </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>Mit KI chatten</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>Überprüfung der KI-Verfügbarkeit...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome KI nicht verfügbar</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome KI ist derzeit nicht verfügbar. Bitte besuchen Sie</value>
+  </data>
   <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
     <value>Klassifizierung der Arten der Finanzstabilität anhand des Liquiditätsgrads des Betriebskapitals</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Löschen</value>
   </data>
   <data name="CoefficientOfBusinessActivity" xml:space="preserve">
     <value>Koeffizient der Geschäftstätigkeit</value>
@@ -432,11 +552,17 @@
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Dividenden pro Stammaktie</value>
   </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>Gemini Nano-Modell wird heruntergeladen... {0}%</value>
+  </data>
   <data name="Dynamics" xml:space="preserve">
     <value>Dynamik</value>
   </data>
   <data name="ElementsOperatingCosts" xml:space="preserve">
     <value>Elemente der Betriebskosten</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>Aktivieren Sie Chrome AI, um mit dem Chat zu beginnen...</value>
   </data>
   <data name="Equity" xml:space="preserve">
     <value>Eigenkapital</value>
@@ -449,6 +575,18 @@
   </data>
   <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
     <value>Liquiditätsbewertung des {0}-Saldos am Ende von {1} Jahr</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>„Was bedeutet meine aktuelle Kennzahl?“</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>„Wie kann ich die Liquidität verbessern?“</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>„Vergleichen Sie dieses Jahr mit dem letzten Jahr“</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>„Was sind meine größten Risiken?“</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
     <value>Überschuss (+), Mangel (-) an eigenem Betriebskapital, lang- und kurzfristigen Fremdmitteln zur Bildung von Rücklagen</value>
@@ -465,14 +603,47 @@
   <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
     <value>Aufwendungen (Einnahmen) aus der Einkommensteuer</value>
   </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>Wichtige Kennzahlen erklären</value>
+  </data>
   <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
     <value>Faktorenanalyse der Rendite des Anlagevermögens</value>
   </data>
   <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
     <value>Faktoren, die den Umsatz des Umlaufvermögens beeinflussen</value>
   </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>Häufig gestellte Fragen</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>Ja! Die Browser-KI verwendet das integrierte Gemini-Nano-Modell von Chrome. Keine API-Schlüssel, keine Kosten, keine Nutzungsbeschränkungen.</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT läuft auf den Servern von OpenAI (erfordert Internet/API-Schlüssel). Die Browser-KI läuft vollständig in Ihrem Browser (kein Server, kein API-Schlüssel, funktioniert offline nach Einrichtung).</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>Absolut! Alle KI-Verarbeitung erfolgt lokal in Ihrem Browser. Ihre Finanzdaten verlassen niemals Ihr Gerät. Es werden keine Daten an einen Server gesendet, einschließlich Google oder Microsoft.</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>Derzeit unterstützt: Chrome 127+, Chrome Canary, Edge 127+ (Chromium-basiert). Bald verfügbar: Firefox und Safari.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Ist das wirklich kostenlos?</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>Wie unterscheidet sich das von ChatGPT?</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>Sind meine Daten sicher?</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>Welche Browser werden unterstützt?</value>
+  </data>
   <data name="FinancialExpenses" xml:space="preserve">
     <value>Finanzielle Auslagen</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>Finanzielle Gesundheit</value>
   </data>
   <data name="FinancialResultBeforeTax" xml:space="preserve">
     <value>Finanzergebnis vor Steuern</value>
@@ -500,6 +671,9 @@
   </data>
   <data name="ForSamePeriodLastYear" xml:space="preserve">
     <value>Für den gleichen Zeitraum des Vorjahres</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>für Setup-Anweisungen.</value>
   </data>
   <data name="fromAccruedIncome" xml:space="preserve">
     <value>aus aufgelaufenen Einkünften</value>
@@ -531,6 +705,9 @@
   <data name="GeneralInformation" xml:space="preserve">
     <value>Allgemeine informationen</value>
   </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>Empfehlungen erhalten</value>
+  </data>
   <data name="goodsWorksServices" xml:space="preserve">
     <value>Waren, Werke, Dienstleistungen</value>
   </data>
@@ -545,6 +722,9 @@
   </data>
   <data name="HardToSellAssets" xml:space="preserve">
     <value>Schwer zu realisierende Vermögenswerte (A4)</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>So verwenden</value>
   </data>
   <data name="in%OfBorrowedCapital" xml:space="preserve">
     <value>Dasselbe in % des eingesetzten Kapitals</value>
@@ -632,6 +812,9 @@
   </data>
   <data name="InvestmentProperty" xml:space="preserve">
     <value>Als Finanzinvestition gehaltene Immobilien</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>Erklären Sie die wichtigsten Finanzkennzahlen, auf die ich mich konzentrieren sollte</value>
   </data>
   <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
     <value>Arbeitsressourcen eines durchschnittlichen Arbeitnehmers</value>
@@ -726,6 +909,12 @@
   <data name="No" xml:space="preserve">
     <value>NEIN</value>
   </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>Ihre Finanzdaten verlassen niemals Ihr Gerät</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>Keine Daten gesendet</value>
+  </data>
   <data name="NonCurrentAssets" xml:space="preserve">
     <value>Anlagevermögen</value>
   </data>
@@ -743,6 +932,12 @@
   </data>
   <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
     <value>Die Anzahl der Umsätze des Umlaufvermögens</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>Funktioniert nach der Einrichtung ohne Internet</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>Offline-fähig</value>
   </data>
   <data name="OneDaySalesRevenue" xml:space="preserve">
     <value>Tagesumsatz</value>
@@ -822,6 +1017,15 @@
   <data name="PreCrisisFinancialStability" xml:space="preserve">
     <value>Finanzielle Stabilität vor der Krise</value>
   </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>Datenschutz &amp; Sicherheit</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>Alle KI-Verarbeitung erfolgt in Ihrem Browser</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100 % Privat</value>
+  </data>
   <data name="ProceedsFromSales" xml:space="preserve">
     <value>Einnahmen aus Produktverkäufen</value>
   </data>
@@ -855,6 +1059,18 @@
   <data name="PromissoryNotesReceived" xml:space="preserve">
     <value>Schuldscheine erhalten</value>
   </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>Klicken Sie auf &lt;strong&gt;Finanzgesundheit&lt;/strong&gt; für eine Gesamtanalyse</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>Klicken Sie auf &lt;strong&gt;Empfehlungen erhalten&lt;/strong&gt; für umsetzbare Ratschläge</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>Klicken Sie auf &lt;strong&gt;Wichtige Kennzahlen erklären&lt;/strong&gt; um Metriken zu verstehen</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Schnellaktionen</value>
+  </data>
   <data name="QuickSellingAssets" xml:space="preserve">
     <value>Umlaufvermögen (A2)</value>
   </data>
@@ -885,6 +1101,12 @@
   <data name="ReceivedForReportingPeriod" xml:space="preserve">
     <value>Im Berichtszeitraum eingegangen</value>
   </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>Verfügbarkeit erneut prüfen</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>Was sind Ihre wichtigsten Empfehlungen zur Verbesserung der finanziellen Lage meines Unternehmens?</value>
+  </data>
   <data name="RecoveryRate" xml:space="preserve">
     <value>Erholungsfaktor</value>
   </data>
@@ -896,6 +1118,9 @@
   </data>
   <data name="ReserveCapital" xml:space="preserve">
     <value>Reservekapital</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[Antwort vom Benutzer gestoppt]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
     <value>Einbehaltene Gewinne (ungedeckter Verlust)</value>
@@ -936,6 +1161,9 @@
   <data name="SellingExpenses" xml:space="preserve">
     <value>Verkaufskosten</value>
   </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Nachricht senden</value>
+  </data>
   <data name="Settlements" xml:space="preserve">
     <value>Berechnungen</value>
   </data>
@@ -947,6 +1175,18 @@
   </data>
   <data name="settlementsWithPayroll" xml:space="preserve">
     <value>Lohn- und Gehaltsabrechnungen</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>Einrichtung erforderlich</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Aktivieren Sie Chrome-KI-Flags</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Laden Sie das Gemini-Nano-Modell herunter</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Starten Sie Chrome neu</value>
   </data>
   <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
     <value>Anteil am sonstigen Gesamteinkommen von assoziierten Unternehmen und Joint Ventures</value>
@@ -984,6 +1224,12 @@
   <data name="Stocks" xml:space="preserve">
     <value>Reserven</value>
   </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>Analyse stoppen</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>Generierung stoppen</value>
+  </data>
   <data name="String" xml:space="preserve">
     <value>Löschen von Daten</value>
   </data>
@@ -1016,6 +1262,18 @@
   </data>
   <data name="times" xml:space="preserve">
     <value>Zeit</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>Seien Sie präzise in Ihren Fragen</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>Beziehen Sie sich auf bestimmte Kennzahlen oder Metriken</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>Stellen Sie Folgefragen für mehr Klarheit</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tipps</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Zusammen</value>
@@ -1080,6 +1338,9 @@
   <data name="Value" xml:space="preserve">
     <value>Wert</value>
   </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>Setup-Anleitung anzeigen</value>
+  </data>
   <data name="wear" xml:space="preserve">
     <value>Verschleiß</value>
   </data>
@@ -1133,5 +1394,8 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Also</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>Sie</value>
   </data>
 </root>

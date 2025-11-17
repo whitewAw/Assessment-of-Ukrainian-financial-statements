@@ -1,5 +1,10 @@
-ï»¿@page "/liquidityindicatorsofbalance"
+@page "/liquidityindicatorsofbalance"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject LiquidityIndicatorsOfBalance LiquidityIndicatorsOfBalance
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -84,14 +89,143 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeLiquidity" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeLiquidityIndicators"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing balance liquidity...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
     private string? EstimationOfBalanceLiquidityAtBeginBase;
     private string? EstimationOfBalanceLiquidityAtEndBase;
     private string? EstimationOfBalanceLiquidityAtBeginCurrent;
     private string? EstimationOfBalanceLiquidityAtEndCurrent;
+    
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["LiquidityIndicatorsOfBalance"];
         int number = 13;
@@ -103,8 +237,524 @@
 
         EstimationOfBalanceLiquidityAtBeginCurrent = String.Format(ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.CurrentYear);
         EstimationOfBalanceLiquidityAtEndCurrent = String.Format(ResLoc["EstimationOfBalanceLiquidityAtEnd"], MainModel.CompanyName, MainModel.CurrentYear);
+        
+        await CheckAIAvailability();
+        
         base.OnInitialized();
     }
+    
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeLiquidity()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildLiquidityPrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildLiquidityPrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        bool IsLiquidBegin(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4)
+        {
+            return A1P1.ABegin >= A1P1.PBegin && A2P2.ABegin >= A2P2.PBegin && A3P3.ABegin >= A3P3.PBegin && A4P4.ABegin <= A4P4.PBegin;
+        }
+
+        bool IsLiquidEnd(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4)
+        {
+            return A1P1.AEnd >= A1P1.PEnd && A2P2.AEnd >= A2P2.PEnd && A3P3.AEnd >= A3P3.PEnd && A4P4.AEnd <= A4P4.PEnd;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            BaseYear_Assessment = new
+            {
+                BeginOfYear = new
+                {
+                    IsLiquid = IsLiquidBegin(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace),
+                    
+                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.ABegin),
+                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PBegin),
+                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PaymentBalanceBegin),
+                    
+                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.ABegin),
+                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PBegin),
+                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PaymentBalanceBegin),
+                    
+                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.ABegin),
+                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PBegin),
+                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PaymentBalanceBegin),
+                    
+                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.ABegin),
+                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PBegin),
+                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PaymentBalanceBegin)
+                },
+                EndOfYear = new
+                {
+                    IsLiquid = IsLiquidEnd(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace),
+                    
+                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.AEnd),
+                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PEnd),
+                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PaymentBalanceEnd),
+                    
+                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.AEnd),
+                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PEnd),
+                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PaymentBalanceEnd),
+                    
+                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.AEnd),
+                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PEnd),
+                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PaymentBalanceEnd),
+                    
+                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.AEnd),
+                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PEnd),
+                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PaymentBalanceEnd)
+                }
+            },
+            
+            CurrentYear_Assessment = new
+            {
+                BeginOfYear = new
+                {
+                    IsLiquid = IsLiquidBegin(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current),
+                    
+                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.ABegin),
+                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PBegin),
+                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PaymentBalanceBegin),
+                    
+                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.ABegin),
+                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PBegin),
+                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PaymentBalanceBegin),
+                    
+                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.ABegin),
+                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PBegin),
+                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PaymentBalanceBegin),
+                    
+                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.ABegin),
+                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PBegin),
+                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PaymentBalanceBegin)
+                },
+                EndOfYear = new
+                {
+                    IsLiquid = IsLiquidEnd(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current),
+                    
+                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.AEnd),
+                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PEnd),
+                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PaymentBalanceEnd),
+                    
+                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.AEnd),
+                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PEnd),
+                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PaymentBalanceEnd),
+                    
+                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.AEnd),
+                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PEnd),
+                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PaymentBalanceEnd),
+                    
+                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.AEnd),
+                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PEnd),
+                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PaymentBalanceEnd)
+                }
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in liquidity analysis, cash management, and solvency assessment. Analyze the following Liquidity Indicators of Balance for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes BALANCE LIQUIDITY by grouping assets and liabilities by their liquidity/urgency for FOUR time points across TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}):
+- Beginning of {MainModel.BaseYear}
+- End of {MainModel.BaseYear}
+- Beginning of {MainModel.CurrentYear}
+- End of {MainModel.CurrentYear}
+
+LIQUIDITY GROUPING:
+Assets are grouped by how QUICKLY they can be converted to cash:
+- **A1 - Most Liquid Assets:** Cash and cash equivalents
+- **A2 - Quick-Liquid Assets:** Receivables and other quick assets
+- **A3 - Slow-Liquid Assets:** Inventory and prepayments
+- **A4 - Hard-to-Sell Assets:** Non-current assets (fixed assets, intangibles)
+
+Liabilities are grouped by URGENCY of payment:
+- **P1 - Most Urgent Liabilities:** Current payables (accounts payable)
+- **P2 - Short-term Liabilities:** Short-term loans and credits
+- **P3 - Long-term Liabilities:** Long-term debt
+- **P4 - Permanent Liabilities:** Equity and reserves
+
+LIQUIDITY CONDITIONS:
+For balance to be LIQUID, ALL four conditions must be met:
+1. **A1 = P1** (Most liquid assets cover most urgent liabilities)
+2. **A2 = P2** (Quick assets cover short-term liabilities)
+3. **A3 = P3** (Slow assets cover long-term liabilities)
+4. **A4 = P4** (Non-current assets funded by permanent capital)
+
+If ANY condition fails, balance is ILLIQUID.
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on LIQUIDITY RISK and SOLVENCY
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Liquidity Verdict**:
+   - 2-3 sentences on overall liquidity position
+   - Primary finding: Liquid or illiquid balance?
+   - Trend: Improving or deteriorating?
+   - Critical liquidity risk level (Low/Medium/High/Critical)
+
+**2. Liquidity Assessment Timeline**:
+   For each of the FOUR time points, state:
+   - **{MainModel.BaseYear} Beginning:** [Liquid/Illiquid]
+   - **{MainModel.BaseYear} End:** [Liquid/Illiquid]
+   - **{MainModel.CurrentYear} Beginning:** [Liquid/Illiquid]
+   - **{MainModel.CurrentYear} End:** [Liquid/Illiquid]
+   
+   **Overall Trend:**
+   - All periods liquid ? = Consistently strong liquidity
+   - All periods illiquid ? = Structural liquidity problem
+   - Mixed = Transitioning or volatile
+
+**3. Condition 1 Analysis: A1 vs P1 (Most Liquid vs Most Urgent)**:
+   **{MainModel.BaseYear} End:**
+   - A1 (Cash): [amount] thousand UAH
+   - P1 (Urgent payables): [amount] thousand UAH
+   - Surplus/Deficit: [amount] thousand UAH
+   - Status: [? Condition met / ? Condition failed]
+   
+   **{MainModel.CurrentYear} End:**
+   - A1 (Cash): [amount] thousand UAH
+   - P1 (Urgent payables): [amount] thousand UAH
+   - Surplus/Deficit: [amount] thousand UAH
+   - Status: [? Condition met / ? Condition failed]
+   
+   **Interpretation:**
+   - This is THE MOST CRITICAL condition
+   - Tests if company can pay immediate obligations
+   - Negative surplus = SEVERE liquidity crisis ??
+   - Coverage ratio: A1 ÷ P1
+     • >1.0 = Can cover ?
+     • <1.0 = Cannot cover ?
+   
+   **Trend Analysis:**
+   - Is deficit/surplus improving?
+   - Root causes of changes
+
+**4. Condition 2 Analysis: A2 vs P2 (Quick-Liquid vs Short-term)**:
+   **{MainModel.BaseYear} End:**
+   - A2 (Receivables, etc.): [amount]
+   - P2 (Short-term loans): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **{MainModel.CurrentYear} End:**
+   - A2: [amount]
+   - P2: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests near-term solvency (within 3-6 months)
+   - Receivables must cover short-term credit
+   - Positive surplus = Good working capital ?
+   - Assessment and trend
+
+**5. Condition 3 Analysis: A3 vs P3 (Slow-Liquid vs Long-term)**:
+   **{MainModel.BaseYear} End:**
+   - A3 (Inventory, etc.): [amount]
+   - P3 (Long-term debt): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **{MainModel.CurrentYear} End:**
+   - A3: [amount]
+   - P3: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests medium-term solvency
+   - Inventory should cover long-term debt
+   - Assessment and trend
+
+**6. Condition 4 Analysis: A4 vs P4 (Hard-to-Sell vs Permanent)**:
+   **{MainModel.BaseYear} End:**
+   - A4 (Fixed assets): [amount]
+   - P4 (Equity): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [? A4 = P4 / ? A4 > P4]
+   
+   **{MainModel.CurrentYear} End:**
+   - A4: [amount]
+   - P4: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests capital structure soundness
+   - Non-current assets should be funded by permanent capital
+   - A4 > P4 = Fixed assets funded by debt (risky) ??
+   - A4 = P4 = Healthy capital structure ?
+   - Assessment and trend
+
+**7. Overall Liquidity Assessment**:
+   Count conditions met vs failed:
+   - **{MainModel.BaseYear} End:** [X/4] conditions met
+   - **{MainModel.CurrentYear} End:** [X/4] conditions met
+   
+   **Liquidity Score:**
+   - 4/4 = Excellent liquidity ??
+   - 3/4 = Good liquidity ?
+   - 2/4 = Marginal liquidity ??
+   - 1/4 = Poor liquidity ?
+   - 0/4 = Critical liquidity crisis ??
+   
+   **Which conditions are failing?**
+   - Identify specific weaknesses
+   - Prioritize by criticality
+   - Assess severity
+
+**8. Liquidity Risk Identification**:
+   Identify specific liquidity risks:
+   
+   **Immediate Risks (A1 vs P1):**
+   - Can company pay bills today?
+   - Cash shortfall amount if any
+   - Days of payables coverage
+   
+   **Near-term Risks (A2 vs P2):**
+   - Collection vs payment timing
+   - Receivables quality concerns
+   - Credit line dependency
+   
+   **Medium-term Risks (A3 vs P3):**
+   - Inventory liquidity
+   - Long-term debt burden
+   - Asset-liability maturity mismatch
+   
+   **Structural Risks (A4 vs P4):**
+   - Over-leveraged capital structure
+   - Fixed assets funded by debt
+   - Equity adequacy
+
+**9. Trend Analysis and Dynamics**:
+   - Four-point progression analysis
+   - Intra-year changes (begin vs end each year)
+   - Inter-year changes (2019 vs 2020)
+   - **Key questions:**
+     • Is liquidity improving or deteriorating?
+     • Are deficits growing or shrinking?
+     • Which categories show most improvement/decline?
+     • What's driving changes?
+
+**10. Strategic Recommendations**:
+    
+    **Immediate Actions (if illiquid):**
+    
+    **For A1 < P1 (Cash shortage):**
+    • Accelerate receivables collection
+    • Negotiate payment term extensions
+    • Secure emergency credit line
+    • Reduce non-essential spending
+    • Sell liquid assets if necessary
+    • Target: A1 = P1 within 30 days
+    
+    **For A2 < P2 (Near-term pressure):**
+    • Improve collection processes
+    • Renegotiate short-term debt
+    • Consider factoring receivables
+    • Reduce inventory where possible
+    • Target: A2 = P2 within 90 days
+    
+    **For A3 < P3 (Medium-term concern):**
+    • Optimize inventory levels
+    • Refinance long-term debt
+    • Extend debt maturity
+    • Improve working capital efficiency
+    • Target: A3 = P3 within 180 days
+    
+    **For A4 > P4 (Capital structure):**
+    • Increase equity through retained earnings
+    • Reduce fixed asset investments
+    • Sell non-core assets
+    • Deleverage over time
+    • Target: A4 = P4 within 1-2 years
+    
+    **Liquidity Improvement Strategies:**
+    • Cash management optimization
+    • Working capital reduction
+    • Asset-liability matching
+    • Diversification of funding sources
+    • Contingency planning
+    
+    **Monitoring and Control:**
+    • Daily cash position monitoring
+    • Weekly liquidity reports
+    • Monthly condition testing
+    • Quarterly strategic review
+    
+    **Target Liquidity Position:**
+    • All 4 conditions met consistently
+    • Positive cash buffer: [specific amount]
+    • Coverage ratios: A1/P1 > 1.2, A2/P2 > 1.5
+    • Timeline: [specific months]
+
+INTERPRETATION GUIDANCE:
+- **Positive Surplus:** Asset > Liability (GOOD) ?
+- **Negative Surplus:** Asset < Liability (PROBLEM) ?
+- **Most Critical:** A1 vs P1 (immediate cash needs)
+- **Strategic:** A4 vs P4 (capital structure)
+
+CRITICAL INSIGHTS:
+1. Is the balance liquid or illiquid?
+2. Which specific conditions are failing?
+3. How severe is the liquidity problem?
+4. What's the trend (improving/deteriorating)?
+5. Where is the biggest liquidity risk?
+6. Can the company meet immediate obligations?
+7. Is there a cash crisis?
+8. What immediate actions are needed?
+
+SPECIAL CONSIDERATIONS:
+- Illiquid balance = High bankruptcy risk
+- A1 < P1 deficit is MOST dangerous (can't pay bills)
+- All four conditions must be met for true liquidity
+- Consistent illiquidity = Structural problem requiring major action
+- Single period illiquidity may be temporary
+
+WRITING STYLE:
+- Direct and urgent (if illiquid)
+- Clear risk assessment
+- Explain CONSEQUENCES of illiquidity
+- Prioritize actions by criticality
+- Be analytical but action-oriented
+- Emphasize cash management
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+    
     private string GetLiquidity(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4, bool beginOfYear)
     {
         if (beginOfYear == true)
@@ -120,5 +770,24 @@
             return ResLoc["BalanceIsLiquid"];
         }
         return ResLoc["BalanceIsNotLiquid"];
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

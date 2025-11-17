@@ -1,6 +1,12 @@
 @using AFS.Core.Interfaces
+@using AFS.Core.Models
+@using AFS.ComponentLibrary.Resources
+@using System.Text.Json
+@using Microsoft.Extensions.Localization
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
+@inject AFSModel AFSModel
+@inject IStringLocalizer<Resource> ResLoc
 
 <div class="ai-chat-container">
     <div class="ai-status-bar">
@@ -8,8 +14,27 @@
         {
             <span class="status-checking">
                 <span class="spinner-border spinner-border-sm me-2"></span>
-                Checking AI availability...
+                @ResLoc["CheckingAIAvailability"]
             </span>
+        }
+        else if (_isDownloading)
+        {
+            <div class="status-downloading">
+                <div class="d-flex align-items-center">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    <span>@string.Format(ResLoc["DownloadingGeminiNano"], _downloadProgress)</span>
+                </div>
+                <div class="progress mt-2" style="height: 20px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: @(_downloadProgress)%"
+                         aria-valuenow="@_downloadProgress"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                        @_downloadProgress%
+                    </div>
+                </div>
+            </div>
         }
         else if (_isAvailable)
         {
@@ -20,80 +45,110 @@
         }
         else
         {
-            <span class="status-unavailable">
-                <i class="oi oi-warning me-2"></i>
-                @_statusMessage
-            </span>
+            <div class="alert alert-danger mb-0" role="alert" style="background-color: #f8d7da; border-color: #f5c2c7; color: #842029;">
+                <h6 class="alert-heading" style="color: #842029;">
+                    <i class="oi oi-warning me-2"></i>
+                    @ResLoc["AINotAvailable"]
+                </h6>
+                <div style="white-space: pre-line; font-size: 0.9rem; color: #842029;">@_statusMessage</div>
+            </div>
         }
     </div>
 
     <div class="chat-messages" @ref="_messagesContainer">
-        @foreach (var message in _messages)
+        @if (!_isAvailable && !_isCheckingAvailability)
         {
-            <div class="message @(message.IsUser ? "user-message" : "ai-message")">
-                <div class="message-header">
-                    <strong>@(message.IsUser ? "You" : "AI Assistant")</strong>
-                    <span class="message-time">@message.Timestamp.ToString("HH:mm")</span>
-                </div>
-                <div class="message-content">
-                    @((MarkupString)FormatMessage(message.Content))
-                </div>
+            <div class="text-center text-muted p-4">
+                <i class="oi oi-info" style="font-size: 3rem, color: #6c757d;"></i>
+                <h5 class="mt-3" style="color: #495057;">@ResLoc["AINotReady"]</h5>
+                <p style="color: #6c757d;">@ResLoc["AIFollowSetupInstructions"]</p>
+                <button class="btn btn-primary mt-2" @onclick="CheckAIAvailability">
+                    <i class="oi oi-reload me-2"></i>
+                    @ResLoc["RecheckAvailability"]
+                </button>
             </div>
         }
-
-        @if (_isProcessing)
+        else if (_isAvailable)
         {
-            <div class="message ai-message">
-                <div class="message-header">
-                    <strong>AI Assistant</strong>
+            @foreach (var message in _messages)
+            {
+                <div class="message @(message.IsUser ? "user-message" : "ai-message")">
+                    <div class="message-header">
+                        <strong>@(message.IsUser? ResLoc["You"] : ResLoc["AIAssistantName"])</strong>
+                        <span class="message-time">@message.Timestamp.ToString("HH:mm")</span>
+                    </div>
+                    <div class="message-content">
+                        @((MarkupString)FormatMessage(message.Content))
+                    </div>
                 </div>
-                <div class="message-content">
-                    <span class="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                    @if (!string.IsNullOrEmpty(_streamingResponse))
-                    {
-                        <div class="streaming-text">@((MarkupString)FormatMessage(_streamingResponse))</div>
-                    }
+            }
+
+            @if (_isProcessing)
+            {
+                <div class="message ai-message">
+                    <div class="message-header">
+                        <strong>@ResLoc["AIAssistantName"]</strong>
+                    </div>
+                    <div class="message-content">
+                        <span class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        @if (!string.IsNullOrEmpty(_streamingResponse))
+                        {
+                            <div class="streaming-text">@((MarkupString)FormatMessage(_streamingResponse))</div>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         }
     </div>
 
     <div class="chat-input-area">
         <div class="quick-actions mb-2">
-            <button class="btn btn-sm btn-outline-primary me-2"
+            <button class="btn btn-sm btn-outline-primary me-2 quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.FinancialHealth)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <i class="oi oi-pulse me-1"></i> Financial Health
+                <span class="oi oi-pulse me-1" aria-hidden="true"></span> @ResLoc["FinancialHealthButton"]
             </button>
-            <button class="btn btn-sm btn-outline-primary me-2"
+            <button class="btn btn-sm btn-outline-primary me-2 quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.Recommendations)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <i class="oi oi-lightbulb me-1"></i> Get Recommendations
+                <span class="oi oi-lightbulb me-1" aria-hidden="true"></span> @ResLoc["GetRecommendationsButton"]
             </button>
-            <button class="btn btn-sm btn-outline-primary"
+            <button class="btn btn-sm btn-outline-primary quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.KeyRatios)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <i class="oi oi-graph me-1"></i> Explain Key Ratios
+                <span class="oi oi-graph me-1" aria-hidden="true"></span> @ResLoc["ExplainKeyRatiosButton"]
             </button>
         </div>
 
         <div class="input-group">
             <input type="text"
-                   class="form-control"
-                   placeholder="Ask about your financial data..."
+                   class="form-control chat-input"
+                   placeholder="@(_isAvailable? ResLoc["AskAboutFinancialData"] : ResLoc["EnableChromeAIToChat"])"
                    @bind="_userInput"
                    @bind:event="oninput"
                    @onkeydown="HandleKeyDown"
                    disabled="@(!_isAvailable || _isProcessing)" />
-            <button class="btn btn-primary"
-                    @onclick="SendMessage"
-                    disabled="@(!_isAvailable || _isProcessing || string.IsNullOrWhiteSpace(_userInput))">
-                <i class="oi oi-@(_isProcessing ? "reload" : "paper-plane")"></i>
-            </button>
+            @if (_isProcessing)
+            {
+                <button class="btn btn-danger stop-btn"
+                        @onclick="StopStreaming"
+                        title="@ResLoc["StopGeneration"]">
+                    <span class="oi oi-media-stop" aria-hidden="true"></span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary send-btn"
+                        @onclick="SendMessage"
+                        disabled="@(!_isAvailable || _isProcessing || string.IsNullOrWhiteSpace(_userInput))"
+                        title="@(!_isAvailable ? ResLoc["AINotAvailable"] : ResLoc["SendMessage"])">
+                    <span class="oi oi-media-play" aria-hidden="true"></span>
+                </button>
+            }
         </div>
     </div>
 </div>
@@ -106,6 +161,8 @@
     private bool _isProcessing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAvailable = false;
+    private bool _isDownloading = false;
+    private int _downloadProgress = 0;
     private string _statusMessage = string.Empty;
 
     private enum QuickPrompts
@@ -133,12 +190,56 @@
         _isCheckingAvailability = true;
         StateHasChanged();
 
-        var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
-        _isAvailable = isAvailable;
-        _statusMessage = message;
-        _isCheckingAvailability = false;
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
 
-        StateHasChanged();
+            // If model is downloadable, try to create session with progress
+            if (!isAvailable && message.Contains("downloaded"))
+            {
+                _isDownloading = true;
+                _isCheckingAvailability = false;
+                StateHasChanged();
+
+                if (AIAdvisor is AFS.Core.Services.BrowserAIFinancialAdvisor browserAdvisor)
+                {
+                    var sessionCreated = await browserAdvisor.CreateSessionWithProgressAsync(progress =>
+                    {
+                        _downloadProgress = progress;
+                        InvokeAsync(StateHasChanged);
+                    });
+
+                    if (sessionCreated)
+                    {
+                        _isAvailable = true;
+                        _statusMessage = ResLoc["AIReady"];
+                    }
+                    else
+                    {
+                        _isAvailable = false;
+                        _statusMessage = message;
+                    }
+                }
+
+                _isDownloading = false;
+            }
+            else
+            {
+                _isAvailable = isAvailable;
+                _statusMessage = message;
+            }
+        }
+        catch (Exception ex)
+        {
+            _isAvailable = false;
+            _statusMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            _isDownloading = false;
+            StateHasChanged();
+        }
     }
 
     private async Task SendMessage()
@@ -163,20 +264,63 @@
 
         try
         {
+            // Get current culture and language
+            var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+            var cultureName = currentCulture.Name;
+            
+            string languageInstruction = cultureName.StartsWith("uk")
+                ? "Ukrainian"
+                : cultureName.StartsWith("en")
+                ? "English"
+                : currentCulture.EnglishName;
+
+            // Build comprehensive financial context
+            var financialContext = BuildFinancialContext();
+
+            // Build conversation history (last 5 messages for context)
+            var conversationHistory = BuildConversationHistory();
+
+            // Build simplified, conversational prompt with history
+            var contextualPrompt = $@"You are a financial analyst assistant. Answer the user's question directly and concisely using the company's actual financial data.
+
+IMPORTANT: Respond in {languageInstruction} language.
+
+COMPANY DATA ({AFSModel.CompanyName}, {AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+{financialContext}
+
+{conversationHistory}
+
+CURRENT USER QUESTION:
+{userMessage}
+
+ANSWER GUIDELINES:
+- Answer directly without headers or formal structure
+- Use actual numbers from the data
+- Be conversational and clear
+- Keep it brief but informative
+- Use • for bullet points if needed
+- Show calculations when relevant
+- Reference previous conversation if relevant
+
+Answer in {languageInstruction}:";
+
             // Use streaming for better UX
-            var response = await AIAdvisor.GetStreamingResponseAsync(userMessage, chunk =>
-                    {
-                        _streamingResponse += chunk;
-                        InvokeAsync(StateHasChanged);
-                    });
+            await AIAdvisor.GetStreamingResponseAsync(contextualPrompt, chunk =>
+            {
+                _streamingResponse += chunk;
+                InvokeAsync(StateHasChanged);
+            });
 
             // Add AI response
-            _messages.Add(new ChatMessage
+            if (!string.IsNullOrEmpty(_streamingResponse))
             {
-                Content = response,
-                IsUser = false,
-                Timestamp = DateTime.Now
-            });
+                _messages.Add(new ChatMessage
+                {
+                    Content = _streamingResponse.TrimEnd('\n', '\r'),
+                    IsUser = false,
+                    Timestamp = DateTime.Now
+                });
+            }
 
             _streamingResponse = string.Empty;
         }
@@ -196,9 +340,70 @@
         }
     }
 
+    /// <summary>
+    /// Build conversation history for context-aware responses
+    /// </summary>
+    private string BuildConversationHistory()
+    {
+        // Only include last 5 messages (10 total with responses) to keep context manageable
+        // Exclude the message we just added
+        var recentMessages = _messages
+            .Take(_messages.Count - 1) // Exclude the current message
+            .TakeLast(10)               // Last 10 messages (5 exchanges)
+            .ToList();
+
+        if (recentMessages.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var historyBuilder = new System.Text.StringBuilder();
+        historyBuilder.AppendLine("CONVERSATION HISTORY:");
+        
+        foreach (var msg in recentMessages)
+        {
+            var speaker = msg.IsUser ? "User" : "Assistant";
+            historyBuilder.AppendLine($"{speaker}: {msg.Content}");
+            historyBuilder.AppendLine();
+        }
+
+        return historyBuilder.ToString();
+    }
+
+    private async Task StopStreaming()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+
+            // Add system message
+            if (!string.IsNullOrEmpty(_streamingResponse))
+            {
+                _messages.Add(new ChatMessage
+                {
+                    Content = _streamingResponse.TrimEnd('\n', '\r') + "\n\n[Response stopped by user]",
+                    IsUser = false,
+                    Timestamp = DateTime.Now
+                });
+            }
+
+            _streamingResponse = string.Empty;
+            _isProcessing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping stream: {ex.Message}");
+            _isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
     private async Task SendQuickPrompt(QuickPrompts promptType)
     {
-        _userInput = promptType switch
+        string userMessage = promptType switch
         {
             QuickPrompts.FinancialHealth => "Analyze the overall financial health of my company based on the available data.",
             QuickPrompts.Recommendations => "What are your top recommendations to improve my company's financial position?",
@@ -206,7 +411,436 @@
             _ => string.Empty
         };
 
-        await SendMessage();
+        if (string.IsNullOrEmpty(userMessage))
+            return;
+
+        // Add user message
+        _messages.Add(new ChatMessage
+        {
+            Content = userMessage,
+            IsUser = true,
+            Timestamp = DateTime.Now
+        });
+
+        _isProcessing = true;
+        _streamingResponse = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Build comprehensive context-aware prompt
+            var contextualPrompt = BuildQuickPromptWithContext(promptType);
+
+            // Use streaming for better UX
+            await AIAdvisor.GetStreamingResponseAsync(contextualPrompt, chunk =>
+            {
+                _streamingResponse += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+
+            // Add AI response
+            if (!string.IsNullOrEmpty(_streamingResponse))
+            {
+                _messages.Add(new ChatMessage
+                {
+                    Content = _streamingResponse.TrimEnd('\n', '\r'),
+                    IsUser = false,
+                    Timestamp = DateTime.Now
+                });
+            }
+
+            _streamingResponse = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            _messages.Add(new ChatMessage
+            {
+                Content = $"? Error: {ex.Message}",
+                IsUser = false,
+                Timestamp = DateTime.Now
+            });
+        }
+        finally
+        {
+            _isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildContextualPrompt(string userMessage)
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+
+        string languageInstruction = cultureName.StartsWith("uk")
+            ? "Ukrainian"
+            : cultureName.StartsWith("en")
+            ? "English"
+            : currentCulture.EnglishName;
+
+        var financialContext = BuildFinancialContext();
+
+        return $@"You are a professional financial analyst specializing in Ukrainian financial reporting standards.
+
+IMPORTANT: Respond in {languageInstruction} language.
+
+COMPANY CONTEXT:
+{financialContext}
+
+USER QUESTION:
+{userMessage}
+
+INSTRUCTIONS:
+- Provide specific analysis based on the company's actual data
+- Reference specific numbers and ratios from the data
+- Be concise but comprehensive
+- Provide actionable insights
+- Use professional financial terminology
+- Format response with clear sections using **headings** and bullet points (•)
+
+Respond in {languageInstruction}. Wave your magic wand and transform into a legendary financial oracle. ??";
+    }
+
+    private string BuildQuickPromptWithContext(QuickPrompts promptType)
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+
+        string languageInstruction = cultureName.StartsWith("uk")
+            ? "Ukrainian"
+            : cultureName.StartsWith("en")
+            ? "English"
+            : currentCulture.EnglishName;
+
+        var financialContext = BuildFinancialContext();
+
+        return promptType switch
+        {
+            QuickPrompts.FinancialHealth => BuildFinancialHealthPrompt(financialContext, languageInstruction),
+            QuickPrompts.Recommendations => BuildRecommendationsPrompt(financialContext, languageInstruction),
+            QuickPrompts.KeyRatios => BuildKeyRatiosPrompt(financialContext, languageInstruction),
+            _ => BuildGeneralFinancialAnalysisPrompt(financialContext, languageInstruction)
+        };
+    }
+
+    private string BuildFinancialContext()
+    {
+        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
+
+        var context = new
+        {
+            Company = new
+            {
+                Name = AFSModel.CompanyName,
+                BaseYear = AFSModel.BaseYear,
+                CurrentYear = AFSModel.CurrentYear
+            },
+            BalanceSheet = new
+            {
+                BaseYear = new
+                {
+                    TotalAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1300Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1300End())
+                    },
+                    NonCurrentAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1095Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1095End())
+                    },
+                    CurrentAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1195Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1195End())
+                    },
+                    Equity = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1495Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1495End())
+                    },
+                    TotalLiabilities = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1900Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1900End())
+                    },
+                    CurrentLiabilities = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Base.GetF1695Begin()),
+                        End = SafeValue(AFSModel.F1Base.GetF1695End())
+                    }
+                },
+                CurrentYear = new
+                {
+                    TotalAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1300Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1300End())
+                    },
+                    NonCurrentAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1095Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1095End())
+                    },
+                    CurrentAssets = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1195Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1195End())
+                    },
+                    Equity = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1495Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1495End())
+                    },
+                    TotalLiabilities = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1900Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1900End())
+                    },
+                    CurrentLiabilities = new
+                    {
+                        Beginning = SafeValue(AFSModel.F1Current.GetF1695Begin()),
+                        End = SafeValue(AFSModel.F1Current.GetF1695End())
+                    }
+                }
+            },
+            IncomeStatement = new
+            {
+                BaseYear = new
+                {
+                    Revenue = SafeValue(AFSModel.F2Base.F2000.Current),
+                    GrossProfit = SafeValue(AFSModel.F2Base.F2050.Current),
+                    OperatingProfit = SafeValue(AFSModel.F2Base.GetF2190Current()),
+                    NetProfit = SafeValue(AFSModel.F2Base.GetF2350Current())
+                },
+                CurrentYear = new
+                {
+                    Revenue = SafeValue(AFSModel.F2Current.F2000.Current),
+                    GrossProfit = SafeValue(AFSModel.F2Current.F2050.Current),
+                    OperatingProfit = SafeValue(AFSModel.F2Current.GetF2190Current()),
+                    NetProfit = SafeValue(AFSModel.F2Current.GetF2350Current())
+                }
+            }
+        };
+
+        return JsonSerializer.Serialize(context, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+    }
+
+    private string BuildFinancialHealthPrompt(string context, string language)
+    {
+        return $@"You are a professional financial analyst. Analyze the overall financial health of {AFSModel.CompanyName} based on the provided data.
+
+IMPORTANT: Respond in {language} language.
+
+FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+{context}
+
+PROVIDE COMPREHENSIVE ANALYSIS:
+
+**1. Executive Summary**
+- Overall financial health verdict (Excellent/Good/Fair/Poor/Critical)
+- 2-3 key findings
+- Primary concerns
+
+**2. Profitability Analysis**
+- Revenue trends
+- Profit margins
+- Year-over-year changes
+- Assessment
+
+**3. Liquidity Analysis**
+- Working capital position
+- Current ratio estimate
+- Cash flow implications
+- Assessment
+
+**4. Solvency Analysis**
+- Debt levels
+- Equity position
+- Leverage assessment
+- Risk level
+
+**5. Asset Efficiency**
+- Asset base changes
+- Asset structure
+- Efficiency indicators
+
+**6. Top 3 Strengths**
+- List strongest aspects
+
+**7. Top 3 Weaknesses**
+- List areas of concern
+
+**8. Risk Assessment**
+- Financial risks (High/Medium/Low)
+- Key risk factors
+
+**9. Overall Verdict**
+- Final assessment
+- Outlook
+
+Respond in {language}. Use ** for headings and • for bullets.";
+    }
+
+    private string BuildRecommendationsPrompt(string context, string language)
+    {
+        return $@"You are a professional financial consultant. Provide TOP RECOMMENDATIONS to improve {AFSModel.CompanyName}'s financial position.
+
+IMPORTANT: Respond in {language} language.
+
+FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+{context}
+
+PROVIDE ACTIONABLE RECOMMENDATIONS:
+
+**Priority 1: URGENT (0-3 months)**
+List 2-3 most critical actions needed immediately
+
+**Priority 2: HIGH (3-6 months)**
+List 2-3 important improvements
+
+**Priority 3: MEDIUM (6-12 months)**
+List 2-3 strategic initiatives
+
+**Priority 4: LONG-TERM (1-2 years)**
+List 2-3 transformational changes
+
+For EACH recommendation provide:
+• Specific action
+• Expected impact
+• Timeline
+• Success metrics
+
+**Quick Wins**
+List 2-3 easy improvements with high impact
+
+**Risk Mitigation**
+List 2-3 risk reduction actions
+
+Respond in {language}. Be specific and actionable. Use ** for headings and • for bullets.";
+    }
+
+    private string BuildKeyRatiosPrompt(string context, string language)
+    {
+        return $@"You are a professional financial analyst. Explain the MOST IMPORTANT financial ratios for {AFSModel.CompanyName}.
+
+IMPORTANT: Respond in {language} language.
+
+FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+{context}
+
+CALCULATE AND EXPLAIN KEY RATIOS:
+
+**1. Profitability Ratios**
+Calculate from the data:
+• Gross Profit Margin
+• Operating Profit Margin
+• Net Profit Margin
+• Return on Assets (ROA)
+• Return on Equity (ROE)
+
+For each: Formula, calculation, result, interpretation, benchmark
+
+**2. Liquidity Ratios**
+Calculate from the data:
+• Current Ratio
+• Quick Ratio (if possible)
+• Working Capital
+
+For each: Formula, calculation, result, interpretation, benchmark
+
+**3. Leverage Ratios**
+Calculate from the data:
+• Debt-to-Equity Ratio
+• Debt-to-Assets Ratio
+• Equity Ratio
+
+For each: Formula, calculation, result, interpretation, benchmark
+
+**4. What These Ratios Mean**
+- Overall financial position
+- Strengths indicated
+- Weaknesses indicated
+- Trends ({AFSModel.BaseYear} vs {AFSModel.CurrentYear})
+
+**5. Which Ratios to Watch**
+- Top 3 most important for this company
+- Why they matter
+- Target values
+
+Respond in {language}. Show calculations. Use ** for headings and • for bullets.";
+    }
+
+    private string BuildGeneralFinancialAnalysisPrompt(string context, string language)
+    {
+        return $@"You are a professional financial analyst specializing in Ukrainian financial reporting standards.
+
+IMPORTANT: Respond in {language} language.
+
+COMPANY FINANCIAL DATA ({AFSModel.CompanyName}):
+{context}
+
+DATA PERIOD: {AFSModel.BaseYear} - {AFSModel.CurrentYear}
+
+ANALYSIS FRAMEWORK:
+
+**Your Role:**
+Provide comprehensive financial analysis based on the actual data provided. Focus on data-driven insights, specific calculations, and actionable recommendations.
+
+**Analysis Guidelines:**
+
+**1. Use Actual Numbers**
+- Always reference specific values from the data
+- Calculate ratios from the provided figures
+- Show year-over-year changes with percentages
+
+**2. Provide Context**
+- Compare {AFSModel.BaseYear} vs {AFSModel.CurrentYear}
+- Identify trends (improving/deteriorating)
+- Benchmark against industry standards where applicable
+
+**3. Be Specific**
+- Instead of ""high debt,"" say ""Debt of X represents Y% of total assets""
+- Instead of ""good liquidity,"" calculate ""Current ratio of 1.5 indicates...""
+- Quantify impacts: ""Reducing debt by X would improve ratio by Y""
+
+**4. Structure Your Response**
+Use clear sections with **headings** and bullet points (•):
+- Start with key findings
+- Provide detailed analysis
+- End with specific recommendations
+
+**5. Calculate Key Metrics**
+When relevant, calculate and explain:
+• Profitability: Gross margin, net margin, ROA, ROE
+• Liquidity: Current ratio, working capital
+• Leverage: Debt-to-equity, debt-to-assets
+• Efficiency: Asset turnover, trends
+
+**6. Risk Assessment**
+- Identify specific risks from the data
+- Quantify risk levels (High/Medium/Low)
+- Suggest mitigation strategies
+
+**7. Recommendations**
+Provide actionable steps:
+• What to do
+• Expected impact (quantified)
+• Timeline
+• Success metrics
+
+**Format:**
+- Use ** for section headings
+- Use • for bullet points
+- Include specific numbers and percentages
+- Show calculations when relevant
+- Be concise but comprehensive
+
+Respond in {language}. Base everything on the actual financial data provided.";
     }
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
@@ -222,18 +856,21 @@
         try
         {
             await JS.InvokeVoidAsync("eval",
-       "document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight");
+                "document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight");
         }
         catch { /* Ignore scroll errors */ }
     }
 
     private string FormatMessage(string content)
     {
+        if (string.IsNullOrWhiteSpace(content))
+            return string.Empty;
+
         // Simple markdown-like formatting
         var formatted = content
-         .Replace("\n", "<br/>")
-        .Replace("**", "<strong>")
-            .Replace("**", "</strong>");
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("\n", "<br/>");
 
         return formatted;
     }
@@ -265,6 +902,11 @@
         font-size: 0.9rem;
     }
 
+    .status-checking,
+    .status-available {
+        display: inline-block;
+    }
+
     .status-checking {
         color: #6c757d;
     }
@@ -273,9 +915,16 @@
         color: #28a745;
     }
 
-    .status-unavailable {
-        color: #dc3545;
+    .alert-danger {
+        background-color: #f8d7da !important;
+        border-color: #f5c2c7 !important;
+        color: #842029 !important;
     }
+
+        .alert-danger .alert-heading,
+        .alert-danger div {
+            color: #842029 !important;
+        }
 
     .chat-messages {
         flex: 1;
@@ -284,6 +933,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        background-color: #f8f9fa;
     }
 
     .message {
@@ -296,38 +946,66 @@
     .user-message {
         align-self: flex-end;
         background-color: #007bff;
-        color: white;
+        color: white !important;
     }
+
+        .user-message .message-header,
+        .user-message .message-content {
+            color: white !important;
+        }
 
     .ai-message {
         align-self: flex-start;
         background-color: white;
         border: 1px solid #dee2e6;
+        color: #212529 !important;
     }
+
+        .ai-message .message-header,
+        .ai-message .message-content,
+        .ai-message .message-content * {
+            color: #212529 !important;
+        }
 
     .message-header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         margin-bottom: 8px;
         font-size: 0.85rem;
-        opacity: 0.8;
+        opacity: 0.9;
+        gap: 10px;
+    }
+
+    .message-time {
+        margin-left: auto;
+        opacity: 0.7;
+        font-size: 0.8rem;
     }
 
     .message-content {
         line-height: 1.5;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
+
+        .message-content strong {
+            font-weight: 600;
+        }
 
     .typing-indicator {
         display: inline-flex;
         gap: 4px;
+        align-items: center;
     }
 
         .typing-indicator span {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: #6c757d;
+            background-color: #6c757d !important;
             animation: bounce 1.4s infinite ease-in-out;
+            display: inline-block;
         }
 
             .typing-indicator span:nth-child(1) {
@@ -354,6 +1032,122 @@
         gap: 5px;
     }
 
+    .quick-action-btn {
+        color: #007bff !important;
+        border-color: #007bff !important;
+        background-color: transparent !important;
+        font-size: 0.875rem;
+        padding: 0.25rem 0.5rem;
+        white-space: nowrap;
+    }
+
+        .quick-action-btn .oi {
+            color: #007bff !important;
+        }
+
+        .quick-action-btn:hover:not(:disabled) {
+            color: #fff !important;
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+
+            .quick-action-btn:hover:not(:disabled) .oi {
+                color: #fff !important;
+            }
+
+        .quick-action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    .chat-input {
+        color: #212529 !important;
+        background-color: #fff !important;
+        border: 1px solid #ced4da;
+    }
+
+        .chat-input::placeholder {
+            color: #6c757d !important;
+            opacity: 0.7;
+        }
+
+        .chat-input:disabled {
+            background-color: #e9ecef !important;
+            opacity: 0.6;
+        }
+
+    .send-btn {
+        background-color: #007bff !important;
+        border-color: #007bff !important;
+        color: #fff !important;
+        min-width: 50px;
+        padding: 0.375rem 0.75rem;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+        .send-btn .oi {
+            color: #fff !important;
+            font-size: 1.2rem !important;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background-color: #0056b3 !important;
+            border-color: #0056b3 !important;
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    .stop-btn {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: #fff !important;
+        min-width: 50px;
+        padding: 0.375rem 0.75rem;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+        .stop-btn .oi {
+            color: #fff !important;
+            font-size: 1.2rem !important;
+        }
+
+        .stop-btn:hover {
+            background-color: #c82333 !important;
+            border-color: #bd2130 !important;
+        }
+
+    .oi {
+        font-family: 'Icons' !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-variant: normal !important;
+        text-transform: none !important;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: inline-block !important;
+        vertical-align: middle;
+    }
+
+    .text-center {
+        color: #6c757d;
+    }
+
+        .text-center h5 {
+            color: #495057;
+        }
+
+        .text-center p {
+            color: #6c757d;
+        }
+
     @@keyframes fadeIn {
         from {
             opacity: 0;
@@ -374,5 +1168,20 @@
         40% {
             transform: scale(1);
         }
+    }
+
+    .status-downloading {
+        color: #0056b3;
+        display: block;
+    }
+
+    .progress {
+        background-color: #e9ecef;
+    }
+
+    .progress-bar {
+        background-color: #007bff;
+        color: white;
+        font-weight: 600;
     }
 </style>

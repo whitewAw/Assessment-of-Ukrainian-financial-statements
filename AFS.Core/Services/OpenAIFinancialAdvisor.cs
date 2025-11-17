@@ -1,6 +1,5 @@
 using AFS.Core.Interfaces;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
 
 namespace AFS.Core.Services;
@@ -55,26 +54,26 @@ public class OpenAIFinancialAdvisor : IAIFinancialAdvisor
             {
                 model = _model,
                 messages = new[]
-       {
-             new { role = "system", content = "You are a helpful financial advisor with expertise in analyzing financial statements and ratios." },
-         new { role = "user", content = prompt }
+                {
+                    new { role = "system", content = "You are a helpful financial advisor with expertise in analyzing financial statements and ratios." },
+                    new { role = "user", content = prompt }
                 },
                 temperature = 0.7,
                 max_tokens = 1000
             };
 
             var response = await _httpClient.PostAsJsonAsync(
-              "https://api.openai.com/v1/chat/completions",
-          requestBody);
+                "https://api.openai.com/v1/chat/completions",
+                requestBody);
 
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<JsonElement>();
             var content = result
-                 .GetProperty("choices")[0]
+                .GetProperty("choices")[0]
                 .GetProperty("message")
-                    .GetProperty("content")
-               .GetString();
+                .GetProperty("content")
+                .GetString();
 
             return content ?? string.Empty;
         }
@@ -84,13 +83,12 @@ public class OpenAIFinancialAdvisor : IAIFinancialAdvisor
         }
     }
 
-    public async Task<string> GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived)
+    public async Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived)
     {
         // For simplicity, we'll use non-streaming for OpenAI
         // Implementing true streaming would require SSE (Server-Sent Events) handling
         var response = await GetResponseAsync(prompt);
         onChunkReceived?.Invoke(response);
-        return response;
     }
 
     public async Task<string> GetFinancialInsightsAsync(string financialData)

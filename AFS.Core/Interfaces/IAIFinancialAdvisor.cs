@@ -23,9 +23,9 @@ public interface IAIFinancialAdvisor
     /// <param name="prompt">The user's question or prompt</param>
     /// <param name="onChunkReceived">Callback for each chunk of the response</param>
     /// <returns>Complete response</returns>
-    Task<string> GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived);
+    Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived);
 
-/// <summary>
+    /// <summary>
     /// Generate financial insights based on company data
     /// </summary>
     /// <param name="financialData">JSON string of financial data</param>
@@ -37,7 +37,7 @@ public interface IAIFinancialAdvisor
     /// </summary>
     /// <param name="ratios">Dictionary of financial ratios</param>
     /// <returns>AI-generated recommendations</returns>
-  Task<string> GetRecommendationsAsync(Dictionary<string, double> ratios);
+    Task<string> GetRecommendationsAsync(Dictionary<string, double> ratios);
 
     /// <summary>
     /// Explain a specific financial ratio or metric
