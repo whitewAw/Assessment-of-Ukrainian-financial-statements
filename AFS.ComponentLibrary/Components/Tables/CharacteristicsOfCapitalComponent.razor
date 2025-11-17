@@ -1,5 +1,10 @@
-ï»¿@page "/characteristicsofcapital"
+@page "/characteristicsofcapital"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject CharacteristicsOfCapital CharacteristicsOfCapital
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -87,15 +92,526 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+               @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeCharacteristicsOfCapital" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                   <span>@ResLoc["AnalyzeTurnoverIndicators"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                      <span class="text-muted">@ResLoc["AIAnalyzingData"]</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["CharacteristicsOfCapital"];
         int number = 1;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeCharacteristicsOfCapital()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildFinancialAnalysisPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildFinancialAnalysisPrompt()
+    {
+        // Detect current UI language from CultureInfo
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageName = currentCulture.EnglishName;
+        var cultureName = currentCulture.Name;
+        
+        // Map culture to language instruction
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : languageName;
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 1: CHARACTERISTICS OF CAPITAL
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+Unit: thousand UAH
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**TOTAL CAPITAL (ASSETS)** [No numbering - header row]
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TotalAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TotalAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TotalAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.TotalAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TotalAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TotalAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TotalAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.TotalAssets.Current.GrowthRate:N2}%
+
+**1. NON-CURRENT (FIXED) ASSETS** [Row 1]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.Deviations:N2}%
+
+**2. CURRENT (MOBILE) ASSETS** [Row 2]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.CurrentMobileAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.CurrentMobileAssets.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.Deviations:N2}%
+
+**2.1. MATERIAL CURRENT ASSETS (Inventory)** [Row 2.1]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**2.2. ACCOUNTS RECEIVABLE** [Row 2.2]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.AccountsReceivable.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.AccountsReceivable.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.AccountsReceivable.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.AccountsReceivable.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**2.3. CASH AND CURRENT FINANCIAL INVESTMENTS** [Row 2.3]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**3. FUTURE PERIOD EXPENSES** [Row 3]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.FutureExpenses.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.FutureExpenses.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.FutureExpenses.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.FutureExpenses.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.Deviations:N2}%
+";
+
+        return $@"You are a financial analyst specializing in capital structure and asset composition analysis. Analyze the Characteristics of Capital for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING THE DATA STRUCTURE:
+• Each year ({MainModel.BaseYear} and {MainModel.CurrentYear}) has TWO time points: Beginning and End
+• This gives FOUR total observations to track trends
+• Each row shows absolute values AND percentages
+• Rows 1-2 show % of TOTAL ASSETS
+• Rows 2.1-2.3 show % of WORKING CAPITAL
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables in your response
+- DO NOT repeat the raw data I just provided
+- The user can see all data in the table above
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall capital structure: improving, stable, or concerning?
+- Most important single finding
+- Overall verdict
+
+**2. Total Assets Trend** (Header row)
+- How Total Assets evolved across all four points
+- Consistent trend or reversals?
+- Momentum: accelerating or decelerating?
+
+**3. Fixed vs Mobile Assets Balance** (Rows 1 & 2)
+- Non-Current Assets trend (Row 1): absolute & % of assets
+- Current Assets trend (Row 2): absolute & % of assets
+- Shift in asset structure: more fixed or more liquid?
+- Implications for business strategy
+
+**4. Working Capital Composition** (Rows 2.1-2.3)
+- Inventory (2.1): absolute, % of working capital, trends
+- Accounts Receivable (2.2): absolute, % of working capital, collection implications
+- Cash & Investments (2.3): absolute, % of working capital, liquidity assessment
+- Which component dominates working capital?
+- Any concerning concentrations?
+
+**5. Future Expenses** (Row 3)
+- Trend in prepaid/deferred expenses
+- % of assets significance
+- Any unusual movements?
+
+**6. Intra-Year vs Inter-Year Patterns**
+- Compare {MainModel.BaseYear} beginning-to-end vs {MainModel.CurrentYear} beginning-to-end
+- Which year showed more change?
+- Consistent year-end patterns or shifting?
+
+**7. Key Findings** (3-5 bullets)
+- Most dramatic changes (absolute & percentage)
+- Most stable elements
+- Positive trends
+- Concerning patterns
+
+**8. Risk Assessment**
+- Liquidity position: strong or weak?
+- Asset concentration risks
+- Receivables quality concerns?
+- Inventory accumulation issues?
+- Overall capital structure health
+
+**9. Strategic Recommendations**
+- **Immediate (0-30 days)**: 2-3 urgent actions
+- **Short-term (3 months)**: Priority improvements with targets
+- **Long-term (6-12 months)**: Strategic capital reallocation
+- **Target metrics**: Specific % composition goals
+
+INTERPRETATION GUIDE:
+? POSITIVE TRENDS:
+- Balanced fixed/mobile asset mix
+- Increasing cash as % of working capital
+- Decreasing receivables as % (faster collection)
+- Stable or decreasing inventory as %
+
+? CONCERNING TRENDS:
+- Too much capital in fixed assets (low liquidity)
+- Receivables growing faster than revenue
+- Cash declining as %
+- Inventory accumulating
+
+WRITING STYLE:
+- Professional and direct
+- Active voice
+- Integrate numbers: ""Non-Current Assets grew from 33.6% to 46.2% of total assets, indicating significant capital investment in fixed capacity""
+- Explain WHY changes matter
+- Provide actionable business context
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on MEANING and RECOMMENDATIONS.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

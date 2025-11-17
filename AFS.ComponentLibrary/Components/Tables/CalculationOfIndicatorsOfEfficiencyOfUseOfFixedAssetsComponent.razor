@@ -1,5 +1,10 @@
-ï»¿@page "/calculationofIndicatorsofefficiencyofuseoffixedassets"
+@page "/calculationofIndicatorsofefficiencyofuseoffixedassets"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -29,15 +34,377 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeFixedAssetsEfficiency" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeFixedAssetsEfficiency"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing fixed assets efficiency...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets"];
         int number = 7;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeFixedAssetsEfficiency()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildFixedAssetsEfficiencyPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildFixedAssetsEfficiencyPrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageInstruction = currentCulture.Name.StartsWith("uk") ? "Ukrainian" : "English";
+
+        var structuredData = $@"TABLE 7: CALCULATION OF INDICATORS OF EFFICIENCY OF USE OF FIXED ASSETS
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**1. REVENUE FROM SALES OF PRODUCTS** (thousand UAH)
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProceedsFromSales.BaseYear:N2}
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProceedsFromSales.CurrentYear:N2}
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProceedsFromSales.Deviations:N2}
+   Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProceedsFromSales.GrowthRate:N2}%
+   Note: Top-line operational output - INPUT
+
+**2. OPERATING PROFIT** (thousand UAH)
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitFromOperatingActivities.BaseYear:N2}
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitFromOperatingActivities.CurrentYear:N2}
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitFromOperatingActivities.Deviations:N2}
+   Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitFromOperatingActivities.GrowthRate:N2}%
+   Note: Operational profitability - OUTPUT
+
+**3. AVERAGE ANNUAL COST OF FIXED ASSETS** (thousand UAH)
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.BaseYear:N2}
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear:N2}
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.Deviations:N2}
+   Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.GrowthRate:N2}%
+   Formula: (Beginning FA + Ending FA) ÷ 2
+   Note: Capital base employed - DENOMINATOR
+
+**4. FIXED ASSET TURNOVER (RETURN)** (UAH per UAH) [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.BaseYear:N2}
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2}
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.Deviations:N2}
+   Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.GrowthRate:N2}%
+   Formula: Revenue ÷ Average Fixed Assets
+   Interpretation: Revenue generated per 1 UAH of fixed assets
+   Benchmarks: <1.0 = poor, 1.0-2.0 = moderate, 2.0-4.0 = good, >4.0 = excellent
+   Example: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2} means every 1 UAH in fixed assets generates {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2} UAH in revenue
+
+**5. PROFITABILITY OF FIXED ASSETS** (%) [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.BaseYear:N2}%
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2}%
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.Deviations:N2}%
+   Dynamics: x (not applicable - percentage point change)
+   Formula: (Operating Profit ÷ Average Fixed Assets) × 100
+   Interpretation: Return on fixed assets - profit per 1 UAH invested
+   Benchmarks: <5% = poor, 5-10% = acceptable, 10-20% = good, >20% = excellent
+   Example: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2}% means every 1 UAH in fixed assets generates {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2} kopiyok of operating profit
+
+**6. INTEGRATED INDICATOR OF FIXED ASSETS UTILIZATION EFFICIENCY** [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.BaseYear:N2}
+   {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.CurrentYear:N2}
+   Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.Deviations:N2}
+   Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.GrowthRate:N2}%
+   Formula: v(Turnover × Profitability / 100)
+   Interpretation: DuPont-style composite efficiency combining activity and profitability
+   Note: Balances volume (turnover) and margin (profitability) efficiency
+";
+
+        return $@"You are a financial analyst specializing in fixed assets efficiency, capital productivity, and ROI. Analyze the Calculation of Indicators of Efficiency of Use of Fixed Assets for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language.
+
+{structuredData}
+
+UNDERSTANDING THIS TABLE:
+Measures how effectively FIXED ASSETS generate REVENUE and PROFIT using 6 interconnected indicators.
+
+**ROW RELATIONSHIPS**:
+• Rows 1-2: INPUTS (revenue, profit)
+• Row 3: CAPITAL BASE (denominator)
+• Row 4: ACTIVITY EFFICIENCY (turnover)
+• Row 5: MARGIN EFFICIENCY (profitability)
+• Row 6: COMPOSITE EFFICIENCY (integrated)
+
+CRITICAL FORMATTING RULES:
+- NO tables in response
+- Focus on INTERPRETATION only
+- Narrative prose with integrated numbers
+
+RESPONSE STRUCTURE:
+**1. Executive Summary** - Overall efficiency verdict
+**2. Revenue & Capital Base** - Growth comparison
+**3. Operating Profit** - Profitability assessment
+**4. Turnover Analysis** - Activity efficiency
+**5. Profitability Analysis** - Return on assets
+**6. Integrated Indicator** - Composite efficiency
+**7. Efficiency Components** - Turnover vs profitability balance
+**8. Capital Productivity** - Trade-offs and optimization
+**9. Key Findings** - Most significant insights
+**10. Strategic Recommendations** - Actionable improvements
+
+INTERPRETATION GUIDE:
+? POSITIVE: Turnover?, Profitability?, Integrated?, Capital growing slower than revenue
+? CONCERNING: Turnover?, Profitability?, Integrated?, Capital growing faster than revenue
+
+WRITING STYLE:
+- Professional, analytical
+- Active voice
+- Integrate numbers naturally
+- Explain WHY efficiency matters
+- Provide capital investment insights
+
+Remember: Write in {languageInstruction}. NO tables. Focus on FIXED ASSET EFFICIENCY and capital productivity.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

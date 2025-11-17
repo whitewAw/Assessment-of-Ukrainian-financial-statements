@@ -5,7 +5,7 @@
    ======================================== */
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -30,23 +30,15 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
-    h1:focus {
-        outline: none;
-    }
+h1:focus {
+    outline: none;
+}
 
 /* Mobile-optimized heading sizes */
 @media (max-width: 767px) {
-    h1 {
-        font-size: 1.75rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    h3 {
-        font-size: 1.25rem;
-    }
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
 }
 
 /* ========================================
@@ -58,12 +50,12 @@ a, .btn-link {
     text-decoration: none;
 }
 
-    a:hover, .btn-link:hover {
-        color: #005a9c;
-        text-decoration: underline;
-    }
+a:hover, .btn-link:hover {
+    color: #005a9c;
+    text-decoration: underline;
+}
 
-/* Touch-friendly link sizing on mobile */
+/* Touch-friendly sizing on mobile */
 @media (max-width: 767px) {
     a, .btn-link, button {
         min-height: 44px;
@@ -82,31 +74,16 @@ a, .btn-link {
     transition: all 0.2s ease-in-out;
 }
 
-    .btn-primary:hover {
-        background-color: #1861ac !important;
-        border-color: #164e8e !important;
-        color: #fff !important;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-primary:active {
-        transform: translateY(0);
-        color: #fff !important;
-    }
-
-/* Ensure all buttons have white text */
-button.btn-primary,
-a.btn-primary,
-.rz-button-primary {
-    color: #ffffff !important;
+.btn-primary:hover {
+    background-color: #1861ac !important;
+    border-color: #164e8e !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-    button.btn-primary:hover,
-    a.btn-primary:hover,
-    .rz-button-primary:hover {
-        color: #ffffff !important;
-    }
+.btn-primary:active {
+    transform: translateY(0);
+}
 
 /* ========================================
    LAYOUT & CONTENT
@@ -116,7 +93,6 @@ a.btn-primary,
     padding-top: 1.1rem;
 }
 
-/* Mobile-optimized content padding */
 @media (max-width: 767px) {
     .content {
         padding: 0.5rem;
@@ -153,7 +129,6 @@ a.btn-primary,
     margin-top: 0.25rem;
 }
 
-/* Mobile-friendly form inputs */
 @media (max-width: 767px) {
     input[type="text"],
     input[type="number"],
@@ -191,25 +166,24 @@ a.btn-primary,
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
 
-/* Mobile-responsive error UI */
 @media (max-width: 575px) {
     #blazor-error-ui {
         padding: 1rem;
         font-size: 0.875rem;
     }
 
-        #blazor-error-ui .dismiss {
-            position: static;
-            display: block;
-            margin-top: 0.5rem;
-        }
+    #blazor-error-ui .dismiss {
+        position: static;
+        display: block;
+        margin-top: 0.5rem;
+    }
 }
 
 .blazor-error-boundary {
@@ -218,11 +192,10 @@ a.btn-primary,
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
-/* Mobile-responsive error boundary */
 @media (max-width: 575px) {
     .blazor-error-boundary {
         padding: 1rem;
@@ -237,7 +210,6 @@ a.btn-primary,
    ======================================== */
 
 @media (max-width: 767px) {
-    /* Stack table on mobile */
     table {
         display: block;
         width: 100%;
@@ -245,40 +217,40 @@ a.btn-primary,
         -webkit-overflow-scrolling: touch;
     }
 
-        table thead {
-            display: none;
-        }
+    table thead {
+        display: none;
+    }
 
-        table tbody,
-        table tr,
-        table td {
-            display: block;
-            width: 100%;
-        }
+    table tbody,
+    table tr,
+    table td {
+        display: block;
+        width: 100%;
+    }
 
-        table tr {
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 0.25rem;
-            padding: 0.5rem;
-        }
+    table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+    }
 
-        table td {
-            text-align: right;
-            padding: 0.5rem;
-            position: relative;
-            padding-left: 50%;
-        }
+    table td {
+        text-align: right;
+        padding: 0.5rem;
+        position: relative;
+        padding-left: 50%;
+    }
 
-            table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0.5rem;
-                width: 45%;
-                padding-right: 0.5rem;
-                text-align: left;
-                font-weight: bold;
-            }
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.5rem;
+        width: 45%;
+        padding-right: 0.5rem;
+        text-align: left;
+        font-weight: bold;
+    }
 }
 
 /* ========================================
@@ -286,7 +258,6 @@ a.btn-primary,
    ======================================== */
 
 @media (max-width: 767px) {
-    /* Radzen Dialog - Full screen on mobile */
     .rz-dialog {
         width: 95vw !important;
         max-width: none !important;
@@ -299,20 +270,17 @@ a.btn-primary,
         overflow-y: auto !important;
     }
 
-    /* Radzen DataGrid - Horizontal scroll */
     .rz-datatable-scrollable-wrapper {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Radzen Chart - Responsive */
     .rz-chart {
         max-width: 100%;
         height: auto !important;
         min-height: 300px;
     }
 
-    /* Radzen Buttons - Touch-friendly */
     .rz-button {
         min-height: 44px;
         min-width: 44px;
@@ -324,7 +292,6 @@ a.btn-primary,
    UTILITY CLASSES
    ======================================== */
 
-/* Hide on mobile */
 .d-mobile-none {
     display: none !important;
 }
@@ -335,7 +302,6 @@ a.btn-primary,
     }
 }
 
-/* Hide on desktop */
 .d-desktop-none {
     display: block !important;
 }
@@ -346,14 +312,12 @@ a.btn-primary,
     }
 }
 
-/* Mobile text alignment */
 @media (max-width: 767px) {
     .text-mobile-center {
         text-align: center !important;
     }
 }
 
-/* Touch-friendly spacing */
 .touch-target {
     min-height: 44px;
     min-width: 44px;
@@ -366,20 +330,17 @@ a.btn-primary,
    PERFORMANCE OPTIMIZATIONS
    ======================================== */
 
-/* GPU acceleration for animations */
 .animated {
     will-change: transform;
     transform: translateZ(0);
 }
 
-/* Smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
     html {
         scroll-behavior: smooth;
     }
 }
 
-/* Reduce animations for accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -400,12 +361,9 @@ a.btn-primary,
         display: none !important;
     }
 
-    main {
-        width: 100% !important;
-        padding: 0 !important;
-    }
-
+    main,
     .content {
+        width: 100% !important;
         padding: 0 !important;
     }
 }

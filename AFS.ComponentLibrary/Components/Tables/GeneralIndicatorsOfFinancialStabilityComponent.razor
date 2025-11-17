@@ -1,5 +1,10 @@
-ï»¿@page "/generalindicatorsoffinancialstability"
+@page "/generalindicatorsoffinancialstability"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -46,15 +51,635 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeFinancialStability" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeGeneralFinancialStability"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing financial stability...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["GeneralIndicatorsOfFinancialStability"];
         int number = 15;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeFinancialStability()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildFinancialStabilityPrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildFinancialStabilityPrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            OwnWorkingCapital = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current.EndOfYear)
+            },
+            
+            OwnPlusLongTerm = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current.EndOfYear)
+            },
+            
+            TotalAvailable = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current.EndOfYear)
+            },
+            
+            Stocks_Inventory = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Current.EndOfYear)
+            },
+            
+            Deficit_OwnCapital = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current.EndOfYear)
+            },
+            
+            Deficit_OwnPlusLongTerm = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current.EndOfYear)
+            },
+            
+            Deficit_TotalSources = new
+            {
+                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base.BeginningOfyear),
+                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base.EndOfYear),
+                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current.BeginningOfyear),
+                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current.EndOfYear)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in financial stability analysis, inventory financing, and working capital management. Analyze the following General Indicators of Financial Stability for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes FINANCIAL STABILITY through the lens of INVENTORY FINANCING. It examines how inventory (stocks) is financed using SEVEN KEY INDICATORS across FOUR time points (2 years × 2 time points each).
+
+The central question: Is inventory financed by stable (own equity) or unstable (short-term debt) sources?
+
+INDICATOR STRUCTURE (3 Sources + 1 Inventory + 3 Deficits):
+
+**AVAILABLE SOURCES (How inventory can be financed):**
+1. **Own Working Capital** (Most stable)
+   - Own current assets = Equity - Non-current assets
+   - Conservative funding source
+   
+2. **Own + Long-term Borrowed** (Moderately stable)
+   - Own working capital + Long-term debt
+   - Acceptable funding mix
+   
+3. **Total Available** (Includes short-term)
+   - Own + Long-term + Short-term loans
+   - Risky if dependent on short-term
+
+**INVENTORY REQUIREMENT:**
+4. **Stocks (Inventory)** (What needs financing)
+   - Total inventory value
+   - Must be funded from somewhere
+
+**SURPLUS/DEFICIT ANALYSIS:**
+5. **Deficit from Own Capital** = Own Working Capital - Inventory
+   - Negative = Inventory NOT covered by own capital ?
+   - Positive = Inventory fully covered by equity ?
+   
+6. **Deficit from Own + Long-term** = (Own + Long-term) - Inventory
+   - Negative = Need short-term debt ??
+   - Positive = Covered by stable sources ?
+   
+7. **Deficit from Total Sources** = Total Available - Inventory
+   - Negative = CANNOT fund inventory (crisis) ??
+   - Positive = Inventory fully funded ?
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+FINANCIAL STABILITY CLASSIFICATION:
+Based on deficits, companies are classified into 4 types:
+
+**Type 1: Absolute Stability (Best)**
+- Surplus from own capital (Deficit #5 = 0)
+- Inventory funded entirely by equity
+- Maximum financial independence
+- Very rare, highly conservative
+
+**Type 2: Normal Stability (Good)**
+- Deficit from own capital (Deficit #5 < 0)
+- BUT surplus from own + long-term (Deficit #6 = 0)
+- Inventory funded by equity + stable long-term debt
+- Acceptable and common
+
+**Type 3: Unstable Financial State (Risky)**
+- Deficit from own + long-term (Deficit #6 < 0)
+- BUT surplus from total sources (Deficit #7 = 0)
+- Inventory dependent on SHORT-TERM debt
+- High refinancing risk
+
+**Type 4: Crisis Financial State (Critical)**
+- Deficit from total sources (Deficit #7 < 0)
+- CANNOT fund inventory even with all sources
+- Insolvency risk
+- Emergency action required
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on STABILITY RISK and FUNDING SOURCES
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Financial Stability Verdict**:
+   - 2-3 sentences on overall stability
+   - Primary finding: Which stability type? (1, 2, 3, or 4)
+   - Key weakness: What's the funding gap?
+   - Stability risk level (Low/Medium/High/Critical)
+
+**2. Inventory Financing Requirement**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Trend: Increasing or decreasing
+   - This is what MUST be financed
+
+**3. Own Working Capital Analysis (Source #1)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - **Interpretation:**
+     • Positive = Own capital available for inventory ?
+     • Negative = All equity tied up in fixed assets ?
+   - Current status: [NEGATIVE -9.6M] = NO own capital for inventory! ?
+
+**4. Own + Long-term Capital Analysis (Source #2)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Addition of long-term debt to funding
+   - Still negative? Stability concerns
+
+**5. Total Available Funding (Source #3)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Includes ALL sources (equity + long-term + short-term)
+   - Final funding capacity
+
+**6. Deficit from Own Capital Analysis (Indicator #5) - PRIMARY TEST**:
+   - Formula: Own Working Capital - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     • =0 = Absolute Stability (Type 1) ??
+     • <0 = Need external funding (Type 2, 3, or 4) ??
+   - Current: [-14.7M] = LARGE DEFICIT ?
+   - Meaning: Inventory CANNOT be funded by own capital alone
+
+**7. Deficit from Own + Long-term (Indicator #6) - SECONDARY TEST**:
+   - Formula: (Own + Long-term) - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     • =0 = Normal Stability (Type 2) ?
+     • <0 = Unstable/Crisis (Type 3 or 4) ?
+   - Current: [-10.4M] = STILL DEFICIT ?
+   - Meaning: Even with long-term debt, cannot cover inventory
+
+**8. Deficit from Total Sources (Indicator #7) - FINAL TEST**:
+   - Formula: Total Available - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     • =0 = Unstable but funded (Type 3) ??
+     • <0 = Crisis (Type 4) - Cannot fund inventory ??
+   - Current: [-10.2M] = CRISIS ??
+   - Meaning: CANNOT fund inventory even with ALL sources!
+
+**9. Financial Stability Classification**:
+   **Four-Point Timeline Assessment:**
+   
+   {MainModel.BaseYear} Beginning:
+   • Test 1 (Own capital): [Pass/Fail]
+   • Test 2 (Own + Long-term): [Pass/Fail]
+   • Test 3 (Total sources): [Pass/Fail]
+   • Classification: Type [1/2/3/4]
+   
+   {MainModel.BaseYear} End:
+   • Classification: Type [X]
+   
+   {MainModel.CurrentYear} Beginning:
+   • Classification: Type [X]
+   
+   {MainModel.CurrentYear} End:
+   • Classification: Type [X]
+   
+   **Overall Pattern:**
+   - Consistent type or changing?
+   - Improving or deteriorating?
+   - Current state vs historical
+
+**10. Strategic Recommendations**:
+    
+    **If Type 4 (Crisis) - Current Situation:**
+    ?? CRITICAL: Cannot fund inventory even with all sources!
+    
+    **Immediate Actions (30 days):**
+    • Emergency inventory reduction
+      - Target: Reduce inventory by [X]M UAH
+      - Sell slow-moving stock
+      - Just-in-time ordering
+      - Free up working capital
+    
+    • Increase funding sources
+      - Secure additional short-term credit
+      - Negotiate extended supplier credit
+      - Consider factoring receivables
+      - Emergency capital injection
+    
+    • Working capital optimization
+      - Accelerate receivables collection
+      - Extend payables (carefully)
+      - Release tied-up capital
+    
+    **If Type 3 (Unstable):**
+    ?? HIGH RISK: Dependent on short-term debt
+    
+    • Reduce short-term debt dependency
+    • Convert short-term to long-term debt
+    • Increase own working capital
+    • Optimize inventory levels
+    • Target: Move to Type 2 within 12 months
+    
+    **If Type 2 (Normal Stability):**
+    ? ACCEPTABLE: Funded by equity + long-term
+    
+    • Maintain stable funding mix
+    • Monitor deficit trends
+    • Gradual improvement toward Type 1
+    • Focus on profitability to build equity
+    
+    **If Type 1 (Absolute Stability):**
+    ?? EXCELLENT: Fully funded by equity
+    
+    • Maintain conservative position
+    • Leverage for growth if appropriate
+    • Industry leadership position
+    
+    **Long-term Stability Improvement (Type 4 ? 2 ? 1):**
+    
+    **Step 1: Exit Crisis (Type 4 ? 3)**
+    Timeline: 3-6 months
+    • Reduce inventory by 30-40%
+    • Secure adequate credit lines
+    • Stabilize operations
+    
+    **Step 2: Achieve Normal Stability (Type 3 ? 2)**
+    Timeline: 12-18 months
+    • Build own working capital
+    • Reduce short-term debt
+    • Extend debt maturity
+    • Increase equity through retained earnings
+    
+    **Step 3: Target Absolute Stability (Type 2 ? 1)**
+    Timeline: 2-3 years
+    • Continue equity accumulation
+    • Reduce all debt gradually
+    • Conservative inventory policies
+    • Strong profitability focus
+    
+    **Monthly Monitoring:**
+    ?? All 7 stability indicators
+    ?? Stability type classification
+    ?? Inventory levels
+    ?? Working capital position
+    ?? Short-term debt exposure
+    
+    **Key Targets:**
+    • Deficit #5 (Own capital): Target =0 (long-term)
+    • Deficit #6 (Own + Long-term): Target =0 (medium-term)
+    • Deficit #7 (Total): Target =0 (immediate priority)
+    • Stability Type: Minimum Type 2, target Type 1
+
+INTERPRETATION GUIDANCE:
+- **Negative deficits = Funding gap** ?
+- **Positive surplus = Funded** ?
+- **Type 1 > Type 2 > Type 3 > Type 4** (Best to worst)
+- **Own capital preferred** over debt for inventory
+
+CRITICAL INSIGHTS:
+1. What financial stability type is the company?
+2. Can inventory be funded from available sources?
+3. Is company dependent on short-term debt?
+4. What's the size of funding deficit?
+5. Is stability improving or deteriorating?
+6. What immediate actions are needed?
+7. Can company survive if credit tightens?
+8. What's the path to stability improvement?
+
+SPECIAL CONSIDERATIONS:
+- Type 4 = Cannot fund inventory = Crisis
+- Negative own working capital = All equity in fixed assets
+- Short-term debt for inventory = High refinancing risk
+- Large deficits = Urgent restructuring needed
+
+WRITING STYLE:
+- Direct and urgent if crisis
+- Clear risk assessment
+- Explain CONSEQUENCES of instability
+- Prioritize by urgency
+- Be analytical and actionable
+- Focus on funding sources
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

@@ -1,0 +1,381 @@
+﻿@page "/ai-assistant"
+@using AFS.ComponentLibrary.Components
+@using AFS.ComponentLibrary.Resources
+@inject IStringLocalizer<Resource> ResLoc
+
+<PageTitle>@ResLoc["AIFinancialAssistant"] - UFIN</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header mb-4">
+                <h1>
+                    <i class="oi oi-brain me-2"></i>
+                    @ResLoc["AIFinancialAssistant"]
+                </h1>
+                <p class="lead text-muted">
+                    @ResLoc["AIAssistantSubtitle"]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="oi oi-comment-square me-2"></i>
+                        @ResLoc["ChatWithAI"]
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <AIFinancialChatComponent />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="oi oi-info me-2"></i>
+                        @ResLoc["HowToUse"]
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold">@ResLoc["QuickActions"]</h6>
+                    <ul class="small">
+                        <li>@((MarkupString)ResLoc["QuickAction1"].Value)</li>
+                        <li>@((MarkupString)ResLoc["QuickAction2"].Value)</li>
+                        <li>@((MarkupString)ResLoc["QuickAction3"].Value)</li>
+                    </ul>
+
+                    <h6 class="fw-bold mt-3">@ResLoc["AskQuestions"]</h6>
+                    <ul class="small">
+                        <li>@ResLoc["ExampleQuestion1"]</li>
+                        <li>@ResLoc["ExampleQuestion2"]</li>
+                        <li>@ResLoc["ExampleQuestion3"]</li>
+                        <li>@ResLoc["ExampleQuestion4"]</li>
+                    </ul>
+
+                    <h6 class="fw-bold mt-3">@ResLoc["Tips"]</h6>
+                    <ul class="small mb-0">
+                        <li>@ResLoc["Tip1"]</li>
+                        <li>@ResLoc["Tip2"]</li>
+                        <li>@ResLoc["Tip3"]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="oi oi-shield me-2"></i>
+                        @ResLoc["PrivacyAndSecurity"]
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success mb-0" role="alert">
+                        <p class="small mb-2">
+                            <strong>🔒 @ResLoc["PrivateTitle"]</strong><br />
+                            @ResLoc["PrivateDescription"]
+                        </p>
+                        <p class="small mb-2">
+                            <strong>🚫 @ResLoc["NoDataSentTitle"]</strong><br />
+                            @ResLoc["NoDataSentDescription"]
+                        </p>
+                        <p class="small mb-0">
+                            <strong>✈️ @ResLoc["OfflineCapableTitle"]</strong><br />
+                            @ResLoc["OfflineCapableDescription"]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="oi oi-wrench me-2"></i>
+                        @ResLoc["SetupRequired"]
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-2">
+                        <strong>@ResLoc["BrowserAI"]</strong>
+                    </p>
+                    <ol class="small mb-3">
+                        <li>@ResLoc["SetupStep1"]</li>
+                        <li>@ResLoc["SetupStep2"]</li>
+                        <li>@ResLoc["SetupStep3"]</li>
+                    </ol>
+                    <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
+                       target="_blank"
+                       class="btn btn-sm btn-warning w-100">
+                        <i class="oi oi-external-link me-1"></i>
+                        @ResLoc["ViewSetupGuide"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="oi oi-question-mark me-2"></i>
+                        @ResLoc["FAQ"]
+                    </h5>
+                    
+                    <div class="faq-container">
+                        <!-- FAQ Item 1 -->
+                        <details class="faq-item">
+                            <summary class="faq-question">
+                                <span class="question-text">@ResLoc["FAQQuestion1"]</span>
+                                <span class="chevron">▼</span>
+                            </summary>
+                            <div class="faq-answer">
+                                @ResLoc["FAQAnswer1"]
+                            </div>
+                        </details>
+
+                        <!-- FAQ Item 2 -->
+                        <details class="faq-item">
+                            <summary class="faq-question">
+                                <span class="question-text">@ResLoc["FAQQuestion2"]</span>
+                                <span class="chevron">▼</span>
+                            </summary>
+                            <div class="faq-answer">
+                                @ResLoc["FAQAnswer2"]
+                            </div>
+                        </details>
+
+                        <!-- FAQ Item 3 -->
+                        <details class="faq-item">
+                            <summary class="faq-question">
+                                <span class="question-text">@ResLoc["FAQQuestion3"]</span>
+                                <span class="chevron">▼</span>
+                            </summary>
+                            <div class="faq-answer">
+                                @ResLoc["FAQAnswer3"]
+                            </div>
+                        </details>
+
+                        <!-- FAQ Item 4 -->
+                        <details class="faq-item">
+                            <summary class="faq-question">
+                                <span class="question-text">@ResLoc["FAQQuestion4"]</span>
+                                <span class="chevron">▼</span>
+                            </summary>
+                            <div class="faq-answer">
+                                @ResLoc["FAQAnswer4"]
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-header h1 {
+        color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .card {
+        border-radius: 8px;
+    }
+
+    .card-header {
+        font-weight: 500;
+    }
+
+    /* Native HTML Details/Summary FAQ - No JavaScript Required */
+    .faq-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .faq-item {
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 6px;
+        background-color: #fff;
+        overflow: hidden;
+        transition: box-shadow 0.2s ease;
+    }
+
+    /* Dark mode support */
+    @@media (prefers-color-scheme: dark) {
+        .faq-item {
+            border-color: rgba(255, 255, 255, 0.2);
+            background-color: #2b3035;
+        }
+    }
+
+    .faq-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @@media (prefers-color-scheme: dark) {
+        .faq-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+        color: #212529;
+        font-weight: 500;
+        background-color: #fff;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Dark mode for question */
+    @@media (prefers-color-scheme: dark) {
+        .faq-question {
+            color: #e9ecef !important;
+            background-color: #2b3035;
+        }
+
+        .faq-question .question-text {
+            color: #e9ecef !important;
+        }
+    }
+
+    /* Light mode - ensure text is always dark when closed */
+    .faq-question .question-text {
+        color: #212529;
+    }
+
+    /* Remove default marker */
+    .faq-question::-webkit-details-marker {
+        display: none;
+    }
+
+    .faq-question::marker {
+        display: none;
+    }
+
+    .faq-question:hover {
+        background-color: #f8f9fa;
+    }
+
+    @@media (prefers-color-scheme: dark) {
+        .faq-question:hover {
+            background-color: #3a3f47;
+        }
+
+        .faq-question:hover .question-text {
+            color: #e9ecef !important;
+        }
+    }
+
+    .faq-item[open] .faq-question {
+        background-color: #e7f3ff;
+        color: #0d6efd;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .faq-item[open] .faq-question .question-text {
+        color: #0d6efd !important;
+    }
+
+    @@media (prefers-color-scheme: dark) {
+        .faq-item[open] .faq-question {
+            background-color: #1a3a52;
+            color: #6ea8fe;
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .faq-item[open] .faq-question .question-text {
+            color: #6ea8fe !important;
+        }
+    }
+
+    .question-text {
+        flex: 1;
+        padding-right: 1rem;
+    }
+
+    .chevron {
+        font-size: 0.75rem;
+        color: #6c757d;
+        transition: transform 0.3s ease, color 0.2s ease;
+        flex-shrink: 0; /* Prevent chevron from shrinking */
+    }
+
+    .faq-item[open] .chevron {
+        transform: rotate(180deg);
+        color: #0d6efd;
+    }
+
+    @@media (prefers-color-scheme: dark) {
+        .faq-item[open] .chevron {
+            color: #6ea8fe;
+        }
+    }
+
+    .faq-answer {
+        padding: 1rem 1.25rem;
+        color: #212529;
+        background-color: #fff;
+        line-height: 1.6;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* Dark mode for answer */
+    @@media (prefers-color-scheme: dark) {
+        .faq-answer {
+            color: #dee2e6;
+            background-color: #2b3035;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Focus state for accessibility */
+    .faq-question:focus {
+        outline: 2px solid #0d6efd;
+        outline-offset: 2px;
+    }
+
+    @@media (prefers-color-scheme: dark) {
+        .faq-question:focus {
+            outline-color: #6ea8fe;
+        }
+    }
+
+    /* Mobile optimization */
+    @@media (max-width: 768px) {
+        .faq-question {
+            padding: 0.875rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .faq-answer {
+            padding: 0.875rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>

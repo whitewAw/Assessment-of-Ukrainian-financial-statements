@@ -1,5 +1,10 @@
-ï»¿@page "/solvencyratios"
+@page "/solvencyratios"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject SolvencyRatios SolvencyRatios
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;" aria-label="@tableName">
     <h2 class="text-center mb-4">@tableName</h2>
@@ -75,11 +80,140 @@
     </div>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeSolvency" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeSolvencyRatios"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing solvency ratios...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
     private string tableAriaLabel => ResLoc?["SolvencyRatiosTable"] ?? "Solvency Ratios Table";
+    
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["SolvencyRatios"];
         const int tableNumber = 14;
@@ -92,9 +226,507 @@
                                   MainModel.BaseYear,
                                   MainModel.CurrentYear,
                                   ResLoc["years"]);
-
+        
+        await CheckAIAvailability();
+        
         base.OnInitialized();
     }
 
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeSolvency()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildSolvencyPrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildSolvencyPrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            OverallLiquidityRatio = new
+            {
+                Base_Begin = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseBegin),
+                Base_End = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseEnd),
+                Current_Begin = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentBegin),
+                Current_End = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentEnd),
+                Deviation_Base = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseEnd - SolvencyRatios.OverallLiquidityRatio.BaseBegin),
+                Deviation_Current = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentEnd - SolvencyRatios.OverallLiquidityRatio.CurrentBegin)
+            },
+            
+            AbsoluteLiquidityRatio = new
+            {
+                Base_Begin = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseBegin),
+                Base_End = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseEnd),
+                Current_Begin = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentBegin),
+                Current_End = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentEnd),
+                Deviation_Base = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseEnd - SolvencyRatios.AbsoluteLiquidityRatio.BaseBegin),
+                Deviation_Current = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentEnd - SolvencyRatios.AbsoluteLiquidityRatio.CurrentBegin)
+            },
+            
+            IntermediateCoverageRatio = new
+            {
+                Base_Begin = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseBegin),
+                Base_End = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseEnd),
+                Current_Begin = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentBegin),
+                Current_End = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentEnd),
+                Deviation_Base = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseEnd - SolvencyRatios.IntermediateCoverageRatio.BaseBegin),
+                Deviation_Current = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentEnd - SolvencyRatios.IntermediateCoverageRatio.CurrentBegin)
+            },
+            
+            CurrentLiquidityRatio = new
+            {
+                Base_Begin = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseBegin),
+                Base_End = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseEnd),
+                Current_Begin = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentBegin),
+                Current_End = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentEnd),
+                Deviation_Base = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseEnd - SolvencyRatios.CurrentLiquidityFactor.BaseBegin),
+                Deviation_Current = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentEnd - SolvencyRatios.CurrentLiquidityFactor.CurrentBegin)
+            },
+            
+            RecoverySolvencyRatio = new
+            {
+                Base_End = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.BaseEnd),
+                Current_End = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.CurrentEnd),
+                Deviation = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.CurrentEnd - SolvencyRatios.SolvencyRecoveryRatio.BaseEnd)
+            },
+            
+            LossSolvencyRatio = new
+            {
+                Base_End = SafeValue(SolvencyRatios.SolvencyLossRatio.BaseEnd),
+                Current_End = SafeValue(SolvencyRatios.SolvencyLossRatio.CurrentEnd),
+                Deviation = SafeValue(SolvencyRatios.SolvencyLossRatio.CurrentEnd - SolvencyRatios.SolvencyLossRatio.BaseEnd)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in solvency analysis, liquidity ratios, and credit risk assessment. Analyze the following Solvency Ratios for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+You are analyzing 6 KEY SOLVENCY RATIOS across FOUR time points (2 years × 2 time points):
+- {MainModel.BaseYear} Beginning and End
+- {MainModel.CurrentYear} Beginning and End
+
+These ratios measure the company's ability to meet SHORT-TERM obligations and assess LIQUIDITY health.
+
+RATIO DEFINITIONS AND BENCHMARKS:
+
+**1. Overall Liquidity Ratio:**
+- Weighted measure of all liquid assets vs liabilities
+- Formula: (A1 + 0.5×A2 + 0.3×A3) ÷ (P1 + 0.5×P2 + 0.3×P3)
+- Benchmark: =1.0 (assets cover weighted liabilities)
+- Interpretation:
+  • =1.0 = Good overall liquidity ?
+  • 0.7-1.0 = Adequate
+  • <0.7 = Liquidity concerns ??
+
+**2. Absolute Liquidity Ratio (Quick Ratio):**
+- Immediate ability to pay current liabilities from cash
+- Formula: Cash ÷ Current Liabilities
+- Benchmark: 0.2-0.5 (20-50% cash coverage)
+- Interpretation:
+  • >0.5 = Excellent cash position ?
+  • 0.2-0.5 = Normal range
+  • <0.2 = Insufficient cash ??
+
+**3. Intermediate Coverage Ratio (Acid-Test Ratio):**
+- Coverage from cash + receivables
+- Formula: (Cash + Receivables) ÷ Current Liabilities
+- Benchmark: =1.0 preferred
+- Interpretation:
+  • =1.0 = Strong near-term solvency ?
+  • 0.7-1.0 = Acceptable
+  • <0.7 = Solvency concerns ??
+
+**4. Current Liquidity Ratio (Current Ratio):**
+- Total current assets vs current liabilities
+- Formula: Current Assets ÷ Current Liabilities
+- Benchmark: 1.5-2.0 ideal, =1.0 minimum
+- Interpretation:
+  • =2.0 = Excellent working capital ??
+  • 1.5-2.0 = Good ?
+  • 1.0-1.5 = Adequate
+  • <1.0 = Working capital deficit ?
+
+**5. Recovery Solvency Ratio:**
+- Probability of restoring solvency if trending down
+- Formula: (Current Ratio + 0.5 × ?Current Ratio) ÷ 2
+- Benchmark: >1.0 indicates recovery potential
+- Interpretation:
+  • >1.0 = Can recover solvency ?
+  • <1.0 = Risk of continued decline ??
+
+**6. Loss Solvency Ratio:**
+- Risk of losing solvency over 3 months
+- Formula: (Current Ratio + 0.25 × ?Current Ratio) ÷ 2
+- Benchmark: >1.0 means solvency stable
+- Interpretation:
+  • >1.0 = Solvency stable ?
+  • <1.0 = Risk of insolvency ?
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on SOLVENCY RISK and LIQUIDITY STRENGTH
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Solvency Verdict**:
+   - 2-3 sentences on overall solvency position
+   - Primary finding: Solvent or at risk?
+   - Key strength and key weakness
+   - Solvency risk level (Low/Medium/High/Critical)
+
+**2. Overall Liquidity Ratio Analysis**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - Trend: [improving/declining]
+   - **Assessment against benchmark (=1.0):**
+     • Status: [Above/Below benchmark]
+     • Implications
+   - Weighted liquidity coverage interpretation
+
+**3. Absolute Liquidity Ratio (Cash Coverage)**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - Trend: [direction]
+   - **Assessment against benchmark (0.2-0.5):**
+     • Status: [Excellent/>0.5 / Normal 0.2-0.5 / Low <0.2]
+     • Current: [value] = [X]% of current liabilities in cash
+   - Immediate payment capability
+   - Cash position strength/weakness
+
+**4. Intermediate Coverage Ratio (Quick Assets)**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - Trend: [direction]
+   - **Assessment against benchmark (=1.0):**
+     • Status: [Strong/Adequate/Weak]
+     • Coverage: Cash + Receivables cover [X]% of liabilities
+   - Near-term solvency assessment
+   - Collection dependency analysis
+
+**5. Current Liquidity Ratio (Working Capital)**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - Trend: [direction]
+   - **Assessment against benchmarks:**
+     • =2.0 = Excellent ??
+     • 1.5-2.0 = Good ?
+     • 1.0-1.5 = Adequate
+     • <1.0 = Deficit ?
+   - Current status: [assessment]
+   - Working capital adequacy
+   - {MainModel.CurrentYear} End [0.856]: Below 1.0 = WORKING CAPITAL DEFICIT ?
+
+**6. Recovery Solvency Ratio Analysis**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - **Interpretation:**
+     • >1.0 = Can recover if declining ?
+     • <1.0 = Difficult to recover ??
+   - Current status: [value]
+   - Recovery potential assessment
+   - Trajectory analysis
+
+**7. Loss Solvency Ratio Analysis**:
+   - {MainModel.BaseYear} End: [value]
+   - {MainModel.CurrentYear} End: [value]
+   - **Interpretation:**
+     • >1.0 = Solvency stable (low risk) ?
+     • <1.0 = Risk of insolvency within 3 months ?
+   - Current status: [value]
+   - Insolvency risk level
+   - Urgency of action
+
+**8. Comprehensive Solvency Assessment**:
+   **Score: [X/6] ratios meeting benchmarks**
+   
+   Count how many ratios meet their benchmarks:
+   - Overall Liquidity =1.0: [?/?]
+   - Absolute Liquidity 0.2-0.5: [?/?]
+   - Intermediate Coverage =1.0: [?/?]
+   - Current Ratio =1.0 (ideally =1.5): [?/?]
+   - Recovery Ratio >1.0: [?/?]
+   - Loss Ratio >1.0: [?/?]
+   
+   **Overall Solvency Score:**
+   - 6/6 = Excellent solvency ??
+   - 5/6 = Good solvency ?
+   - 4/6 = Adequate solvency
+   - 3/6 = Marginal solvency ??
+   - 2/6 = Poor solvency ?
+   - 0-1/6 = Critical solvency crisis ??
+
+**9. Trend Analysis (Four-Point Timeline)**:
+   Analyze progression through all four time points:
+   - {MainModel.BaseYear} Begin ? End: [trend]
+   - {MainModel.CurrentYear} Begin ? End: [trend]
+   - Overall trajectory: [improving/stable/deteriorating]
+   - **Key observations:**
+     • Which ratios improving?
+     • Which ratios declining?
+     • Is trajectory positive or negative?
+     • Are changes significant or minor?
+
+**10. Strategic Recommendations**:
+    
+    **If Current Ratio <1.0 (Working Capital Deficit):**
+    ?? CRITICAL PRIORITY
+    • Immediate working capital injection needed
+    • Current: [0.856] < 1.0 minimum
+    • Target: Minimum 1.0, ideally 1.5-2.0
+    • Actions:
+      - Increase current assets (accelerate collections)
+      - Reduce current liabilities (extend payables, pay down debt)
+      - Convert non-current to current (asset sales)
+      - Timeline: 90 days
+    
+    **If Absolute Liquidity <0.2:**
+    • Insufficient cash reserves
+    • Build cash buffer immediately
+    • Target: 0.2-0.5 range
+    • Methods: Collection acceleration, credit line, cash management
+    
+    **If Intermediate Coverage <1.0:**
+    • Near-term solvency at risk
+    • Strengthen quick assets (cash + receivables)
+    • Target: =1.0
+    • Focus: Collection efficiency, cash generation
+    
+    **If Recovery Ratio <1.0:**
+    • Difficult to recover from decline
+    • Reverse negative trends urgently
+    • Implement turnaround plan
+    • Timeline: Immediate
+    
+    **If Loss Ratio <1.0:**
+    ?? INSOLVENCY RISK WITHIN 3 MONTHS
+    • Emergency actions required
+    • Stakeholder communication critical
+    • Consider:
+      - Emergency financing
+      - Asset liquidation
+      - Debt restructuring
+      - Operational turnaround
+    • Timeline: 30 days
+    
+    **General Improvement Strategies:**
+    
+    **For Better Liquidity:**
+    • Accelerate receivables collection (reduce DSO)
+    • Optimize inventory levels (reduce tied-up capital)
+    • Extend payables terms (within reason)
+    • Build cash reserves
+    • Reduce short-term debt
+    • Improve operating cash flow
+    
+    **For Better Solvency:**
+    • Strengthen working capital position
+    • Maintain current ratio >1.5
+    • Keep absolute liquidity ratio >0.2
+    • Monitor all ratios monthly
+    • Early warning systems
+    • Contingency planning
+    
+    **Target Ratios (Healthy Position):**
+    • Overall Liquidity: =1.0
+    • Absolute Liquidity: 0.3-0.5
+    • Intermediate Coverage: =1.2
+    • Current Ratio: 1.5-2.0
+    • Recovery Ratio: >1.0
+    • Loss Ratio: >1.0
+    
+    **Implementation Timeline:**
+    • Immediate (30 days): Cash management, emergency actions
+    • Short-term (3-6 months): Working capital optimization
+    • Long-term (1-2 years): Sustainable solvency position
+    
+    **Monthly Monitoring KPIs:**
+    ?? All 6 solvency ratios
+    ?? Working capital amount
+    ?? Cash balance
+    ?? Current ratio trend
+    ?? Days cash on hand
+
+INTERPRETATION GUIDANCE:
+- **Higher ratios = Better solvency** (except as noted)
+- **Improving trends = Strengthening position** ?
+- **Declining trends = Weakening position** ??
+- **<1.0 ratios = Red flags** for most metrics
+
+CRITICAL INSIGHTS:
+1. Can company meet short-term obligations?
+2. Is working capital adequate (current ratio =1.0)?
+3. Is cash position sufficient (absolute ratio =0.2)?
+4. Are solvency ratios improving or deteriorating?
+5. Is there insolvency risk (loss ratio <1.0)?
+6. Can company recover if declining (recovery ratio)?
+7. Which specific ratios are weak?
+8. What immediate actions are needed?
+
+SPECIAL CONSIDERATIONS:
+- Current ratio <1.0 = Working capital deficit (serious)
+- Absolute ratio <0.1 = Severe cash shortage
+- Loss ratio <1.0 = Imminent insolvency risk
+- All declining ratios = Systemic liquidity problem
+- Industry context matters (benchmarks vary)
+
+WRITING STYLE:
+- Direct and clear
+- Risk-focused when appropriate
+- Explain CONSEQUENCES of weak ratios
+- Prioritize actions by urgency
+- Be analytical and action-oriented
+- Provide concrete targets
+
+All ratios are dimensionless (pure numbers). Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
     private static double GetDifference(SolvencyRatiosRow item) => item.CurrentEnd - item.BaseEnd;
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
+    }
 }

@@ -1,11 +1,12 @@
-﻿# Assessment of Ukrainian Financial Statements (UFIN)
+﻿# Assessment of Ukrainian Financial Statements (AFS)
 
-[![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Deploy to GitHub Pages](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml/badge.svg)](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml)
+[![Chrome AI](https://img.shields.io/badge/Chrome_AI-Gemini_Nano-4285F4?logo=google-chrome)](https://developer.chrome.com/docs/ai/built-in)
 
-> 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements, built with Blazor WebAssembly and optimized for performance with AOT compilation.
+> 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 
 ## 🌐 [Live Demo](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
 
@@ -15,6 +16,7 @@
 
 - [Overview](#-overview)
 - [Features](#-features)
+- [AI Assistant](#-ai-assistant-new)
 - [Technology Stack](#️-technology-stack)
 - [Getting Started](#-getting-started)
 - [Project Structure](#-project-structure)
@@ -31,47 +33,100 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 ### Why This Project?
 
+- ✅ **AI-Powered** - Built-in AI assistant using Chrome's Gemini Nano (100% local, private)
 - ✅ **Offline-first** - Works without internet after initial load
 - ✅ **Privacy-focused** - All calculations happen in your browser
 - ✅ **No installation** - Just open and use
 - ✅ **Multi-language** - Supports 6 languages (Ukrainian, English, German, Spanish, French, Russian)
-- ✅ **Professional-grade** - Comprehensive financial analysis tools
+- ✅ **Professional-grade** - 16 comprehensive financial analysis tables + 7 interactive charts
 - ✅ **Open Source** - Free to use, modify, and contribute
 
 ---
 
 ## ✨ Features
 
-### 📊 Financial Analysis
-- **Balance Sheet Analysis** (Form 1)
-- **Income Statement Analysis** (Form 2)
-- **Liquidity Ratios** - Current, Quick, Cash ratios
-- **Solvency Indicators** - Debt-to-equity, Coverage ratios
-- **Profitability Metrics** - ROA, ROE, Profit margins
-- **Business Activity Indicators** - Turnover ratios, Activity cycles
-- **Financial Stability Assessment** - Classification and trends
-- **Working Capital Analysis** - Efficiency and turnover time
-- **Fixed Assets Evaluation** - Availability, movement, efficiency
-- **Interactive Charts** - Visual representation of financial data
+### 🤖 AI Assistant (NEW!)
+
+**Revolutionary AI-powered financial analysis running 100% in your browser!**
+
+#### Key Features:
+- 🧠 **Powered by Gemini Nano** - Google's lightweight AI model built into Chrome
+- 🔒 **100% Private** - No data sent to servers, everything runs locally
+- 💬 **Conversational Interface** - Chat naturally about your financial data
+- 📊 **Context-Aware** - AI has full access to your company's financial data
+- 🌍 **Multi-Language** - Responds in Ukrainian or English automatically
+- ⚡ **Streaming Responses** - Real-time AI answers with stop control
+- 📈 **Smart Analysis** - Calculates ratios, identifies trends, provides recommendations
+
+#### Quick Actions:
+- **Financial Health** - Comprehensive 9-section health assessment
+- **Get Recommendations** - 4-tier prioritized action plan (Urgent → Long-term)
+- **Explain Key Ratios** - 11 financial ratios calculated and explained
+
+#### AI Capabilities:
+- ✅ Answer financial questions using your actual data
+- ✅ Calculate any financial ratio on demand
+- ✅ Explain trends and changes year-over-year
+- ✅ Provide actionable recommendations with timelines
+- ✅ Identify risks and suggest mitigation strategies
+- ✅ Compare against industry benchmarks
+- ✅ Natural conversation in Ukrainian or English
+
+#### Requirements:
+- Google Chrome 127+ with Prompt API enabled
+- Automatic Gemini Nano model download (first use)
+- No API keys, subscriptions, or cloud services required
+
+[Learn more about Chrome AI setup →](CHROME_AI_SETUP_GUIDE.md)
+
+---
+
+### 📊 Financial Analysis (16 Tables + 7 Charts)
+
+#### Analysis Tables:
+1. **Characteristics of Capital** - Capital structure and efficiency
+2. **Indicators of Turnover of Current Assets** - Asset velocity analysis
+3. **Factors Affecting Turnover of Working Capital** - Detailed impact analysis
+4. **Indicators of Efficiency of Working Capital** - ROI and productivity
+5. **Availability and Movement of Fixed Assets** - Asset lifecycle tracking
+6. **Indicators of State and Movement of Fixed Assets** - Quality metrics
+7. **Calculation of Efficiency of Fixed Assets** - Performance ratios
+8. **Factor Analysis of Fixed Assets** - Multifactor impact study
+9. **Efficiency of Intangible Assets** - IP and goodwill analysis
+10. **Sources of Capital Formation** - Funding sources breakdown
+11. **Assessment of Receivables and Payables** - Credit management
+12. **Indicators of Business Activity** - Operational efficiency
+13. **Liquidity Indicators of Balance** - Short-term solvency
+14. **Solvency Ratios** - Long-term financial health
+15. **General Indicators of Financial Stability** - Overall stability metrics
+16. **Classification of Financial Stability Types** - Risk categorization
+
+#### Interactive Charts:
+1. **Composition of Assets** (Base & Current) - Asset structure visualization
+2. **Sources of Capital Formation** (Base & Current) - Capital sources pie charts
+3. **Structure of Accounts Payable** (Base & Current) - Liability breakdown
+4. **Working Capital Turnover Time** - Efficiency trends
 
 ### 🌍 Internationalization
-- Ukrainian (Українська)
-- English
-- German (Deutsch)
-- Spanish (Español)
-- French (Français)
-- Russian (Русский)
+- Ukrainian (Українська) 🇺🇦
+- English 🇬🇧
+- German (Deutsch) 🇩🇪
+- Spanish (Español) 🇪🇸
+- French (Français) 🇫🇷
+- Russian (Русский) 🇷🇺
 
 ### 💾 Data Management
 - **Local Storage** - Save your data securely in browser
 - **Import/Export** - JSON-based data portability
 - **Sample Data** - Pre-loaded examples for learning
+- **Auto-Save** - Never lose your work
 
 ### ⚡ Performance
 - **AOT Compilation** - Ahead-of-time compiled for maximum speed
 - **PWA Support** - Install as standalone app
 - **Optimized Bundle** - Compressed and trimmed for fast loading
 - **Service Worker** - Offline caching for instant access
+- **.NET 10** - Latest performance improvements
 
 ---
 
@@ -79,10 +134,11 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| [.NET](https://dotnet.microsoft.com/) | 9.0 | Runtime and SDK |
-| [Blazor WebAssembly](https://blazor.net/) | 9.0 | UI Framework |
-| [Radzen Blazor](https://blazor.radzen.com/) | 8.1.5 | Component Library |
-| [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 13.0 | Programming Language |
+| [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
+| [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
+| [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
+| [Radzen Blazor](https://blazor.radzen.com/) | 8.1.5+ | Component Library |
+| [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | Latest | Execution Environment |
 
 ### Build Features
@@ -90,6 +146,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ IL Trimming for smaller bundles
 - ✅ Brotli Compression
 - ✅ Native WASM optimization
+- ✅ .NET 10 performance enhancements
 
 ---
 
@@ -97,8 +154,8 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 ### Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-- Any modern browser (Chrome, Firefox, Edge, Safari)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- Any modern browser (Chrome 127+ recommended for AI features)
 - (Optional) [Visual Studio 2022](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
 ### Local Development
@@ -129,6 +186,17 @@ This application provides a powerful, browser-based tool for comprehensive analy
     https://localhost:7157
     ```
 
+### Enable AI Assistant (Optional)
+
+To use the AI Assistant features:
+
+1. **Use Chrome 127 or later**
+2. **Enable Prompt API**: Visit `chrome://flags/#prompt-api-for-gemini-nano`
+3. **Set to "Enabled"** and restart Chrome
+4. **First launch**: Model downloads automatically (may take a few minutes)
+
+[Detailed AI setup guide →](CHROME_AI_SETUP_GUIDE.md)
+
 ### Build for Production
 
 ```bash
@@ -141,56 +209,90 @@ dotnet publish AFS/AFS.csproj -c Release -o publish
 
 ```
 Assessment-of-Ukrainian-financial-statements/
-├── 📂 AFS/          # Main Blazor WebAssembly app
-│   ├── Program.cs  # Application entry point
-│   ├── App.razor       # Root component with router
-│   └── wwwroot/ # Static assets
+├── 📂 AFS/                           # Main Blazor WebAssembly app
+│   ├── Program.cs                    # Application entry point
+│   ├── App.razor                     # Root component with router
+│   ├── Pages/                        # Page components
+│   │   ├── AIAssistant.razor        # AI Assistant page
+│   │   ├── Index.razor              # Home page
+│   │   └── [16 analysis pages]      # Financial analysis pages
+│   └── wwwroot/                     # Static assets
+│       ├── js/
+│       │   └── chromeai.js          # Chrome AI JavaScript interop
+│       └── index.html               # Application shell
 │
-├── 📂 AFS.ComponentLibrary/# Reusable components
-│ ├── Components/
-│   │   ├── Charts/     # Chart components
-│   │   ├── Tables/    # Data table components
-│   │   └── TableComponents/        # Shared table elements
-│   └── Resources/       # Localization files (.resx)
+├── 📂 AFS.ComponentLibrary/         # Reusable components
+│   ├── Components/
+│   │   ├── AIFinancialChatComponent.razor  # AI chat UI
+│   │   ├── Charts/                  # 7 interactive chart components
+│   │   ├── Tables/                  # 16 financial analysis tables
+│   │   └── TableComponents/         # Shared table elements
+│   └── Resources/                   # Localization files (.resx)
 │
-├── 📂 AFS.Core/      # Business logic
-│   ├── Models/           # Data models
-│   │   ├── Form1.cs         # Balance sheet model
+├── 📂 AFS.Core/                     # Business logic
+│   ├── Models/                      # Data models
+│   │   ├── AFSModel.cs             # Main application model
+│   │   ├── Form1.cs                # Balance sheet model
 │   │   ├── Form2.cs                # Income statement model
-│   │   └── TablsModels/   # Table-specific models
-│   ├── Services/    # Business services
-│   │   ├── DataCalculations/       # Financial calculation services
+│   │   └── TablsModels/            # Table-specific models
+│   ├── Services/                   # Business services
+│   │   ├── DataCalculations/       # 16 financial calculation services
+│   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service
 │   │   ├── LocalStorageHandler.cs  # Browser storage
-│   │   └── JsInterop.cs    # JavaScript interop
-│   └── Json/       # JSON serialization
+│   │   └── JsInterop.cs            # JavaScript interop
+│   ├── Interfaces/
+│   │   └── IAIFinancialAdvisor.cs  # AI service interface
+│   └── Json/                       # JSON serialization
 │
-├── 📂 .github/         # GitHub configuration
-│   ├── workflows/         # CI/CD workflows
-│   │   ├── main.yml    # Deployment workflow
-│   │   └── pr-validation.yml       # PR quality checks
-│   └── ISSUE_TEMPLATE/          # Issue templates
+├── 📂 .github/                      # GitHub configuration
+│   ├── workflows/                   # CI/CD workflows
+│   │   └── main.yml                # Deployment workflow
+│   └── ISSUE_TEMPLATE/             # Issue templates
 │
-├── 📄 CONTRIBUTING.md    # Contribution guidelines
-├── 📄 CODE_OF_CONDUCT.md      # Community standards
-├── 📄 LICENSE               # MIT License
-└── 📄 README.md       # This file
+├── 📄 CHROME_AI_SETUP_GUIDE.md     # AI setup instructions
+├── 📄 CONTRIBUTING.md              # Contribution guidelines
+├── 📄 CODE_OF_CONDUCT.md           # Community standards
+├── 📄 LICENSE                      # MIT License
+└── 📄 README.md                    # This file
 ```
 
 ---
 
 ## 📊 Financial Analysis Features
 
+### 🤖 AI-Powered Analysis
+
+**Ask the AI anything about your financial data:**
+
+**Example Questions:**
+- "What's my current ratio and how does it compare to benchmarks?"
+- "Why did my profitability decrease this year?"
+- "What are the top 3 risks in my financial position?"
+- "How can I improve my working capital efficiency?"
+- "Calculate my ROE and explain what it means"
+- "Compare my performance against last year"
+
+**AI provides:**
+- ✅ Direct answers using your actual financial data
+- ✅ Calculations with formulas shown
+- ✅ Year-over-year trend analysis
+- ✅ Risk assessments (High/Medium/Low)
+- ✅ Specific actionable recommendations
+- ✅ Timeline and success metrics
+
 ### Balance Sheet Analysis (Form 1)
 - Asset composition and structure
 - Current vs. Non-current assets
 - Equity and liabilities analysis
 - Year-over-year comparisons
+- Beginning and ending balances
 
 ### Income Statement Analysis (Form 2)
 - Revenue analysis
-- Operating expenses
+- Operating expenses breakdown
 - Net profit calculations
 - Profitability trends
+- Prior period comparisons
 
 ### Financial Ratios
 
@@ -199,30 +301,42 @@ Assessment-of-Ukrainian-financial-statements/
 - Quick Ratio
 - Cash Ratio
 - Working Capital
+- Asset Liquidity Grouping
 
 #### Solvency Ratios
 - Debt-to-Equity Ratio
 - Interest Coverage
 - Financial Leverage
 - Solvency Recovery/Loss Ratio
+- Long-term debt capacity
 
 #### Business Activity
 - Asset Turnover
 - Receivables Turnover
 - Inventory Turnover
 - Payables Turnover
+- Operating Cycle Analysis
 
 #### Financial Stability
 - Autonomy Coefficient
 - Financial Independence
 - Capital Structure Analysis
 - Stability Classification
+- 4-tier stability levels
+
+#### Efficiency Metrics
+- Return on Assets (ROA)
+- Return on Equity (ROE)
+- Working Capital Efficiency
+- Fixed Assets Productivity
+- Intangible Assets ROI
 
 ### Interactive Visualizations
 - 📊 Pie charts for composition analysis
 - 📈 Line charts for trend analysis
 - 📉 Bar charts for comparative data
 - 🎯 Donut charts for proportions
+- 🔄 Real-time chart updates
 
 ---
 
@@ -242,6 +356,7 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 - 🌍 **Add translations** - Help support more languages
 - 📝 **Improve docs** - Documentation is always appreciated
 - 💻 **Submit PRs** - Fix bugs or implement features
+- 🤖 **Enhance AI** - Improve prompts and AI interactions
 
 ---
 
@@ -258,11 +373,12 @@ The project includes automated deployment to GitHub Pages using GitHub Actions.
 3. **Deploys to gh-pages** → Available at your GitHub Pages URL
 
 #### Workflow Features
-- ✅ .NET 9 with AOT compilation
+- ✅ .NET 10 with AOT compilation
 - ✅ WebAssembly optimization
 - ✅ Service worker hash fixing
 - ✅ Automatic base path handling
 - ✅ PWA manifest generation
+- ✅ Brotli compression
 
 #### Manual Deployment
 
@@ -291,17 +407,28 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 
 ### For Users
 - [Live Application](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
-- [Financial Analysis Guide](docs/FINANCIAL_ANALYSIS.md) _(coming soon)_
+- [Chrome AI Setup Guide](CHROME_AI_SETUP_GUIDE.md)
+- [AI Implementation Guide](GEMINI_NANO_IMPLEMENTATION_GUIDE.md)
 - [User Manual](docs/USER_MANUAL.md) _(coming soon)_
 
 ### For Developers
 - [Contributing Guide](CONTRIBUTING.md)
 - [Architecture Overview](MIGRATION_SUMMARY.md)
+- [AI Integration Details](AI_ASSISTANT_COMPLETE_SUCCESS.md)
+- [Performance Optimizations](PERFORMANCE_OPTIMIZATIONS.md)
 - [Workflow Documentation](.github/WORKFLOW_IMPROVEMENTS.md)
+
+### AI Assistant Documentation
+- [Chrome AI Setup](CHROME_AI_SETUP_GUIDE.md)
+- [Gemini Nano Implementation](GEMINI_NANO_IMPLEMENTATION_GUIDE.md)
+- [Optimal Parameters](GEMINI_NANO_OPTIMAL_PARAMETERS.md)
+- [Streaming Responses](STREAMING_AI_RESPONSE_IMPLEMENTATION.md)
+- [Download Progress](GEMINI_NANO_DOWNLOAD_PROGRESS.md)
 
 ### Technical Resources
 - [Blazor WebAssembly Docs](https://learn.microsoft.com/aspnet/core/blazor/)
-- [.NET 9 What's New](https://learn.microsoft.com/dotnet/core/whats-new/dotnet-9/overview)
+- [.NET 10 What's New](https://learn.microsoft.com/dotnet/core/whats-new/dotnet-10/overview)
+- [Chrome AI API](https://developer.chrome.com/docs/ai/built-in)
 - [Radzen Blazor Components](https://blazor.radzen.com/)
 - [Ukrainian Accounting Standards](https://mof.gov.ua/en/accounting-standards)
 
@@ -312,8 +439,17 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 - ✅ **No data collection** - All processing happens locally
 - ✅ **No server communication** - Fully client-side application
 - ✅ **Secure storage** - Browser's local storage only
+- ✅ **AI privacy** - Gemini Nano runs 100% in your browser
+- ✅ **No API keys** - No cloud services or subscriptions needed
 - ✅ **Open source** - Fully auditable code
 - ✅ **Regular updates** - Active maintenance and security patches
+
+### AI Privacy Guarantees
+- 🔒 **Zero data leaves your device** - AI runs entirely in Chrome
+- 🔒 **No internet required** - Works offline after model download
+- 🔒 **No analytics** - Your financial data is never tracked
+- 🔒 **No cloud costs** - Free forever, no subscriptions
+- 🔒 **You control the data** - Delete anytime, nothing stored externally
 
 ---
 
@@ -322,12 +458,15 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 ### Built With
 - [Blazor](https://blazor.net/) - Microsoft's web framework
 - [Radzen](https://blazor.radzen.com/) - Blazor component library
+- [Chrome AI](https://developer.chrome.com/docs/ai/built-in) - Google's built-in AI
+- [Gemini Nano](https://blog.google/technology/ai/google-gemini-ai/) - Lightweight AI model
 - [Open Iconic](https://useiconic.com/open/) - Icon set
 
 ### Inspired By
 - Ukrainian accounting standards and practices
 - Financial analysis methodologies
 - Community feedback and contributions
+- Modern AI-assisted development
 
 ---
 
@@ -349,6 +488,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 💬 [GitHub Discussions](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/discussions) - Ask questions
 - 🐛 [Issues](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues) - Report bugs
 - 📧 Contact maintainers - See GitHub profile
+- 🤖 [AI Setup Help](CHROME_AI_SETUP_GUIDE.md) - Troubleshooting
 
 ### Stay Updated
 - ⭐ Star this repository
@@ -361,25 +501,35 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### Completed ✅
 - [x] Multi-language support (6 languages)
-- [x] Comprehensive financial analysis
+- [x] 16 comprehensive financial analysis tables
+- [x] 7 interactive charts
 - [x] PWA with offline support
 - [x] AOT compilation optimization
 - [x] Automated CI/CD deployment
 - [x] Component-based architecture
+- [x] **AI Assistant with Chrome AI**
+- [x] **Gemini Nano integration**
+- [x] **Context-aware financial analysis**
+- [x] **Streaming AI responses**
+- [x] **.NET 10 migration**
 
 ### In Progress 🚧
+- [ ] Enhanced AI prompts and training
 - [ ] Unit test coverage
 - [ ] End-to-end testing
 - [ ] Enhanced mobile responsiveness
 - [ ] Dark theme support
 
 ### Planned 🎯
-- [ ] PDF report generation
+- [ ] PDF report generation with AI summaries
 - [ ] Excel export/import
-- [ ] Historical data comparison
-- [ ] Advanced forecasting tools
+- [ ] Historical data comparison (multi-year)
+- [ ] Advanced forecasting tools (AI-powered)
 - [ ] Multi-company analysis
 - [ ] Cloud synchronization (optional)
+- [ ] AI-powered anomaly detection
+- [ ] Custom AI training on user data
+- [ ] Voice commands for AI assistant
 
 ---
 
@@ -389,6 +539,17 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ![GitHub forks](https://img.shields.io/github/forks/whitewAw/Assessment-of-Ukrainian-financial-statements?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/whitewAw/Assessment-of-Ukrainian-financial-statements)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/whitewAw/Assessment-of-Ukrainian-financial-statements)
+![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)
+![AI Powered](https://img.shields.io/badge/AI-Powered-brightgreen)
+
+### Key Metrics
+- **16** Financial Analysis Tables
+- **7** Interactive Charts
+- **6** Languages Supported
+- **100%** Client-Side Processing
+- **0** Server Dependencies
+- **0** Data Collection
+- **∞** Privacy Protection
 
 ---
 
@@ -398,14 +559,24 @@ Contributions make the open-source community an amazing place to learn, inspire,
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 
+### Special Thanks
+- All contributors and community members
+- Chrome AI team for built-in AI capabilities
+- .NET and Blazor teams for amazing framework
+- Radzen team for excellent components
+- Ukrainian developers and financial analysts
+
 ---
 
 <div align="center">
 
-**Made with ❤️ by the community**
+**Made with ❤️ and 🤖 AI by the community**
 
 [Report Bug](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues/new?template=bug_report.md) · 
 [Request Feature](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues/new?template=feature_request.md) · 
-[Contribute](CONTRIBUTING.md)
+[Contribute](CONTRIBUTING.md) · 
+[AI Setup](CHROME_AI_SETUP_GUIDE.md)
+
+**🚀 Now with AI-Powered Financial Analysis!**
 
 </div>

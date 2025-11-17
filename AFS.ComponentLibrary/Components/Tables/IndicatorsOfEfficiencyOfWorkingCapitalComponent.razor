@@ -1,5 +1,10 @@
-ï»¿@page "/indicatorsofefficiencyofworkingcapital"
+@page "/indicatorsofefficiencyofworkingcapital"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject IndicatorsOfEfficiencyOfWorkingCapital IndicatorsOfEfficiencyOfWorkingCapital
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -18,15 +23,489 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeEfficiencyIndicators" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeWorkingCapitalEfficiency"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing working capital efficiency...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["IndicatorsOfEfficiencyOfWorkingCapital"];
         int number = 4;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeEfficiencyIndicators()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            // Prepare financial data for AI analysis
+            var prompt = BuildEfficiencyAnalysisPrompt();
+            
+            // Get AI analysis with streaming (chunk by chunk)
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            // Check if it was cancelled
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                // Add stopped indicator to partial response
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            // Call JavaScript to abort the current operation
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            // Add stopped indicator if there's partial analysis
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildEfficiencyAnalysisPrompt()
+    {
+        // Detect current UI language from CultureInfo
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var languageName = currentCulture.EnglishName;
+        var cultureName = currentCulture.Name;
+        
+        // Map culture to language instruction
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : languageName;
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 4: INDICATORS OF EFFICIENCY OF WORKING CAPITAL
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**1. NET REVENUE FROM SALES** (thousand UAH)
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales.BaseYear:N2}
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales.CurrentYear:N2}
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales.Deviations:N2}
+   Dynamics: {IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales.GrowthRate:N2}%
+   Note: Top-line revenue - operational scale
+
+**2. AVERAGE BALANCES OF CURRENT ASSETS** (thousand UAH)
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.AverageWorkingCapitalBalances.BaseYear:N2}
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.AverageWorkingCapitalBalances.CurrentYear:N2}
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.AverageWorkingCapitalBalances.Deviations:N2}
+   Dynamics: {IndicatorsOfEfficiencyOfWorkingCapital.AverageWorkingCapitalBalances.GrowthRate:N2}%
+   Note: Working capital invested - capital base
+
+**3. NET PROFIT** (thousand UAH)
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NetProfit.BaseYear:N2}
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NetProfit.CurrentYear:N2}
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.NetProfit.Deviations:N2}
+   Dynamics: {IndicatorsOfEfficiencyOfWorkingCapital.NetProfit.GrowthRate:N2}%
+   Note: Bottom-line profitability - what's left after all expenses
+
+**4. TURNOVER OF CURRENT ASSETS** (times) [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets.BaseYear:N2} times
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets.CurrentYear:N2} times
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets.Deviations:N2} times
+   Dynamics: {IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets.GrowthRate:N2}%
+   Formula: Net Revenue ÷ Average Working Capital
+   Interpretation: How many times working capital cycles through per year
+   Example: 1.28 times = working capital generates 1.28 UAH of revenue per 1 UAH invested
+
+**5. PROFITABILITY OF CURRENT ASSETS** (%) [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.ProfitabilityOfCurrentAssets.BaseYear:N2}%
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.ProfitabilityOfCurrentAssets.CurrentYear:N2}%
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.ProfitabilityOfCurrentAssets.Deviations:N2}%
+   Dynamics: x (not applicable - percentage point change shown in deviation)
+   Formula: (Net Profit ÷ Average Working Capital) × 100
+   Interpretation: Return on working capital - profit per UAH of working capital
+   Example: 0.79% = generates 0.79 kopiyok profit per 1 UAH of working capital invested
+
+**6. INTEGRATED INDICATOR OF WORKING CAPITAL UTILIZATION EFFICIENCY** [HIGHER IS BETTER]
+   {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.IntegratedIndicatorOfEfficiencyOfCurrentAssets.BaseYear:N3}
+   {MainModel.CurrentYear}: {IndicatorsOfEfficiencyOfWorkingCapital.IntegratedIndicatorOfEfficiencyOfCurrentAssets.CurrentYear:N3}
+   Deviation: {IndicatorsOfEfficiencyOfWorkingCapital.IntegratedIndicatorOfEfficiencyOfCurrentAssets.Deviations:N3}
+   Dynamics: x (not applicable - unitless composite indicator)
+   Formula: v(Turnover × Profitability / 100)
+   Interpretation: DuPont-style composite efficiency measure combining activity and profitability
+   Typical range: 0.5-2.5 (varies by industry)
+   Components balanced: Higher turnover OR higher profitability OR both will increase this
+";
+
+        return $@"You are a financial analyst specializing in working capital efficiency and profitability analysis. Analyze the Indicators of Efficiency of Working Capital for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING THIS TABLE:
+This table shows HOW EFFICIENTLY working capital generates revenue and profit.
+
+**ROW RELATIONSHIPS**:
+• Rows 1-2: INPUT METRICS (revenue and capital base)
+• Row 3: OUTPUT METRIC (profit generated)
+• Rows 4-5: EFFICIENCY RATIOS (how well capital is utilized)
+• Row 6: COMPOSITE MEASURE (overall efficiency)
+
+**KEY EFFICIENCY CONCEPTS**:
+1. **Turnover (Row 4)**: Activity efficiency
+   - How many times working capital cycles through in a year
+   - Higher = more productive use of capital   
+2. **Profitability (Row 5)**: Margin efficiency
+   - Return on working capital invested
+   - Higher = better profit generation per UAH invested   
+3. **Integrated Indicator (Row 6)**: Overall efficiency
+   - Combines both activity and profitability
+   - Balanced measure of total working capital efficiency
+
+**INTERPRETATION EXAMPLES**:
+- Turnover 1.28 times: Every UAH of working capital generates 1.28 UAH of revenue annually
+- Profitability 0.79%: Every UAH of working capital generates 0.0079 UAH (0.79 kopiyok) of profit annually
+- Integrated 0.101: Composite efficiency score (higher is better)
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat the raw data I provided
+- The user can see all data in the table
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall working capital efficiency: improved or declined?
+- Primary finding and its significance
+- Quick verdict
+
+**2. Revenue and Capital Base** (Rows 1-2)
+- Revenue performance: {MainModel.BaseYear} to {MainModel.CurrentYear}
+- Working capital changes
+- Capital efficiency: Did capital grow faster or slower than revenue?
+- Implication: Over-investing, under-investing, or balanced?
+
+**3. Profitability Performance** (Row 3)
+- Net Profit trend and turnaround (if applicable)
+- Profit margin calculation (Profit/Revenue)
+- Profit growth vs revenue growth comparison
+- Quality and sustainability assessment
+
+**4. Activity Efficiency** (Row 4)
+- Turnover of Current Assets trend
+- Interpretation: {IndicatorsOfEfficiencyOfWorkingCapital.NumberOfRevolutionsOfCurrentAssets.CurrentYear:N2} times means what?
+- Is this good for the industry?
+- What drove the change: revenue growth or capital reduction?
+- Benchmark comparison
+
+**5. Margin Efficiency** (Row 5)
+- Profitability of Current Assets trend
+- Return on working capital assessment
+- Is {IndicatorsOfEfficiencyOfWorkingCapital.ProfitabilityOfCurrentAssets.CurrentYear:N2}% adequate?
+- Factors driving profitability change
+- Margin improvement opportunities
+
+**6. Composite Efficiency** (Row 6)
+- Integrated Indicator interpretation
+- Breakdown: Which component dominated (turnover or profitability)?
+- Overall efficiency verdict
+- Year-over-year progress
+
+**7. Efficiency Component Balance**
+- Turnover vs Profitability trade-offs
+- Which improved more?
+- Optimal balance for this company
+- Can both be improved simultaneously?
+
+**8. Efficiency Drivers Analysis**
+- What caused efficiency changes?
+- Management decisions vs market conditions
+- Controllable vs uncontrollable factors
+- Strategic implications
+
+**9. Key Findings** (3-5 bullets)
+- Most significant changes
+- Best-performing indicator
+- Most concerning indicator
+- Surprises or anomalies
+
+**10. Strategic Recommendations**
+**Turnover Optimization**:
+- Actions to improve asset cycling
+- Target: X times
+
+**Profitability Enhancement**:
+- Margin improvement strategies
+- Target: X%
+
+**Integrated Efficiency**:
+- Balance optimization
+- Target composite score
+
+**Capital Allocation**:
+- Increase, maintain, or reduce working capital?
+- Specific allocation recommendations
+
+**Timeline**:
+- Immediate (30 days): [actions]
+- Short-term (3 months): [improvements]
+- Long-term (6-12 months): [strategic changes]
+
+INTERPRETATION GUIDE:
+? GOOD TRENDS:
+- Turnover increasing (Row 4?) = capital more productive
+- Profitability increasing (Row 5?) = better returns
+- Integrated indicator increasing (Row 6?) = overall efficiency improving
+- Capital growing slower than revenue (Row 2 growth < Row 1 growth)
+
+? CONCERNING TRENDS:
+- Turnover decreasing = capital less productive
+- Profitability decreasing or negative = poor returns
+- Integrated indicator flat or declining = efficiency stagnating
+- Capital growing faster than revenue = inefficient capital use
+
+SPECIAL CASES:
+- Profitability from negative to positive = MAJOR TURNAROUND (celebrate but assess sustainability)
+- High turnover + low profitability = volume business (tight margins)
+- Low turnover + high profitability = premium business (strong margins)
+
+EXAMPLE NARRATIVE:
+""Working capital efficiency improved significantly in {MainModel.CurrentYear}. The company achieved a turnaround from a net loss of 3.5 million UAH to a profit of 0.3 million UAH, while simultaneously improving asset turnover from 1.13 to 1.28 times. This dual improvement resulted in profitability of current assets swinging from -6.86% to +0.79%, representing an 7.66 percentage point improvement. The integrated efficiency indicator of 0.101 reflects this combined progress, though there remains substantial room for improvement given typical industry benchmarks of 0.5-2.5.""
+
+WRITING STYLE:
+- Professional and analytical
+- Active voice
+- Integrate numbers with interpretation
+- Explain WHY efficiency matters
+- Distinguish between activity and margin efficiency
+- Provide actionable business insights
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on EFFICIENCY ANALYSIS and what it reveals about how well working capital is being utilized to generate revenue and profit.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        // Simple formatting for better readability
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }

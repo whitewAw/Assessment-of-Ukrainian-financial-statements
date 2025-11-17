@@ -1,9 +1,9 @@
 using AFS;
+using AFS.Core.Components;
 using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
-using AFS.Core.Components;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -50,6 +50,35 @@ builder.Services.AddScoped<IModelStorageHandler, LocalStorageModelHandler>();
 builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler>();
 builder.Services.AddScoped<JsInterop>();
 builder.Services.AddScoped<PageSeoHelper>();
+
+// AI Services - Configure based on appsettings.json
+var aiEnabled = builder.Configuration.GetValue<bool>("AI:Enabled", true);
+var aiProvider = builder.Configuration.GetValue<string>("AI:Provider", "Browser");
+
+if (aiEnabled)
+{
+    if (aiProvider.Equals("Browser", StringComparison.OrdinalIgnoreCase))
+    {
+        // Use Chrome Built-in AI (Gemini Nano) - Default, no API key required
+        builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
+    }
+    else if (aiProvider.Equals("OpenAI", StringComparison.OrdinalIgnoreCase))
+    {
+        // Use OpenAI - Requires API key in appsettings.json
+        builder.Services.AddScoped<IAIFinancialAdvisor>(sp => //Todo
+        {
+            var httpClient = sp.GetRequiredService<HttpClient>();
+            var apiKey = builder.Configuration.GetValue<string>("OpenAI:ApiKey", "");
+            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini"); 
+            return new OpenAIFinancialAdvisor(httpClient, apiKey, model);
+        });
+    }
+    else
+    {
+        // Fallback to Browser AI if provider is not recognized
+        builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
+    }
+}
 
 // Transient services (lightweight calculation services)
 builder.Services.AddTransient<CharacteristicsOfCapital>();

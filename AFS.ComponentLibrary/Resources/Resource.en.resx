@@ -201,14 +201,116 @@
   <data name="AdministrativeExpenses" xml:space="preserve">
     <value>Administrative expenses</value>
   </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>AI is analyzing your financial data...</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>AI Assistant</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>AI Assistant page</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>Get instant insights and recommendations powered by AI</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>AI Financial Analysis</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>AI Financial Assistant</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>Please follow the setup instructions above to enable Chrome AI</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI Not Available</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>AI Assistant Not Ready</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>Chrome AI is ready to use</value>
+  </data>
   <data name="Amortization" xml:space="preserve">
     <value>Amortization</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>Analyze Asset Composition ({0})</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>Analyze Business Activity</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>Analyze Capital Sources</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>Analyze Capital Sources ({0})</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>Analyze Characteristics of Capital</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>Analyze Factors Affecting Turnover</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>Analyze the overall financial health of my company based on the available data</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>Analyze Financial Stability Indicators</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>Analyze Fixed Assets Efficiency</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>Analyze Fixed Assets Factors</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>Analyze Fixed Assets Movement</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>Analyze Fixed Assets State</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>Analyze General Financial Stability</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>Analyze Intangible Assets Efficiency</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>Analyze Liquidity Indicators</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>Analyze Payable Structure ({0})</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>Analyze Receivables and Payables</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>Analyze Solvency Ratios</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>Analyze Stability Classification</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>Analyze Turnover Indicators</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>Analyze Working Capital Efficiency</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>Analyze Working Capital Turnover</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
   <data name="Article" xml:space="preserve">
     <value>Article</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>Ask about your financial data...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>Ask Questions</value>
   </data>
   <data name="AssessmentOfFinancialStatements" xml:space="preserve">
     <value>Assessment of Ukrainian financial statements</value>
@@ -288,6 +390,9 @@
   <data name="BaseYear" xml:space="preserve">
     <value>Base year</value>
   </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>Browser AI (Chrome 127+)</value>
+  </data>
   <data name="bySettlementsWithParticipants" xml:space="preserve">
     <value>in settlements with participants</value>
   </data>
@@ -315,8 +420,23 @@
   <data name="CharacteristicsOfCapital" xml:space="preserve">
     <value>Capital characteristics</value>
   </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>Chat with AI</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>Checking AI availability...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome AI Not Available</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome AI is not currently available. Please visit the</value>
+  </data>
   <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
     <value>Classification of types of financial stability based on the degree of liquidity of working capital</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
   <data name="CoefficientOfBusinessActivity" xml:space="preserve">
     <value>Business activity ratio</value>
@@ -432,11 +552,17 @@
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Dividends per ordinary share</value>
   </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>Downloading Gemini Nano model... {0}%</value>
+  </data>
   <data name="Dynamics" xml:space="preserve">
     <value>Dynamics</value>
   </data>
   <data name="ElementsOperatingCosts" xml:space="preserve">
     <value>Elements of operating expenses</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>Enable Chrome AI to start chatting...</value>
   </data>
   <data name="Equity" xml:space="preserve">
     <value>Equity</value>
@@ -449,6 +575,18 @@
   </data>
   <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
     <value>Assessment of balance liquidity {0} at the end of {1} year</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>"What does my current ratio mean?"</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>"How can I improve liquidity?"</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>"Compare this year vs last year"</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"What are my biggest risks?"</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
     <value>Surplus (+), deficit (-) of own current, long-term, and short-term borrowed funds for forming reserves</value>
@@ -465,14 +603,47 @@
   <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
     <value>Income (loss) from income tax</value>
   </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>Explain Key Ratios</value>
+  </data>
   <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
     <value>Fixed asset turnover factor analysis</value>
   </data>
   <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
     <value>Factors influencing the turnover of current assets</value>
   </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>Frequently Asked Questions</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>Yes! Browser AI uses Chrome's built-in Gemini Nano model. No API keys, no costs, no usage limits.</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT runs on OpenAI's servers (requires internet/API key). Browser AI runs entirely in your browser (no server, no API key, works offline after setup).</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>Absolutely! All AI processing happens locally in your browser. Your financial data never leaves your device. No data is sent to any server, including Google or Microsoft.</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>Currently supported: Chrome 127+, Chrome Canary, Edge 127+ (Chromium-based). Coming soon: Firefox and Safari.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Is this really free?</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>How is this different from ChatGPT?</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>Is my data safe?</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>Which browsers are supported?</value>
+  </data>
   <data name="FinancialExpenses" xml:space="preserve">
     <value>Financial expenses</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>Financial Health</value>
   </data>
   <data name="FinancialResultBeforeTax" xml:space="preserve">
     <value>Financial result before taxation</value>
@@ -500,6 +671,9 @@
   </data>
   <data name="ForSamePeriodLastYear" xml:space="preserve">
     <value>For a similar period of the previous year</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>for setup instructions.</value>
   </data>
   <data name="fromAccruedIncome" xml:space="preserve">
     <value>from accrued income</value>
@@ -531,6 +705,9 @@
   <data name="GeneralInformation" xml:space="preserve">
     <value>General info</value>
   </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>Get Recommendations</value>
+  </data>
   <data name="goodsWorksServices" xml:space="preserve">
     <value>Goods, works, services</value>
   </data>
@@ -545,6 +722,9 @@
   </data>
   <data name="HardToSellAssets" xml:space="preserve">
     <value>Hard-to-sell assets (A4)</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>How to Use</value>
   </data>
   <data name="in%OfBorrowedCapital" xml:space="preserve">
     <value>The same as a percentage of the attracted capital</value>
@@ -632,6 +812,9 @@
   </data>
   <data name="InvestmentProperty" xml:space="preserve">
     <value>Investment property</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>Explain the most important financial ratios I should focus on</value>
   </data>
   <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
     <value>Labor productivity of one average employee</value>
@@ -726,6 +909,12 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>Your financial data never leaves your device</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>No Data Sent</value>
+  </data>
   <data name="NonCurrentAssets" xml:space="preserve">
     <value>Non-current assets</value>
   </data>
@@ -743,6 +932,12 @@
   </data>
   <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
     <value>Number of turnovers of current assets</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>Works without internet after setup</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>Offline Capable</value>
   </data>
   <data name="OneDaySalesRevenue" xml:space="preserve">
     <value>One-day revenue from sales</value>
@@ -822,6 +1017,15 @@
   <data name="PreCrisisFinancialStability" xml:space="preserve">
     <value>Pre-crisis financial stability</value>
   </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>Privacy &amp; Security</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>All AI processing happens in your browser</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100% Private</value>
+  </data>
   <data name="ProceedsFromSales" xml:space="preserve">
     <value>Revenue from sales of products</value>
   </data>
@@ -855,6 +1059,18 @@
   <data name="PromissoryNotesReceived" xml:space="preserve">
     <value>Bills received</value>
   </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>Click &lt;strong&gt;Financial Health&lt;/strong&gt; for overall analysis</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>Click &lt;strong&gt;Get Recommendations&lt;/strong&gt; for actionable advice</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>Click &lt;strong&gt;Explain Key Ratios&lt;/strong&gt; to understand metrics</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
   <data name="QuickSellingAssets" xml:space="preserve">
     <value>Quick-liquid assets (A2)</value>
   </data>
@@ -885,6 +1101,12 @@
   <data name="ReceivedForReportingPeriod" xml:space="preserve">
     <value>Received during the reporting period</value>
   </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>Recheck Availability</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>What are your top recommendations to improve my company's financial position?</value>
+  </data>
   <data name="RecoveryRate" xml:space="preserve">
     <value>Recovery ratio</value>
   </data>
@@ -896,6 +1118,9 @@
   </data>
   <data name="ReserveCapital" xml:space="preserve">
     <value>Reserve capital</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[Response stopped by user]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
     <value>Undistributed profit (uncovered loss)</value>
@@ -936,6 +1161,9 @@
   <data name="SellingExpenses" xml:space="preserve">
     <value>Labor costs</value>
   </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Send message</value>
+  </data>
   <data name="Settlements" xml:space="preserve">
     <value>Settlements</value>
   </data>
@@ -947,6 +1175,18 @@
   </data>
   <data name="settlementsWithPayroll" xml:space="preserve">
     <value>settlements for labor</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>Setup Required</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Enable Chrome AI flags</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Download Gemini Nano model</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Restart Chrome</value>
   </data>
   <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
     <value>Share of other comprehensive income from associates and joint ventures</value>
@@ -984,6 +1224,12 @@
   <data name="Stocks" xml:space="preserve">
     <value>Stocks</value>
   </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>Stop Analysis</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>Stop generation</value>
+  </data>
   <data name="String" xml:space="preserve">
     <value>Erase data</value>
   </data>
@@ -1016,6 +1262,18 @@
   </data>
   <data name="times" xml:space="preserve">
     <value>times</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>Be specific in your questions</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>Reference specific ratios or metrics</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>Ask follow-up questions for clarity</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
@@ -1080,6 +1338,9 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>View Setup Guide</value>
+  </data>
   <data name="wear" xml:space="preserve">
     <value>wear and tear</value>
   </data>
@@ -1133,5 +1394,8 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>You</value>
   </data>
 </root>

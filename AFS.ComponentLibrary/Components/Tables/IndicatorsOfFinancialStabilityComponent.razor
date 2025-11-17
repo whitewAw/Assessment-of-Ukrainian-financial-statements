@@ -1,5 +1,10 @@
-ï»¿@page "/indicatorsoffinancialstability"
+@page "/indicatorsoffinancialstability"
+@using AFS.Core.Interfaces
+@using System.Text.Json
 @inject IndicatorsOfFinancialStability IndicatorsOfFinancialStability
+@inject AFSModel AFSModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -23,15 +28,788 @@
     </table>
 </RadzenCard>
 
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeStabilityIndicators" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@ResLoc["AnalyzeFinancialStabilityIndicators"]</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing stability indicators...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+<style>
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #0056b3;
+        animation: bounce 1.4s infinite ease-in-out;
+        display: inline-block;
+    }
+
+    .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @@keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 @code {
     private string? tableName;
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing = false;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable = false;
+    private string _availabilityMessage = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         string name = ResLoc["IndicatorsOfFinancialStability"];
         int number = 17;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        await CheckAIAvailability();
+        
         base.OnInitialized();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        try
+        {
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+            _availabilityMessage = message;
+        }
+        catch (Exception ex)
+        {
+            _isAIAvailable = false;
+            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
+        }
+        finally
+        {
+            _isCheckingAvailability = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AnalyzeStabilityIndicators()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildStabilityIndicatorsPrompt();
+            
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    _aiAnalysis += "\n\n[Analysis stopped by user]";
+                }
+                else
+                {
+                    _errorMessage = "Analysis was stopped by user.";
+                }
+            }
+            else
+            {
+                _errorMessage = $"Failed to analyze data: {ex.Message}";
+            }
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        try
+        {
+            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
+            await module.InvokeVoidAsync("abortCurrentOperation");
+            
+            if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                _aiAnalysis += "\n\n[Analysis stopped by user]";
+            }
+            
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error stopping analysis: {ex.Message}");
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private string BuildStabilityIndicatorsPrompt()
+    {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
+        var cultureName = currentCulture.Name;
+        
+        string languageInstruction = cultureName.StartsWith("uk") 
+            ? "Ukrainian" 
+            : cultureName.StartsWith("en") 
+            ? "English" 
+            : currentCulture.EnglishName;
+
+        double SafeValue(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+            return value;
+        }
+
+        double CalculatePercentageChange(double baseValue, double currentValue)
+        {
+            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
+            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
+            var result = ((currentValue - baseValue) / baseValue) * 100;
+            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
+            return result;
+        }
+
+        var data = new
+        {
+            CompanyName = MainModel.CompanyName,
+            BaseYear = MainModel.BaseYear,
+            CurrentYear = MainModel.CurrentYear,
+            
+            TotalReturnOnAssets = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.TotalReturnOnAssets.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.TotalReturnOnAssets.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.TotalReturnOnAssets.BaseYear,
+                    IndicatorsOfFinancialStability.TotalReturnOnAssets.CurrentYear)
+            },
+            
+            IndependenceRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfIndependence.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfIndependence.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfIndependence.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfIndependence.CurrentYear)
+            },
+            
+            FinancialLeverageRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.CurrentYear)
+            },
+            
+            FinancialStabilityRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialStability.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialStability.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfFinancialStability.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfFinancialStability.CurrentYear)
+            },
+            
+            ManeuverabilityRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.CurrentYear)
+            },
+            
+            BorrowedCapitalConcentration = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.CurrentYear)
+            },
+            
+            LongTermInvestmentStructure = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.CurrentYear)
+            },
+            
+            LongTermBorrowingRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.BaseYear,
+                    IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.CurrentYear)
+            },
+            
+            CapitalStructureRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatedCapitalStructureRatio.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatedCapitalStructureRatio.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.RatedCapitalStructureRatio.BaseYear,
+                    IndicatorsOfFinancialStability.RatedCapitalStructureRatio.CurrentYear)
+            },
+            
+            DebtToEquityRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.BaseYear,
+                    IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.CurrentYear)
+            },
+            
+            OwnFundsInInventories = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear,
+                    IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear)
+            },
+            
+            MobileToImmobilizedRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.BaseYear,
+                    IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.CurrentYear)
+            },
+            
+            TotalCoverageRatio = new
+            {
+                BaseYear = SafeValue(IndicatorsOfFinancialStability.TotalCoverageRatio.BaseYear),
+                CurrentYear = SafeValue(IndicatorsOfFinancialStability.TotalCoverageRatio.CurrentYear),
+                Change = CalculatePercentageChange(
+                    IndicatorsOfFinancialStability.TotalCoverageRatio.BaseYear,
+                    IndicatorsOfFinancialStability.TotalCoverageRatio.CurrentYear)
+            }
+        };
+
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+
+        return $@"You are a financial analyst specializing in financial stability analysis, capital structure optimization, and leverage assessment. Analyze the following Indicators of Financial Stability for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes FINANCIAL STABILITY through 13 COMPREHENSIVE INDICATORS covering capital structure, leverage, independence, and maneuverability for TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+
+THE 13 KEY STABILITY INDICATORS:
+
+**1. Total Return on Assets (Asset Utilization)**
+- Formula: Revenue ÷ Average Total Assets
+- Measures revenue generation per asset unit
+- Higher = Better asset productivity
+- Benchmark: Industry-specific
+
+**2. Independence Ratio (Equity Ratio)**
+- Formula: Equity ÷ Total Assets
+- Measures financial independence from creditors
+- Benchmark: =0.5 (=50% equity) preferred
+- Critical stability indicator
+
+**3. Financial Leverage Ratio (Equity Multiplier)**
+- Formula: Total Assets ÷ Equity (or 1 ÷ Independence Ratio)
+- Measures financial risk and asset leverage
+- Lower = Less risky
+- Benchmark: <2.0 preferred
+
+**4. Financial Stability Ratio**
+- Similar to independence ratio
+- Measures sustainable capital structure
+- Higher = More stable
+
+**5. Maneuverability Ratio of Equity**
+- Formula: Own Working Capital ÷ Equity
+- Measures equity flexibility for working capital
+- **NEGATIVE = All equity locked in fixed assets** ?
+- Benchmark: 0.2-0.5 (20-50% mobile)
+
+**6. Concentration of Borrowed Capital**
+- Formula: Borrowed Capital ÷ Total Assets
+- Inverse of independence ratio
+- Lower = Less debt dependence
+- Benchmark: <0.5 (< 50% debt)
+
+**7. Long-term Investment Structure Ratio**
+- Formula: Long-term Debt ÷ Non-current Assets
+- Shows fixed asset funding from long-term debt
+- Measures stable funding adequacy
+
+**8. Long-term Borrowing Ratio**
+- Formula: Long-term Debt ÷ (Long-term Debt + Equity)
+- Shows long-term debt in permanent capital
+- Lower = Less long-term obligation
+
+**9. Capital Structure Ratio**
+- Formula: Long-term Debt ÷ Total Debt
+- Shows debt maturity structure
+- Higher = More stable debt structure
+
+**10. Debt-to-Equity Ratio**
+- Formula: Total Debt ÷ Equity
+- **CRITICAL LEVERAGE METRIC**
+- Benchmark: <1.0 (more equity than debt) preferred
+- >2.0 = Over-leveraged ??
+
+**11. Own Funds in Inventories Ratio**
+- Formula: Equity ÷ Inventory
+- Shows equity coverage of inventory
+- Higher = Better coverage
+
+**12. Mobile to Immobilized Ratio**
+- Formula: Current Assets ÷ Non-current Assets
+- Shows asset structure balance
+- ~1.0 = Balanced structure
+
+**13. Total Coverage Ratio**
+- Formula: Current Assets ÷ Current Liabilities
+- Similar to current ratio
+- =1.0 = Can cover current obligations
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on CAPITAL STRUCTURE and LEVERAGE RISK
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Financial Stability Verdict**:
+   - 2-3 sentences on overall stability
+   - Primary finding: Strong/Weak stability?
+   - Key weakness and key strength
+   - Risk level (Low/Medium/High/Critical)
+
+**2. Equity Independence Analysis (Indicators #2, #4)**:
+   **Independence Ratio:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Trend: [improving/declining]
+   
+   **Interpretation:**
+   - Benchmark: =0.5 (=50% equity) preferred
+   - Current: [value] = [X]% equity-financed
+   - Remaining [100-X]% is DEBT-financed
+   - **Assessment:**
+     • =0.5 = Strong independence ?
+     • 0.3-0.5 = Moderate independence
+     • <0.3 = HIGH debt dependence ??
+   
+   **Your Status:** [Current value 0.326 = 32.6% equity]
+   - BELOW 50% benchmark ??
+   - 67.4% debt-dependent
+   - Financial independence: WEAK
+
+**3. Leverage Assessment (Indicators #3, #10)**:
+   **Financial Leverage Ratio:**
+   - {MainModel.BaseYear}: [value]x
+   - {MainModel.CurrentYear}: [value]x
+   - Shows assets are [X]x larger than equity
+   
+   **Debt-to-Equity Ratio - CRITICAL:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - **Interpretation:**
+     • <1.0 = More equity than debt ?
+     • 1.0 = Equal equity and debt
+     • 1.0-2.0 = Moderate leverage
+     • >2.0 = OVER-LEVERAGED ?
+   
+   **Your Status:** [Current 2.06]
+   - ABOVE 1.0 benchmark ?
+   - 2.06x MORE DEBT than equity
+   - Over-leveraged position
+   - High financial risk
+
+**4. Equity Maneuverability Analysis (Indicator #5) - CRITICAL**:
+   **Maneuverability Ratio:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Trend: [improving/declining]
+   
+   **Interpretation:**
+   - Benchmark: 0.2-0.5 (20-50% mobile equity)
+   - **NEGATIVE value means:**
+     • ALL equity tied up in FIXED ASSETS ?
+     • ZERO equity available for working capital
+     • Working capital entirely DEBT-funded
+     • High liquidity risk
+   
+   **Your Status:** [Current -0.41]
+   - NEGATIVE = Critical issue ??
+   - Entire equity locked in non-current assets
+   - No financial flexibility
+   - Working capital depends 100% on debt
+
+**5. Debt Concentration Analysis (Indicator #6)**:
+   **Borrowed Capital Concentration:**
+   - {MainModel.BaseYear}: [value] ([X]++)
+   - {MainModel.CurrentYear}: [value] ([X]++)
+   - Benchmark: <0.5 (<50%)
+   
+   **Your Status:** [Current 0.671 = 67.1%]
+   - ABOVE 50% benchmark ??
+   - Company is 67% DEBT-financed
+   - High creditor dependence
+
+**6. Debt Structure Analysis (Indicators #7, #8, #9)**:
+   **Long-term Investment Structure:**
+   - Shows how much of fixed assets funded by long-term debt
+   - Current: [value]
+   
+   **Long-term Borrowing Ratio:**
+   - Long-term debt in permanent capital
+   - Current: [value]
+   
+   **Capital Structure Ratio:**
+   - Long-term vs total debt
+   - Current: [value]
+   - Higher = More stable debt maturity
+   
+   **Debt Maturity Assessment:**
+   - What % is long-term vs short-term?
+   - Is debt structure stable?
+   - Refinancing risk level
+
+**7. Asset Coverage Analysis (Indicators #11, #12, #13)**:
+   **Own Funds in Inventories:**
+   - Equity coverage of inventory
+   - Current: [value]
+   - Higher = Better
+   
+   **Mobile to Immobilized Ratio:**
+   - Current vs non-current assets balance
+   - Current: [value]
+   - ~1.0 = Balanced
+   
+   **Total Coverage Ratio:**
+   - Current assets vs current liabilities
+   - Current: [value]
+   - =1.0 = Adequate coverage
+
+**8. Asset Utilization (Indicator #1)**:
+   **Total Return on Assets:**
+   - Revenue per asset unit
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Efficiency assessment
+
+**9. Comprehensive Stability Assessment**:
+   **Score: [X/13] indicators meeting benchmarks**
+   
+   Count indicators meeting their benchmarks:
+   - Independence =0.5: [?/?]
+   - Leverage <2.0: [?/?]
+   - Debt-to-Equity <1.0: [?/?]
+   - Maneuverability >0: [?/?]
+   - Debt Concentration <0.5: [?/?]
+   - Coverage =1.0: [?/?]
+   - Other indicators: [status]
+   
+   **Overall Stability Score:**
+   - 11-13/13 = Excellent ??
+   - 9-10/13 = Good ?
+   - 7-8/13 = Acceptable
+   - 5-6/13 = Weak ??
+   - <5/13 = Poor ?
+   
+   **Your Status:** [X/13]
+
+**10. Strategic Recommendations**:
+    
+    **CRITICAL PRIORITY: Fix Negative Maneuverability**
+    ?? Current: -0.41 (All equity in fixed assets)
+    
+    **Immediate Actions (3-6 months):**
+    • Reduce fixed assets if possible
+    • Increase equity via retained earnings
+    • Reduce short-term debt
+    • Free up equity for working capital
+    • Target: Maneuverability >0 (minimum)
+    • Ultimate target: 0.2-0.5 (20-50% mobile)
+    
+    **Methods:**
+    - Sell non-core fixed assets
+    - Reduce CAPEX
+    - Retain ALL profits
+    - Pay down short-term debt
+    - Convert short-term to long-term debt
+    
+    **HIGH PRIORITY: Reduce Debt-to-Equity Ratio**
+    ?? Current: 2.06 (Target: <1.0)
+    
+    **6-12 Month Plan:**
+    • Current: 2.06 (2x more debt than equity)
+    • Interim target: <1.5 within 12 months
+    • Ultimate target: <1.0 within 24 months
+    
+    **Methods:**
+    - Debt paydown program
+    - Profit retention (no dividends)
+    - Equity injection (if possible)
+    - Asset sales to reduce debt
+    - Operating cash flow to debt reduction
+    
+    **MEDIUM PRIORITY: Increase Equity Independence**
+    Current: 32.6% (Target: >50%)
+    
+    **12-24 Month Plan:**
+    • Build equity from 32.6% to 40%+ within 18 months
+    • Ultimate target: >50% within 24-36 months
+    
+    **Methods:**
+    - Retained earnings accumulation
+    - Additional equity capital (if feasible)
+    - Debt reduction
+    - Asset optimization
+    - Profitability improvement
+    
+    **Debt Structure Optimization:**
+    • Convert short-term to long-term debt where possible
+    • Extend debt maturities
+    • Reduce refinancing risk
+    • Negotiate better terms
+    • Reduce interest burden
+    
+    **Overall Capital Structure Target (24-36 months):**
+    • Independence ratio: >0.50 (>50% equity)
+    • Debt-to-equity: <1.0 (more equity than debt)
+    • Maneuverability: 0.3-0.5 (30-50% mobile equity)
+    • Financial leverage: <2.0x
+    • Debt concentration: <0.50 (<50% debt)
+    
+    **Implementation Timeline:**
+    
+    **Phase 1 (Months 1-6): Emergency Stabilization**
+    - Fix negative maneuverability (target >0)
+    - Reduce short-term debt by 20%
+    - Retain all earnings
+    - Build cash reserves
+    
+    **Phase 2 (Months 7-12): Leverage Reduction**
+    - Debt-to-equity from 2.06 to <1.8
+    - Independence ratio to 35%+
+    - Maneuverability to 0.1-0.2
+    - Continue debt paydown
+    
+    **Phase 3 (Months 13-24): Structural Improvement**
+    - Debt-to-equity to <1.5
+    - Independence ratio to 40%+
+    - Maneuverability to 0.2-0.3
+    - Sustainable capital structure
+    
+    **Phase 4 (Months 25-36): Target Achievement**
+    - Debt-to-equity to <1.0
+    - Independence ratio to 50%+
+    - Maneuverability to 0.3-0.5
+    - Strong financial stability
+    
+    **Monthly Monitoring KPIs:**
+    ?? Independence ratio (equity %)
+    ?? Debt-to-equity ratio
+    ?? Maneuverability ratio (CRITICAL)
+    ?? Financial leverage ratio
+    ?? Debt concentration
+    ?? Total coverage ratio
+
+INTERPRETATION GUIDANCE:
+- **Higher independence = Better** (more equity)
+- **Lower leverage = Better** (less risk)
+- **Positive maneuverability = Better** (flexibility)
+- **Lower debt-to-equity = Better** (<1.0 target)
+- **Negative maneuverability = CRITICAL PROBLEM** ?
+
+CRITICAL INSIGHTS:
+1. How financially independent is the company?
+2. Is leverage at safe levels?
+3. Is equity mobile or locked in fixed assets?
+4. What's the debt-to-equity ratio? (>2.0 = over-leveraged)
+5. Can company cover obligations from assets?
+6. Is debt structure stable (long-term vs short-term)?
+7. What are the top 3 stability risks?
+8. What's the path to strong stability?
+
+SPECIAL CONSIDERATIONS:
+- Negative maneuverability = All equity in fixed assets (very risky)
+- Debt-to-equity >2.0 = Over-leveraged (high risk)
+- Independence <30% = Excessive debt dependence
+- All three together = STRUCTURAL STABILITY CRISIS
+
+WRITING STYLE:
+- Direct and clear
+- Risk-focused when appropriate
+- Explain CONSEQUENCES of weak indicators
+- Provide concrete improvement paths
+- Be analytical and actionable
+- Emphasize capital structure optimization
+
+All ratios are dimensionless (pure numbers) or percentages. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
     }
 }
