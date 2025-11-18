@@ -581,3 +581,29 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 **🚀 Now with AI-Powered Financial Analysis!**
 
 </div>
+
+## 📊 Repository Metrics
+
+### Project Statistics
+
+![Metrics](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics.svg)
+
+### Technology Stack
+
+![Languages](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-languages.svg)
+
+### Activity & Growth
+
+<div align="center">
+  
+![Activity](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-activity.svg)
+  
+![Stats](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-stats.svg)
+
+</div>
+
+### Achievements
+
+![Achievements](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-achievements.svg)
+
+---
