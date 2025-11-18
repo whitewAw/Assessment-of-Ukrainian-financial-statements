@@ -38,8 +38,8 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 
 5. **Verify AI is Available**:
    - Open DevTools Console (`F12`)
-   - Type: `await window.ai.languageModel.capabilities()`
-   - Should show: `{ available: "readily" }`
+   - Type: `await LanguageModel.availability()`
+   - Should show: `available`
 
 ### **Step 2: Use UFIN with Browser AI**
 
