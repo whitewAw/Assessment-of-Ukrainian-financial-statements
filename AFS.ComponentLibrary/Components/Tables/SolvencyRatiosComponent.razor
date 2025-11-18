@@ -436,53 +436,53 @@ RATIO DEFINITIONS AND BENCHMARKS:
 - Formula: (A1 + 0.5×A2 + 0.3×A3) ÷ (P1 + 0.5×P2 + 0.3×P3)
 - Benchmark: =1.0 (assets cover weighted liabilities)
 - Interpretation:
-  • =1.0 = Good overall liquidity ?
+  • =1.0 = Good overall liquidity
   • 0.7-1.0 = Adequate
-  • <0.7 = Liquidity concerns ??
+  • <0.7 = Liquidity concerns
 
 **2. Absolute Liquidity Ratio (Quick Ratio):**
 - Immediate ability to pay current liabilities from cash
 - Formula: Cash ÷ Current Liabilities
 - Benchmark: 0.2-0.5 (20-50% cash coverage)
 - Interpretation:
-  • >0.5 = Excellent cash position ?
+  • >0.5 = Excellent cash position
   • 0.2-0.5 = Normal range
-  • <0.2 = Insufficient cash ??
+  • <0.2 = Insufficient cash
 
 **3. Intermediate Coverage Ratio (Acid-Test Ratio):**
 - Coverage from cash + receivables
 - Formula: (Cash + Receivables) ÷ Current Liabilities
 - Benchmark: =1.0 preferred
 - Interpretation:
-  • =1.0 = Strong near-term solvency ?
+  • =1.0 = Strong near-term solvency
   • 0.7-1.0 = Acceptable
-  • <0.7 = Solvency concerns ??
+  • <0.7 = Solvency concerns
 
 **4. Current Liquidity Ratio (Current Ratio):**
 - Total current assets vs current liabilities
 - Formula: Current Assets ÷ Current Liabilities
 - Benchmark: 1.5-2.0 ideal, =1.0 minimum
 - Interpretation:
-  • =2.0 = Excellent working capital ??
-  • 1.5-2.0 = Good ?
+  • =2.0 = Excellent working capital
+  • 1.5-2.0 = Good
   • 1.0-1.5 = Adequate
-  • <1.0 = Working capital deficit ?
+  • <1.0 = Working capital deficit
 
 **5. Recovery Solvency Ratio:**
 - Probability of restoring solvency if trending down
 - Formula: (Current Ratio + 0.5 × ?Current Ratio) ÷ 2
 - Benchmark: >1.0 indicates recovery potential
 - Interpretation:
-  • >1.0 = Can recover solvency ?
-  • <1.0 = Risk of continued decline ??
+  • >1.0 = Can recover solvency
+  • <1.0 = Risk of continued decline
 
 **6. Loss Solvency Ratio:**
 - Risk of losing solvency over 3 months
 - Formula: (Current Ratio + 0.25 × ?Current Ratio) ÷ 2
 - Benchmark: >1.0 means solvency stable
 - Interpretation:
-  • >1.0 = Solvency stable ?
-  • <1.0 = Risk of insolvency ?
+  • >1.0 = Solvency stable
+  • <1.0 = Risk of insolvency
 
 Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 {jsonData}
@@ -537,20 +537,20 @@ ANALYSIS SECTIONS:
    - {MainModel.CurrentYear} End: [value]
    - Trend: [direction]
    - **Assessment against benchmarks:**
-     • =2.0 = Excellent ??
-     • 1.5-2.0 = Good ?
+     • =2.0 = Excellent working capital
+     • 1.5-2.0 = Good
      • 1.0-1.5 = Adequate
-     • <1.0 = Deficit ?
+     • <1.0 = Deficit
    - Current status: [assessment]
    - Working capital adequacy
-   - {MainModel.CurrentYear} End [0.856]: Below 1.0 = WORKING CAPITAL DEFICIT ?
+   - {MainModel.CurrentYear} End [0.856]: Below 1.0 = WORKING CAPITAL DEFICIT
 
 **6. Recovery Solvency Ratio Analysis**:
    - {MainModel.BaseYear} End: [value]
    - {MainModel.CurrentYear} End: [value]
    - **Interpretation:**
-     • >1.0 = Can recover if declining ?
-     • <1.0 = Difficult to recover ??
+     • >1.0 = Can recover if declining
+     • <1.0 = Difficult to recover
    - Current status: [value]
    - Recovery potential assessment
    - Trajectory analysis
@@ -559,8 +559,8 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value]
    - {MainModel.CurrentYear} End: [value]
    - **Interpretation:**
-     • >1.0 = Solvency stable (low risk) ?
-     • <1.0 = Risk of insolvency within 3 months ?
+     • >1.0 = Solvency stable (low risk)
+     • <1.0 = Risk of insolvency within 3 months
    - Current status: [value]
    - Insolvency risk level
    - Urgency of action
@@ -577,12 +577,12 @@ ANALYSIS SECTIONS:
    - Loss Ratio >1.0: [?/?]
    
    **Overall Solvency Score:**
-   - 6/6 = Excellent solvency ??
-   - 5/6 = Good solvency ?
+   - 6/6 = Excellent solvency
+   - 5/6 = Good solvency
    - 4/6 = Adequate solvency
-   - 3/6 = Marginal solvency ??
-   - 2/6 = Poor solvency ?
-   - 0-1/6 = Critical solvency crisis ??
+   - 3/6 = Marginal solvency
+   - 2/6 = Poor solvency
+   - 0-1/6 = Critical solvency crisis
 
 **9. Trend Analysis (Four-Point Timeline)**:
    Analyze progression through all four time points:
@@ -598,7 +598,7 @@ ANALYSIS SECTIONS:
 **10. Strategic Recommendations**:
     
     **If Current Ratio <1.0 (Working Capital Deficit):**
-    ?? CRITICAL PRIORITY
+    CRITICAL PRIORITY
     • Immediate working capital injection needed
     • Current: [0.856] < 1.0 minimum
     • Target: Minimum 1.0, ideally 1.5-2.0
@@ -627,7 +627,7 @@ ANALYSIS SECTIONS:
     • Timeline: Immediate
     
     **If Loss Ratio <1.0:**
-    ?? INSOLVENCY RISK WITHIN 3 MONTHS
+    INSOLVENCY RISK WITHIN 3 MONTHS
     • Emergency actions required
     • Stakeholder communication critical
     • Consider:
@@ -669,16 +669,16 @@ ANALYSIS SECTIONS:
     • Long-term (1-2 years): Sustainable solvency position
     
     **Monthly Monitoring KPIs:**
-    ?? All 6 solvency ratios
-    ?? Working capital amount
-    ?? Cash balance
-    ?? Current ratio trend
-    ?? Days cash on hand
+    • All 6 solvency ratios
+    • Working capital amount
+    • Cash balance
+    • Current ratio trend
+    • Days cash on hand
 
 INTERPRETATION GUIDANCE:
 - **Higher ratios = Better solvency** (except as noted)
-- **Improving trends = Strengthening position** ?
-- **Declining trends = Weakening position** ??
+- **Improving trends = Strengthening position**
+- **Declining trends = Weakening position**
 - **<1.0 ratios = Red flags** for most metrics
 
 CRITICAL INSIGHTS:

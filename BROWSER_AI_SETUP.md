@@ -1,19 +1,19 @@
-# ?? Browser AI Setup Guide - NO API KEYS NEEDED!
+# 🧠 Browser AI Setup Guide - NO API KEYS NEEDED!
 
 ## What is Browser AI?
 
 UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano** model. This means:
 
-? **No API keys required**
-? **No server calls**
-? **100% private** - data never leaves your browser
-? **Works offline** after initial download
-? **Completely free** - no usage limits
-? **No registration** needed
+🔑 **No API keys required**
+🌐 **No server calls**
+🔒 **100% private** - data never leaves your browser
+📴 **Works offline** after initial download
+💸 **Completely free** - no usage limits
+🆓 **No registration** needed
 
 ---
 
-## ?? Quick Setup (Chrome 127+)
+## ⚡ Quick Setup (Chrome 127+)
 
 ### **Step 1: Enable Chrome AI (One-Time Setup)**
 
@@ -49,7 +49,7 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 
 ---
 
-## ?? What Can You Do?
+## 💡 What Can You Do?
 
 ### **Automated Analysis**
 - Click **"Get Insights"** for instant financial analysis
@@ -68,59 +68,59 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 
 ---
 
-## ?? Privacy & Security
+## 🔒 Privacy & Security
 
 **Your Data is Safe:**
-- ? All processing happens in your browser
-- ? No data sent to any server
-- ? No tracking or analytics on AI queries
-- ? Model runs 100% offline after download
-- ? Complies with GDPR, CCPA, and all privacy laws
+  - 🖥️ All processing happens in your browser
+  - 🚫 No data sent to any server
+  - 🕵️ No tracking or analytics on AI queries
+  - 📴 Model runs 100% offline after download
+  - ✅ Complies with GDPR, CCPA, and all privacy laws
 
 **How it Works:**
 ```
 User Input ? Browser (Local AI Model) ? Response
-         ?
+         ⬇️
    NO SERVER INVOLVED
 ```
 
 ---
 
-## ?? Browser Support
+## 🌐 Browser Support
 
 ### **Fully Supported**
-- ? **Chrome 127+** (Windows, Mac, Linux)
-- ? **Chrome Canary** (Latest features)
-- ? **Chromium 127+**
-- ? **Edge 127+** (Chromium-based)
+  - 🟢 **Chrome 127+** (Windows, Mac, Linux)
+  - 🟢 **Chrome Canary** (Latest features)
+  - 🟢 **Chromium 127+**
+  - 🟢 **Edge 127+** (Chromium-based)
 
 ### **Coming Soon**
-- ?? Firefox (experimental WebLLM support)
-- ?? Safari (WebGPU in progress)
+  - 🟡 Firefox (experimental WebLLM support)
+  - 🟡 Safari (WebGPU in progress)
 
 ### **Not Supported**
-- ? Chrome < 127
-- ? Internet Explorer
-- ? Mobile browsers (not yet)
+  - 🔴 Chrome < 127
+  - 🔴 Internet Explorer
+  - 🔴 Mobile browsers (not yet)
 
 ---
 
-## ?? Browser AI vs Cloud AI
+## 🤖 Browser AI vs Cloud AI
 
 | Feature | Browser AI (Gemini Nano) | Cloud AI (OpenAI) |
 |---------|--------------------------|-------------------|
-| **API Key** | ? Not needed | ? Required |
+| **API Key** | 🚫 Not needed | 🔑 Required |
 | **Cost** | Free forever | Pay per use |
 | **Privacy** | 100% local | Data sent to server |
 | **Speed** | Very fast | Network dependent |
-| **Offline** | ? Works offline | ? Needs internet |
+| **Offline** | 📴 Works offline | 🌐 Needs internet |
 | **Model** | Gemini Nano (lite) | GPT-4, GPT-3.5 |
 | **Quality** | Good | Excellent |
 | **Setup** | One-time, simple | API key management |
 
 ---
 
-## ?? Troubleshooting
+## 🛠️ Troubleshooting
 
 ### **"Chrome AI is not available"**
 
@@ -162,7 +162,7 @@ Find "Optimization Guide On Device Model" - should show version number
 
 ---
 
-## ?? Switching Between Browser AI and Cloud AI
+## 🔄 Switching Between Browser AI and Cloud AI
 
 Edit `appsettings.json`:
 
@@ -192,17 +192,17 @@ Edit `appsettings.json`:
 
 ---
 
-## ?? Performance Tips
+## 🚀 Performance Tips
 
 1. **Initial Load**: First run downloads model (?1.7GB)
 2. **Subsequent Runs**: Instant (model cached)
 3. **Battery Impact**: Minimal (runs efficiently)
-4. **RAM Usage**: ?500MB when active
-5. **Disk Space**: ?1.7GB for model storage
+4. **RAM Usage**: 🧠 500MB when active
+5. **Disk Space**: 💾 1.7GB for model storage
 
 ---
 
-## ?? Using on Different Devices
+## 🖥️ Using on Different Devices
 
 ### **Desktop (Recommended)**
 - Windows, Mac, Linux: Chrome 127+
@@ -220,7 +220,7 @@ Edit `appsettings.json`:
 
 ---
 
-## ?? Use Cases
+## 📊 Use Cases
 
 ### **For Business Owners**
 - Quick financial health check
@@ -244,7 +244,7 @@ Edit `appsettings.json`:
 
 ---
 
-## ? FAQ
+## ❓ FAQ
 
 **Q: Is this really free?**
 A: Yes! Browser AI uses Chrome's built-in model. No costs, no limits.
@@ -266,7 +266,7 @@ A: Yes! You can switch between them in settings. Use Browser AI for privacy, Clo
 
 ---
 
-## ?? Support
+## 🆘 Support
 
 - **GitHub Issues**: https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues
 - **Chrome AI Docs**: https://developer.chrome.com/docs/ai/built-in
@@ -274,9 +274,9 @@ A: Yes! You can switch between them in settings. Use Browser AI for privacy, Clo
 
 ---
 
-## ?? Summary
+## 📝 Summary
 
-? **Browser AI = Privacy + Performance + Free**
+🧠 **Browser AI = Privacy + Performance + Free**
 
 1. Update Chrome to 127+
 2. Enable two flags

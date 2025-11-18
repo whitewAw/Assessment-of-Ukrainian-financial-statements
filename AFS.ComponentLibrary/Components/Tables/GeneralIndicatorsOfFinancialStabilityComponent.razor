@@ -413,16 +413,16 @@ INDICATOR STRUCTURE (3 Sources + 1 Inventory + 3 Deficits):
 
 **SURPLUS/DEFICIT ANALYSIS:**
 5. **Deficit from Own Capital** = Own Working Capital - Inventory
-   - Negative = Inventory NOT covered by own capital ?
-   - Positive = Inventory fully covered by equity ?
+   - Negative = Inventory NOT covered by own capital
+   - Positive = Inventory fully covered by equity
    
 6. **Deficit from Own + Long-term** = (Own + Long-term) - Inventory
-   - Negative = Need short-term debt ??
-   - Positive = Covered by stable sources ?
+   - Negative = Need short-term debt
+   - Positive = Covered by stable sources
    
 7. **Deficit from Total Sources** = Total Available - Inventory
-   - Negative = CANNOT fund inventory (crisis) ??
-   - Positive = Inventory fully funded ?
+   - Negative = CANNOT fund inventory (crisis)
+   - Positive = Inventory fully funded
 
 Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 {jsonData}
@@ -480,9 +480,9 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [amount] thousand UAH
    - {MainModel.CurrentYear} End: [amount] thousand UAH
    - **Interpretation:**
-     • Positive = Own capital available for inventory ?
-     • Negative = All equity tied up in fixed assets ?
-   - Current status: [NEGATIVE -9.6M] = NO own capital for inventory! ?
+     • Positive = Own capital available for inventory
+     • Negative = All equity tied up in fixed assets
+   - Current status: [NEGATIVE -9.6M] = NO own capital for inventory!
 
 **4. Own + Long-term Capital Analysis (Source #2)**:
    - {MainModel.BaseYear} End: [amount] thousand UAH
@@ -501,9 +501,9 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Absolute Stability (Type 1) ??
-     • <0 = Need external funding (Type 2, 3, or 4) ??
-   - Current: [-14.7M] = LARGE DEFICIT ?
+     • =0 = Absolute Stability (Type 1)
+     • <0 = Need external funding (Type 2, 3, or 4)
+   - Current: [-14.7M] = LARGE DEFICIT
    - Meaning: Inventory CANNOT be funded by own capital alone
 
 **7. Deficit from Own + Long-term (Indicator #6) - SECONDARY TEST**:
@@ -511,9 +511,9 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Normal Stability (Type 2) ?
-     • <0 = Unstable/Crisis (Type 3 or 4) ?
-   - Current: [-10.4M] = STILL DEFICIT ?
+     • =0 = Normal Stability (Type 2)
+     • <0 = Unstable/Crisis (Type 3 or 4)
+   - Current: [-10.4M] = STILL DEFICIT
    - Meaning: Even with long-term debt, cannot cover inventory
 
 **8. Deficit from Total Sources (Indicator #7) - FINAL TEST**:
@@ -521,9 +521,9 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Unstable but funded (Type 3) ??
-     • <0 = Crisis (Type 4) - Cannot fund inventory ??
-   - Current: [-10.2M] = CRISIS ??
+     • =0 = Unstable but funded (Type 3)
+     • <0 = Crisis (Type 4) - Cannot fund inventory
+   - Current: [-10.2M] = CRISIS
    - Meaning: CANNOT fund inventory even with ALL sources!
 
 **9. Financial Stability Classification**:
@@ -552,7 +552,7 @@ ANALYSIS SECTIONS:
 **10. Strategic Recommendations**:
     
     **If Type 4 (Crisis) - Current Situation:**
-    ?? CRITICAL: Cannot fund inventory even with all sources!
+    • CRITICAL: Cannot fund inventory even with all sources!
     
     **Immediate Actions (30 days):**
     • Emergency inventory reduction
@@ -573,7 +573,7 @@ ANALYSIS SECTIONS:
       - Release tied-up capital
     
     **If Type 3 (Unstable):**
-    ?? HIGH RISK: Dependent on short-term debt
+    • HIGH RISK: Dependent on short-term debt
     
     • Reduce short-term debt dependency
     • Convert short-term to long-term debt
@@ -582,7 +582,7 @@ ANALYSIS SECTIONS:
     • Target: Move to Type 2 within 12 months
     
     **If Type 2 (Normal Stability):**
-    ? ACCEPTABLE: Funded by equity + long-term
+    • ACCEPTABLE: Funded by equity + long-term
     
     • Maintain stable funding mix
     • Monitor deficit trends
@@ -590,28 +590,28 @@ ANALYSIS SECTIONS:
     • Focus on profitability to build equity
     
     **If Type 1 (Absolute Stability):**
-    ?? EXCELLENT: Fully funded by equity
+    • EXCELLENT: Fully funded by equity
     
     • Maintain conservative position
     • Leverage for growth if appropriate
     • Industry leadership position
     
-    **Long-term Stability Improvement (Type 4 ? 2 ? 1):**
+    **Long-term Stability Improvement (Type 4 to 2 to 1):**
     
-    **Step 1: Exit Crisis (Type 4 ? 3)**
+    **Step 1: Exit Crisis (Type 4 to 3)**
     Timeline: 3-6 months
     • Reduce inventory by 30-40%
     • Secure adequate credit lines
     • Stabilize operations
     
-    **Step 2: Achieve Normal Stability (Type 3 ? 2)**
+    **Step 2: Achieve Normal Stability (Type 3 to 2)**
     Timeline: 12-18 months
     • Build own working capital
     • Reduce short-term debt
     • Extend debt maturity
     • Increase equity through retained earnings
     
-    **Step 3: Target Absolute Stability (Type 2 ? 1)**
+    **Step 3: Target Absolute Stability (Type 2 to 1)**
     Timeline: 2-3 years
     • Continue equity accumulation
     • Reduce all debt gradually
@@ -619,11 +619,11 @@ ANALYSIS SECTIONS:
     • Strong profitability focus
     
     **Monthly Monitoring:**
-    ?? All 7 stability indicators
-    ?? Stability type classification
-    ?? Inventory levels
-    ?? Working capital position
-    ?? Short-term debt exposure
+    • All 7 stability indicators
+    • Stability type classification
+    • Inventory levels
+    • Working capital position
+    • Short-term debt exposure
     
     **Key Targets:**
     • Deficit #5 (Own capital): Target =0 (long-term)
@@ -632,8 +632,8 @@ ANALYSIS SECTIONS:
     • Stability Type: Minimum Type 2, target Type 1
 
 INTERPRETATION GUIDANCE:
-- **Negative deficits = Funding gap** ?
-- **Positive surplus = Funded** ?
+- **Negative deficits = Funding gap**
+- **Positive surplus = Funded**
 - **Type 1 > Type 2 > Type 3 > Type 4** (Best to worst)
 - **Own capital preferred** over debt for inventory
 

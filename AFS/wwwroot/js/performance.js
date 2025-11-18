@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UFIN Financial Analysis Tool - Performance Monitoring (Optimized)
  * Conditional monitoring based on environment
  */
@@ -20,18 +20,18 @@
 
                 // Only log if unusually slow
                 if (loadTime > 3000) {
-                    logger.warn('Slow page load:', loadTime, 'ms');
+                    logger.warn('⚠️ Slow page load:', loadTime, 'ms');
                 }
             }
         });
 
         // Monitor online/offline
-        window.addEventListener('online', () => logger.log('Online'));
-        window.addEventListener('offline', () => logger.warn('Offline - PWA active'));
+        window.addEventListener('online', () => logger.log('✅ Online'));
+        window.addEventListener('offline', () => logger.warn('⚠️ Offline - PWA active'));
 
         // Critical errors only
-        window.addEventListener('error', (e) => logger.error('Error:', e.message, e.filename));
-        window.addEventListener('unhandledrejection', (e) => logger.error('Unhandled rejection:', e.reason));
+        window.addEventListener('error', (e) => logger.error('❌ Error:', e.message, e.filename));
+        window.addEventListener('unhandledrejection', (e) => logger.error('❌ Unhandled rejection:', e.reason));
 
         return;
     }
@@ -53,7 +53,7 @@
                 const domReady = timing.domContentLoadedEventEnd - navigationStart;
                 const firstPaint = timing.responseEnd - navigationStart;
 
-                logger.group('?? Performance Metrics');
+                logger.group('🚀 Performance Metrics');
                 logger.log('Total Load Time:', loadTime, 'ms');
                 logger.log('DOM Ready:', domReady, 'ms');
                 logger.log('First Paint:', firstPaint, 'ms');
@@ -63,7 +63,7 @@
                 if (window.performance.getEntriesByType) {
                     const navTiming = window.performance.getEntriesByType('navigation')[0];
                     if (navTiming) {
-                        logger.group('?? Performance Metrics');
+                        logger.group('🚀 Performance Metrics');
                         logger.log('Total Load Time:', Math.round(navTiming.loadEventEnd), 'ms');
                         logger.log('DOM Ready:', Math.round(navTiming.domContentLoadedEventEnd), 'ms');
                         logger.log('First Paint:', Math.round(navTiming.responseEnd), 'ms');
@@ -75,7 +75,7 @@
             // Memory usage (Chrome only)
             if (window.performance.memory) {
                 const memory = window.performance.memory;
-                logger.group('?? Memory Usage');
+                logger.group('🧠 Memory Usage');
                 logger.log('Used:', (memory.usedJSHeapSize / 1048576).toFixed(2), 'MB');
                 logger.log('Total:', (memory.totalJSHeapSize / 1048576).toFixed(2), 'MB');
                 logger.log('Limit:', (memory.jsHeapSizeLimit / 1048576).toFixed(2), 'MB');
@@ -87,7 +87,7 @@
         if ('connection' in navigator) {
             const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
             if (connection) {
-                logger.group('?? Network Info');
+                logger.group('🌐 Network Info');
                 logger.log('Type:', connection.effectiveType);
                 logger.log('Downlink:', connection.downlink, 'Mbps');
                 logger.log('RTT:', connection.rtt, 'ms');
@@ -95,7 +95,7 @@
                 logger.groupEnd();
 
                 if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
-                    logger.warn('?? Slow network detected');
+                    logger.warn('⚠️ Slow network detected');
                 }
             }
         }
@@ -108,7 +108,7 @@
                     const entries = list.getEntries();
                     const lastEntry = entries[entries.length - 1];
                     const lcp = lastEntry.renderTime || lastEntry.loadTime;
-                    logger.log('?? LCP:', lcp.toFixed(2), 'ms', lcp < 2500 ? '?' : '??');
+                    logger.log('📏 LCP:', lcp.toFixed(2), 'ms', lcp < 2500 ? '✅' : '⚠️');
                     lcpObserver.disconnect();
                 });
                 lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
@@ -117,7 +117,7 @@
                 new PerformanceObserver((list) => {
                     list.getEntries().forEach((entry) => {
                         const fid = entry.processingStart - entry.startTime;
-                        logger.log('? FID:', fid.toFixed(2), 'ms', fid < 100 ? '?' : '??');
+                        logger.log('🖱️ FID:', fid.toFixed(2), 'ms', fid < 100 ? '✅' : '⚠️');
                     });
                 }).observe({ entryTypes: ['first-input'] });
 
@@ -133,7 +133,7 @@
 
                     clearTimeout(clsTimeout);
                     clsTimeout = setTimeout(() => {
-                        logger.log('?? CLS:', clsValue.toFixed(3), clsValue < 0.1 ? '?' : '??');
+                        logger.log('📐 CLS:', clsValue.toFixed(3), clsValue < 0.1 ? '✅' : '⚠️');
                     }, 500);
                 }).observe({ entryTypes: ['layout-shift'] });
             } catch (error) {
@@ -143,12 +143,12 @@
     });
 
     // Monitor online/offline
-    window.addEventListener('online', () => logger.log('?? Online'));
-    window.addEventListener('offline', () => logger.warn('?? Offline - PWA mode'));
+    window.addEventListener('online', () => logger.log('✅ Online'));
+    window.addEventListener('offline', () => logger.warn('⚠️ Offline - PWA mode'));
 
     // Error logging with stack traces
     window.addEventListener('error', function (event) {
-        logger.error('? Unhandled error:', {
+        logger.error('❌ Unhandled error:', {
             message: event.message,
             source: event.filename,
             line: event.lineno,
@@ -158,13 +158,13 @@
     });
 
     window.addEventListener('unhandledrejection', function (event) {
-        logger.error('? Unhandled rejection:', event.reason);
+        logger.error('❌ Unhandled rejection:', event.reason);
     });
 
     // Page visibility
     document.addEventListener('visibilitychange', function () {
-        logger.log(document.hidden ? '??? Page hidden' : '??? Page visible');
+        logger.log(document.hidden ? '👁️‍🗨️ Page hidden' : '👁️ Page visible');
     });
 
-    logger.log('?? Performance monitoring initialized (development mode)');
+    logger.log('🚀 Performance monitoring initialized (development mode)');
 })();
