@@ -691,7 +691,7 @@ class SEOManager {
 
         // Yandex Metrica
         if (window.ym) {
-            window.ym(/* your ID */, 'hit', url);
+            window.ym(88888888, 'hit', url); // Replace with your actual Yandex Metrica ID
         }
     }
 
