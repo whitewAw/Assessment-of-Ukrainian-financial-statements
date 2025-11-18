@@ -1,0 +1,52 @@
+@* GitHub Star Button Widget Component *@
+@inject IJSRuntime JS
+
+<div class="github-widget-container text-center my-4">
+    <div id="github-star-button"></div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadGitHubButton();
+        }
+    }
+
+    private async Task LoadGitHubButton()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("eval", @"
+                (function() {
+                    // Create GitHub star button
+                    const container = document.getElementById('github-star-button');
+                    if (container) {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = 'https://ghbtns.com/github-btn.html?user=whitewAw&repo=Assessment-of-Ukrainian-financial-statements&type=star&count=true&size=large';
+                        iframe.frameBorder = '0';
+                        iframe.scrolling = '0';
+                        iframe.width = '170';
+                        iframe.height = '30';
+                        iframe.title = 'GitHub Star Button';
+                        container.appendChild(iframe);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[GitHub Widget] Error loading button: {ex.Message}");
+        }
+    }
+}
+
+<style>
+    .github-widget-container {
+        padding: 20px;
+        background: linear-gradient(135deg, #f6f8fa 0%, #ffffff 100%);
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+</style>

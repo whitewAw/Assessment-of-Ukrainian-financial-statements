@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,1343 +59,1352 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="A1A2A3&lt;P1" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="A1A2A3&lt;P1" xml:space="preserve">
     <value>A1+A2+A3 &lt; L1</value>
   </data>
-  <data name="A1A2A3&lt;P1P2" xml:space="preserve">
+	<data name="A1A2A3&lt;P1P2" xml:space="preserve">
     <value>A1+A2+A3 &lt; L1+L2</value>
   </data>
-  <data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
+	<data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
     <value>A1+A2 +A3 &lt; L1+L2+L3</value>
   </data>
-  <data name="A1A2A3P1" xml:space="preserve">
+	<data name="A1A2A3P1" xml:space="preserve">
     <value>A1+A2+A3 &gt;= L1</value>
   </data>
-  <data name="A1A2A3P1P2" xml:space="preserve">
+	<data name="A1A2A3P1P2" xml:space="preserve">
     <value>A1+A2+A3 &gt;= L1+L2</value>
   </data>
-  <data name="A1A2A3P1P2P3" xml:space="preserve">
+	<data name="A1A2A3P1P2P3" xml:space="preserve">
     <value>A1+A2 +A3 &gt;= L1+L2+L3</value>
   </data>
-  <data name="A1A2P1" xml:space="preserve">
+	<data name="A1A2P1" xml:space="preserve">
     <value>A1+A2 &gt;= L1</value>
   </data>
-  <data name="A1A2P1P2" xml:space="preserve">
+	<data name="A1A2P1P2" xml:space="preserve">
     <value>A1+A2 &gt;= L1+L2</value>
   </data>
-  <data name="A1A2P1P2P3" xml:space="preserve">
+	<data name="A1A2P1P2P3" xml:space="preserve">
     <value>A1+A2 &gt;= L1+L2+L3</value>
   </data>
-  <data name="A1P1" xml:space="preserve">
+	<data name="A1P1" xml:space="preserve">
     <value>A1 &gt;= L1</value>
   </data>
-  <data name="A1P1P2" xml:space="preserve">
+	<data name="A1P1P2" xml:space="preserve">
     <value>A1 &gt;= L1+L2</value>
   </data>
-  <data name="A1P1P2P3" xml:space="preserve">
+	<data name="A1P1P2P3" xml:space="preserve">
     <value>A1 &gt;= L1+L2+L3</value>
   </data>
-  <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
+	<data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
     <value>Аbsoluta estabilidad financiera</value>
   </data>
-  <data name="AbsoluteLiquidityRatio" xml:space="preserve">
+	<data name="AbsoluteLiquidityRatio" xml:space="preserve">
     <value>Coeficiente de liquidez absoluta</value>
   </data>
-  <data name="accounts" xml:space="preserve">
+	<data name="accounts" xml:space="preserve">
     <value>Deudas pendientes</value>
   </data>
-  <data name="AccountsPayable" xml:space="preserve">
+	<data name="AccountsPayable" xml:space="preserve">
     <value>Deudas a acreedores</value>
   </data>
-  <data name="AccountsReceivable" xml:space="preserve">
+	<data name="AccountsReceivable" xml:space="preserve">
     <value>Deudas a clientes</value>
   </data>
-  <data name="AccountsReceivableForDebts" xml:space="preserve">
+	<data name="AccountsReceivableForDebts" xml:space="preserve">
     <value>Deudas a clientes por cuentas</value>
   </data>
-  <data name="AccruedDepreciationAtBegin" xml:space="preserve">
+	<data name="AccruedDepreciationAtBegin" xml:space="preserve">
     <value>Monto de la depreciación acumulada al inicio del año</value>
   </data>
-  <data name="AccruedDepreciationAtEnd" xml:space="preserve">
+	<data name="AccruedDepreciationAtEnd" xml:space="preserve">
     <value>Monto de la depreciación acumulada al final del año</value>
   </data>
-  <data name="accumulatedDepreciation" xml:space="preserve">
+	<data name="accumulatedDepreciation" xml:space="preserve">
     <value>Amortización acumulada</value>
   </data>
-  <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
+	<data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
     <value>Diferencias de cambio acumuladas</value>
   </data>
-  <data name="AdditionalCapital" xml:space="preserve">
+	<data name="AdditionalCapital" xml:space="preserve">
     <value>Capital adicional</value>
   </data>
-  <data name="AdditionalInfo" xml:space="preserve">
+	<data name="AdditionalInfo" xml:space="preserve">
     <value>Información adicional</value>
   </data>
-  <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
+	<data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
     <value>Cantidad ajustada de acciones ordinarias en circulación promedio</value>
   </data>
-  <data name="adjustedIndicator" xml:space="preserve">
+	<data name="adjustedIndicator" xml:space="preserve">
     <value>Índice ajustado</value>
   </data>
-  <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
+	<data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
     <value>Ganancia (pérdida) neta ajustada por acción ordinaria</value>
   </data>
-  <data name="AdministrativeExpenses" xml:space="preserve">
+	<data name="AdministrativeExpenses" xml:space="preserve">
     <value>Gastos administrativos</value>
   </data>
-  <data name="AIAnalyzingData" xml:space="preserve">
+	<data name="AIAnalyzingData" xml:space="preserve">
     <value>IA está analizando sus datos financieros...</value>
   </data>
-  <data name="AIAssistantName" xml:space="preserve">
+	<data name="AIAssistantName" xml:space="preserve">
     <value>Asistente IA</value>
   </data>
-  <data name="AIAssistantPage" xml:space="preserve">
+	<data name="AIAssistantPage" xml:space="preserve">
     <value>página Asistente IA</value>
   </data>
-  <data name="AIAssistantSubtitle" xml:space="preserve">
+	<data name="AIAssistantSubtitle" xml:space="preserve">
     <value>Obtén información y recomendaciones instantáneas impulsadas por IA.</value>
   </data>
-  <data name="AIFinancialAnalysis" xml:space="preserve">
+	<data name="AIFinancialAnalysis" xml:space="preserve">
     <value>Análisis Financiero IA</value>
   </data>
-  <data name="AIFinancialAssistant" xml:space="preserve">
+	<data name="AIFinancialAssistant" xml:space="preserve">
     <value>Asistente financiero de IA</value>
   </data>
-  <data name="AIFollowSetupInstructions" xml:space="preserve">
+	<data name="AIFollowSetupInstructions" xml:space="preserve">
     <value>Por favor, siga las instrucciones anteriores para habilitar Chrome AI</value>
   </data>
-  <data name="AINotAvailable" xml:space="preserve">
+	<data name="AINotAvailable" xml:space="preserve">
     <value>Chrome AI no disponible</value>
   </data>
-  <data name="AINotReady" xml:space="preserve">
+	<data name="AINotReady" xml:space="preserve">
     <value>Asistente IA no listo</value>
   </data>
-  <data name="AIReady" xml:space="preserve">
+	<data name="AIReady" xml:space="preserve">
     <value>Chrome AI está listo para usar</value>
   </data>
-  <data name="Amortization" xml:space="preserve">
+	<data name="Amortization" xml:space="preserve">
     <value>Amortización</value>
   </data>
-  <data name="AnalyzeAssetComposition" xml:space="preserve">
+	<data name="AnalyzeAssetComposition" xml:space="preserve">
     <value>Analizar composición de activos ({0})</value>
   </data>
-  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+	<data name="AnalyzeBusinessActivity" xml:space="preserve">
     <value>Analizar actividad empresarial</value>
   </data>
-  <data name="AnalyzeCapitalSources" xml:space="preserve">
+	<data name="AnalyzeCapitalSources" xml:space="preserve">
     <value>Analizar fuentes de capital</value>
   </data>
-  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+	<data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
     <value>Analizar fuentes de capital ({0})</value>
   </data>
-  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+	<data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
     <value>Analizar características del capital</value>
   </data>
-  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+	<data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
     <value>Analizar factores que afectan la rotación</value>
   </data>
-  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+	<data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
     <value>Analizar la salud financiera general de mi empresa según los datos disponibles</value>
   </data>
-  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+	<data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
     <value>Analizar indicadores de estabilidad financiera</value>
   </data>
-  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+	<data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
     <value>Analizar eficiencia de activos fijos</value>
   </data>
-  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+	<data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
     <value>Analizar factores de activos fijos</value>
   </data>
-  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+	<data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
     <value>Analizar movimiento de activos fijos</value>
   </data>
-  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+	<data name="AnalyzeFixedAssetsState" xml:space="preserve">
     <value>Analizar estado de activos fijos</value>
   </data>
-  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+	<data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
     <value>Analizar estabilidad financiera general</value>
   </data>
-  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+	<data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
     <value>Analizar eficiencia de activos intangibles</value>
   </data>
-  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+	<data name="AnalyzeLiquidityIndicators" xml:space="preserve">
     <value>Analizar indicadores de liquidez</value>
   </data>
-  <data name="AnalyzePayableStructure" xml:space="preserve">
+	<data name="AnalyzePayableStructure" xml:space="preserve">
     <value>Analizar estructura de cuentas por pagar ({0})</value>
   </data>
-  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+	<data name="AnalyzeReceivablesPayables" xml:space="preserve">
     <value>Analizar cuentas por cobrar y pagar</value>
   </data>
-  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+	<data name="AnalyzeSolvencyRatios" xml:space="preserve">
     <value>Analizar ratios de solvencia</value>
   </data>
-  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+	<data name="AnalyzeStabilityClassification" xml:space="preserve">
     <value>Analizar clasificación de estabilidad</value>
   </data>
-  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+	<data name="AnalyzeTurnoverIndicators" xml:space="preserve">
     <value>Analizar indicadores de rotación</value>
   </data>
-  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+	<data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
     <value>Analizar eficiencia del capital de trabajo</value>
   </data>
-  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+	<data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
     <value>Analizar rotación del capital de trabajo</value>
   </data>
-  <data name="AreYouSure" xml:space="preserve">
+	<data name="AreYouSure" xml:space="preserve">
     <value>¿Está seguro?</value>
   </data>
-  <data name="Article" xml:space="preserve">
+	<data name="Article" xml:space="preserve">
     <value>Artículo</value>
   </data>
-  <data name="AskAboutFinancialData" xml:space="preserve">
+	<data name="AskAboutFinancialData" xml:space="preserve">
     <value>Pregunte sobre sus datos financieros...</value>
   </data>
-  <data name="AskQuestions" xml:space="preserve">
+	<data name="AskQuestions" xml:space="preserve">
     <value>Haz preguntas</value>
   </data>
-  <data name="AssessmentOfFinancialStatements" xml:space="preserve">
+	<data name="AssessmentOfFinancialStatements" xml:space="preserve">
     <value>Evaluación de los estados financieros</value>
   </data>
-  <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
+	<data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
     <value>Evaluación comparativa de deudas pendientes y acreedores</value>
   </data>
-  <data name="Asset" xml:space="preserve">
+	<data name="Asset" xml:space="preserve">
     <value>Activo</value>
   </data>
-  <data name="AtBeginningReportingPeriod" xml:space="preserve">
+	<data name="AtBeginningReportingPeriod" xml:space="preserve">
     <value>Al inicio del período de informe</value>
   </data>
-  <data name="atBeginOfYear" xml:space="preserve">
+	<data name="atBeginOfYear" xml:space="preserve">
     <value>Al inicio del año</value>
   </data>
-  <data name="AtEndingReportingPeriod" xml:space="preserve">
+	<data name="AtEndingReportingPeriod" xml:space="preserve">
     <value>На el final del período de informe</value>
   </data>
-  <data name="atEndOf" xml:space="preserve">
+	<data name="atEndOf" xml:space="preserve">
     <value>al final del año {0}</value>
   </data>
-  <data name="atEndOfYear" xml:space="preserve">
+	<data name="atEndOfYear" xml:space="preserve">
     <value>al final del año</value>
   </data>
-  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+	<data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
     <value>Disponibilidad y movimiento de activos fijos</value>
   </data>
-  <data name="AvailabilityForStockFormation" xml:space="preserve">
+	<data name="AvailabilityForStockFormation" xml:space="preserve">
     <value>Disponibilidad de activos circulantes, a largo plazo y a corto plazo para la formación de inventarios</value>
   </data>
-  <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
+	<data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
     <value>Disponibilidad de activos circulantes y a largo plazo para la formación de inventarios</value>
   </data>
-  <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
+	<data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
     <value>Disponibilidad de activos circulantes para la formación de inventarios</value>
   </data>
-  <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
+	<data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
     <value>Valor promedio de activos fijos</value>
   </data>
-  <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
+	<data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
     <value>Valor promedio de activos intangibles</value>
   </data>
-  <data name="averageBalances" xml:space="preserve">
+	<data name="averageBalances" xml:space="preserve">
     <value>promedio de saldos</value>
   </data>
-  <data name="AverageNumberOfEmployees" xml:space="preserve">
+	<data name="AverageNumberOfEmployees" xml:space="preserve">
     <value>Número promedio de empleados</value>
   </data>
-  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+	<data name="AverageNumberOrdinaryShares" xml:space="preserve">
     <value>Cantidad promedio de acciones ordinarias</value>
   </data>
-  <data name="AverageWorkingCapitalBalances" xml:space="preserve">
+	<data name="AverageWorkingCapitalBalances" xml:space="preserve">
     <value>Promedio de saldos de activos circulantes</value>
   </data>
-  <data name="Balance" xml:space="preserve">
+	<data name="Balance" xml:space="preserve">
     <value>Balance</value>
   </data>
-  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+	<data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
     <value>Saldo al inicio del año a costo original</value>
   </data>
-  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+	<data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
     <value>Saldo al final del año a costo original</value>
   </data>
-  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+	<data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
     <value>Saldo al final del año neto de depreciación</value>
   </data>
-  <data name="BalanceIsLiquid" xml:space="preserve">
+	<data name="BalanceIsLiquid" xml:space="preserve">
     <value>Balance líquido</value>
   </data>
-  <data name="BalanceIsNotLiquid" xml:space="preserve">
+	<data name="BalanceIsNotLiquid" xml:space="preserve">
     <value>Balance no líquido</value>
   </data>
-  <data name="basePeriod" xml:space="preserve">
+	<data name="basePeriod" xml:space="preserve">
     <value>período base</value>
   </data>
-  <data name="BaseYear" xml:space="preserve">
+	<data name="BaseYear" xml:space="preserve">
     <value>Año base</value>
   </data>
-  <data name="BrowserAI" xml:space="preserve">
+	<data name="BrowserAI" xml:space="preserve">
     <value>IA del navegador (Chrome 127+)</value>
   </data>
-  <data name="bySettlementsWithParticipants" xml:space="preserve">
+	<data name="bySettlementsWithParticipants" xml:space="preserve">
     <value>con cálculos de participantes</value>
   </data>
-  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
+	<data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
     <value>Cálculo de indicadores generales de eficiencia en el uso de activos fijos</value>
   </data>
-  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
+	<data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
     <value>Tabla {0}. Cálculo de indicadores generales de eficiencia en el uso de activos fijos {1} para los años {2}-{3}</value>
   </data>
-  <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
+	<data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
     <value>Cálculo de indicadores de rentabilidad de acciones</value>
   </data>
-  <data name="CapitalInRevaluations" xml:space="preserve">
+	<data name="CapitalInRevaluations" xml:space="preserve">
     <value>Capital en reevaluaciones</value>
   </data>
-  <data name="CapitalIntensityOfProducts" xml:space="preserve">
+	<data name="CapitalIntensityOfProducts" xml:space="preserve">
     <value>Capacidad de fondo de producción</value>
   </data>
-  <data name="cargo" xml:space="preserve">
+	<data name="cargo" xml:space="preserve">
     <value>bienes</value>
   </data>
-  <data name="CashCurrentFinancialInvestments" xml:space="preserve">
+	<data name="CashCurrentFinancialInvestments" xml:space="preserve">
     <value>Recursos monetarios e inversiones financieras actuales</value>
   </data>
-  <data name="CharacteristicsOfCapital" xml:space="preserve">
+	<data name="CharacteristicsOfCapital" xml:space="preserve">
     <value>Características del capital</value>
   </data>
-  <data name="ChatWithAI" xml:space="preserve">
+	<data name="ChatWithAI" xml:space="preserve">
     <value>Chatea con IA</value>
   </data>
-  <data name="CheckingAIAvailability" xml:space="preserve">
+	<data name="CheckingAIAvailability" xml:space="preserve">
     <value>Comprobando disponibilidad de IA...</value>
   </data>
-  <data name="ChromeAINotAvailable" xml:space="preserve">
+	<data name="ChromeAINotAvailable" xml:space="preserve">
     <value>Chrome IA no disponible</value>
   </data>
-  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+	<data name="ChromeAINotAvailableMessage" xml:space="preserve">
     <value>Chrome IA no está disponible actualmente. Por favor visite</value>
   </data>
-  <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
+	<data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
     <value>Clasificación de tipos de estabilidad financiera según el grado de liquidez de activos circulantes</value>
   </data>
-  <data name="Clear" xml:space="preserve">
+	<data name="Clear" xml:space="preserve">
     <value>Limpiar</value>
   </data>
-  <data name="CoefficientOfBusinessActivity" xml:space="preserve">
+	<data name="CoefficientOfBusinessActivity" xml:space="preserve">
     <value>Índice de actividad empresarial</value>
   </data>
-  <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
+	<data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
     <value>Índice de concentración de capital atraído</value>
   </data>
-  <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
+	<data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
     <value>Índice de eficiencia en el uso de recursos financieros</value>
   </data>
-  <data name="CoefficientOfFinancialDependence" xml:space="preserve">
+	<data name="CoefficientOfFinancialDependence" xml:space="preserve">
     <value>Índice de dependencia financiera</value>
   </data>
-  <data name="CoefficientOfFinancialStability" xml:space="preserve">
+	<data name="CoefficientOfFinancialStability" xml:space="preserve">
     <value>Índice de estabilidad financiera</value>
   </data>
-  <data name="CoefficientOfIndependence" xml:space="preserve">
+	<data name="CoefficientOfIndependence" xml:space="preserve">
     <value>Índice de independencia (concentración de capital propio)</value>
   </data>
-  <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
+	<data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
     <value>Índice de duración de la atracción de préstamos</value>
   </data>
-  <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
+	<data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
     <value>Índice de maniobrabilidad del capital propio</value>
   </data>
-  <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
+	<data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
     <value>Índice de utilización de recursos propios</value>
   </data>
-  <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
+	<data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
     <value>Índice de estabilidad del crecimiento económico</value>
   </data>
-  <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
+	<data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
     <value>Índice de estructura de inversiones a largo plazo</value>
   </data>
-  <data name="CompanyName" xml:space="preserve">
+	<data name="CompanyName" xml:space="preserve">
     <value>Nombre de la empresa</value>
   </data>
-  <data name="CompositionOfAssets" xml:space="preserve">
+	<data name="CompositionOfAssets" xml:space="preserve">
     <value>Composición de activos</value>
   </data>
-  <data name="ComprehensiveIncome" xml:space="preserve">
+	<data name="ComprehensiveIncome" xml:space="preserve">
     <value>Ingreso total</value>
   </data>
-  <data name="CostOfGoodsSold" xml:space="preserve">
+	<data name="CostOfGoodsSold" xml:space="preserve">
     <value>Costo de producción de bienes vendidos</value>
   </data>
-  <data name="CostOfLeftFixedAssets" xml:space="preserve">
+	<data name="CostOfLeftFixedAssets" xml:space="preserve">
     <value>Valor de los activos fijos dados de baja</value>
   </data>
-  <data name="CrisisFinancialStability" xml:space="preserve">
+	<data name="CrisisFinancialStability" xml:space="preserve">
     <value>Estabilidad financiera en crisis</value>
   </data>
-  <data name="currency" xml:space="preserve">
+	<data name="currency" xml:space="preserve">
     <value>UAH</value>
   </data>
-  <data name="Current" xml:space="preserve">
+	<data name="Current" xml:space="preserve">
     <value>Actual</value>
   </data>
-  <data name="CurrentAccountsPayableFor" xml:space="preserve">
+	<data name="CurrentAccountsPayableFor" xml:space="preserve">
     <value>Deudas a corto plazo al final de</value>
   </data>
-  <data name="CurrentAssets" xml:space="preserve">
+	<data name="CurrentAssets" xml:space="preserve">
     <value>Activos circulantes</value>
   </data>
-  <data name="CurrentBiologicalAssets" xml:space="preserve">
+	<data name="CurrentBiologicalAssets" xml:space="preserve">
     <value>Activos biológicos actuales</value>
   </data>
-  <data name="CurrentFinancialInvestments" xml:space="preserve">
+	<data name="CurrentFinancialInvestments" xml:space="preserve">
     <value>Inversiones financieras actuales</value>
   </data>
-  <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
+	<data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
     <value>Pasivos y provisiones actuales</value>
   </data>
-  <data name="CurrentLiquidityFactor" xml:space="preserve">
+	<data name="CurrentLiquidityFactor" xml:space="preserve">
     <value>Índice de liquidez actual</value>
   </data>
-  <data name="CurrentMobileAssets" xml:space="preserve">
+	<data name="CurrentMobileAssets" xml:space="preserve">
     <value>Activos circulantes (móviles)</value>
   </data>
-  <data name="currentPeriod" xml:space="preserve">
+	<data name="currentPeriod" xml:space="preserve">
     <value>período de informe</value>
   </data>
-  <data name="CurrentSupplies" xml:space="preserve">
+	<data name="CurrentSupplies" xml:space="preserve">
     <value>Garantías actuales</value>
   </data>
-  <data name="CurrentYear" xml:space="preserve">
+	<data name="CurrentYear" xml:space="preserve">
     <value>Año actual</value>
   </data>
-  <data name="days" xml:space="preserve">
+	<data name="days" xml:space="preserve">
     <value>días</value>
   </data>
-  <data name="DeductionsSocialEvents" xml:space="preserve">
+	<data name="DeductionsSocialEvents" xml:space="preserve">
     <value>Deducciones para eventos sociales</value>
   </data>
-  <data name="DeferredTaxLiabilities" xml:space="preserve">
+	<data name="DeferredTaxLiabilities" xml:space="preserve">
     <value>Obligaciones fiscales diferidas</value>
   </data>
-  <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
+	<data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
     <value>Índice de depreciación de activos fijos al inicio del año</value>
   </data>
-  <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
+	<data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
     <value>Índice de depreciación de activos fijos al final del año</value>
   </data>
-  <data name="deviation" xml:space="preserve">
+	<data name="deviation" xml:space="preserve">
     <value>variaciones</value>
   </data>
-  <data name="Deviation_" xml:space="preserve">
+	<data name="Deviation_" xml:space="preserve">
     <value>Desviación</value>
   </data>
-  <data name="DisposalRate" xml:space="preserve">
+	<data name="DisposalRate" xml:space="preserve">
     <value>Índice de salida</value>
   </data>
-  <data name="DividendsPerSimpleShare" xml:space="preserve">
+	<data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Dividendos por acción ordinaria</value>
   </data>
-  <data name="DownloadingGeminiNano" xml:space="preserve">
+	<data name="DownloadingGeminiNano" xml:space="preserve">
     <value>Descargando modelo Gemini Nano... {0}%</value>
   </data>
-  <data name="Dynamics" xml:space="preserve">
+	<data name="Dynamics" xml:space="preserve">
     <value>Dinámica</value>
   </data>
-  <data name="ElementsOperatingCosts" xml:space="preserve">
+	<data name="ElementsOperatingCosts" xml:space="preserve">
     <value>Elementos de gastos operativos</value>
   </data>
-  <data name="EnableChromeAIToChat" xml:space="preserve">
+	<data name="EnableChromeAIToChat" xml:space="preserve">
     <value>Habilite Chrome AI para comenzar a chatear...</value>
   </data>
-  <data name="Equity" xml:space="preserve">
+	<data name="Equity" xml:space="preserve">
     <value>Capital propio</value>
   </data>
-  <data name="EraseData" xml:space="preserve">
+	<data name="EraseData" xml:space="preserve">
     <value>Borrar datos</value>
   </data>
-  <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
+	<data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
       <value>Evaluación de la liquidez del balance al inicio del año {1}</value>
   </data>
-  <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
+	<data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
 	  <value>Evaluación de la liquidez del balance al final del año {1}</value>
   </data>
-  <data name="ExampleQuestion1" xml:space="preserve">
+	<data name="ExampleQuestion1" xml:space="preserve">
     <value>« ¿Qué significa mi ratio actual? »</value>
   </data>
-  <data name="ExampleQuestion2" xml:space="preserve">
+	<data name="ExampleQuestion2" xml:space="preserve">
     <value>« ¿Cómo puedo mejorar la liquidez? »</value>
   </data>
-  <data name="ExampleQuestion3" xml:space="preserve">
+	<data name="ExampleQuestion3" xml:space="preserve">
     <value>« Compara este año con el año pasado »</value>
   </data>
-  <data name="ExampleQuestion4" xml:space="preserve">
+	<data name="ExampleQuestion4" xml:space="preserve">
     <value>« ¿Cuáles son mis mayores riesgos? »</value>
   </data>
-  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+	<data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
     <value>Excedente (+), insuficiencia (-) de activos circulantes propios, a largo plazo y a corto plazo para la formación de inventarios</value>
   </data>
-  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+	<data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
     <value>Excedente (+), insuficiencia (-) de activos circulantes propios y a largo plazo para la formación de inventarios</value>
   </data>
-  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+	<data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
     <value>Excedente (+), insuficiencia (-) de activos circulantes propios para la formación de inventarios</value>
   </data>
-  <data name="ExcessOfDebt" xml:space="preserve">
+	<data name="ExcessOfDebt" xml:space="preserve">
     <value>Exceso de deudas</value>
   </data>
-  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+	<data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
     <value>Gastos (ingresos) por impuesto sobre la renta</value>
   </data>
-  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+	<data name="ExplainKeyRatiosButton" xml:space="preserve">
     <value>Explicar ratios clave</value>
   </data>
-  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+	<data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
     <value>Análisis factorial del rendimiento del capital fijo</value>
   </data>
-  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+	<data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
     <value>Factores que afectan la rotación de activos circulantes</value>
   </data>
-  <data name="FAQ" xml:space="preserve">
+	<data name="FAQ" xml:space="preserve">
     <value>Preguntas frecuentes</value>
   </data>
-  <data name="FAQAnswer1" xml:space="preserve">
+	<data name="FAQAnswer1" xml:space="preserve">
     <value>¡Sí! La IA del navegador usa el modelo Gemini Nano integrado en Chrome. Sin claves API, sin costos, sin límites de uso.</value>
   </data>
-  <data name="FAQAnswer2" xml:space="preserve">
+	<data name="FAQAnswer2" xml:space="preserve">
     <value>ChatGPT se ejecuta en los servidores de OpenAI (requiere Internet/clave API). La IA del navegador funciona completamente en tu navegador (sin servidor, sin clave API, funciona sin conexión después de la configuración).</value>
   </data>
-  <data name="FAQAnswer3" xml:space="preserve">
+	<data name="FAQAnswer3" xml:space="preserve">
     <value>¡Absolutamente! Todo el procesamiento de IA ocurre localmente en tu navegador. Tus datos financieros nunca salen de tu dispositivo. No se envían datos a ningún servidor, incluidos Google o Microsoft.</value>
   </data>
-  <data name="FAQAnswer4" xml:space="preserve">
+	<data name="FAQAnswer4" xml:space="preserve">
     <value>Actualmente compatibles: Chrome 127+, Chrome Canary, Edge 127+ (basado en Chromium). Próximamente: Firefox y Safari.</value>
   </data>
-  <data name="FAQQuestion1" xml:space="preserve">
+	<data name="FAQQuestion1" xml:space="preserve">
     <value>¿Es realmente gratis?</value>
   </data>
-  <data name="FAQQuestion2" xml:space="preserve">
+	<data name="FAQQuestion2" xml:space="preserve">
     <value>¿En qué se diferencia de ChatGPT?</value>
   </data>
-  <data name="FAQQuestion3" xml:space="preserve">
+	<data name="FAQQuestion3" xml:space="preserve">
     <value>¿Mis datos están seguros?</value>
   </data>
-  <data name="FAQQuestion4" xml:space="preserve">
+	<data name="FAQQuestion4" xml:space="preserve">
     <value>¿Qué navegadores son compatibles?</value>
   </data>
-  <data name="FinancialExpenses" xml:space="preserve">
+	<data name="FinancialExpenses" xml:space="preserve">
     <value>Gastos financieros</value>
   </data>
-  <data name="FinancialHealthButton" xml:space="preserve">
+	<data name="FinancialHealthButton" xml:space="preserve">
     <value>Salud financiera</value>
   </data>
-  <data name="FinancialResultBeforeTax" xml:space="preserve">
+	<data name="FinancialResultBeforeTax" xml:space="preserve">
     <value>Resultado financiero antes de impuestos</value>
   </data>
-  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+	<data name="FinancialResultFromOperatingActivities" xml:space="preserve">
     <value>Resultado financiero de la actividad operativa</value>
   </data>
-  <data name="FinancialResults" xml:space="preserve">
+	<data name="FinancialResults" xml:space="preserve">
     <value>Resultados financieros</value>
   </data>
-  <data name="finishedProducts" xml:space="preserve">
+	<data name="finishedProducts" xml:space="preserve">
     <value>productos acabados</value>
   </data>
-  <data name="FixedAssets" xml:space="preserve">
+	<data name="FixedAssets" xml:space="preserve">
     <value>Fixed assets</value>
   </data>
-  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+	<data name="FixingRatioOfCurrentAssets" xml:space="preserve">
     <value>Working capital turnover ratio</value>
   </data>
-  <data name="ForBills" xml:space="preserve">
+	<data name="ForBills" xml:space="preserve">
     <value>On bills</value>
   </data>
-  <data name="ForReportingPeriod" xml:space="preserve">
+	<data name="ForReportingPeriod" xml:space="preserve">
     <value>For the reporting period</value>
   </data>
-  <data name="ForSamePeriodLastYear" xml:space="preserve">
+	<data name="ForSamePeriodLastYear" xml:space="preserve">
     <value>For the same period of the previous year</value>
   </data>
-  <data name="ForSetupInstructions" xml:space="preserve">
+	<data name="ForSetupInstructions" xml:space="preserve">
     <value>para instrucciones de configuración.</value>
   </data>
-  <data name="fromAccruedIncome" xml:space="preserve">
+	<data name="fromAccruedIncome" xml:space="preserve">
     <value>from accrued income</value>
   </data>
-  <data name="FromInsurance" xml:space="preserve">
+	<data name="FromInsurance" xml:space="preserve">
     <value>From insurance</value>
   </data>
-  <data name="fromInternalSettlements" xml:space="preserve">
+	<data name="fromInternalSettlements" xml:space="preserve">
     <value>from internal settlements</value>
   </data>
-  <data name="fromMoney" xml:space="preserve">
+	<data name="fromMoney" xml:space="preserve">
     <value>cash</value>
   </data>
-  <data name="fromReceivables" xml:space="preserve">
+	<data name="fromReceivables" xml:space="preserve">
     <value>accounts receivable</value>
   </data>
-  <data name="fromTangibleAssets" xml:space="preserve">
+	<data name="fromTangibleAssets" xml:space="preserve">
     <value>material values</value>
   </data>
-  <data name="FutureExpenses" xml:space="preserve">
+	<data name="FutureExpenses" xml:space="preserve">
     <value>Expenses of future periods</value>
   </data>
-  <data name="FutureIncome" xml:space="preserve">
+	<data name="FutureIncome" xml:space="preserve">
     <value>Income of future periods</value>
   </data>
-  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+	<data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
     <value>Overall financial stability indicators</value>
   </data>
-  <data name="GeneralInformation" xml:space="preserve">
+	<data name="GeneralInformation" xml:space="preserve">
     <value>General information</value>
   </data>
-  <data name="GetRecommendationsButton" xml:space="preserve">
+	<data name="GetRecommendationsButton" xml:space="preserve">
     <value>Obtener recomendaciones</value>
   </data>
-  <data name="goodsWorksServices" xml:space="preserve">
+	<data name="goodsWorksServices" xml:space="preserve">
     <value>goods, works, services</value>
   </data>
-  <data name="Gross" xml:space="preserve">
+	<data name="Gross" xml:space="preserve">
     <value>Gross</value>
   </data>
-  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+	<data name="GrossProfitPerSoldProducts" xml:space="preserve">
     <value>Gross profit per UAH 1 of realized production</value>
   </data>
-  <data name="growthRate" xml:space="preserve">
+	<data name="growthRate" xml:space="preserve">
     <value>growth rate</value>
   </data>
-  <data name="HardToSellAssets" xml:space="preserve">
+	<data name="HardToSellAssets" xml:space="preserve">
     <value>Hard-to-realize assets (A4)</value>
   </data>
-  <data name="HowToUse" xml:space="preserve">
+	<data name="HowToUse" xml:space="preserve">
     <value>Cómo usar</value>
   </data>
-  <data name="in%OfBorrowedCapital" xml:space="preserve">
+	<data name="in%OfBorrowedCapital" xml:space="preserve">
     <value>Same as a percentage of attracted capital</value>
   </data>
-  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+	<data name="in%toCurrentMobileAssets" xml:space="preserve">
     <value>as a percentage of working capital</value>
   </data>
-  <data name="in%ToEquity" xml:space="preserve">
+	<data name="in%ToEquity" xml:space="preserve">
     <value>Same as a percentage of own capital</value>
   </data>
-  <data name="in%toSourcesOfCapital" xml:space="preserve">
+	<data name="in%toSourcesOfCapital" xml:space="preserve">
     <value>Same as a percentage of capital sources</value>
   </data>
-  <data name="includingDueTo" xml:space="preserve">
+	<data name="includingDueTo" xml:space="preserve">
     <value>including due to</value>
   </data>
-  <data name="includingEliminated" xml:space="preserve">
+	<data name="includingEliminated" xml:space="preserve">
     <value>including liquidated</value>
   </data>
-  <data name="includingIncomeTax" xml:space="preserve">
+	<data name="includingIncomeTax" xml:space="preserve">
     <value>including from income tax</value>
   </data>
-  <data name="includingNew" xml:space="preserve">
+	<data name="includingNew" xml:space="preserve">
     <value>including new</value>
   </data>
-  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+	<data name="IncomeFromEquityParticipation" xml:space="preserve">
     <value>Income from participation in capital</value>
   </data>
-  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+	<data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
     <value>Income tax related to other comprehensive income</value>
   </data>
-  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+	<data name="IncompleteCapitalInvestments" xml:space="preserve">
     <value>Unfinished capital investments</value>
   </data>
-  <data name="Indicators" xml:space="preserve">
+	<data name="Indicators" xml:space="preserve">
     <value>Indicators</value>
   </data>
-  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+	<data name="IndicatorsOfBusinessActivity" xml:space="preserve">
     <value>Indicators of business activity</value>
   </data>
-  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+	<data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
     <value>Indicators of efficiency in the use of intangible assets</value>
   </data>
-  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+	<data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
     <value>Indicators of efficiency in the use of working capital</value>
   </data>
-  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+	<data name="IndicatorsOfFinancialStability" xml:space="preserve">
     <value>Indicators of financial stability</value>
   </data>
-  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+	<data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
     <value>Indicators of the state and movement of fixed assets</value>
   </data>
-  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+	<data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
     <value>Turnover ratios of working capital</value>
   </data>
-  <data name="initialCost" xml:space="preserve">
+	<data name="initialCost" xml:space="preserve">
     <value>original cost</value>
   </data>
-  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+	<data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
     <value>Initial cost of fixed assets at the beginning of the period</value>
   </data>
-  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+	<data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
     <value>Initial cost of fixed assets at the end of the period</value>
   </data>
-  <data name="InLongTerm" xml:space="preserve">
+	<data name="InLongTerm" xml:space="preserve">
     <value>In the long-term perspective</value>
   </data>
-  <data name="InputData" xml:space="preserve">
+	<data name="InputData" xml:space="preserve">
     <value>Input data</value>
   </data>
-  <data name="InShortTerm" xml:space="preserve">
+	<data name="InShortTerm" xml:space="preserve">
     <value>In the short-term perspective</value>
   </data>
-  <data name="IntangibleAssets" xml:space="preserve">
+	<data name="IntangibleAssets" xml:space="preserve">
     <value>Intangible assets</value>
   </data>
-  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+	<data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
     <value>Integrated indicator of efficiency in the use of working capital</value>
   </data>
-  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+	<data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
     <value>Integrated indicator of efficiency in the use of fixed assets</value>
   </data>
-  <data name="IntermediateCoverageRatio" xml:space="preserve">
+	<data name="IntermediateCoverageRatio" xml:space="preserve">
     <value>Intermediate coverage ratio</value>
   </data>
-  <data name="InvestmentProperty" xml:space="preserve">
+	<data name="InvestmentProperty" xml:space="preserve">
     <value>Investment real estate</value>
   </data>
-  <data name="KeyRatiosPrompt" xml:space="preserve">
+	<data name="KeyRatiosPrompt" xml:space="preserve">
     <value>Explique los ratios financieros más importantes en los que debo centrarme</value>
   </data>
-  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+	<data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
     <value>Labor fund per average employee</value>
   </data>
-  <data name="LaborProductivity" xml:space="preserve">
+	<data name="LaborProductivity" xml:space="preserve">
     <value>Labor productivity</value>
   </data>
-  <data name="Liabilities" xml:space="preserve">
+	<data name="Liabilities" xml:space="preserve">
     <value>Liability</value>
   </data>
-  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+	<data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Liabilities related to non-current assets held for sale and disposal groups</value>
   </data>
-  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+	<data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
     <value>Liabilities related to non-current assets held for sale</value>
   </data>
-  <data name="LineСode" xml:space="preserve">
+	<data name="LineСode" xml:space="preserve">
     <value>Row code</value>
   </data>
-  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+	<data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
     <value>Balance liquidity indicators</value>
   </data>
-  <data name="LoadingPleaseWait" xml:space="preserve">
+	<data name="LoadingPleaseWait" xml:space="preserve">
     <value>Loading, please wait...</value>
   </data>
-  <data name="LongTermBankCredits" xml:space="preserve">
+	<data name="LongTermBankCredits" xml:space="preserve">
     <value>Long-term bank loans</value>
   </data>
-  <data name="LongTermBiologicalAssets" xml:space="preserve">
+	<data name="LongTermBiologicalAssets" xml:space="preserve">
     <value>Long-term biological assets</value>
   </data>
-  <data name="LongTermFinancialIvestments" xml:space="preserve">
+	<data name="LongTermFinancialIvestments" xml:space="preserve">
     <value>Long-term financial investments</value>
   </data>
-  <data name="longTermLiabilities" xml:space="preserve">
+	<data name="longTermLiabilities" xml:space="preserve">
     <value>long-term liabilities</value>
   </data>
-  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+	<data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
     <value>Long-term liabilities and provisions</value>
   </data>
-  <data name="LongTermLiabilitiesP" xml:space="preserve">
+	<data name="LongTermLiabilitiesP" xml:space="preserve">
     <value>Long-term liabilities (P3)</value>
   </data>
-  <data name="LongTermLiabilities_" xml:space="preserve">
+	<data name="LongTermLiabilities_" xml:space="preserve">
     <value>Long-term liabilities</value>
   </data>
-  <data name="LongTermLoans" xml:space="preserve">
+	<data name="LongTermLoans" xml:space="preserve">
     <value>Long-term provisions</value>
   </data>
-  <data name="LongTermReceivables" xml:space="preserve">
+	<data name="LongTermReceivables" xml:space="preserve">
     <value>Long-term accounts receivable</value>
   </data>
-  <data name="loss" xml:space="preserve">
+	<data name="loss" xml:space="preserve">
     <value>loss</value>
   </data>
-  <data name="LossesFromEquityParticipation" xml:space="preserve">
+	<data name="LossesFromEquityParticipation" xml:space="preserve">
     <value>Losses from participation in capital</value>
   </data>
-  <data name="MaterialCosts" xml:space="preserve">
+	<data name="MaterialCosts" xml:space="preserve">
     <value>Material costs</value>
   </data>
-  <data name="materialValuesTurnover" xml:space="preserve">
+	<data name="materialValuesTurnover" xml:space="preserve">
     <value>turnover of material values</value>
   </data>
-  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+	<data name="MoneyAndTheirEquivalents" xml:space="preserve">
     <value>Money and their equivalents</value>
   </data>
-  <data name="moneyTurnover" xml:space="preserve">
+	<data name="moneyTurnover" xml:space="preserve">
     <value>cash turnover</value>
   </data>
-  <data name="MostLiquidAssets" xml:space="preserve">
+	<data name="MostLiquidAssets" xml:space="preserve">
     <value>Most liquid assets (A1)</value>
   </data>
-  <data name="MostUrgentCommitments" xml:space="preserve">
+	<data name="MostUrgentCommitments" xml:space="preserve">
     <value>Most urgent liabilities (P1)</value>
   </data>
-  <data name="NetFinancialResult" xml:space="preserve">
+	<data name="NetFinancialResult" xml:space="preserve">
     <value>Net financial result</value>
   </data>
-  <data name="NetIncomeFromSales" xml:space="preserve">
+	<data name="NetIncomeFromSales" xml:space="preserve">
     <value>Net revenue (sales) from sales</value>
   </data>
-  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+	<data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
     <value>Net revenue from the sale of products (goods, works, services)</value>
   </data>
-  <data name="NetProfit" xml:space="preserve">
+	<data name="NetProfit" xml:space="preserve">
     <value>Net profit</value>
   </data>
-  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+	<data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
     <value>Net profit (loss) per ordinary share</value>
   </data>
-  <data name="No" xml:space="preserve">
+	<data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="NoDataSentDescription" xml:space="preserve">
+	<data name="NoDataSentDescription" xml:space="preserve">
     <value>Tus datos financieros nunca salen de tu dispositivo</value>
   </data>
-  <data name="NoDataSentTitle" xml:space="preserve">
+	<data name="NoDataSentTitle" xml:space="preserve">
     <value>No se envían datos</value>
   </data>
-  <data name="NonCurrentAssets" xml:space="preserve">
+	<data name="NonCurrentAssets" xml:space="preserve">
     <value>Non-current assets</value>
   </data>
-  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+	<data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Non-current assets held for sale and disposal groups</value>
   </data>
-  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+	<data name="NonCurrentImmobilizedAssets" xml:space="preserve">
     <value>Non-current (immobilized) assets</value>
   </data>
-  <data name="NormalFinancialStability" xml:space="preserve">
+	<data name="NormalFinancialStability" xml:space="preserve">
     <value>Normal financial stability</value>
   </data>
-  <data name="NumberInOrder" xml:space="preserve">
+	<data name="NumberInOrder" xml:space="preserve">
     <value>No. in the sequence</value>
   </data>
-  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+	<data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
     <value>Number of turnovers of working capital</value>
   </data>
-  <data name="OfflineCapableDescription" xml:space="preserve">
+	<data name="OfflineCapableDescription" xml:space="preserve">
     <value>Funciona sin Internet después de la configuración</value>
   </data>
-  <data name="OfflineCapableTitle" xml:space="preserve">
+	<data name="OfflineCapableTitle" xml:space="preserve">
     <value>Funciona sin conexión</value>
   </data>
-  <data name="OneDaySalesRevenue" xml:space="preserve">
+	<data name="OneDaySalesRevenue" xml:space="preserve">
     <value>Daily revenue from sales</value>
   </data>
-  <data name="onIssuedAdvances" xml:space="preserve">
+	<data name="onIssuedAdvances" xml:space="preserve">
     <value>on advances issued</value>
   </data>
-  <data name="onReceivedAdvances" xml:space="preserve">
+	<data name="onReceivedAdvances" xml:space="preserve">
     <value>on advances received</value>
   </data>
-  <data name="OperatingCycleDuration" xml:space="preserve">
+	<data name="OperatingCycleDuration" xml:space="preserve">
     <value>Operating cycle duration</value>
   </data>
-  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+	<data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
     <value>Other comprehensive income after tax</value>
   </data>
-  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+	<data name="OtherAggregatePreTaxIncome" xml:space="preserve">
     <value>Other comprehensive income before tax</value>
   </data>
-  <data name="OtherCurrentAssets" xml:space="preserve">
+	<data name="OtherCurrentAssets" xml:space="preserve">
     <value>Other current assets</value>
   </data>
-  <data name="OtherCurrentLiabilities" xml:space="preserve">
+	<data name="OtherCurrentLiabilities" xml:space="preserve">
     <value>Other current liabilities</value>
   </data>
-  <data name="OtherCurrentReceivables" xml:space="preserve">
+	<data name="OtherCurrentReceivables" xml:space="preserve">
     <value>Other current receivables</value>
   </data>
-  <data name="OtherExpenses" xml:space="preserve">
+	<data name="OtherExpenses" xml:space="preserve">
     <value>Other expenses</value>
   </data>
-  <data name="OtherFinancialIncome" xml:space="preserve">
+	<data name="OtherFinancialIncome" xml:space="preserve">
     <value>Other financial income</value>
   </data>
-  <data name="otherFinancialInvestments" xml:space="preserve">
+	<data name="otherFinancialInvestments" xml:space="preserve">
     <value>other financial investments</value>
   </data>
-  <data name="OtherFixedAssets" xml:space="preserve">
+	<data name="OtherFixedAssets" xml:space="preserve">
     <value>Other non-current assets</value>
   </data>
-  <data name="OtherIncome" xml:space="preserve">
+	<data name="OtherIncome" xml:space="preserve">
     <value>Other income</value>
   </data>
-  <data name="OtherLongTermLiabilities" xml:space="preserve">
+	<data name="OtherLongTermLiabilities" xml:space="preserve">
     <value>Other long-term liabilities</value>
   </data>
-  <data name="OtherOperatingExpenses" xml:space="preserve">
+	<data name="OtherOperatingExpenses" xml:space="preserve">
     <value>Other operating expenses</value>
   </data>
-  <data name="OtherOperatingIncome" xml:space="preserve">
+	<data name="OtherOperatingIncome" xml:space="preserve">
     <value>Other operating income</value>
   </data>
-  <data name="OtherTotalIncome" xml:space="preserve">
+	<data name="OtherTotalIncome" xml:space="preserve">
     <value>Other comprehensive income</value>
   </data>
-  <data name="OverallLiquidityRatio" xml:space="preserve">
+	<data name="OverallLiquidityRatio" xml:space="preserve">
     <value>Overall liquidity ratio</value>
   </data>
-  <data name="OwnCurrentAssets" xml:space="preserve">
+	<data name="OwnCurrentAssets" xml:space="preserve">
     <value>Own working capital</value>
   </data>
-  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+	<data name="PaymentSurplusOrShortage" xml:space="preserve">
     <value>Cash surplus (+) or shortage (-)</value>
   </data>
-  <data name="people" xml:space="preserve">
+	<data name="people" xml:space="preserve">
     <value>people</value>
   </data>
-  <data name="Period" xml:space="preserve">
+	<data name="Period" xml:space="preserve">
     <value>Period</value>
   </data>
-  <data name="PermanentLiabilities" xml:space="preserve">
+	<data name="PermanentLiabilities" xml:space="preserve">
     <value>Permanent liabilities (P4)</value>
   </data>
-  <data name="PostponedTaxAssets" xml:space="preserve">
+	<data name="PostponedTaxAssets" xml:space="preserve">
     <value>Deferred tax assets</value>
   </data>
-  <data name="PreCrisisFinancialStability" xml:space="preserve">
+	<data name="PreCrisisFinancialStability" xml:space="preserve">
     <value>Pre-crisis financial stability</value>
   </data>
-  <data name="PrivacyAndSecurity" xml:space="preserve">
+	<data name="PrivacyAndSecurity" xml:space="preserve">
     <value>Privacidad y seguridad</value>
   </data>
-  <data name="PrivateDescription" xml:space="preserve">
+	<data name="PrivateDescription" xml:space="preserve">
     <value>Todo el procesamiento de IA ocurre en tu navegador</value>
   </data>
-  <data name="PrivateTitle" xml:space="preserve">
+	<data name="PrivateTitle" xml:space="preserve">
     <value>100 % Privado</value>
   </data>
-  <data name="ProceedsFromSales" xml:space="preserve">
+	<data name="ProceedsFromSales" xml:space="preserve">
     <value>Revenue from the sale of products</value>
   </data>
-  <data name="productionStocks" xml:space="preserve">
+	<data name="productionStocks" xml:space="preserve">
     <value>production inventories</value>
   </data>
-  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+	<data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
     <value>Labor productivity per average employee</value>
   </data>
-  <data name="profit" xml:space="preserve">
+	<data name="profit" xml:space="preserve">
     <value>profit</value>
   </data>
-  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+	<data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
     <value>Turnover profitability of working capital</value>
   </data>
-  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+	<data name="ProfitabilityOnFixedAssets" xml:space="preserve">
     <value>Profitability of fixed assets</value>
   </data>
-  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+	<data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
     <value>Enterprise profitability ratio</value>
   </data>
-  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+	<data name="ProfitFromOperatingActivities" xml:space="preserve">
     <value>Profit from operating activities</value>
   </data>
-  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+	<data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
     <value>Profit (loss) from discontinued operations after tax</value>
   </data>
-  <data name="PromissoryNotesIssued" xml:space="preserve">
+	<data name="PromissoryNotesIssued" xml:space="preserve">
     <value>Issued bills</value>
   </data>
-  <data name="PromissoryNotesReceived" xml:space="preserve">
+	<data name="PromissoryNotesReceived" xml:space="preserve">
     <value>Received bills</value>
   </data>
-  <data name="QuickAction1" xml:space="preserve">
+	<data name="QuickAction1" xml:space="preserve">
     <value>Haz clic en &lt;strong&gt;Salud financiera&lt;/strong&gt; para un análisis general</value>
   </data>
-  <data name="QuickAction2" xml:space="preserve">
+	<data name="QuickAction2" xml:space="preserve">
     <value>Haz clic en &lt;strong&gt;Obtener recomendaciones&lt;/strong&gt; para consejos prácticos</value>
   </data>
-  <data name="QuickAction3" xml:space="preserve">
+	<data name="QuickAction3" xml:space="preserve">
     <value>Haz clic en &lt;strong&gt;Explicar ratios clave&lt;/strong&gt; para entender métricas</value>
   </data>
-  <data name="QuickActions" xml:space="preserve">
+	<data name="QuickActions" xml:space="preserve">
     <value>Acciones rápidas</value>
   </data>
-  <data name="QuickSellingAssets" xml:space="preserve">
+	<data name="QuickSellingAssets" xml:space="preserve">
     <value>Quick assets (A2)</value>
   </data>
-  <data name="RaisedCapital" xml:space="preserve">
+	<data name="RaisedCapital" xml:space="preserve">
     <value>Capital attracted</value>
   </data>
-  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+	<data name="RatedCapitalStructureRatio" xml:space="preserve">
     <value>Ratio of attracted capital structure</value>
   </data>
-  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+	<data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
     <value>Ratio of the relationship of attracted and own capital</value>
   </data>
-  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+	<data name="RatioOfMobileToImmobilized" xml:space="preserve">
     <value>Ratio of mobile assets to immobilized</value>
   </data>
-  <data name="receivable" xml:space="preserve">
+	<data name="receivable" xml:space="preserve">
     <value>creditor</value>
   </data>
-  <data name="ReceivablesForProducts" xml:space="preserve">
+	<data name="ReceivablesForProducts" xml:space="preserve">
     <value>Accounts receivable for products, goods, works, services</value>
   </data>
-  <data name="receivablesTurnover" xml:space="preserve">
+	<data name="receivablesTurnover" xml:space="preserve">
     <value>receivables turnover</value>
   </data>
-  <data name="ReceivedFixedAssets" xml:space="preserve">
+	<data name="ReceivedFixedAssets" xml:space="preserve">
     <value>Received fixed assets</value>
   </data>
-  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+	<data name="ReceivedForReportingPeriod" xml:space="preserve">
     <value>Received for the reporting period</value>
   </data>
-  <data name="RecheckAvailability" xml:space="preserve">
+	<data name="RecheckAvailability" xml:space="preserve">
     <value>Volver a comprobar disponibilidad</value>
   </data>
-  <data name="RecommendationsPrompt" xml:space="preserve">
+	<data name="RecommendationsPrompt" xml:space="preserve">
     <value>¿Cuáles son sus principales recomendaciones para mejorar la posición financiera de mi empresa?</value>
   </data>
-  <data name="RecoveryRate" xml:space="preserve">
+	<data name="RecoveryRate" xml:space="preserve">
     <value>Recovery ratio</value>
   </data>
-  <data name="RegisteredСapital" xml:space="preserve">
+	<data name="RegisteredСapital" xml:space="preserve">
     <value>Registered (share) capital</value>
   </data>
-  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+	<data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
     <value>Release (-), absence of working assets (+) due to changes in their turnover</value>
   </data>
-  <data name="ReserveCapital" xml:space="preserve">
+	<data name="ReserveCapital" xml:space="preserve">
     <value>Reserve capital</value>
   </data>
-  <data name="ResponseStoppedByUser" xml:space="preserve">
+	<data name="ResponseStoppedByUser" xml:space="preserve">
     <value>[Respuesta detenida por el usuario]</value>
   </data>
-  <data name="RetainedEarnings" xml:space="preserve">
+	<data name="RetainedEarnings" xml:space="preserve">
     <value>Undistributed profit (uncovered loss)</value>
   </data>
-  <data name="RetiredFixedAssets" xml:space="preserve">
+	<data name="RetiredFixedAssets" xml:space="preserve">
     <value>Withdrawn from operation fixed assets</value>
   </data>
-  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+	<data name="ReturnOnEquityPeriod" xml:space="preserve">
     <value>Payback period of own capital</value>
   </data>
-  <data name="ReturnOnFixedAssets" xml:space="preserve">
+	<data name="ReturnOnFixedAssets" xml:space="preserve">
     <value>Fixed asset turnover</value>
   </data>
-  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+	<data name="ReturnOnIntangibleAssets" xml:space="preserve">
     <value>Intangible asset turnover</value>
   </data>
-  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+	<data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
     <value>Revaluation (assessment) of financial instruments</value>
   </data>
-  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+	<data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
     <value>Revaluation (assessment) of non-current assets</value>
   </data>
-  <data name="revenue" xml:space="preserve">
+	<data name="revenue" xml:space="preserve">
     <value>revenues</value>
   </data>
-  <data name="revolutions" xml:space="preserve">
+	<data name="revolutions" xml:space="preserve">
     <value>turnovers</value>
   </data>
-  <data name="SalaryExpenses" xml:space="preserve">
+	<data name="SalaryExpenses" xml:space="preserve">
     <value>Labor costs</value>
   </data>
-  <data name="Samein%OfAssets" xml:space="preserve">
+	<data name="Samein%OfAssets" xml:space="preserve">
     <value>Same as a percentage of assets</value>
   </data>
-  <data name="SaveToFile" xml:space="preserve">
+	<data name="SaveToFile" xml:space="preserve">
     <value>Save to file</value>
   </data>
-  <data name="SellingExpenses" xml:space="preserve">
+	<data name="SellingExpenses" xml:space="preserve">
     <value>Sales costs</value>
   </data>
-  <data name="SendMessage" xml:space="preserve">
+	<data name="SendMessage" xml:space="preserve">
     <value>Envoyer le message</value>
   </data>
-  <data name="Settlements" xml:space="preserve">
+	<data name="Settlements" xml:space="preserve">
     <value>Calculations</value>
   </data>
-  <data name="settlementsWithBudget" xml:space="preserve">
+	<data name="settlementsWithBudget" xml:space="preserve">
     <value>calculations with the budget</value>
   </data>
-  <data name="settlementsWithInsurance" xml:space="preserve">
+	<data name="settlementsWithInsurance" xml:space="preserve">
     <value>insurance calculations</value>
   </data>
-  <data name="settlementsWithPayroll" xml:space="preserve">
+	<data name="settlementsWithPayroll" xml:space="preserve">
     <value>calculations with labor payment</value>
   </data>
-  <data name="SetupRequired" xml:space="preserve">
+	<data name="SetupRequired" xml:space="preserve">
     <value>Configuración requerida</value>
   </data>
-  <data name="SetupStep1" xml:space="preserve">
+	<data name="SetupStep1" xml:space="preserve">
     <value>Activa las banderas de IA en Chrome</value>
   </data>
-  <data name="SetupStep2" xml:space="preserve">
+	<data name="SetupStep2" xml:space="preserve">
     <value>Descarga el modelo Gemini Nano</value>
   </data>
-  <data name="SetupStep3" xml:space="preserve">
+	<data name="SetupStep3" xml:space="preserve">
     <value>Reinicia Chrome</value>
   </data>
-  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+	<data name="ShareOtherComprehensiveIncome" xml:space="preserve">
     <value>Share of other comprehensive income of associates and joint ventures</value>
   </data>
-  <data name="ShortTermBankCredits" xml:space="preserve">
+	<data name="ShortTermBankCredits" xml:space="preserve">
     <value>Short-term bank loans</value>
   </data>
-  <data name="ShortTermLiabilities" xml:space="preserve">
+	<data name="ShortTermLiabilities" xml:space="preserve">
     <value>Short-term liabilities (P2)</value>
   </data>
-  <data name="ShortTermLoans" xml:space="preserve">
+	<data name="ShortTermLoans" xml:space="preserve">
     <value>Short-term loans</value>
   </data>
-  <data name="SlowSellingAssets" xml:space="preserve">
+	<data name="SlowSellingAssets" xml:space="preserve">
     <value>Slow-moving assets (A3)</value>
   </data>
-  <data name="SolvencyLossRatio" xml:space="preserve">
+	<data name="SolvencyLossRatio" xml:space="preserve">
     <value>Insolvency loss ratio</value>
   </data>
-  <data name="SolvencyRatios" xml:space="preserve">
+	<data name="SolvencyRatios" xml:space="preserve">
     <value>Liquidity ratios</value>
   </data>
-  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+	<data name="SolvencyRecoveryRatio" xml:space="preserve">
     <value>Recovery liquidity ratio</value>
   </data>
-  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+	<data name="SourcesOfCapitalFormation" xml:space="preserve">
     <value>Capital formation sources</value>
   </data>
-  <data name="StabilityType" xml:space="preserve">
+	<data name="StabilityType" xml:space="preserve">
     <value>Stability type</value>
   </data>
-  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+	<data name="StatementOfFinancialPerformance" xml:space="preserve">
     <value>Financial results statement (Comprehensive income statement)</value>
   </data>
-  <data name="Stocks" xml:space="preserve">
+	<data name="Stocks" xml:space="preserve">
     <value>Inventories</value>
   </data>
-  <data name="StopAnalysis" xml:space="preserve">
+	<data name="StopAnalysis" xml:space="preserve">
     <value>Detener análisis</value>
   </data>
-  <data name="StopGeneration" xml:space="preserve">
+	<data name="StopGeneration" xml:space="preserve">
     <value>Detener generación</value>
   </data>
-  <data name="String" xml:space="preserve">
+	<data name="String" xml:space="preserve">
     <value>Clear data</value>
   </data>
-  <data name="StructureOfAccountsPayable" xml:space="preserve">
+	<data name="StructureOfAccountsPayable" xml:space="preserve">
     <value>Creditor structure</value>
   </data>
-  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+	<data name="SuitabilityRatioForBegin" xml:space="preserve">
     <value>Solvency ratio at the beginning of the year</value>
   </data>
-  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+	<data name="SuitabilityRatioForEnd" xml:space="preserve">
     <value>Solvency ratio at the end of the year</value>
   </data>
-  <data name="Table" xml:space="preserve">
+	<data name="Table" xml:space="preserve">
     <value>Table</value>
   </data>
-  <data name="TangibleCurrentAssets" xml:space="preserve">
+	<data name="TangibleCurrentAssets" xml:space="preserve">
     <value>Material working assets</value>
   </data>
-  <data name="Tangibles" xml:space="preserve">
+	<data name="Tangibles" xml:space="preserve">
     <value>Material values</value>
   </data>
-  <data name="TargetedFinancing" xml:space="preserve">
+	<data name="TargetedFinancing" xml:space="preserve">
     <value>Target financing</value>
   </data>
-  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+	<data name="TheCostOfNewFixedAssets" xml:space="preserve">
     <value>Cost of new fixed assets put into operation</value>
   </data>
-  <data name="thousandUAH" xml:space="preserve">
+	<data name="thousandUAH" xml:space="preserve">
     <value>thousand UAH</value>
   </data>
-  <data name="times" xml:space="preserve">
+	<data name="times" xml:space="preserve">
     <value>times</value>
   </data>
-  <data name="Tip1" xml:space="preserve">
+	<data name="Tip1" xml:space="preserve">
     <value>Sé específico en tus preguntas</value>
   </data>
-  <data name="Tip2" xml:space="preserve">
+	<data name="Tip2" xml:space="preserve">
     <value>Haz referencia a ratios o métricas específicas</value>
   </data>
-  <data name="Tip3" xml:space="preserve">
+	<data name="Tip3" xml:space="preserve">
     <value>Haz preguntas de seguimiento para mayor claridad</value>
   </data>
-  <data name="Tips" xml:space="preserve">
+	<data name="Tips" xml:space="preserve">
     <value>Consejos</value>
   </data>
-  <data name="Total" xml:space="preserve">
+	<data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
-  <data name="TotalAssets" xml:space="preserve">
+	<data name="TotalAssets" xml:space="preserve">
     <value>Total capital (assets)</value>
   </data>
-  <data name="TotalCoverageRatio" xml:space="preserve">
+	<data name="TotalCoverageRatio" xml:space="preserve">
     <value>Total coverage ratio</value>
   </data>
-  <data name="TotalIncome" xml:space="preserve">
+	<data name="TotalIncome" xml:space="preserve">
     <value>Total income</value>
   </data>
-  <data name="TotalReturnOnAssets" xml:space="preserve">
+	<data name="TotalReturnOnAssets" xml:space="preserve">
     <value>Total capital turnover of all property</value>
   </data>
-  <data name="TotalSection" xml:space="preserve">
+	<data name="TotalSection" xml:space="preserve">
     <value>Total by section</value>
   </data>
-  <data name="TotalSourcesOfCapital" xml:space="preserve">
+	<data name="TotalSourcesOfCapital" xml:space="preserve">
     <value>Total capital sources</value>
   </data>
-  <data name="TotalWorkingCapital" xml:space="preserve">
+	<data name="TotalWorkingCapital" xml:space="preserve">
     <value>Total working assets</value>
   </data>
-  <data name="total_" xml:space="preserve">
+	<data name="total_" xml:space="preserve">
     <value>altogether</value>
   </data>
-  <data name="Turnover" xml:space="preserve">
+	<data name="Turnover" xml:space="preserve">
     <value>Turnover</value>
   </data>
-  <data name="TurnoverInSettlements" xml:space="preserve">
+	<data name="TurnoverInSettlements" xml:space="preserve">
     <value>Cash turnover in settlements</value>
   </data>
-  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+	<data name="TurnoverOfCurrentAssets" xml:space="preserve">
     <value>Turnover of working capital</value>
   </data>
-  <data name="TurnoverOfEquity" xml:space="preserve">
+	<data name="TurnoverOfEquity" xml:space="preserve">
     <value>Turnover of own capital</value>
   </data>
-  <data name="TurnoverOfInventories" xml:space="preserve">
+	<data name="TurnoverOfInventories" xml:space="preserve">
     <value>Turnover of production inventories</value>
   </data>
-  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+	<data name="TurnoverOfTotalCapital" xml:space="preserve">
     <value>Turnover of total capital</value>
   </data>
-  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+	<data name="TurnoverOfWorkingCapital" xml:space="preserve">
     <value>Turnover of working capital</value>
   </data>
-  <data name="TypesOfCurrentAssets" xml:space="preserve">
+	<data name="TypesOfCurrentAssets" xml:space="preserve">
     <value>Types of working capital</value>
   </data>
-  <data name="unfinishedProduction" xml:space="preserve">
+	<data name="unfinishedProduction" xml:space="preserve">
     <value>work in progress</value>
   </data>
-  <data name="UnpaidCapital" xml:space="preserve">
+	<data name="UnpaidCapital" xml:space="preserve">
     <value>Unpaid capital</value>
   </data>
-  <data name="UploadFromFile" xml:space="preserve">
+	<data name="UploadFromFile" xml:space="preserve">
     <value>Load from file</value>
   </data>
-  <data name="Value" xml:space="preserve">
+	<data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="ViewSetupGuide" xml:space="preserve">
+	<data name="ViewSetupGuide" xml:space="preserve">
     <value>Ver guía de configuración</value>
   </data>
-  <data name="wear" xml:space="preserve">
+	<data name="wear" xml:space="preserve">
     <value>Depreciation</value>
   </data>
-  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+	<data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
     <value>método de participación en el capital de otras empresas</value>
   </data>
-  <data name="WithAccruedIncome" xml:space="preserve">
+	<data name="WithAccruedIncome" xml:space="preserve">
     <value>de los ingresos acumulados</value>
   </data>
-  <data name="WithAdvances" xml:space="preserve">
+	<data name="WithAdvances" xml:space="preserve">
     <value>por anticipado</value>
   </data>
-  <data name="withBudget" xml:space="preserve">
+	<data name="withBudget" xml:space="preserve">
     <value>con el presupuesto</value>
   </data>
-  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+	<data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
     <value>con el presupuesto y fondos extrapresupuestarios</value>
   </data>
-  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+	<data name="WithBuyersOrSuppliers" xml:space="preserve">
     <value>con clientes o proveedores</value>
   </data>
-  <data name="WithdrawnCapital" xml:space="preserve">
+	<data name="WithdrawnCapital" xml:space="preserve">
     <value>capital retirado</value>
   </data>
-  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+	<data name="WithdrewInReportingPeriod" xml:space="preserve">
     <value>retirado durante el período de informe</value>
   </data>
-  <data name="WithInternalCashSettlements" xml:space="preserve">
+	<data name="WithInternalCashSettlements" xml:space="preserve">
     <value>de cálculos internos</value>
   </data>
-  <data name="WithLongTermLiabilities" xml:space="preserve">
+	<data name="WithLongTermLiabilities" xml:space="preserve">
     <value>con obligaciones a largo plazo</value>
   </data>
-  <data name="WithOther" xml:space="preserve">
+	<data name="WithOther" xml:space="preserve">
     <value>con otros</value>
   </data>
-  <data name="WithParticipants" xml:space="preserve">
+	<data name="WithParticipants" xml:space="preserve">
     <value>con participantes</value>
   </data>
-  <data name="WithPayroll" xml:space="preserve">
+	<data name="WithPayroll" xml:space="preserve">
     <value>con pago de salarios</value>
   </data>
-  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+	<data name="WorkingCapitalTurnoverTime" xml:space="preserve">
     <value>tiempo de rotación de activos circulantes</value>
   </data>
-  <data name="year" xml:space="preserve">
+	<data name="year" xml:space="preserve">
     <value>año</value>
   </data>
-  <data name="years" xml:space="preserve">
+	<data name="years" xml:space="preserve">
     <value>años</value>
   </data>
-  <data name="Yes" xml:space="preserve">
+	<data name="Yes" xml:space="preserve">
     <value>sí</value>
   </data>
-  <data name="You" xml:space="preserve">
+	<data name="You" xml:space="preserve">
     <value>Usted</value>
   </data>
+	<data name="EnjoyingUFIN" xml:space="preserve">
+  <value>¿Disfrutando UFIN?</value>
+</data>
+	<data name="StarOnGitHubMessage" xml:space="preserve">
+  <value>Si esta herramienta te ha sido útil, ¡por favor dale una estrella en GitHub! Ayuda a otros desarrolladores a descubrir el proyecto.</value>
+</data>
+	<data name="StarOnGitHub" xml:space="preserve">
+  <value>Dar estrella en GitHub</value>
+</data>
 </root>

@@ -1398,4 +1398,13 @@
   <data name="You" xml:space="preserve">
     <value>Вы</value>
   </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+  <value>Нравится UFIN?</value>
+</data>
+<data name="StarOnGitHubMessage" xml:space="preserve">
+  <value>Если этот инструмент вам помог, пожалуйста, поставьте звезду на GitHub! Это поможет другим разработчикам найти проект.</value>
+</data>
+<data name="StarOnGitHub" xml:space="preserve">
+  <value>Поставить звезду на GitHub</value>
+</data>
 </root>

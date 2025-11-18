@@ -1134,4 +1134,13 @@
   <data name="StructureOfAccountsPayable" xml:space="preserve">
     <value>Структура кредиторської заборгованості</value>
   </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+  <value>Подобається UFIN?</value>
+</data>
+<data name="StarOnGitHubMessage" xml:space="preserve">
+  <value>Якщо цей інструмент вам допоміг, будь ласка, поставте зірку на GitHub! Це допоможе іншим розробникам знайти проект.</value>
+</data>
+<data name="StarOnGitHub" xml:space="preserve">
+  <value>Поставити зірку на GitHub</value>
+</data>
 </root>
