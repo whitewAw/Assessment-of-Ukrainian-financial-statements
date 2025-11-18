@@ -1,6 +1,6 @@
 @page "/indicatorsoffinancialstability"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject IndicatorsOfFinancialStability IndicatorsOfFinancialStability
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -276,150 +276,25 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            TotalReturnOnAssets = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.TotalReturnOnAssets.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.TotalReturnOnAssets.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.TotalReturnOnAssets.BaseYear,
-                    IndicatorsOfFinancialStability.TotalReturnOnAssets.CurrentYear)
-            },
-            
-            IndependenceRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfIndependence.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfIndependence.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfIndependence.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfIndependence.CurrentYear)
-            },
-            
-            FinancialLeverageRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfFinancialDependence.CurrentYear)
-            },
-            
-            FinancialStabilityRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialStability.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfFinancialStability.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfFinancialStability.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfFinancialStability.CurrentYear)
-            },
-            
-            ManeuverabilityRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity.CurrentYear)
-            },
-            
-            BorrowedCapitalConcentration = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital.CurrentYear)
-            },
-            
-            LongTermInvestmentStructure = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments.CurrentYear)
-            },
-            
-            LongTermBorrowingRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.BaseYear,
-                    IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds.CurrentYear)
-            },
-            
-            CapitalStructureRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatedCapitalStructureRatio.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatedCapitalStructureRatio.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.RatedCapitalStructureRatio.BaseYear,
-                    IndicatorsOfFinancialStability.RatedCapitalStructureRatio.CurrentYear)
-            },
-            
-            DebtToEquityRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.BaseYear,
-                    IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity.CurrentYear)
-            },
-            
-            OwnFundsInInventories = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear,
-                    IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear)
-            },
-            
-            MobileToImmobilizedRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.BaseYear,
-                    IndicatorsOfFinancialStability.RatioOfMobileToImmobilized.CurrentYear)
-            },
-            
-            TotalCoverageRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfFinancialStability.TotalCoverageRatio.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfFinancialStability.TotalCoverageRatio.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfFinancialStability.TotalCoverageRatio.BaseYear,
-                    IndicatorsOfFinancialStability.TotalCoverageRatio.CurrentYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeFinancialStabilityIndicators(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            IndicatorsOfFinancialStability.TotalReturnOnAssets,
+            IndicatorsOfFinancialStability.CoefficientOfIndependence,
+            IndicatorsOfFinancialStability.CoefficientOfFinancialDependence,
+            IndicatorsOfFinancialStability.CoefficientOfFinancialStability,
+            IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity,
+            IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital,
+            IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments,
+            IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds,
+            IndicatorsOfFinancialStability.RatedCapitalStructureRatio,
+            IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity,
+            IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories,
+            IndicatorsOfFinancialStability.RatioOfMobileToImmobilized,
+            IndicatorsOfFinancialStability.TotalCoverageRatio
+        );
 
         return $@"You are a financial analyst specializing in financial stability analysis, capital structure optimization, and leverage assessment. Analyze the following Indicators of Financial Stability for {MainModel.CompanyName}.
 

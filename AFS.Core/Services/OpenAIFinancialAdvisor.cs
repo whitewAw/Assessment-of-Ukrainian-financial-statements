@@ -1,6 +1,6 @@
 using AFS.Core.Interfaces;
+using AFS.Core.Json;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace AFS.Core.Services;
 
@@ -50,32 +50,36 @@ public class OpenAIFinancialAdvisor : IAIFinancialAdvisor
     {
         try
         {
-            var requestBody = new
+            var requestBody = new OpenAIRequest
             {
-                model = _model,
-                messages = new[]
+                Model = _model,
+                Messages = new[]
                 {
-                    new { role = "system", content = "You are a helpful financial advisor with expertise in analyzing financial statements and ratios." },
-                    new { role = "user", content = prompt }
+                    new OpenAIMessage
+                    {
+                        Role = "system",
+                        Content = "You are a helpful financial advisor with expertise in analyzing financial statements and ratios."
+                    },
+                    new OpenAIMessage
+                    {
+                        Role = "user",
+                        Content = prompt
+                    }
                 },
-                temperature = 0.7,
-                max_tokens = 1000
+                Temperature = 0.7,
+                MaxTokens = 1000
             };
 
-            var response = await _httpClient.PostAsJsonAsync(
+            var content = JsonContent.Create(requestBody, AFSJsonSerializerContext.Default.OpenAIRequest);
+            var response = await _httpClient.PostAsync(
                 "https://api.openai.com/v1/chat/completions",
-                requestBody);
+                content);
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-            var content = result
-                .GetProperty("choices")[0]
-                .GetProperty("message")
-                .GetProperty("content")
-                .GetString();
+            var result = await response.Content.ReadFromJsonAsync(AFSJsonSerializerContext.Default.OpenAIResponse);
 
-            return content ?? string.Empty;
+            return result?.Choices?[0]?.Message?.Content ?? string.Empty;
         }
         catch (Exception ex)
         {

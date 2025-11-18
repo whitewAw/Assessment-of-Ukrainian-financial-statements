@@ -1,6 +1,6 @@
 @page "/indicatorsofefficiencyofuseofintangibleassets"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject IndicatorsOfEfficiencyOfUseOfIntangibleAssets IndicatorsOfEfficiencyOfUseOfIntangibleAssets
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -268,7 +268,6 @@
     {
         // Detect current UI language from CultureInfo
         var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var languageName = currentCulture.EnglishName;
         var cultureName = currentCulture.Name;
         
         // Map culture to language instruction
@@ -276,77 +275,18 @@
             ? "Ukrainian" 
             : cultureName.StartsWith("en") 
             ? "English" 
-            : languageName;
+            : currentCulture.EnglishName;
 
-        // Helper to safely get value or default
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        // Helper to calculate percentage change
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            NetRevenueFromSales = new
-            {
-                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.CurrentYear),
-                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.BaseYear,
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales.CurrentYear)
-            },
-            
-            AverageCostOfIntangibleAssets = new
-            {
-                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.CurrentYear),
-                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.BaseYear,
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets.CurrentYear)
-            },
-            
-            IntangibleAssetTurnover_UAH = new
-            {
-                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.CurrentYear),
-                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.BaseYear,
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets.CurrentYear)
-            },
-            
-            CapitalIntensityOfProduction_UAH = new
-            {
-                BaseYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.CurrentYear),
-                Deviations = SafeValue(IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.BaseYear,
-                    IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts.CurrentYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeIntangibleAssets(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            IndicatorsOfEfficiencyOfUseOfIntangibleAssets.NetIncomeFromSales,
+            IndicatorsOfEfficiencyOfUseOfIntangibleAssets.AverageAnnualCostOfIntangibleAssets,
+            IndicatorsOfEfficiencyOfUseOfIntangibleAssets.ReturnOnIntangibleAssets,
+            IndicatorsOfEfficiencyOfUseOfIntangibleAssets.CapitalIntensityOfProducts
+        );
 
         return $@"You are a financial analyst specializing in intangible assets management, intellectual property valuation, and knowledge capital efficiency. Analyze the following Indicators of Efficiency of Use of Intangible Assets for {MainModel.CompanyName}.
 

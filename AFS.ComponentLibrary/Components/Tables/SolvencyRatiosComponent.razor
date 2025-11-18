@@ -1,6 +1,6 @@
 @page "/solvencyratios"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject SolvencyRatios SolvencyRatios
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -337,78 +337,18 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            OverallLiquidityRatio = new
-            {
-                Base_Begin = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseBegin),
-                Base_End = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseEnd),
-                Current_Begin = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentBegin),
-                Current_End = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentEnd),
-                Deviation_Base = SafeValue(SolvencyRatios.OverallLiquidityRatio.BaseEnd - SolvencyRatios.OverallLiquidityRatio.BaseBegin),
-                Deviation_Current = SafeValue(SolvencyRatios.OverallLiquidityRatio.CurrentEnd - SolvencyRatios.OverallLiquidityRatio.CurrentBegin)
-            },
-            
-            AbsoluteLiquidityRatio = new
-            {
-                Base_Begin = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseBegin),
-                Base_End = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseEnd),
-                Current_Begin = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentBegin),
-                Current_End = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentEnd),
-                Deviation_Base = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.BaseEnd - SolvencyRatios.AbsoluteLiquidityRatio.BaseBegin),
-                Deviation_Current = SafeValue(SolvencyRatios.AbsoluteLiquidityRatio.CurrentEnd - SolvencyRatios.AbsoluteLiquidityRatio.CurrentBegin)
-            },
-            
-            IntermediateCoverageRatio = new
-            {
-                Base_Begin = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseBegin),
-                Base_End = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseEnd),
-                Current_Begin = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentBegin),
-                Current_End = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentEnd),
-                Deviation_Base = SafeValue(SolvencyRatios.IntermediateCoverageRatio.BaseEnd - SolvencyRatios.IntermediateCoverageRatio.BaseBegin),
-                Deviation_Current = SafeValue(SolvencyRatios.IntermediateCoverageRatio.CurrentEnd - SolvencyRatios.IntermediateCoverageRatio.CurrentBegin)
-            },
-            
-            CurrentLiquidityRatio = new
-            {
-                Base_Begin = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseBegin),
-                Base_End = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseEnd),
-                Current_Begin = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentBegin),
-                Current_End = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentEnd),
-                Deviation_Base = SafeValue(SolvencyRatios.CurrentLiquidityFactor.BaseEnd - SolvencyRatios.CurrentLiquidityFactor.BaseBegin),
-                Deviation_Current = SafeValue(SolvencyRatios.CurrentLiquidityFactor.CurrentEnd - SolvencyRatios.CurrentLiquidityFactor.CurrentBegin)
-            },
-            
-            RecoverySolvencyRatio = new
-            {
-                Base_End = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.BaseEnd),
-                Current_End = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.CurrentEnd),
-                Deviation = SafeValue(SolvencyRatios.SolvencyRecoveryRatio.CurrentEnd - SolvencyRatios.SolvencyRecoveryRatio.BaseEnd)
-            },
-            
-            LossSolvencyRatio = new
-            {
-                Base_End = SafeValue(SolvencyRatios.SolvencyLossRatio.BaseEnd),
-                Current_End = SafeValue(SolvencyRatios.SolvencyLossRatio.CurrentEnd),
-                Deviation = SafeValue(SolvencyRatios.SolvencyLossRatio.CurrentEnd - SolvencyRatios.SolvencyLossRatio.BaseEnd)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeSolvencyRatios(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            SolvencyRatios.OverallLiquidityRatio,
+            SolvencyRatios.AbsoluteLiquidityRatio,
+            SolvencyRatios.IntermediateCoverageRatio,
+            SolvencyRatios.CurrentLiquidityFactor,
+            SolvencyRatios.SolvencyRecoveryRatio,
+            SolvencyRatios.SolvencyLossRatio
+        );
 
         return $@"You are a financial analyst specializing in solvency analysis, liquidity ratios, and credit risk assessment. Analyze the following Solvency Ratios for {MainModel.CompanyName}.
 

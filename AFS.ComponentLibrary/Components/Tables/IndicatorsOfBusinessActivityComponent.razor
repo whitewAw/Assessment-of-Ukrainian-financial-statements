@@ -1,6 +1,6 @@
 @page "/indicatorsofbusinessactivity"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject IndicatorsOfBusinessActivity IndicatorsOfBusinessActivity
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -281,163 +281,30 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            GrossProfitMargin = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts.BaseYear,
-                    IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts.CurrentYear)
-            },
-            
-            BusinessActivityRatio = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity.BaseYear,
-                    IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity.CurrentYear)
-            },
-            
-            FinancialResourceEfficiency = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources.BaseYear,
-                    IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources.CurrentYear)
-            },
-            
-            OwnFundsUtilization = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization.BaseYear,
-                    IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization.CurrentYear)
-            },
-            
-            EnterpriseProfitability = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.ProfitabilityRatioOfEnterprise.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.ProfitabilityRatioOfEnterprise.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.ProfitabilityRatioOfEnterprise.BaseYear,
-                    IndicatorsOfBusinessActivity.ProfitabilityRatioOfEnterprise.CurrentYear)
-            },
-            
-            LaborProductivity = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.ProductivityOfOneAverageEmployee.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.ProductivityOfOneAverageEmployee.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.ProductivityOfOneAverageEmployee.BaseYear,
-                    IndicatorsOfBusinessActivity.ProductivityOfOneAverageEmployee.CurrentYear)
-            },
-            
-            FixedAssetTurnover = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.ReturnOnFixedAssets.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.ReturnOnFixedAssets.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.ReturnOnFixedAssets.BaseYear,
-                    IndicatorsOfBusinessActivity.ReturnOnFixedAssets.CurrentYear)
-            },
-            
-            ReceivablesTurnover = new
-            {
-                Revolutions_Base = SafeValue(IndicatorsOfBusinessActivity.RevolutionsFromReceivables.BaseYear),
-                Revolutions_Current = SafeValue(IndicatorsOfBusinessActivity.RevolutionsFromReceivables.CurrentYear),
-                Days_Base = SafeValue(IndicatorsOfBusinessActivity.ReceivablesTurnover.BaseYear),
-                Days_Current = SafeValue(IndicatorsOfBusinessActivity.ReceivablesTurnover.CurrentYear)
-            },
-            
-            InventoryTurnover = new
-            {
-                Revolutions_Base = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfInventoriesRevolutions.BaseYear),
-                Revolutions_Current = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfInventoriesRevolutions.CurrentYear),
-                Days_Base = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfInventoriesDays.BaseYear),
-                Days_Current = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfInventoriesDays.CurrentYear)
-            },
-            
-            OperatingCycle = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.OperatingCycleDuration.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.OperatingCycleDuration.CurrentYear),
-                Change = SafeValue(IndicatorsOfBusinessActivity.OperatingCycleDuration.Deviations)
-            },
-            
-            CurrentAssetsTurnover = new
-            {
-                Revolutions_Base = SafeValue(IndicatorsOfBusinessActivity.NumberOfRevolutionsOfCurrentAssets.BaseYear),
-                Revolutions_Current = SafeValue(IndicatorsOfBusinessActivity.NumberOfRevolutionsOfCurrentAssets.CurrentYear),
-                Days_Base = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfWorkingCapital.BaseYear),
-                Days_Current = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfWorkingCapital.CurrentYear)
-            },
-            
-            EquityTurnover = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfEquity.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfEquity.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.TurnoverOfEquity.BaseYear,
-                    IndicatorsOfBusinessActivity.TurnoverOfEquity.CurrentYear)
-            },
-            
-            TotalCapitalTurnover = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfTotalCapital.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.TurnoverOfTotalCapital.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.TurnoverOfTotalCapital.BaseYear,
-                    IndicatorsOfBusinessActivity.TurnoverOfTotalCapital.CurrentYear)
-            },
-            
-            EconomicGrowthStability = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfStabilityOfEconomicGrowth.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.CoefficientOfStabilityOfEconomicGrowth.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.CoefficientOfStabilityOfEconomicGrowth.BaseYear,
-                    IndicatorsOfBusinessActivity.CoefficientOfStabilityOfEconomicGrowth.CurrentYear)
-            },
-            
-            EquityPaybackPeriod = new
-            {
-                BaseYear = SafeValue(IndicatorsOfBusinessActivity.ReturnOnEquityPeriod.BaseYear),
-                CurrentYear = SafeValue(IndicatorsOfBusinessActivity.ReturnOnEquityPeriod.CurrentYear),
-                Change = CalculatePercentageChange(
-                    IndicatorsOfBusinessActivity.ReturnOnEquityPeriod.BaseYear,
-                    IndicatorsOfBusinessActivity.ReturnOnEquityPeriod.CurrentYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeBusinessActivity(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts,
+            IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity,
+            IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources,
+            IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization,
+            IndicatorsOfBusinessActivity.ProfitabilityRatioOfEnterprise,
+            IndicatorsOfBusinessActivity.ProductivityOfOneAverageEmployee,
+            IndicatorsOfBusinessActivity.ReturnOnFixedAssets,
+            IndicatorsOfBusinessActivity.RevolutionsFromReceivables,
+            IndicatorsOfBusinessActivity.ReceivablesTurnover,
+            IndicatorsOfBusinessActivity.TurnoverOfInventoriesRevolutions,
+            IndicatorsOfBusinessActivity.TurnoverOfInventoriesDays,
+            IndicatorsOfBusinessActivity.OperatingCycleDuration,
+            IndicatorsOfBusinessActivity.NumberOfRevolutionsOfCurrentAssets,
+            IndicatorsOfBusinessActivity.TurnoverOfWorkingCapital,
+            IndicatorsOfBusinessActivity.TurnoverOfEquity,
+            IndicatorsOfBusinessActivity.TurnoverOfTotalCapital,
+            IndicatorsOfBusinessActivity.CoefficientOfStabilityOfEconomicGrowth,
+            IndicatorsOfBusinessActivity.ReturnOnEquityPeriod
+        );
 
         return $@"You are a financial analyst specializing in business activity analysis, operational efficiency, and performance measurement. Analyze the following Indicators of Business Activity for {MainModel.CompanyName}.
 

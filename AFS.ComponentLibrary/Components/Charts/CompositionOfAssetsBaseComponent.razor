@@ -1,7 +1,7 @@
 @page "/compositionofassetsbase"
 @using AFS.Core.Models
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject CompositionOfAssetsChart CompositionOfAssets
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -267,19 +267,13 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        var assetData = new
-        {
-            CompanyName = MainModel.CompanyName,
-            Year = MainModel.BaseYear,
-            BeginningOfYear = baseList?.Select(item => new { item.Item, item.Value }).ToList(),
-            EndOfYear = currentList?.Select(item => new { item.Item, item.Value }).ToList()
-        };
-
-        var jsonData = JsonSerializer.Serialize(assetData, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeAssetComposition(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            baseList,
+            currentList
+        );
 
         return $@"You are a financial analyst specializing in asset structure analysis and portfolio optimization. Analyze the Composition of Assets for {MainModel.CompanyName} for {MainModel.BaseYear}.
 

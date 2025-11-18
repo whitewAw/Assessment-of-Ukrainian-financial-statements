@@ -1,6 +1,6 @@
 @page "/liquidityindicatorsofbalance"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject LiquidityIndicatorsOfBalance LiquidityIndicatorsOfBalance
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -348,122 +348,20 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        bool IsLiquidBegin(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4)
-        {
-            return A1P1.ABegin >= A1P1.PBegin && A2P2.ABegin >= A2P2.PBegin && A3P3.ABegin >= A3P3.PBegin && A4P4.ABegin <= A4P4.PBegin;
-        }
-
-        bool IsLiquidEnd(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4)
-        {
-            return A1P1.AEnd >= A1P1.PEnd && A2P2.AEnd >= A2P2.PEnd && A3P3.AEnd >= A3P3.PEnd && A4P4.AEnd <= A4P4.PEnd;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            BaseYear_Assessment = new
-            {
-                BeginOfYear = new
-                {
-                    IsLiquid = IsLiquidBegin(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace),
-                    
-                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.ABegin),
-                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PBegin),
-                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PaymentBalanceBegin),
-                    
-                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.ABegin),
-                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PBegin),
-                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PaymentBalanceBegin),
-                    
-                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.ABegin),
-                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PBegin),
-                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PaymentBalanceBegin),
-                    
-                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.ABegin),
-                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PBegin),
-                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PaymentBalanceBegin)
-                },
-                EndOfYear = new
-                {
-                    IsLiquid = IsLiquidEnd(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace),
-                    
-                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.AEnd),
-                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PEnd),
-                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Bace.PaymentBalanceEnd),
-                    
-                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.AEnd),
-                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PEnd),
-                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Bace.PaymentBalanceEnd),
-                    
-                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.AEnd),
-                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PEnd),
-                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Bace.PaymentBalanceEnd),
-                    
-                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.AEnd),
-                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PEnd),
-                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Bace.PaymentBalanceEnd)
-                }
-            },
-            
-            CurrentYear_Assessment = new
-            {
-                BeginOfYear = new
-                {
-                    IsLiquid = IsLiquidBegin(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current),
-                    
-                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.ABegin),
-                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PBegin),
-                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PaymentBalanceBegin),
-                    
-                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.ABegin),
-                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PBegin),
-                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PaymentBalanceBegin),
-                    
-                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.ABegin),
-                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PBegin),
-                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PaymentBalanceBegin),
-                    
-                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.ABegin),
-                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PBegin),
-                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PaymentBalanceBegin)
-                },
-                EndOfYear = new
-                {
-                    IsLiquid = IsLiquidEnd(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current),
-                    
-                    A1_MostLiquid = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.AEnd),
-                    P1_MostUrgent = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PEnd),
-                    Surplus_A1P1 = SafeValue(LiquidityIndicatorsOfBalance.A1P1Current.PaymentBalanceEnd),
-                    
-                    A2_QuickLiquid = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.AEnd),
-                    P2_ShortTerm = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PEnd),
-                    Surplus_A2P2 = SafeValue(LiquidityIndicatorsOfBalance.A2P2Current.PaymentBalanceEnd),
-                    
-                    A3_SlowLiquid = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.AEnd),
-                    P3_LongTerm = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PEnd),
-                    Surplus_A3P3 = SafeValue(LiquidityIndicatorsOfBalance.A3P3Current.PaymentBalanceEnd),
-                    
-                    A4_HardToSell = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.AEnd),
-                    P4_Permanent = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PEnd),
-                    Surplus_A4P4 = SafeValue(LiquidityIndicatorsOfBalance.A4P4Current.PaymentBalanceEnd)
-                }
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeLiquidityIndicators(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            LiquidityIndicatorsOfBalance.A1P1Bace,
+            LiquidityIndicatorsOfBalance.A2P2Bace,
+            LiquidityIndicatorsOfBalance.A3P3Bace,
+            LiquidityIndicatorsOfBalance.A4P4Bace,
+            LiquidityIndicatorsOfBalance.A1P1Current,
+            LiquidityIndicatorsOfBalance.A2P2Current,
+            LiquidityIndicatorsOfBalance.A3P3Current,
+            LiquidityIndicatorsOfBalance.A4P4Current
+        );
 
         return $@"You are a financial analyst specializing in liquidity analysis, cash management, and solvency assessment. Analyze the following Liquidity Indicators of Balance for {MainModel.CompanyName}.
 

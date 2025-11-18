@@ -1,6 +1,7 @@
 using AFS;
 using AFS.Core.Components;
 using AFS.Core.Interfaces;
+using AFS.Core.Json;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
@@ -31,11 +32,12 @@ builder.Services.AddSingleton<AppThemeService>();
 // Localization - no need to set ResourcesPath since resources are in referenced AFS.ComponentLibrary
 builder.Services.AddLocalization();
 
-// Blazored LocalStorage with optimized JSON options
+// Blazored LocalStorage with AOT-optimized JSON options
 builder.Services.AddBlazoredLocalStorage(config =>
 {
     config.JsonSerializerOptions.WriteIndented = false;
     config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    config.JsonSerializerOptions.TypeInfoResolver = AFSJsonSerializerContext.Default;
 });
 
 // Radzen services - REQUIRED for Radzen components
@@ -65,19 +67,24 @@ if (aiEnabled)
     else if (aiProvider.Equals("OpenAI", StringComparison.OrdinalIgnoreCase))
     {
         // Use OpenAI - Requires API key in appsettings.json
-        builder.Services.AddScoped<IAIFinancialAdvisor>(sp => //Todo
+        builder.Services.AddScoped<IAIFinancialAdvisor>(sp => //ToDo
         {
             var httpClient = sp.GetRequiredService<HttpClient>();
             var apiKey = builder.Configuration.GetValue<string>("OpenAI:ApiKey", "");
-            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini"); 
+            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini");
             return new OpenAIFinancialAdvisor(httpClient, apiKey, model);
         });
     }
     else
     {
-        // Fallback to Browser AI if provider is not recognized
+        // Fallback to Browser AI
         builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
     }
+}
+else
+{
+    // Disabled - use a no-op implementation
+    builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
 }
 
 // Transient services (lightweight calculation services)

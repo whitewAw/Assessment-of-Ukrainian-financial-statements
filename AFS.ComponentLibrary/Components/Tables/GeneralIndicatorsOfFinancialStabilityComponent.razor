@@ -1,6 +1,6 @@
 @page "/generalindicatorsoffinancialstability"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -299,80 +299,19 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            OwnWorkingCapital = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current.EndOfYear)
-            },
-            
-            OwnPlusLongTerm = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current.EndOfYear)
-            },
-            
-            TotalAvailable = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current.EndOfYear)
-            },
-            
-            Stocks_Inventory = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.Stocks.Current.EndOfYear)
-            },
-            
-            Deficit_OwnCapital = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current.EndOfYear)
-            },
-            
-            Deficit_OwnPlusLongTerm = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current.EndOfYear)
-            },
-            
-            Deficit_TotalSources = new
-            {
-                Base_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base.BeginningOfyear),
-                Base_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base.EndOfYear),
-                Current_Begin = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current.BeginningOfyear),
-                Current_End = SafeValue(GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current.EndOfYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeGeneralFinancialStability(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks,
+            GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks,
+            GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation,
+            GeneralIndicatorsOfFinancialStability.Stocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks
+        );
 
         return $@"You are a financial analyst specializing in financial stability analysis, inventory financing, and working capital management. Analyze the following General Indicators of Financial Stability for {MainModel.CompanyName}.
 

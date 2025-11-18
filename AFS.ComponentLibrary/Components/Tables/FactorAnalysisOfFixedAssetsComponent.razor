@@ -1,6 +1,6 @@
 @page "/factoranalysisoffixedassets"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject FactorAnalysisOfFixedAssets FactorAnalysisOfFixedAssets
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -270,7 +270,6 @@
     {
         // Detect current UI language from CultureInfo
         var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var languageName = currentCulture.EnglishName;
         var cultureName = currentCulture.Name;
         
         // Map culture to language instruction
@@ -278,97 +277,20 @@
             ? "Ukrainian" 
             : cultureName.StartsWith("en") 
             ? "English" 
-            : languageName;
+            : currentCulture.EnglishName;
 
-        // Helper to safely get value or default
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        // Helper to calculate percentage change
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            NetRevenueFromSales = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.NetIncomeFromSales.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.NetIncomeFromSales.BaseYear,
-                    FactorAnalysisOfFixedAssets.NetIncomeFromSales.CurrentYear)
-            },
-            
-            AverageNumberOfEmployees = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.BaseYear,
-                    FactorAnalysisOfFixedAssets.AverageNumberOfEmployees.CurrentYear)
-            },
-            
-            LaborProductivity = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.BaseYear,
-                    FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee.CurrentYear)
-            },
-            
-            AverageCostOfFixedAssets = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.BaseYear,
-                    FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear)
-            },
-            
-            CapitalIntensity = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.BaseYear,
-                    FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee.CurrentYear)
-            },
-            
-            FixedAssetTurnover = new
-            {
-                BaseYear = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.BaseYear),
-                CurrentYear = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.CurrentYear),
-                Deviations = SafeValue(FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.Deviations),
-                PercentageChange = CalculatePercentageChange(
-                    FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.BaseYear,
-                    FactorAnalysisOfFixedAssets.ReturnOnFixedAssets.CurrentYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeFactorAnalysis(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            FactorAnalysisOfFixedAssets.NetIncomeFromSales,
+            FactorAnalysisOfFixedAssets.AverageNumberOfEmployees,
+            FactorAnalysisOfFixedAssets.ProductivityOfOneAverageEmployee,
+            FactorAnalysisOfFixedAssets.AverageAnnualCostOfFixedAssets,
+            FactorAnalysisOfFixedAssets.LaborCapitalOfOneAverageEmployee,
+            FactorAnalysisOfFixedAssets.ReturnOnFixedAssets
+        );
 
         return $@"You are a financial analyst specializing in factor analysis, labor productivity, and capital efficiency. Analyze the following Factor Analysis of Fixed Assets for {MainModel.CompanyName}.
 

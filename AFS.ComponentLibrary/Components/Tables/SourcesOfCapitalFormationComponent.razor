@@ -1,6 +1,6 @@
 @page "/sourcesofcapitalformation"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject SourcesOfCapitalFormation SourcesOfCapitalFormation
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -351,103 +351,20 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        double SafeValue(double value)
-        {
-            if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
-            return value;
-        }
-
-        double CalculateChange(double begin, double end)
-        {
-            return SafeValue(end - begin);
-        }
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            TotalCapital = new
-            {
-                Base_Begin = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.BeginningOfyear),
-                Base_End = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear),
-                Base_Change = CalculateChange(SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.BeginningOfyear, SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear),
-                Current_Begin = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.BeginningOfyear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear),
-                Current_Change = CalculateChange(SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.BeginningOfyear, SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear)
-            },
-            
-            Equity = new
-            {
-                Base_Begin = SafeValue(SourcesOfCapitalFormation.Equity.Base.BeginningOfyear),
-                Base_End = SafeValue(SourcesOfCapitalFormation.Equity.Base.EndOfYear),
-                Base_PercentBegin = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsBase.BeginningOfyear),
-                Base_PercentEnd = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsBase.EndOfYear),
-                Current_Begin = SafeValue(SourcesOfCapitalFormation.Equity.Current.BeginningOfyear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.Equity.Current.EndOfYear),
-                Current_PercentBegin = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent.BeginningOfyear),
-                Current_PercentEnd = SafeValue(SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent.EndOfYear)
-            },
-            
-            OwnCurrentAssets = new
-            {
-                Base_End = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.Base.EndOfYear),
-                Base_PercentOfEquity = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityBase.EndOfYear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.Current.EndOfYear),
-                Current_PercentOfEquity = SafeValue(SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityCurrent.EndOfYear)
-            },
-            
-            BorrowedCapital = new
-            {
-                Base_Begin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Base.BeginningOfyear),
-                Base_End = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Base.EndOfYear),
-                Base_PercentBegin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsBase.BeginningOfyear),
-                Base_PercentEnd = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsBase.EndOfYear),
-                Current_Begin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Current.BeginningOfyear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.RaisedCapital.Current.EndOfYear),
-                Current_PercentBegin = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent.BeginningOfyear),
-                Current_PercentEnd = SafeValue(SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent.EndOfYear)
-            },
-            
-            LongTermLiabilities = new
-            {
-                Base_End = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.Base.EndOfYear),
-                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalBase.EndOfYear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.Current.EndOfYear),
-                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
-            },
-            
-            ShortTermLoans = new
-            {
-                Base_End = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.Base.EndOfYear),
-                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalBase.EndOfYear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.Current.EndOfYear),
-                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
-            },
-            
-            AccountsPayable = new
-            {
-                Base_End = SafeValue(SourcesOfCapitalFormation.AccountsPayable.Base.EndOfYear),
-                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalBase.EndOfYear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.AccountsPayable.Current.EndOfYear),
-                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
-            },
-            
-            OtherCurrentLiabilities = new
-            {
-                Base_End = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.Base.EndOfYear),
-                Base_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalBase.EndOfYear),
-                Current_End = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.Current.EndOfYear),
-                Current_PercentOfDebt = SafeValue(SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeSourcesOfCapital(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            SourcesOfCapitalFormation.TotalSourcesOfCapital,
+            SourcesOfCapitalFormation.Equity,
+            SourcesOfCapitalFormation.OwnCurrentAssets,
+            SourcesOfCapitalFormation.RaisedCapital,
+            SourcesOfCapitalFormation.LongTermLiabilities,
+            SourcesOfCapitalFormation.ShortTermLoans,
+            SourcesOfCapitalFormation.AccountsPayable,
+            SourcesOfCapitalFormation.OtherCurrentLiabilities
+        );
 
         return $@"You are a financial analyst specializing in capital structure, financial leverage, and corporate finance. Analyze the following Sources of Capital Formation for {MainModel.CompanyName}.
 

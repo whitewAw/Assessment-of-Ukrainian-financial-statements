@@ -1,6 +1,6 @@
 @page "/classificationoftypesoffinancialstability"
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject ClassificationOfTypesOfFinancialStability ClassificationOfTypesOfFinancialStability
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -304,64 +304,16 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        bool IsPass(string value) => value == "+";
-
-        var data = new
-        {
-            CompanyName = MainModel.CompanyName,
-            BaseYear = MainModel.BaseYear,
-            CurrentYear = MainModel.CurrentYear,
-            
-            AbsoluteStability = new
-            {
-                Type = "Type 1: Absolute Financial Stability",
-                Base_Current = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.CurrentBVal),
-                Base_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.ShortBVal),
-                Base_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.LongBVal),
-                Current_Current = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.CurrentCVal),
-                Current_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.ShortCVal),
-                Current_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability.LongCVal)
-            },
-            
-            NormalStability = new
-            {
-                Type = "Type 2: Normal Financial Stability",
-                Base_Current = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.CurrentBVal),
-                Base_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.ShortBVal),
-                Base_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.LongBVal),
-                Current_Current = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.CurrentCVal),
-                Current_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.ShortCVal),
-                Current_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.NormalFinancialStability.LongCVal)
-            },
-            
-            PreCrisisStability = new
-            {
-                Type = "Type 3: Pre-Crisis Financial Stability",
-                Base_Current = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.CurrentBVal),
-                Base_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.ShortBVal),
-                Base_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.LongBVal),
-                Current_Current = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.CurrentCVal),
-                Current_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.ShortCVal),
-                Current_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability.LongCVal)
-            },
-            
-            CrisisStability = new
-            {
-                Type = "Type 4: Crisis Financial Stability",
-                Base_Current = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.CurrentBVal),
-                Base_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.ShortBVal),
-                Base_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.LongBVal),
-                Current_Current = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.CurrentCVal),
-                Current_ShortTerm = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.ShortCVal),
-                Current_LongTerm = IsPass(ClassificationOfTypesOfFinancialStability.CrisisFinancialStability.LongCVal)
-            }
-        };
-
-        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeStabilityClassification(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            ClassificationOfTypesOfFinancialStability.AbsoluteFinancialStability,
+            ClassificationOfTypesOfFinancialStability.NormalFinancialStability,
+            ClassificationOfTypesOfFinancialStability.PreCrisisFinancialStability,
+            ClassificationOfTypesOfFinancialStability.CrisisFinancialStability
+        );
 
         return $@"You are a financial analyst specializing in financial stability assessment, credit risk analysis, and bankruptcy prediction. Analyze the following Classification of Types of Financial Stability for {MainModel.CompanyName}.
 

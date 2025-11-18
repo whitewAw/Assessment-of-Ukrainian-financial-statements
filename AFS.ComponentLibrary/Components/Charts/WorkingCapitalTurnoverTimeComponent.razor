@@ -1,7 +1,7 @@
 @page "/workingcapitalturnovertime"
 @using AFS.Core.Models
 @using AFS.Core.Interfaces
-@using System.Text.Json
+@using AFS.Core.Services
 @inject WorkingCapitalTurnoverTimeChart WorkingCapitalTurnoverTimeChart
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -287,19 +287,13 @@
             ? "English" 
             : currentCulture.EnglishName;
 
-        var turnoverData = new
-        {
-            CompanyName = MainModel.CompanyName,
-            Money = money?.Select(item => new { Date = item.Date.ToString("MM/yyyy"), item.Value }).ToList(),
-            Receivables = receivables?.Select(item => new { Date = item.Date.ToString("MM/yyyy"), item.Value }).ToList(),
-            MaterialValues = materialValues?.Select(item => new { Date = item.Date.ToString("MM/yyyy"), item.Value }).ToList()
-        };
-
-        var jsonData = JsonSerializer.Serialize(turnoverData, new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeTurnoverTime(
+            MainModel.CompanyName,
+            money,
+            receivables,
+            materialValues
+        );
 
         return $@"You are a financial analyst specializing in working capital management and cash conversion cycle analysis. Analyze the Working Capital Turnover Time for {MainModel.CompanyName}.
 

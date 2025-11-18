@@ -1,7 +1,7 @@
 @using AFS.Core.Interfaces
 @using AFS.Core.Models
+@using AFS.Core.Services
 @using AFS.ComponentLibrary.Resources
-@using System.Text.Json
 @using Microsoft.Extensions.Localization
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
@@ -525,109 +525,8 @@ Respond in {languageInstruction}. Wave your magic wand and transform into a lege
 
     private string BuildFinancialContext()
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        var context = new
-        {
-            Company = new
-            {
-                Name = AFSModel.CompanyName,
-                BaseYear = AFSModel.BaseYear,
-                CurrentYear = AFSModel.CurrentYear
-            },
-            BalanceSheet = new
-            {
-                BaseYear = new
-                {
-                    TotalAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1300Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1300End())
-                    },
-                    NonCurrentAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1095Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1095End())
-                    },
-                    CurrentAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1195Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1195End())
-                    },
-                    Equity = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1495Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1495End())
-                    },
-                    TotalLiabilities = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1900Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1900End())
-                    },
-                    CurrentLiabilities = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Base.GetF1695Begin()),
-                        End = SafeValue(AFSModel.F1Base.GetF1695End())
-                    }
-                },
-                CurrentYear = new
-                {
-                    TotalAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1300Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1300End())
-                    },
-                    NonCurrentAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1095Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1095End())
-                    },
-                    CurrentAssets = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1195Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1195End())
-                    },
-                    Equity = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1495Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1495End())
-                    },
-                    TotalLiabilities = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1900Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1900End())
-                    },
-                    CurrentLiabilities = new
-                    {
-                        Beginning = SafeValue(AFSModel.F1Current.GetF1695Begin()),
-                        End = SafeValue(AFSModel.F1Current.GetF1695End())
-                    }
-                }
-            },
-            IncomeStatement = new
-            {
-                BaseYear = new
-                {
-                    Revenue = SafeValue(AFSModel.F2Base.F2000.Current),
-                    GrossProfit = SafeValue(AFSModel.F2Base.F2050.Current),
-                    OperatingProfit = SafeValue(AFSModel.F2Base.GetF2190Current()),
-                    NetProfit = SafeValue(AFSModel.F2Base.GetF2350Current())
-                },
-                CurrentYear = new
-                {
-                    Revenue = SafeValue(AFSModel.F2Current.F2000.Current),
-                    GrossProfit = SafeValue(AFSModel.F2Current.F2050.Current),
-                    OperatingProfit = SafeValue(AFSModel.F2Current.GetF2190Current()),
-                    NetProfit = SafeValue(AFSModel.F2Current.GetF2350Current())
-                }
-            }
-        };
-
-        return JsonSerializer.Serialize(context, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
-        });
+        // Use AOT-optimized JSON serialization
+        return JsonSerializationHelper.SerializeFinancialContext(AFSModel);
     }
 
     private string BuildFinancialHealthPrompt(string context, string language)
