@@ -79,8 +79,8 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 
 **How it Works:**
 ```
-User Input ? Browser (Local AI Model) ? Response
-         ⬇️
+User Input → Browser (Local AI Model) → Response
+     ↓
    NO SERVER INVOLVED
 ```
 
@@ -162,7 +162,7 @@ Find "Optimization Guide On Device Model" - should show version number
 
 ---
 
-## 🔄 Switching Between Browser AI and Cloud AI
+## 🔄 Switching Between Browser AI and Cloud AI *(Future Feature)*
 
 Edit `appsettings.json`:
 

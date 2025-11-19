@@ -77,7 +77,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - Automatic Gemini Nano model download (first use)
 - No API keys, subscriptions, or cloud services required
 
-[Learn more about Chrome AI setup →](CHROME_AI_SETUP_GUIDE.md)
+[Learn more about Chrome AI setup →](BROWSER_AI_SETUP.md)
 
 ---
 
@@ -195,7 +195,7 @@ To use the AI Assistant features:
 3. **Set to "Enabled"** and restart Chrome
 4. **First launch**: Model downloads automatically (may take a few minutes)
 
-[Detailed AI setup guide →](CHROME_AI_SETUP_GUIDE.md)
+[Detailed AI setup guide →](BROWSER_AI_SETUP.md)
 
 ### Build for Production
 
@@ -407,23 +407,14 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 
 ### For Users
 - [Live Application](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
-- [Chrome AI Setup Guide](CHROME_AI_SETUP_GUIDE.md)
-- [AI Implementation Guide](GEMINI_NANO_IMPLEMENTATION_GUIDE.md)
+- [Chrome AI Setup Guide](BROWSER_AI_SETUP.md)
 - [User Manual](docs/USER_MANUAL.md) _(coming soon)_
 
 ### For Developers
 - [Contributing Guide](CONTRIBUTING.md)
-- [Architecture Overview](MIGRATION_SUMMARY.md)
-- [AI Integration Details](AI_ASSISTANT_COMPLETE_SUCCESS.md)
-- [Performance Optimizations](PERFORMANCE_OPTIMIZATIONS.md)
-- [Workflow Documentation](.github/WORKFLOW_IMPROVEMENTS.md)
 
 ### AI Assistant Documentation
-- [Chrome AI Setup](CHROME_AI_SETUP_GUIDE.md)
-- [Gemini Nano Implementation](GEMINI_NANO_IMPLEMENTATION_GUIDE.md)
-- [Optimal Parameters](GEMINI_NANO_OPTIMAL_PARAMETERS.md)
-- [Streaming Responses](STREAMING_AI_RESPONSE_IMPLEMENTATION.md)
-- [Download Progress](GEMINI_NANO_DOWNLOAD_PROGRESS.md)
+- [Chrome AI Setup](BROWSER_AI_SETUP.md)
 
 ### Technical Resources
 - [Blazor WebAssembly Docs](https://learn.microsoft.com/aspnet/core/blazor/)
@@ -576,7 +567,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 [Report Bug](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues/new?template=bug_report.md) · 
 [Request Feature](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues/new?template=feature_request.md) · 
 [Contribute](CONTRIBUTING.md) · 
-[AI Setup](CHROME_AI_SETUP_GUIDE.md)
+[AI Setup](BROWSER_AI_SETUP.md)
 
 **🚀 Now with AI-Powered Financial Analysis!**
 
