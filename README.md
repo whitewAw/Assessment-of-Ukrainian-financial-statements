@@ -5,6 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Deploy to GitHub Pages](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml/badge.svg)](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml)
 [![Chrome AI](https://img.shields.io/badge/Chrome_AI-Gemini_Nano-4285F4?logo=google-chrome)](https://developer.chrome.com/docs/ai/built-in)
+[![Stand With Ukraine](https://img.shields.io/badge/Stand_With-Ukraine-FFD500?labelColor=005BBB)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+[![Developed by](https://img.shields.io/badge/Developed_by-Alex_%28Oleksandr%29_Shevchenko-0066CC?logo=github)](https://github.com/whitewAw)
+
 
 > 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 
