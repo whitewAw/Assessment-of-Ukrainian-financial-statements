@@ -11,7 +11,7 @@
 
 > 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 
-## 🌐 [Live Demo](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
+## 🌐 [Release](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
 
 ---
 
