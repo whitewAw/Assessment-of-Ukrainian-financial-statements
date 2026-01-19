@@ -103,11 +103,53 @@ jobs:
           echo "Optimizing static assets..."
           find . -type f -name "*.css" -o -name "*.js" | wc -l
 
-      - name: Copy index.html to 404.html
+      - name: Copy index.html to 404.html for SPA routing
         run: cp release/wwwroot/index.html release/wwwroot/404.html
 
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
+
+      - name: Update sitemap lastmod dates
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          sed -i "s/<lastmod>.*<\/lastmod>/<lastmod>$TODAY<\/lastmod>/g" release/wwwroot/sitemap.xml
+          echo "Updated sitemap.xml with date: $TODAY"
+
+      - name: Create _headers file for Cloudflare/Netlify compatibility
+        run: |
+          cat > release/wwwroot/_headers << 'EOF'
+          # SPA routing - serve index.html for all routes
+          /*
+            X-Frame-Options: DENY
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: strict-origin-when-cross-origin
+            
+          # Cache static assets
+          /_framework/*
+            Cache-Control: public, max-age=31536000, immutable
+            
+          /css/*
+            Cache-Control: public, max-age=86400
+            
+          /js/*
+            Cache-Control: public, max-age=86400
+            
+          /*.wasm
+            Cache-Control: public, max-age=31536000, immutable
+            Content-Type: application/wasm
+          EOF
+
+      - name: Verify deployment files
+        run: |
+          echo "=== Deployment Files ==="
+          ls -la release/wwwroot/
+          echo ""
+          echo "=== Checking critical files ==="
+          test -f release/wwwroot/index.html && echo "✅ index.html exists" || echo "❌ index.html missing"
+          test -f release/wwwroot/404.html && echo "✅ 404.html exists" || echo "❌ 404.html missing"
+          test -f release/wwwroot/sitemap.xml && echo "✅ sitemap.xml exists" || echo "❌ sitemap.xml missing"
+          test -f release/wwwroot/robots.txt && echo "✅ robots.txt exists" || echo "❌ robots.txt missing"
+          test -f release/wwwroot/.nojekyll && echo "✅ .nojekyll exists" || echo "❌ .nojekyll missing"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
