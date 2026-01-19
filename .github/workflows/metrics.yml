@@ -1,4 +1,5 @@
 name: Metrics
+
 on:
   schedule:
     - cron: "0 0 * * 0"  # Weekly on Sunday at midnight UTC
@@ -9,11 +10,18 @@ on:
     paths:
       - '.github/workflows/metrics.yml'
 
+# Prevent concurrent runs
+concurrency:
+  group: "metrics"
+  cancel-in-progress: true
+
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
+    
     steps:
       # ============================================
       # Main Repository Metrics Card
@@ -30,23 +38,30 @@ jobs:
           base: header, activity, community, repositories, metadata
           
           # Display configuration
-          config_timezone: Europe/Kiev
+          config_timezone: Europe/Kyiv
           config_display: large
-          config_animated: yes
+          config_animations: yes
+          config_output: svg
           
           # Plugins
           plugin_lines: yes
+          plugin_lines_history_limit: 1
+          plugin_lines_repositories_limit: 4
+          plugin_lines_sections: base
+          
           plugin_languages: yes
           plugin_languages_details: bytes-size, percentage
           plugin_languages_limit: 8
           plugin_languages_sections: most-used
           plugin_languages_indepth: yes
+          plugin_languages_analysis_timeout: 30
           
           plugin_stargazers: yes
           plugin_stargazers_charts: yes
           plugin_stargazers_charts_type: chartist
           
           plugin_traffic: yes
+          
           plugin_followup: yes
           plugin_followup_sections: repositories
           
@@ -57,6 +72,7 @@ jobs:
           plugin_code_lines: 12
           plugin_code_load: 400
           plugin_code_visibility: public
+        continue-on-error: true
       
       # ============================================
       # Repository Activity Metrics
@@ -70,25 +86,23 @@ jobs:
           user: whitewAw
           template: classic
           base: ""
+          config_timezone: Europe/Kyiv
+          config_output: svg
           
           # Recent activity
           plugin_activity: yes
           plugin_activity_limit: 5
           plugin_activity_days: 14
           plugin_activity_filter: all
-          plugin_activity_visibility: all
-          
-          # Contributors
-          plugin_contributors: yes
-          plugin_contributors_base: contributors
-          plugin_contributors_head: main
-          plugin_contributors_sections: contributors
+          plugin_activity_visibility: public
+          plugin_activity_timestamps: yes
           
           # Reactions
           plugin_reactions: yes
           plugin_reactions_limit: 200
           plugin_reactions_days: 14
           plugin_reactions_display: absolute
+        continue-on-error: true
           
       # ============================================
       # Language & Technology Stack
@@ -102,19 +116,21 @@ jobs:
           user: whitewAw
           template: classic
           base: ""
+          config_output: svg
           
           # Detailed language stats
           plugin_languages: yes
           plugin_languages_details: bytes-size, percentage, lines
-          plugin_languages_limit: 12
+          plugin_languages_limit: 10
           plugin_languages_sections: most-used, recently-used
           plugin_languages_indepth: yes
-          plugin_languages_analysis_timeout: 60
+          plugin_languages_analysis_timeout: 45
           plugin_languages_categories: markup, programming, data
           plugin_languages_colors: github
           plugin_languages_recent_categories: markup, programming
           plugin_languages_recent_days: 30
-          plugin_languages_recent_load: 500
+          plugin_languages_recent_load: 400
+        continue-on-error: true
           
       # ============================================
       # Project Statistics
@@ -128,13 +144,12 @@ jobs:
           user: whitewAw
           template: classic
           base: ""
+          config_output: svg
           
           # Stars & Forks
           plugin_stargazers: yes
           plugin_stargazers_charts: yes
           plugin_stargazers_charts_type: chartist
-          plugin_stargazers_worldmap: yes
-          plugin_stargazers_worldmap_token: ${{ secrets.METRICS_TOKEN }}
           
           # Traffic (requires repo permissions)
           plugin_traffic: yes
@@ -143,6 +158,7 @@ jobs:
           plugin_followup: yes
           plugin_followup_sections: repositories, user
           plugin_followup_indepth: yes
+        continue-on-error: true
           
       # ============================================
       # Achievements & Milestones
@@ -156,6 +172,7 @@ jobs:
           user: whitewAw
           template: classic
           base: ""
+          config_output: svg
           
           # Achievements
           plugin_achievements: yes
@@ -168,6 +185,7 @@ jobs:
           plugin_notable_from: organization
           plugin_notable_repositories: yes
           plugin_notable_indepth: yes
+        continue-on-error: true
           
       # ============================================
       # Compact Repository Card (for README)
@@ -181,10 +199,32 @@ jobs:
           user: whitewAw
           template: repository
           repo: Assessment-of-Ukrainian-financial-statements
+          config_output: svg
           
           # Compact display
           base: header, repositories
           plugin_lines: yes
+          plugin_lines_sections: base
           plugin_languages: yes
           plugin_languages_limit: 4
           plugin_languages_sections: most-used
+        continue-on-error: true
+
+      # ============================================
+      # Summary
+      # ============================================
+      - name: Metrics Generation Summary
+        if: always()
+        run: |
+          echo "## ?? Metrics Generation Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | File |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Main Metrics | \`metrics.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Activity | \`metrics-activity.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Languages | \`metrics-languages.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Stats | \`metrics-stats.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Achievements | \`metrics-achievements.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Compact | \`metrics-compact.svg\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "?? Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
