@@ -200,16 +200,29 @@ jobs:
         id: stats
         run: |
           TOTAL_SIZE=$(du -sh release/wwwroot | cut -f1)
-          WASM_SIZE=$(du -sh release/wwwroot/_framework/*.wasm 2>/dev/null | cut -f1 || echo "N/A")
+          
+          # Calculate total WASM size (sum of all .wasm files)
+          if [ -d "release/wwwroot/_framework" ]; then
+            WASM_SIZE=$(find release/wwwroot/_framework -name "*.wasm" -exec du -cb {} + | tail -1 | cut -f1 | numfmt --to=iec-i --suffix=B 2>/dev/null || echo "N/A")
+            WASM_COUNT=$(find release/wwwroot/_framework -name "*.wasm" | wc -l)
+          else
+            WASM_SIZE="N/A"
+            WASM_COUNT=0
+          fi
+          
           FILE_COUNT=$(find release/wwwroot -type f | wc -l)
           
-          echo "total_size=$TOTAL_SIZE" >> $GITHUB_OUTPUT
-          echo "wasm_size=$WASM_SIZE" >> $GITHUB_OUTPUT
-          echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
+          # Use delimiter to handle special characters
+          {
+            echo "total_size=$TOTAL_SIZE"
+            echo "wasm_size=$WASM_SIZE"
+            echo "wasm_count=$WASM_COUNT"
+            echo "file_count=$FILE_COUNT"
+          } >> $GITHUB_OUTPUT
           
           echo "📊 Deployment Statistics:"
           echo "   Total size: $TOTAL_SIZE"
-          echo "   WASM size: $WASM_SIZE"
+          echo "   WASM size: $WASM_SIZE ($WASM_COUNT files)"
           echo "   File count: $FILE_COUNT"
 
       - name: Verify deployment files
@@ -269,7 +282,7 @@ jobs:
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Total Size | ${{ steps.stats.outputs.total_size }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| WASM Size | ${{ steps.stats.outputs.wasm_size }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| WASM Size | ${{ steps.stats.outputs.wasm_size }} (${{ steps.stats.outputs.wasm_count }} files) |" >> $GITHUB_STEP_SUMMARY
           echo "| File Count | ${{ steps.stats.outputs.file_count }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Commit | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
