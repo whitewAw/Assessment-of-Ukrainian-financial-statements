@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  # Allow manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,141 +17,241 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Improve AOT build performance
+  DOTNET_TC_QuickJitForLoops: 1
+  DOTNET_ReadyToRun: 0
+
 jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Shallow clone for faster checkout
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'  # Use GA release
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        id: nuget-cache
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Build.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Cache .NET workloads
         uses: actions/cache@v4
+        id: workload-cache
         with:
           path: |
-            ~/.nuget/packages
             ~/.dotnet/sdk-manifests
             ~/.dotnet/packs
-          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+            ~/.dotnet/workloads
+          key: ${{ runner.os }}-workloads-net10-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            ${{ runner.os }}-dotnet-
+            ${{ runner.os }}-workloads-net10-
 
-      - name: Install .NET WebAssembly Tools
-        run: dotnet workload install wasm-tools
+      - name: Install .NET WebAssembly workloads
+        if: steps.workload-cache.outputs.cache-hit != 'true'
+        run: |
+          dotnet workload install wasm-tools wasm-experimental --skip-manifest-update
+          echo "Workloads installed successfully"
 
-      - name: Install the wasm-experimental workload
-        run: dotnet workload install wasm-experimental
+      - name: Verify workloads
+        run: dotnet workload list
 
       - name: Restore dependencies
-        run: dotnet restore AFS/AFS.csproj
+        run: dotnet restore AFS/AFS.csproj --locked-mode || dotnet restore AFS/AFS.csproj
 
-      - name: Publish .NET Project with AOT
+      - name: Build and Publish with AOT
         run: |
           dotnet publish AFS/AFS.csproj \
             -c Release \
             -o release \
-            --nologo \
             --no-restore \
             -p:RunAOTCompilation=true \
             -p:WasmStripILAfterAOT=true \
             -p:PublishTrimmed=true \
             -p:TrimMode=partial \
-            -p:BlazorEnableCompression=true
+            -p:BlazorEnableCompression=true \
+            -p:WasmNativeStrip=true \
+            -p:EmccLinkOptimizationFlag=-Oz
+        env:
+          # Increase memory for AOT compilation
+          NODE_OPTIONS: --max_old_space_size=4096
 
-      - name: Change base-tag in index.html
+      - name: Update base-tag for GitHub Pages
         run: |
-          sed -i 's/<base href="\/" \/>/<base href="\/Assessment-of-Ukrainian-financial-statements\/" \/>/g' release/wwwroot/index.html
+          sed -i 's|<base href="/" />|<base href="/Assessment-of-Ukrainian-financial-statements/" />|g' release/wwwroot/index.html
+          echo "Base tag updated for GitHub Pages deployment"
 
       - name: Fix service-worker-assets.js hashes
         working-directory: release/wwwroot
         run: |
+          if [ ! -f service-worker-assets.js ]; then
+            echo "⚠️ service-worker-assets.js not found, skipping hash fix"
+            exit 0
+          fi
+          
           jsFile=$(<service-worker-assets.js)
           json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
+          
+          # Validate JSON
+          if ! echo "$json" | jq empty 2>/dev/null; then
+            echo "⚠️ Invalid JSON in service-worker-assets.js, skipping hash fix"
+            exit 0
+          fi
+          
           assets=$(echo "$json" | jq '.assets[]' -c)
-          for asset in $assets
-          do
-            oldHash=$(echo "$asset" | jq '.hash')
-            oldHash="${oldHash:1:-1}"
-            path=$(echo "$asset" | jq '.url')
-            path="${path:1:-1}"
+          updated_count=0
+          
+          for asset in $assets; do
+            oldHash=$(echo "$asset" | jq -r '.hash')
+            path=$(echo "$asset" | jq -r '.url')
             
-            # Skip index.html - it's cached without integrity check in service worker
-            if [[ "$path" == *"index.html"* ]]; then
-              echo "Skipping hash update for $path (cached without integrity check)"
+            # Skip files that don't need hash updates
+            if [[ "$path" == *"index.html"* ]] || [[ ! -f "$path" ]]; then
               continue
             fi
-  
-            newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
-  
-            if [ $oldHash != $newHash ]; then
-              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
-              newHash=$(echo "$newHash" | sed 's;/;\\/;g')
-              echo "Updating hash for $path from $oldHash to $newHash"
-              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
-              jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
+            
+            newHash="sha256-$(openssl dgst -sha256 -binary "$path" | openssl base64 -A)"
+            
+            if [ "$oldHash" != "$newHash" ]; then
+              # Escape special characters for sed
+              oldHashEscaped=$(printf '%s\n' "$oldHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
+              newHashEscaped=$(printf '%s\n' "$newHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
+              jsFile=$(echo -n "$jsFile" | sed "s|$oldHashEscaped|$newHashEscaped|g")
+              ((updated_count++))
             fi
           done
+          
           echo -n "$jsFile" > service-worker-assets.js
+          echo "✅ Updated $updated_count asset hashes"
 
-      - name: Optimize static assets
-        working-directory: release/wwwroot
+      - name: Prepare SPA routing files
         run: |
-          # Add cache headers configuration
-          echo "Optimizing static assets..."
-          find . -type f -name "*.css" -o -name "*.js" | wc -l
-
-      - name: Copy index.html to 404.html for SPA routing
-        run: cp release/wwwroot/index.html release/wwwroot/404.html
-
-      - name: Add .nojekyll file
-        run: touch release/wwwroot/.nojekyll
+          # Copy index.html to 404.html for SPA routing
+          cp release/wwwroot/index.html release/wwwroot/404.html
+          
+          # Add .nojekyll to prevent Jekyll processing
+          touch release/wwwroot/.nojekyll
+          
+          echo "✅ SPA routing files created"
 
       - name: Update sitemap lastmod dates
         run: |
-          TODAY=$(date +%Y-%m-%d)
-          sed -i "s/<lastmod>.*<\/lastmod>/<lastmod>$TODAY<\/lastmod>/g" release/wwwroot/sitemap.xml
-          echo "Updated sitemap.xml with date: $TODAY"
+          if [ -f release/wwwroot/sitemap.xml ]; then
+            TODAY=$(date +%Y-%m-%d)
+            sed -i "s|<lastmod>.*</lastmod>|<lastmod>$TODAY</lastmod>|g" release/wwwroot/sitemap.xml
+            echo "✅ Sitemap updated with date: $TODAY"
+          else
+            echo "⚠️ sitemap.xml not found, skipping"
+          fi
 
-      - name: Create _headers file for Cloudflare/Netlify compatibility
+      - name: Create _headers file for CDN compatibility
         run: |
           cat > release/wwwroot/_headers << 'EOF'
-          # SPA routing - serve index.html for all routes
+          # Security headers for all routes
           /*
             X-Frame-Options: DENY
             X-Content-Type-Options: nosniff
             Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
             
-          # Cache static assets
+          # Framework files - immutable cache
           /_framework/*
             Cache-Control: public, max-age=31536000, immutable
             
+          # Static assets - long cache
           /css/*
-            Cache-Control: public, max-age=86400
+            Cache-Control: public, max-age=604800
             
           /js/*
-            Cache-Control: public, max-age=86400
+            Cache-Control: public, max-age=604800
             
+          # WebAssembly files - immutable
           /*.wasm
             Cache-Control: public, max-age=31536000, immutable
             Content-Type: application/wasm
+            
+          # Service worker - no cache
+          /service-worker.js
+            Cache-Control: no-cache, no-store, must-revalidate
+            
+          # HTML files - short cache for updates
+          /*.html
+            Cache-Control: public, max-age=3600
           EOF
+          echo "✅ CDN headers file created"
+
+      - name: Calculate deployment statistics
+        id: stats
+        run: |
+          TOTAL_SIZE=$(du -sh release/wwwroot | cut -f1)
+          WASM_SIZE=$(du -sh release/wwwroot/_framework/*.wasm 2>/dev/null | cut -f1 || echo "N/A")
+          FILE_COUNT=$(find release/wwwroot -type f | wc -l)
+          
+          echo "total_size=$TOTAL_SIZE" >> $GITHUB_OUTPUT
+          echo "wasm_size=$WASM_SIZE" >> $GITHUB_OUTPUT
+          echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
+          
+          echo "📊 Deployment Statistics:"
+          echo "   Total size: $TOTAL_SIZE"
+          echo "   WASM size: $WASM_SIZE"
+          echo "   File count: $FILE_COUNT"
 
       - name: Verify deployment files
         run: |
-          echo "=== Deployment Files ==="
-          ls -la release/wwwroot/
+          echo "=== Critical Files Check ==="
+          
+          MISSING=0
+          
+          for file in index.html 404.html .nojekyll; do
+            if [ -f "release/wwwroot/$file" ]; then
+              echo "✅ $file"
+            else
+              echo "❌ $file MISSING"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+          
+          # Optional files (warn but don't fail)
+          for file in sitemap.xml robots.txt manifest.webmanifest; do
+            if [ -f "release/wwwroot/$file" ]; then
+              echo "✅ $file"
+            else
+              echo "⚠️ $file (optional)"
+            fi
+          done
+          
+          # Check framework files
+          if [ -d "release/wwwroot/_framework" ]; then
+            FRAMEWORK_FILES=$(find release/wwwroot/_framework -type f | wc -l)
+            echo "✅ _framework/ ($FRAMEWORK_FILES files)"
+          else
+            echo "❌ _framework/ MISSING"
+            MISSING=$((MISSING + 1))
+          fi
+          
+          if [ $MISSING -gt 0 ]; then
+            echo "::error::$MISSING critical files are missing!"
+            exit 1
+          fi
+          
           echo ""
-          echo "=== Checking critical files ==="
-          test -f release/wwwroot/index.html && echo "✅ index.html exists" || echo "❌ index.html missing"
-          test -f release/wwwroot/404.html && echo "✅ 404.html exists" || echo "❌ 404.html missing"
-          test -f release/wwwroot/sitemap.xml && echo "✅ sitemap.xml exists" || echo "❌ sitemap.xml missing"
-          test -f release/wwwroot/robots.txt && echo "✅ robots.txt exists" || echo "❌ robots.txt missing"
-          test -f release/wwwroot/.nojekyll && echo "✅ .nojekyll exists" || echo "❌ .nojekyll missing"
+          echo "=== Deployment Ready ==="
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
@@ -158,3 +260,17 @@ jobs:
           folder: release/wwwroot
           clean: true
           single-commit: true
+          commit-message: "Deploy: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
+
+      - name: Deployment Summary
+        run: |
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Size | ${{ steps.stats.outputs.total_size }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| WASM Size | ${{ steps.stats.outputs.wasm_size }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| File Count | ${{ steps.stats.outputs.file_count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Commit | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Live URL:** https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/" >> $GITHUB_STEP_SUMMARY
