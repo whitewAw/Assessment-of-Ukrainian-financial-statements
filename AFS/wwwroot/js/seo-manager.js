@@ -4,7 +4,7 @@
  * Works with Blazor routing to ensure proper canonical URLs and meta tags
  * Optimized for Google Search, Bing, and international search engines
  * 
- * @version 2.0.0
+ * @version 2.1.0
  * @author UFIN Development Team
  * @license MIT
  */
@@ -23,19 +23,23 @@ class SEOManager {
         
         // Cache for page metadata
         this.metaCache = new Map();
+        
+        // Prerender hints tracking
+        this.prerenderHints = new Set();
     }
 
     /**
      * Initialize SEO Manager - should be called after Blazor loads
      */
     init() {
-        console.log('[SEO] Initializing Advanced SEO Manager v2.0');
+        console.log('[SEO] Initializing Advanced SEO Manager v2.1');
 
         // Set initial canonical URL and meta tags
         this.updateCanonicalUrl();
         this.updateMetaTags();
         this.updateOpenGraph();
         this.updateStructuredData();
+        this.addSpeculationRules();
 
         // Listen to Blazor navigation events
         this.setupBlazorNavigation();
@@ -49,8 +53,100 @@ class SEOManager {
         // Handle language changes
         window.addEventListener('language-changed', (e) => this.handleLanguageChange(e.detail));
 
+        // Set up intersection observer for prerendering hints
+        this.setupPrerenderObserver();
+
         this.initialized = true;
         console.log('[SEO] Advanced SEO Manager initialized successfully');
+    }
+
+    /**
+     * Add Speculation Rules for faster page navigation
+     * Uses the Speculation Rules API for prerendering
+     */
+    addSpeculationRules() {
+        // Check if Speculation Rules API is supported
+        if (!('HTMLScriptElement' in window) || !document.createElement('script').supports?.('speculationrules')) {
+            console.log('[SEO] Speculation Rules API not supported');
+            return;
+        }
+
+        // Remove existing speculation rules
+        const existingRules = document.querySelector('script[type="speculationrules"]');
+        if (existingRules) {
+            existingRules.remove();
+        }
+
+        const speculationRules = {
+            prerender: [
+                {
+                    where: {
+                        and: [
+                            { href_matches: `${this.basePath}*` },
+                            { not: { href_matches: `${this.basePath}_framework/*` } },
+                            { not: { href_matches: `${this.basePath}_content/*` } }
+                        ]
+                    },
+                    eagerness: "moderate"
+                }
+            ],
+            prefetch: [
+                {
+                    where: {
+                        href_matches: `${this.basePath}*`
+                    },
+                    eagerness: "conservative"
+                }
+            ]
+        };
+
+        const script = document.createElement('script');
+        script.type = 'speculationrules';
+        script.textContent = JSON.stringify(speculationRules);
+        document.head.appendChild(script);
+
+        console.log('[SEO] Speculation Rules added for faster navigation');
+    }
+
+    /**
+     * Setup intersection observer for prerendering hints on visible links
+     */
+    setupPrerenderObserver() {
+        if (!('IntersectionObserver' in window)) {
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const link = entry.target;
+                    const href = link.getAttribute('href');
+                    if (href && !this.prerenderHints.has(href) && href.startsWith(this.basePath)) {
+                        this.addPrefetchHint(href);
+                        this.prerenderHints.add(href);
+                    }
+                }
+            });
+        }, { rootMargin: '100px' });
+
+        // Observe all internal links
+        document.querySelectorAll('a[href^="/"]').forEach(link => {
+            observer.observe(link);
+        });
+    }
+
+    /**
+     * Add prefetch hint for a URL
+     */
+    addPrefetchHint(url) {
+        const existingLink = document.querySelector(`link[rel="prefetch"][href="${url}"]`);
+        if (existingLink) return;
+
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = url;
+        link.as = 'document';
+        document.head.appendChild(link);
     }
 
     /**
@@ -107,9 +203,13 @@ class SEOManager {
         this.updateTwitterCard();
         this.updateStructuredData();
         this.updateAlternateLanguages();
+        this.updateArticleSchema();
 
         // Notify search engines and analytics of navigation
         this.notifyPageView();
+
+        // Update prerender hints for new page
+        setTimeout(() => this.setupPrerenderObserver(), 500);
     }
 
     /**
@@ -193,6 +293,13 @@ class SEOManager {
         // Update category
         this.setMetaTag('category', pageInfo.category);
 
+        // Update subject and abstract for enhanced SEO
+        this.setMetaTag('subject', pageInfo.title);
+        this.setMetaTag('abstract', pageInfo.description.substring(0, 200));
+
+        // Update page type for analytics
+        this.setMetaTag('page-type', pageInfo.pageType || 'tool');
+
         console.log('[SEO] Meta tags updated for:', path);
     }
 
@@ -220,6 +327,7 @@ class SEOManager {
                 description: 'Professional financial analysis tool for Ukrainian businesses. FREE AI-powered analysis of balance sheets, income statements. Calculate liquidity ratios, solvency metrics, profitability indicators. 16 comprehensive tables + 7 interactive charts. No registration. Works offline. Supports 6 languages including Ukrainian and English.',
                 keywords: 'Ukrainian financial analysis, AI financial analysis, balance sheet analyzer Ukraine, income statement analysis, liquidity ratios calculator, solvency assessment tool, profitability metrics, ROA calculator, ROE calculator, free financial tools, Ukrainian accounting software, business financial health, financial statement analysis, accounting analysis Ukraine, financial metrics calculator, working capital analysis, debt to equity ratio, current ratio calculator, quick ratio calculator, financial stability assessment, business analysis tool, Ukrainian business tools, free accounting software, financial reporting Ukraine',
                 category: 'Finance, Business Tools, Accounting Software, AI Tools',
+                pageType: 'home',
                 image: this.defaultImage
             },
             'aiassistant': {
@@ -227,6 +335,7 @@ class SEOManager {
                 description: 'Revolutionary AI-powered financial analysis using Chrome AI (Gemini Nano). Ask questions about your Ukrainian company finances in natural language. Get instant AI analysis of liquidity, solvency, profitability. 100% private, runs locally in browser. No data sent to servers. Free AI financial advisor for Ukrainian businesses.',
                 keywords: 'AI financial analysis, AI financial advisor, Gemini Nano financial tool, Chrome AI finance, AI business analysis, AI accounting assistant, AI financial chatbot, machine learning finance, AI profitability analysis, AI solvency assessment, conversational AI finance, local AI financial advisor, private AI analysis, free AI financial tools, AI-powered accounting',
                 category: 'AI Tools, Financial AI, Business Intelligence',
+                pageType: 'ai-tool',
                 image: this.defaultImage
             },
             'characteristicsofcapital': {
@@ -234,6 +343,7 @@ class SEOManager {
                 description: 'Analyze capital structure and working capital efficiency for Ukrainian businesses. Calculate capital turnover ratios, working capital productivity, return on capital employed. Free professional tool with detailed calculations and AI insights.',
                 keywords: 'capital structure analysis, working capital analysis, capital efficiency calculator, capital turnover ratio, working capital productivity, return on capital, capital composition Ukraine, capital efficiency metrics, working capital management, capital structure ratios',
                 category: 'Financial Analysis, Capital Management',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'indicatorsofturnoverofcurrentassets': {
@@ -241,6 +351,7 @@ class SEOManager {
                 description: 'Calculate current assets turnover ratios for Ukrainian companies. Analyze inventory turnover, receivables turnover, asset velocity. Free tool with comprehensive calculations and trend analysis.',
                 keywords: 'current assets turnover, inventory turnover ratio, receivables turnover, asset velocity, current assets analysis, inventory management ratios, accounts receivable turnover, asset efficiency metrics, working capital turnover',
                 category: 'Financial Analysis, Asset Management',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'factorsaffectingturnoverofworkingcapital': {
@@ -248,6 +359,7 @@ class SEOManager {
                 description: 'Detailed factor analysis of working capital turnover for Ukrainian businesses. Identify key drivers affecting working capital efficiency. Free comprehensive analysis with AI-powered insights.',
                 keywords: 'working capital factors, turnover factor analysis, working capital drivers, capital efficiency factors, working capital analysis, factor impact analysis, capital turnover drivers, working capital management',
                 category: 'Financial Analysis, Working Capital',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'indicatorsofefficiencyofworkingcapital': {
@@ -255,6 +367,7 @@ class SEOManager {
                 description: 'Calculate working capital efficiency indicators for Ukrainian companies. Measure ROI, productivity, turnover ratios. Free professional analysis tool with detailed calculations.',
                 keywords: 'working capital efficiency, working capital ROI, capital productivity, working capital metrics, capital efficiency ratios, working capital analysis, capital utilization, efficiency indicators',
                 category: 'Financial Analysis, Efficiency Metrics',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'availabilityandmovementoffixedassets': {
@@ -262,6 +375,7 @@ class SEOManager {
                 description: 'Track availability and movement of fixed assets for Ukrainian businesses. Analyze asset acquisitions, disposals, depreciation. Free comprehensive fixed assets management tool.',
                 keywords: 'fixed assets analysis, asset movement tracking, fixed assets management, asset lifecycle, depreciation analysis, asset acquisition tracking, fixed assets Ukraine, asset management tool, capital assets analysis',
                 category: 'Financial Analysis, Asset Management',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'indicatorsofstateandmovementoffixedassets': {
@@ -269,6 +383,7 @@ class SEOManager {
                 description: 'Analyze state and movement of fixed assets for Ukrainian companies. Calculate wear ratio, renewal coefficient, retirement rate. Free professional fixed assets analysis.',
                 keywords: 'fixed assets quality, asset condition analysis, wear ratio calculator, renewal coefficient, asset retirement rate, fixed assets metrics, asset quality indicators, depreciation metrics',
                 category: 'Financial Analysis, Asset Quality',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'calculationofindicatorsofefficiencyofuseoffixedassets': {
@@ -276,6 +391,7 @@ class SEOManager {
                 description: 'Calculate efficiency indicators for fixed assets use. Measure asset productivity, capital intensity, return on fixed assets for Ukrainian businesses. Free comprehensive analysis.',
                 keywords: 'fixed assets efficiency, asset productivity calculator, capital intensity ratio, return on fixed assets, asset utilization, fixed assets ROI, productivity metrics, asset efficiency ratios',
                 category: 'Financial Analysis, Asset Efficiency',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'factoranalysisoffixedassets': {
@@ -283,6 +399,7 @@ class SEOManager {
                 description: 'Comprehensive factor analysis of fixed assets for Ukrainian companies. Identify key drivers of asset productivity and efficiency. Free multifactor analysis tool with AI insights.',
                 keywords: 'fixed assets factor analysis, asset productivity factors, multifactor analysis, asset efficiency drivers, factor impact study, fixed assets analysis, productivity drivers',
                 category: 'Financial Analysis, Factor Analysis',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'indicatorsofefficiencyofuseofintangibleassets': {
@@ -290,6 +407,7 @@ class SEOManager {
                 description: 'Analyze efficiency of intangible assets for Ukrainian businesses. Calculate ROI on intellectual property, goodwill, patents. Free professional intangible assets analysis.',
                 keywords: 'intangible assets analysis, IP efficiency, goodwill analysis, intangible assets ROI, intellectual property metrics, patent analysis, brand value analysis, intangible assets calculator',
                 category: 'Financial Analysis, Intangible Assets',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'sourcesofcapitalformation': {
@@ -297,6 +415,7 @@ class SEOManager {
                 description: 'Analyze sources of capital formation for Ukrainian companies. Breakdown of equity, debt, retained earnings. Free comprehensive capital structure analysis with interactive charts.',
                 keywords: 'capital formation sources, funding sources analysis, capital structure, equity analysis, debt analysis, retained earnings, capital sources breakdown, financing structure',
                 category: 'Financial Analysis, Capital Structure',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'assessmentofreceivableandpayable': {
@@ -304,6 +423,7 @@ class SEOManager {
                 description: 'Assess receivables and payables for Ukrainian businesses. Calculate collection periods, payment terms, credit metrics. Free comprehensive credit management analysis.',
                 keywords: 'receivables analysis, payables analysis, credit management, collection period calculator, payment terms analysis, accounts receivable metrics, accounts payable metrics, credit analysis tool',
                 category: 'Financial Analysis, Credit Management',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'indicatorsofbusinessactivity': {
@@ -311,6 +431,7 @@ class SEOManager {
                 description: 'Calculate business activity indicators for Ukrainian companies. Analyze asset turnover, inventory cycles, operational efficiency. Free comprehensive operational analysis.',
                 keywords: 'business activity ratios, operational efficiency, asset turnover calculator, inventory turnover, business cycle analysis, operational metrics, activity indicators, efficiency ratios',
                 category: 'Financial Analysis, Business Activity',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'liquidityindicatorsofbalance': {
@@ -318,13 +439,16 @@ class SEOManager {
                 description: 'Calculate liquidity indicators for Ukrainian businesses. Current ratio, quick ratio, cash ratio calculator. Free professional liquidity analysis with AI-powered insights.',
                 keywords: 'liquidity ratios calculator, current ratio calculator, quick ratio calculator, cash ratio calculator, short-term solvency, liquidity analysis, working capital ratios, liquidity metrics Ukraine',
                 category: 'Financial Analysis, Liquidity',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'solvencyratios': {
                 title: 'Solvency Ratios Calculator - UFIN | Long-term Financial Health Analysis',
-                description: 'Calculate solvency ratios for Ukrainian companies. Debt-to-equity ratio, interest coverage, financial leverage analysis. Free comprehensive solvency assessment tool.',
+                description: 'Calculate solvency ratios for Ukrainian companies. Debt-to-equity ratio, interest coverage, financial leverage analysis. Free comprehensive solvency assessment tool.
+',
                 keywords: 'solvency ratios calculator, debt to equity ratio, interest coverage calculator, financial leverage analysis, long-term solvency, debt analysis, solvency metrics, financial health calculator',
                 category: 'Financial Analysis, Solvency',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'generalindicatorsoffinancialstability': {
@@ -332,6 +456,15 @@ class SEOManager {
                 description: 'Calculate general indicators of financial stability for Ukrainian businesses. Autonomy coefficient, financial independence, stability metrics. Free professional analysis.',
                 keywords: 'financial stability indicators, autonomy coefficient, financial independence, stability metrics calculator, financial stability analysis, stability ratios, autonomy ratio, independence metrics',
                 category: 'Financial Analysis, Financial Stability',
+                pageType: 'analysis-table',
+                image: this.defaultImage
+            },
+            'indicatorsoffinancialstability': {
+                title: 'Detailed Financial Stability Analysis - UFIN | Comprehensive Stability Metrics',
+                description: 'In-depth analysis of financial stability indicators for Ukrainian companies. Complete stability metrics breakdown with year-over-year comparisons. Free professional tool.',
+                keywords: 'financial stability analysis, stability indicators, comprehensive stability metrics, financial health indicators, stability assessment, financial independence ratios',
+                category: 'Financial Analysis, Financial Stability',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'classificationoftypesoffinancialstability': {
@@ -339,6 +472,7 @@ class SEOManager {
                 description: 'Classify financial stability types for Ukrainian companies. 4-tier stability assessment, risk categorization. Free comprehensive stability classification tool.',
                 keywords: 'financial stability classification, stability types, risk categorization, stability assessment, financial risk levels, stability tiers, financial health categories, risk classification',
                 category: 'Financial Analysis, Risk Assessment',
+                pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'compositionofassetsbase': {
@@ -346,6 +480,7 @@ class SEOManager {
                 description: 'Interactive pie chart showing asset composition for base year. Visualize current vs non-current assets for Ukrainian businesses. Free financial visualization tool.',
                 keywords: 'asset composition chart, asset structure visualization, asset breakdown, current assets chart, non-current assets, asset visualization, financial charts, balance sheet visualization',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'compositionofassetscurrent': {
@@ -353,6 +488,7 @@ class SEOManager {
                 description: 'Interactive pie chart showing current year asset composition. Compare asset structure year-over-year for Ukrainian companies. Free visualization tool.',
                 keywords: 'current year assets, asset composition current, asset structure chart, year-over-year comparison, current assets visualization, asset breakdown chart',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'sourcesofcapitalformationbase': {
@@ -360,6 +496,7 @@ class SEOManager {
                 description: 'Interactive chart showing capital formation sources for base year. Visualize equity, debt, retained earnings for Ukrainian businesses. Free chart tool.',
                 keywords: 'capital sources chart, funding structure visualization, capital formation chart, equity debt visualization, capital structure chart, financing sources',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'sourcesofcapitalformationcurrent': {
@@ -367,6 +504,7 @@ class SEOManager {
                 description: 'Interactive chart showing current year capital sources. Compare capital structure changes for Ukrainian companies. Free visualization tool.',
                 keywords: 'current capital sources, capital structure current year, funding visualization, capital formation chart, financing structure chart',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'structureofaccountspayablebase': {
@@ -374,6 +512,7 @@ class SEOManager {
                 description: 'Interactive chart showing accounts payable structure for base year. Visualize liability composition for Ukrainian businesses. Free chart tool.',
                 keywords: 'accounts payable chart, liability breakdown, payables structure, accounts payable visualization, liability composition chart, payables analysis',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'structureofaccountspayablecurrent': {
@@ -381,6 +520,7 @@ class SEOManager {
                 description: 'Interactive chart showing current year accounts payable structure. Track liability changes for Ukrainian companies. Free visualization.',
                 keywords: 'current accounts payable, liability structure current, payables breakdown chart, current liabilities visualization',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'workingcapitalturnovertime': {
@@ -388,6 +528,7 @@ class SEOManager {
                 description: 'Interactive line chart showing working capital turnover time trends. Track efficiency improvements for Ukrainian businesses. Free trend analysis.',
                 keywords: 'working capital turnover chart, efficiency trends, turnover time analysis, working capital visualization, efficiency chart, trend analysis',
                 category: 'Charts, Financial Visualization',
+                pageType: 'chart',
                 image: this.defaultImage
             },
             'help': {
@@ -395,6 +536,7 @@ class SEOManager {
                 description: 'Comprehensive help and documentation for UFIN. Find tutorials, FAQs, user guides for financial analysis. Learn how to calculate ratios, interpret results, use AI features.',
                 keywords: 'UFIN help, financial analysis tutorials, FAQs, user guide, financial ratios help, analysis documentation, how to use UFIN, financial analysis guide',
                 category: 'Documentation, Help',
+                pageType: 'help',
                 image: this.defaultImage
             },
             'about': {
@@ -402,6 +544,7 @@ class SEOManager {
                 description: 'Learn about UFIN, the free AI-powered financial analysis tool for Ukrainian businesses. Open-source project, MIT license, no registration required. Works offline, supports 6 languages. Built with .NET 10 Blazor WebAssembly.',
                 keywords: 'about UFIN, Ukrainian financial tool, open source financial analysis, free accounting software, Blazor financial app, .NET financial tool, open source accounting',
                 category: 'About, Information',
+                pageType: 'about',
                 image: this.defaultImage
             }
         };
@@ -434,6 +577,7 @@ class SEOManager {
         this.setMetaTag('og:site_name', this.siteName, 'property');
         this.setMetaTag('og:locale', 'en_US', 'property');
         this.setMetaTag('og:locale:alternate', 'uk_UA', 'property');
+        this.setMetaTag('og:updated_time', new Date().toISOString(), 'property');
         
         console.log('[SEO] OpenGraph tags updated');
     }
@@ -451,8 +595,9 @@ class SEOManager {
         this.setMetaTag('twitter:url', canonicalUrl);
         this.setMetaTag('twitter:image', pageInfo.image || this.defaultImage);
         this.setMetaTag('twitter:image:alt', pageInfo.title);
-        this.setMetaTag('twitter:site', '@UFIN_Tool');
-        this.setMetaTag('twitter:creator', '@whitewAw');
+        this.setMetaTag('twitter:site', '@wAw_fromUkraine');
+        this.setMetaTag('twitter:creator', '@wAw_fromUkraine');
+        this.setMetaTag('twitter:domain', 'whitewaw.github.io');
         
         console.log('[SEO] Twitter Card tags updated');
     }
@@ -471,28 +616,35 @@ class SEOManager {
             { code: 'fr', name: 'French' }
         ];
 
-        // Remove existing alternate links
+        // Remove existing alternate links (except regional variants)
         document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => {
-            if (!link.getAttribute('hreflang').includes('-')) { // Keep regional variants
+            const hreflang = link.getAttribute('hreflang');
+            if (hreflang && !hreflang.includes('-') && hreflang !== 'x-default') {
                 link.remove();
             }
         });
 
         // Add new alternate links
         languages.forEach(lang => {
-            const link = document.createElement('link');
-            link.rel = 'alternate';
-            link.hreflang = lang.code;
-            link.href = `${this.baseUrl}${this.basePath}${path}?lang=${lang.code}`;
-            document.head.appendChild(link);
+            const existingLink = document.querySelector(`link[rel="alternate"][hreflang="${lang.code}"]`);
+            if (!existingLink) {
+                const link = document.createElement('link');
+                link.rel = 'alternate';
+                link.hreflang = lang.code;
+                link.href = `${this.baseUrl}${this.basePath}${path}${path ? '?' : '?'}lang=${lang.code}`;
+                document.head.appendChild(link);
+            }
         });
 
-        // Add x-default
-        const defaultLink = document.createElement('link');
-        defaultLink.rel = 'alternate';
-        defaultLink.hreflang = 'x-default';
-        defaultLink.href = `${this.baseUrl}${this.basePath}${path}`;
-        document.head.appendChild(defaultLink);
+        // Add x-default if not exists
+        const xDefaultLink = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
+        if (!xDefaultLink) {
+            const defaultLink = document.createElement('link');
+            defaultLink.rel = 'alternate';
+            defaultLink.hreflang = 'x-default';
+            defaultLink.href = `${this.baseUrl}${this.basePath}${path}`;
+            document.head.appendChild(defaultLink);
+        }
         
         console.log('[SEO] Alternate language links updated');
     }
@@ -511,6 +663,70 @@ class SEOManager {
         this.updateWebPageSchema(pageInfo);
         
         console.log('[SEO] Structured data updated');
+    }
+
+    /**
+     * Update Article schema for content pages
+     */
+    updateArticleSchema() {
+        const path = window.location.pathname;
+        const pageInfo = this.getPageInfo(path);
+        
+        // Only add article schema for analysis pages
+        if (!pageInfo.pageType || pageInfo.pageType === 'home') {
+            // Remove article schema if exists
+            const existingSchema = document.getElementById('article-schema');
+            if (existingSchema) existingSchema.remove();
+            return;
+        }
+
+        let schema = document.getElementById('article-schema');
+        if (!schema) {
+            schema = document.createElement('script');
+            schema.id = 'article-schema';
+            schema.type = 'application/ld+json';
+            document.head.appendChild(schema);
+        }
+
+        const articleSchema = {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": pageInfo.title,
+            "description": pageInfo.description,
+            "url": this.getCanonicalUrl(),
+            "datePublished": "2022-01-01",
+            "dateModified": new Date().toISOString(),
+            "author": {
+                "@type": "Organization",
+                "name": "UFIN Development Team",
+                "url": "https://github.com/whitewAw"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "UFIN",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": this.defaultImage
+                }
+            },
+            "image": pageInfo.image || this.defaultImage,
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": this.getCanonicalUrl()
+            },
+            "keywords": pageInfo.keywords,
+            "articleSection": pageInfo.category,
+            "inLanguage": document.documentElement.lang || "en",
+            "isAccessibleForFree": true,
+            "about": {
+                "@type": "Thing",
+                "name": "Financial Analysis",
+                "description": pageInfo.description.substring(0, 100)
+            }
+        };
+
+        schema.textContent = JSON.stringify(articleSchema, null, 2);
+        console.log('[SEO] Article schema updated');
     }
 
     /**
@@ -548,12 +764,14 @@ class SEOManager {
         schema.textContent = JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
+            "@id": `${this.getCanonicalUrl()}#webpage`,
             "name": pageInfo.title,
             "description": pageInfo.description,
             "url": this.getCanonicalUrl(),
             "inLanguage": document.documentElement.lang || "en",
             "isPartOf": {
                 "@type": "WebSite",
+                "@id": `${this.baseUrl}${this.basePath}#website`,
                 "name": this.siteName,
                 "url": `${this.baseUrl}${this.basePath}`
             },
@@ -581,6 +799,13 @@ class SEOManager {
                     "@type": "ImageObject",
                     "url": this.defaultImage
                 }
+            },
+            "speakable": {
+                "@type": "SpeakableSpecification",
+                "cssSelector": ["h1", "h2", ".description", "#seo-content"]
+            },
+            "breadcrumb": {
+                "@id": `${this.getCanonicalUrl()}#breadcrumb`
             }
         }, null, 2);
     }
@@ -752,13 +977,23 @@ class SEOManager {
             health.score += 5;
         }
 
+        // Check Twitter Card
+        const twitterCard = document.querySelector('meta[name="twitter:card"]');
+        const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twitterCard && twitterTitle) {
+            health.passed.push('Twitter Card tags present');
+            health.score += 5;
+        } else {
+            health.warnings.push('Incomplete Twitter Card tags');
+        }
+
         // Check structured data
         const schemas = document.querySelectorAll('script[type="application/ld+json"]');
-        if (schemas.length >= 2) {
+        if (schemas.length >= 3) {
             health.passed.push(`${schemas.length} structured data schemas found`);
             health.score += 10;
         } else if (schemas.length > 0) {
-            health.warnings.push(`Only ${schemas.length} schema found`);
+            health.warnings.push(`Only ${schemas.length} schema found (recommend 3+)`);
             health.score += 5;
         }
 
@@ -775,6 +1010,20 @@ class SEOManager {
         const alternates = document.querySelectorAll('link[rel="alternate"][hreflang]');
         if (alternates.length >= 6) {
             health.passed.push('Multi-language support configured');
+            health.score += 5;
+        }
+
+        // Check speculation rules
+        const speculationRules = document.querySelector('script[type="speculationrules"]');
+        if (speculationRules) {
+            health.passed.push('Speculation Rules for prerendering present');
+            health.score += 5;
+        }
+
+        // Check preload hints
+        const preloads = document.querySelectorAll('link[rel="preload"]');
+        if (preloads.length >= 3) {
+            health.passed.push(`${preloads.length} preload hints configured`);
             health.score += 5;
         }
 
@@ -820,6 +1069,13 @@ window.checkSEOHealth = () => {
         return health;
     }
     return null;
+};
+
+// Export prefetch hint function
+window.addPrefetchHint = (url) => {
+    if (window.seoManager) {
+        window.seoManager.addPrefetchHint(url);
+    }
 };
 
 console.log('[SEO] SEO Manager module loaded successfully');

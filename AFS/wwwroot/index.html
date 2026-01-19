@@ -10,6 +10,9 @@
     <!-- HTTP Status for SPA - Tells crawlers this is a valid 200 response -->
     <meta name="prerender-status-code" content="200" />
 
+    <!-- Fragment meta for AJAX crawling -->
+    <meta name="fragment" content="!" />
+
     <!-- Mobile Optimization -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="HandheldFriendly" content="true" />
@@ -20,25 +23,30 @@
     <meta name="title" content="UFIN - Free Ukrainian Financial Statement Analysis Tool for Businesses" />
     <meta name="description" content="Free professional financial analysis tool for Ukrainian businesses. Analyze balance sheets, income statements, calculate liquidity ratios, solvency metrics, profitability indicators. No registration required. Works offline. Supports 6 languages." />
     <meta name="keywords" content="Ukrainian financial analysis, financial statement analysis tool, balance sheet analyzer, income statement analysis, liquidity ratios calculator, solvency assessment, profitability metrics, business financial health, free financial tools, Ukrainian accounting, financial reporting, ROA calculator, ROE calculator, debt to equity ratio, current ratio calculator, quick ratio, cash flow analysis, working capital analysis, fixed assets analysis, financial stability assessment, business activity ratios, online financial analysis, financial assessment software, Ukrainian business analysis, accounting analysis tool, financial metrics calculator" />
-    <meta name="author" content="UFIN Financial Tools" />
+    <meta name="author" content="wAw_fromUkraine" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="bingbot" content="index, follow" />
     <link rel="canonical" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/" id="canonical" />
 
     <!-- Enhanced SEO Meta Tags -->
+    <meta name="subject" content="Financial Analysis Software for Ukrainian Businesses" />
+    <meta name="abstract" content="UFIN provides free AI-powered financial statement analysis for Ukrainian businesses including liquidity, solvency, and profitability metrics." />
     <meta name="category" content="Finance, Business Tools, Accounting Software" />
     <meta name="coverage" content="Worldwide" />
     <meta name="distribution" content="Global" />
     <meta name="rating" content="General" />
     <meta name="referrer" content="origin-when-cross-origin" />
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="target" content="all" />
+    <meta name="audience" content="all" />
 
-    <!-- Geo Targeting -->
-    <meta name="geo.region" content="US" />
-    <meta name="geo.placename" content="United States" />
-    <meta name="geo.position" content="37.09024;-95.712891" />
-    <meta name="ICBM" content="37.09024, -95.712891" />
+    <!-- Geo Targeting - Ukraine focused -->
+    <meta name="geo.region" content="UA" />
+    <meta name="geo.placename" content="Ukraine" />
+    <meta name="geo.position" content="48.3794;31.1656" />
+    <meta name="ICBM" content="48.3794, 31.1656" />
 
     <!-- Language and Region -->
     <meta http-equiv="content-language" content="en" />
@@ -70,6 +78,8 @@
     <meta property="og:locale:alternate" content="ru_RU" />
     <meta property="og:site_name" content="UFIN - Ukrainian Financial Statement Analysis" />
     <meta property="og:see_also" content="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements" />
+    <meta property="og:determiner" content="the" />
+    <meta property="og:updated_time" content="2025-01-21T00:00:00Z" />
 
     <!-- Twitter Card (Enhanced) -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -78,8 +88,9 @@
     <meta name="twitter:description" content="Professional financial statement analysis. Calculate liquidity, solvency, profitability ratios instantly. Free online tool, no registration." />
     <meta name="twitter:image" content="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png" />
     <meta name="twitter:image:alt" content="UFIN Financial Analysis Tool" />
-    <meta name="twitter:creator" content="@whitewAw" />
-    <meta name="twitter:site" content="@UFIN_Tool" />
+    <meta name="twitter:creator" content="@wAw_fromUkraine" />
+    <meta name="twitter:site" content="@wAw_fromUkraine" />
+    <meta name="twitter:domain" content="whitewaw.github.io" />
 
     <!-- Progressive Web App (Enhanced for Mobile) -->
     <meta name="application-name" content="UFIN Financial Analysis" />
@@ -101,6 +112,10 @@
     <meta name="msapplication-TileImage" content="icon-512.png" />
     <meta name="msapplication-config" content="browserconfig.xml" />
     <meta name="msapplication-tooltip" content="UFIN Financial Analysis Tool" />
+
+    <!-- Google Specific -->
+    <meta name="google" content="notranslate" />
+    <meta name="google-site-verification" content="" />
 
     <base href="/" />
 
@@ -221,6 +236,7 @@
         {
         "@context": "https://schema.org",
         "@type": "WebApplication",
+        "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#webapp",
         "name": "UFIN - Ukrainian Financial Statement Analysis Tool",
         "alternateName": [
         "UFIN",
@@ -235,9 +251,9 @@
         "operatingSystem": "Web Browser, Windows, macOS, Linux, Android, iOS",
         "browserRequirements": "Requires JavaScript and HTML5",
         "softwareVersion": "2.0.0",
-        "releaseNotes": "Enhanced with .NET 9, AOT compilation, improved performance, mobile responsiveness",
+        "releaseNotes": "Enhanced with .NET 10, AOT compilation, improved performance, mobile responsiveness",
         "datePublished": "2022-01-01",
-        "dateModified": "2025-01-20",
+        "dateModified": "2025-01-21",
         "isAccessibleForFree": true,
         "offers": {
         "@type": "Offer",
@@ -252,8 +268,9 @@
         },
         "author": {
         "@type": "Person",
-        "name": "whitewAw",
-        "url": "https://github.com/whitewAw"
+        "name": "wAw_fromUkraine",
+        "url": "https://github.com/whitewAw",
+        "sameAs": ["https://twitter.com/wAw_fromUkraine"]
         },
         "creator": {
         "@type": "Organization",
@@ -294,7 +311,8 @@
         "No Registration Required",
         "Free and Open Source",
         "Mobile Responsive Design",
-        "Touch-Optimized Interface"
+        "Touch-Optimized Interface",
+        "AI-Powered Analysis with Chrome Gemini Nano"
         ],
         "screenshot": ["https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png"],
         "aggregateRating": {
@@ -319,7 +337,7 @@
         "reviewBody": "Excellent tool for quick financial analysis. Very comprehensive and easy to use. Works great on mobile!"
         }],
         "serviceType": "Financial Analysis Software",
-        "areaServed": ["US", "UA", "EU", "Worldwide"],
+        "areaServed": ["UA", "US", "EU", "Worldwide"],
         "audience": {
         "@type": "Audience",
         "audienceType": [
@@ -334,19 +352,7 @@
         "Researchers"
         ]
         },
-        "potentialAction": {
-        "@type": "UseAction",
-        "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
-        "actionPlatform": [
-        "http://schema.org/DesktopWebPlatform",
-        "http://schema.org/MobileWebPlatform",
-        "http://schema.org/IOSPlatform",
-        "http://schema.org/AndroidPlatform"
-        ]
-        }
-        }
+        "potentialAction": [{}]
         }
     </script>
 
@@ -355,6 +361,7 @@
         {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
+            "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#software",
             "name": "UFIN Financial Analysis Tool",
             "description": "Professional financial statement analysis tool for Ukrainian businesses. Comprehensive assessment of financial health, solvency, liquidity, profitability, and operational efficiency. Features advanced ratio calculations, interactive visualizations, and multi-language support.",
             "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
@@ -381,7 +388,7 @@
                 "ratingCount": "156",
                 "reviewCount": "89"
             },
-            "keywords": "financial analysis, Ukrainian business, balance sheet, income statement, liquidity ratios, solvency, profitability, financial health"
+            "keywords": "financial analysis, Ukrainian business, balance sheet, income statement, liquidity ratios, solvency, profitability, financial health, AI analysis"
         }
     </script>
 
@@ -390,6 +397,7 @@
         {
             "@context": "https://schema.org",
             "@type": "FAQPage",
+            "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#faq",
             "mainEntity": [
                 {
                     "@type": "Question",
@@ -454,6 +462,14 @@
                         "@type": "Answer",
                         "text": "Basic accounting knowledge is helpful but not required. UFIN provides clear labels and tooltips for all financial inputs. If you have a company's balance sheet and income statement, you can input the data and get instant analysis. The tool is designed for both professional accountants and business owners who want to understand their financial health."
                     }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does UFIN have AI-powered analysis features?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes! UFIN includes an AI Financial Assistant powered by Chrome's built-in Gemini Nano. You can ask questions about your financial data in natural language and receive AI-generated insights. The AI runs 100% locally in your browser, ensuring complete privacy - no data is sent to external servers."
+                    }
                 }
             ]
         }
@@ -464,17 +480,30 @@
         {
             "@context": "https://schema.org",
             "@type": "Organization",
+            "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#organization",
             "name": "UFIN - Ukrainian Financial Analysis",
             "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
-            "logo": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png",
+                "width": 512,
+                "height": 512
+            },
             "description": "Provider of free professional financial analysis tools for Ukrainian businesses",
             "sameAs": [
-                "https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements"
+                "https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements",
+                "https://twitter.com/wAw_fromUkraine"
             ],
             "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer support",
-                "url": "https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues"
+                "url": "https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/issues",
+                "availableLanguage": ["English", "Ukrainian", "Russian"]
+            },
+            "foundingDate": "2022",
+            "foundingLocation": {
+                "@type": "Place",
+                "name": "Ukraine"
             }
         }
     </script>
@@ -484,6 +513,7 @@
         {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
+            "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#breadcrumb",
             "itemListElement": [
                 {
                     "@type": "ListItem",
@@ -501,11 +531,38 @@
         }
     </script>
 
+    <!-- WebSite Schema with SearchAction -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#website",
+            "name": "UFIN - Ukrainian Financial Statement Analysis",
+            "alternateName": ["UFIN", "Ukrainian Financial Analysis"],
+            "url": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",
+            "description": "Free professional financial analysis tool for Ukrainian businesses",
+            "inLanguage": ["en", "uk", "ru", "es", "de", "fr"],
+            "publisher": {
+                "@id": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/#organization"
+            },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+
     <!-- Preconnect to improve performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
     <!-- Preconnect to GitHub Pages CDN -->
     <link rel="preconnect" href="https://whitewaw.github.io" crossorigin />
@@ -575,6 +632,33 @@
 </head>
 
 <body>
+    <!-- Static SEO content for crawlers (hidden but indexable) -->
+    <div id="seo-content" style="position: absolute; left: -9999px; top: -9999px;">
+        <h1>UFIN - Free Ukrainian Financial Statement Analysis Tool</h1>
+        <p>Professional financial analysis tool for Ukrainian businesses. Analyze balance sheets, income statements, calculate liquidity ratios, solvency metrics, profitability indicators.</p>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/">Home - Financial Analysis Dashboard</a></li>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/aiassistant">AI Financial Assistant</a></li>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/liquidityindicatorsofbalance">Liquidity Ratios Calculator</a></li>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/solvencyratios">Solvency Ratios Analysis</a></li>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/generalindicatorsoffinancialstability">Financial Stability Indicators</a></li>
+                <li><a href="/Assessment-of-Ukrainian-financial-statements/indicatorsofbusinessactivity">Business Activity Metrics</a></li>
+            </ul>
+        </nav>
+        <section>
+            <h2>Key Features</h2>
+            <ul>
+                <li>16 Comprehensive Financial Analysis Tables</li>
+                <li>7 Interactive Charts and Visualizations</li>
+                <li>AI-Powered Analysis with Gemini Nano</li>
+                <li>Works Offline - Progressive Web App</li>
+                <li>6 Languages Supported</li>
+                <li>100% Free, No Registration</li>
+            </ul>
+        </section>
+    </div>
+
     <div id="app">
         <!-- Static content renders immediately (no Blazor needed) -->
         <div class="d-flex align-items-center justify-content-center vh-100">
