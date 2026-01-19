@@ -1,6 +1,8 @@
-﻿namespace AFS.Core.Models.TablsModels
+﻿using AFS.Core.Interfaces;
+
+namespace AFS.Core.Models.TablsModels
 {
-    public class TwoYearsCalculationData
+    public class TwoYearsCalculationData : IHasBaseCurrentYear
     {
         private double _baseYear;
         private double _currentYear;

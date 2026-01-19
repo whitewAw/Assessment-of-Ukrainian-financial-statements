@@ -1,3 +1,4 @@
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using System.Text.Json;
@@ -5,7 +6,8 @@ using System.Text.Json;
 namespace AFS.Core.Services;
 
 /// <summary>
-/// Helper service for AOT-compatible JSON serialization
+/// Helper service for AOT-compatible JSON serialization without reflection.
+/// All methods use strongly-typed interfaces instead of reflection.
 /// </summary>
 public static class JsonSerializationHelper
 {
@@ -230,10 +232,10 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object absoluteStability,
-        object normalStability,
-        object precrisisStability,
-        object crisisStability)
+        IHasStabilityValues absoluteStability,
+        IHasStabilityValues normalStability,
+        IHasStabilityValues precrisisStability,
+        IHasStabilityValues crisisStability)
     {
         bool IsPass(string value) => value == "+";
 
@@ -245,42 +247,42 @@ public static class JsonSerializationHelper
             AbsoluteStability = new StabilityTypeData
             {
                 Type = "Type 1: Absolute Financial Stability",
-                Base_Current = IsPass(GetPropertyValue(absoluteStability, "CurrentBVal")),
-                Base_ShortTerm = IsPass(GetPropertyValue(absoluteStability, "ShortBVal")),
-                Base_LongTerm = IsPass(GetPropertyValue(absoluteStability, "LongBVal")),
-                Current_Current = IsPass(GetPropertyValue(absoluteStability, "CurrentCVal")),
-                Current_ShortTerm = IsPass(GetPropertyValue(absoluteStability, "ShortCVal")),
-                Current_LongTerm = IsPass(GetPropertyValue(absoluteStability, "LongCVal"))
+                Base_Current = IsPass(absoluteStability.CurrentBVal),
+                Base_ShortTerm = IsPass(absoluteStability.ShortBVal),
+                Base_LongTerm = IsPass(absoluteStability.LongBVal),
+                Current_Current = IsPass(absoluteStability.CurrentCVal),
+                Current_ShortTerm = IsPass(absoluteStability.ShortCVal),
+                Current_LongTerm = IsPass(absoluteStability.LongCVal)
             },
             NormalStability = new StabilityTypeData
             {
                 Type = "Type 2: Normal Financial Stability",
-                Base_Current = IsPass(GetPropertyValue(normalStability, "CurrentBVal")),
-                Base_ShortTerm = IsPass(GetPropertyValue(normalStability, "ShortBVal")),
-                Base_LongTerm = IsPass(GetPropertyValue(normalStability, "LongBVal")),
-                Current_Current = IsPass(GetPropertyValue(normalStability, "CurrentCVal")),
-                Current_ShortTerm = IsPass(GetPropertyValue(normalStability, "ShortCVal")),
-                Current_LongTerm = IsPass(GetPropertyValue(normalStability, "LongCVal"))
+                Base_Current = IsPass(normalStability.CurrentBVal),
+                Base_ShortTerm = IsPass(normalStability.ShortBVal),
+                Base_LongTerm = IsPass(normalStability.LongBVal),
+                Current_Current = IsPass(normalStability.CurrentCVal),
+                Current_ShortTerm = IsPass(normalStability.ShortCVal),
+                Current_LongTerm = IsPass(normalStability.LongCVal)
             },
             PreCrisisStability = new StabilityTypeData
             {
                 Type = "Type 3: Pre-Crisis Financial Stability",
-                Base_Current = IsPass(GetPropertyValue(precrisisStability, "CurrentBVal")),
-                Base_ShortTerm = IsPass(GetPropertyValue(precrisisStability, "ShortBVal")),
-                Base_LongTerm = IsPass(GetPropertyValue(precrisisStability, "LongBVal")),
-                Current_Current = IsPass(GetPropertyValue(precrisisStability, "CurrentCVal")),
-                Current_ShortTerm = IsPass(GetPropertyValue(precrisisStability, "ShortCVal")),
-                Current_LongTerm = IsPass(GetPropertyValue(precrisisStability, "LongCVal"))
+                Base_Current = IsPass(precrisisStability.CurrentBVal),
+                Base_ShortTerm = IsPass(precrisisStability.ShortBVal),
+                Base_LongTerm = IsPass(precrisisStability.LongBVal),
+                Current_Current = IsPass(precrisisStability.CurrentCVal),
+                Current_ShortTerm = IsPass(precrisisStability.ShortCVal),
+                Current_LongTerm = IsPass(precrisisStability.LongCVal)
             },
             CrisisStability = new StabilityTypeData
             {
                 Type = "Type 4: Crisis Financial Stability",
-                Base_Current = IsPass(GetPropertyValue(crisisStability, "CurrentBVal")),
-                Base_ShortTerm = IsPass(GetPropertyValue(crisisStability, "ShortBVal")),
-                Base_LongTerm = IsPass(GetPropertyValue(crisisStability, "LongBVal")),
-                Current_Current = IsPass(GetPropertyValue(crisisStability, "CurrentCVal")),
-                Current_ShortTerm = IsPass(GetPropertyValue(crisisStability, "ShortCVal")),
-                Current_LongTerm = IsPass(GetPropertyValue(crisisStability, "LongCVal"))
+                Base_Current = IsPass(crisisStability.CurrentBVal),
+                Base_ShortTerm = IsPass(crisisStability.ShortBVal),
+                Base_LongTerm = IsPass(crisisStability.LongBVal),
+                Current_Current = IsPass(crisisStability.CurrentCVal),
+                Current_ShortTerm = IsPass(crisisStability.ShortCVal),
+                Current_LongTerm = IsPass(crisisStability.LongCVal)
             }
         };
 
@@ -294,18 +296,16 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object totalRow,
-        object buyersSuppliers,
-        object budgetFunds,
-        object advances,
-        object others)
+        IHasReceivablePayable totalRow,
+        IHasReceivablePayable buyersSuppliers,
+        IHasReceivablePayable budgetFunds,
+        IHasReceivablePayable advances,
+        IHasReceivablePayable others)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        var totalRecBase = SafeValue(GetDoubleProperty(totalRow, "ReceivableBase"));
-        var totalRecCurrent = SafeValue(GetDoubleProperty(totalRow, "ReceivableCurrent"));
-        var totalPayBase = SafeValue(GetDoubleProperty(totalRow, "PayableBase"));
-        var totalPayCurrent = SafeValue(GetDoubleProperty(totalRow, "PayableCurrent"));
+        var totalRecBase = SafeValue(totalRow.ReceivableBase);
+        var totalRecCurrent = SafeValue(totalRow.ReceivableCurrent);
+        var totalPayBase = SafeValue(totalRow.PayableBase);
+        var totalPayCurrent = SafeValue(totalRow.PayableCurrent);
 
         var data = new ReceivablePayableData
         {
@@ -323,10 +323,10 @@ public static class JsonSerializationHelper
                 ReceivableToPayableRatio_Base = totalPayBase > 0 ? totalRecBase / totalPayBase : 0,
                 ReceivableToPayableRatio_Current = totalPayCurrent > 0 ? totalRecCurrent / totalPayCurrent : 0
             },
-            BuyersSuppliers = CreateReceivablePayableCategory(buyersSuppliers, SafeValue),
-            BudgetFunds = CreateReceivablePayableCategory(budgetFunds, SafeValue),
-            Advances = CreateReceivablePayableCategory(advances, SafeValue),
-            Others = CreateReceivablePayableCategory(others, SafeValue)
+            BuyersSuppliers = CreateReceivablePayableCategory(buyersSuppliers),
+            BudgetFunds = CreateReceivablePayableCategory(budgetFunds),
+            Advances = CreateReceivablePayableCategory(advances),
+            Others = CreateReceivablePayableCategory(others)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.ReceivablePayableData);
@@ -339,26 +339,24 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object overallLiquidity,
-        object absoluteLiquidity,
-        object intermediateCoverage,
-        object currentLiquidity,
-        object recoverySolvency,
-        object lossSolvency)
+        IHasSolvencyRatio overallLiquidity,
+        IHasSolvencyRatio absoluteLiquidity,
+        IHasSolvencyRatio intermediateCoverage,
+        IHasSolvencyRatio currentLiquidity,
+        IHasSolvencyRatio recoverySolvency,
+        IHasSolvencyRatio lossSolvency)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
         var data = new SolvencyRatiosData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            OverallLiquidityRatio = CreateSolvencyRatioItem(overallLiquidity, SafeValue),
-            AbsoluteLiquidityRatio = CreateSolvencyRatioItem(absoluteLiquidity, SafeValue),
-            IntermediateCoverageRatio = CreateSolvencyRatioItem(intermediateCoverage, SafeValue),
-            CurrentLiquidityRatio = CreateSolvencyRatioItem(currentLiquidity, SafeValue),
-            RecoverySolvencyRatio = CreateSolvencyRatioSimpleItem(recoverySolvency, SafeValue),
-            LossSolvencyRatio = CreateSolvencyRatioSimpleItem(lossSolvency, SafeValue)
+            OverallLiquidityRatio = CreateSolvencyRatioItem(overallLiquidity),
+            AbsoluteLiquidityRatio = CreateSolvencyRatioItem(absoluteLiquidity),
+            IntermediateCoverageRatio = CreateSolvencyRatioItem(intermediateCoverage),
+            CurrentLiquidityRatio = CreateSolvencyRatioItem(currentLiquidity),
+            RecoverySolvencyRatio = CreateSolvencyRatioSimpleItem(recoverySolvency),
+            LossSolvencyRatio = CreateSolvencyRatioSimpleItem(lossSolvency)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.SolvencyRatiosData);
@@ -371,35 +369,24 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object netRevenue,
-        object avgEmployees,
-        object laborProductivity,
-        object avgFixedAssets,
-        object capitalIntensity,
-        object fixedAssetTurnover)
+        IHasBaseCurrentYear netRevenue,
+        IHasBaseCurrentYear avgEmployees,
+        IHasBaseCurrentYear laborProductivity,
+        IHasBaseCurrentYear avgFixedAssets,
+        IHasBaseCurrentYear capitalIntensity,
+        IHasBaseCurrentYear fixedAssetTurnover)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
         var data = new FactorAnalysisData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            NetRevenueFromSales = CreateFactorMetric(netRevenue, SafeValue, CalculatePercentageChange),
-            AverageNumberOfEmployees = CreateFactorMetric(avgEmployees, SafeValue, CalculatePercentageChange),
-            LaborProductivity = CreateFactorMetric(laborProductivity, SafeValue, CalculatePercentageChange),
-            AverageCostOfFixedAssets = CreateFactorMetric(avgFixedAssets, SafeValue, CalculatePercentageChange),
-            CapitalIntensity = CreateFactorMetric(capitalIntensity, SafeValue, CalculatePercentageChange),
-            FixedAssetTurnover = CreateFactorMetric(fixedAssetTurnover, SafeValue, CalculatePercentageChange)
+            NetRevenueFromSales = CreateFactorMetric(netRevenue),
+            AverageNumberOfEmployees = CreateFactorMetric(avgEmployees),
+            LaborProductivity = CreateFactorMetric(laborProductivity),
+            AverageCostOfFixedAssets = CreateFactorMetric(avgFixedAssets),
+            CapitalIntensity = CreateFactorMetric(capitalIntensity),
+            FixedAssetTurnover = CreateFactorMetric(fixedAssetTurnover)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.FactorAnalysisData);
@@ -412,56 +399,45 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object grossProfitMargin,
-        object businessActivityRatio,
-        object financialResourceEfficiency,
-        object ownFundsUtilization,
-        object enterpriseProfitability,
-        object laborProductivity,
-        object fixedAssetTurnover,
-        object receivablesTurnoverRevolutions,
-        object receivablesTurnoverDays,
-        object inventoryTurnoverRevolutions,
-        object inventoryTurnoverDays,
-        object operatingCycle,
-        object currentAssetsTurnoverRevolutions,
-        object currentAssetsTurnoverDays,
-        object equityTurnover,
-        object totalCapitalTurnover,
-        object economicGrowthStability,
-        object equityPaybackPeriod)
+        IHasBaseCurrentYear grossProfitMargin,
+        IHasBaseCurrentYear businessActivityRatio,
+        IHasBaseCurrentYear financialResourceEfficiency,
+        IHasBaseCurrentYear ownFundsUtilization,
+        IHasBaseCurrentYear enterpriseProfitability,
+        IHasBaseCurrentYear laborProductivity,
+        IHasBaseCurrentYear fixedAssetTurnover,
+        IHasBaseCurrentYear receivablesTurnoverRevolutions,
+        IHasBaseCurrentYear receivablesTurnoverDays,
+        IHasBaseCurrentYear inventoryTurnoverRevolutions,
+        IHasBaseCurrentYear inventoryTurnoverDays,
+        IHasBaseCurrentYear operatingCycle,
+        IHasBaseCurrentYear currentAssetsTurnoverRevolutions,
+        IHasBaseCurrentYear currentAssetsTurnoverDays,
+        IHasBaseCurrentYear equityTurnover,
+        IHasBaseCurrentYear totalCapitalTurnover,
+        IHasBaseCurrentYear economicGrowthStability,
+        IHasBaseCurrentYear equityPaybackPeriod)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
         var data = new BusinessActivityData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            GrossProfitMargin = CreateBusinessActivityMetric(grossProfitMargin, SafeValue, CalculatePercentageChange),
-            BusinessActivityRatio = CreateBusinessActivityMetric(businessActivityRatio, SafeValue, CalculatePercentageChange),
-            FinancialResourceEfficiency = CreateBusinessActivityMetric(financialResourceEfficiency, SafeValue, CalculatePercentageChange),
-            OwnFundsUtilization = CreateBusinessActivityMetric(ownFundsUtilization, SafeValue, CalculatePercentageChange),
-            EnterpriseProfitability = CreateBusinessActivityMetric(enterpriseProfitability, SafeValue, CalculatePercentageChange),
-            LaborProductivity = CreateBusinessActivityMetric(laborProductivity, SafeValue, CalculatePercentageChange),
-            FixedAssetTurnover = CreateBusinessActivityMetric(fixedAssetTurnover, SafeValue, CalculatePercentageChange),
-            ReceivablesTurnover = CreateTurnoverMetric(receivablesTurnoverRevolutions, receivablesTurnoverDays, SafeValue),
-            InventoryTurnover = CreateTurnoverMetric(inventoryTurnoverRevolutions, inventoryTurnoverDays, SafeValue),
-            OperatingCycle = CreateBusinessActivityMetric(operatingCycle, SafeValue, CalculatePercentageChange),
-            CurrentAssetsTurnover = CreateTurnoverMetric(currentAssetsTurnoverRevolutions, currentAssetsTurnoverDays, SafeValue),
-            EquityTurnover = CreateBusinessActivityMetric(equityTurnover, SafeValue, CalculatePercentageChange),
-            TotalCapitalTurnover = CreateBusinessActivityMetric(totalCapitalTurnover, SafeValue, CalculatePercentageChange),
-            EconomicGrowthStability = CreateBusinessActivityMetric(economicGrowthStability, SafeValue, CalculatePercentageChange),
-            EquityPaybackPeriod = CreateBusinessActivityMetric(equityPaybackPeriod, SafeValue, CalculatePercentageChange)
+            GrossProfitMargin = CreateBusinessActivityMetric(grossProfitMargin),
+            BusinessActivityRatio = CreateBusinessActivityMetric(businessActivityRatio),
+            FinancialResourceEfficiency = CreateBusinessActivityMetric(financialResourceEfficiency),
+            OwnFundsUtilization = CreateBusinessActivityMetric(ownFundsUtilization),
+            EnterpriseProfitability = CreateBusinessActivityMetric(enterpriseProfitability),
+            LaborProductivity = CreateBusinessActivityMetric(laborProductivity),
+            FixedAssetTurnover = CreateBusinessActivityMetric(fixedAssetTurnover),
+            ReceivablesTurnover = CreateTurnoverMetric(receivablesTurnoverRevolutions, receivablesTurnoverDays),
+            InventoryTurnover = CreateTurnoverMetric(inventoryTurnoverRevolutions, inventoryTurnoverDays),
+            OperatingCycle = CreateBusinessActivityMetric(operatingCycle),
+            CurrentAssetsTurnover = CreateTurnoverMetric(currentAssetsTurnoverRevolutions, currentAssetsTurnoverDays),
+            EquityTurnover = CreateBusinessActivityMetric(equityTurnover),
+            TotalCapitalTurnover = CreateBusinessActivityMetric(totalCapitalTurnover),
+            EconomicGrowthStability = CreateBusinessActivityMetric(economicGrowthStability),
+            EquityPaybackPeriod = CreateBusinessActivityMetric(equityPaybackPeriod)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.BusinessActivityData);
@@ -474,31 +450,20 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object netRevenue,
-        object avgCostIntangibles,
-        object intangibleTurnover,
-        object capitalIntensity)
+        IHasBaseCurrentYear netRevenue,
+        IHasBaseCurrentYear avgCostIntangibles,
+        IHasBaseCurrentYear intangibleTurnover,
+        IHasBaseCurrentYear capitalIntensity)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
         var data = new IntangibleAssetsData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            NetRevenueFromSales = CreateIntangibleAssetMetric(netRevenue, SafeValue, CalculatePercentageChange),
-            AverageCostOfIntangibleAssets = CreateIntangibleAssetMetric(avgCostIntangibles, SafeValue, CalculatePercentageChange),
-            IntangibleAssetTurnover_UAH = CreateIntangibleAssetMetric(intangibleTurnover, SafeValue, CalculatePercentageChange),
-            CapitalIntensityOfProduction_UAH = CreateIntangibleAssetMetric(capitalIntensity, SafeValue, CalculatePercentageChange)
+            NetRevenueFromSales = CreateIntangibleAssetMetric(netRevenue),
+            AverageCostOfIntangibleAssets = CreateIntangibleAssetMetric(avgCostIntangibles),
+            IntangibleAssetTurnover_UAH = CreateIntangibleAssetMetric(intangibleTurnover),
+            CapitalIntensityOfProduction_UAH = CreateIntangibleAssetMetric(capitalIntensity)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.IntangibleAssetsData);
@@ -511,49 +476,38 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object totalReturnOnAssets,
-        object independenceRatio,
-        object financialLeverage,
-        object financialStability,
-        object maneuverability,
-        object borrowedCapitalConcentration,
-        object longTermInvestmentStructure,
-        object longTermBorrowing,
-        object capitalStructureRatio,
-        object debtToEquity,
-        object ownFundsInInventories,
-        object mobileToImmobilized,
-        object totalCoverage)
+        IHasBaseCurrentYear totalReturnOnAssets,
+        IHasBaseCurrentYear independenceRatio,
+        IHasBaseCurrentYear financialLeverage,
+        IHasBaseCurrentYear financialStability,
+        IHasBaseCurrentYear maneuverability,
+        IHasBaseCurrentYear borrowedCapitalConcentration,
+        IHasBaseCurrentYear longTermInvestmentStructure,
+        IHasBaseCurrentYear longTermBorrowing,
+        IHasBaseCurrentYear capitalStructureRatio,
+        IHasBaseCurrentYear debtToEquity,
+        IHasBaseCurrentYear ownFundsInInventories,
+        IHasBaseCurrentYear mobileToImmobilized,
+        IHasBaseCurrentYear totalCoverage)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        double CalculatePercentageChange(double baseValue, double currentValue)
-        {
-            if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
-            if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
-            var result = ((currentValue - baseValue) / baseValue) * 100;
-            if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
-            return result;
-        }
-
         var data = new FinancialStabilityIndicatorsData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            TotalReturnOnAssets = CreateStabilityIndicatorMetric(totalReturnOnAssets, SafeValue, CalculatePercentageChange),
-            IndependenceRatio = CreateStabilityIndicatorMetric(independenceRatio, SafeValue, CalculatePercentageChange),
-            FinancialLeverageRatio = CreateStabilityIndicatorMetric(financialLeverage, SafeValue, CalculatePercentageChange),
-            FinancialStabilityRatio = CreateStabilityIndicatorMetric(financialStability, SafeValue, CalculatePercentageChange),
-            ManeuverabilityRatio = CreateStabilityIndicatorMetric(maneuverability, SafeValue, CalculatePercentageChange),
-            BorrowedCapitalConcentration = CreateStabilityIndicatorMetric(borrowedCapitalConcentration, SafeValue, CalculatePercentageChange),
-            LongTermInvestmentStructure = CreateStabilityIndicatorMetric(longTermInvestmentStructure, SafeValue, CalculatePercentageChange),
-            LongTermBorrowingRatio = CreateStabilityIndicatorMetric(longTermBorrowing, SafeValue, CalculatePercentageChange),
-            CapitalStructureRatio = CreateStabilityIndicatorMetric(capitalStructureRatio, SafeValue, CalculatePercentageChange),
-            DebtToEquityRatio = CreateStabilityIndicatorMetric(debtToEquity, SafeValue, CalculatePercentageChange),
-            OwnFundsInInventories = CreateStabilityIndicatorMetric(ownFundsInInventories, SafeValue, CalculatePercentageChange),
-            MobileToImmobilizedRatio = CreateStabilityIndicatorMetric(mobileToImmobilized, SafeValue, CalculatePercentageChange),
-            TotalCoverageRatio = CreateStabilityIndicatorMetric(totalCoverage, SafeValue, CalculatePercentageChange)
+            TotalReturnOnAssets = CreateStabilityIndicatorMetric(totalReturnOnAssets),
+            IndependenceRatio = CreateStabilityIndicatorMetric(independenceRatio),
+            FinancialLeverageRatio = CreateStabilityIndicatorMetric(financialLeverage),
+            FinancialStabilityRatio = CreateStabilityIndicatorMetric(financialStability),
+            ManeuverabilityRatio = CreateStabilityIndicatorMetric(maneuverability),
+            BorrowedCapitalConcentration = CreateStabilityIndicatorMetric(borrowedCapitalConcentration),
+            LongTermInvestmentStructure = CreateStabilityIndicatorMetric(longTermInvestmentStructure),
+            LongTermBorrowingRatio = CreateStabilityIndicatorMetric(longTermBorrowing),
+            CapitalStructureRatio = CreateStabilityIndicatorMetric(capitalStructureRatio),
+            DebtToEquityRatio = CreateStabilityIndicatorMetric(debtToEquity),
+            OwnFundsInInventories = CreateStabilityIndicatorMetric(ownFundsInInventories),
+            MobileToImmobilizedRatio = CreateStabilityIndicatorMetric(mobileToImmobilized),
+            TotalCoverageRatio = CreateStabilityIndicatorMetric(totalCoverage)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.FinancialStabilityIndicatorsData);
@@ -566,45 +520,15 @@ public static class JsonSerializationHelper
         string companyName,
         int baseYear,
         int currentYear,
-        object a1p1Base,
-        object a2p2Base,
-        object a3p3Base,
-        object a4p4Base,
-        object a1p1Current,
-        object a2p2Current,
-        object a3p3Current,
-        object a4p4Current)
+        IHasLiquidityData a1p1Base,
+        IHasLiquidityData a2p2Base,
+        IHasLiquidityData a3p3Base,
+        IHasLiquidityData a4p4Base,
+        IHasLiquidityData a1p1Current,
+        IHasLiquidityData a2p2Current,
+        IHasLiquidityData a3p3Current,
+        IHasLiquidityData a4p4Current)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
-        bool IsLiquidBegin(object a1, object a2, object a3, object a4)
-        {
-            var a1ABegin = SafeValue(GetDoubleProperty(a1, "ABegin"));
-            var a1PBegin = SafeValue(GetDoubleProperty(a1, "PBegin"));
-            var a2ABegin = SafeValue(GetDoubleProperty(a2, "ABegin"));
-            var a2PBegin = SafeValue(GetDoubleProperty(a2, "PBegin"));
-            var a3ABegin = SafeValue(GetDoubleProperty(a3, "ABegin"));
-            var a3PBegin = SafeValue(GetDoubleProperty(a3, "PBegin"));
-            var a4ABegin = SafeValue(GetDoubleProperty(a4, "ABegin"));
-            var a4PBegin = SafeValue(GetDoubleProperty(a4, "PBegin"));
-
-            return a1ABegin >= a1PBegin && a2ABegin >= a2PBegin && a3ABegin >= a3PBegin && a4ABegin <= a4PBegin;
-        }
-
-        bool IsLiquidEnd(object a1, object a2, object a3, object a4)
-        {
-            var a1AEnd = SafeValue(GetDoubleProperty(a1, "AEnd"));
-            var a1PEnd = SafeValue(GetDoubleProperty(a1, "PEnd"));
-            var a2AEnd = SafeValue(GetDoubleProperty(a2, "AEnd"));
-            var a2PEnd = SafeValue(GetDoubleProperty(a2, "PEnd"));
-            var a3AEnd = SafeValue(GetDoubleProperty(a3, "AEnd"));
-            var a3PEnd = SafeValue(GetDoubleProperty(a3, "PEnd"));
-            var a4AEnd = SafeValue(GetDoubleProperty(a4, "AEnd"));
-            var a4PEnd = SafeValue(GetDoubleProperty(a4, "PEnd"));
-
-            return a1AEnd >= a1PEnd && a2AEnd >= a2PEnd && a3AEnd >= a3PEnd && a4AEnd <= a4PEnd;
-        }
-
         var data = new LiquidityIndicatorsData
         {
             CompanyName = companyName,
@@ -612,13 +536,13 @@ public static class JsonSerializationHelper
             CurrentYear = currentYear,
             BaseYear_Assessment = new LiquidityPeriodData
             {
-                BeginOfYear = CreateLiquidityCondition(a1p1Base, a2p2Base, a3p3Base, a4p4Base, true, SafeValue, IsLiquidBegin),
-                EndOfYear = CreateLiquidityCondition(a1p1Base, a2p2Base, a3p3Base, a4p4Base, false, SafeValue, IsLiquidEnd)
+                BeginOfYear = CreateLiquidityConditionBegin(a1p1Base, a2p2Base, a3p3Base, a4p4Base),
+                EndOfYear = CreateLiquidityConditionEnd(a1p1Base, a2p2Base, a3p3Base, a4p4Base)
             },
             CurrentYear_Assessment = new LiquidityPeriodData
             {
-                BeginOfYear = CreateLiquidityCondition(a1p1Current, a2p2Current, a3p3Current, a4p4Current, true, SafeValue, IsLiquidBegin),
-                EndOfYear = CreateLiquidityCondition(a1p1Current, a2p2Current, a3p3Current, a4p4Current, false, SafeValue, IsLiquidEnd)
+                BeginOfYear = CreateLiquidityConditionBegin(a1p1Current, a2p2Current, a3p3Current, a4p4Current),
+                EndOfYear = CreateLiquidityConditionEnd(a1p1Current, a2p2Current, a3p3Current, a4p4Current)
             }
         };
 
@@ -628,32 +552,31 @@ public static class JsonSerializationHelper
     /// <summary>
     /// Serialize general financial stability indicators for AI analysis
     /// </summary>
-    public static string SerializeGeneralFinancialStability(
+    public static string SerializeGeneralFinancialStability<T>(
         string companyName,
         int baseYear,
         int currentYear,
-        object ownWorkingCapital,
-        object ownPlusLongTerm,
-        object totalAvailable,
-        object stocks,
-        object deficitOwnCapital,
-        object deficitOwnPlusLongTerm,
-        object deficitTotalSources)
+        IHasBaseCurrent<T> ownWorkingCapital,
+        IHasBaseCurrent<T> ownPlusLongTerm,
+        IHasBaseCurrent<T> totalAvailable,
+        IHasBaseCurrent<T> stocks,
+        IHasBaseCurrent<T> deficitOwnCapital,
+        IHasBaseCurrent<T> deficitOwnPlusLongTerm,
+        IHasBaseCurrent<T> deficitTotalSources)
+        where T : IHasBeginEnd
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
         var data = new GeneralFinancialStabilityData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            OwnWorkingCapital = CreateStabilitySource(ownWorkingCapital, SafeValue),
-            OwnPlusLongTerm = CreateStabilitySource(ownPlusLongTerm, SafeValue),
-            TotalAvailable = CreateStabilitySource(totalAvailable, SafeValue),
-            Stocks_Inventory = CreateStabilitySource(stocks, SafeValue),
-            Deficit_OwnCapital = CreateStabilitySource(deficitOwnCapital, SafeValue),
-            Deficit_OwnPlusLongTerm = CreateStabilitySource(deficitOwnPlusLongTerm, SafeValue),
-            Deficit_TotalSources = CreateStabilitySource(deficitTotalSources, SafeValue)
+            OwnWorkingCapital = CreateStabilitySource(ownWorkingCapital),
+            OwnPlusLongTerm = CreateStabilitySource(ownPlusLongTerm),
+            TotalAvailable = CreateStabilitySource(totalAvailable),
+            Stocks_Inventory = CreateStabilitySource(stocks),
+            Deficit_OwnCapital = CreateStabilitySource(deficitOwnCapital),
+            Deficit_OwnPlusLongTerm = CreateStabilitySource(deficitOwnPlusLongTerm),
+            Deficit_TotalSources = CreateStabilitySource(deficitTotalSources)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.GeneralFinancialStabilityData);
@@ -662,230 +585,269 @@ public static class JsonSerializationHelper
     /// <summary>
     /// Serialize sources of capital formation for AI analysis
     /// </summary>
-    public static string SerializeSourcesOfCapital(
+    public static string SerializeSourcesOfCapital<T>(
         string companyName,
         int baseYear,
         int currentYear,
-        object totalCapital,
-        object equity,
-        object ownCurrentAssets,
-        object borrowedCapital,
-        object longTermLiabilities,
-        object shortTermLoans,
-        object accountsPayable,
-        object otherCurrentLiabilities)
+        IHasBaseCurrent<T> totalCapital,
+        ICapitalSourceMetric<T> equity,
+        ICapitalComponentEquity<T> ownCurrentAssets,
+        ICapitalSourceMetric<T> borrowedCapital,
+        ICapitalComponentBorrowed<T> longTermLiabilities,
+        ICapitalComponentBorrowed<T> shortTermLoans,
+        ICapitalComponentBorrowed<T> accountsPayable,
+        ICapitalComponentBorrowed<T> otherCurrentLiabilities)
+        where T : IHasBeginEnd
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
         var data = new SourcesOfCapitalData
         {
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            TotalCapital = CreateCapitalSourceMetric(totalCapital, SafeValue),
-            Equity = CreateCapitalSourceMetric(equity, SafeValue),
-            OwnCurrentAssets = CreateCapitalComponent(ownCurrentAssets, SafeValue),
-            BorrowedCapital = CreateCapitalSourceMetric(borrowedCapital, SafeValue),
-            LongTermLiabilities = CreateCapitalComponent(longTermLiabilities, SafeValue),
-            ShortTermLoans = CreateCapitalComponent(shortTermLoans, SafeValue),
-            AccountsPayable = CreateCapitalComponent(accountsPayable, SafeValue),
-            OtherCurrentLiabilities = CreateCapitalComponent(otherCurrentLiabilities, SafeValue)
+            TotalCapital = CreateCapitalSourceMetricFromBaseCurrent(totalCapital),
+            Equity = CreateCapitalSourceMetric(equity),
+            OwnCurrentAssets = CreateCapitalComponentFromEquity(ownCurrentAssets),
+            BorrowedCapital = CreateCapitalSourceMetric(borrowedCapital),
+            LongTermLiabilities = CreateCapitalComponentFromBorrowed(longTermLiabilities),
+            ShortTermLoans = CreateCapitalComponentFromBorrowed(shortTermLoans),
+            AccountsPayable = CreateCapitalComponentFromBorrowed(accountsPayable),
+            OtherCurrentLiabilities = CreateCapitalComponentFromBorrowed(otherCurrentLiabilities)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.SourcesOfCapitalData);
     }
 
-    private static CapitalSourceMetricData CreateCapitalSourceMetric(object obj, Func<double, double> safeValue)
+    // ============ Private Helper Methods - No Reflection ============
+
+    private static double SafeValue(double value) =>
+        double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
+
+    private static double CalculatePercentageChange(double baseValue, double currentValue)
     {
-        var baseObj = obj.GetType().GetProperty("Base")?.GetValue(obj);
-        var currentObj = obj.GetType().GetProperty("Current")?.GetValue(obj);
-        var basePercentObj = obj.GetType().GetProperty("InPercentageOfAssetsBase")?.GetValue(obj);
-        var currentPercentObj = obj.GetType().GetProperty("InPercentageOfAssetsCurrent")?.GetValue(obj);
-        
-        var baseBegin = baseObj != null ? safeValue(GetDoubleProperty(baseObj, "BeginningOfyear")) : 0;
-        var baseEnd = baseObj != null ? safeValue(GetDoubleProperty(baseObj, "EndOfYear")) : 0;
-        var currentBegin = currentObj != null ? safeValue(GetDoubleProperty(currentObj, "BeginningOfyear")) : 0;
-        var currentEnd = currentObj != null ? safeValue(GetDoubleProperty(currentObj, "EndOfYear")) : 0;
-        
+        if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
+        if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
+        var result = ((currentValue - baseValue) / baseValue) * 100;
+        if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
+        return result;
+    }
+
+    private static CapitalSourceMetricData CreateCapitalSourceMetricFromBaseCurrent<T>(IHasBaseCurrent<T> source)
+        where T : IHasBeginEnd
+    {
+        var baseBegin = SafeValue(source.Base.BeginningOfyear);
+        var baseEnd = SafeValue(source.Base.EndOfYear);
+        var currentBegin = SafeValue(source.Current.BeginningOfyear);
+        var currentEnd = SafeValue(source.Current.EndOfYear);
+
         return new CapitalSourceMetricData
         {
             Base_Begin = baseBegin,
             Base_End = baseEnd,
             Base_Change = baseEnd - baseBegin,
-            Base_PercentBegin = basePercentObj != null ? safeValue(GetDoubleProperty(basePercentObj, "BeginningOfyear")) : 0,
-            Base_PercentEnd = basePercentObj != null ? safeValue(GetDoubleProperty(basePercentObj, "EndOfYear")) : 0,
+            Base_PercentBegin = 0,
+            Base_PercentEnd = 0,
             Current_Begin = currentBegin,
             Current_End = currentEnd,
             Current_Change = currentEnd - currentBegin,
-            Current_PercentBegin = currentPercentObj != null ? safeValue(GetDoubleProperty(currentPercentObj, "BeginningOfyear")) : 0,
-            Current_PercentEnd = currentPercentObj != null ? safeValue(GetDoubleProperty(currentPercentObj, "EndOfYear")) : 0
+            Current_PercentBegin = 0,
+            Current_PercentEnd = 0
         };
     }
 
-    private static CapitalComponentData CreateCapitalComponent(object obj, Func<double, double> safeValue)
+    private static CapitalSourceMetricData CreateCapitalSourceMetric<T>(ICapitalSourceMetric<T> source)
+        where T : IHasBeginEnd
     {
-        var baseObj = obj.GetType().GetProperty("Base")?.GetValue(obj);
-        var currentObj = obj.GetType().GetProperty("Current")?.GetValue(obj);
-        
-        // Get percent properties - they vary by component type
-        var basePercentProp = obj.GetType().GetProperty("InPercentageOfEquityBase") 
-                           ?? obj.GetType().GetProperty("InPercentageOfBorrowedCapitalBase");
-        var currentPercentProp = obj.GetType().GetProperty("InPercentageOfEquityCurrent") 
-                              ?? obj.GetType().GetProperty("InPercentageOfBorrowedCapitalCurrent");
-        
-        var basePercentObj = basePercentProp?.GetValue(obj);
-        var currentPercentObj = currentPercentProp?.GetValue(obj);
-        
+        return new CapitalSourceMetricData
+        {
+            Base_Begin = SafeValue(source.Base.BeginningOfyear),
+            Base_End = SafeValue(source.Base.EndOfYear),
+            Base_Change = SafeValue(source.Base.EndOfYear - source.Base.BeginningOfyear),
+            Base_PercentBegin = SafeValue(source.InPercentageOfAssetsBase.BeginningOfyear),
+            Base_PercentEnd = SafeValue(source.InPercentageOfAssetsBase.EndOfYear),
+            Current_Begin = SafeValue(source.Current.BeginningOfyear),
+            Current_End = SafeValue(source.Current.EndOfYear),
+            Current_Change = SafeValue(source.Current.EndOfYear - source.Current.BeginningOfyear),
+            Current_PercentBegin = SafeValue(source.InPercentageOfAssetsCurrent.BeginningOfyear),
+            Current_PercentEnd = SafeValue(source.InPercentageOfAssetsCurrent.EndOfYear)
+        };
+    }
+
+    private static CapitalComponentData CreateCapitalComponentFromEquity<T>(ICapitalComponentEquity<T> source)
+        where T : IHasBeginEnd
+    {
         return new CapitalComponentData
         {
-            Base_End = baseObj != null ? safeValue(GetDoubleProperty(baseObj, "EndOfYear")) : 0,
-            Base_Percent = basePercentObj != null ? safeValue(GetDoubleProperty(basePercentObj, "EndOfYear")) : 0,
-            Current_End = currentObj != null ? safeValue(GetDoubleProperty(currentObj, "EndOfYear")) : 0,
-            Current_Percent = currentPercentObj != null ? safeValue(GetDoubleProperty(currentPercentObj, "EndOfYear")) : 0
+            Base_End = SafeValue(source.Base.EndOfYear),
+            Base_Percent = SafeValue(source.InPercentageOfEquityBase.EndOfYear),
+            Current_End = SafeValue(source.Current.EndOfYear),
+            Current_Percent = SafeValue(source.InPercentageOfEquityCurrent.EndOfYear)
         };
     }
 
-    private static StabilitySourceData CreateStabilitySource(object obj, Func<double, double> safeValue)
+    private static CapitalComponentData CreateCapitalComponentFromBorrowed<T>(ICapitalComponentBorrowed<T> source)
+        where T : IHasBeginEnd
     {
-        var baseObj = obj.GetType().GetProperty("Base")?.GetValue(obj);
-        var currentObj = obj.GetType().GetProperty("Current")?.GetValue(obj);
-        
+        return new CapitalComponentData
+        {
+            Base_End = SafeValue(source.Base.EndOfYear),
+            Base_Percent = SafeValue(source.InPercentageOfBorrowedCapitalBase.EndOfYear),
+            Current_End = SafeValue(source.Current.EndOfYear),
+            Current_Percent = SafeValue(source.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+        };
+    }
+
+    private static StabilitySourceData CreateStabilitySource<T>(IHasBaseCurrent<T> source)
+        where T : IHasBeginEnd
+    {
         return new StabilitySourceData
         {
-            Base_Begin = baseObj != null ? safeValue(GetDoubleProperty(baseObj, "BeginningOfyear")) : 0,
-            Base_End = baseObj != null ? safeValue(GetDoubleProperty(baseObj, "EndOfYear")) : 0,
-            Current_Begin = currentObj != null ? safeValue(GetDoubleProperty(currentObj, "BeginningOfyear")) : 0,
-            Current_End = currentObj != null ? safeValue(GetDoubleProperty(currentObj, "EndOfYear")) : 0
+            Base_Begin = SafeValue(source.Base.BeginningOfyear),
+            Base_End = SafeValue(source.Base.EndOfYear),
+            Current_Begin = SafeValue(source.Current.BeginningOfyear),
+            Current_End = SafeValue(source.Current.EndOfYear)
         };
     }
 
-    private static LiquidityConditionData CreateLiquidityCondition(
-        object a1, object a2, object a3, object a4,
-        bool isBegin,
-        Func<double, double> safeValue,
-        Func<object, object, object, object, bool> isLiquid)
+    private static LiquidityConditionData CreateLiquidityConditionBegin(
+        IHasLiquidityData a1, IHasLiquidityData a2, IHasLiquidityData a3, IHasLiquidityData a4)
     {
-        var suffix = isBegin ? "Begin" : "End";
+        bool isLiquid = SafeValue(a1.ABegin) >= SafeValue(a1.PBegin)
+                     && SafeValue(a2.ABegin) >= SafeValue(a2.PBegin)
+                     && SafeValue(a3.ABegin) >= SafeValue(a3.PBegin)
+                     && SafeValue(a4.ABegin) <= SafeValue(a4.PBegin);
 
         return new LiquidityConditionData
         {
-            IsLiquid = isLiquid(a1, a2, a3, a4),
-            A1_MostLiquid = safeValue(GetDoubleProperty(a1, $"A{suffix}")),
-            P1_MostUrgent = safeValue(GetDoubleProperty(a1, $"P{suffix}")),
-            Surplus_A1P1 = safeValue(GetDoubleProperty(a1, $"PaymentBalance{suffix}")),
-            A2_QuickLiquid = safeValue(GetDoubleProperty(a2, $"A{suffix}")),
-            P2_ShortTerm = safeValue(GetDoubleProperty(a2, $"P{suffix}")),
-            Surplus_A2P2 = safeValue(GetDoubleProperty(a2, $"PaymentBalance{suffix}")),
-            A3_SlowLiquid = safeValue(GetDoubleProperty(a3, $"A{suffix}")),
-            P3_LongTerm = safeValue(GetDoubleProperty(a3, $"P{suffix}")),
-            Surplus_A3P3 = safeValue(GetDoubleProperty(a3, $"PaymentBalance{suffix}")),
-            A4_HardToSell = safeValue(GetDoubleProperty(a4, $"A{suffix}")),
-            P4_Permanent = safeValue(GetDoubleProperty(a4, $"P{suffix}")),
-            Surplus_A4P4 = safeValue(GetDoubleProperty(a4, $"PaymentBalance{suffix}"))
+            IsLiquid = isLiquid,
+            A1_MostLiquid = SafeValue(a1.ABegin),
+            P1_MostUrgent = SafeValue(a1.PBegin),
+            Surplus_A1P1 = SafeValue(a1.PaymentBalanceBegin),
+            A2_QuickLiquid = SafeValue(a2.ABegin),
+            P2_ShortTerm = SafeValue(a2.PBegin),
+            Surplus_A2P2 = SafeValue(a2.PaymentBalanceBegin),
+            A3_SlowLiquid = SafeValue(a3.ABegin),
+            P3_LongTerm = SafeValue(a3.PBegin),
+            Surplus_A3P3 = SafeValue(a3.PaymentBalanceBegin),
+            A4_HardToSell = SafeValue(a4.ABegin),
+            P4_Permanent = SafeValue(a4.PBegin),
+            Surplus_A4P4 = SafeValue(a4.PaymentBalanceBegin)
         };
     }
 
-    private static StabilityIndicatorMetricData CreateStabilityIndicatorMetric(
-        object obj,
-        Func<double, double> safeValue,
-        Func<double, double, double> calcPercentChange)
+    private static LiquidityConditionData CreateLiquidityConditionEnd(
+        IHasLiquidityData a1, IHasLiquidityData a2, IHasLiquidityData a3, IHasLiquidityData a4)
     {
-        var baseYear = safeValue(GetDoubleProperty(obj, "BaseYear"));
-        var currentYear = safeValue(GetDoubleProperty(obj, "CurrentYear"));
+        bool isLiquid = SafeValue(a1.AEnd) >= SafeValue(a1.PEnd)
+                     && SafeValue(a2.AEnd) >= SafeValue(a2.PEnd)
+                     && SafeValue(a3.AEnd) >= SafeValue(a3.PEnd)
+                     && SafeValue(a4.AEnd) <= SafeValue(a4.PEnd);
+
+        return new LiquidityConditionData
+        {
+            IsLiquid = isLiquid,
+            A1_MostLiquid = SafeValue(a1.AEnd),
+            P1_MostUrgent = SafeValue(a1.PEnd),
+            Surplus_A1P1 = SafeValue(a1.PaymentBalanceEnd),
+            A2_QuickLiquid = SafeValue(a2.AEnd),
+            P2_ShortTerm = SafeValue(a2.PEnd),
+            Surplus_A2P2 = SafeValue(a2.PaymentBalanceEnd),
+            A3_SlowLiquid = SafeValue(a3.AEnd),
+            P3_LongTerm = SafeValue(a3.PEnd),
+            Surplus_A3P3 = SafeValue(a3.PaymentBalanceEnd),
+            A4_HardToSell = SafeValue(a4.AEnd),
+            P4_Permanent = SafeValue(a4.PEnd),
+            Surplus_A4P4 = SafeValue(a4.PaymentBalanceEnd)
+        };
+    }
+
+    private static StabilityIndicatorMetricData CreateStabilityIndicatorMetric(IHasBaseCurrentYear source)
+    {
+        var baseYear = SafeValue(source.BaseYear);
+        var currentYear = SafeValue(source.CurrentYear);
 
         return new StabilityIndicatorMetricData
         {
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            Change = calcPercentChange(baseYear, currentYear)
+            Change = CalculatePercentageChange(baseYear, currentYear)
         };
     }
 
-    private static BusinessActivityMetricData CreateBusinessActivityMetric(
-        object obj,
-        Func<double, double> safeValue,
-        Func<double, double, double> calcPercentChange)
+    private static BusinessActivityMetricData CreateBusinessActivityMetric(IHasBaseCurrentYear source)
     {
-        var baseYear = safeValue(GetDoubleProperty(obj, "BaseYear"));
-        var currentYear = safeValue(GetDoubleProperty(obj, "CurrentYear"));
+        var baseYear = SafeValue(source.BaseYear);
+        var currentYear = SafeValue(source.CurrentYear);
 
         return new BusinessActivityMetricData
         {
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            Change = calcPercentChange(baseYear, currentYear)
+            Change = CalculatePercentageChange(baseYear, currentYear)
         };
     }
 
-    private static IntangibleAssetMetricData CreateIntangibleAssetMetric(
-        object obj,
-        Func<double, double> safeValue,
-        Func<double, double, double> calcPercentChange)
+    private static IntangibleAssetMetricData CreateIntangibleAssetMetric(IHasBaseCurrentYear source)
     {
-        var baseYear = safeValue(GetDoubleProperty(obj, "BaseYear"));
-        var currentYear = safeValue(GetDoubleProperty(obj, "CurrentYear"));
+        var baseYear = SafeValue(source.BaseYear);
+        var currentYear = SafeValue(source.CurrentYear);
 
         return new IntangibleAssetMetricData
         {
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            Deviations = safeValue(GetDoubleProperty(obj, "Deviations")),
-            PercentageChange = calcPercentChange(baseYear, currentYear)
+            Deviations = SafeValue(source.Deviations),
+            PercentageChange = CalculatePercentageChange(baseYear, currentYear)
         };
     }
 
     private static TurnoverMetricData CreateTurnoverMetric(
-        object revolutionsObj,
-        object daysObj,
-        Func<double, double> safeValue)
+        IHasBaseCurrentYear revolutionsSource,
+        IHasBaseCurrentYear daysSource)
     {
         return new TurnoverMetricData
         {
-            Revolutions_Base = safeValue(GetDoubleProperty(revolutionsObj, "BaseYear")),
-            Revolutions_Current = safeValue(GetDoubleProperty(revolutionsObj, "CurrentYear")),
-            Days_Base = safeValue(GetDoubleProperty(daysObj, "BaseYear")),
-            Days_Current = safeValue(GetDoubleProperty(daysObj, "CurrentYear"))
+            Revolutions_Base = SafeValue(revolutionsSource.BaseYear),
+            Revolutions_Current = SafeValue(revolutionsSource.CurrentYear),
+            Days_Base = SafeValue(daysSource.BaseYear),
+            Days_Current = SafeValue(daysSource.CurrentYear)
         };
     }
 
-    private static FactorMetricData CreateFactorMetric(
-        object obj,
-        Func<double, double> safeValue,
-        Func<double, double, double> calcPercentChange)
+    private static FactorMetricData CreateFactorMetric(IHasBaseCurrentYear source)
     {
-        var baseYear = safeValue(GetDoubleProperty(obj, "BaseYear"));
-        var currentYear = safeValue(GetDoubleProperty(obj, "CurrentYear"));
+        var baseYear = SafeValue(source.BaseYear);
+        var currentYear = SafeValue(source.CurrentYear);
 
         return new FactorMetricData
         {
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            Deviations = safeValue(GetDoubleProperty(obj, "Deviations")),
-            PercentageChange = calcPercentChange(baseYear, currentYear)
+            Deviations = SafeValue(source.Deviations),
+            PercentageChange = CalculatePercentageChange(baseYear, currentYear)
         };
     }
 
-    private static ReceivablePayableCategoryData CreateReceivablePayableCategory(object obj, Func<double, double> safeValue)
+    private static ReceivablePayableCategoryData CreateReceivablePayableCategory(IHasReceivablePayable source)
     {
         return new ReceivablePayableCategoryData
         {
-            Receivable_Base = safeValue(GetDoubleProperty(obj, "ReceivableBase")),
-            Receivable_Current = safeValue(GetDoubleProperty(obj, "ReceivableCurrent")),
-            Payable_Base = safeValue(GetDoubleProperty(obj, "PayableBase")),
-            Payable_Current = safeValue(GetDoubleProperty(obj, "PayableCurrent")),
-            ExcessReceivable_Base = safeValue(GetDoubleProperty(obj, "ExceedingReceivableBase")),
-            ExcessReceivable_Current = safeValue(GetDoubleProperty(obj, "ExceedingReceivableCurrent")),
-            ExcessPayable_Base = safeValue(GetDoubleProperty(obj, "ExceedingPayableBase")),
-            ExcessPayable_Current = safeValue(GetDoubleProperty(obj, "ExceedingPayableCurrent"))
+            Receivable_Base = SafeValue(source.ReceivableBase),
+            Receivable_Current = SafeValue(source.ReceivableCurrent),
+            Payable_Base = SafeValue(source.PayableBase),
+            Payable_Current = SafeValue(source.PayableCurrent),
+            ExcessReceivable_Base = SafeValue(source.ExceedingReceivableBase),
+            ExcessReceivable_Current = SafeValue(source.ExceedingReceivableCurrent),
+            ExcessPayable_Base = SafeValue(source.ExceedingPayableBase),
+            ExcessPayable_Current = SafeValue(source.ExceedingPayableCurrent)
         };
     }
 
-    private static SolvencyRatioItem CreateSolvencyRatioItem(object obj, Func<double, double> safeValue)
+    private static SolvencyRatioItem CreateSolvencyRatioItem(IHasSolvencyRatio source)
     {
-        var baseBegin = safeValue(GetDoubleProperty(obj, "BaseBegin"));
-        var baseEnd = safeValue(GetDoubleProperty(obj, "BaseEnd"));
-        var currentBegin = safeValue(GetDoubleProperty(obj, "CurrentBegin"));
-        var currentEnd = safeValue(GetDoubleProperty(obj, "CurrentEnd"));
+        var baseBegin = SafeValue(source.BaseBegin);
+        var baseEnd = SafeValue(source.BaseEnd);
+        var currentBegin = SafeValue(source.CurrentBegin);
+        var currentEnd = SafeValue(source.CurrentEnd);
 
         return new SolvencyRatioItem
         {
@@ -898,10 +860,10 @@ public static class JsonSerializationHelper
         };
     }
 
-    private static SolvencyRatioSimpleItem CreateSolvencyRatioSimpleItem(object obj, Func<double, double> safeValue)
+    private static SolvencyRatioSimpleItem CreateSolvencyRatioSimpleItem(IHasSolvencyRatio source)
     {
-        var baseEnd = safeValue(GetDoubleProperty(obj, "BaseEnd"));
-        var currentEnd = safeValue(GetDoubleProperty(obj, "CurrentEnd"));
+        var baseEnd = SafeValue(source.BaseEnd);
+        var currentEnd = SafeValue(source.CurrentEnd);
 
         return new SolvencyRatioSimpleItem
         {
@@ -909,25 +871,6 @@ public static class JsonSerializationHelper
             Current_End = currentEnd,
             Deviation = currentEnd - baseEnd
         };
-    }
-
-    private static string GetPropertyValue(object obj, string propertyName)
-    {
-        var property = obj.GetType().GetProperty(propertyName);
-        return property?.GetValue(obj)?.ToString() ?? string.Empty;
-    }
-
-    private static double GetDoubleProperty(object obj, string propertyName)
-    {
-        var property = obj.GetType().GetProperty(propertyName);
-        var value = property?.GetValue(obj);
-
-        if (value is double d)
-            return d;
-        if (value != null && double.TryParse(value.ToString(), out var result))
-            return result;
-
-        return 0;
     }
 
     /// <summary>

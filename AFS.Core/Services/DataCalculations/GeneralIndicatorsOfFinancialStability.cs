@@ -1,4 +1,4 @@
-﻿
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
@@ -28,7 +28,7 @@ namespace AFS.Core.Services.DataCalculations
             ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Init(Stocks, AvailabilityForStockFormation);
         }
     }
-    public class AvailabilityOfWorkingCapitalForFormationOfStocks
+    public class AvailabilityOfWorkingCapitalForFormationOfStocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "1.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -43,7 +43,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = sOCF.OwnCurrentAssets.Current.EndOfYear;
         }
     }
-    public class AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks
+    public class AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -58,7 +58,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = model.F1Current.GetF1495End() + model.F1Current.GetF1595End() - model.F1Current.GetF1095End();
         }
     }
-    public class AvailabilityForStockFormation
+    public class AvailabilityForStockFormation : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "3.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -73,7 +73,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = model.F1Current.GetF1495End() + model.F1Current.GetF1595End() - model.F1Current.GetF1095End() + model.F1Current.F1600.End + model.F1Current.F1610.End + model.F1Current.F1660.End;
         }
     }
-    public class Stocks
+    public class Stocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "4.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -88,7 +88,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = model.F1Current.GetAccountsTangibleAssets(false);
         }
     }
-    public class ExcessLackOfWorkingCapitalForStocks
+    public class ExcessLackOfWorkingCapitalForStocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "5.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -103,7 +103,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = availabilityOfWorkingCapitalForFormationOfStocks.Current.EndOfYear - stocks.Current.EndOfYear;
         }
     }
-    public class ExcessLackOfWorkingCapitalAndLongTermForStocks
+    public class ExcessLackOfWorkingCapitalAndLongTermForStocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "6.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -118,7 +118,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = availabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current.EndOfYear - stocks.Current.EndOfYear;
         }
     }
-    public class ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks
+    public class ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "7.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();

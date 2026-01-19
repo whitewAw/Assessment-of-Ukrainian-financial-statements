@@ -1,6 +1,8 @@
-﻿namespace AFS.Core.Models.TablsModels
+﻿using AFS.Core.Interfaces;
+
+namespace AFS.Core.Models.TablsModels
 {
-    public class CharacteristicsOfCapitalCalculationRow
+    public class CharacteristicsOfCapitalCalculationRow : IHasBeginEnd
     {
         private double _beginningOfyear;
         private double _endOfYear;

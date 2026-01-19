@@ -1,6 +1,8 @@
-﻿namespace AFS.Core.Models.TablsModels
+﻿using AFS.Core.Interfaces;
+
+namespace AFS.Core.Models.TablsModels
 {
-    public class SolvencyRatiosRow
+    public class SolvencyRatiosRow : IHasSolvencyRatio
     {
         public string? Number { get; set; }
         public double BaseBegin { get; set; }

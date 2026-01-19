@@ -53,9 +53,10 @@ builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler
 builder.Services.AddScoped<JsInterop>();
 builder.Services.AddScoped<PageSeoHelper>();
 
-// AI Services - Configure based on appsettings.json
-var aiEnabled = builder.Configuration.GetValue<bool>("AI:Enabled", true);
-var aiProvider = builder.Configuration.GetValue<string>("AI:Provider", "Browser");
+// AI Services - Configure based on appsettings.json using AOT-safe configuration access
+var aiSection = builder.Configuration.GetSection("AI");
+var aiEnabled = bool.TryParse(aiSection["Enabled"], out var enabled) && enabled;
+var aiProvider = aiSection["Provider"] ?? "Browser";
 
 if (aiEnabled)
 {
@@ -67,11 +68,12 @@ if (aiEnabled)
     else if (aiProvider.Equals("OpenAI", StringComparison.OrdinalIgnoreCase))
     {
         // Use OpenAI - Requires API key in appsettings.json
-        builder.Services.AddScoped<IAIFinancialAdvisor>(sp => //ToDo
+        builder.Services.AddScoped<IAIFinancialAdvisor>(sp =>
         {
             var httpClient = sp.GetRequiredService<HttpClient>();
-            var apiKey = builder.Configuration.GetValue<string>("OpenAI:ApiKey", "");
-            var model = builder.Configuration.GetValue<string>("OpenAI:Model", "gpt-4o-mini");
+            var openAiSection = builder.Configuration.GetSection("OpenAI");
+            var apiKey = openAiSection["ApiKey"] ?? "";
+            var model = openAiSection["Model"] ?? "gpt-4o-mini";
             return new OpenAIFinancialAdvisor(httpClient, apiKey, model);
         });
     }

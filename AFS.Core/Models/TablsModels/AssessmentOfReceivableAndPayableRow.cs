@@ -1,6 +1,8 @@
-﻿namespace AFS.Core.Models.TablsModels
+﻿using AFS.Core.Interfaces;
+
+namespace AFS.Core.Models.TablsModels
 {
-    public class AssessmentOfReceivableAndPayableRow
+    public class AssessmentOfReceivableAndPayableRow : IHasReceivablePayable
     {
         public string? Number { get; set; }
         public double ReceivableBase { get; set; }

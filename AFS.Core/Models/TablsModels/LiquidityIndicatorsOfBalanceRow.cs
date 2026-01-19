@@ -1,6 +1,8 @@
-﻿namespace AFS.Core.Models.TablsModels
+﻿using AFS.Core.Interfaces;
+
+namespace AFS.Core.Models.TablsModels
 {
-    public class LiquidityIndicatorsOfBalanceRow
+    public class LiquidityIndicatorsOfBalanceRow : IHasLiquidityData
     {
         public double ABegin { get; set; }
         public double AEnd { get; set; }

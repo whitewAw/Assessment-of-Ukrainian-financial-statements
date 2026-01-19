@@ -1,4 +1,5 @@
-﻿using AFS.Core.Models;
+﻿using AFS.Core.Interfaces;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -31,7 +32,7 @@ namespace AFS.Core.Services.DataCalculations
             FutureIncome.Init(model);
         }
     }
-    public class TotalSourcesOfCapital
+    public class TotalSourcesOfCapital : IHasBaseCurrent<CharacteristicsOfCapitalCalculationRow>
     {
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow Current { get; private set; } = new();
@@ -45,7 +46,7 @@ namespace AFS.Core.Services.DataCalculations
             Current.EndOfYear = model.F1Current.GetF1900End();
         }
     }
-    public class Equity
+    public class Equity : ICapitalSourceMetric<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "1.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -68,7 +69,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfAssetsCurrent.EndOfYear = Current.EndOfYear / model.F1Current.GetF1900End() * 100;
         }
     }
-    public class OwnCurrentAssets
+    public class OwnCurrentAssets : ICapitalComponentEquity<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "1.1";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -91,7 +92,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfEquityCurrent.EndOfYear = Current.EndOfYear / equity.Current.EndOfYear * 100;
         }
     }
-    public class RaisedCapital
+    public class RaisedCapital : ICapitalSourceMetric<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -114,7 +115,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfAssetsCurrent.EndOfYear = Current.EndOfYear / model.F1Current.GetF1900End() * 100;
         }
     }
-    public class LongTermLiabilities
+    public class LongTermLiabilities : ICapitalComponentBorrowed<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.1.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -137,7 +138,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class ShortTermLoans
+    public class ShortTermLoans : ICapitalComponentBorrowed<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.2.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -160,7 +161,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class AccountsPayable
+    public class AccountsPayable : ICapitalComponentBorrowed<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.3.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -183,7 +184,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class OtherCurrentLiabilities
+    public class OtherCurrentLiabilities : ICapitalComponentBorrowed<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.4.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -206,7 +207,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class LiabilitiesRelatedNonCurrentAssetsHeldForSale
+    public class LiabilitiesRelatedNonCurrentAssetsHeldForSale : ICapitalComponentBorrowed<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "2.5.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
@@ -230,7 +231,7 @@ namespace AFS.Core.Services.DataCalculations
             InPercentageOfBorrowedCapitalCurrent.EndOfYear = Current.EndOfYear / raisedCapital.Current.EndOfYear * 100;
         }
     }
-    public class FutureIncome
+    public class FutureIncome : ICapitalSourceMetric<CharacteristicsOfCapitalCalculationRow>
     {
         public string Number { get; private set; } = "3.";
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();

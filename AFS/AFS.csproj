@@ -39,11 +39,16 @@
 		
 		<!-- Enable expression tree support for Radzen reflection -->
 		<IlcDisableReflection>false</IlcDisableReflection>
+		
+		<!-- Suppress known Blazor framework trimming warnings that are false positives -->
+		<!-- IL2110/IL2111: Router.NotFoundPage and LayoutView.Layout use DynamicallyAccessedMembers -->
+		<!-- These are safe in Blazor WebAssembly as the components are preserved by TrimmerRootAssembly -->
+		<NoWarn>$(NoWarn);IL2110;IL2111</NoWarn>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.2" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
