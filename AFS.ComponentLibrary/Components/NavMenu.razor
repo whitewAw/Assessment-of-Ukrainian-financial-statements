@@ -1,4 +1,6 @@
-﻿<nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
+﻿@inject IJSRuntime JS
+
+<nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
     <div class="container-fluid px-1">
         <a class="navbar-brand" href="" aria-label="@homeLabel">
             @ResLoc["AssessmentOfFinancialStatements"]
@@ -6,6 +8,7 @@
         <button title="@toggleMenuLabel"
                 class="navbar-toggler"
                 @onclick="ToggleNavMenu"
+                @onclick:stopPropagation="true"
                 aria-expanded="@(!collapseNavMenu)"
                 aria-controls="main-nav"
                 aria-label="@toggleMenuLabel">
@@ -58,9 +61,14 @@
     private string homeLabel => ResLoc?["Home"] ?? "Home";
     private string toggleMenuLabel => ResLoc?["ToggleNavigation"] ?? "Toggle Navigation";
 
-    private void ToggleNavMenu()
+    private async Task ToggleNavMenu()
     {
+        // INP Optimization: Toggle state immediately for visual feedback
         collapseNavMenu = !collapseNavMenu;
+        
+        // Yield to main thread to allow the CSS class change to paint
+        // This ensures the visual update happens before any other processing
+        await JS.InvokeVoidAsync("eval", "window.UFIN?.scheduler?.yieldToMain?.() || Promise.resolve()");
     }
 
     private IReadOnlyList<NavMenuItem> navigationItems => new[]

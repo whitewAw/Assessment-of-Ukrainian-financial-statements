@@ -350,6 +350,68 @@ a:hover, .btn-link:hover {
 }
 
 /* ========================================
+   INP OPTIMIZATION - INTERACTIVE ELEMENT PERFORMANCE
+   ======================================== */
+
+/* Enable GPU acceleration for frequently animated elements */
+.theme-toggle,
+.navbar-toggler,
+.nav-link,
+.btn,
+.rz-button,
+.sidebar .nav-item,
+.collapse {
+    will-change: transform, opacity;
+    contain: layout style;
+}
+
+/* Immediate visual feedback for click interactions - critical for INP */
+.theme-toggle:active,
+.navbar-toggler:active,
+.btn:active,
+.rz-button:active,
+.nav-link:active {
+    transform: scale(0.95);
+    opacity: 0.85;
+    transition: transform 0.05s ease-out, opacity 0.05s ease-out !important;
+}
+
+/* Fast transitions for interactive elements */
+.theme-toggle,
+.navbar-toggler,
+.btn,
+.rz-button {
+    transition: transform 0.1s ease-out, background-color 0.15s ease, opacity 0.1s ease-out;
+}
+
+/* Nav menu collapse animation optimized for INP */
+.sidebar .collapse {
+    transition: height 0.15s ease-out;
+}
+
+/* Clicked state class for JS-based feedback */
+.clicked {
+    transform: scale(0.95);
+    opacity: 0.85;
+}
+
+/* Touch action optimization - prevents delays on mobile */
+.theme-toggle,
+.navbar-toggler,
+.nav-link,
+.btn,
+.rz-button {
+    touch-action: manipulation;
+}
+
+/* Reduce paint complexity during interactions */
+@media (prefers-reduced-motion: no-preference) {
+    .sidebar .nav-item {
+        contain: content;
+    }
+}
+
+/* ========================================
    PRINT STYLES
    ======================================== */
 

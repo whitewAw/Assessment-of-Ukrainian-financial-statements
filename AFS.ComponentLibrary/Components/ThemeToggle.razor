@@ -1,9 +1,11 @@
 ﻿@using AFS.Core.Services
 @inject AppThemeService AppThemeService
+@inject IJSRuntime JS
 @implements IDisposable
 
 <button class="theme-toggle"
         @onclick="ToggleTheme"
+        @onclick:stopPropagation="true"
         title="@AppThemeService.ThemeTooltip"
         aria-label="@AppThemeService.ThemeTooltip"
         data-icon="@GetIconText()">
@@ -60,6 +62,13 @@
 
     private async Task ToggleTheme()
     {
+        // INP Optimization: Provide immediate visual feedback before heavy work
+        // The button will show :active state immediately via CSS
+        
+        // Yield to main thread to allow the click feedback to paint
+        await JS.InvokeVoidAsync("eval", "window.UFIN?.scheduler?.yieldToMain?.() || Promise.resolve()");
+        
+        // Now perform the theme toggle (which involves multiple JS interop calls)
         await AppThemeService.ToggleThemeAsync();
     }
 

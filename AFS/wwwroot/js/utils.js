@@ -60,6 +60,206 @@
         }
     };
 
+    // === INP OPTIMIZATION UTILITIES ===
+    
+    /**
+     * Scheduler for yielding to main thread - critical for INP optimization
+     * Uses scheduler.yield() if available, falls back to setTimeout
+     */
+    window.UFIN.scheduler = {
+        /**
+         * Yields to the main thread to allow paint updates
+         * @returns {Promise<void>}
+         */
+        async yieldToMain() {
+            // Use scheduler.yield if available (Chrome 115+)
+            if ('scheduler' in window && 'yield' in window.scheduler) {
+                return window.scheduler.yield();
+            }
+            // Fallback: setTimeout with 0ms allows browser to process paint
+            return new Promise(resolve => setTimeout(resolve, 0));
+        },
+
+        /**
+         * Runs a task after yielding to allow UI updates
+         * @param {Function} callback - Task to run after yield
+         */
+        async runAfterPaint(callback) {
+            // requestAnimationFrame schedules before next paint
+            // Double rAF ensures we run after the paint
+            return new Promise(resolve => {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(async () => {
+                        await callback();
+                        resolve();
+                    });
+                });
+            });
+        },
+
+        /**
+         * Runs heavy work in chunks to avoid blocking the main thread
+         * @param {Array} items - Items to process
+         * @param {Function} processor - Function to process each item
+         * @param {number} chunkSize - Items per chunk (default 5)
+         */
+        async processInChunks(items, processor, chunkSize = 5) {
+            for (let i = 0; i < items.length; i += chunkSize) {
+                const chunk = items.slice(i, i + chunkSize);
+                for (const item of chunk) {
+                    await processor(item);
+                }
+                // Yield between chunks to allow UI updates
+                await this.yieldToMain();
+            }
+        }
+    };
+
+    /**
+     * Optimizes click handlers for better INP
+     * Provides immediate visual feedback before processing
+     */
+    window.UFIN.interaction = {
+        /**
+         * Wraps a click handler to optimize for INP
+         * @param {HTMLElement} element - Element to attach handler to
+         * @param {Function} handler - The actual handler logic
+         * @param {Object} options - Configuration options
+         */
+        optimizeClick(element, handler, options = {}) {
+            const { 
+                feedbackClass = 'clicked',
+                feedbackDuration = 150
+            } = options;
+
+            element.addEventListener('click', async (event) => {
+                // Immediate visual feedback
+                element.classList.add(feedbackClass);
+                
+                // Use requestAnimationFrame to ensure the class is painted
+                requestAnimationFrame(async () => {
+                    // Yield to allow the visual update to paint
+                    await window.UFIN.scheduler.yieldToMain();
+                    
+                    // Now run the actual handler
+                    try {
+                        await handler(event);
+                    } finally {
+                        // Remove feedback class after duration
+                        setTimeout(() => {
+                            element.classList.remove(feedbackClass);
+                        }, feedbackDuration);
+                    }
+                });
+            });
+        },
+
+        /**
+         * Creates an optimized toggle function for Blazor components
+         * Returns a function that yields before calling StateHasChanged
+         */
+        createOptimizedToggle() {
+            return async function optimizedToggle(dotNetHelper, methodName) {
+                // Yield to main thread first
+                await window.UFIN.scheduler.yieldToMain();
+                // Then invoke the Blazor method
+                await dotNetHelper.invokeMethodAsync(methodName);
+            };
+        }
+    };
+
+    /**
+     * INP monitoring and reporting
+     */
+    window.UFIN.inpMonitor = {
+        _observer: null,
+        _interactions: [],
+        _maxEntries: 10,
+
+        /**
+         * Starts monitoring INP
+         */
+        start() {
+            if (!('PerformanceObserver' in window)) {
+                return;
+            }
+
+            try {
+                this._observer = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        // Track event timing entries for INP
+                        if (entry.entryType === 'event') {
+                            const inp = entry.processingEnd - entry.startTime;
+                            this._interactions.push({
+                                name: entry.name,
+                                inp: inp,
+                                target: entry.target?.tagName || 'unknown',
+                                timestamp: Date.now()
+                            });
+
+                            // Keep only recent interactions
+                            if (this._interactions.length > this._maxEntries) {
+                                this._interactions.shift();
+                            }
+
+                            // Log slow interactions in development
+                            if (isDevelopment && inp > 200) {
+                                window.UFIN.logger.warn(
+                                    `?? Slow interaction (INP): ${inp.toFixed(0)}ms on ${entry.name}`,
+                                    entry.target
+                                );
+                            }
+                        }
+                    }
+                });
+
+                // Observe event timing with buffered entries
+                this._observer.observe({ 
+                    type: 'event', 
+                    buffered: true,
+                    durationThreshold: 16 // Track events longer than 1 frame
+                });
+            } catch (e) {
+                // Event timing not supported
+                window.UFIN.logger.log('Event timing not supported for INP monitoring');
+            }
+        },
+
+        /**
+         * Gets the worst INP value from recent interactions
+         */
+        getWorstINP() {
+            if (this._interactions.length === 0) return 0;
+            return Math.max(...this._interactions.map(i => i.inp));
+        },
+
+        /**
+         * Gets all tracked interactions
+         */
+        getInteractions() {
+            return [...this._interactions];
+        },
+
+        /**
+         * Stops monitoring
+         */
+        stop() {
+            if (this._observer) {
+                this._observer.disconnect();
+                this._observer = null;
+            }
+        }
+    };
+
+    // Start INP monitoring automatically
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            window.UFIN.inpMonitor.start();
+        });
+    } else {
+        window.UFIN.inpMonitor.start();
+    }
+
     // Device info (cached)
     window.UFIN.device = {
         isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
