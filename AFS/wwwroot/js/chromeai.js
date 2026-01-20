@@ -95,6 +95,8 @@ export async function createSession(progressCallback = null) {
             temperature: 0.7,  // Balanced creativity vs accuracy
             topK: 3,           // Focus on top predictions
             signal: currentAbortController.signal, // Add abort signal
+            expectedInputLanguages: ["en", "uk", "ru", "es", "de", "fr"],  // Languages the app supports
+            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // Languages for AI output
         };
 
         // Add download progress monitor if model is downloadable
@@ -161,6 +163,8 @@ export async function createSessionWithProgress(dotnetHelper, progressCallbackMe
             temperature: 0.7,  // Balanced creativity vs accuracy
             topK: 3,           // Focus on top predictions
             signal: currentAbortController.signal, // Add abort signal
+            expectedInputLanguages: ["en", "uk", "ru", "es", "de", "fr"],  // Languages the app supports
+            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // Languages for AI output
         };
 
         // Add download progress monitor if model is downloadable
