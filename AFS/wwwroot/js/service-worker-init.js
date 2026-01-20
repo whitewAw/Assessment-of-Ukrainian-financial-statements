@@ -8,7 +8,12 @@
 
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-            navigator.serviceWorker.register('/service-worker.js')
+            // Get the base path from the document's base element or default to root
+            const baseElement = document.querySelector('base');
+            const basePath = baseElement ? baseElement.getAttribute('href') : '/';
+            const swPath = basePath + 'service-worker.js';
+
+            navigator.serviceWorker.register(swPath, { scope: basePath })
                 .then(function (registration) {
                     console.log('Service Worker registered successfully:', {
                         scope: registration.scope,

@@ -444,8 +444,7 @@ class SEOManager {
             },
             'solvencyratios': {
                 title: 'Solvency Ratios Calculator - UFIN | Long-term Financial Health Analysis',
-                description: 'Calculate solvency ratios for Ukrainian companies. Debt-to-equity ratio, interest coverage, financial leverage analysis. Free comprehensive solvency assessment tool.
-',
+                description: 'Calculate solvency ratios for Ukrainian companies. Debt-to-equity ratio, interest coverage, financial leverage analysis. Free comprehensive solvency assessment tool.',
                 keywords: 'solvency ratios calculator, debt to equity ratio, interest coverage calculator, financial leverage analysis, long-term solvency, debt analysis, solvency metrics, financial health calculator',
                 category: 'Financial Analysis, Solvency',
                 pageType: 'analysis-table',

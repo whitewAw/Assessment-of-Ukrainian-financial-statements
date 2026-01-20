@@ -567,12 +567,7 @@
     <!-- Preconnect to GitHub Pages CDN -->
     <link rel="preconnect" href="https://whitewaw.github.io" crossorigin />
 
-    <!-- Preload critical resources with high priority -->
-    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" crossorigin="anonymous" fetchpriority="high" />
-    <link rel="preload" href="_framework/dotnet.native.wasm" as="fetch" crossorigin="anonymous" fetchpriority="high" />
-    <link rel="preload" href="_framework/dotnet.native.js" as="script" crossorigin="anonymous" fetchpriority="high" />
-
-    <!-- Preload essential CSS -->
+    <!-- Preload essential CSS - these are used immediately -->
     <link rel="preload" href="css/bootstrap/bootstrap.min.css" as="style" fetchpriority="high" />
     <link rel="preload" href="css/app.css" as="style" />
 
