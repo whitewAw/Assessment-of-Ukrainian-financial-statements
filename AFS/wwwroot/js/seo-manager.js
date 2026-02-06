@@ -12,7 +12,7 @@
 class SEOManager {
     constructor() {
         this.baseUrl = window.location.origin;
-        this.basePath = '/Assessment-of-Ukrainian-financial-statements/';
+        this.basePath = '/';
         this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
         this.defaultImage = `${this.baseUrl}${this.basePath}icon-512.png`;
         this.initialized = false;
