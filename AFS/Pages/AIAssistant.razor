@@ -1,8 +1,12 @@
 ﻿@page "/ai-assistant"
 @page "/Assessment-of-Ukrainian-financial-statements/ai-assistant"
+@page "/aiassistant"
+@page "/Assessment-of-Ukrainian-financial-statements/aiassistant"
 @using AFS.ComponentLibrary.Components
 @using AFS.ComponentLibrary.Resources
+@using AFS.Core.Interfaces
 @inject IStringLocalizer<Resource> ResLoc
+@inject IAIFinancialAdvisor AIAdvisor
 
 <PageTitle>@ResLoc["AIFinancialAssistant"] - UFIN</PageTitle>
 
@@ -37,6 +41,34 @@
         </div>
 
         <div class="col-lg-4">
+            @if (!_isAIAvailable)
+            {
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="oi oi-wrench me-2"></i>
+                        @ResLoc["SetupRequired"]
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-2">
+                        <strong>@ResLoc["BrowserAI"]</strong>
+                    </p>
+                    <ol class="small mb-3">
+                        <li>@ResLoc["SetupStep1"]</li>
+                        <li>@ResLoc["SetupStep2"]</li>
+                        <li>@ResLoc["SetupStep3"]</li>
+                    </ol>
+                    <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
+                       target="_blank"
+                       class="btn btn-sm btn-warning w-100">
+                        <i class="oi oi-external-link me-1"></i>
+                        @ResLoc["ViewSetupGuide"]
+                    </a>
+                </div>
+            </div>
+            }
+
             <div class="card shadow-sm mb-3">
                 <div class="card-header bg-info text-white">
                     <h6 class="mb-0">
@@ -91,31 +123,6 @@
                             @ResLoc["OfflineCapableDescription"]
                         </p>
                     </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm">
-                <div class="card-header bg-warning text-dark">
-                    <h6 class="mb-0">
-                        <i class="oi oi-wrench me-2"></i>
-                        @ResLoc["SetupRequired"]
-                    </h6>
-                </div>
-                <div class="card-body">
-                    <p class="small mb-2">
-                        <strong>@ResLoc["BrowserAI"]</strong>
-                    </p>
-                    <ol class="small mb-3">
-                        <li>@ResLoc["SetupStep1"]</li>
-                        <li>@ResLoc["SetupStep2"]</li>
-                        <li>@ResLoc["SetupStep3"]</li>
-                    </ol>
-                    <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
-                       target="_blank"
-                       class="btn btn-sm btn-warning w-100">
-                        <i class="oi oi-external-link me-1"></i>
-                        @ResLoc["ViewSetupGuide"]
-                    </a>
                 </div>
             </div>
         </div>
@@ -380,3 +387,31 @@
         }
     }
 </style>
+
+@code {
+    private bool _isAIAvailable = true; // Default to true, will be checked on init
+    private bool _isChecking = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAIAvailability();
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isChecking = true;
+        try
+        {
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
+            _isAIAvailable = isAvailable;
+        }
+        catch
+        {
+            _isAIAvailable = false;
+        }
+        finally
+        {
+            _isChecking = false;
+        }
+    }
+}
