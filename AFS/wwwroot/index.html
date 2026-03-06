@@ -521,6 +521,13 @@
 
     <!-- Apple Startup Images for Better Mobile Experience -->
     <link rel="apple-touch-startup-image" href="icon-512.png" />
+
+    <!-- Preload critical WASM resources for faster startup -->
+    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    
+    <!-- Module preload for Blazor runtime -->
+    <link rel="modulepreload" href="_framework/blazor.webassembly.js" />
 </head>
 
 <body>

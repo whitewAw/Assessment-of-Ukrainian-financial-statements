@@ -67,11 +67,14 @@
             // Show what's loading
             if (type === 'dotnetwasm') updateProgress('Loading WebAssembly');
             if (type === 'dotnetjs') updateProgress('Loading runtime');
+            if (type === 'assembly') updateProgress('Loading assemblies');
 
-            // Optimize resource loading with cache busting
+            // Add cache-busting query param for runtime files
+            // This ensures browser re-downloads when integrity changes (new build)
             if (type === 'dotnetjs' || type === 'dotnetwasm') {
-                return defaultUri + (integrity ? '?v=' + integrity : '');
+                return defaultUri + (integrity ? '?v=' + integrity.substring(0, 8) : '');
             }
+            
             return defaultUri;
         },
         environment: 'Production'

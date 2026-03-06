@@ -16,9 +16,15 @@
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		
-		<!-- AOT Compilation -->
+		<!-- AOT Compilation - Full AOT for best runtime performance -->
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
+		
+		<!-- WASM SIMD - Enable for better math/calculation performance -->
+		<WasmEnableSIMD>true</WasmEnableSIMD>
+		
+		<!-- Exception handling optimization -->
+		<WasmEnableExceptionHandling>true</WasmEnableExceptionHandling>
 		
 		<!-- Trimming Settings - Changed to partial for Blazor component compatibility -->
 		<PublishTrimmed>true</PublishTrimmed>
@@ -64,13 +70,8 @@
 		<Folder Include="wwwroot\images\" />
 	</ItemGroup>
 	
-	<!-- Preserve Blazor components and framework assemblies from aggressive trimming -->
+	<!-- Preserve only Radzen for reflection - let trimmer optimize app assemblies -->
 	<ItemGroup>
-		<TrimmerRootAssembly Include="AFS" />
-		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
-		<TrimmerRootAssembly Include="AFS.Core" />
-		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly" />
-		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.Web" />
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
 	</ItemGroup>
 

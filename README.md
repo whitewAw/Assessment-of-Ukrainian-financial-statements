@@ -151,16 +151,30 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
 | [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
-| [Radzen Blazor](https://blazor.radzen.com/) | 8.1.5+ | Component Library |
+| [Radzen Blazor](https://blazor.radzen.com/) | 9.0.8 | Component Library |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
-| WebAssembly | Latest | Execution Environment |
+| WebAssembly | SIMD | Execution Environment |
 
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
+- ✅ WASM SIMD for faster math calculations
 - ✅ IL Trimming for smaller bundles
 - ✅ Brotli Compression
-- ✅ Native WASM optimization
+- ✅ Native WASM optimization (`-Oz`)
 - ✅ .NET 10 performance enhancements
+
+### Performance Optimizations
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    BLAZOR WASM EXECUTION                        │
+├─────────────────────────────────────────────────────────────────┤
+│  ✅ AOT Compilation    - IL → WebAssembly at build time         │
+│  ✅ WASM SIMD          - ~20-30% faster math operations         │
+│  ✅ IL Stripping       - Removes unused IL after AOT            │
+│  ✅ Size Optimization  - Emscripten -Oz flag                    │
+│  ✅ Service Worker     - Offline-first caching                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -387,16 +401,17 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 
 The application supports **simultaneous deployment** to multiple hosting platforms with automatic URL configuration:
 
-| Host | Base Path | Auto-Configured |
-|------|-----------|-----------------|
-| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | ✅ |
-| Netlify | `/` | ✅ |
-| Localhost | `/` | ✅ |
+| Host | Base Path | SPA Routing | Auto-Configured |
+|------|-----------|-------------|-----------------|
+| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | 404.html redirect | ✅ |
+| Netlify | `/` | `_redirects` | ✅ |
+| Localhost | `/` | Dev server | ✅ |
 
 #### How It Works
 
 The app automatically detects the hostname and configures:
 - ✅ Base path for Blazor routing
+- ✅ SPA routing (direct URL access works!)
 - ✅ Canonical URLs for SEO
 - ✅ hreflang links for multi-language
 - ✅ JSON-LD structured data
@@ -408,6 +423,7 @@ Deployment is automated via GitHub Actions on push to `main` branch.
 
 **Workflow Features:**
 - .NET 10 with AOT compilation
+- WASM SIMD enabled for faster calculations
 - WebAssembly optimization (`-Oz`)
 - IL stripping for smaller bundles
 - Service worker hash fixing
@@ -553,6 +569,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [x] **Context-aware financial analysis**
 - [x] **Streaming AI responses**
 - [x] **.NET 10 migration**
+- [x] **WASM SIMD for faster calculations**
+- [x] **Multi-host deployment (GitHub Pages + Netlify)**
+- [x] **SEO optimization for Google Search**
+- [x] **SPA routing for direct URL access**
 
 ### In Progress 🚧
 - [ ] Enhanced AI prompts and training
