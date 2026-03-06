@@ -4,21 +4,35 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="robots" content="noindex,follow"/>
-    <title>UFIN - Loading</title>
-    <link rel="canonical" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/" id="canonical"/>
-    <base href="/"/>
-    <script>!function(){var e=location.hostname.toLowerCase(),t="whitewaw.github.io"===e,a=t?"/Assessment-of-Ukrainian-financial-statements/":"/",n=t?"https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/":"localhost"===e||"127.0.0.1"===e?location.origin+a:"https://ua-finance.netlify.app/";document.querySelector("base").href=a;var o=document.getElementById("canonical");o&&(o.href=n);var i=location.pathname;i!==a&&"/"!==i&&sessionStorage.setItem("ufin-redirect-path",i+location.search+location.hash),window.UFIN_CONFIG={basePath:a,siteUrl:n,isGitHubPages:t}}();</script>
-    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2)}.c{text-align:center;background:#fff;padding:2rem;border-radius:1rem;box-shadow:0 10px 40px rgba(0,0,0,.2);max-width:90%}h1{color:#512BD4;font-size:2.5rem;margin-bottom:.5rem}p{color:#666;margin:1rem 0}.s{width:2rem;height:2rem;border:3px solid #512BD4;border-top-color:transparent;border-radius:50%;animation:r .8s linear infinite;margin:1rem auto}@keyframes r{to{transform:rotate(360deg)}}.b{display:inline-block;background:#512BD4;color:#fff;padding:.75rem 1.5rem;border-radius:.5rem;text-decoration:none;margin-top:1rem}.b:hover{background:#3d1fa1}</style>
+    <title>UFIN - Redirecting...</title>
+    <script>
+        // SPA redirect for GitHub Pages and Netlify
+        // Save the path and redirect to index.html
+        (function() {
+            var host = location.hostname.toLowerCase();
+            var isGH = host === 'whitewaw.github.io';
+            var isNetlify = host === 'ua-finance.netlify.app';
+            var isLocal = host === 'localhost' || host === '127.0.0.1';
+            
+            // Set base path based on host
+            var basePath = isGH ? '/Assessment-of-Ukrainian-financial-statements/' : '/';
+            var fullPath = location.pathname + location.search + location.hash;
+            
+            // Don't save if already on base path
+            if (fullPath !== basePath && fullPath !== '/') {
+                sessionStorage.setItem('ufin-redirect-path', fullPath);
+            }
+            
+            // Redirect to index.html (which will handle the navigation)
+            location.replace(basePath);
+        })();
+    </script>
+    <style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f0f0f0}p{color:#666}</style>
 </head>
 <body>
-    <div class="c">
-        <h1>UFIN</h1>
-        <p>Financial Analysis Tool</p>
-        <div class="s"></div>
-        <p id="m">Loading...</p>
-        <noscript><p>JavaScript required</p><a href="/" class="b">Home</a></noscript>
-    </div>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script>var b=window.UFIN_CONFIG&&window.UFIN_CONFIG.basePath||"/",f=setTimeout(function(){document.getElementById("m").innerHTML='<a href="'+b+'" class="b">Go to Home</a>'},5e3);window.Blazor&&Blazor.start().then(function(){clearTimeout(f)}).catch(function(){document.getElementById("m").innerHTML='<a href="'+b+'" class="b">Go to Home</a>'});</script>
+    <p>Redirecting...</p>
+    <noscript>
+        <p>JavaScript is required. <a href="/">Click here</a> to continue.</p>
+    </noscript>
 </body>
 </html>

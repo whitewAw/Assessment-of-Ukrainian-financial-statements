@@ -28,6 +28,37 @@
         });
     }
 
+    // Handle SPA redirect from 404.html
+    function handleSPARedirect() {
+        const redirectPath = sessionStorage.getItem('ufin-redirect-path');
+        if (redirectPath) {
+            sessionStorage.removeItem('ufin-redirect-path');
+            
+            // Get base path
+            const config = window.UFIN_CONFIG || {};
+            const basePath = config.basePath || '/';
+            
+            // Clean the path - remove base path if present to get relative path
+            let cleanPath = redirectPath;
+            if (cleanPath.startsWith(basePath)) {
+                cleanPath = cleanPath.substring(basePath.length);
+            }
+            if (cleanPath.startsWith('/')) {
+                cleanPath = cleanPath.substring(1);
+            }
+            
+            // Navigate using Blazor's navigation
+            if (cleanPath && window.Blazor) {
+                logger.log('[SPA] Redirecting to:', cleanPath);
+                // Use history API to navigate without page reload
+                const fullPath = basePath + cleanPath;
+                history.replaceState(null, '', fullPath);
+                // Trigger Blazor navigation
+                window.dispatchEvent(new PopStateEvent('popstate'));
+            }
+        }
+    }
+
     updateProgress('Starting Blazor');
 
     // Initialize Blazor with optimized settings
@@ -52,6 +83,9 @@
 
         // Yield to main thread before UI updates
         await yieldToMain();
+
+        // Handle SPA redirect from 404.html (GitHub Pages)
+        handleSPARedirect();
 
         updateProgress('Ready');
 
