@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
 	<TargetFramework>net10.0</TargetFramework>
@@ -70,7 +70,7 @@
 	<!-- Preserve assemblies for reflection - Blazor components use DI property injection -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
-		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+		
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.19" />
