@@ -10,23 +10,29 @@
  */
 
 class SEOManager {
-    constructor() {
-        this.baseUrl = window.location.origin;
-        this.basePath = '/';
-        this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
-        this.defaultImage = `${this.baseUrl}${this.basePath}icon-512.png`;
-        this.initialized = false;
-        this.lastUrl = null;
-        
-        // Track page views for analytics
-        this.pageViews = 0;
-        
-        // Cache for page metadata
-        this.metaCache = new Map();
-        
-        // Prerender hints tracking
-        this.prerenderHints = new Set();
-    }
+constructor() {
+    // Use pre-configured value from inline script, or detect
+    var config = window.UFIN_CONFIG || {};
+    this.basePath = config.basePath || this.detectBasePath();
+    this.baseUrl = config.baseUrl || (window.location.origin + this.basePath);
+    this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
+    this.defaultImage = this.baseUrl + 'icon-512.png';
+    this.initialized = false;
+    this.lastUrl = null;
+    this.pageViews = 0;
+    this.metaCache = new Map();
+    this.prerenderHints = new Set();
+}
+    
+/**
+ * Detect the correct base path based on hostname
+ * @returns {string} The base path for the current host
+ */
+detectBasePath() {
+    return window.location.hostname.toLowerCase() === 'whitewaw.github.io' 
+        ? '/Assessment-of-Ukrainian-financial-statements/' 
+        : '/';
+}
 
     /**
      * Initialize SEO Manager - should be called after Blazor loads
@@ -596,7 +602,8 @@ class SEOManager {
         this.setMetaTag('twitter:image:alt', pageInfo.title);
         this.setMetaTag('twitter:site', '@wAw_fromUkraine');
         this.setMetaTag('twitter:creator', '@wAw_fromUkraine');
-        this.setMetaTag('twitter:domain', 'whitewaw.github.io');
+        this.setMetaTag('twitter:domain', window.location.hostname);
+        
         
         console.log('[SEO] Twitter Card tags updated');
     }

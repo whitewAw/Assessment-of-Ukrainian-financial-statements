@@ -119,6 +119,56 @@
 
     <base href="/" />
 
+    <!-- Multi-host URL Configuration -->
+    <script>
+        (function() {
+            var h = location.hostname.toLowerCase(),
+                isGH = h === 'whitewaw.github.io',
+                isLocal = h === 'localhost' || h === '127.0.0.1',
+                bp = isGH ? '/Assessment-of-Ukrainian-financial-statements/' : '/',
+                ghUrl = 'https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/',
+                siteUrl = isGH ? ghUrl : (isLocal ? location.origin + bp : 'https://ufin-ai.netlify.app/'),
+                regex = /https:\/\/whitewaw\.github\.io\/Assessment-of-Ukrainian-financial-statements\//g;
+            
+            // Update base href and canonical
+            document.querySelector('base').href = bp;
+            var c = document.getElementById('canonical');
+            if (c) c.href = siteUrl;
+            
+            // Update preconnect for non-GitHub hosts
+            var pc = document.getElementById('preconnect-host');
+            if (pc && !isGH) pc.href = location.origin;
+            
+            // Replace GitHub URLs in meta tags, hreflang links, and JSON-LD
+            document.querySelectorAll('meta[content*="whitewaw.github.io"]').forEach(function(m) {
+                m.content = m.content.replace(regex, siteUrl);
+            });
+            document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(l) {
+                l.href = l.href.replace(regex, siteUrl);
+            });
+            document.querySelectorAll('script[type="application/ld+json"]').forEach(function(s) {
+                if (s.textContent.includes('whitewaw.github.io')) {
+                    s.textContent = s.textContent.replace(regex, siteUrl);
+                }
+            });
+            
+            // Update SEO nav links for GitHub Pages
+            if (isGH) {
+                var fn = function() {
+                    var el = document.getElementById('seo-content');
+                    if (el) el.querySelectorAll('a[href^="/"]').forEach(function(a) {
+                        var href = a.getAttribute('href');
+                        if (!href.startsWith(bp)) a.href = bp + href.substring(1);
+                    });
+                };
+                document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', fn) : fn();
+            }
+            
+            // Store config for other scripts
+            window.UFIN_CONFIG = { basePath: bp, baseUrl: location.origin + bp, siteUrl: siteUrl, isGitHubPages: isGH };
+        })();
+    </script>
+
     <!-- Sitemap for SEO -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
@@ -564,8 +614,8 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
-    <!-- Preconnect to GitHub Pages CDN -->
-    <link rel="preconnect" href="https://whitewaw.github.io" crossorigin />
+    <!-- Preconnect to hosting CDN (dynamic based on current host) -->
+    <link rel="preconnect" href="https://whitewaw.github.io" crossorigin id="preconnect-host" />
 
     <!-- Preload essential CSS - these are used immediately -->
     <link rel="preload" href="css/bootstrap/bootstrap.min.css" as="style" fetchpriority="high" />
@@ -633,12 +683,12 @@
         <p>Professional financial analysis tool for Ukrainian businesses. Analyze balance sheets, income statements, calculate liquidity ratios, solvency metrics, profitability indicators.</p>
         <nav aria-label="Main navigation">
             <ul>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/">Home - Financial Analysis Dashboard</a></li>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/aiassistant">AI Financial Assistant</a></li>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/liquidityindicatorsofbalance">Liquidity Ratios Calculator</a></li>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/solvencyratios">Solvency Ratios Analysis</a></li>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/generalindicatorsoffinancialstability">Financial Stability Indicators</a></li>
-                <li><a href="/Assessment-of-Ukrainian-financial-statements/indicatorsofbusinessactivity">Business Activity Metrics</a></li>
+                <li><a href="/">Home - Financial Analysis Dashboard</a></li>
+                <li><a href="/aiassistant">AI Financial Assistant</a></li>
+                <li><a href="/liquidityindicatorsofbalance">Liquidity Ratios Calculator</a></li>
+                <li><a href="/solvencyratios">Solvency Ratios Analysis</a></li>
+                <li><a href="/generalindicatorsoffinancialstability">Financial Stability Indicators</a></li>
+                <li><a href="/indicatorsofbusinessactivity">Business Activity Metrics</a></li>
             </ul>
         </nav>
         <section>
