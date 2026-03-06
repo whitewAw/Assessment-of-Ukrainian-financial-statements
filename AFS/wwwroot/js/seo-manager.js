@@ -14,7 +14,7 @@ constructor() {
     // Use pre-configured value from inline script, or detect
     var config = window.UFIN_CONFIG || {};
     this.basePath = config.basePath || this.detectBasePath();
-    this.baseUrl = config.baseUrl || (window.location.origin + this.basePath);
+    this.baseUrl = config.baseUrl || this.detectBaseUrl();
     this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
     this.defaultImage = this.baseUrl + 'icon-512.png';
     this.initialized = false;
@@ -26,12 +26,39 @@ constructor() {
     
 /**
  * Detect the correct base path based on hostname
+ * Supports: GitHub Pages, Netlify, and localhost
  * @returns {string} The base path for the current host
  */
 detectBasePath() {
-    return window.location.hostname.toLowerCase() === 'whitewaw.github.io' 
-        ? '/Assessment-of-Ukrainian-financial-statements/' 
-        : '/';
+    const host = window.location.hostname.toLowerCase();
+    
+    // GitHub Pages uses a subdirectory
+    if (host === 'whitewaw.github.io') {
+        return '/Assessment-of-Ukrainian-financial-statements/';
+    }
+    
+    // Netlify and localhost use root
+    // ua-finance.netlify.app, localhost, 127.0.0.1
+    return '/';
+}
+
+/**
+ * Detect the base URL for canonical links and SEO
+ * @returns {string} The base URL for the current host
+ */
+detectBaseUrl() {
+    const host = window.location.hostname.toLowerCase();
+    
+    if (host === 'whitewaw.github.io') {
+        return 'https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/';
+    }
+    
+    if (host === 'ua-finance.netlify.app') {
+        return 'https://ua-finance.netlify.app/';
+    }
+    
+    // Localhost or other - use current origin
+    return window.location.origin + this.basePath;
 }
 
     /**
@@ -257,21 +284,26 @@ detectBasePath() {
      */
     getCanonicalUrl() {
         let path = window.location.pathname;
-        const search = window.location.search;
 
-        // Normalize path
-        if (!path.startsWith(this.basePath)) {
-            path = this.basePath + path.replace(/^\//, '');
+        // For GitHub Pages, remove the base path from the current path to get relative path
+        let relativePath = path;
+        if (path.startsWith(this.basePath)) {
+            relativePath = path.substring(this.basePath.length);
         }
+        
+        // Remove leading slash from relative path
+        relativePath = relativePath.replace(/^\//, '');
+        
+        // Remove trailing slash for consistency
+        relativePath = relativePath.replace(/\/$/, '');
 
-        // Remove trailing slash for consistency (except root)
-        path = path.replace(/\/$/, '');
-        if (!path || path === this.basePath.replace(/\/$/, '')) {
-            path = this.basePath;
-        }
-
-        // Build canonical URL (without query params for cleaner URLs)
-        const canonicalUrl = `${this.baseUrl}${path}`;
+        // Build canonical URL: baseUrl already includes basePath
+        // baseUrl = "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"
+        // relativePath = "aiassistant" (without leading slash)
+        const canonicalUrl = relativePath 
+            ? `${this.baseUrl.replace(/\/$/, '')}/${relativePath}`
+            : this.baseUrl.replace(/\/$/, '') + '/';
+            
         return canonicalUrl;
     }
 
@@ -612,7 +644,13 @@ detectBasePath() {
      * Update alternate language links for international SEO
      */
     updateAlternateLanguages(currentLang = 'en') {
-        const path = window.location.pathname.replace(this.basePath, '').replace(/^\//, '');
+        // Get relative path (without base path)
+        let path = window.location.pathname;
+        if (path.startsWith(this.basePath)) {
+            path = path.substring(this.basePath.length);
+        }
+        path = path.replace(/^\//, '').replace(/\/$/, '');
+        
         const languages = [
             { code: 'en', name: 'English' },
             { code: 'uk', name: 'Ukrainian' },
@@ -630,6 +668,9 @@ detectBasePath() {
             }
         });
 
+        // Build base for alternate links (baseUrl already includes basePath)
+        const baseForLinks = this.baseUrl.replace(/\/$/, '');
+
         // Add new alternate links
         languages.forEach(lang => {
             const existingLink = document.querySelector(`link[rel="alternate"][hreflang="${lang.code}"]`);
@@ -637,7 +678,9 @@ detectBasePath() {
                 const link = document.createElement('link');
                 link.rel = 'alternate';
                 link.hreflang = lang.code;
-                link.href = `${this.baseUrl}${this.basePath}${path}${path ? '?' : '?'}lang=${lang.code}`;
+                // Build URL: baseUrl/path?lang=code
+                const fullPath = path ? `${baseForLinks}/${path}` : baseForLinks;
+                link.href = `${fullPath}?lang=${lang.code}`;
                 document.head.appendChild(link);
             }
         });
@@ -648,7 +691,9 @@ detectBasePath() {
             const defaultLink = document.createElement('link');
             defaultLink.rel = 'alternate';
             defaultLink.hreflang = 'x-default';
-            defaultLink.href = `${this.baseUrl}${this.basePath}${path}`;
+            // x-default points to the page without lang param
+            const fullPath = path ? `${baseForLinks}/${path}` : `${baseForLinks}/`;
+            defaultLink.href = fullPath;
             document.head.appendChild(defaultLink);
         }
         

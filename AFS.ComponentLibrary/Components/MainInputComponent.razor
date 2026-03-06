@@ -1,5 +1,5 @@
-﻿@page "/"
-@inject IModelStorageHandler modelStorag
+@page "/"
+@inject IModelStorageHandler ModelStorage
 @implements IAsyncDisposable
 
 <RadzenTabs TabPosition="0" RenderMode="TabRenderMode.Client" @ref="tabsRef">
@@ -71,7 +71,7 @@
         {
             try
             {
-                await modelStorag.WriteModelAsync(MainModel);
+                await ModelStorage.WriteModelAsync(MainModel);
             }
             catch (Exception ex)
             {
