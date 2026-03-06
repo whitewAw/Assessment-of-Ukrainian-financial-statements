@@ -1,0 +1,86 @@
+# Netlify config for UFIN - Optimized for AOT/WASM
+# https://ua-finance.netlify.app
+
+[build]
+  publish = "."
+
+# Redirects
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-netlify.txt"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-netlify.xml"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Global headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-Robots-Tag = "index, follow"
+
+# HTML - no cache
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# WASM - AOT optimized (long cache + correct MIME)
+[[headers]]
+  for = "/*.wasm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/wasm"
+
+# DLL files (AOT compiled)
+[[headers]]
+  for = "/*.dll"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Blazor framework
+[[headers]]
+  for = "/_framework/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# JS/CSS - immutable
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Compressed files (Brotli/Gzip)
+[[headers]]
+  for = "/*.br"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "br"
+
+[[headers]]
+  for = "/*.gz"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
+
+

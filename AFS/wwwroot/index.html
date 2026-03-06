@@ -120,166 +120,13 @@
     <base href="/" />
 
     <!-- Multi-host URL Configuration -->
-    <script>
-        (function() {
-            var h = location.hostname.toLowerCase(),
-                isGH = h === 'whitewaw.github.io',
-                isLocal = h === 'localhost' || h === '127.0.0.1',
-                bp = isGH ? '/Assessment-of-Ukrainian-financial-statements/' : '/',
-                ghUrl = 'https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/',
-                siteUrl = isGH ? ghUrl : (isLocal ? location.origin + bp : 'https://ufin-ai.netlify.app/'),
-                regex = /https:\/\/whitewaw\.github\.io\/Assessment-of-Ukrainian-financial-statements\//g;
-            
-            // Update base href and canonical
-            document.querySelector('base').href = bp;
-            var c = document.getElementById('canonical');
-            if (c) c.href = siteUrl;
-            
-            // Update preconnect for non-GitHub hosts
-            var pc = document.getElementById('preconnect-host');
-            if (pc && !isGH) pc.href = location.origin;
-            
-            // Replace GitHub URLs in meta tags, hreflang links, and JSON-LD
-            document.querySelectorAll('meta[content*="whitewaw.github.io"]').forEach(function(m) {
-                m.content = m.content.replace(regex, siteUrl);
-            });
-            document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(l) {
-                l.href = l.href.replace(regex, siteUrl);
-            });
-            document.querySelectorAll('script[type="application/ld+json"]').forEach(function(s) {
-                if (s.textContent.includes('whitewaw.github.io')) {
-                    s.textContent = s.textContent.replace(regex, siteUrl);
-                }
-            });
-            
-            // Update SEO nav links for GitHub Pages
-            if (isGH) {
-                var fn = function() {
-                    var el = document.getElementById('seo-content');
-                    if (el) el.querySelectorAll('a[href^="/"]').forEach(function(a) {
-                        var href = a.getAttribute('href');
-                        if (!href.startsWith(bp)) a.href = bp + href.substring(1);
-                    });
-                };
-                document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', fn) : fn();
-            }
-            
-            // Store config for other scripts
-            window.UFIN_CONFIG = { basePath: bp, baseUrl: location.origin + bp, siteUrl: siteUrl, isGitHubPages: isGH };
-        })();
-    </script>
+    <script>!function(){var e=location.hostname.toLowerCase(),t="whitewaw.github.io"===e,a="localhost"===e||"127.0.0.1"===e,n=t?"/Assessment-of-Ukrainian-financial-statements/":"/",o="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",i=t?o:a?location.origin+n:"https://ua-finance.netlify.app/",r=/https:\/\/whitewaw\.github\.io\/Assessment-of-Ukrainian-financial-statements\//g;document.querySelector("base").href=n;var s=document.getElementById("canonical");s&&(s.href=i);var c=document.getElementById("preconnect-host");c&&!t&&(c.href=location.origin),document.querySelectorAll('meta[content*="whitewaw.github.io"]').forEach(function(e){e.content=e.content.replace(r,i)}),document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(e){e.href=e.href.replace(r,i)}),document.querySelectorAll('script[type="application/ld+json"]').forEach(function(e){e.textContent.includes("whitewaw.github.io")&&(e.textContent=e.textContent.replace(r,i))}),t&&function(){var e=document.getElementById("seo-content");e&&e.querySelectorAll('a[href^="/"]').forEach(function(e){var t=e.getAttribute("href");t.startsWith(n)||(e.href=n+t.substring(1))})}(),window.UFIN_CONFIG={basePath:n,baseUrl:location.origin+n,siteUrl:i,isGitHubPages:t}}();</script>
 
     <!-- Sitemap for SEO -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
-    <!-- Inline Critical CSS for LCP - Renders immediately -->
-    <style>
-        /* Critical above-the-fold styles - Only absolute essentials not in Bootstrap */
-        html, body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* LAYOUT - CRITICAL FOR INITIAL RENDER */
-        .page {
-            display: flex;
-            flex-direction: row;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        .sidebar {
-            width: 250px;
-            min-width: 250px;
-            background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-            flex-shrink: 0;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            min-width: 0;
-        }
-
-        /* Mobile layout - sidebar above content */
-        @media (max-width: 640px) {
-            .page {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                max-height: none;
-                position: relative;
-            }
-        }
-
-        /* Tablet layout */
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .sidebar {
-                width: 200px;
-                min-width: 200px;
-            }
-        }
-
-        /* Large desktop layout */
-        @media (min-width: 1441px) {
-            .sidebar {
-                width: 280px;
-                min-width: 280px;
-            }
-        }
-
-        /* SPINNER ANIMATION - Critical for loading state */
-        .spinner-border {
-            display: inline-block !important;
-            width: 3rem !important;
-            height: 3rem !important;
-            vertical-align: -0.125em !important;
-            border: 0.25em solid currentColor !important;
-            border-right-color: transparent !important;
-            border-radius: 50% !important;
-            animation: spinner-border-rotate 0.75s linear infinite !important;
-        }
-
-        @keyframes spinner-border-rotate {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Loading dots animation */
-        .loading-dots::after {
-            content: '';
-            animation: loading-dots 1.4s infinite;
-        }
-
-        @keyframes loading-dots {
-            0%, 20% {
-                content: '';
-            }
-
-            40% {
-                content: '.';
-            }
-
-            60% {
-                content: '..';
-            }
-
-            80% {
-                content: '...';
-            }
-        }
-    </style>
+    <!-- Critical CSS -->
+    <style>html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;padding:0}.page{display:flex;flex-direction:row;min-height:100vh;position:relative}.sidebar{width:250px;min-width:250px;background-image:linear-gradient(180deg,rgb(5,39,103) 0%,#3a0647 70%);flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}main{flex:1;display:flex;flex-direction:column;width:100%;min-width:0}@media(max-width:640px){.page{flex-direction:column}.sidebar{width:100%;height:auto;max-height:none;position:relative}}@media(min-width:641px) and (max-width:1024px){.sidebar{width:200px;min-width:200px}}@media(min-width:1441px){.sidebar{width:280px;min-width:280px}}.spinner-border{display:inline-block!important;width:3rem!important;height:3rem!important;vertical-align:-.125em!important;border:.25em solid currentColor!important;border-right-color:transparent!important;border-radius:50%!important;animation:spinner-border-rotate .75s linear infinite!important}@keyframes spinner-border-rotate{to{transform:rotate(360deg)}}.loading-dots::after{content:'';animation:loading-dots 1.4s infinite}@keyframes loading-dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%{content:'...'}}</style>
 
     <!-- Structured Data (JSON-LD) - WebApplication -->
     <script type="application/ld+json">
@@ -780,22 +627,7 @@
          style="position: absolute; left: -9999px; visibility: hidden;" 
          loading="lazy" />
 
-    <!-- Inline critical loading indicator - Executes immediately, very small -->
-    <script>
-        (function () {
-            const messages = ['Initializing', 'Loading runtime', 'Loading components', 'Almost ready'];
-            let index = 0;
-            const progressEl = document.getElementById('load-progress');
-
-            if (progressEl) {
-                const interval = setInterval(() => {
-                    index = (index + 1) % messages.length;
-                    progressEl.textContent = messages[index];
-                }, 800);
-
-                window.addEventListener('ufin:loaded', () => clearInterval(interval));
-            }
-        })();
-    </script>
+    <!-- Loading indicator -->
+    <script>!function(){var e=["Initializing","Loading runtime","Loading components","Almost ready"],n=0,t=document.getElementById("load-progress");if(t){var o=setInterval(function(){n=(n+1)%e.length,t.textContent=e[n]},800);window.addEventListener("ufin:loaded",function(){return clearInterval(o)})}}();</script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+# robots.txt for UFIN - Ukrainian Financial Analysis
+# https://ua-finance.netlify.app/
+# Optimized for Google Search
+
+User-agent: *
+Allow: /
+Sitemap: https://ua-finance.netlify.app/sitemap.xml
+
+# Disallow framework files (save crawl budget)
+Disallow: /_framework/
+Disallow: /_content/
+Disallow: /service-worker.js
+Disallow: /*.dll$
+Disallow: /*.pdb$
+
+# Googlebot - no delay
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /icon-512.png
+Allow: /icon-192.png
