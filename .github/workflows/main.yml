@@ -93,8 +93,10 @@ jobs:
 
       - name: Update base-tag for GitHub Pages
         run: |
-          sed -i 's|<base href="/" />|<base href="/Assessment-of-Ukrainian-financial-statements/" />|g' release/wwwroot/index.html
-          echo "Base tag updated for GitHub Pages deployment"
+          # Handle both formatted and minified base tags
+          sed -i 's|<base href="/" */>|<base href="/Assessment-of-Ukrainian-financial-statements/" />|g' release/wwwroot/index.html
+          sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
+          echo "✅ Base tag updated for GitHub Pages"
 
       - name: Fix service-worker-assets.js hashes
         working-directory: release/wwwroot
@@ -141,13 +143,18 @@ jobs:
 
       - name: Prepare SPA routing files
         run: |
-          # Copy index.html to 404.html for SPA routing
-          cp release/wwwroot/index.html release/wwwroot/404.html
+          # Keep the custom 404.html if it exists, otherwise copy index.html
+          if [ ! -f "release/wwwroot/404.html" ]; then
+            cp release/wwwroot/index.html release/wwwroot/404.html
+            echo "✅ 404.html created from index.html"
+          else
+            echo "✅ Using existing custom 404.html"
+          fi
           
           # Add .nojekyll to prevent Jekyll processing
           touch release/wwwroot/.nojekyll
           
-          echo "✅ SPA routing files created"
+          echo "✅ SPA routing files ready"
 
       - name: Update sitemap lastmod dates
         run: |
@@ -240,7 +247,7 @@ jobs:
           done
           
           # Optional files (warn but don't fail)
-          for file in sitemap.xml robots.txt manifest.webmanifest; do
+          for file in sitemap.xml robots.txt manifest.json; do
             if [ -f "release/wwwroot/$file" ]; then
               echo "✅ $file"
             else

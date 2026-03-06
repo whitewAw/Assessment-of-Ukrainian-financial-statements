@@ -4,6 +4,7 @@
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Deploy to GitHub Pages](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml/badge.svg)](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ua-finance/deploy-status)](https://ua-finance.netlify.app)
 [![Chrome AI](https://img.shields.io/badge/Chrome_AI-Gemini_Nano-4285F4?logo=google-chrome)](https://developer.chrome.com/docs/ai/built-in)
 [![Stand With Ukraine](https://img.shields.io/badge/Stand_With-Ukraine-FFD500?labelColor=005BBB)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 [![Developed by](https://img.shields.io/badge/Developed_by-Alex_%28Oleksandr%29_Shevchenko-0066CC?logo=github)](https://github.com/whitewAw)
@@ -16,7 +17,12 @@
 
 > 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 
-## 🌐 [Release](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
+## 🌐 Live Demo
+
+| Host | URL | Status |
+|------|-----|--------|
+| **GitHub Pages** | [whitewaw.github.io](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/) | [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-222?logo=github)](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/) |
+| **Netlify** | [ua-finance.netlify.app](https://ua-finance.netlify.app/) | [![Netlify](https://img.shields.io/badge/Netlify-00C7B7?logo=netlify&logoColor=white)](https://ua-finance.netlify.app/) |
 
 ---
 
@@ -226,8 +232,15 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   └── [16 analysis pages]      # Financial analysis pages
 │   └── wwwroot/                     # Static assets
 │       ├── js/
-│       │   └── chromeai.js          # Chrome AI JavaScript interop
-│       └── index.html               # Application shell
+│       │   ├── chromeai.js          # Chrome AI JavaScript interop
+│       │   └── seo-manager.js       # Dynamic SEO management
+│       ├── index.html               # Application shell (multi-host)
+│       ├── 404.html                 # SPA fallback page
+│       ├── netlify.toml             # Netlify configuration
+│       ├── robots.txt               # GitHub Pages robots
+│       ├── robots-netlify.txt       # Netlify robots
+│       ├── sitemap.xml              # GitHub Pages sitemap
+│       └── sitemap-netlify.xml      # Netlify sitemap
 │
 ├── 📂 AFS.ComponentLibrary/         # Reusable components
 │   ├── Components/
@@ -370,31 +383,59 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 
 ## 🚀 Deployment
 
-### GitHub Pages (Automated)
+### Multi-Host Support
 
-The project includes automated deployment to GitHub Pages using GitHub Actions.
+The application supports **simultaneous deployment** to multiple hosting platforms with automatic URL configuration:
+
+| Host | Base Path | Auto-Configured |
+|------|-----------|-----------------|
+| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | ✅ |
+| Netlify | `/` | ✅ |
+| Localhost | `/` | ✅ |
 
 #### How It Works
 
-1. **Push to main branch** → Triggers deployment
-2. **Workflow runs** → Builds with AOT compilation
-3. **Deploys to gh-pages** → Available at your GitHub Pages URL
+The app automatically detects the hostname and configures:
+- ✅ Base path for Blazor routing
+- ✅ Canonical URLs for SEO
+- ✅ hreflang links for multi-language
+- ✅ JSON-LD structured data
+- ✅ Sitemap and robots.txt
 
-#### Workflow Features
-- ✅ .NET 10 with AOT compilation
-- ✅ WebAssembly optimization
-- ✅ Service worker hash fixing
-- ✅ Automatic base path handling
-- ✅ PWA manifest generation
-- ✅ Brotli compression
+### GitHub Pages (Automated)
 
-#### Manual Deployment
+Deployment is automated via GitHub Actions on push to `main` branch.
+
+**Workflow Features:**
+- .NET 10 with AOT compilation
+- WebAssembly optimization (`-Oz`)
+- IL stripping for smaller bundles
+- Service worker hash fixing
+- Automatic base path handling
+- Brotli compression
+
+### Netlify
+
+To deploy to Netlify:
+
+1. Connect your GitHub repository to Netlify
+2. Build command: `dotnet publish AFS/AFS.csproj -c Release -o release`
+3. Publish directory: `release/wwwroot`
+4. The app includes `netlify.toml` with optimized headers
+
+**Netlify Features:**
+- SPA routing via `_redirects`
+- Separate `robots-netlify.txt` and `sitemap-netlify.xml`
+- Cache headers for WASM/DLL files
+- Security headers
+
+### Manual Deployment
 
 ```bash
 # Build the project
 dotnet publish AFS/AFS.csproj -c Release -o release
 
-# Update base path (replace with your repo name)
+# For GitHub Pages - update base path
 sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
   release/wwwroot/index.html
 
