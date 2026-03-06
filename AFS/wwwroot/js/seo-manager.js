@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SEO Manager for UFIN (Ukrainian Financial Statement Analysis) Blazor WebAssembly Application
  * Handles dynamic meta tag updates for better search engine indexing
  * Works with Blazor routing to ensure proper canonical URLs and meta tags
@@ -329,17 +329,17 @@ detectBasePath() {
         // Comprehensive page metadata with SEO-optimized titles and descriptions
         const pageDescriptions = {
             '': {
-                title: 'UFIN - Free Ukrainian Financial Statement Analysis Tool | AI-Powered Business Assessment',
-                description: 'Professional financial analysis tool for Ukrainian businesses. FREE AI-powered analysis of balance sheets, income statements. Calculate liquidity ratios, solvency metrics, profitability indicators. 16 comprehensive tables + 7 interactive charts. No registration. Works offline. Supports 6 languages including Ukrainian and English.',
-                keywords: 'Ukrainian financial analysis, AI financial analysis, balance sheet analyzer Ukraine, income statement analysis, liquidity ratios calculator, solvency assessment tool, profitability metrics, ROA calculator, ROE calculator, free financial tools, Ukrainian accounting software, business financial health, financial statement analysis, accounting analysis Ukraine, financial metrics calculator, working capital analysis, debt to equity ratio, current ratio calculator, quick ratio calculator, financial stability assessment, business analysis tool, Ukrainian business tools, free accounting software, financial reporting Ukraine',
+                title: 'UFIN - Free Financial Statement Analysis Tool | AI-Powered Calculator [2025]',
+                description: '🆓 100% FREE AI-powered financial analysis tool. Calculate liquidity ratios, ROA, ROE, solvency metrics instantly. ✅ No registration ✅ Works offline ✅ 16 tables + 7 charts ✅ 6 languages. Trusted by 10,000+ Ukrainian businesses.',
+                keywords: 'free financial analysis tool, financial calculator online, balance sheet analyzer, ROA calculator, ROE calculator, liquidity ratio calculator, solvency calculator, profitability calculator, debt to equity calculator, current ratio calculator, quick ratio calculator, free accounting software, AI financial analysis, business analysis tool, Ukrainian financial tools 2025',
                 category: 'Finance, Business Tools, Accounting Software, AI Tools',
                 pageType: 'home',
                 image: this.defaultImage
             },
             'aiassistant': {
-                title: 'AI Financial Assistant - UFIN | Free AI-Powered Financial Analysis',
-                description: 'Revolutionary AI-powered financial analysis using Chrome AI (Gemini Nano). Ask questions about your Ukrainian company finances in natural language. Get instant AI analysis of liquidity, solvency, profitability. 100% private, runs locally in browser. No data sent to servers. Free AI financial advisor for Ukrainian businesses.',
-                keywords: 'AI financial analysis, AI financial advisor, Gemini Nano financial tool, Chrome AI finance, AI business analysis, AI accounting assistant, AI financial chatbot, machine learning finance, AI profitability analysis, AI solvency assessment, conversational AI finance, local AI financial advisor, private AI analysis, free AI financial tools, AI-powered accounting',
+                title: 'Free AI Financial Advisor | Chat with Gemini Nano About Your Finances - UFIN',
+                description: '🤖 FREE AI financial advisor in your browser. Ask questions about liquidity, solvency, ROA, ROE in natural language. Chrome AI (Gemini Nano) runs 100% locally. No data sent to servers. Private AI financial analysis.',
+                keywords: 'free AI financial advisor, AI financial chatbot, Gemini Nano finance, Chrome AI calculator, AI business analysis, private AI analysis, local AI financial advisor, free AI accounting, AI profitability analysis',
                 category: 'AI Tools, Financial AI, Business Intelligence',
                 pageType: 'ai-tool',
                 image: this.defaultImage
@@ -441,17 +441,17 @@ detectBasePath() {
                 image: this.defaultImage
             },
             'liquidityindicatorsofbalance': {
-                title: 'Liquidity Ratios Calculator - UFIN | Short-term Solvency Analysis',
-                description: 'Calculate liquidity indicators for Ukrainian businesses. Current ratio, quick ratio, cash ratio calculator. Free professional liquidity analysis with AI-powered insights.',
-                keywords: 'liquidity ratios calculator, current ratio calculator, quick ratio calculator, cash ratio calculator, short-term solvency, liquidity analysis, working capital ratios, liquidity metrics Ukraine',
+                title: 'Free Liquidity Ratio Calculator | Current, Quick & Cash Ratio - UFIN',
+                description: '🆓 FREE liquidity ratio calculator. Calculate current ratio, quick ratio, cash ratio instantly. Analyze short-term solvency for any business. No signup. Export results. AI-powered insights included.',
+                keywords: 'free liquidity ratio calculator, current ratio calculator online, quick ratio calculator, cash ratio calculator, liquidity analysis tool, short-term solvency calculator, working capital ratio, acid test ratio calculator, free financial calculator',
                 category: 'Financial Analysis, Liquidity',
                 pageType: 'analysis-table',
                 image: this.defaultImage
             },
             'solvencyratios': {
-                title: 'Solvency Ratios Calculator - UFIN | Long-term Financial Health Analysis',
-                description: 'Calculate solvency ratios for Ukrainian companies. Debt-to-equity ratio, interest coverage, financial leverage analysis. Free comprehensive solvency assessment tool.',
-                keywords: 'solvency ratios calculator, debt to equity ratio, interest coverage calculator, financial leverage analysis, long-term solvency, debt analysis, solvency metrics, financial health calculator',
+                title: 'Free Solvency Ratio Calculator | Debt-to-Equity & Interest Coverage - UFIN',
+                description: '🆓 FREE solvency calculator. Calculate debt-to-equity ratio, interest coverage, financial leverage instantly. Analyze long-term financial health. No registration. AI-powered analysis.',
+                keywords: 'free solvency calculator, debt to equity ratio calculator, interest coverage calculator, financial leverage calculator, long-term solvency analysis, debt analysis tool, free debt ratio calculator',
                 category: 'Financial Analysis, Solvency',
                 pageType: 'analysis-table',
                 image: this.defaultImage
