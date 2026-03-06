@@ -1,4 +1,4 @@
-﻿@page "/ai-assistant"
+@page "/ai-assistant"
 @page "/Assessment-of-Ukrainian-financial-statements/ai-assistant"
 @page "/aiassistant"
 @page "/Assessment-of-Ukrainian-financial-statements/aiassistant"
@@ -43,28 +43,35 @@
         <div class="col-lg-4">
             @if (!_isAIAvailable)
             {
-            <div class="card shadow-sm mb-3">
+            <div class="card shadow-lg mb-3 border-warning setup-required-card" style="border-width: 2px !important;">
                 <div class="card-header bg-warning text-dark">
-                    <h6 class="mb-0">
-                        <i class="oi oi-wrench me-2"></i>
+                    <h6 class="mb-0 fw-bold">
+                        <span class="pulse-icon me-2">⚠️</span>
                         @ResLoc["SetupRequired"]
                     </h6>
                 </div>
-                <div class="card-body">
-                    <p class="small mb-2">
-                        <strong>@ResLoc["BrowserAI"]</strong>
-                    </p>
-                    <ol class="small mb-3">
-                        <li>@ResLoc["SetupStep1"]</li>
-                        <li>@ResLoc["SetupStep2"]</li>
-                        <li>@ResLoc["SetupStep3"]</li>
+                <div class="card-body" style="background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);">
+                    <div class="alert alert-warning border-warning mb-3 py-2" role="alert">
+                        <strong>🤖 @ResLoc["BrowserAI"]</strong>
+                        <div class="small mt-1">Chrome AI is not enabled in your browser.</div>
+                    </div>
+                    <h6 class="fw-bold mb-2">📋 Steps to enable:</h6>
+                    <ol class="mb-3 ps-3">
+                        <li class="mb-1">@ResLoc["SetupStep1"]</li>
+                        <li class="mb-1">@ResLoc["SetupStep2"]</li>
+                        <li class="mb-1">@ResLoc["SetupStep3"]</li>
                     </ol>
-                    <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
-                       target="_blank"
-                       class="btn btn-sm btn-warning w-100">
-                        <i class="oi oi-external-link me-1"></i>
-                        @ResLoc["ViewSetupGuide"]
-                    </a>
+                    <div class="d-grid gap-2">
+                        <a href="https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/blob/main/BROWSER_AI_SETUP.md"
+                           target="_blank"
+                           class="btn btn-warning fw-bold">
+                            <i class="oi oi-external-link me-1"></i>
+                            @ResLoc["ViewSetupGuide"]
+                        </a>
+                        <button class="btn btn-outline-dark btn-sm" @onclick="CheckAIAvailability">
+                            <i class="oi oi-reload me-1"></i> Recheck AI Status
+                        </button>
+                    </div>
                 </div>
             </div>
             }
@@ -101,7 +108,7 @@
                 </div>
             </div>
 
-            <div class="card shadow-sm mb-3">
+            <div class="card shadow-lg mb-3 border-warning setup-required-card" style="border-width: 2px !important;">
                 <div class="card-header bg-success text-white">
                     <h6 class="mb-0">
                         <i class="oi oi-shield me-2"></i>
@@ -189,18 +196,60 @@
 </div>
 
 <style>
-    .page-header h1 {
-        color: #0d6efd;
-        font-weight: 600;
-    }
+.page-header h1 {
+    color: #0d6efd;
+    font-weight: 600;
+}
 
-    .card {
-        border-radius: 8px;
-    }
+.card {
+    border-radius: 8px;
+}
 
-    .card-header {
-        font-weight: 500;
-    }
+.card-header {
+    font-weight: 500;
+}
+
+/* Setup Required Card - Highlighted for visibility */
+.setup-required-card {
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.5) !important;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.setup-required-card .card-header,
+.setup-required-card .card-body,
+.setup-required-card .card-body * {
+    color: #212529 !important;
+}
+
+.setup-required-card .alert {
+    background-color: rgba(255, 193, 7, 0.3) !important;
+    color: #212529 !important;
+}
+
+.setup-required-card .btn-warning {
+    color: #212529 !important;
+}
+
+.setup-required-card .btn-outline-dark {
+    color: #212529 !important;
+    border-color: #212529 !important;
+}
+
+.pulse-icon {
+    display: inline-block;
+    animation: pulse-scale 1.5s ease-in-out infinite;
+    font-size: 1.1rem;
+}
+
+@@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 193, 7, 0.5); }
+    50% { box-shadow: 0 6px 30px rgba(255, 193, 7, 0.8); }
+}
+
+@@keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
 
     /* Native HTML Details/Summary FAQ - No JavaScript Required */
     .faq-container {
