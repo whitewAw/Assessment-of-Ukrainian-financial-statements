@@ -165,6 +165,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ Brotli Compression
 - ✅ Native WASM optimization (`-Oz`)
 - ✅ .NET 10 performance enhancements
+- ✅ **AOT-safe JSON serialization** (source-generated, zero reflection)
 - ✅ Comprehensive code analyzers (Meziantou, SonarQube, Roslynator)
 - ✅ Nullable reference types enabled
 - ✅ Code style enforcement in build
@@ -180,6 +181,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Size Optimization  - Emscripten -Oz flag                    │
 │  ✅ Service Worker     - Offline-first caching                  │
 │  ✅ Exception Handling - Optimized WASM exception handling      │
+│  ✅ JSON Serialization - Source-generated, zero reflection      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -297,7 +299,8 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   └── JsInterop.cs            # JavaScript interop
 │   ├── Interfaces/
 │   │   └── IAIFinancialAdvisor.cs  # AI service interface
-│   └── Json/                       # JSON serialization
+│   └── Json/                       # AOT-safe JSON serialization
+│       └── AFSJsonSerializerContext.cs  # Source-generated serializers
 │
 ├── 📂 .github/                      # GitHub configuration
 │   ├── workflows/                   # CI/CD workflows

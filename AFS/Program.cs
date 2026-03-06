@@ -1,7 +1,6 @@
 using AFS;
 using AFS.Core.Components;
 using AFS.Core.Interfaces;
-using AFS.Core.Json;
 using AFS.Core.Models;
 using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
@@ -32,13 +31,9 @@ builder.Services.AddSingleton<AppThemeService>();
 // Localization - no need to set ResourcesPath since resources are in referenced AFS.ComponentLibrary
 builder.Services.AddLocalization();
 
-// Blazored LocalStorage with AOT-optimized JSON options
-builder.Services.AddBlazoredLocalStorage(config =>
-{
-    config.JsonSerializerOptions.WriteIndented = false;
-    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-    config.JsonSerializerOptions.TypeInfoResolver = AFSJsonSerializerContext.Default;
-});
+// Blazored LocalStorage - using string-based methods for AOT compatibility
+// We manually serialize/deserialize with AFSJsonSerializerContext in our handlers
+builder.Services.AddBlazoredLocalStorage();
 
 // Radzen services - REQUIRED for Radzen components
 builder.Services.AddScoped<DialogService>();

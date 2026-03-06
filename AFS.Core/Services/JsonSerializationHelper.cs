@@ -247,42 +247,42 @@ public static class JsonSerializationHelper
             AbsoluteStability = new StabilityTypeData
             {
                 Type = "Type 1: Absolute Financial Stability",
-                Base_Current = IsPass(absoluteStability.CurrentBVal),
-                Base_ShortTerm = IsPass(absoluteStability.ShortBVal),
-                Base_LongTerm = IsPass(absoluteStability.LongBVal),
-                Current_Current = IsPass(absoluteStability.CurrentCVal),
-                Current_ShortTerm = IsPass(absoluteStability.ShortCVal),
-                Current_LongTerm = IsPass(absoluteStability.LongCVal)
+                BaseCurrent = IsPass(absoluteStability.CurrentBVal),
+                BaseShortTerm = IsPass(absoluteStability.ShortBVal),
+                BaseLongTerm = IsPass(absoluteStability.LongBVal),
+                CurrentCurrent = IsPass(absoluteStability.CurrentCVal),
+                CurrentShortTerm = IsPass(absoluteStability.ShortCVal),
+                CurrentLongTerm = IsPass(absoluteStability.LongCVal)
             },
             NormalStability = new StabilityTypeData
             {
                 Type = "Type 2: Normal Financial Stability",
-                Base_Current = IsPass(normalStability.CurrentBVal),
-                Base_ShortTerm = IsPass(normalStability.ShortBVal),
-                Base_LongTerm = IsPass(normalStability.LongBVal),
-                Current_Current = IsPass(normalStability.CurrentCVal),
-                Current_ShortTerm = IsPass(normalStability.ShortCVal),
-                Current_LongTerm = IsPass(normalStability.LongCVal)
+                BaseCurrent = IsPass(normalStability.CurrentBVal),
+                BaseShortTerm = IsPass(normalStability.ShortBVal),
+                BaseLongTerm = IsPass(normalStability.LongBVal),
+                CurrentCurrent = IsPass(normalStability.CurrentCVal),
+                CurrentShortTerm = IsPass(normalStability.ShortCVal),
+                CurrentLongTerm = IsPass(normalStability.LongCVal)
             },
             PreCrisisStability = new StabilityTypeData
             {
                 Type = "Type 3: Pre-Crisis Financial Stability",
-                Base_Current = IsPass(precrisisStability.CurrentBVal),
-                Base_ShortTerm = IsPass(precrisisStability.ShortBVal),
-                Base_LongTerm = IsPass(precrisisStability.LongBVal),
-                Current_Current = IsPass(precrisisStability.CurrentCVal),
-                Current_ShortTerm = IsPass(precrisisStability.ShortCVal),
-                Current_LongTerm = IsPass(precrisisStability.LongCVal)
+                BaseCurrent = IsPass(precrisisStability.CurrentBVal),
+                BaseShortTerm = IsPass(precrisisStability.ShortBVal),
+                BaseLongTerm = IsPass(precrisisStability.LongBVal),
+                CurrentCurrent = IsPass(precrisisStability.CurrentCVal),
+                CurrentShortTerm = IsPass(precrisisStability.ShortCVal),
+                CurrentLongTerm = IsPass(precrisisStability.LongCVal)
             },
             CrisisStability = new StabilityTypeData
             {
                 Type = "Type 4: Crisis Financial Stability",
-                Base_Current = IsPass(crisisStability.CurrentBVal),
-                Base_ShortTerm = IsPass(crisisStability.ShortBVal),
-                Base_LongTerm = IsPass(crisisStability.LongBVal),
-                Current_Current = IsPass(crisisStability.CurrentCVal),
-                Current_ShortTerm = IsPass(crisisStability.ShortCVal),
-                Current_LongTerm = IsPass(crisisStability.LongCVal)
+                BaseCurrent = IsPass(crisisStability.CurrentBVal),
+                BaseShortTerm = IsPass(crisisStability.ShortBVal),
+                BaseLongTerm = IsPass(crisisStability.LongBVal),
+                CurrentCurrent = IsPass(crisisStability.CurrentCVal),
+                CurrentShortTerm = IsPass(crisisStability.ShortCVal),
+                CurrentLongTerm = IsPass(crisisStability.LongCVal)
             }
         };
 
@@ -314,14 +314,14 @@ public static class JsonSerializationHelper
             CurrentYear = currentYear,
             Summary = new ReceivablePayableSummary
             {
-                TotalReceivables_Base = totalRecBase,
-                TotalReceivables_Current = totalRecCurrent,
-                TotalPayables_Base = totalPayBase,
-                TotalPayables_Current = totalPayCurrent,
-                NetPosition_Base = totalRecBase - totalPayBase,
-                NetPosition_Current = totalRecCurrent - totalPayCurrent,
-                ReceivableToPayableRatio_Base = totalPayBase > 0 ? totalRecBase / totalPayBase : 0,
-                ReceivableToPayableRatio_Current = totalPayCurrent > 0 ? totalRecCurrent / totalPayCurrent : 0
+                TotalReceivablesBase = totalRecBase,
+                TotalReceivablesCurrent = totalRecCurrent,
+                TotalPayablesBase = totalPayBase,
+                TotalPayablesCurrent = totalPayCurrent,
+                NetPositionBase = totalRecBase - totalPayBase,
+                NetPositionCurrent = totalRecCurrent - totalPayCurrent,
+                ReceivableToPayableRatioBase = totalPayBase > 0 ? totalRecBase / totalPayBase : 0,
+                ReceivableToPayableRatioCurrent = totalPayCurrent > 0 ? totalRecCurrent / totalPayCurrent : 0
             },
             BuyersSuppliers = CreateReceivablePayableCategory(buyersSuppliers),
             BudgetFunds = CreateReceivablePayableCategory(budgetFunds),
@@ -462,8 +462,8 @@ public static class JsonSerializationHelper
             CurrentYear = currentYear,
             NetRevenueFromSales = CreateIntangibleAssetMetric(netRevenue),
             AverageCostOfIntangibleAssets = CreateIntangibleAssetMetric(avgCostIntangibles),
-            IntangibleAssetTurnover_UAH = CreateIntangibleAssetMetric(intangibleTurnover),
-            CapitalIntensityOfProduction_UAH = CreateIntangibleAssetMetric(capitalIntensity)
+            IntangibleAssetTurnoverUah = CreateIntangibleAssetMetric(intangibleTurnover),
+            CapitalIntensityOfProductionUah = CreateIntangibleAssetMetric(capitalIntensity)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.IntangibleAssetsData);
@@ -534,12 +534,12 @@ public static class JsonSerializationHelper
             CompanyName = companyName,
             BaseYear = baseYear,
             CurrentYear = currentYear,
-            BaseYear_Assessment = new LiquidityPeriodData
+            BaseYearAssessment = new LiquidityPeriodData
             {
                 BeginOfYear = CreateLiquidityConditionBegin(a1p1Base, a2p2Base, a3p3Base, a4p4Base),
                 EndOfYear = CreateLiquidityConditionEnd(a1p1Base, a2p2Base, a3p3Base, a4p4Base)
             },
-            CurrentYear_Assessment = new LiquidityPeriodData
+            CurrentYearAssessment = new LiquidityPeriodData
             {
                 BeginOfYear = CreateLiquidityConditionBegin(a1p1Current, a2p2Current, a3p3Current, a4p4Current),
                 EndOfYear = CreateLiquidityConditionEnd(a1p1Current, a2p2Current, a3p3Current, a4p4Current)
@@ -573,10 +573,10 @@ public static class JsonSerializationHelper
             OwnWorkingCapital = CreateStabilitySource(ownWorkingCapital),
             OwnPlusLongTerm = CreateStabilitySource(ownPlusLongTerm),
             TotalAvailable = CreateStabilitySource(totalAvailable),
-            Stocks_Inventory = CreateStabilitySource(stocks),
-            Deficit_OwnCapital = CreateStabilitySource(deficitOwnCapital),
-            Deficit_OwnPlusLongTerm = CreateStabilitySource(deficitOwnPlusLongTerm),
-            Deficit_TotalSources = CreateStabilitySource(deficitTotalSources)
+            StocksInventory = CreateStabilitySource(stocks),
+            DeficitOwnCapital = CreateStabilitySource(deficitOwnCapital),
+            DeficitOwnPlusLongTerm = CreateStabilitySource(deficitOwnPlusLongTerm),
+            DeficitTotalSources = CreateStabilitySource(deficitTotalSources)
         };
 
         return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.GeneralFinancialStabilityData);
@@ -641,16 +641,16 @@ public static class JsonSerializationHelper
 
         return new CapitalSourceMetricData
         {
-            Base_Begin = baseBegin,
-            Base_End = baseEnd,
-            Base_Change = baseEnd - baseBegin,
-            Base_PercentBegin = 0,
-            Base_PercentEnd = 0,
-            Current_Begin = currentBegin,
-            Current_End = currentEnd,
-            Current_Change = currentEnd - currentBegin,
-            Current_PercentBegin = 0,
-            Current_PercentEnd = 0
+            BaseBegin = baseBegin,
+            BaseEnd = baseEnd,
+            BaseChange = baseEnd - baseBegin,
+            BasePercentBegin = 0,
+            BasePercentEnd = 0,
+            CurrentBegin = currentBegin,
+            CurrentEnd = currentEnd,
+            CurrentChange = currentEnd - currentBegin,
+            CurrentPercentBegin = 0,
+            CurrentPercentEnd = 0
         };
     }
 
@@ -659,16 +659,16 @@ public static class JsonSerializationHelper
     {
         return new CapitalSourceMetricData
         {
-            Base_Begin = SafeValue(source.Base.BeginningOfyear),
-            Base_End = SafeValue(source.Base.EndOfYear),
-            Base_Change = SafeValue(source.Base.EndOfYear - source.Base.BeginningOfyear),
-            Base_PercentBegin = SafeValue(source.InPercentageOfAssetsBase.BeginningOfyear),
-            Base_PercentEnd = SafeValue(source.InPercentageOfAssetsBase.EndOfYear),
-            Current_Begin = SafeValue(source.Current.BeginningOfyear),
-            Current_End = SafeValue(source.Current.EndOfYear),
-            Current_Change = SafeValue(source.Current.EndOfYear - source.Current.BeginningOfyear),
-            Current_PercentBegin = SafeValue(source.InPercentageOfAssetsCurrent.BeginningOfyear),
-            Current_PercentEnd = SafeValue(source.InPercentageOfAssetsCurrent.EndOfYear)
+            BaseBegin = SafeValue(source.Base.BeginningOfyear),
+            BaseEnd = SafeValue(source.Base.EndOfYear),
+            BaseChange = SafeValue(source.Base.EndOfYear - source.Base.BeginningOfyear),
+            BasePercentBegin = SafeValue(source.InPercentageOfAssetsBase.BeginningOfyear),
+            BasePercentEnd = SafeValue(source.InPercentageOfAssetsBase.EndOfYear),
+            CurrentBegin = SafeValue(source.Current.BeginningOfyear),
+            CurrentEnd = SafeValue(source.Current.EndOfYear),
+            CurrentChange = SafeValue(source.Current.EndOfYear - source.Current.BeginningOfyear),
+            CurrentPercentBegin = SafeValue(source.InPercentageOfAssetsCurrent.BeginningOfyear),
+            CurrentPercentEnd = SafeValue(source.InPercentageOfAssetsCurrent.EndOfYear)
         };
     }
 
@@ -677,10 +677,10 @@ public static class JsonSerializationHelper
     {
         return new CapitalComponentData
         {
-            Base_End = SafeValue(source.Base.EndOfYear),
-            Base_Percent = SafeValue(source.InPercentageOfEquityBase.EndOfYear),
-            Current_End = SafeValue(source.Current.EndOfYear),
-            Current_Percent = SafeValue(source.InPercentageOfEquityCurrent.EndOfYear)
+            BaseEnd = SafeValue(source.Base.EndOfYear),
+            BasePercent = SafeValue(source.InPercentageOfEquityBase.EndOfYear),
+            CurrentEnd = SafeValue(source.Current.EndOfYear),
+            CurrentPercent = SafeValue(source.InPercentageOfEquityCurrent.EndOfYear)
         };
     }
 
@@ -689,10 +689,10 @@ public static class JsonSerializationHelper
     {
         return new CapitalComponentData
         {
-            Base_End = SafeValue(source.Base.EndOfYear),
-            Base_Percent = SafeValue(source.InPercentageOfBorrowedCapitalBase.EndOfYear),
-            Current_End = SafeValue(source.Current.EndOfYear),
-            Current_Percent = SafeValue(source.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
+            BaseEnd = SafeValue(source.Base.EndOfYear),
+            BasePercent = SafeValue(source.InPercentageOfBorrowedCapitalBase.EndOfYear),
+            CurrentEnd = SafeValue(source.Current.EndOfYear),
+            CurrentPercent = SafeValue(source.InPercentageOfBorrowedCapitalCurrent.EndOfYear)
         };
     }
 
@@ -701,10 +701,10 @@ public static class JsonSerializationHelper
     {
         return new StabilitySourceData
         {
-            Base_Begin = SafeValue(source.Base.BeginningOfyear),
-            Base_End = SafeValue(source.Base.EndOfYear),
-            Current_Begin = SafeValue(source.Current.BeginningOfyear),
-            Current_End = SafeValue(source.Current.EndOfYear)
+            BaseBegin = SafeValue(source.Base.BeginningOfyear),
+            BaseEnd = SafeValue(source.Base.EndOfYear),
+            CurrentBegin = SafeValue(source.Current.BeginningOfyear),
+            CurrentEnd = SafeValue(source.Current.EndOfYear)
         };
     }
 
@@ -719,18 +719,18 @@ public static class JsonSerializationHelper
         return new LiquidityConditionData
         {
             IsLiquid = isLiquid,
-            A1_MostLiquid = SafeValue(a1.ABegin),
-            P1_MostUrgent = SafeValue(a1.PBegin),
-            Surplus_A1P1 = SafeValue(a1.PaymentBalanceBegin),
-            A2_QuickLiquid = SafeValue(a2.ABegin),
-            P2_ShortTerm = SafeValue(a2.PBegin),
-            Surplus_A2P2 = SafeValue(a2.PaymentBalanceBegin),
-            A3_SlowLiquid = SafeValue(a3.ABegin),
-            P3_LongTerm = SafeValue(a3.PBegin),
-            Surplus_A3P3 = SafeValue(a3.PaymentBalanceBegin),
-            A4_HardToSell = SafeValue(a4.ABegin),
-            P4_Permanent = SafeValue(a4.PBegin),
-            Surplus_A4P4 = SafeValue(a4.PaymentBalanceBegin)
+            A1MostLiquid = SafeValue(a1.ABegin),
+            P1MostUrgent = SafeValue(a1.PBegin),
+            SurplusA1P1 = SafeValue(a1.PaymentBalanceBegin),
+            A2QuickLiquid = SafeValue(a2.ABegin),
+            P2ShortTerm = SafeValue(a2.PBegin),
+            SurplusA2P2 = SafeValue(a2.PaymentBalanceBegin),
+            A3SlowLiquid = SafeValue(a3.ABegin),
+            P3LongTerm = SafeValue(a3.PBegin),
+            SurplusA3P3 = SafeValue(a3.PaymentBalanceBegin),
+            A4HardToSell = SafeValue(a4.ABegin),
+            P4Permanent = SafeValue(a4.PBegin),
+            SurplusA4P4 = SafeValue(a4.PaymentBalanceBegin)
         };
     }
 
@@ -745,18 +745,18 @@ public static class JsonSerializationHelper
         return new LiquidityConditionData
         {
             IsLiquid = isLiquid,
-            A1_MostLiquid = SafeValue(a1.AEnd),
-            P1_MostUrgent = SafeValue(a1.PEnd),
-            Surplus_A1P1 = SafeValue(a1.PaymentBalanceEnd),
-            A2_QuickLiquid = SafeValue(a2.AEnd),
-            P2_ShortTerm = SafeValue(a2.PEnd),
-            Surplus_A2P2 = SafeValue(a2.PaymentBalanceEnd),
-            A3_SlowLiquid = SafeValue(a3.AEnd),
-            P3_LongTerm = SafeValue(a3.PEnd),
-            Surplus_A3P3 = SafeValue(a3.PaymentBalanceEnd),
-            A4_HardToSell = SafeValue(a4.AEnd),
-            P4_Permanent = SafeValue(a4.PEnd),
-            Surplus_A4P4 = SafeValue(a4.PaymentBalanceEnd)
+            A1MostLiquid = SafeValue(a1.AEnd),
+            P1MostUrgent = SafeValue(a1.PEnd),
+            SurplusA1P1 = SafeValue(a1.PaymentBalanceEnd),
+            A2QuickLiquid = SafeValue(a2.AEnd),
+            P2ShortTerm = SafeValue(a2.PEnd),
+            SurplusA2P2 = SafeValue(a2.PaymentBalanceEnd),
+            A3SlowLiquid = SafeValue(a3.AEnd),
+            P3LongTerm = SafeValue(a3.PEnd),
+            SurplusA3P3 = SafeValue(a3.PaymentBalanceEnd),
+            A4HardToSell = SafeValue(a4.AEnd),
+            P4Permanent = SafeValue(a4.PEnd),
+            SurplusA4P4 = SafeValue(a4.PaymentBalanceEnd)
         };
     }
 
@@ -806,10 +806,10 @@ public static class JsonSerializationHelper
     {
         return new TurnoverMetricData
         {
-            Revolutions_Base = SafeValue(revolutionsSource.BaseYear),
-            Revolutions_Current = SafeValue(revolutionsSource.CurrentYear),
-            Days_Base = SafeValue(daysSource.BaseYear),
-            Days_Current = SafeValue(daysSource.CurrentYear)
+            RevolutionsBase = SafeValue(revolutionsSource.BaseYear),
+            RevolutionsCurrent = SafeValue(revolutionsSource.CurrentYear),
+            DaysBase = SafeValue(daysSource.BaseYear),
+            DaysCurrent = SafeValue(daysSource.CurrentYear)
         };
     }
 
@@ -831,14 +831,14 @@ public static class JsonSerializationHelper
     {
         return new ReceivablePayableCategoryData
         {
-            Receivable_Base = SafeValue(source.ReceivableBase),
-            Receivable_Current = SafeValue(source.ReceivableCurrent),
-            Payable_Base = SafeValue(source.PayableBase),
-            Payable_Current = SafeValue(source.PayableCurrent),
-            ExcessReceivable_Base = SafeValue(source.ExceedingReceivableBase),
-            ExcessReceivable_Current = SafeValue(source.ExceedingReceivableCurrent),
-            ExcessPayable_Base = SafeValue(source.ExceedingPayableBase),
-            ExcessPayable_Current = SafeValue(source.ExceedingPayableCurrent)
+            ReceivableBase = SafeValue(source.ReceivableBase),
+            ReceivableCurrent = SafeValue(source.ReceivableCurrent),
+            PayableBase = SafeValue(source.PayableBase),
+            PayableCurrent = SafeValue(source.PayableCurrent),
+            ExcessReceivableBase = SafeValue(source.ExceedingReceivableBase),
+            ExcessReceivableCurrent = SafeValue(source.ExceedingReceivableCurrent),
+            ExcessPayableBase = SafeValue(source.ExceedingPayableBase),
+            ExcessPayableCurrent = SafeValue(source.ExceedingPayableCurrent)
         };
     }
 
@@ -851,12 +851,12 @@ public static class JsonSerializationHelper
 
         return new SolvencyRatioItem
         {
-            Base_Begin = baseBegin,
-            Base_End = baseEnd,
-            Current_Begin = currentBegin,
-            Current_End = currentEnd,
-            Deviation_Base = baseEnd - baseBegin,
-            Deviation_Current = currentEnd - currentBegin
+            BaseBegin = baseBegin,
+            BaseEnd = baseEnd,
+            CurrentBegin = currentBegin,
+            CurrentEnd = currentEnd,
+            DeviationBase = baseEnd - baseBegin,
+            DeviationCurrent = currentEnd - currentBegin
         };
     }
 
@@ -867,8 +867,8 @@ public static class JsonSerializationHelper
 
         return new SolvencyRatioSimpleItem
         {
-            Base_End = baseEnd,
-            Current_End = currentEnd,
+            BaseEnd = baseEnd,
+            CurrentEnd = currentEnd,
             Deviation = currentEnd - baseEnd
         };
     }

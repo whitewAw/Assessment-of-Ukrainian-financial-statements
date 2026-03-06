@@ -16,7 +16,6 @@ namespace AFS.Core.Json;
 [JsonSerializable(typeof(List<ChartDataItem>))]
 [JsonSerializable(typeof(List<ChartDateTimeItem>))]
 [JsonSerializable(typeof(string))]
-[JsonSerializable(typeof(Dictionary<string, object>))]
 [JsonSerializable(typeof(Dictionary<string, double>))]
 [JsonSerializable(typeof(Dictionary<string, string>))]
 // Chart data types
@@ -28,6 +27,8 @@ namespace AFS.Core.Json;
 [JsonSerializable(typeof(TurnoverDataPoint))]
 [JsonSerializable(typeof(List<ChartDataItemDto>))]
 [JsonSerializable(typeof(List<TurnoverDataPoint>))]
+[JsonSerializable(typeof(IReadOnlyList<ChartDataItemDto>))]
+[JsonSerializable(typeof(IReadOnlyList<TurnoverDataPoint>))]
 // OpenAI types
 [JsonSerializable(typeof(OpenAIRequest))]
 [JsonSerializable(typeof(OpenAIResponse))]
@@ -79,15 +80,21 @@ namespace AFS.Core.Json;
 [JsonSerializable(typeof(CapitalSourceMetricData))]
 [JsonSerializable(typeof(CapitalComponentData))]
 [JsonSourceGenerationOptions(
-    WriteIndented = false,
-    PropertyNameCaseInsensitive = true,
-    DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-    GenerationMode = JsonSourceGenerationMode.Default)]
+WriteIndented = false,
+PropertyNameCaseInsensitive = true,
+DefaultIgnoreCondition = JsonIgnoreCondition.Never,
+GenerationMode = JsonSourceGenerationMode.Default,
+UseStringEnumConverter = true)]
 public partial class AFSJsonSerializerContext : JsonSerializerContext
 {
 }
 
 // DTOs for chart data serialization - optimized for AI prompts
+// Using IReadOnlyList<T> with init setters:
+// - Satisfies CA1002 (don't expose generic lists)
+// - init setters prevent modification after construction (CA2227 intent)
+// - AOT-safe: Source generator handles IReadOnlyList<T> for serialization
+
 public class ChartDataItemDto
 {
     public string? Item { get; set; }
@@ -98,8 +105,8 @@ public class AssetCompositionData
 {
     public string? CompanyName { get; set; }
     public int Year { get; set; }
-    public List<ChartDataItemDto>? BeginningOfYear { get; set; }
-    public List<ChartDataItemDto>? EndOfYear { get; set; }
+    public IReadOnlyList<ChartDataItemDto>? BeginningOfYear { get; init; }
+    public IReadOnlyList<ChartDataItemDto>? EndOfYear { get; init; }
 }
 
 public class CapitalSourcesData
@@ -107,7 +114,7 @@ public class CapitalSourcesData
     public string? CompanyName { get; set; }
     public int Year { get; set; }
     public int PreviousYear { get; set; }
-    public List<ChartDataItemDto>? CapitalSources { get; set; }
+    public IReadOnlyList<ChartDataItemDto>? CapitalSources { get; init; }
 }
 
 public class PayableStructureData
@@ -115,21 +122,21 @@ public class PayableStructureData
     public string? CompanyName { get; set; }
     public int Year { get; set; }
     public int PreviousYear { get; set; }
-    public List<ChartDataItemDto>? PayableStructure { get; set; }
+    public IReadOnlyList<ChartDataItemDto>? PayableStructure { get; init; }
+}
+
+public class TurnoverTimeData
+{
+    public string? CompanyName { get; set; }
+    public IReadOnlyList<TurnoverDataPoint>? Money { get; init; }
+    public IReadOnlyList<TurnoverDataPoint>? Receivables { get; init; }
+    public IReadOnlyList<TurnoverDataPoint>? MaterialValues { get; init; }
 }
 
 public class TurnoverDataPoint
 {
     public string? Date { get; set; }
     public double Value { get; set; }
-}
-
-public class TurnoverTimeData
-{
-    public string? CompanyName { get; set; }
-    public List<TurnoverDataPoint>? Money { get; set; }
-    public List<TurnoverDataPoint>? Receivables { get; set; }
-    public List<TurnoverDataPoint>? MaterialValues { get; set; }
 }
 
 // OpenAI API DTOs
@@ -235,12 +242,24 @@ public class StabilityClassificationData
 public class StabilityTypeData
 {
     public string? Type { get; set; }
-    public bool Base_Current { get; set; }
-    public bool Base_ShortTerm { get; set; }
-    public bool Base_LongTerm { get; set; }
-    public bool Current_Current { get; set; }
-    public bool Current_ShortTerm { get; set; }
-    public bool Current_LongTerm { get; set; }
+
+    [JsonPropertyName("Base_Current")]
+    public bool BaseCurrent { get; set; }
+
+    [JsonPropertyName("Base_ShortTerm")]
+    public bool BaseShortTerm { get; set; }
+
+    [JsonPropertyName("Base_LongTerm")]
+    public bool BaseLongTerm { get; set; }
+
+    [JsonPropertyName("Current_Current")]
+    public bool CurrentCurrent { get; set; }
+
+    [JsonPropertyName("Current_ShortTerm")]
+    public bool CurrentShortTerm { get; set; }
+
+    [JsonPropertyName("Current_LongTerm")]
+    public bool CurrentLongTerm { get; set; }
 }
 
 // Receivable and Payable Assessment DTOs
@@ -258,26 +277,56 @@ public class ReceivablePayableData
 
 public class ReceivablePayableSummary
 {
-    public double TotalReceivables_Base { get; set; }
-    public double TotalReceivables_Current { get; set; }
-    public double TotalPayables_Base { get; set; }
-    public double TotalPayables_Current { get; set; }
-    public double NetPosition_Base { get; set; }
-    public double NetPosition_Current { get; set; }
-    public double ReceivableToPayableRatio_Base { get; set; }
-    public double ReceivableToPayableRatio_Current { get; set; }
+    [JsonPropertyName("TotalReceivables_Base")]
+    public double TotalReceivablesBase { get; set; }
+
+    [JsonPropertyName("TotalReceivables_Current")]
+    public double TotalReceivablesCurrent { get; set; }
+
+    [JsonPropertyName("TotalPayables_Base")]
+    public double TotalPayablesBase { get; set; }
+
+    [JsonPropertyName("TotalPayables_Current")]
+    public double TotalPayablesCurrent { get; set; }
+
+    [JsonPropertyName("NetPosition_Base")]
+    public double NetPositionBase { get; set; }
+
+    [JsonPropertyName("NetPosition_Current")]
+    public double NetPositionCurrent { get; set; }
+
+    [JsonPropertyName("ReceivableToPayableRatio_Base")]
+    public double ReceivableToPayableRatioBase { get; set; }
+
+    [JsonPropertyName("ReceivableToPayableRatio_Current")]
+    public double ReceivableToPayableRatioCurrent { get; set; }
 }
 
 public class ReceivablePayableCategoryData
 {
-    public double Receivable_Base { get; set; }
-    public double Receivable_Current { get; set; }
-    public double Payable_Base { get; set; }
-    public double Payable_Current { get; set; }
-    public double ExcessReceivable_Base { get; set; }
-    public double ExcessReceivable_Current { get; set; }
-    public double ExcessPayable_Base { get; set; }
-    public double ExcessPayable_Current { get; set; }
+    [JsonPropertyName("Receivable_Base")]
+    public double ReceivableBase { get; set; }
+
+    [JsonPropertyName("Receivable_Current")]
+    public double ReceivableCurrent { get; set; }
+
+    [JsonPropertyName("Payable_Base")]
+    public double PayableBase { get; set; }
+
+    [JsonPropertyName("Payable_Current")]
+    public double PayableCurrent { get; set; }
+
+    [JsonPropertyName("ExcessReceivable_Base")]
+    public double ExcessReceivableBase { get; set; }
+
+    [JsonPropertyName("ExcessReceivable_Current")]
+    public double ExcessReceivableCurrent { get; set; }
+
+    [JsonPropertyName("ExcessPayable_Base")]
+    public double ExcessPayableBase { get; set; }
+
+    [JsonPropertyName("ExcessPayable_Current")]
+    public double ExcessPayableCurrent { get; set; }
 }
 
 // Solvency Ratios DTOs
@@ -296,18 +345,33 @@ public class SolvencyRatiosData
 
 public class SolvencyRatioItem
 {
-    public double Base_Begin { get; set; }
-    public double Base_End { get; set; }
-    public double Current_Begin { get; set; }
-    public double Current_End { get; set; }
-    public double Deviation_Base { get; set; }
-    public double Deviation_Current { get; set; }
+    [JsonPropertyName("Base_Begin")]
+    public double BaseBegin { get; set; }
+
+    [JsonPropertyName("Base_End")]
+    public double BaseEnd { get; set; }
+
+    [JsonPropertyName("Current_Begin")]
+    public double CurrentBegin { get; set; }
+
+    [JsonPropertyName("Current_End")]
+    public double CurrentEnd { get; set; }
+
+    [JsonPropertyName("Deviation_Base")]
+    public double DeviationBase { get; set; }
+
+    [JsonPropertyName("Deviation_Current")]
+    public double DeviationCurrent { get; set; }
 }
 
 public class SolvencyRatioSimpleItem
 {
-    public double Base_End { get; set; }
-    public double Current_End { get; set; }
+    [JsonPropertyName("Base_End")]
+    public double BaseEnd { get; set; }
+
+    [JsonPropertyName("Current_End")]
+    public double CurrentEnd { get; set; }
+
     public double Deviation { get; set; }
 }
 
@@ -365,10 +429,17 @@ public class BusinessActivityMetricData
 
 public class TurnoverMetricData
 {
-    public double Revolutions_Base { get; set; }
-    public double Revolutions_Current { get; set; }
-    public double Days_Base { get; set; }
-    public double Days_Current { get; set; }
+    [JsonPropertyName("Revolutions_Base")]
+    public double RevolutionsBase { get; set; }
+
+    [JsonPropertyName("Revolutions_Current")]
+    public double RevolutionsCurrent { get; set; }
+
+    [JsonPropertyName("Days_Base")]
+    public double DaysBase { get; set; }
+
+    [JsonPropertyName("Days_Current")]
+    public double DaysCurrent { get; set; }
 }
 
 // Intangible Assets Efficiency DTOs
@@ -379,8 +450,12 @@ public class IntangibleAssetsData
     public int CurrentYear { get; set; }
     public IntangibleAssetMetricData? NetRevenueFromSales { get; set; }
     public IntangibleAssetMetricData? AverageCostOfIntangibleAssets { get; set; }
-    public IntangibleAssetMetricData? IntangibleAssetTurnover_UAH { get; set; }
-    public IntangibleAssetMetricData? CapitalIntensityOfProduction_UAH { get; set; }
+
+    [JsonPropertyName("IntangibleAssetTurnover_UAH")]
+    public IntangibleAssetMetricData? IntangibleAssetTurnoverUah { get; set; }
+
+    [JsonPropertyName("CapitalIntensityOfProduction_UAH")]
+    public IntangibleAssetMetricData? CapitalIntensityOfProductionUah { get; set; }
 }
 
 public class IntangibleAssetMetricData
@@ -425,8 +500,12 @@ public class LiquidityIndicatorsData
     public string? CompanyName { get; set; }
     public int BaseYear { get; set; }
     public int CurrentYear { get; set; }
-    public LiquidityPeriodData? BaseYear_Assessment { get; set; }
-    public LiquidityPeriodData? CurrentYear_Assessment { get; set; }
+
+    [JsonPropertyName("BaseYear_Assessment")]
+    public LiquidityPeriodData? BaseYearAssessment { get; set; }
+
+    [JsonPropertyName("CurrentYear_Assessment")]
+    public LiquidityPeriodData? CurrentYearAssessment { get; set; }
 }
 
 public class LiquidityPeriodData
@@ -438,18 +517,42 @@ public class LiquidityPeriodData
 public class LiquidityConditionData
 {
     public bool IsLiquid { get; set; }
-    public double A1_MostLiquid { get; set; }
-    public double P1_MostUrgent { get; set; }
-    public double Surplus_A1P1 { get; set; }
-    public double A2_QuickLiquid { get; set; }
-    public double P2_ShortTerm { get; set; }
-    public double Surplus_A2P2 { get; set; }
-    public double A3_SlowLiquid { get; set; }
-    public double P3_LongTerm { get; set; }
-    public double Surplus_A3P3 { get; set; }
-    public double A4_HardToSell { get; set; }
-    public double P4_Permanent { get; set; }
-    public double Surplus_A4P4 { get; set; }
+
+    [JsonPropertyName("A1_MostLiquid")]
+    public double A1MostLiquid { get; set; }
+
+    [JsonPropertyName("P1_MostUrgent")]
+    public double P1MostUrgent { get; set; }
+
+    [JsonPropertyName("Surplus_A1P1")]
+    public double SurplusA1P1 { get; set; }
+
+    [JsonPropertyName("A2_QuickLiquid")]
+    public double A2QuickLiquid { get; set; }
+
+    [JsonPropertyName("P2_ShortTerm")]
+    public double P2ShortTerm { get; set; }
+
+    [JsonPropertyName("Surplus_A2P2")]
+    public double SurplusA2P2 { get; set; }
+
+    [JsonPropertyName("A3_SlowLiquid")]
+    public double A3SlowLiquid { get; set; }
+
+    [JsonPropertyName("P3_LongTerm")]
+    public double P3LongTerm { get; set; }
+
+    [JsonPropertyName("Surplus_A3P3")]
+    public double SurplusA3P3 { get; set; }
+
+    [JsonPropertyName("A4_HardToSell")]
+    public double A4HardToSell { get; set; }
+
+    [JsonPropertyName("P4_Permanent")]
+    public double P4Permanent { get; set; }
+
+    [JsonPropertyName("Surplus_A4P4")]
+    public double SurplusA4P4 { get; set; }
 }
 
 // General Financial Stability Indicators DTOs
@@ -461,18 +564,33 @@ public class GeneralFinancialStabilityData
     public StabilitySourceData? OwnWorkingCapital { get; set; }
     public StabilitySourceData? OwnPlusLongTerm { get; set; }
     public StabilitySourceData? TotalAvailable { get; set; }
-    public StabilitySourceData? Stocks_Inventory { get; set; }
-    public StabilitySourceData? Deficit_OwnCapital { get; set; }
-    public StabilitySourceData? Deficit_OwnPlusLongTerm { get; set; }
-    public StabilitySourceData? Deficit_TotalSources { get; set; }
+
+    [JsonPropertyName("Stocks_Inventory")]
+    public StabilitySourceData? StocksInventory { get; set; }
+
+    [JsonPropertyName("Deficit_OwnCapital")]
+    public StabilitySourceData? DeficitOwnCapital { get; set; }
+
+    [JsonPropertyName("Deficit_OwnPlusLongTerm")]
+    public StabilitySourceData? DeficitOwnPlusLongTerm { get; set; }
+
+    [JsonPropertyName("Deficit_TotalSources")]
+    public StabilitySourceData? DeficitTotalSources { get; set; }
 }
 
 public class StabilitySourceData
 {
-    public double Base_Begin { get; set; }
-    public double Base_End { get; set; }
-    public double Current_Begin { get; set; }
-    public double Current_End { get; set; }
+    [JsonPropertyName("Base_Begin")]
+    public double BaseBegin { get; set; }
+
+    [JsonPropertyName("Base_End")]
+    public double BaseEnd { get; set; }
+
+    [JsonPropertyName("Current_Begin")]
+    public double CurrentBegin { get; set; }
+
+    [JsonPropertyName("Current_End")]
+    public double CurrentEnd { get; set; }
 }
 
 // Sources of Capital Formation DTOs
@@ -493,22 +611,48 @@ public class SourcesOfCapitalData
 
 public class CapitalSourceMetricData
 {
-    public double Base_Begin { get; set; }
-    public double Base_End { get; set; }
-    public double Base_Change { get; set; }
-    public double Base_PercentBegin { get; set; }
-    public double Base_PercentEnd { get; set; }
-    public double Current_Begin { get; set; }
-    public double Current_End { get; set; }
-    public double Current_Change { get; set; }
-    public double Current_PercentBegin { get; set; }
-    public double Current_PercentEnd { get; set; }
+    [JsonPropertyName("Base_Begin")]
+    public double BaseBegin { get; set; }
+
+    [JsonPropertyName("Base_End")]
+    public double BaseEnd { get; set; }
+
+    [JsonPropertyName("Base_Change")]
+    public double BaseChange { get; set; }
+
+    [JsonPropertyName("Base_PercentBegin")]
+    public double BasePercentBegin { get; set; }
+
+    [JsonPropertyName("Base_PercentEnd")]
+    public double BasePercentEnd { get; set; }
+
+    [JsonPropertyName("Current_Begin")]
+    public double CurrentBegin { get; set; }
+
+    [JsonPropertyName("Current_End")]
+    public double CurrentEnd { get; set; }
+
+    [JsonPropertyName("Current_Change")]
+    public double CurrentChange { get; set; }
+
+    [JsonPropertyName("Current_PercentBegin")]
+    public double CurrentPercentBegin { get; set; }
+
+    [JsonPropertyName("Current_PercentEnd")]
+    public double CurrentPercentEnd { get; set; }
 }
 
 public class CapitalComponentData
 {
-    public double Base_End { get; set; }
-    public double Base_Percent { get; set; }
-    public double Current_End { get; set; }
-    public double Current_Percent { get; set; }
+    [JsonPropertyName("Base_End")]
+    public double BaseEnd { get; set; }
+
+    [JsonPropertyName("Base_Percent")]
+    public double BasePercent { get; set; }
+
+    [JsonPropertyName("Current_End")]
+    public double CurrentEnd { get; set; }
+
+    [JsonPropertyName("Current_Percent")]
+    public double CurrentPercent { get; set; }
 }
