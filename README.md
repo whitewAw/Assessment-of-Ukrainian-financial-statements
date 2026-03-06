@@ -1,4 +1,4 @@
-﻿# Assessment of Ukrainian Financial Statements (AFS)
+# Assessment of Ukrainian Financial Statements (AFS)
 
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
@@ -154,6 +154,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [Radzen Blazor](https://blazor.radzen.com/) | 9.0.8 | Component Library |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.19 | Code Analysis |
+| [SonarAnalyzer](https://www.sonarqube.org/) | 10.20.0 | Code Quality |
+| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
 
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
@@ -162,6 +165,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ Brotli Compression
 - ✅ Native WASM optimization (`-Oz`)
 - ✅ .NET 10 performance enhancements
+- ✅ Comprehensive code analyzers (Meziantou, SonarQube, Roslynator)
+- ✅ Nullable reference types enabled
+- ✅ Code style enforcement in build
 
 ### Performance Optimizations
 ```
@@ -173,6 +179,20 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ IL Stripping       - Removes unused IL after AOT            │
 │  ✅ Size Optimization  - Emscripten -Oz flag                    │
 │  ✅ Service Worker     - Offline-first caching                  │
+│  ✅ Exception Handling - Optimized WASM exception handling      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Code Quality
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CODE ANALYZERS                               │
+├─────────────────────────────────────────────────────────────────┤
+│  ✅ Meziantou.Analyzer   - Best practices & security            │
+│  ✅ SonarAnalyzer.CSharp - Code smells & bugs                   │
+│  ✅ Roslynator           - 500+ code analysis rules             │
+│  ✅ Nullable Reference   - Null safety enabled                  │
+│  ✅ EnforceCodeStyle     - Consistent code formatting           │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -287,9 +307,26 @@ Assessment-of-Ukrainian-financial-statements/
 ├── 📄 CHROME_AI_SETUP_GUIDE.md     # AI setup instructions
 ├── 📄 CONTRIBUTING.md              # Contribution guidelines
 ├── 📄 CODE_OF_CONDUCT.md           # Community standards
+├── 📄 Directory.Build.props        # Shared build settings & analyzers
 ├── 📄 LICENSE                      # MIT License
 └── 📄 README.md                    # This file
 ```
+
+### Build Configuration
+
+The project uses a centralized build configuration:
+
+**Directory.Build.props** - Shared settings for all projects:
+- Nullable reference types enabled
+- Implicit usings enabled
+- Code analysis with latest rules
+- Code style enforcement in build
+- Comprehensive warning suppressions with documentation
+
+**TrimmerRoots.xml** - IL Trimmer configuration:
+- Preserves Blazor components for DI property injection
+- Maintains Radzen reflection capabilities
+- Keeps localization infrastructure intact
 
 ---
 
@@ -416,6 +453,19 @@ The app automatically detects the hostname and configures:
 - ✅ hreflang links for multi-language
 - ✅ JSON-LD structured data
 - ✅ Sitemap and robots.txt
+- ✅ OpenGraph and Twitter Card meta tags
+- ✅ Dynamic page titles and descriptions
+
+**Supported Hosts:**
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Host                        │  Base URL                        │
+├──────────────────────────────┼──────────────────────────────────┤
+│  whitewaw.github.io          │  /Assessment-of-Ukrainian-...    │
+│  ua-finance.netlify.app      │  /                               │
+│  localhost                   │  /                               │
+└──────────────────────────────┴──────────────────────────────────┘
+```
 
 ### GitHub Pages (Automated)
 
