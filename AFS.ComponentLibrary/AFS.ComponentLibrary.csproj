@@ -31,6 +31,11 @@
 		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
 	</ItemGroup>
 
+	<!-- Trimmer configuration to preserve Blazor components for property injection -->
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Content Update="wwwroot\JsInterop.js">
 			<SubType>Code</SubType>

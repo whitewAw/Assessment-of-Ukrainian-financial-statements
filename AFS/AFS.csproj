@@ -67,9 +67,10 @@
 		<Folder Include="wwwroot\images\" />
 	</ItemGroup>
 	
-	<!-- Preserve only Radzen for reflection - let trimmer optimize app assemblies -->
+	<!-- Preserve assemblies for reflection - Blazor components use DI property injection -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
+		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.19" />

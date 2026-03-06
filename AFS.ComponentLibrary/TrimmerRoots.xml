@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <!-- Preserve all types in the AFS.ComponentLibrary assembly -->
+  <!-- This is needed because Blazor components use reflection for property injection -->
+  <assembly fullname="AFS.ComponentLibrary" preserve="all" />
+</linker>
