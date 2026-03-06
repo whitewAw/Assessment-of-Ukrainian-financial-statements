@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+	<TargetFramework>net10.0</TargetFramework>
+	<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		
 		<!-- Globalization Settings - Optimize for specific cultures -->
 		<InvariantGlobalization>false</InvariantGlobalization>
@@ -14,7 +12,6 @@
 		<!-- Performance Optimizations -->
 		<BlazorEnableCompression>true</BlazorEnableCompression>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		
 		<!-- AOT Compilation - Full AOT for best runtime performance -->
 		<RunAOTCompilation>true</RunAOTCompilation>
@@ -73,6 +70,11 @@
 	<!-- Preserve only Radzen for reflection - let trimmer optimize app assemblies -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.19" />
+	  <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.20.0.135146" />
 	</ItemGroup>
 
 </Project>

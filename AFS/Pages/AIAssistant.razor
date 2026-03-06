@@ -438,29 +438,23 @@
 </style>
 
 @code {
-    private bool _isAIAvailable = true; // Default to true, will be checked on init
-    private bool _isChecking = true;
+private bool _isAIAvailable = true; // Default to true, will be checked on init
 
-    protected override async Task OnInitializedAsync()
+protected override async Task OnInitializedAsync()
+{
+    await CheckAIAvailability();
+}
+
+private async Task CheckAIAvailability()
+{
+    try
     {
-        await CheckAIAvailability();
+        var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
+        _isAIAvailable = isAvailable;
     }
-
-    private async Task CheckAIAvailability()
-    {
-        _isChecking = true;
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
         catch
         {
             _isAIAvailable = false;
-        }
-        finally
-        {
-            _isChecking = false;
         }
     }
 }

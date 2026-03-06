@@ -1,10 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		
 		<!-- Performance Optimizations -->
 		<BlazorEnableCompression>true</BlazorEnableCompression>
 		
@@ -66,6 +63,11 @@
 	<!-- Preserve Resource class for localization -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.19" />
+	  <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.20.0.135146" />
 	</ItemGroup>
 
 </Project>
