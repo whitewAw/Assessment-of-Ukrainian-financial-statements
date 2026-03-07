@@ -3,7 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace AFS.Core.Services
 {
-    internal partial class UnicodeConverter
+    /// <summary>
+    /// Converts Unicode escape sequences to actual Unicode characters.
+    /// </summary>
+    internal sealed partial class UnicodeConverter
     {
         [GeneratedRegex(@"\\[uU][0-9A-Fa-f]{4}", RegexOptions.ExplicitCapture, matchTimeoutMilliseconds: 1000)]
         private static partial Regex UnicodeEscapeRegex();

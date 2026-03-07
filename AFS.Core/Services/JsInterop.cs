@@ -2,7 +2,11 @@ using Microsoft.JSInterop;
 
 namespace AFS.Core.Services
 {
-    public class JsInterop : IAsyncDisposable
+    /// <summary>
+    /// JavaScript interop service for file operations.
+    /// Sealed because it's a DI service not designed for inheritance.
+    /// </summary>
+    public sealed class JsInterop : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
@@ -20,6 +24,8 @@ namespace AFS.Core.Services
                 var module = await moduleTask.Value;
                 await module.DisposeAsync();
             }
+
+            GC.SuppressFinalize(this);
         }
 
         public async ValueTask ExportToFile(string fileName, DotNetStreamReference streamRef)

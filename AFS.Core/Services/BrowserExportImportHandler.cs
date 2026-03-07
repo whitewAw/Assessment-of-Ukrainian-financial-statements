@@ -41,7 +41,7 @@ namespace AFS.Core.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                Log.ImportFailed(logger, ex.Message);
             }
             return null;
         }

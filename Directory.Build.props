@@ -34,28 +34,22 @@
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ CA1031 - Catch specific exceptions - JS Interop can throw many exception types║
     ║ CA1711 - Suffix naming - Existing naming convention in codebase              ║
-    ║ CA1724 - Type/namespace conflict - Existing design, low impact               ║
-    ║ CA1816 - GC.SuppressFinalize - No finalizers in this codebase                ║
-    ║ CA1848 - LoggerMessage delegates - Overkill for simple logging               ║
-    ║ CA1852 - Seal types - Would limit extensibility                              ║
-    ║ CA2201 - Reserved exceptions - Simple exception handling is sufficient       ║
-    ║ CA2208 - ArgumentException - Existing patterns work correctly                ║
-    ║ CA2254 - Static log templates - Dynamic messages are intentional             ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
     -->
-    
+
     <!-- Category 1: Not applicable to Blazor WASM -->
     <NoWarn>$(NoWarn);MA0004;CA2007;S6966;S6562;CA1824</NoWarn>
-    
+
     <!-- Category 2: Style preferences -->
     <NoWarn>$(NoWarn);MA0016;MA0048</NoWarn>
-    
-    
+
+
     <!-- Category 3: Minor issues -->
-    <NoWarn>$(NoWarn);CA1031;CA1711;CA1724;CA1816;CA1848;CA1852;CA2201;CA2208;CA2254</NoWarn>
-    
+    <NoWarn>$(NoWarn);CA1031;CA1711</NoWarn>
+
     <!-- Additional Sonar rules -->
     <NoWarn>$(NoWarn);S112;S6667;S1172;S3928;S101;S3260;S3246;S1118;S125;S1075</NoWarn>
+
     
     
     <!-- Roslynator rules -->

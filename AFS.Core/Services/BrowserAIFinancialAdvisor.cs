@@ -1,3 +1,4 @@
+using AFS.Core.Exceptions;
 using AFS.Core.Interfaces;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -5,9 +6,10 @@ using System.Text.Json;
 namespace AFS.Core.Services;
 
 /// <summary>
-/// Browser-based AI Financial Advisor using Chrome's built-in Gemini Nano model
+/// Browser-based AI Financial Advisor using Chrome's built-in Gemini Nano model.
+/// Sealed because it's a DI service not designed for inheritance.
 /// </summary>
-public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
+public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private DotNetObjectReference<BrowserAIFinancialAdvisor>? _dotNetReference;
@@ -87,14 +89,18 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
                 var error = result.TryGetProperty("error", out var errorProp)
         ? errorProp.GetString()
                 : "Unknown error";
-                throw new Exception($"AI Error: {error}");
+                throw new AIServiceException($"AI Error: {error}");
             }
 
             return result.GetProperty("response").GetString() ?? string.Empty;
         }
+        catch (AIServiceException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to get AI response: {ex.Message}", ex);
+            throw new AIServiceException($"Failed to get AI response: {ex.Message}", ex);
         }
     }
 
@@ -116,12 +122,16 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
             if (!success)
             {
                 var error = result.TryGetProperty("error", out var errorProp) ? errorProp.GetString() : "Unknown error";
-                throw new Exception($"AI Streaming Error: {error}");
+                throw new AIServiceException($"AI Streaming Error: {error}");
             }
+        }
+        catch (AIServiceException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to get streaming AI response: {ex.Message}", ex);
+            throw new AIServiceException($"Failed to get streaming AI response: {ex.Message}", ex);
         }
         finally
         {
@@ -203,5 +213,7 @@ Keep it brief and easy to understand.";
         }
 
         _dotNetReference?.Dispose();
+
+        GC.SuppressFinalize(this);
     }
 }

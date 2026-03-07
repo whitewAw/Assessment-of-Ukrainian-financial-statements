@@ -8,7 +8,11 @@ using System.Text.Json;
 
 namespace AFS.Core.Services
 {
-    public class LocalStorageModelHandler : IModelStorageHandler
+    /// <summary>
+    /// Handles model persistence to browser local storage.
+    /// Sealed because it's a DI service not designed for inheritance.
+    /// </summary>
+    public sealed class LocalStorageModelHandler : IModelStorageHandler
     {
         private readonly ILocalStorageService storage;
         private readonly AFSModel model;
@@ -48,7 +52,7 @@ namespace AFS.Core.Services
                 }
                 catch (JsonException ex)
                 {
-                    logger.LogError("JSON deserialization failed: {Message}", ex.Message);
+                    Log.JsonDeserializationFailed(logger, ex.Message);
                 }
             }
             try
@@ -57,11 +61,11 @@ namespace AFS.Core.Services
             }
             catch (HttpRequestException ex)
             {
-                logger.LogError("HTTP request failed: {Message}", ex.Message);
+                Log.HttpRequestFailed(logger, ex.Message);
             }
             catch (JsonException ex)
             {
-                logger.LogError("JSON deserialization failed: {Message}", ex.Message);
+                Log.JsonDeserializationFailed(logger, ex.Message);
             }
             return null;
         }

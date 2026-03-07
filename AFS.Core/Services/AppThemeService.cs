@@ -3,9 +3,10 @@ using Microsoft.JSInterop;
 namespace AFS.Core.Services;
 
 /// <summary>
-/// Service for managing application theme (light/dark mode)
+/// Service for managing application theme (light/dark mode).
+/// Sealed because it's a DI service not designed for inheritance.
 /// </summary>
-public class AppThemeService
+public sealed class AppThemeService
 {
     private readonly IJSRuntime _jsRuntime;
     private string _currentTheme = "light";

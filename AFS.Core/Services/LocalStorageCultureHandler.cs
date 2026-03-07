@@ -6,7 +6,11 @@ using System.Globalization;
 
 namespace AFS.Core.Services
 {
-    public class LocalStorageCultureHandler : ICultureStorageHandler
+    /// <summary>
+    /// Handles culture/language persistence to browser local storage.
+    /// Sealed because it's a DI service not designed for inheritance.
+    /// </summary>
+    public sealed class LocalStorageCultureHandler : ICultureStorageHandler
     {
         private readonly ILocalStorageService storage;
         private readonly ILogger<LocalStorageCultureHandler> logger;
@@ -31,7 +35,7 @@ namespace AFS.Core.Services
                 }
                 catch (CultureNotFoundException ex)
                 {
-                    logger.LogError(ex, "Invalid culture name: {Culture}", langCulture);
+                    Log.InvalidCultureName(logger, ex, langCulture);
                 }
             }
             // Default to English if no culture is stored

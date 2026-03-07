@@ -1,3 +1,4 @@
+using AFS.Core.Exceptions;
 using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using System.Net.Http.Json;
@@ -5,9 +6,10 @@ using System.Net.Http.Json;
 namespace AFS.Core.Services;
 
 /// <summary>
-/// OpenAI-based Financial Advisor (fallback option)
+/// OpenAI-based Financial Advisor (fallback option).
+/// Sealed because it's a DI service not designed for inheritance.
 /// </summary>
-public class OpenAIFinancialAdvisor : IAIFinancialAdvisor
+public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
@@ -81,9 +83,13 @@ public class OpenAIFinancialAdvisor : IAIFinancialAdvisor
 
             return result?.Choices?[0]?.Message?.Content ?? string.Empty;
         }
+        catch (AIServiceException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to get OpenAI response: {ex.Message}", ex);
+            throw new AIServiceException($"Failed to get OpenAI response: {ex.Message}", ex);
         }
     }
 
