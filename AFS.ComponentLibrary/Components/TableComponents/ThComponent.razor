@@ -1,4 +1,4 @@
-﻿<th scope="col" rowspan="@Rowspan" colspan="@Colspan" class="@GetAlign() @GetSpacing()">@ChildContent</th>
+<th scope="col" rowspan="@Rowspan" colspan="@Colspan" class="@GetAlign() @GetSpacing()">@ChildContent</th>
 
 @code {
     [Parameter]
@@ -22,7 +22,7 @@
             "MC" => "align-middle text-center",
             "MR" => "align-middle text-end",      // Changed from text-right to text-end (Bootstrap 5)
             "ML" => "align-middle text-start",   // Changed from text-left to text-start (Bootstrap 5)
-            _ => throw new ArgumentException("Invalid enum value for command", nameof(Align)),
+            _ => "align-middle text-center",     // Default to center alignment
         };
 
     protected string GetSpacing() =>

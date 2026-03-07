@@ -71,6 +71,7 @@
 	<!-- TRIMMER CONFIGURATION - Preserves assemblies needed for reflection/DI     -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
+		<TrimmerRootAssembly Include="AFS" />
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
 	</ItemGroup>

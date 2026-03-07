@@ -2,7 +2,7 @@
 
 ## What is Browser AI?
 
-UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano** model. This means:
+**AFS (Assessment of Financial Statements)** now supports **100% client-side AI** using Chrome's built-in **Gemini Nano** model. This means:
 
 🔑 **No API keys required**
 🌐 **No server calls**
@@ -32,18 +32,18 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
    - Open: `chrome://components/`
    - Find: **Optimization Guide On Device Model**
    - Click: **Check for Update**
-   - Wait for download (?1.7GB, one-time)
+   - Wait for download (~1.7GB, one-time)
 
 4. **Restart Chrome**
 
 5. **Verify AI is Available**:
    - Open DevTools Console (`F12`)
    - Type: `await LanguageModel.availability()`
-   - Should show: `available`
+   - Should show: `"readily"` or `"available"`
 
-### **Step 2: Use UFIN with Browser AI**
+### **Step 2: Use AFS with Browser AI**
 
-1. Open UFIN: https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
+1. Open AFS: https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
 2. Navigate to **"AI Assistant"** in menu
 3. Start chatting - AI runs locally!
 
@@ -52,8 +52,9 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 ## 💡 What Can You Do?
 
 ### **Automated Analysis**
-- Click **"Get Insights"** for instant financial analysis
-- Click **"Get Recommendations"** for actionable advice
+- Click **"Financial Health"** for comprehensive 9-section health assessment
+- Click **"Get Recommendations"** for 4-tier prioritized action plan
+- Click **"Explain Key Ratios"** for 11 financial ratios calculated and explained
 
 ### **Ask Questions**
 - "How is my company's financial health?"
@@ -61,6 +62,7 @@ UFIN now supports **100% client-side AI** using Chrome's built-in **Gemini Nano*
 - "How can I improve liquidity?"
 - "Compare this year vs last year"
 - "What are the biggest risks?"
+- "Calculate my ROE and explain what it means"
 
 ### **Explain Ratios**
 - Click any ratio in the analysis tables
@@ -98,6 +100,7 @@ User Input → Browser (Local AI Model) → Response
   - 🟡 Firefox (experimental WebLLM support)
   - 🟡 Safari (WebGPU in progress)
 
+
 ### **Not Supported**
   - 🔴 Chrome < 127
   - 🔴 Internet Explorer
@@ -132,8 +135,8 @@ Must be 127+ or Canary
 
 **Check Flags:**
 ```
-chrome://flags/#optimization-guide-on-device-model  ? Enabled BypassPerfRequirement
-chrome://flags/#prompt-api-for-gemini-nano     ? Enabled
+chrome://flags/#optimization-guide-on-device-model  → Enabled BypassPerfRequirement
+chrome://flags/#prompt-api-for-gemini-nano          → Enabled
 ```
 
 **Check Model Download:**
@@ -142,10 +145,26 @@ chrome://components/
 ```
 Find "Optimization Guide On Device Model" - should show version number
 
+**Verify in Console (F12):**
+```javascript
+// Check if LanguageModel API exists
+typeof LanguageModel !== 'undefined'  // Should be true
+
+// Check availability status
+await LanguageModel.availability()
+// Should return: "readily" or "available"
+
+// Possible status values:
+// "readily" / "available" - Ready to use
+// "downloadable" - Model can be downloaded
+// "after-download" - Model is downloading or needs restart
+// "no" / "unavailable" - Not available on this device
+```
+
 **Still Not Working?**
 - Restart Chrome completely
 - Clear browser cache
-- Re-download model: `chrome://components/` ? Check for Update
+- Re-download model: `chrome://components/` → Check for Update
 - Try Chrome Canary: https://www.google.com/chrome/canary/
 
 ### **AI Responses Are Slow**
@@ -162,39 +181,20 @@ Find "Optimization Guide On Device Model" - should show version number
 
 ---
 
-## 🔄 Switching Between Browser AI and Cloud AI *(Future Feature)*
+## 🔄 Switching Between Browser AI and Cloud AI
 
-Edit `appsettings.json`:
+The application automatically detects Chrome AI availability. If not available, it will show a message with setup instructions.
 
-**Browser AI (Default):**
-```json
-{
-  "AI": {
-    "Enabled": true,
-    "Provider": "Browser"
-  }
-}
-```
-
-**Cloud AI (OpenAI):**
-```json
-{
-  "AI": {
-  "Enabled": true,
-    "Provider": "OpenAI"
-  },
-  "OpenAI": {
-    "ApiKey": "sk-your-api-key",
-    "Model": "gpt-4o-mini"
-  }
-}
-```
+**OpenAI Fallback (requires API key):**
+- Used when Browser AI is not available
+- Requires OpenAI API key configuration
+- More powerful but requires internet connection
 
 ---
 
 ## 🚀 Performance Tips
 
-1. **Initial Load**: First run downloads model (?1.7GB)
+1. **Initial Load**: First run downloads model (~1.7GB)
 2. **Subsequent Runs**: Instant (model cached)
 3. **Battery Impact**: Minimal (runs efficiently)
 4. **RAM Usage**: 🧠 500MB when active
@@ -216,7 +216,6 @@ Edit `appsettings.json`:
 ### **Mobile (Not Yet Supported)**
 - Chrome on Android/iOS doesn't support AI API yet
 - Expected in future Chrome releases
-- Use Cloud AI option for mobile
 
 ---
 
@@ -244,6 +243,60 @@ Edit `appsettings.json`:
 
 ---
 
+## 🛡️ Technical Implementation
+
+### JavaScript API (`chromeai.js`)
+
+The Chrome AI integration uses the `LanguageModel` global API:
+
+```javascript
+// Check availability
+const availability = await LanguageModel.availability();
+// Returns: "readily", "available", "downloadable", "after-download", "no", "unavailable"
+
+// Create session with optimized parameters
+const session = await LanguageModel.create({
+    temperature: 0.7,           // Balanced creativity vs accuracy
+    topK: 3,                    // Focus on top predictions
+    expectedInputLanguages: ["en", "uk", "ru", "es", "de", "fr"],
+    expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"],
+});
+
+// Send prompt (non-streaming)
+const response = await session.prompt(message);
+
+// Send prompt (streaming)
+const stream = session.promptStreaming(message);
+for await (const chunk of stream) {
+    // Process each chunk
+}
+
+// Get token usage
+session.tokensSoFar;  // Tokens used
+session.tokensLeft;   // Tokens remaining
+session.maxTokens;    // Maximum tokens
+```
+
+### C# Services (AOT-Safe)
+
+| Service | Purpose |
+|---------|---------|
+| `BrowserAIFinancialAdvisor` | Chrome AI JS interop (sealed) |
+| `OpenAIFinancialAdvisor` | OpenAI API fallback (sealed) |
+| `AIServiceException` | Custom exception (AOT-safe) |
+| `IAIFinancialAdvisor` | Interface for DI |
+
+### Features
+
+- ✅ **Streaming responses** - Real-time AI output with stop control
+- ✅ **Abort support** - Cancel operations with AbortController
+- ✅ **Download progress** - Monitor model download progress
+- ✅ **Session management** - Automatic session creation/destruction
+- ✅ **Token tracking** - Monitor token usage
+- ✅ **Multi-language** - 6 languages supported (en, uk, ru, es, de, fr)
+
+---
+
 ## ❓ FAQ
 
 **Q: Is this really free?**
@@ -262,7 +315,7 @@ A: Yes! Since it runs locally, your data never leaves your device.
 A: No. The model runs 100% locally in your browser. No data is sent to Google or anyone else.
 
 **Q: Can I use both Browser AI and Cloud AI?**
-A: Yes! You can switch between them in settings. Use Browser AI for privacy, Cloud AI for more advanced analysis.
+A: The app automatically uses Browser AI when available. OpenAI is used as a fallback when configured.
 
 ---
 
@@ -281,7 +334,7 @@ A: Yes! You can switch between them in settings. Use Browser AI for privacy, Clo
 1. Update Chrome to 127+
 2. Enable two flags
 3. Download model (one-time)
-4. Use UFIN with built-in AI
+4. Use AFS with built-in AI
 5. Enjoy private, fast, free financial analysis!
 
 **No API keys. No servers. Just AI in your browser.**
