@@ -10,21 +10,21 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData ReturnOnIntangibleAssets { get; private set; } = new();
         public TwoYearsCalculationData CapitalIntensityOfProducts { get; private set; } = new();
 
-        public IndicatorsOfEfficiencyOfUseOfIntangibleAssets(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public IndicatorsOfEfficiencyOfUseOfIntangibleAssets(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             NetIncomeFromSalesInit(model);
             AverageAnnualCostOfIntangibleAssetsInit(model);
             ReturnOnIntangibleAssetsInit();
             CapitalIntensityOfProductsInit();
         }
-        private void NetIncomeFromSalesInit(AFSModel model)
+        private void NetIncomeFromSalesInit(AfsModel model)
         {
             NetIncomeFromSales.Number = "1.";
             NetIncomeFromSales.BaseYear = model.F2Base.F2000.Current;
             NetIncomeFromSales.CurrentYear = model.F2Current.F2000.Current;
         }
-        private void AverageAnnualCostOfIntangibleAssetsInit(AFSModel model)
+        private void AverageAnnualCostOfIntangibleAssetsInit(AfsModel model)
         {
             AverageAnnualCostOfIntangibleAssets.Number = "2.";
             AverageAnnualCostOfIntangibleAssets.BaseYear = (model.F1Base.GetF1000Begin() + model.F1Base.GetF1000End()) / 2;

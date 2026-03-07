@@ -12,9 +12,9 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData ProfitabilityOnFixedAssets { get; private set; } = new();
         public TwoYearsCalculationData IntegratedIndicatorOnFixedAssets { get; private set; } = new();
 
-        public CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets(AFSModel model) => Init(model);
+        public CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             ProceedsFromSalesInit(model);
             ProfitFromOperatingActivitiesInit(model);
@@ -23,19 +23,19 @@ namespace AFS.Core.Services.DataCalculations
             ProfitabilityOnFixedAssetsInit();
             IntegratedIndicatorOnFixedAssetsInit();
         }
-        private void ProceedsFromSalesInit(AFSModel model)
+        private void ProceedsFromSalesInit(AfsModel model)
         {
             ProceedsFromSales.Number = "1.";
             ProceedsFromSales.BaseYear = model.F2Base.F2000.Current;
             ProceedsFromSales.CurrentYear = model.F2Current.F2000.Current;
         }
-        private void ProfitFromOperatingActivitiesInit(AFSModel model)
+        private void ProfitFromOperatingActivitiesInit(AfsModel model)
         {
             ProfitFromOperatingActivities.Number = "2.";
             ProfitFromOperatingActivities.BaseYear = model.F2Base.GetF2190Current();
             ProfitFromOperatingActivities.CurrentYear = model.F2Current.GetF2190Current();
         }
-        private void AverageAnnualCostOfFixedAssetsInit(AFSModel model)
+        private void AverageAnnualCostOfFixedAssetsInit(AfsModel model)
         {
             AverageAnnualCostOfFixedAssets.Number = "3.";
             AverageAnnualCostOfFixedAssets.BaseYear = (model.F1Base.GetF1010Begin() + model.F1Base.GetF1010End()) / 2;

@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
@@ -17,8 +17,8 @@ namespace AFS.Core.Services.DataCalculations
         public LiabilitiesRelatedNonCurrentAssetsHeldForSale LiabilitiesRelatedNonCurrentAssetsHeldForSale { get; private set; } = new();
         public FutureIncome FutureIncome { get; private set; } = new();
 
-        public SourcesOfCapitalFormation(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public SourcesOfCapitalFormation(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             TotalSourcesOfCapital.Init(model);
             Equity.Init(model);
@@ -37,7 +37,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow Current { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetF1900Begin();
             Base.EndOfYear = model.F1Base.GetF1900End();
@@ -54,7 +54,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetF1495Begin() + model.F1Base.GetProvisionOfNextCostsAndPayments(true) + model.F1Base.F1660.Begin;
             Base.EndOfYear = model.F1Base.GetF1495End() + model.F1Base.GetProvisionOfNextCostsAndPayments(false) + model.F1Base.F1660.End;
@@ -77,7 +77,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfEquityBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfEquityCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model, Equity equity)
+        public void Init(AfsModel model, Equity equity)
         {
             Base.BeginningOfyear = equity.Base.BeginningOfyear - model.F1Base.GetF1095Begin();
             Base.EndOfYear = equity.Base.EndOfYear - model.F1Base.GetF1095End();
@@ -100,7 +100,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetF1695Begin() + model.F1Base.GetF1595Begin() - model.F1Base.GetProvisionOfNextCostsAndPayments(true) - model.F1Base.F1660.Begin - model.F1Base.F1665.Begin + model.F1Base.F1700.Begin;
             Base.EndOfYear = model.F1Base.GetF1695End() + model.F1Base.GetF1595End() - model.F1Base.GetProvisionOfNextCostsAndPayments(false) - model.F1Base.F1660.End - model.F1Base.F1665.End + model.F1Base.F1700.End;
@@ -123,7 +123,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model, RaisedCapital raisedCapital)
+        public void Init(AfsModel model, RaisedCapital raisedCapital)
         {
             Base.BeginningOfyear = model.F1Base.GetF1595Begin() - model.F1Base.GetProvisionOfNextCostsAndPayments(true);
             Base.EndOfYear = model.F1Base.GetF1595End() - model.F1Base.GetProvisionOfNextCostsAndPayments(false);
@@ -146,7 +146,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model, RaisedCapital raisedCapital)
+        public void Init(AfsModel model, RaisedCapital raisedCapital)
         {
             Base.BeginningOfyear = model.F1Base.F1600.Begin + model.F1Base.F1610.Begin;
             Base.EndOfYear = model.F1Base.F1600.End + model.F1Base.F1610.End;
@@ -169,7 +169,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model, RaisedCapital raisedCapital)
+        public void Init(AfsModel model, RaisedCapital raisedCapital)
         {
             Base.BeginningOfyear = model.F1Base.GetAccountsPayable(true);
             Base.EndOfYear = model.F1Base.GetAccountsPayable(false);
@@ -192,7 +192,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model, RaisedCapital raisedCapital)
+        public void Init(AfsModel model, RaisedCapital raisedCapital)
         {
             Base.BeginningOfyear = model.F1Base.F1690.Begin;
             Base.EndOfYear = model.F1Base.F1690.End;
@@ -216,7 +216,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfBorrowedCapitalCurrent { get; private set; } = new();
 
 
-        public void Init(AFSModel model, RaisedCapital raisedCapital)
+        public void Init(AfsModel model, RaisedCapital raisedCapital)
         {
             Base.BeginningOfyear = model.F1Base.F1700.Begin;
             Base.EndOfYear = model.F1Base.F1700.End;
@@ -239,7 +239,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsBase { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow InPercentageOfAssetsCurrent { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.F1665.Begin;
             Base.EndOfYear = model.F1Base.F1665.End;

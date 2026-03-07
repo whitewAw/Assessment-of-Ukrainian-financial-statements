@@ -1,11 +1,11 @@
-@using AFS.Core.Interfaces
+﻿@using AFS.Core.Interfaces
 @using AFS.Core.Models
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Resources
 @using Microsoft.Extensions.Localization
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IStringLocalizer<Resource> ResLoc
 
 <div class="ai-chat-container">
@@ -264,7 +264,7 @@ private enum QuickPrompts
         try
         {
             // Get current culture and language
-            string languageInstruction = AFSConstraints.GetLanguageInstruction();
+            string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
             // Build comprehensive financial context
             var financialContext = BuildFinancialContext();
@@ -277,7 +277,7 @@ private enum QuickPrompts
 
 IMPORTANT: Respond in {languageInstruction} language.
 
-COMPANY DATA ({AFSModel.CompanyName}, {AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+COMPANY DATA ({AfsModel.CompanyName}, {AfsModel.BaseYear}-{AfsModel.CurrentYear}):
 {financialContext}
 
 {conversationHistory}
@@ -461,7 +461,7 @@ Answer in {languageInstruction}:";
 
     private string BuildQuickPromptWithContext(QuickPrompts promptType)
     {
-        string languageInstruction = AFSConstraints.GetLanguageInstruction();
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         var financialContext = BuildFinancialContext();
 
@@ -477,16 +477,16 @@ Answer in {languageInstruction}:";
     private string BuildFinancialContext()
     {
         // Use AOT-optimized JSON serialization
-        return JsonSerializationHelper.SerializeFinancialContext(AFSModel);
+        return JsonSerializationHelper.SerializeFinancialContext(AfsModel);
     }
 
     private string BuildFinancialHealthPrompt(string context, string language)
     {
-        return $@"You are a professional financial analyst. Analyze the overall financial health of {AFSModel.CompanyName} based on the provided data.
+        return $@"You are a professional financial analyst. Analyze the overall financial health of {AfsModel.CompanyName} based on the provided data.
 
 IMPORTANT: Respond in {language} language.
 
-FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+FINANCIAL DATA ({AfsModel.BaseYear}-{AfsModel.CurrentYear}):
 {context}
 
 PROVIDE COMPREHENSIVE ANALYSIS:
@@ -538,11 +538,11 @@ Respond in {language}. Use ** for headings and • for bullets.";
 
     private string BuildRecommendationsPrompt(string context, string language)
     {
-        return $@"You are a professional financial consultant. Provide TOP RECOMMENDATIONS to improve {AFSModel.CompanyName}'s financial position.
+        return $@"You are a professional financial consultant. Provide TOP RECOMMENDATIONS to improve {AfsModel.CompanyName}'s financial position.
 
 IMPORTANT: Respond in {language} language.
 
-FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+FINANCIAL DATA ({AfsModel.BaseYear}-{AfsModel.CurrentYear}):
 {context}
 
 PROVIDE ACTIONABLE RECOMMENDATIONS:
@@ -576,11 +576,11 @@ Respond in {language}. Be specific and actionable. Use ** for headings and • f
 
     private string BuildKeyRatiosPrompt(string context, string language)
     {
-        return $@"You are a professional financial analyst. Explain the MOST IMPORTANT financial ratios for {AFSModel.CompanyName}.
+        return $@"You are a professional financial analyst. Explain the MOST IMPORTANT financial ratios for {AfsModel.CompanyName}.
 
 IMPORTANT: Respond in {language} language.
 
-FINANCIAL DATA ({AFSModel.BaseYear}-{AFSModel.CurrentYear}):
+FINANCIAL DATA ({AfsModel.BaseYear}-{AfsModel.CurrentYear}):
 {context}
 
 CALCULATE AND EXPLAIN KEY RATIOS:
@@ -615,7 +615,7 @@ For each: Formula, calculation, result, interpretation, benchmark
 - Overall financial position
 - Strengths indicated
 - Weaknesses indicated
-- Trends ({AFSModel.BaseYear} vs {AFSModel.CurrentYear})
+- Trends ({AfsModel.BaseYear} vs {AfsModel.CurrentYear})
 
 **5. Which Ratios to Watch**
 - Top 3 most important for this company
@@ -631,10 +631,10 @@ Respond in {language}. Show calculations. Use ** for headings and • for bullet
 
 IMPORTANT: Respond in {language} language.
 
-COMPANY FINANCIAL DATA ({AFSModel.CompanyName}):
+COMPANY FINANCIAL DATA ({AfsModel.CompanyName}):
 {context}
 
-DATA PERIOD: {AFSModel.BaseYear} - {AFSModel.CurrentYear}
+DATA PERIOD: {AfsModel.BaseYear} - {AfsModel.CurrentYear}
 
 ANALYSIS FRAMEWORK:
 
@@ -649,7 +649,7 @@ Provide comprehensive financial analysis based on the actual data provided. Focu
 - Show year-over-year changes with percentages
 
 **2. Provide Context**
-- Compare {AFSModel.BaseYear} vs {AFSModel.CurrentYear}
+- Compare {AfsModel.BaseYear} vs {AfsModel.CurrentYear}
 - Identify trends (improving/deteriorating)
 - Benchmark against industry standards where applicable
 

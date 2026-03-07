@@ -1,4 +1,4 @@
-<RadzenDropDown TValue="int" class="w-100"
+﻿<RadzenDropDown TValue="int" class="w-100"
                 Data=@YearList
                 @bind-Value=@MainModel.BaseYear />
 
@@ -10,7 +10,7 @@
 
     protected void FillYearList()
     {
-        for (int firstYear = AFSConstraints.MinYear - 1, lastYear = AFSConstraints.MaxYear - 1; firstYear < lastYear; lastYear--)
+        for (int firstYear = AfsConstraints.MinYear - 1, lastYear = AfsConstraints.MaxYear - 1; firstYear < lastYear; lastYear--)
         {
             YearList.Add(lastYear);
         }

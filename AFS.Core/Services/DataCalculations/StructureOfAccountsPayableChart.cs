@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -6,8 +6,8 @@ namespace AFS.Core.Services.DataCalculations
     {
         AssessmentOfReceivableAndPayable? AssessmentOfReceivableAndPayable { get; set; }
 
-        public StructureOfAccountsPayableChart(AFSModel model) => Init(model);
-        private void Init(AFSModel model) => AssessmentOfReceivableAndPayable = new(model);
+        public StructureOfAccountsPayableChart(AfsModel model) => Init(model);
+        private void Init(AfsModel model) => AssessmentOfReceivableAndPayable = new(model);
 
         public List<ChartDataItem> GetDataItem(bool baseYear)
         {
@@ -31,7 +31,7 @@ namespace AFS.Core.Services.DataCalculations
         private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
         {
             var val = value.GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(val))
+            if (!AfsConstraints.IsZeroOrInvalid(val))
             {
                 assets.Add(new ChartDataItem { Item = item, Value = val });
             }

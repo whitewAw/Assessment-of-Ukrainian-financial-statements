@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace AFS.Core.Models
 {
@@ -22,7 +22,7 @@ namespace AFS.Core.Models
         [JsonInclude]
         public double? Value
         {
-            get => AFSConstraints.RoundStat(_value.GetValueOrDefault(0));
+            get => AfsConstraints.RoundStat(_value.GetValueOrDefault(0));
             set => _value = value;
         }
     }

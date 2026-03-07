@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using System.Text.Json.Serialization;
 
 namespace AFS.Core.Json;
@@ -7,7 +7,7 @@ namespace AFS.Core.Json;
 /// Main AOT-compatible JSON serialization context.
 /// All types that need JSON serialization must be registered here.
 /// </summary>
-[JsonSerializable(typeof(AFSModel))]
+[JsonSerializable(typeof(AfsModel))]
 [JsonSerializable(typeof(Form1))]
 [JsonSerializable(typeof(Form2))]
 [JsonSerializable(typeof(AdditionalCompanyInfo))]
@@ -88,6 +88,6 @@ namespace AFS.Core.Json;
     DefaultIgnoreCondition = JsonIgnoreCondition.Never,
     GenerationMode = JsonSourceGenerationMode.Default,
     UseStringEnumConverter = true)]
-public partial class AFSJsonSerializerContext : JsonSerializerContext
+public partial class AfsJsonSerializerContext : JsonSerializerContext
 {
 }

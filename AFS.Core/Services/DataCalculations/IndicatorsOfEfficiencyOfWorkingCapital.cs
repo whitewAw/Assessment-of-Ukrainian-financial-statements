@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -12,9 +12,9 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData ProfitabilityOfCurrentAssets { get; private set; } = new();
         public TwoYearsCalculationData IntegratedIndicatorOfEfficiencyOfCurrentAssets { get; private set; } = new();
 
-        public IndicatorsOfEfficiencyOfWorkingCapital(AFSModel model) => Init(model);
+        public IndicatorsOfEfficiencyOfWorkingCapital(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             IndicatorsOfTurnoverOfCurrentAssets iTCA = new(model);
 
@@ -26,7 +26,7 @@ namespace AFS.Core.Services.DataCalculations
             IntegratedIndicatorOfEfficiencyOfCurrentAssetsInit();
         }
 
-        private void NetIncomeFromSalesInit(AFSModel model)
+        private void NetIncomeFromSalesInit(AfsModel model)
         {
             NetIncomeFromSales.Number = "1.";
             NetIncomeFromSales.BaseYear = model.F2Base.F2000.Current;
@@ -38,7 +38,7 @@ namespace AFS.Core.Services.DataCalculations
             AverageWorkingCapitalBalances.BaseYear = iTCA.AverageWorkingCapitalBalances.BaseYear;
             AverageWorkingCapitalBalances.CurrentYear = iTCA.AverageWorkingCapitalBalances.CurrentYear;
         }
-        private void NetProfitInit(AFSModel model)
+        private void NetProfitInit(AfsModel model)
         {
             NetProfit.Number = "3.";
             NetProfit.BaseYear = model.F2Base.GetF2465Current();
@@ -59,7 +59,7 @@ namespace AFS.Core.Services.DataCalculations
         private void IntegratedIndicatorOfEfficiencyOfCurrentAssetsInit()
         {
             IntegratedIndicatorOfEfficiencyOfCurrentAssets.Number = "6.";
-            if (AFSConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.BaseYear))
+            if (AfsConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.BaseYear))
             {
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.BaseYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.BaseYear / 100);
             }
@@ -68,7 +68,7 @@ namespace AFS.Core.Services.DataCalculations
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.BaseYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.BaseYear * ProfitabilityOfCurrentAssets.BaseYear / 100);
             }
 
-            if (AFSConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.CurrentYear))
+            if (AfsConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.CurrentYear))
             {
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.CurrentYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.CurrentYear / 100);
             }

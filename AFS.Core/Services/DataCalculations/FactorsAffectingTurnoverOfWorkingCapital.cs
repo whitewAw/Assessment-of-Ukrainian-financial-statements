@@ -11,9 +11,9 @@ namespace AFS.Core.Services.DataCalculations
         public FactorsAffectingTurnover TotalWorkingCapital { get; private set; } = new();
         public FactorsAffectingTurnover OneDaySalesRevenue { get; private set; } = new();
 
-        public FactorsAffectingTurnoverOfWorkingCapital(AFSModel model) => Init(model);
+        public FactorsAffectingTurnoverOfWorkingCapital(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             IndicatorsOfTurnoverOfCurrentAssets iTCA = new(model);
             MoneyInit(iTCA);

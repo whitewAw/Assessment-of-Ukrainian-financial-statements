@@ -4,8 +4,8 @@ namespace AFS.Core.Interfaces
 {
     public interface IModelStorageHandler
     {
-        Task WriteModelAsync(AFSModel model);
-        Task<AFSModel?> ReadModelAsync();
+        Task WriteModelAsync(AfsModel model);
+        Task<AfsModel?> ReadModelAsync();
         Task InitializeModelAsync();
     }
 }

@@ -1,4 +1,4 @@
-@using AFS.Core.Services
+﻿@using AFS.Core.Services
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Text
 @inject IModelExportImportHandler ExportImportHandler
@@ -42,7 +42,7 @@ async Task OnLoadClick()
             UploadingDialog();
             await Task.Delay(100);
             using var stream = file.File.OpenReadStream();
-            AFSModel? model = await ExportImportHandler.ImportAsync(stream);
+            AfsModel? model = await ExportImportHandler.ImportAsync(stream);
             ExportImportHandler.InitializeModel(model);
             DialogService.Close();
             isUpload = false;

@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -6,9 +6,9 @@ namespace AFS.Core.Services.DataCalculations
     {
         CharacteristicsOfCapital? CharacteristicsOfCapital { get; set; }
 
-        public CompositionOfAssetsChart(AFSModel model) => Init(model);
+        public CompositionOfAssetsChart(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             CharacteristicsOfCapital = new(model);
         }
@@ -31,7 +31,7 @@ namespace AFS.Core.Services.DataCalculations
         private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
         {
             var val = value.GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(val))
+            if (!AfsConstraints.IsZeroOrInvalid(val))
             {
                 assets.Add(new ChartDataItem { Item = item, Value = val });
             }

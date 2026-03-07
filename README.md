@@ -1,4 +1,4 @@
-# Assessment of Ukrainian Financial Statements (AFS)
+﻿# Assessment of Ukrainian Financial Statements (AFS)
 
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
@@ -242,7 +242,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 ├─────────────────────────────────────────────────────────────────┤
 │              CATEGORY 3: PROJECT CONVENTIONS                    │
 ├─────────────────────────────────────────────────────────────────┤
-│  S101         - AFS prefix is project acronym (AFSModel, etc.)  │
+│  S101         - AFS prefix is project acronym (AfsModel, etc.)  │
 │  S3928        - Radzen component parameter validation           │
 └─────────────────────────────────────────────────────────────────┘
 Total: 9 documented suppressions (all justified)
@@ -354,7 +354,7 @@ Assessment-of-Ukrainian-financial-statements/
 │
 ├── 📂 AFS.Core/                     # Business logic & services
 │   ├── Models/                      # Data models
-│   │   ├── AFSModel.cs             # Main application model
+│   │   ├── AfsModel.cs             # Main application model
 │   │   ├── Form1.cs                # Balance sheet model
 │   │   ├── Form2.cs                # Income statement model
 │   │   ├── ChartDataItem.cs        # Chart data models

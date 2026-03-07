@@ -12,8 +12,8 @@ namespace AFS.Core.Services.DataCalculations
         public SolvencyRatiosRow SolvencyRecoveryRatio { get; private set; } = new();
         public SolvencyRatiosRow SolvencyLossRatio { get; private set; } = new();
 
-        public SolvencyRatios(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public SolvencyRatios(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             LiquidityIndicatorsOfBalance lIOB = new(model);
             OverallLiquidityRatioInit(lIOB);
@@ -31,7 +31,7 @@ namespace AFS.Core.Services.DataCalculations
             OverallLiquidityRatio.CurrentBegin = (lIOB.A1P1Current.ABegin + 0.5 * lIOB.A2P2Current.ABegin + 0.3 * lIOB.A3P3Current.ABegin) / (lIOB.A1P1Current.PBegin + 0.5 * lIOB.A2P2Current.PBegin + 0.3 * lIOB.A3P3Current.PBegin);
             OverallLiquidityRatio.CurrentEnd = (lIOB.A1P1Current.AEnd + 0.5 * lIOB.A2P2Current.AEnd + 0.3 * lIOB.A3P3Current.AEnd) / (lIOB.A1P1Current.PEnd + 0.5 * lIOB.A2P2Current.PEnd + 0.3 * lIOB.A3P3Current.PEnd);
         }
-        private void AbsoluteLiquidityRatioInit(AFSModel model)
+        private void AbsoluteLiquidityRatioInit(AfsModel model)
         {
             AbsoluteLiquidityRatio.Number = "2.";
             AbsoluteLiquidityRatio.BaseBegin = model.F1Base.GetAccountsMoney(true) / (model.F1Base.GetF1695Begin() - model.F1Base.F1660.Begin - model.F1Base.F1665.Begin + model.F1Base.F1700.Begin);
@@ -39,7 +39,7 @@ namespace AFS.Core.Services.DataCalculations
             AbsoluteLiquidityRatio.CurrentBegin = model.F1Current.GetAccountsMoney(true) / (model.F1Current.GetF1695Begin() - model.F1Current.F1660.Begin - model.F1Current.F1665.Begin + model.F1Current.F1700.Begin);
             AbsoluteLiquidityRatio.CurrentEnd = model.F1Current.GetAccountsMoney(false) / (model.F1Current.GetF1695End() - model.F1Current.F1660.End - model.F1Current.F1665.End + model.F1Current.F1700.End);
         }
-        private void IntermediateCoverageRatioInit(AFSModel model, LiquidityIndicatorsOfBalance lIOB)
+        private void IntermediateCoverageRatioInit(AfsModel model, LiquidityIndicatorsOfBalance lIOB)
         {
             IntermediateCoverageRatio.Number = "3.";
             IntermediateCoverageRatio.BaseBegin = (lIOB.A1P1Bace.ABegin + lIOB.A2P2Bace.ABegin) / (model.F1Base.GetF1695Begin() - model.F1Base.F1660.Begin - model.F1Base.F1665.Begin + model.F1Base.F1700.Begin);
@@ -47,7 +47,7 @@ namespace AFS.Core.Services.DataCalculations
             IntermediateCoverageRatio.CurrentBegin = (lIOB.A1P1Current.ABegin + lIOB.A2P2Current.ABegin) / (model.F1Current.GetF1695Begin() - model.F1Current.F1660.Begin - model.F1Current.F1665.Begin + model.F1Current.F1700.Begin);
             IntermediateCoverageRatio.CurrentEnd = (lIOB.A1P1Current.AEnd + lIOB.A2P2Current.AEnd) / (model.F1Current.GetF1695End() - model.F1Current.F1660.End - model.F1Current.F1665.End + model.F1Current.F1700.End);
         }
-        private void CurrentLiquidityFactorInit(AFSModel model)
+        private void CurrentLiquidityFactorInit(AfsModel model)
         {
             CurrentLiquidityFactor.Number = "4.";
             CurrentLiquidityFactor.BaseBegin = (model.F1Base.GetF1195Begin() + model.F1Base.F1200.Begin - model.F1Base.F1170.Begin) / (model.F1Base.GetF1695Begin() - model.F1Base.F1660.Begin - model.F1Base.F1665.Begin + model.F1Base.F1700.Begin);

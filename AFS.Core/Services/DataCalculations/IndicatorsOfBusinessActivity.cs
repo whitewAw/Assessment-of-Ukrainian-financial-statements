@@ -24,8 +24,8 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData CoefficientOfStabilityOfEconomicGrowth { get; private set; } = new();
         public TwoYearsCalculationData ReturnOnEquityPeriod { get; private set; } = new();
 
-        public IndicatorsOfBusinessActivity(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public IndicatorsOfBusinessActivity(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             SourcesOfCapitalFormation sOCF = new(model);
             FactorAnalysisOfFixedAssets fAOFA = new(model);
@@ -51,25 +51,25 @@ namespace AFS.Core.Services.DataCalculations
             CoefficientOfStabilityOfEconomicGrowthInit(model, sOCF);
             ReturnOnEquityPeriodInit();
         }
-        private void GrossProfitPerSoldProductsInit(AFSModel model)
+        private void GrossProfitPerSoldProductsInit(AfsModel model)
         {
             GrossProfitPerSoldProducts.Number = "1.";
             GrossProfitPerSoldProducts.BaseYear = model.F2Base.GetF2090Current() / model.F2Base.F2000.Current;
             GrossProfitPerSoldProducts.CurrentYear = model.F2Current.GetF2090Current() / model.F2Current.F2000.Current;
         }
-        private void CoefficientOfBusinessActivityInit(AFSModel model)
+        private void CoefficientOfBusinessActivityInit(AfsModel model)
         {
             CoefficientOfBusinessActivity.Number = "2.";
             CoefficientOfBusinessActivity.BaseYear = model.F2Base.F2000.Current / ((model.F1Base.GetF1900Begin() + model.F1Base.GetF1900End()) / 2);
             CoefficientOfBusinessActivity.CurrentYear = model.F2Current.F2000.Current / ((model.F1Current.GetF1900Begin() + model.F1Current.GetF1900End()) / 2);
         }
-        private void CoefficientOfEfficiencFinancialResourcesInit(AFSModel model)
+        private void CoefficientOfEfficiencFinancialResourcesInit(AfsModel model)
         {
             CoefficientOfEfficiencFinancialResources.Number = "3.";
             CoefficientOfEfficiencFinancialResources.BaseYear = model.F2Base.GetF2290Current() / ((model.F1Base.GetF1900Begin() + model.F1Base.GetF1900End()) / 2);
             CoefficientOfEfficiencFinancialResources.CurrentYear = model.F2Current.GetF2290Current() / ((model.F1Current.GetF1900Begin() + model.F1Current.GetF1900End()) / 2);
         }
-        private void CoefficientOfOwnFundsUtilizationInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfOwnFundsUtilizationInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfOwnFundsUtilization.Number = "4.";
             CoefficientOfOwnFundsUtilization.BaseYear = model.F2Base.GetF2465Current() / ((sOCF.Equity.Base.BeginningOfyear + sOCF.Equity.Base.EndOfYear) / 2);
@@ -105,7 +105,7 @@ namespace AFS.Core.Services.DataCalculations
             ReceivablesTurnover.BaseYear = iOTOCA.ReceivablesTurnover.BaseYear;
             ReceivablesTurnover.CurrentYear = iOTOCA.ReceivablesTurnover.CurrentYear;
         }
-        private void TurnoverOfInventoriesRevolutionsInit(AFSModel model, CharacteristicsOfCapital cOC)
+        private void TurnoverOfInventoriesRevolutionsInit(AfsModel model, CharacteristicsOfCapital cOC)
         {
             TurnoverOfInventoriesRevolutions.Number = "10.";
             TurnoverOfInventoriesRevolutions.BaseYear = model.F2Base.F2050.Current / ((cOC.TangibleCurrentAssets.Base.BeginningOfyear + cOC.TangibleCurrentAssets.Base.EndOfYear) / 2);
@@ -114,8 +114,8 @@ namespace AFS.Core.Services.DataCalculations
         private void TurnoverOfInventoriesDaysInit()
         {
             TurnoverOfInventoriesDays.Number = "11.";
-            TurnoverOfInventoriesDays.BaseYear = AFSConstraints.DurationOAnalyzedPeriod / TurnoverOfInventoriesRevolutions.BaseYear;
-            TurnoverOfInventoriesDays.CurrentYear = AFSConstraints.DurationOAnalyzedPeriod / TurnoverOfInventoriesRevolutions.CurrentYear;
+            TurnoverOfInventoriesDays.BaseYear = AfsConstraints.DurationOAnalyzedPeriod / TurnoverOfInventoriesRevolutions.BaseYear;
+            TurnoverOfInventoriesDays.CurrentYear = AfsConstraints.DurationOAnalyzedPeriod / TurnoverOfInventoriesRevolutions.CurrentYear;
         }
         private void OperatingCycleDurationInit()
         {
@@ -135,19 +135,19 @@ namespace AFS.Core.Services.DataCalculations
             TurnoverOfWorkingCapital.BaseYear = iOTOCA.TurnoverOfWorkingCapital.BaseYear;
             TurnoverOfWorkingCapital.CurrentYear = iOTOCA.TurnoverOfWorkingCapital.CurrentYear;
         }
-        private void TurnoverOfEquityInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void TurnoverOfEquityInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             TurnoverOfEquity.Number = "15.";
             TurnoverOfEquity.BaseYear = model.F2Base.F2000.Current / ((sOCF.Equity.Base.BeginningOfyear + sOCF.Equity.Base.EndOfYear) / 2);
             TurnoverOfEquity.CurrentYear = model.F2Current.F2000.Current / ((sOCF.Equity.Current.BeginningOfyear + sOCF.Equity.Current.EndOfYear) / 2);
         }
-        private void TurnoverOfTotalCapitalInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void TurnoverOfTotalCapitalInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             TurnoverOfTotalCapital.Number = "16.";
             TurnoverOfTotalCapital.BaseYear = model.F2Base.F2000.Current / ((sOCF.TotalSourcesOfCapital.Base.BeginningOfyear + sOCF.TotalSourcesOfCapital.Base.EndOfYear) / 2);
             TurnoverOfTotalCapital.CurrentYear = model.F2Current.F2000.Current / ((sOCF.TotalSourcesOfCapital.Current.BeginningOfyear + sOCF.TotalSourcesOfCapital.Current.EndOfYear) / 2);
         }
-        private void CoefficientOfStabilityOfEconomicGrowthInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfStabilityOfEconomicGrowthInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfStabilityOfEconomicGrowth.Number = "17.";
             CoefficientOfStabilityOfEconomicGrowth.BaseYear = model.F2Base.GetF2465Current() / ((sOCF.Equity.Base.BeginningOfyear + sOCF.Equity.Base.EndOfYear) / 2);

@@ -1,6 +1,6 @@
-<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.BeginningOfyear)</TdComponent>
-<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.EndOfYear)</TdComponent>
-<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.Deviations)</TdComponent>
+﻿<TdComponent Align="MR">@AfsConstraints.RoundStr(Item.BeginningOfyear)</TdComponent>
+<TdComponent Align="MR">@AfsConstraints.RoundStr(Item.EndOfYear)</TdComponent>
+<TdComponent Align="MR">@AfsConstraints.RoundStr(Item.Deviations)</TdComponent>
 <TdComponent Align="MR">@GetGrowthRateText()</TdComponent>
 
 @code {
@@ -11,5 +11,5 @@
     public bool IsShowGrowthRate { get; set; } = true;
 
     private string GetGrowthRateText() =>
-        IsShowGrowthRate ? AFSConstraints.RoundStr(Item.GrowthRate) : "x";
+        IsShowGrowthRate ? AfsConstraints.RoundStr(Item.GrowthRate) : "x";
 }

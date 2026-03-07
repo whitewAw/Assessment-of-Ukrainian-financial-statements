@@ -7,12 +7,12 @@
         public double Current
         {
             get => current;
-            set => SetProperty(ref current, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref current, AfsConstraints.RoundStat(value));
         }
         public double Previous
         {
             get => previous;
-            set => SetProperty(ref previous, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref previous, AfsConstraints.RoundStat(value));
         }
 
         internal void Init(CurrentPrevious fild)

@@ -1,7 +1,7 @@
-@page "/indicatorsofstateandmovementoffixedassets"
+﻿@page "/indicatorsofstateandmovementoffixedassets"
 @using AFS.Core.Interfaces
 @inject IndicatorsOfStateAndMovementOfFixedAssets IndicatorsOfStateAndMovementOfFixedAssets
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
@@ -240,13 +240,9 @@
             // Call JavaScript to abort the current operation
             var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
             await module.InvokeVoidAsync("abortCurrentOperation");
-            
-            // Add stopped indicator if there's partial analysis
-            if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                _aiAnalysis += "\n\n[Analysis stopped by user]";
-            }
-            
+
+            // Note: The stopped message is added by the catch block in the analyze method
+
             _isAnalyzing = false;
             StateHasChanged();
         }
@@ -261,7 +257,7 @@
 
     private string BuildFixedAssetsIndicatorsPrompt()
     {
-        string languageInstruction = AFSConstraints.GetLanguageInstruction();
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         // Build structured data with proper row numbering matching table structure
         var structuredData = $@"TABLE 6: INDICATORS OF STATE AND MOVEMENT OF FIXED ASSETS

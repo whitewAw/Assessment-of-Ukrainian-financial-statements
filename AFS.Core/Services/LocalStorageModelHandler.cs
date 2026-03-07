@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Blazored.LocalStorage;
@@ -15,11 +15,11 @@ namespace AFS.Core.Services
     public sealed class LocalStorageModelHandler : IModelStorageHandler
     {
         private readonly ILocalStorageService storage;
-        private readonly AFSModel model;
+        private readonly AfsModel model;
         private readonly ILogger<LocalStorageModelHandler> logger;
         private readonly HttpClient http;
 
-        public LocalStorageModelHandler(ILocalStorageService storage, AFSModel model, ILoggerFactory loggerFactory, HttpClient http)
+        public LocalStorageModelHandler(ILocalStorageService storage, AfsModel model, ILoggerFactory loggerFactory, HttpClient http)
         {
             ArgumentNullException.ThrowIfNull(storage);
             ArgumentNullException.ThrowIfNull(model);
@@ -41,14 +41,14 @@ namespace AFS.Core.Services
             }
         }
 
-        public async Task<AFSModel?> ReadModelAsync()
+        public async Task<AfsModel?> ReadModelAsync()
         {
-            var jsonModel = await storage.GetItemAsStringAsync(AFSConstraints.ModelJsonName);
+            var jsonModel = await storage.GetItemAsStringAsync(AfsConstraints.ModelJsonName);
             if (jsonModel != null)
             {
                 try
                 {
-                    return JsonSerializer.Deserialize(jsonModel, AFSJsonSerializerContext.Default.AFSModel);
+                    return JsonSerializer.Deserialize(jsonModel, AfsJsonSerializerContext.Default.AfsModel);
                 }
                 catch (JsonException ex)
                 {
@@ -57,7 +57,7 @@ namespace AFS.Core.Services
             }
             try
             {
-                return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AFSJsonSerializerContext.Default.AFSModel);
+                return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AfsJsonSerializerContext.Default.AfsModel);
             }
             catch (HttpRequestException ex)
             {
@@ -70,10 +70,10 @@ namespace AFS.Core.Services
             return null;
         }
 
-        public async Task WriteModelAsync(AFSModel model)
+        public async Task WriteModelAsync(AfsModel model)
         {
-            string jsonString = JsonSerializer.Serialize(model, AFSJsonSerializerContext.Default.AFSModel);
-            await storage.SetItemAsStringAsync(AFSConstraints.ModelJsonName, jsonString);
+            string jsonString = JsonSerializer.Serialize(model, AfsJsonSerializerContext.Default.AfsModel);
+            await storage.SetItemAsStringAsync(AfsConstraints.ModelJsonName, jsonString);
         }
     }
 }

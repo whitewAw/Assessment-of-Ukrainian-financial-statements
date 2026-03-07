@@ -18,8 +18,8 @@ namespace AFS.Core.Services.DataCalculations
         public AssessmentOfReceivableAndPayableRow WithOther { get; private set; } = new();
         public AssessmentOfReceivableAndPayableRow Total { get; private set; } = new();
 
-        public AssessmentOfReceivableAndPayable(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public AssessmentOfReceivableAndPayable(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             WithBuyersOrSuppliersInit(model);
             WithLongTermLiabilitiesInit(model);
@@ -34,7 +34,7 @@ namespace AFS.Core.Services.DataCalculations
             WithOtherInit(model);
             TotalInit();
         }
-        private void WithBuyersOrSuppliersInit(AFSModel model)
+        private void WithBuyersOrSuppliersInit(AfsModel model)
         {
             WithBuyersOrSuppliers.Number = "1.";
             WithBuyersOrSuppliers.ReceivableBase = model.F1Base.F1125.Begin;
@@ -43,7 +43,7 @@ namespace AFS.Core.Services.DataCalculations
             WithBuyersOrSuppliers.PayableBase = model.F1Base.F1615.Begin;
             WithBuyersOrSuppliers.PayableCurrent = model.F1Current.F1615.Begin;
         }
-        private void WithLongTermLiabilitiesInit(AFSModel model)
+        private void WithLongTermLiabilitiesInit(AfsModel model)
         {
             WithLongTermLiabilities.Number = "2.";
 
@@ -51,7 +51,7 @@ namespace AFS.Core.Services.DataCalculations
             WithLongTermLiabilities.PayableCurrent = model.F1Current.F1610.Begin;
         }
 
-        private void ForBillsInit(AFSModel model)
+        private void ForBillsInit(AfsModel model)
         {
             ForBills.Number = "3.";
             ForBills.ReceivableBase = model.F1Base.F1120.Begin;
@@ -60,14 +60,14 @@ namespace AFS.Core.Services.DataCalculations
             ForBills.PayableBase = model.F1Base.F1605.Begin;
             ForBills.PayableCurrent = model.F1Current.F1605.Begin;
         }
-        private void FromInsuranceInit(AFSModel model)
+        private void FromInsuranceInit(AfsModel model)
         {
             FromInsurance.Number = "4.";
 
             FromInsurance.PayableBase = model.F1Base.F1625.Begin;
             FromInsurance.PayableCurrent = model.F1Current.F1625.Begin;
         }
-        private void WithBudgetAndExtraBudgetaryFundsInit(AFSModel model)
+        private void WithBudgetAndExtraBudgetaryFundsInit(AfsModel model)
         {
             WithBudgetAndExtraBudgetaryFunds.Number = "5.";
             WithBudgetAndExtraBudgetaryFunds.ReceivableBase = model.F1Base.F1135.Begin;
@@ -76,19 +76,19 @@ namespace AFS.Core.Services.DataCalculations
             WithBudgetAndExtraBudgetaryFunds.PayableBase = model.F1Base.F1620.Begin;
             WithBudgetAndExtraBudgetaryFunds.PayableCurrent = model.F1Current.F1620.Begin;
         }
-        private void WithAccruedIncomeInit(AFSModel model)
+        private void WithAccruedIncomeInit(AfsModel model)
         {
             WithAccruedIncome.Number = "6.";
             WithAccruedIncome.ReceivableBase = model.F1Base.F1140.Begin;
             WithAccruedIncome.ReceivableCurrent = model.F1Current.F1140.Begin;
         }
-        private void WithPayrollInit(AFSModel model)
+        private void WithPayrollInit(AfsModel model)
         {
             WithPayroll.Number = "7.";
             WithPayroll.PayableBase = model.F1Base.F1630.Begin;
             WithPayroll.PayableCurrent = model.F1Current.F1630.Begin;
         }
-        private void WithAdvancesInit(AFSModel model)
+        private void WithAdvancesInit(AfsModel model)
         {
             WithAdvances.Number = "8.";
             WithAdvances.ReceivableBase = model.F1Base.F1130.Begin;
@@ -97,14 +97,14 @@ namespace AFS.Core.Services.DataCalculations
             WithAdvances.PayableBase = model.F1Base.F1635.Begin;
             WithAdvances.PayableCurrent = model.F1Current.F1635.Begin;
         }
-        private void WithParticipantsInit(AFSModel model)
+        private void WithParticipantsInit(AfsModel model)
         {
             WithParticipants.Number = "9.";
 
             WithParticipants.PayableBase = model.F1Base.F1640.Begin;
             WithParticipants.PayableCurrent = model.F1Current.F1640.Begin;
         }
-        private void WithInternalCashSettlementsInit(AFSModel model)
+        private void WithInternalCashSettlementsInit(AfsModel model)
         {
             WithInternalCashSettlements.Number = "10.";
             WithInternalCashSettlements.ReceivableBase = model.F1Base.F1145.Begin;
@@ -113,7 +113,7 @@ namespace AFS.Core.Services.DataCalculations
             WithInternalCashSettlements.PayableBase = model.F1Base.F1645.Begin;
             WithInternalCashSettlements.PayableCurrent = model.F1Current.F1645.Begin;
         }
-        private void WithOtherInit(AFSModel model)
+        private void WithOtherInit(AfsModel model)
         {
             WithOther.Number = "11.";
             WithOther.ReceivableBase = model.F1Base.F1155.Begin;

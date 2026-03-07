@@ -1,8 +1,8 @@
-@page "/sourcesofcapitalformation"
+﻿@page "/sourcesofcapitalformation"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @inject SourcesOfCapitalFormation SourcesOfCapitalFormation
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
@@ -286,12 +286,9 @@
         {
             var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
             await module.InvokeVoidAsync("abortCurrentOperation");
-            
-            if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                _aiAnalysis += "\n\n[Analysis stopped by user]";
-            }
-            
+
+            // Note: The stopped message is added by the catch block in the analyze method
+
             _isAnalyzing = false;
             StateHasChanged();
         }
@@ -305,7 +302,7 @@
 
     private string BuildCapitalStructurePrompt()
     {
-        string languageInstruction = AFSConstraints.GetLanguageInstruction();
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         // Use AOT-optimized JSON serialization
         var jsonData = JsonSerializationHelper.SerializeSourcesOfCapital(

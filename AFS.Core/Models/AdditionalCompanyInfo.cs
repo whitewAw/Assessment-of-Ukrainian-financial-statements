@@ -1,4 +1,4 @@
-namespace AFS.Core.Models
+﻿namespace AFS.Core.Models
 {
     public class AdditionalCompanyInfo : TrackedEntity
     {
@@ -11,12 +11,12 @@ namespace AFS.Core.Models
         public double AverageNumberOfEmployeesBase
         {
             get => averageNumberOfEmployeesBase;
-            set => SetProperty(ref averageNumberOfEmployeesBase, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref averageNumberOfEmployeesBase, AfsConstraints.RoundStat(value));
         }
         public double AverageNumberOfEmployeesCurrent
         {
             get => averageNumberOfEmployeesCurrent;
-            set => SetProperty(ref averageNumberOfEmployeesCurrent, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref averageNumberOfEmployeesCurrent, AfsConstraints.RoundStat(value));
         }
 
         internal void Init(AdditionalCompanyInfo info)

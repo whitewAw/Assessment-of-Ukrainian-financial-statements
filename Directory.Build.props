@@ -34,10 +34,6 @@
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ MA0016 - Collection abstraction - ApexCharts/Radzen require List<T> for binding║
     ║ MA0048 - File name != type name - Related types grouped intentionally        ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 3: SONAR - PROJECT DESIGN CONVENTIONS                               ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ S101 - Class naming - AFS is project acronym (AFSModel, AFSConstraints)      ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
     -->
 
@@ -46,9 +42,6 @@
 
     <!-- Category 2: Style preferences -->
     <NoWarn>$(NoWarn);MA0016;MA0048</NoWarn>
-
-    <!-- Category 3: Sonar - Project naming/design conventions -->
-    <NoWarn>$(NoWarn);S101</NoWarn>
   </PropertyGroup>
 
 

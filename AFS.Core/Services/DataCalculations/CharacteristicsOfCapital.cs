@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations;
 
@@ -14,9 +14,9 @@ public class CharacteristicsOfCapital
     public NonCurrentAssetsHeldForSale NonCurrentAssetsHeldForSale { get; private set; } = new();
     public FutureExpenses FutureExpenses { get; private set; } = new();
 
-    public CharacteristicsOfCapital(AFSModel model) => Init(model);
+    public CharacteristicsOfCapital(AfsModel model) => Init(model);
 
-    private void Init(AFSModel model)
+    private void Init(AfsModel model)
     {
         TotalAssets.Init(model);
         NonCurrentImmobilizedFunds.Init(model, TotalAssets);

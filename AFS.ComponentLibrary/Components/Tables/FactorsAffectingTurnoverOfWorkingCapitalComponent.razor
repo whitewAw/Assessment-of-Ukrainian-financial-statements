@@ -1,7 +1,7 @@
-@page "/factorsaffectingturnoverofworkingcapital"
+﻿@page "/factorsaffectingturnoverofworkingcapital"
 @using AFS.Core.Interfaces
 @inject FactorsAffectingTurnoverOfWorkingCapital FactorsAffectingTurnoverOfWorkingCapital
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
@@ -35,10 +35,10 @@
             <tr>
                 <TdComponent Align="ML">@FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Number</TdComponent>
                 <TdComponent Align="ML">@ResLoc["OneDaySalesRevenue"]</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.BaseYear,2)</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.CurrentYear,2)</TdComponent>
+                <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.BaseYear,2)</TdComponent>
+                <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.CurrentYear,2)</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Total,2)</TdComponent>
+                <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Total,2)</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
             </tr>
@@ -235,13 +235,9 @@
             // Call JavaScript to abort the current operation
             var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
             await module.InvokeVoidAsync("abortCurrentOperation");
-            
-            // Add stopped indicator if there's partial analysis
-            if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                _aiAnalysis += "\n\n[Analysis stopped by user]";
-            }
-            
+
+            // Note: The stopped message is added by the catch block in the analyze method
+
             _isAnalyzing = false;
             StateHasChanged();
         }
@@ -256,7 +252,7 @@
 
     private string BuildFactorsAnalysisPrompt()
     {
-        string languageInstruction = AFSConstraints.GetLanguageInstruction();
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         // Build structured data with proper row numbering matching table structure
         var structuredData = $@"TABLE 3: FACTORS AFFECTING TURNOVER OF WORKING CAPITAL

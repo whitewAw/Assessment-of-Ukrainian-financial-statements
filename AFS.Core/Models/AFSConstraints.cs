@@ -1,6 +1,6 @@
-namespace AFS.Core.Models
+﻿namespace AFS.Core.Models
 {
-    public class AFSConstraints
+    public class AfsConstraints
     {
         public string FileExtension { get; private set; } = ".json";
         public int MaxFileSize { get; private set; } = 10 * 1024;

@@ -4,7 +4,7 @@
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
 @inject WorkingCapitalTurnoverTimeChart WorkingCapitalTurnoverTimeChart
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
@@ -242,12 +242,9 @@ protected override async Task OnInitializedAsync()
         {
             var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
             await module.InvokeVoidAsync("abortCurrentOperation");
-            
-            if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                _aiAnalysis += "\n\n[Analysis stopped by user]";
-            }
-            
+
+            // Note: The stopped message is added by the catch block in the analyze method
+
             _isAnalyzing = false;
             StateHasChanged();
         }
@@ -261,7 +258,7 @@ protected override async Task OnInitializedAsync()
 
     private string BuildTurnoverTimePrompt()
     {
-        string languageInstruction = AFSConstraints.GetLanguageInstruction();
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         // Use AOT-optimized JSON serialization
         var jsonData = JsonSerializationHelper.SerializeTurnoverTime(

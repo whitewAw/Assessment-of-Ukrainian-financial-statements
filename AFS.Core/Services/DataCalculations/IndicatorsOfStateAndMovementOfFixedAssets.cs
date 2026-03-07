@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -18,8 +18,8 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData SuitabilityRatioForBegin { get; private set; } = new();
         public TwoYearsCalculationData SuitabilityRatioForEnd { get; private set; } = new();
 
-        public IndicatorsOfStateAndMovementOfFixedAssets(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public IndicatorsOfStateAndMovementOfFixedAssets(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             AvailabilityAndMovementOfFixedAssets aMFA = new(model);
 
@@ -72,13 +72,13 @@ namespace AFS.Core.Services.DataCalculations
             DisposalRate.BaseYear = CostOfLeftFixedAssets.BaseYear / InitialCostOfFixedAssetsAtBegin.BaseYear;
             DisposalRate.CurrentYear = CostOfLeftFixedAssets.CurrentYear / InitialCostOfFixedAssetsAtBegin.CurrentYear;
         }
-        private void AccruedDepreciationAtBeginInit(AFSModel model)
+        private void AccruedDepreciationAtBeginInit(AfsModel model)
         {
             AccruedDepreciationAtBegin.Number = "7.";
             AccruedDepreciationAtBegin.BaseYear = model.F1Base.F1012.Begin;
             AccruedDepreciationAtBegin.CurrentYear = model.F1Current.F1012.Begin;
         }
-        private void AccruedDepreciationAtEndInit(AFSModel model)
+        private void AccruedDepreciationAtEndInit(AfsModel model)
         {
             AccruedDepreciationAtEnd.Number = "8.";
             AccruedDepreciationAtEnd.BaseYear = model.F1Base.F1012.End;

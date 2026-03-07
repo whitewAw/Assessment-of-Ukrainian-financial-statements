@@ -1,15 +1,15 @@
-namespace AFS.Core.Models
+﻿namespace AFS.Core.Models
 {
-    public class AFSModel : TrackedEntity
+    public class AfsModel : TrackedEntity
     {
         private int baseYear;
         private int currentYear;
         private string? companyName;
 
-        public AFSModel()
+        public AfsModel()
         {
-            CurrentYear = AFSConstraints.MaxYear;
-            BaseYear = AFSConstraints.MaxYear - 1;
+            CurrentYear = AfsConstraints.MaxYear;
+            BaseYear = AfsConstraints.MaxYear - 1;
         }
 
         public Form1 F1Base { get; set; } = new();
@@ -53,7 +53,7 @@ namespace AFS.Core.Models
                 }
             }
         }
-        internal void Init(AFSModel readModel)
+        internal void Init(AfsModel readModel)
         {
             companyName = readModel.CompanyName;
             baseYear = readModel.BaseYear;

@@ -1,4 +1,4 @@
-using AFS;
+﻿using AFS;
 using AFS.Core.Components;
 using AFS.Core.Interfaces;
 using AFS.Core.Models;
@@ -24,15 +24,15 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 // Singleton services (stateful, shared across app)
-builder.Services.AddSingleton<AFSModel>();
-builder.Services.AddSingleton<AFSConstraints>();
+builder.Services.AddSingleton<AfsModel>();
+builder.Services.AddSingleton<AfsConstraints>();
 builder.Services.AddSingleton<AppThemeService>();
 
 // Localization - no need to set ResourcesPath since resources are in referenced AFS.ComponentLibrary
 builder.Services.AddLocalization();
 
 // Blazored LocalStorage - using string-based methods for AOT compatibility
-// We manually serialize/deserialize with AFSJsonSerializerContext in our handlers
+// We manually serialize/deserialize with AfsJsonSerializerContext in our handlers
 builder.Services.AddBlazoredLocalStorage();
 
 // Radzen services - REQUIRED for Radzen components

@@ -1,8 +1,8 @@
-@page "/calculationofIndicatorsofefficiencyofuseoffixedassets"
+﻿@page "/calculationofIndicatorsofefficiencyofuseoffixedassets"
 @using AFS.Core.Interfaces
 @using System.Text.Json
 @inject CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets
-@inject AFSModel AFSModel
+@inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
@@ -223,13 +223,9 @@
             // Call JavaScript to abort the current operation
             var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
             await module.InvokeVoidAsync("abortCurrentOperation");
-            
-            // Add stopped indicator if there's partial analysis
-            if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                _aiAnalysis += "\n\n[Analysis stopped by user]";
-            }
-            
+
+            // Note: The stopped message is added by the catch block in the analyze method
+
             _isAnalyzing = false;
             StateHasChanged();
         }

@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using System.Text.Json;
@@ -36,7 +36,7 @@ public static class JsonSerializationHelper
             }).ToList()
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.AssetCompositionData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.AssetCompositionData);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public static class JsonSerializationHelper
             }).ToList()
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.CapitalSourcesData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.CapitalSourcesData);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public static class JsonSerializationHelper
             }).ToList()
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.PayableStructureData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.PayableStructureData);
     }
 
     /// <summary>
@@ -116,13 +116,13 @@ public static class JsonSerializationHelper
             }).ToList()
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.TurnoverTimeData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.TurnoverTimeData);
     }
 
     /// <summary>
     /// Serialize financial context data for AI chat
     /// </summary>
-    public static string SerializeFinancialContext(AFSModel model)
+    public static string SerializeFinancialContext(AfsModel model)
     {
         var context = new FinancialContextData
         {
@@ -144,7 +144,7 @@ public static class JsonSerializationHelper
             }
         };
 
-        return JsonSerializer.Serialize(context, AFSJsonSerializerContext.Default.FinancialContextData);
+        return JsonSerializer.Serialize(context, AfsJsonSerializerContext.Default.FinancialContextData);
     }
 
     private static YearBalanceData CreateYearBalanceData(Form1 f1) => new()
@@ -226,7 +226,7 @@ public static class JsonSerializationHelper
             }
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.StabilityClassificationData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.StabilityClassificationData);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public static class JsonSerializationHelper
             Others = CreateReceivablePayableCategory(others)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.ReceivablePayableData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.ReceivablePayableData);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public static class JsonSerializationHelper
             LossSolvencyRatio = CreateSolvencyRatioSimpleItem(lossSolvency)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.SolvencyRatiosData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.SolvencyRatiosData);
     }
 
     /// <summary>
@@ -329,7 +329,7 @@ public static class JsonSerializationHelper
             FixedAssetTurnover = CreateFactorMetric(fixedAssetTurnover)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.FactorAnalysisData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.FactorAnalysisData);
     }
 
     /// <summary>
@@ -380,7 +380,7 @@ public static class JsonSerializationHelper
             EquityPaybackPeriod = CreateBusinessActivityMetric(equityPaybackPeriod)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.BusinessActivityData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.BusinessActivityData);
     }
 
     /// <summary>
@@ -406,7 +406,7 @@ public static class JsonSerializationHelper
             CapitalIntensityOfProductionUah = CreateIntangibleAssetMetric(capitalIntensity)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.IntangibleAssetsData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.IntangibleAssetsData);
     }
 
     /// <summary>
@@ -450,7 +450,7 @@ public static class JsonSerializationHelper
             TotalCoverageRatio = CreateStabilityIndicatorMetric(totalCoverage)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.FinancialStabilityIndicatorsData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.FinancialStabilityIndicatorsData);
     }
 
     /// <summary>
@@ -486,7 +486,7 @@ public static class JsonSerializationHelper
             }
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.LiquidityIndicatorsData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.LiquidityIndicatorsData);
     }
 
     /// <summary>
@@ -519,7 +519,7 @@ public static class JsonSerializationHelper
             DeficitTotalSources = CreateStabilitySource(deficitTotalSources)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.GeneralFinancialStabilityData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.GeneralFinancialStabilityData);
     }
 
     /// <summary>
@@ -554,7 +554,7 @@ public static class JsonSerializationHelper
             OtherCurrentLiabilities = CreateCapitalComponentFromBorrowed(otherCurrentLiabilities)
         };
 
-        return JsonSerializer.Serialize(data, AFSJsonSerializerContext.Default.SourcesOfCapitalData);
+        return JsonSerializer.Serialize(data, AfsJsonSerializerContext.Default.SourcesOfCapitalData);
     }
 
     // ============ Private Helper Methods - No Reflection ============
@@ -564,7 +564,7 @@ public static class JsonSerializationHelper
 
     private static double CalculatePercentageChange(double baseValue, double currentValue)
     {
-        if (AFSConstraints.IsZeroOrInvalid(baseValue)) return 0;
+        if (AfsConstraints.IsZeroOrInvalid(baseValue)) return 0;
         if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
         var result = ((currentValue - baseValue) / baseValue) * 100;
         if (double.IsNaN(result) || double.IsInfinity(result)) return 0;
@@ -824,7 +824,7 @@ public static class JsonSerializationHelper
             PropertyNameCaseInsensitive = true,
             DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
             NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals,
-            TypeInfoResolver = AFSJsonSerializerContext.Default
+            TypeInfoResolver = AfsJsonSerializerContext.Default
         };
     }
 }

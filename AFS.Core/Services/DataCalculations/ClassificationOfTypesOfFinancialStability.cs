@@ -10,8 +10,8 @@ namespace AFS.Core.Services.DataCalculations
         public ClassificationOfTypesOfFinancialStabilityRow PreCrisisFinancialStability { get; private set; } = new();
         public ClassificationOfTypesOfFinancialStabilityRow CrisisFinancialStability { get; private set; } = new();
 
-        public ClassificationOfTypesOfFinancialStability(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public ClassificationOfTypesOfFinancialStability(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             LiquidityIndicatorsOfBalance lIOB = new(model);
             AbsoluteFinancialStabilityInit(lIOB);

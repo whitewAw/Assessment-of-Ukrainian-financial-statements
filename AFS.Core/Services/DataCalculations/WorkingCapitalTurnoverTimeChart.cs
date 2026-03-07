@@ -1,14 +1,14 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
     public class WorkingCapitalTurnoverTimeChart
     {
         FactorsAffectingTurnoverOfWorkingCapital? FactorsAffectingTurnoverOfWorkingCapital { get; set; }
-        AFSModel model { get; set; } = new();
+        AfsModel model { get; set; } = new();
 
-        public WorkingCapitalTurnoverTimeChart(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public WorkingCapitalTurnoverTimeChart(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             FactorsAffectingTurnoverOfWorkingCapital = new(model);
             this.model = model;
@@ -34,13 +34,13 @@ namespace AFS.Core.Services.DataCalculations
             List<ChartDateTimeItem> items = [];
 
             var baseVal = baseYearValue.GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(baseVal))
+            if (!AfsConstraints.IsZeroOrInvalid(baseVal))
             {
                 items.Add(new ChartDateTimeItem { Date = new DateTime(model.BaseYear, 1, 1), Value = baseVal });
             }
 
             var currentVal = currentYearValue.GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(currentVal))
+            if (!AfsConstraints.IsZeroOrInvalid(currentVal))
             {
                 items.Add(new ChartDateTimeItem { Date = new DateTime(model.CurrentYear, 12, 31), Value = currentVal });
             }

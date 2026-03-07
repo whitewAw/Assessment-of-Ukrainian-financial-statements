@@ -1,4 +1,4 @@
-using AFS.Core.Exceptions;
+﻿using AFS.Core.Exceptions;
 using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using System.Net.Http.Json;
@@ -78,12 +78,12 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
                 MaxTokens = 1000
             };
 
-            var content = JsonContent.Create(requestBody, AFSJsonSerializerContext.Default.OpenAIRequest);
+            var content = JsonContent.Create(requestBody, AfsJsonSerializerContext.Default.OpenAIRequest);
             var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content);
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync(AFSJsonSerializerContext.Default.OpenAIResponse);
+            var result = await response.Content.ReadFromJsonAsync(AfsJsonSerializerContext.Default.OpenAIResponse);
 
             return result?.Choices?[0]?.Message?.Content ?? string.Empty;
         }

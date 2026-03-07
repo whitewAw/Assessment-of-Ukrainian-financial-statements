@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
@@ -14,8 +14,8 @@ namespace AFS.Core.Services.DataCalculations
         public ExcessLackOfWorkingCapitalAndLongTermForStocks ExcessLackOfWorkingCapitalAndLongTermForStocks { get; private set; } = new();
         public ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks { get; private set; } = new();
 
-        public GeneralIndicatorsOfFinancialStability(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public GeneralIndicatorsOfFinancialStability(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             SourcesOfCapitalFormation sOCF = new(model);
 
@@ -49,7 +49,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow Current { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetF1495Begin() + model.F1Base.GetF1595Begin() - model.F1Base.GetF1095Begin();
             Base.EndOfYear = model.F1Base.GetF1495End() + model.F1Base.GetF1595End() - model.F1Base.GetF1095End();
@@ -64,7 +64,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow Current { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetF1495Begin() + model.F1Base.GetF1595Begin() - model.F1Base.GetF1095Begin() + model.F1Base.F1600.Begin + model.F1Base.F1610.Begin + model.F1Base.F1660.Begin;
             Base.EndOfYear = model.F1Base.GetF1495End() + model.F1Base.GetF1595End() - model.F1Base.GetF1095End() + model.F1Base.F1600.End + model.F1Base.F1610.End + model.F1Base.F1660.End;
@@ -79,7 +79,7 @@ namespace AFS.Core.Services.DataCalculations
         public CharacteristicsOfCapitalCalculationRow Base { get; private set; } = new();
         public CharacteristicsOfCapitalCalculationRow Current { get; private set; } = new();
 
-        public void Init(AFSModel model)
+        public void Init(AfsModel model)
         {
             Base.BeginningOfyear = model.F1Base.GetAccountsTangibleAssets(true);
             Base.EndOfYear = model.F1Base.GetAccountsTangibleAssets(false);

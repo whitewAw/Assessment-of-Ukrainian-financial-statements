@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -7,14 +7,14 @@ namespace AFS.Core.Services.DataCalculations
     {
         public FixedAssets Base { get; private set; } = new();
         public FixedAssets Current { get; private set; } = new();
-        public AvailabilityAndMovementOfFixedAssets(AFSModel model) => Init(model);
+        public AvailabilityAndMovementOfFixedAssets(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             BaseInit(model);
             CurrentInit(model);
         }
-        private void BaseInit(AFSModel model)
+        private void BaseInit(AfsModel model)
         {
             Base.BalanceAtBeginInitialCost = model.F1Base.F1011.Begin;
             Base.Received = model.AdditionalInfo.FixedAssetsInfoBase.ReceivedFixedAssets;
@@ -24,7 +24,7 @@ namespace AFS.Core.Services.DataCalculations
             Base.BalanceAtEndInitialCost = model.F1Base.F1011.End;
             Base.BalanceAtEndMinusDepreciation = model.F1Base.GetF1010End();
         }
-        private void CurrentInit(AFSModel model)
+        private void CurrentInit(AfsModel model)
         {
             Current.BalanceAtBeginInitialCost = model.F1Current.F1011.Begin;
             Current.Received = model.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedFixedAssets;

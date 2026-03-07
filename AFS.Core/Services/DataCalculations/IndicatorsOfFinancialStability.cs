@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -19,8 +19,8 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData RatioOfMobileToImmobilized { get; private set; } = new();
         public TwoYearsCalculationData TotalCoverageRatio { get; private set; } = new();
 
-        public IndicatorsOfFinancialStability(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public IndicatorsOfFinancialStability(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             SourcesOfCapitalFormation sOCF = new(model);
 
@@ -38,13 +38,13 @@ namespace AFS.Core.Services.DataCalculations
             RatioOfMobileToImmobilizedInit(model);
             TotalCoverageRatioInit(model);
         }
-        private void TotalReturnOnAssetsInit(AFSModel model)
+        private void TotalReturnOnAssetsInit(AfsModel model)
         {
             TotalReturnOnAssets.Number = "1.";
             TotalReturnOnAssets.BaseYear = model.F2Base.F2000.Current / ((model.F1Base.GetF1300Begin() + model.F1Base.GetF1300End()) / 2);
             TotalReturnOnAssets.CurrentYear = model.F2Current.F2000.Current / ((model.F1Current.GetF1300Begin() + model.F1Current.GetF1300End()) / 2);
         }
-        private void CoefficientOfIndependenceInit(AFSModel model)
+        private void CoefficientOfIndependenceInit(AfsModel model)
         {
             CoefficientOfIndependence.Number = "2.";
             CoefficientOfIndependence.BaseYear = model.F1Base.GetF1495End() / model.F1Base.GetF1900End();
@@ -56,31 +56,31 @@ namespace AFS.Core.Services.DataCalculations
             CoefficientOfFinancialDependence.BaseYear = 1 / CoefficientOfIndependence.BaseYear;
             CoefficientOfFinancialDependence.CurrentYear = 1 / CoefficientOfIndependence.CurrentYear;
         }
-        private void CoefficientOfFinancialStabilityInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfFinancialStabilityInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfFinancialStability.Number = "4.";
             CoefficientOfFinancialStability.BaseYear = sOCF.Equity.Base.EndOfYear / model.F1Base.GetF1900End();
             CoefficientOfFinancialStability.CurrentYear = sOCF.Equity.Current.EndOfYear / model.F1Current.GetF1900End();
         }
-        private void CoefficientOfManeuverabilityOfEquityInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfManeuverabilityOfEquityInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfManeuverabilityOfEquity.Number = "5.";
             CoefficientOfManeuverabilityOfEquity.BaseYear = sOCF.OwnCurrentAssets.Base.EndOfYear / model.F1Base.GetF1495End();
             CoefficientOfManeuverabilityOfEquity.CurrentYear = sOCF.OwnCurrentAssets.Current.EndOfYear / model.F1Current.GetF1495End();
         }
-        private void CoefficientOfConcentrationOfBorrowedCapitalInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfConcentrationOfBorrowedCapitalInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfConcentrationOfBorrowedCapital.Number = "6.";
             CoefficientOfConcentrationOfBorrowedCapital.BaseYear = sOCF.RaisedCapital.Base.EndOfYear / model.F1Base.GetF1900End();
             CoefficientOfConcentrationOfBorrowedCapital.CurrentYear = sOCF.RaisedCapital.Current.EndOfYear / model.F1Current.GetF1900End();
         }
-        private void CoefficientOfStructureOfLongTermInvestmentsInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfStructureOfLongTermInvestmentsInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfStructureOfLongTermInvestments.Number = "7.";
             CoefficientOfStructureOfLongTermInvestments.BaseYear = sOCF.LongTermLiabilities.Base.EndOfYear / model.F1Base.GetF1095End();
             CoefficientOfStructureOfLongTermInvestments.CurrentYear = sOCF.LongTermLiabilities.Current.EndOfYear / model.F1Current.GetF1095End();
         }
-        private void CoefficientOfLongevityOfBorrowedFundsInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void CoefficientOfLongevityOfBorrowedFundsInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             CoefficientOfLongevityOfBorrowedFunds.Number = "8.";
             CoefficientOfLongevityOfBorrowedFunds.BaseYear = sOCF.LongTermLiabilities.Base.EndOfYear / (sOCF.LongTermLiabilities.Base.EndOfYear + model.F1Base.GetF1495End());
@@ -92,25 +92,25 @@ namespace AFS.Core.Services.DataCalculations
             RatedCapitalStructureRatio.BaseYear = sOCF.LongTermLiabilities.Base.EndOfYear / sOCF.RaisedCapital.Base.EndOfYear;
             RatedCapitalStructureRatio.CurrentYear = sOCF.LongTermLiabilities.Current.EndOfYear / sOCF.RaisedCapital.Current.EndOfYear;
         }
-        private void RatioOfBorrowedCapitalAndEquityInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void RatioOfBorrowedCapitalAndEquityInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             RatioOfBorrowedCapitalAndEquity.Number = "10.";
             RatioOfBorrowedCapitalAndEquity.BaseYear = sOCF.RaisedCapital.Base.EndOfYear / model.F1Base.GetF1495End();
             RatioOfBorrowedCapitalAndEquity.CurrentYear = sOCF.RaisedCapital.Current.EndOfYear / model.F1Current.GetF1495End();
         }
-        private void RatioOfOwnAndLongTermBorrowedFundsInInventoriesInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void RatioOfOwnAndLongTermBorrowedFundsInInventoriesInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {
             RatioOfOwnAndLongTermBorrowedFundsInInventories.Number = "11.";
             RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear = sOCF.Equity.Base.EndOfYear / model.F1Base.GetAccountsTangibleAssets(false);
             RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear = sOCF.Equity.Current.EndOfYear / model.F1Current.GetAccountsTangibleAssets(false);
         }
-        private void RatioOfMobileToImmobilizedInit(AFSModel model)
+        private void RatioOfMobileToImmobilizedInit(AfsModel model)
         {
             RatioOfMobileToImmobilized.Number = "12.";
             RatioOfMobileToImmobilized.BaseYear = (model.F1Base.GetF1195End() + model.F1Base.F1200.End - model.F1Base.F1170.End) / model.F1Base.GetF1095End();
             RatioOfMobileToImmobilized.CurrentYear = (model.F1Current.GetF1195End() + model.F1Current.F1200.End - model.F1Current.F1170.End) / model.F1Current.GetF1095End();
         }
-        private void TotalCoverageRatioInit(AFSModel model)
+        private void TotalCoverageRatioInit(AfsModel model)
         {
             TotalCoverageRatio.Number = "13.";
             TotalCoverageRatio.BaseYear = (model.F1Base.GetF1300End() - model.F1Base.GetF1095End()) / (model.F1Base.GetF1695End() - model.F1Base.F1660.End - model.F1Base.F1665.End + model.F1Base.F1700.End);

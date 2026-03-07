@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 
 namespace AFS.Core.Models.TablsModels
 {
@@ -27,9 +27,9 @@ namespace AFS.Core.Models.TablsModels
         {
             get
             {
-                if (AFSConstraints.IsEffectivelyZero(BaseYear))
+                if (AfsConstraints.IsEffectivelyZero(BaseYear))
                 {
-                    return AFSConstraints.IsEffectivelyZero(CurrentYear) ? 0 : 100;
+                    return AfsConstraints.IsEffectivelyZero(CurrentYear) ? 0 : 100;
                 }
                 return SafeValue((CurrentYear / BaseYear) * 100);
             }

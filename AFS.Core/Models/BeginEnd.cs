@@ -7,12 +7,12 @@
         public double Begin
         {
             get => begin;
-            set => SetProperty(ref begin, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref begin, AfsConstraints.RoundStat(value));
         }
         public double End
         {
             get => end;
-            set => SetProperty(ref end, AFSConstraints.RoundStat(value));
+            set => SetProperty(ref end, AfsConstraints.RoundStat(value));
         }
 
         internal void Init(BeginEnd fild)

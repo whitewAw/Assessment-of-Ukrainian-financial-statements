@@ -1,4 +1,4 @@
-using AFS.Core.Models;
+﻿using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -116,9 +116,9 @@ namespace AFS.Core.Services.DataCalculations
         /// </summary>
         public TwoYearsCalculationData ReleaseOrLackOfCurrentAssetsDueTurnover { get; private set; } = new();
 
-        public IndicatorsOfTurnoverOfCurrentAssets(AFSModel model) => Init(model);
+        public IndicatorsOfTurnoverOfCurrentAssets(AfsModel model) => Init(model);
 
-        private void Init(AFSModel model)
+        private void Init(AfsModel model)
         {
             // Row 1: Average balances
             IndicatorsOfTurnoverOfCurrentAssetsInit(model);
@@ -152,7 +152,7 @@ namespace AFS.Core.Services.DataCalculations
         /// Formula: (Beginning balance + Ending balance) / 2
         /// Includes: Current assets (Line 1195) - Future expenses (Line 1170) + Assets held for sale (Line 1200)
         /// </summary>
-        private void IndicatorsOfTurnoverOfCurrentAssetsInit(AFSModel model)
+        private void IndicatorsOfTurnoverOfCurrentAssetsInit(AfsModel model)
         {
             AverageWorkingCapitalBalances.Number = "1.";
 
@@ -184,7 +184,7 @@ namespace AFS.Core.Services.DataCalculations
         /// Formula: (Beginning cash + Ending cash) / 2
         /// Includes: Cash (Line 1160) + Current financial investments (Line 1165)
         /// </summary>
-        private void AverageFromMoneyInit(AFSModel model)
+        private void AverageFromMoneyInit(AfsModel model)
         {
             AverageFromMoney.Number = "1.1.";
 
@@ -207,7 +207,7 @@ namespace AFS.Core.Services.DataCalculations
         /// 1.2. - Accounts receivable (average balances)
         /// Formula: (Beginning AR + Ending AR) / 2
         /// </summary>
-        private void AverageFromReceivablesInit(AFSModel model)
+        private void AverageFromReceivablesInit(AfsModel model)
         {
             AverageFromReceivables.Number = "1.2.";
 
@@ -229,7 +229,7 @@ namespace AFS.Core.Services.DataCalculations
         /// Formula: (Beginning inventory + Ending inventory) / 2
         /// Includes: Inventory (Line 1100) + Current biological assets (Line 1110)
         /// </summary>
-        private void AverageFromTangibleAssetsInit(AFSModel model)
+        private void AverageFromTangibleAssetsInit(AfsModel model)
         {
             AverageFromMaterialValues.Number = "1.3.";
 
@@ -252,7 +252,7 @@ namespace AFS.Core.Services.DataCalculations
         /// 2. Net revenue from sales, thousand hryvnias
         /// Taken directly from Income Statement (Form 2), Line 2000
         /// </summary>
-        private void NetIncomeFromSalesInit(AFSModel model)
+        private void NetIncomeFromSalesInit(AfsModel model)
         {
             NetIncomeFromSales.Number = "2.";
 
@@ -273,10 +273,10 @@ namespace AFS.Core.Services.DataCalculations
             OneDaySalesRevenue.Number = "2.1.";
 
             // Base Year (2019): 57293136.0 / 360 = 159147.60
-            OneDaySalesRevenue.BaseYear = NetIncomeFromSales.BaseYear / AFSConstraints.DurationOAnalyzedPeriod;
+            OneDaySalesRevenue.BaseYear = NetIncomeFromSales.BaseYear / AfsConstraints.DurationOAnalyzedPeriod;
 
             // Current Year (2020): 50563254.0 / 360 = 140453.48
-            OneDaySalesRevenue.CurrentYear = NetIncomeFromSales.CurrentYear / AFSConstraints.DurationOAnalyzedPeriod;
+            OneDaySalesRevenue.CurrentYear = NetIncomeFromSales.CurrentYear / AfsConstraints.DurationOAnalyzedPeriod;
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace AFS.Core.Services.DataCalculations
         /// </summary>
         private static double SafeDivide(double numerator, double denominator)
         {
-            if (AFSConstraints.IsZeroOrInvalid(denominator))
+            if (AfsConstraints.IsZeroOrInvalid(denominator))
                 return 0;
 
             var result = numerator / denominator;

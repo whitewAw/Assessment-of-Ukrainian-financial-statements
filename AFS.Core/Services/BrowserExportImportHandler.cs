@@ -1,4 +1,4 @@
-using AFS.Core.Interfaces;
+﻿using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Microsoft.Extensions.Logging;
@@ -11,11 +11,11 @@ namespace AFS.Core.Services
     public class BrowserExportImportHandler : IModelExportImportHandler
     {
         private readonly JsInterop jsInterop;
-        private readonly AFSModel model;
-        private readonly AFSConstraints constraints;
+        private readonly AfsModel model;
+        private readonly AfsConstraints constraints;
         private readonly ILogger<BrowserExportImportHandler> logger;
 
-        public BrowserExportImportHandler(JsInterop jsInterop, AFSModel model, AFSConstraints constraints, ILoggerFactory loggerFactory)
+        public BrowserExportImportHandler(JsInterop jsInterop, AfsModel model, AfsConstraints constraints, ILoggerFactory loggerFactory)
         {
             this.jsInterop = jsInterop;
             this.model = model;
@@ -23,9 +23,9 @@ namespace AFS.Core.Services
             logger = loggerFactory.CreateLogger<BrowserExportImportHandler>();
         }
 
-        public async Task ExportAsync(AFSModel model)
+        public async Task ExportAsync(AfsModel model)
         {
-            var modelJson = JsonSerializer.Serialize(model, AFSJsonSerializerContext.Default.AFSModel);
+            var modelJson = JsonSerializer.Serialize(model, AfsJsonSerializerContext.Default.AfsModel);
             var randomBinaryData = Encoding.UTF8.GetBytes(modelJson);
             using var fileStream = new MemoryStream(randomBinaryData);
             var fileName = $"{model.CompanyName}_{model.BaseYear}_{model.CurrentYear}{constraints.FileExtension}";
@@ -33,11 +33,11 @@ namespace AFS.Core.Services
             await jsInterop.ExportToFileAsync(fileName, streamRef);
         }
 
-        public async Task<AFSModel?> ImportAsync(Stream inputStream)
+        public async Task<AfsModel?> ImportAsync(Stream inputStream)
         {
             try
             {
-                return await JsonSerializer.DeserializeAsync(inputStream, AFSJsonSerializerContext.Default.AFSModel);
+                return await JsonSerializer.DeserializeAsync(inputStream, AfsJsonSerializerContext.Default.AfsModel);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace AFS.Core.Services
             return null;
         }
 
-        public void InitializeModel(AFSModel? model)
+        public void InitializeModel(AfsModel? model)
         {
             if (model != null)
             {

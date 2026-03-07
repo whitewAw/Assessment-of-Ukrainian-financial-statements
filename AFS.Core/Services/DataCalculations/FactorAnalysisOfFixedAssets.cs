@@ -12,8 +12,8 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData LaborCapitalOfOneAverageEmployee { get; private set; } = new();
         public TwoYearsCalculationData ReturnOnFixedAssets { get; private set; } = new();
 
-        public FactorAnalysisOfFixedAssets(AFSModel model) => Init(model);
-        private void Init(AFSModel model)
+        public FactorAnalysisOfFixedAssets(AfsModel model) => Init(model);
+        private void Init(AfsModel model)
         {
             CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets cIEUFA = new(model);
 
@@ -24,13 +24,13 @@ namespace AFS.Core.Services.DataCalculations
             LaborCapitalOfOneAverageEmployeeInit();
             ReturnOnFixedAssetsInit();
         }
-        private void NetIncomeFromSalesInit(AFSModel model)
+        private void NetIncomeFromSalesInit(AfsModel model)
         {
             NetIncomeFromSales.Number = "1.";
             NetIncomeFromSales.BaseYear = model.F2Base.F2000.Current;
             NetIncomeFromSales.CurrentYear = model.F2Current.F2000.Current;
         }
-        private void AverageNumberOfEmployeesInit(AFSModel model)
+        private void AverageNumberOfEmployeesInit(AfsModel model)
         {
             AverageNumberOfEmployees.Number = "2.";
             AverageNumberOfEmployees.BaseYear = model.AdditionalInfo.AverageNumberOfEmployeesBase;
