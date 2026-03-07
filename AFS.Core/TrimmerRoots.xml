@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<linker>
-	<!-- Chart model types are preserved for ApexCharts lambda expressions -->
-	<!-- ApexCharts uses compile-time lambda expressions, no runtime reflection needed -->
-	<assembly fullname="AFS.Core">
-		<type fullname="AFS.Core.Models.ChartDataItem" preserve="all" />
-		<type fullname="AFS.Core.Models.ChartDateTimeItem" preserve="all" />
-	</assembly>
-</linker>

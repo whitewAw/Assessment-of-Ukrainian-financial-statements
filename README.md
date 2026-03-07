@@ -156,9 +156,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 6.1.0 | AOT-Compatible Charts |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
-| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 2.0.257 | Code Analysis |
-| [SonarAnalyzer](https://www.sonarqube.org/) | 10.16.0 | Code Quality |
-| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.14.1 | Refactoring & Analysis |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.19 | Code Analysis |
+| [SonarAnalyzer](https://www.sonarqube.org/) | 10.20.0 | Code Quality |
+| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
 
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
@@ -169,6 +169,8 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ .NET 10 performance enhancements
 - ✅ **AOT-safe JSON serialization** (source-generated, zero reflection)
 - ✅ **AOT-safe charts** (ApexCharts with lambda expressions, no reflection)
+- ✅ **AOT-safe events** (EventHandler pattern, no dynamic delegates)
+- ✅ **AOT-safe regex** (GeneratedRegex with timeout and ExplicitCapture)
 - ✅ Comprehensive code analyzers (Meziantou, SonarQube, Roslynator)
 - ✅ Nullable reference types enabled
 - ✅ Code style enforcement in build
@@ -186,6 +188,8 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Exception Handling - Optimized WASM exception handling      │
 │  ✅ JSON Serialization - Source-generated, zero reflection      │
 │  ✅ Charts             - ApexCharts with AOT-safe lambdas       │
+│  ✅ Events             - EventHandler pattern (AOT-safe)        │
+│  ✅ Regex              - GeneratedRegex (compile-time)          │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -272,7 +276,6 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   └── AIAssistant.razor        # AI Assistant page
 │   ├── Shared/                       # Shared layout components
 │   │   └── MainLayout.razor         # Main application layout
-│   ├── TrimmerRoots.xml             # AOT/Trimmer configuration
 │   └── wwwroot/                     # Static assets
 │       ├── js/
 │       │   ├── chromeai.js          # Chrome AI JavaScript interop
@@ -366,10 +369,10 @@ The project uses a centralized build configuration:
 - Ensures consistent builds for all contributors
 - Avoids conflicts with user-specific NuGet configurations
 
-**TrimmerRoots.xml** - IL Trimmer configuration:
-- Preserves Blazor components for DI property injection
-- Maintains chart model types for ApexCharts
-- Keeps localization infrastructure intact
+**TrimmerRootAssembly** (in AFS.csproj) - IL Trimmer configuration:
+- Preserves `Radzen.Blazor` for UI components
+- Preserves `AFS.ComponentLibrary` for chart/table components
+- Chart data types protected via source-generated JSON serializer
 
 ---
 

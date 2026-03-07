@@ -10,7 +10,6 @@
 
 namespace AFS.ComponentLibrary.Resources {
     using System;
- using System.Diagnostics.CodeAnalysis;
     
     
     /// <summary>
@@ -20,47 +19,46 @@ namespace AFS.ComponentLibrary.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)]
     public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
-     private static global::System.Globalization.CultureInfo resourceCulture;
- 
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resource() {
-     }
+        }
         
-    /// <summary>
-    ///   Returns the cached ResourceManager instance used by this class.
-      /// </summary>
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         public static global::System.Resources.ResourceManager ResourceManager {
- get {
-      if (object.ReferenceEquals(resourceMan, null)) {
- global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AFS.ComponentLibrary.Resources.Resource", typeof(Resource).Assembly);
-   resourceMan = temp;
-  }
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AFS.ComponentLibrary.Resources.Resource", typeof(Resource).Assembly);
+                    resourceMan = temp;
+                }
                 return resourceMan;
-     }
+            }
         }
         
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
-      [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         public static global::System.Globalization.CultureInfo Culture {
-        get {
-        return resourceCulture;
-  }
-set {
-           resourceCulture = value;
+            get {
+                return resourceCulture;
             }
-   }
+            set {
+                resourceCulture = value;
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to А1+A2+A3 &lt; П1.
@@ -315,11 +313,299 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ШІ аналізує ваші фінансові дані....
+        /// </summary>
+        public static string AIAnalyzingData {
+            get {
+                return ResourceManager.GetString("AIAnalyzingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помічник ШІ.
+        /// </summary>
+        public static string AIAssistantName {
+            get {
+                return ResourceManager.GetString("AIAssistantName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to сторінку AI Асистента.
+        /// </summary>
+        public static string AIAssistantPage {
+            get {
+                return ResourceManager.GetString("AIAssistantPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отримайте миттєві аналітичні дані та рекомендації на основі ШІ.
+        /// </summary>
+        public static string AIAssistantSubtitle {
+            get {
+                return ResourceManager.GetString("AIAssistantSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AI Фінансовий Аналіз.
+        /// </summary>
+        public static string AIFinancialAnalysis {
+            get {
+                return ResourceManager.GetString("AIFinancialAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AI Фінансовий Асистент.
+        /// </summary>
+        public static string AIFinancialAssistant {
+            get {
+                return ResourceManager.GetString("AIFinancialAssistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь ласка, виконайте наведені вище інструкції, щоб увімкнути Chrome AI.
+        /// </summary>
+        public static string AIFollowSetupInstructions {
+            get {
+                return ResourceManager.GetString("AIFollowSetupInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chrome AI недоступний.
+        /// </summary>
+        public static string AINotAvailable {
+            get {
+                return ResourceManager.GetString("AINotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помічник ШІ не готовий.
+        /// </summary>
+        public static string AINotReady {
+            get {
+                return ResourceManager.GetString("AINotReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chrome AI готовий до використання.
+        /// </summary>
+        public static string AIReady {
+            get {
+                return ResourceManager.GetString("AIReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Амортизація.
         /// </summary>
         public static string Amortization {
             get {
                 return ResourceManager.GetString("Amortization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати склад активів ({0}).
+        /// </summary>
+        public static string AnalyzeAssetComposition {
+            get {
+                return ResourceManager.GetString("AnalyzeAssetComposition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати ділову активність.
+        /// </summary>
+        public static string AnalyzeBusinessActivity {
+            get {
+                return ResourceManager.GetString("AnalyzeBusinessActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати джерела капіталу.
+        /// </summary>
+        public static string AnalyzeCapitalSources {
+            get {
+                return ResourceManager.GetString("AnalyzeCapitalSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати джерела капіталу ({0}).
+        /// </summary>
+        public static string AnalyzeCapitalSourcesChart {
+            get {
+                return ResourceManager.GetString("AnalyzeCapitalSourcesChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати характеристики капіталу.
+        /// </summary>
+        public static string AnalyzeCharacteristicsOfCapital {
+            get {
+                return ResourceManager.GetString("AnalyzeCharacteristicsOfCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати фактори впливу на оборотність.
+        /// </summary>
+        public static string AnalyzeFactorsAffectingTurnover {
+            get {
+                return ResourceManager.GetString("AnalyzeFactorsAffectingTurnover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Аналізуйте загальний фінансовий стан моєї компанії на основі доступних даних.
+        /// </summary>
+        public static string AnalyzeFinancialHealthPrompt {
+            get {
+                return ResourceManager.GetString("AnalyzeFinancialHealthPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати показники фінансової стійкості.
+        /// </summary>
+        public static string AnalyzeFinancialStabilityIndicators {
+            get {
+                return ResourceManager.GetString("AnalyzeFinancialStabilityIndicators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати ефективність основних засобів.
+        /// </summary>
+        public static string AnalyzeFixedAssetsEfficiency {
+            get {
+                return ResourceManager.GetString("AnalyzeFixedAssetsEfficiency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати факторний аналіз основних засобів.
+        /// </summary>
+        public static string AnalyzeFixedAssetsFactors {
+            get {
+                return ResourceManager.GetString("AnalyzeFixedAssetsFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати рух основних засобів.
+        /// </summary>
+        public static string AnalyzeFixedAssetsMovement {
+            get {
+                return ResourceManager.GetString("AnalyzeFixedAssetsMovement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати стан основних засобів.
+        /// </summary>
+        public static string AnalyzeFixedAssetsState {
+            get {
+                return ResourceManager.GetString("AnalyzeFixedAssetsState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати загальну фінансову стійкість.
+        /// </summary>
+        public static string AnalyzeGeneralFinancialStability {
+            get {
+                return ResourceManager.GetString("AnalyzeGeneralFinancialStability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати ефективність нематеріальних активів.
+        /// </summary>
+        public static string AnalyzeIntangibleAssetsEfficiency {
+            get {
+                return ResourceManager.GetString("AnalyzeIntangibleAssetsEfficiency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати показники ліквідності.
+        /// </summary>
+        public static string AnalyzeLiquidityIndicators {
+            get {
+                return ResourceManager.GetString("AnalyzeLiquidityIndicators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати структуру кредиторської заборгованості ({0}).
+        /// </summary>
+        public static string AnalyzePayableStructure {
+            get {
+                return ResourceManager.GetString("AnalyzePayableStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати дебіторську та кредиторську заборгованість.
+        /// </summary>
+        public static string AnalyzeReceivablesPayables {
+            get {
+                return ResourceManager.GetString("AnalyzeReceivablesPayables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати показники платоспроможності.
+        /// </summary>
+        public static string AnalyzeSolvencyRatios {
+            get {
+                return ResourceManager.GetString("AnalyzeSolvencyRatios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати класифікацію стійкості.
+        /// </summary>
+        public static string AnalyzeStabilityClassification {
+            get {
+                return ResourceManager.GetString("AnalyzeStabilityClassification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати показники оборотності.
+        /// </summary>
+        public static string AnalyzeTurnoverIndicators {
+            get {
+                return ResourceManager.GetString("AnalyzeTurnoverIndicators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати ефективність оборотного капіталу.
+        /// </summary>
+        public static string AnalyzeWorkingCapitalEfficiency {
+            get {
+                return ResourceManager.GetString("AnalyzeWorkingCapitalEfficiency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Проаналізувати оборотність оборотного капіталу.
+        /// </summary>
+        public static string AnalyzeWorkingCapitalTurnover {
+            get {
+                return ResourceManager.GetString("AnalyzeWorkingCapitalTurnover", resourceCulture);
             }
         }
         
@@ -338,6 +624,24 @@ set {
         public static string Article {
             get {
                 return ResourceManager.GetString("Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Запитайте про свої фінансові дані....
+        /// </summary>
+        public static string AskAboutFinancialData {
+            get {
+                return ResourceManager.GetString("AskAboutFinancialData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Задавайте питання.
+        /// </summary>
+        public static string AskQuestions {
+            get {
+                return ResourceManager.GetString("AskQuestions", resourceCulture);
             }
         }
         
@@ -576,6 +880,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Браузерний ШІ (Chrome 127+).
+        /// </summary>
+        public static string BrowserAI {
+            get {
+                return ResourceManager.GetString("BrowserAI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to за розрахунками з учасниками.
         /// </summary>
         public static string bySettlementsWithParticipants {
@@ -657,11 +970,56 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Чат з ШІ.
+        /// </summary>
+        public static string ChatWithAI {
+            get {
+                return ResourceManager.GetString("ChatWithAI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перевірка доступності ШІ....
+        /// </summary>
+        public static string CheckingAIAvailability {
+            get {
+                return ResourceManager.GetString("CheckingAIAvailability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chrome AI недоступний.
+        /// </summary>
+        public static string ChromeAINotAvailable {
+            get {
+                return ResourceManager.GetString("ChromeAINotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chrome AI наразі недоступний. Будь ласка, відвідайте.
+        /// </summary>
+        public static string ChromeAINotAvailableMessage {
+            get {
+                return ResourceManager.GetString("ChromeAINotAvailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Класифікація типів фінансової стійкості виходячи із ступеню ліквідності оборотних коштів.
         /// </summary>
         public static string ClassificationOfTypesOfFinancialStability {
             get {
                 return ResourceManager.GetString("ClassificationOfTypesOfFinancialStability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Очистити.
+        /// </summary>
+        public static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
             }
         }
         
@@ -1008,6 +1366,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Завантаження моделі Gemini Nano... {0}%.
+        /// </summary>
+        public static string DownloadingGeminiNano {
+            get {
+                return ResourceManager.GetString("DownloadingGeminiNano", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Динаміка.
         /// </summary>
         public static string Dynamics {
@@ -1022,6 +1389,24 @@ set {
         public static string ElementsOperatingCosts {
             get {
                 return ResourceManager.GetString("ElementsOperatingCosts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Увімкніть Chrome AI, щоб почати спілкування....
+        /// </summary>
+        public static string EnableChromeAIToChat {
+            get {
+                return ResourceManager.GetString("EnableChromeAIToChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Подобається UFIN?.
+        /// </summary>
+        public static string EnjoyingUFIN {
+            get {
+                return ResourceManager.GetString("EnjoyingUFIN", resourceCulture);
             }
         }
         
@@ -1058,6 +1443,42 @@ set {
         public static string EstimationOfBalanceLiquidityAtEnd {
             get {
                 return ResourceManager.GetString("EstimationOfBalanceLiquidityAtEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Що означає мій коефіцієнт поточної ліквідності?&quot;.
+        /// </summary>
+        public static string ExampleQuestion1 {
+            get {
+                return ResourceManager.GetString("ExampleQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Як я можу покращити ліквідність?&quot;.
+        /// </summary>
+        public static string ExampleQuestion2 {
+            get {
+                return ResourceManager.GetString("ExampleQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Порівняйте цей рік з минулим роком&quot;.
+        /// </summary>
+        public static string ExampleQuestion3 {
+            get {
+                return ResourceManager.GetString("ExampleQuestion3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Які мої найбільші ризики?&quot;.
+        /// </summary>
+        public static string ExampleQuestion4 {
+            get {
+                return ResourceManager.GetString("ExampleQuestion4", resourceCulture);
             }
         }
         
@@ -1107,6 +1528,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пояснити ключові коефіцієнти.
+        /// </summary>
+        public static string ExplainKeyRatiosButton {
+            get {
+                return ResourceManager.GetString("ExplainKeyRatiosButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Факторний аналіз фондовіддачі основних засобів.
         /// </summary>
         public static string FactorAnalysisOfFixedAssets {
@@ -1125,11 +1555,101 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Часті запитання.
+        /// </summary>
+        public static string FAQ {
+            get {
+                return ResourceManager.GetString("FAQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Так! Браузерний ШІ використовує вбудовану модель Gemini Nano в Chrome. Без API-ключів, без витрат, без обмежень використання..
+        /// </summary>
+        public static string FAQAnswer1 {
+            get {
+                return ResourceManager.GetString("FAQAnswer1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ChatGPT працює на серверах OpenAI (потрібен інтернет/API-ключ). Браузерний ШІ працює повністю у вашому браузері (без сервера, без API-ключа, працює офлайн після налаштування)..
+        /// </summary>
+        public static string FAQAnswer2 {
+            get {
+                return ResourceManager.GetString("FAQAnswer2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Абсолютно! Вся обробка ШІ відбувається локально у вашому браузері. Ваші фінансові дані ніколи не покидають ваш пристрій. Жодні дані не надсилаються на жоден сервер, включаючи Google або Microsoft..
+        /// </summary>
+        public static string FAQAnswer3 {
+            get {
+                return ResourceManager.GetString("FAQAnswer3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наразі підтримуються: Chrome 127+, Chrome Canary, Edge 127+ (на основі Chromium). Незабаром: Firefox та Safari..
+        /// </summary>
+        public static string FAQAnswer4 {
+            get {
+                return ResourceManager.GetString("FAQAnswer4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Це справді безкоштовно?.
+        /// </summary>
+        public static string FAQQuestion1 {
+            get {
+                return ResourceManager.GetString("FAQQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Чим це відрізняється від ChatGPT?.
+        /// </summary>
+        public static string FAQQuestion2 {
+            get {
+                return ResourceManager.GetString("FAQQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Чи безпечні мої дані?.
+        /// </summary>
+        public static string FAQQuestion3 {
+            get {
+                return ResourceManager.GetString("FAQQuestion3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Які браузери підтримуються?.
+        /// </summary>
+        public static string FAQQuestion4 {
+            get {
+                return ResourceManager.GetString("FAQQuestion4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Фінансові витрати.
         /// </summary>
         public static string FinancialExpenses {
             get {
                 return ResourceManager.GetString("FinancialExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Фінансовий стан.
+        /// </summary>
+        public static string FinancialHealthButton {
+            get {
+                return ResourceManager.GetString("FinancialHealthButton", resourceCulture);
             }
         }
         
@@ -1211,6 +1731,15 @@ set {
         public static string ForSamePeriodLastYear {
             get {
                 return ResourceManager.GetString("ForSamePeriodLastYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to для інструкцій з налаштування..
+        /// </summary>
+        public static string ForSetupInstructions {
+            get {
+                return ResourceManager.GetString("ForSetupInstructions", resourceCulture);
             }
         }
         
@@ -1305,6 +1834,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отримати рекомендації.
+        /// </summary>
+        public static string GetRecommendationsButton {
+            get {
+                return ResourceManager.GetString("GetRecommendationsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to товари, роботи, послуги.
         /// </summary>
         public static string goodsWorksServices {
@@ -1346,6 +1884,15 @@ set {
         public static string HardToSellAssets {
             get {
                 return ResourceManager.GetString("HardToSellAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Як користуватися.
+        /// </summary>
+        public static string HowToUse {
+            get {
+                return ResourceManager.GetString("HowToUse", resourceCulture);
             }
         }
         
@@ -1611,6 +2158,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поясніть найважливіші фінансові коефіцієнти, на які слід звернути увагу.
+        /// </summary>
+        public static string KeyRatiosPrompt {
+            get {
+                return ResourceManager.GetString("KeyRatiosPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Фондоозброєність праці одного середньоспискового працівника.
         /// </summary>
         public static string LaborCapitalOfOneAverageEmployee {
@@ -1658,9 +2214,9 @@ set {
         /// <summary>
         ///   Looks up a localized string similar to Код рядка.
         /// </summary>
-        public static string LineСode {
+        public static string LineCode {
             get {
-                return ResourceManager.GetString("LineСode", resourceCulture);
+                return ResourceManager.GetString("LineCode", resourceCulture);
             }
         }
         
@@ -1845,7 +2401,7 @@ set {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Чистий дохід (виручка) від реалізації.
+        ///   Looks up a localized string similar to Чистий доход (виручка) від реалізації.
         /// </summary>
         public static string NetIncomeFromSales {
             get {
@@ -1886,6 +2442,24 @@ set {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ваші фінансові дані ніколи не покидають ваш пристрій.
+        /// </summary>
+        public static string NoDataSentDescription {
+            get {
+                return ResourceManager.GetString("NoDataSentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дані не надсилаються.
+        /// </summary>
+        public static string NoDataSentTitle {
+            get {
+                return ResourceManager.GetString("NoDataSentTitle", resourceCulture);
             }
         }
         
@@ -1940,6 +2514,24 @@ set {
         public static string NumberOfRevolutionsOfCurrentAssets {
             get {
                 return ResourceManager.GetString("NumberOfRevolutionsOfCurrentAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Працює без інтернету після налаштування.
+        /// </summary>
+        public static string OfflineCapableDescription {
+            get {
+                return ResourceManager.GetString("OfflineCapableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Працює офлайн.
+        /// </summary>
+        public static string OfflineCapableTitle {
+            get {
+                return ResourceManager.GetString("OfflineCapableTitle", resourceCulture);
             }
         }
         
@@ -2178,6 +2770,33 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Конфіденційність та безпека.
+        /// </summary>
+        public static string PrivacyAndSecurity {
+            get {
+                return ResourceManager.GetString("PrivacyAndSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вся обробка ШІ відбувається у вашому браузері.
+        /// </summary>
+        public static string PrivateDescription {
+            get {
+                return ResourceManager.GetString("PrivateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 100% Приватно.
+        /// </summary>
+        public static string PrivateTitle {
+            get {
+                return ResourceManager.GetString("PrivateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Виручка від реалізації продукції.
         /// </summary>
         public static string ProceedsFromSales {
@@ -2277,6 +2896,42 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Натисніть &lt;strong&gt;Фінансове здоров&apos;я&lt;/strong&gt; для загального аналізу.
+        /// </summary>
+        public static string QuickAction1 {
+            get {
+                return ResourceManager.GetString("QuickAction1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Натисніть &lt;strong&gt;Отримати рекомендації&lt;/strong&gt; для практичних порад.
+        /// </summary>
+        public static string QuickAction2 {
+            get {
+                return ResourceManager.GetString("QuickAction2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Натисніть &lt;strong&gt;Пояснити ключові показники&lt;/strong&gt; для розуміння метрик.
+        /// </summary>
+        public static string QuickAction3 {
+            get {
+                return ResourceManager.GetString("QuickAction3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Швидкі дії.
+        /// </summary>
+        public static string QuickActions {
+            get {
+                return ResourceManager.GetString("QuickActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Швидкореалізуємі активи (А2).
         /// </summary>
         public static string QuickSellingAssets {
@@ -2367,6 +3022,24 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Перевірити доступність ще раз.
+        /// </summary>
+        public static string RecheckAvailability {
+            get {
+                return ResourceManager.GetString("RecheckAvailability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Які ваші основні рекомендації для покращення фінансового стану моєї компанії?.
+        /// </summary>
+        public static string RecommendationsPrompt {
+            get {
+                return ResourceManager.GetString("RecommendationsPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Коефіцієнт відновлення.
         /// </summary>
         public static string RecoveryRate {
@@ -2378,9 +3051,9 @@ set {
         /// <summary>
         ///   Looks up a localized string similar to Зареєстрований (пайовий) капітал.
         /// </summary>
-        public static string RegisteredСapital {
+        public static string RegisteredCapital {
             get {
-                return ResourceManager.GetString("RegisteredСapital", resourceCulture);
+                return ResourceManager.GetString("RegisteredCapital", resourceCulture);
             }
         }
         
@@ -2399,6 +3072,15 @@ set {
         public static string ReserveCapital {
             get {
                 return ResourceManager.GetString("ReserveCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Відповідь зупинена користувачем].
+        /// </summary>
+        public static string ResponseStoppedByUser {
+            get {
+                return ResourceManager.GetString("ResponseStoppedByUser", resourceCulture);
             }
         }
         
@@ -2520,6 +3202,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Надіслати повідомлення.
+        /// </summary>
+        public static string SendMessage {
+            get {
+                return ResourceManager.GetString("SendMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Розрахунки.
         /// </summary>
         public static string Settlements {
@@ -2552,6 +3243,42 @@ set {
         public static string settlementsWithPayroll {
             get {
                 return ResourceManager.GetString("settlementsWithPayroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Потрібне налаштування.
+        /// </summary>
+        public static string SetupRequired {
+            get {
+                return ResourceManager.GetString("SetupRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Увімкніть прапорці Chrome AI.
+        /// </summary>
+        public static string SetupStep1 {
+            get {
+                return ResourceManager.GetString("SetupStep1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Завантажте модель Gemini Nano.
+        /// </summary>
+        public static string SetupStep2 {
+            get {
+                return ResourceManager.GetString("SetupStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перезапустіть Chrome.
+        /// </summary>
+        public static string SetupStep3 {
+            get {
+                return ResourceManager.GetString("SetupStep3", resourceCulture);
             }
         }
         
@@ -2646,6 +3373,24 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поставити зірку на GitHub.
+        /// </summary>
+        public static string StarOnGitHub {
+            get {
+                return ResourceManager.GetString("StarOnGitHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Якщо цей інструмент вам допоміг, будь ласка, поставте зірку на GitHub! Це допоможе іншим розробникам знайти проект..
+        /// </summary>
+        public static string StarOnGitHubMessage {
+            get {
+                return ResourceManager.GetString("StarOnGitHubMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Звіт про фінансові результати (Звіт про сукупний дохід).
         /// </summary>
         public static string StatementOfFinancialPerformance {
@@ -2660,6 +3405,24 @@ set {
         public static string Stocks {
             get {
                 return ResourceManager.GetString("Stocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Зупинити аналіз.
+        /// </summary>
+        public static string StopAnalysis {
+            get {
+                return ResourceManager.GetString("StopAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Зупинити генерацію.
+        /// </summary>
+        public static string StopGeneration {
+            get {
+                return ResourceManager.GetString("StopGeneration", resourceCulture);
             }
         }
         
@@ -2759,6 +3522,42 @@ set {
         public static string times {
             get {
                 return ResourceManager.GetString("times", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будьте конкретними у своїх питаннях.
+        /// </summary>
+        public static string Tip1 {
+            get {
+                return ResourceManager.GetString("Tip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Посилайтеся на конкретні коефіцієнти або показники.
+        /// </summary>
+        public static string Tip2 {
+            get {
+                return ResourceManager.GetString("Tip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ставте додаткові питання для ясності.
+        /// </summary>
+        public static string Tip3 {
+            get {
+                return ResourceManager.GetString("Tip3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поради.
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
             }
         }
         
@@ -2952,6 +3751,15 @@ set {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Переглянути посібник з налаштування.
+        /// </summary>
+        public static string ViewSetupGuide {
+            get {
+                return ResourceManager.GetString("ViewSetupGuide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to знос.
         /// </summary>
         public static string wear {
@@ -3110,6 +3918,15 @@ set {
         public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ви.
+        /// </summary>
+        public static string You {
+            get {
+                return ResourceManager.GetString("You", resourceCulture);
             }
         }
     }

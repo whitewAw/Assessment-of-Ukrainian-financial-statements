@@ -1,53 +1,51 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-	<TargetFramework>net10.0</TargetFramework>
-	<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+		<TargetFramework>net10.0</TargetFramework>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		
-		<!-- Globalization Settings - Optimize for specific cultures -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- GLOBALIZATION SETTINGS                                                 -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<InvariantGlobalization>false</InvariantGlobalization>
-		<BlazorWebAssemblyLoadAllGlobalizationData>false</BlazorWebAssemblyLoadAllGlobalizationData>
-		<BlazorIcuDataFileName>icudt.dat</BlazorIcuDataFileName>
+		<!-- Required for dynamic culture switching (6 languages supported) -->
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
 		
-		<!-- Performance Optimizations -->
-		<BlazorEnableCompression>true</BlazorEnableCompression>
-		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-		
-		<!-- AOT Compilation - Full AOT for best runtime performance -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- AOT COMPILATION - Ahead-of-time compilation for best runtime speed     -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
 		
-		<!-- WASM SIMD - Enable for better math/calculation performance -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- WASM OPTIMIZATIONS                                                     -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<WasmEnableSIMD>true</WasmEnableSIMD>
-		
-		<!-- Exception handling optimization -->
 		<WasmEnableExceptionHandling>true</WasmEnableExceptionHandling>
-		
-		<!-- Trimming Settings - Changed to partial for Blazor component compatibility -->
-		<PublishTrimmed>true</PublishTrimmed>
-		<TrimMode>partial</TrimMode>
-		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-		<IlcOptimizationPreference>Size</IlcOptimizationPreference>
-		
-		<!-- Enable linking in Debug builds too (reduces bundle size) -->
-		<BlazorWebAssemblyEnableLinking Condition="'$(Configuration)' == 'Debug'">true</BlazorWebAssemblyEnableLinking>
-		
-		<!-- Additional Optimizations -->
-		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
-		<InvariantTimezone>false</InvariantTimezone>
 		<WasmBuildNative>true</WasmBuildNative>
 		<WasmNativeStrip>true</WasmNativeStrip>
 		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
 		
-		<!-- Enable expression tree support for Radzen reflection -->
-		<IlcDisableReflection>false</IlcDisableReflection>
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- TRIMMING SETTINGS - Reduces bundle size                               -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>partial</TrimMode>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
 		
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- PERFORMANCE OPTIMIZATIONS                                             -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<BlazorEnableCompression>true</BlazorEnableCompression>
+		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
 		
-		<!-- Suppress known trimming warnings from third-party assemblies -->
-		<!-- IL2104: Third-party assemblies (Radzen, ApexCharts, Blazored, etc.) produce trim warnings -->
-		<!-- IL2110/IL2111: Router.NotFoundPage and LayoutView.Layout use DynamicallyAccessedMembers -->
-		<!-- These are safe in Blazor WebAssembly as the components are preserved by TrimmerRootAssembly -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- SUPPRESS TRIMMING WARNINGS FROM THIRD-PARTY ASSEMBLIES                -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- IL2104: Third-party assemblies (Radzen, ApexCharts, Blazored) warnings -->
+		<!-- IL2110/IL2111: Router.NotFoundPage and LayoutView.Layout warnings      -->
 		<NoWarn>$(NoWarn);IL2104;IL2110;IL2111</NoWarn>
 	</PropertyGroup>
 	
@@ -64,25 +62,14 @@
 		<ProjectReference Include="..\AFS.ComponentLibrary\AFS.ComponentLibrary.csproj" />
 		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
 	</ItemGroup>
-
-	<ItemGroup> 
-		<Folder Include="wwwroot\images\" />
-	</ItemGroup>
 	
-	<!-- Trimmer configuration - preserves types needed for reflection/DI -->
-	<ItemGroup>
-		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
-	</ItemGroup>
 	
-	<!-- Preserve assemblies for reflection - Blazor components use DI property injection -->
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<!-- TRIMMER CONFIGURATION - Preserves assemblies needed for reflection/DI     -->
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="Radzen.Blazor" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.19" />
-	  <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
-	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.20.0.135146" />
 	</ItemGroup>
 
 </Project>
