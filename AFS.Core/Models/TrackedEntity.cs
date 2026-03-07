@@ -1,14 +1,14 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace AFS.Core.Models
 {
     public class TrackedEntity
     {
-        public event Action? PropertyChanged;
+        public event EventHandler? PropertyChanged;
 
         internal void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanged?.Invoke();
+            PropertyChanged?.Invoke(this, EventArgs.Empty);
         }
 
         internal bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)

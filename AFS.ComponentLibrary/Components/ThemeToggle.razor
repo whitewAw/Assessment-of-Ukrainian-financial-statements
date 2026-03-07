@@ -1,4 +1,4 @@
-﻿@using AFS.Core.Services
+@using AFS.Core.Services
 @inject AppThemeService AppThemeService
 @inject IJSRuntime JS
 @implements IDisposable
@@ -55,7 +55,7 @@
         AppThemeService.OnThemeChanged += OnThemeChanged;
     }
 
-    private void OnThemeChanged()
+    private void OnThemeChanged(object? sender, EventArgs e)
     {
         InvokeAsync(StateHasChanged);
     }

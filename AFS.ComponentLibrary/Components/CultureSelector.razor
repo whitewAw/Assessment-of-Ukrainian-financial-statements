@@ -3,20 +3,24 @@
 @inject NavigationManager Navigator
 
 <div class="culture-selector" role="region" aria-label="@selectLanguageLabel">
-    <RadzenDropDown TValue="CultureInfo"
-                    Data="@supportedCultures"
-                    @bind-Value="@currentCulture"
+    <RadzenDropDown TValue="CultureDisplayItem"
+                    Data="@cultureItems"
+                    @bind-Value="@selectedItem"
                     Change="CultureChanged"
                     Style="min-width: 150px;"
                     Placeholder="@selectLanguageLabel"
-                    aria-label="@selectLanguageLabel">
-        <Template Context="culture">
-            @GetDisplayTextSafe(culture)
-        </Template>
-    </RadzenDropDown>
+                    TextProperty="@nameof(CultureDisplayItem.DisplayText)"
+                    aria-label="@selectLanguageLabel" />
 </div>
 
 @code {
+    // AOT-safe wrapper class to avoid dynamic template binding
+    private sealed class CultureDisplayItem
+    {
+        public required CultureInfo Culture { get; init; }
+        public required string DisplayText { get; init; }
+    }
+
     private static readonly Dictionary<string, (string Flag, string NativeName)> cultureDisplayData = new()
     {
         ["en"] = ("🇺🇸", "English"),
@@ -27,17 +31,25 @@
         ["fr"] = ("🇫🇷", "Français")
     };
 
-    private readonly IReadOnlyList<CultureInfo> supportedCultures = new[]
-    {
+    private static readonly CultureInfo[] supportedCultures =
+    [
         CultureInfo.GetCultureInfo("en"),
         CultureInfo.GetCultureInfo("uk-UA"),
         CultureInfo.GetCultureInfo("ru"),
         CultureInfo.GetCultureInfo("es"),
         CultureInfo.GetCultureInfo("de"),
         CultureInfo.GetCultureInfo("fr")
-    };
+    ];
 
-    private CultureInfo currentCulture = CultureInfo.GetCultureInfo("en");
+    private readonly List<CultureDisplayItem> cultureItems = supportedCultures
+        .Select(c => new CultureDisplayItem
+        {
+            Culture = c,
+            DisplayText = GetDisplayText(c)
+        })
+        .ToList();
+
+    private CultureDisplayItem? selectedItem;
     private string selectLanguageLabel => ResLoc?["SelectLanguage"] ?? "Select Language";
 
     private static string GetFlag(CultureInfo culture) =>
@@ -48,10 +60,6 @@
 
     private static string GetDisplayText(CultureInfo culture) =>
         $"{GetFlag(culture)} {GetNativeName(culture)}";
-    
-    // AOT-safe wrapper to avoid dynamic cast in template
-    private static string GetDisplayTextSafe(object? cultureObj) =>
-        cultureObj is CultureInfo culture ? GetDisplayText(culture) : string.Empty;
 
     protected override void OnInitialized()
     {
@@ -60,20 +68,21 @@
 
         // Try to find exact match first, then by two-letter ISO code
         var matchingCulture = supportedCultures.FirstOrDefault(c => c.Name == current.Name) ??
-                             supportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName);
+                             supportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName) ??
+                             CultureInfo.GetCultureInfo("en");
 
-        currentCulture = matchingCulture ?? CultureInfo.GetCultureInfo("en");
+        selectedItem = cultureItems.FirstOrDefault(i => i.Culture.Name == matchingCulture.Name);
 
         base.OnInitialized();
     }
 
     private async Task CultureChanged(object? param)
     {
-        if (param is CultureInfo newCulture)
+        if (selectedItem is not null)
         {
             try
             {
-                await CultureHandler.WriteCultureAsync(newCulture);
+                await CultureHandler.WriteCultureAsync(selectedItem.Culture);
                 Navigator.NavigateTo(Navigator.Uri, forceLoad: true);
             }
             catch (Exception ex)

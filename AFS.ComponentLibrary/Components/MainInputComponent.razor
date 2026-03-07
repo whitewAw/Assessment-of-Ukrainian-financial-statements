@@ -46,11 +46,15 @@
     protected override void OnInitialized()
     {
         _cts = new CancellationTokenSource();
-        MainModel.SubscribeOnChange(OnFieldChanged);
+        MainModel.SubscribeOnChange(OnModelPropertyChanged);
         base.OnInitialized();
     }
 
-    private async void OnFieldChanged()
+    // Callback for component parameters (Action delegate)
+    private void OnFieldChanged() => OnModelPropertyChanged(this, EventArgs.Empty);
+
+    // EventHandler for model property subscriptions
+    private async void OnModelPropertyChanged(object? sender, EventArgs e)
     {
         try
         {
@@ -81,7 +85,7 @@
 
     public async ValueTask DisposeAsync()
     {
-        MainModel.UnSubscribeOnChange(OnFieldChanged);
+        MainModel.UnSubscribeOnChange(OnModelPropertyChanged);
 
         _cts?.Cancel();
         _cts?.Dispose();

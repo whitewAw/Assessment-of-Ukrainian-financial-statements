@@ -10,7 +10,7 @@ public class AppThemeService
     private readonly IJSRuntime _jsRuntime;
     private string _currentTheme = "light";
 
-    public event Action? OnThemeChanged;
+    public event EventHandler? OnThemeChanged;
 
     public AppThemeService(IJSRuntime jsRuntime)
     {
@@ -85,7 +85,7 @@ public class AppThemeService
         await ApplyThemeAsync(theme);
 
         // Notify subscribers
-        OnThemeChanged?.Invoke();
+        OnThemeChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

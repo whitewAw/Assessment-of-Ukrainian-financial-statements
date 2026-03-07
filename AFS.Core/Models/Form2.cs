@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class Form2
     {
@@ -67,7 +67,7 @@
             F2650.Init(form2.F2650);
         }
 
-        internal void SubscribeOnChange(Action propertyChanged)
+        internal void SubscribeOnChange(EventHandler propertyChanged)
         {
             F2000.PropertyChanged += propertyChanged;
             F2050.PropertyChanged += propertyChanged;
@@ -101,7 +101,7 @@
             F2650.PropertyChanged += propertyChanged;
         }
 
-        internal void UnSubscribeOnChange(Action? propertyChanged)
+        internal void UnSubscribeOnChange(EventHandler? propertyChanged)
         {
             if (propertyChanged != null)
             {

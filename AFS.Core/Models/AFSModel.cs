@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class AFSModel : TrackedEntity
     {
@@ -67,7 +67,7 @@
 
             OnPropertyChanged();
         }
-        public void SubscribeOnChange(Action propertyChanged)
+        public void SubscribeOnChange(EventHandler propertyChanged)
         {
             PropertyChanged += propertyChanged;
             F1Base.SubscribeOnChange(propertyChanged);
@@ -77,7 +77,7 @@
             AdditionalInfo.SubscribeOnChange(propertyChanged);
 
         }
-        public void UnSubscribeOnChange(Action? propertyChanged)
+        public void UnSubscribeOnChange(EventHandler? propertyChanged)
         {
             if (propertyChanged != null)
             {

@@ -5,7 +5,7 @@ namespace AFS.Core.Services
 {
     internal partial class UnicodeConverter
     {
-        [GeneratedRegex(@"\\[uU]([0-9A-F]{4})")]
+        [GeneratedRegex(@"\\[uU][0-9A-Fa-f]{4}", RegexOptions.ExplicitCapture, matchTimeoutMilliseconds: 1000)]
         private static partial Regex UnicodeEscapeRegex();
 
         internal static string UnicodeEscapesIntoUnicodeCharacters(string str)

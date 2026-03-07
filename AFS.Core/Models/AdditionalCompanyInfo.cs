@@ -27,13 +27,13 @@ namespace AFS.Core.Models
             FixedAssetsInfoCurrent.Init(info.FixedAssetsInfoCurrent);
         }
 
-        public void SubscribeOnChange(Action propertyChanged)
+        public void SubscribeOnChange(EventHandler propertyChanged)
         {
             PropertyChanged += propertyChanged;
             FixedAssetsInfoBase.PropertyChanged += propertyChanged;
             FixedAssetsInfoCurrent.PropertyChanged += propertyChanged;
         }
-        public void UnSubscribeOnChange(Action? propertyChanged)
+        public void UnSubscribeOnChange(EventHandler? propertyChanged)
         {
             if (propertyChanged != null)
             {

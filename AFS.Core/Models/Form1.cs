@@ -77,13 +77,13 @@ namespace AFS.Core.Models
                 thisFields[i].Init(sourceFields[i]);
         }
 
-        internal void SubscribeOnChange(Action propertyChanged)
+        internal void SubscribeOnChange(EventHandler propertyChanged)
         {
             foreach (var field in GetAllFieldsArray())
                 field.PropertyChanged += propertyChanged;
         }
 
-        internal void UnSubscribeOnChange(Action? propertyChanged)
+        internal void UnSubscribeOnChange(EventHandler? propertyChanged)
         {
             if (propertyChanged == null) return;
             foreach (var field in GetAllFieldsArray())
