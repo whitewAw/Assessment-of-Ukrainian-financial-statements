@@ -11,6 +11,12 @@ namespace AFS.Core.Services;
 /// </summary>
 public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
 {
+    /// <summary>
+    /// OpenAI Chat Completions API endpoint.
+    /// This is a stable public API endpoint that doesn't change between environments.
+    /// </summary>
+    private static readonly Uri OpenAIApiEndpoint = new("https://api.openai.com/v1/chat/completions");
+
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
     private readonly string _model;
@@ -73,9 +79,7 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
             };
 
             var content = JsonContent.Create(requestBody, AFSJsonSerializerContext.Default.OpenAIRequest);
-            var response = await _httpClient.PostAsync(
-                "https://api.openai.com/v1/chat/completions",
-                content);
+            var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content);
 
             response.EnsureSuccessStatusCode();
 

@@ -26,36 +26,40 @@ public interface IHasBaseCurrentYear
 }
 
 /// <summary>
-/// Interface for types with Base and Current period rows
+/// Interface for types with Base and Current period rows.
+/// Covariant (out) because T is only returned, never accepted as input.
 /// </summary>
-public interface IHasBaseCurrent<T> where T : IHasBeginEnd
+public interface IHasBaseCurrent<out T> where T : IHasBeginEnd
 {
     T Base { get; }
     T Current { get; }
 }
 
 /// <summary>
-/// Interface for capital source metrics with percentage calculations
+/// Interface for capital source metrics with percentage calculations.
+/// Covariant (out) because T is only returned, never accepted as input.
 /// </summary>
-public interface ICapitalSourceMetric<T> : IHasBaseCurrent<T> where T : IHasBeginEnd
+public interface ICapitalSourceMetric<out T> : IHasBaseCurrent<T> where T : IHasBeginEnd
 {
     T InPercentageOfAssetsBase { get; }
     T InPercentageOfAssetsCurrent { get; }
 }
 
 /// <summary>
-/// Interface for capital component with equity percentage
+/// Interface for capital component with equity percentage.
+/// Covariant (out) because T is only returned, never accepted as input.
 /// </summary>
-public interface ICapitalComponentEquity<T> : IHasBaseCurrent<T> where T : IHasBeginEnd
+public interface ICapitalComponentEquity<out T> : IHasBaseCurrent<T> where T : IHasBeginEnd
 {
     T InPercentageOfEquityBase { get; }
     T InPercentageOfEquityCurrent { get; }
 }
 
 /// <summary>
-/// Interface for capital component with borrowed capital percentage
+/// Interface for capital component with borrowed capital percentage.
+/// Covariant (out) because T is only returned, never accepted as input.
 /// </summary>
-public interface ICapitalComponentBorrowed<T> : IHasBaseCurrent<T> where T : IHasBeginEnd
+public interface ICapitalComponentBorrowed<out T> : IHasBaseCurrent<T> where T : IHasBeginEnd
 {
     T InPercentageOfBorrowedCapitalBase { get; }
     T InPercentageOfBorrowedCapitalCurrent { get; }
@@ -123,8 +127,9 @@ public interface IHasLiquidityData
 }
 
 /// <summary>
-/// Interface for general financial stability source data
+/// Interface for general financial stability source data.
+/// Covariant (out) because T is only returned, never accepted as input.
 /// </summary>
-public interface IHasStabilitySource<T> : IHasBaseCurrent<T> where T : IHasBeginEnd
+public interface IHasStabilitySource<out T> : IHasBaseCurrent<T> where T : IHasBeginEnd
 {
 }

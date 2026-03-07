@@ -8,6 +8,8 @@ namespace AFS.Core.Services
     /// </summary>
     internal sealed partial class UnicodeConverter
     {
+        private UnicodeConverter() { }
+
         [GeneratedRegex(@"\\[uU][0-9A-Fa-f]{4}", RegexOptions.ExplicitCapture, matchTimeoutMilliseconds: 1000)]
         private static partial Regex UnicodeEscapeRegex();
 

@@ -2,18 +2,23 @@
 <PropertyGroup>
   <!-- Nullable reference types -->
   <Nullable>enable</Nullable>
-    
+
   <!-- Implicit usings -->
   <ImplicitUsings>enable</ImplicitUsings>
-    
+
   <!-- Code Analysis - Recommended level -->
   <AnalysisLevel>latest</AnalysisLevel>
   <AnalysisMode>Recommended</AnalysisMode>
-    
+
   <!-- Enforce code style during build -->
   <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    
-    
+
+  <!-- AOT/Trimming Safety - Enable analyzers for all projects -->
+  <IsTrimmable>true</IsTrimmable>
+  <IsAotCompatible>true</IsAotCompatible>
+  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+
+
     <!-- 
     ╔══════════════════════════════════════════════════════════════════════════════╗
     ║                    SUPPRESSED WARNINGS - DOCUMENTED REASONS                  ║
@@ -30,14 +35,9 @@
     ║ MA0016 - Collection abstraction - ApexCharts/Radzen require List<T> for binding║
     ║ MA0048 - File name != type name - Related types grouped intentionally        ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 3: SONAR - PROJECT NAMING/DESIGN CONVENTIONS                        ║
+    ║ Category 3: SONAR - PROJECT DESIGN CONVENTIONS                               ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ S101 - Class naming - AFS prefix is project convention (AFSModel, etc.)      ║
-    ║ S1075 - Hardcoded URI - OpenAI API endpoint is intentionally hardcoded       ║
-    ║ S1118 - Utility class - UnicodeConverter is partial class with GeneratedRegex║
-    ║ S1172 - Unused parameter - Method signature required for interface contract  ║
-    ║ S3246 - Covariant parameter - Interface design is intentional                ║
-    ║ S3260 - Seal private class - Nested classes in Razor components              ║
+    ║ S101 - Class naming - AFS is project acronym (AFSModel, AFSConstraints)      ║
     ║ S3928 - Parameter name - Radzen component parameter validation               ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
     -->
@@ -49,7 +49,7 @@
     <NoWarn>$(NoWarn);MA0016;MA0048</NoWarn>
 
     <!-- Category 3: Sonar - Project naming/design conventions -->
-    <NoWarn>$(NoWarn);S101;S1075;S1118;S1172;S3246;S3260;S3928</NoWarn>
+    <NoWarn>$(NoWarn);S101;S3928</NoWarn>
   </PropertyGroup>
 
 

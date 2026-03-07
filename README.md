@@ -208,8 +208,44 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Roslynator           - 500+ code analysis rules             │
 │  ✅ Nullable Reference   - Null safety enabled                  │
 │  ✅ EnforceCodeStyle     - Consistent code formatting           │
+│  ✅ IsAotCompatible      - AOT compatibility validation         │
+│  ✅ IsTrimmable          - Trimming compatibility validation    │
 │  ✅ Clean Build          - 0 warnings, 0 errors                 │
+├─────────────────────────────────────────────────────────────────┤
+│              AOT-SAFE PATTERNS IMPLEMENTED                      │
+├─────────────────────────────────────────────────────────────────┤
+│  ✅ [LoggerMessage]      - Source-generated high-perf logging   │
+│  ✅ [GeneratedRegex]     - Compile-time regex generation        │
+│  ✅ [JsonSerializable]   - Source-generated JSON serialization  │
+│  ✅ sealed classes       - All DI services sealed for perf      │
+│  ✅ private constructors - Utility classes non-instantiable     │
+│  ✅ covariant interfaces - Proper variance annotations          │
+│  ✅ GC.SuppressFinalize  - Proper dispose pattern               │
+│  ✅ Custom exceptions    - AIServiceException (no reserved)     │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+### Suppressed Warnings (Documented)
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              CATEGORY 1: BLAZOR WASM NOT APPLICABLE             │
+├─────────────────────────────────────────────────────────────────┤
+│  MA0004/CA2007 - ConfigureAwait (single-threaded WASM)          │
+│  S6966        - Await false positives in Blazor lifecycle       │
+│  S6562        - DateTimeKind not applicable in browser          │
+│  CA1824       - NeutralResourcesLanguage not needed client-side │
+├─────────────────────────────────────────────────────────────────┤
+│              CATEGORY 2: STYLE PREFERENCES                      │
+├─────────────────────────────────────────────────────────────────┤
+│  MA0016       - List<T> required by ApexCharts/Radzen binding   │
+│  MA0048       - Related types grouped in same file intentionally│
+├─────────────────────────────────────────────────────────────────┤
+│              CATEGORY 3: PROJECT CONVENTIONS                    │
+├─────────────────────────────────────────────────────────────────┤
+│  S101         - AFS prefix is project acronym (AFSModel, etc.)  │
+│  S3928        - Radzen component parameter validation           │
+└─────────────────────────────────────────────────────────────────┘
+Total: 9 documented suppressions (all justified)
 ```
 
 ---
@@ -325,17 +361,19 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   └── TablsModels/            # Table-specific models
 │   ├── Services/                   # Business services
 │   │   ├── DataCalculations/       # 16+ financial calculation services
-│   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service
-│   │   ├── OpenAIFinancialAdvisor.cs     # OpenAI service (alternative)
-│   │   ├── JsonSerializationHelper.cs    # AOT-safe JSON helpers
-│   │   ├── LocalStorageModelHandler.cs   # Model persistence
-│   │   ├── LocalStorageCultureHandler.cs # Culture persistence
-│   │   ├── AppThemeService.cs      # Theme management
-│   │   └── JsInterop.cs            # JavaScript interop
+│   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service (sealed)
+│   │   ├── OpenAIFinancialAdvisor.cs     # OpenAI service (sealed)
+│   │   ├── LocalStorageModelHandler.cs   # Model persistence (sealed)
+│   │   ├── LocalStorageCultureHandler.cs # Culture persistence (sealed)
+│   │   ├── AppThemeService.cs      # Theme management (sealed)
+│   │   ├── JsInterop.cs            # JavaScript interop (sealed)
+│   │   ├── Log.cs                  # High-perf logging ([LoggerMessage])
+│   │   └── UnicodeConverter.cs     # Unicode helpers ([GeneratedRegex])
 │   ├── Interfaces/
 │   │   ├── IAIFinancialAdvisor.cs  # AI service interface
-│   │   ├── IHasBeginEnd.cs         # Begin/End value interface
-│   │   └── IHasBaseCurrent.cs      # Base/Current interface
+│   │   └── IHasBeginEnd.cs         # Covariant interfaces (out T)
+│   ├── Exceptions/
+│   │   └── AIServiceException.cs   # Custom AI exception (AOT-safe)
 │   ├── Components/
 │   │   └── PageSeoHelper.cs        # SEO management helper
 │   └── Json/                       # AOT-safe JSON serialization
@@ -365,9 +403,10 @@ The project uses a centralized build configuration:
 **Directory.Build.props** - Shared settings for all projects:
 - Nullable reference types enabled
 - Implicit usings enabled
-- Code analysis with latest rules
+- Code analysis with latest rules (Meziantou, Sonar, Roslynator)
 - Code style enforcement in build
-- Comprehensive warning suppressions with documentation
+- `IsAotCompatible` and `IsTrimmable` for AOT/trimming safety
+- Only 9 documented warning suppressions (all justified)
 
 **nuget.config** - Package source configuration:
 - Uses only official NuGet.org source

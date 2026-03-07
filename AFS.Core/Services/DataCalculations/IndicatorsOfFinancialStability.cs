@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -35,8 +35,8 @@ namespace AFS.Core.Services.DataCalculations
             RatedCapitalStructureRatioInit(sOCF);
             RatioOfBorrowedCapitalAndEquityInit(model, sOCF);
             RatioOfOwnAndLongTermBorrowedFundsInInventoriesInit(model, sOCF);
-            RatioOfMobileToImmobilizedInit(model, sOCF);
-            TotalCoverageRatioInit(model, sOCF);
+            RatioOfMobileToImmobilizedInit(model);
+            TotalCoverageRatioInit(model);
         }
         private void TotalReturnOnAssetsInit(AFSModel model)
         {
@@ -104,13 +104,13 @@ namespace AFS.Core.Services.DataCalculations
             RatioOfOwnAndLongTermBorrowedFundsInInventories.BaseYear = sOCF.Equity.Base.EndOfYear / model.F1Base.GetAccountsTangibleAssets(false);
             RatioOfOwnAndLongTermBorrowedFundsInInventories.CurrentYear = sOCF.Equity.Current.EndOfYear / model.F1Current.GetAccountsTangibleAssets(false);
         }
-        private void RatioOfMobileToImmobilizedInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void RatioOfMobileToImmobilizedInit(AFSModel model)
         {
             RatioOfMobileToImmobilized.Number = "12.";
             RatioOfMobileToImmobilized.BaseYear = (model.F1Base.GetF1195End() + model.F1Base.F1200.End - model.F1Base.F1170.End) / model.F1Base.GetF1095End();
             RatioOfMobileToImmobilized.CurrentYear = (model.F1Current.GetF1195End() + model.F1Current.F1200.End - model.F1Current.F1170.End) / model.F1Current.GetF1095End();
         }
-        private void TotalCoverageRatioInit(AFSModel model, SourcesOfCapitalFormation sOCF)
+        private void TotalCoverageRatioInit(AFSModel model)
         {
             TotalCoverageRatio.Number = "13.";
             TotalCoverageRatio.BaseYear = (model.F1Base.GetF1300End() - model.F1Base.GetF1095End()) / (model.F1Base.GetF1695End() - model.F1Base.F1660.End - model.F1Base.F1665.End + model.F1Base.F1700.End);
