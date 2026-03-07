@@ -79,12 +79,12 @@ namespace AFS.Core.Services.DataCalculations
 
             return assets.OrderByDescending(item => item.Value).ToList();
         }
-        
+
         private double? GetEquity(bool baseYear) =>
             baseYear
                 ? SourcesOfCapitalFormation?.Equity.InPercentageOfAssetsBase.EndOfYear
                 : SourcesOfCapitalFormation?.Equity.InPercentageOfAssetsCurrent.EndOfYear;
-        
+
         private double? GetLongTermLiabilities(bool baseYear)
         {
             if (SourcesOfCapitalFormation == null) return 0;
@@ -92,7 +92,7 @@ namespace AFS.Core.Services.DataCalculations
                 ? SourcesOfCapitalFormation.LongTermLiabilities.Base.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear * 100
                 : SourcesOfCapitalFormation.LongTermLiabilities.Current.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear * 100;
         }
-        
+
         private double? GetShortTermLoans(bool baseYear)
         {
             if (SourcesOfCapitalFormation == null) return 0;
@@ -100,7 +100,7 @@ namespace AFS.Core.Services.DataCalculations
                 ? SourcesOfCapitalFormation.ShortTermLoans.Base.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear * 100
                 : SourcesOfCapitalFormation.ShortTermLoans.Current.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear * 100;
         }
-        
+
         private double? GetAccountsPayable(bool baseYear)
         {
             if (SourcesOfCapitalFormation == null) return 0;
@@ -108,7 +108,7 @@ namespace AFS.Core.Services.DataCalculations
                 ? SourcesOfCapitalFormation.AccountsPayable.Base.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear * 100
                 : SourcesOfCapitalFormation.AccountsPayable.Current.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear * 100;
         }
-        
+
         private double? GetOtherCurrentLiabilities(bool baseYear)
         {
             if (SourcesOfCapitalFormation == null) return 0;
@@ -116,7 +116,7 @@ namespace AFS.Core.Services.DataCalculations
                 ? SourcesOfCapitalFormation.OtherCurrentLiabilities.Base.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear * 100
                 : SourcesOfCapitalFormation.OtherCurrentLiabilities.Current.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear * 100;
         }
-        
+
         private double? GetLiabilitiesRelatedNonCurrentAssetsHeldForSale(bool baseYear)
         {
             if (SourcesOfCapitalFormation == null) return 0;
@@ -124,7 +124,7 @@ namespace AFS.Core.Services.DataCalculations
                 ? SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Base.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Base.EndOfYear * 100
                 : SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Current.EndOfYear / SourcesOfCapitalFormation.TotalSourcesOfCapital.Current.EndOfYear * 100;
         }
-        
+
         private double? GetFutureIncome(bool baseYear) =>
             baseYear
                 ? SourcesOfCapitalFormation?.FutureIncome.InPercentageOfAssetsBase.EndOfYear

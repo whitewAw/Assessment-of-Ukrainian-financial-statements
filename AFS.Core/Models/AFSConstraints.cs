@@ -54,7 +54,7 @@ namespace AFS.Core.Models
         public static string GetLanguageInstruction()
         {
             var cultureName = System.Globalization.CultureInfo.CurrentUICulture.Name;
-            
+
             return cultureName[..2].ToLowerInvariant() switch
             {
                 "uk" => "Ukrainian",
