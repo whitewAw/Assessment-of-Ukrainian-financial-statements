@@ -831,7 +831,7 @@
   <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
     <value>Обязательства, связанные с необоротными активами для продажи</value>
   </data>
-  <data name="LineСode" xml:space="preserve">
+  <data name="LineCode" xml:space="preserve">
     <value>Код строки</value>
   </data>
   <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
@@ -1110,7 +1110,7 @@
   <data name="RecoveryRate" xml:space="preserve">
     <value>Коэффициент восстановления</value>
   </data>
-  <data name="RegisteredСapital" xml:space="preserve">
+  <data name="RegisteredCapital" xml:space="preserve">
     <value>Зарегистрированный (долевой) капитал</value>
   </data>
   <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">

@@ -1,4 +1,4 @@
-﻿@* Balance Sheet Form Component (Form 1) *@
+@* Balance Sheet Form Component (Form 1) *@
 
 <div class="form1-container">
     @* Assets Section *@
@@ -9,7 +9,7 @@
                 <thead class="table-light">
                     <tr>
                         <ThComponent>@ResLoc["Asset"]</ThComponent>
-                        <ThComponent>@ResLoc["LineСode"]</ThComponent>
+                        <ThComponent>@ResLoc["LineCode"]</ThComponent>
                         <ThComponent>@ResLoc["AtBeginningReportingPeriod"]</ThComponent>
                         <ThComponent>@ResLoc["AtEndingReportingPeriod"]</ThComponent>
                     </tr>
@@ -58,12 +58,12 @@
                         <TdComponent Rowspan="2">1030</TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1030.Begin"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["LongTermFinancialIvestments"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1030.End"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["LongTermFinancialIvestments"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
@@ -112,12 +112,12 @@
                         <TdComponent Rowspan="2">1130</TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1130.Begin"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["AccountsReceivableForDebts"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1130.End"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["AccountsReceivableForDebts"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
@@ -151,12 +151,12 @@
                         <ThComponent>1200</ThComponent>
                         <ThComponent Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1200.Begin"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["NonCurrentAssetsHeldForSale"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </ThComponent>
                         <ThComponent Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1200.End"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["NonCurrentAssetsHeldForSale"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </ThComponent>
                     </tr>
@@ -181,7 +181,7 @@
                 <thead class="table-light">
                     <tr>
                         <ThComponent>@ResLoc["Liabilities"]</ThComponent>
-                        <ThComponent>@ResLoc["LineСode"]</ThComponent>
+                        <ThComponent>@ResLoc["LineCode"]</ThComponent>
                         <ThComponent>@ResLoc["AtBeginningReportingPeriod"]</ThComponent>
                         <ThComponent>@ResLoc["AtEndingReportingPeriod"]</ThComponent>
                     </tr>
@@ -201,7 +201,7 @@
                         </ThComponent>
                     </tr>
 
-                    <TrF1Component Field="@F1.F1400" FieldNumber="1400" FieldName="@ResLoc["RegisteredСapital"]" />
+                    <TrF1Component Field="@F1.F1400" FieldNumber="1400" FieldName="@ResLoc["RegisteredCapital"]" />
                     <TrF1Component Field="@F1.F1405" FieldNumber="1405" FieldName="@ResLoc["CapitalInRevaluations"]" />
                     <TrF1Component Field="@F1.F1410" FieldNumber="1410" FieldName="@ResLoc["AdditionalCapital"]" />
                     <TrF1Component Field="@F1.F1415" FieldNumber="1415" FieldName="@ResLoc["ReserveCapital"]" />
@@ -254,12 +254,12 @@
                         <TdComponent Rowspan="2">1610</TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1610.Begin"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["CurrentAccountsPayableFor"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
                         <TdComponent Rowspan="2" Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1610.End"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["CurrentAccountsPayableFor"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
@@ -295,12 +295,12 @@
                         <ThComponent>1700</ThComponent>
                         <ThComponent Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1700.Begin"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </ThComponent>
                         <ThComponent Align="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1700.End"
-                                           Class="w-100"
+                                           class="w-100"
                                            aria-label="@($"{ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </ThComponent>
                     </tr>

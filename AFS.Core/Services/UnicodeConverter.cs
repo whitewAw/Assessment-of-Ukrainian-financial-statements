@@ -1,14 +1,17 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace AFS.Core.Services
 {
-    internal class UnicodeConverter
+    internal partial class UnicodeConverter
     {
-        static Regex rx = new Regex(@"\\[uU]([0-9A-F]{4})");
+        [GeneratedRegex(@"\\[uU]([0-9A-F]{4})")]
+        private static partial Regex UnicodeEscapeRegex();
+
         internal static string UnicodeEscapesIntoUnicodeCharacters(string str)
         {
-            return rx.Replace(str, match => ((char)Int32.Parse(match.Value.Substring(2), NumberStyles.HexNumber)).ToString());
+            return UnicodeEscapeRegex().Replace(str, match =>
+                ((char)int.Parse(match.Value.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)).ToString());
         }
     }
 }

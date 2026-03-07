@@ -8,76 +8,29 @@ namespace AFS.Core.Services.DataCalculations
 
         public SourcesOfCapitalFormationChart(AFSModel model) => Init(model);
         private void Init(AFSModel model) => SourcesOfCapitalFormation = new(model);
+
         public List<ChartDataItem> GetDataItem(bool baseYear)
         {
             List<ChartDataItem> assets = [];
 
-            var equityValue = GetEquity(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(equityValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "Equity",
-                    Value = equityValue
-                });
-            }
-            var longTermLiabilitiesValue = GetLongTermLiabilities(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(longTermLiabilitiesValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "LongTermLiabilities_",
-                    Value = longTermLiabilitiesValue
-                });
-            }
-            var shortTermLoansValue = GetShortTermLoans(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(shortTermLoansValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "ShortTermLoans",
-                    Value = shortTermLoansValue
-                });
-            }
-            var accountsPayableValue = GetAccountsPayable(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(accountsPayableValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "AccountsPayable",
-                    Value = accountsPayableValue
-                });
-            }
-            var otherCurrentLiabilitiesValue = GetOtherCurrentLiabilities(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(otherCurrentLiabilitiesValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "OtherCurrentLiabilities",
-                    Value = otherCurrentLiabilitiesValue
-                });
-            }
-            var liabilitiesRelatedToNonCurrentAssetsForSaleValue = GetLiabilitiesRelatedNonCurrentAssetsHeldForSale(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(liabilitiesRelatedToNonCurrentAssetsForSaleValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "LiabilitiesRelatedToNonCurrentAssetsForSale",
-                    Value = liabilitiesRelatedToNonCurrentAssetsForSaleValue
-                });
-            }
-            var futureIncomeValue = GetFutureIncome(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(futureIncomeValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "FutureIncome",
-                    Value = futureIncomeValue
-                });
-            }
-
+            AddIfValid(assets, "Equity", GetEquity(baseYear));
+            AddIfValid(assets, "LongTermLiabilities_", GetLongTermLiabilities(baseYear));
+            AddIfValid(assets, "ShortTermLoans", GetShortTermLoans(baseYear));
+            AddIfValid(assets, "AccountsPayable", GetAccountsPayable(baseYear));
+            AddIfValid(assets, "OtherCurrentLiabilities", GetOtherCurrentLiabilities(baseYear));
+            AddIfValid(assets, "LiabilitiesRelatedToNonCurrentAssetsForSale", GetLiabilitiesRelatedNonCurrentAssetsHeldForSale(baseYear));
+            AddIfValid(assets, "FutureIncome", GetFutureIncome(baseYear));
 
             return assets.OrderByDescending(item => item.Value).ToList();
+        }
+
+        private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
+        {
+            var val = value.GetValueOrDefault(0);
+            if (!AFSConstraints.IsZeroOrInvalid(val))
+            {
+                assets.Add(new ChartDataItem { Item = item, Value = val });
+            }
         }
 
         private double? GetEquity(bool baseYear) =>

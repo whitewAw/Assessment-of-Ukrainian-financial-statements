@@ -17,8 +17,8 @@ public static class JsonSerializationHelper
     public static string SerializeAssetComposition(
         string companyName,
         int year,
-        List<ChartDataItem>? beginningOfYear,
-        List<ChartDataItem>? endOfYear)
+        IList<ChartDataItem>? beginningOfYear,
+        IList<ChartDataItem>? endOfYear)
     {
         var data = new AssetCompositionData
         {
@@ -46,7 +46,7 @@ public static class JsonSerializationHelper
         string companyName,
         int year,
         int previousYear,
-        List<ChartDataItem>? capitalSources)
+        IList<ChartDataItem>? capitalSources)
     {
         var data = new CapitalSourcesData
         {
@@ -70,7 +70,7 @@ public static class JsonSerializationHelper
         string companyName,
         int year,
         int previousYear,
-        List<ChartDataItem>? payableStructure)
+        IList<ChartDataItem>? payableStructure)
     {
         var data = new PayableStructureData
         {
@@ -92,26 +92,26 @@ public static class JsonSerializationHelper
     /// </summary>
     public static string SerializeTurnoverTime(
         string companyName,
-        List<ChartDateTimeItem>? money,
-        List<ChartDateTimeItem>? receivables,
-        List<ChartDateTimeItem>? materialValues)
+        IList<ChartDateTimeItem>? money,
+        IList<ChartDateTimeItem>? receivables,
+        IList<ChartDateTimeItem>? materialValues)
     {
         var data = new TurnoverTimeData
         {
             CompanyName = companyName,
             Money = money?.Select(item => new TurnoverDataPoint
             {
-                Date = item.Date.ToString("MM/yyyy"),
+                Date = item.Date.ToString("MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 Value = item.Value ?? 0
             }).ToList(),
             Receivables = receivables?.Select(item => new TurnoverDataPoint
             {
-                Date = item.Date.ToString("MM/yyyy"),
+                Date = item.Date.ToString("MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 Value = item.Value ?? 0
             }).ToList(),
             MaterialValues = materialValues?.Select(item => new TurnoverDataPoint
             {
-                Date = item.Date.ToString("MM/yyyy"),
+                Date = item.Date.ToString("MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 Value = item.Value ?? 0
             }).ToList()
         };
@@ -124,8 +124,6 @@ public static class JsonSerializationHelper
     /// </summary>
     public static string SerializeFinancialContext(AFSModel model)
     {
-        double SafeValue(double value) => double.IsNaN(value) || double.IsInfinity(value) ? 0 : value;
-
         var context = new FinancialContextData
         {
             Company = new CompanyInfoData
@@ -136,94 +134,36 @@ public static class JsonSerializationHelper
             },
             BalanceSheet = new BalanceSheetData
             {
-                BaseYear = new YearBalanceData
-                {
-                    TotalAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1300Begin()),
-                        End = SafeValue(model.F1Base.GetF1300End())
-                    },
-                    NonCurrentAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1095Begin()),
-                        End = SafeValue(model.F1Base.GetF1095End())
-                    },
-                    CurrentAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1195Begin()),
-                        End = SafeValue(model.F1Base.GetF1195End())
-                    },
-                    Equity = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1495Begin()),
-                        End = SafeValue(model.F1Base.GetF1495End())
-                    },
-                    TotalLiabilities = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1900Begin()),
-                        End = SafeValue(model.F1Base.GetF1900End())
-                    },
-                    CurrentLiabilities = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Base.GetF1695Begin()),
-                        End = SafeValue(model.F1Base.GetF1695End())
-                    }
-                },
-                CurrentYear = new YearBalanceData
-                {
-                    TotalAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1300Begin()),
-                        End = SafeValue(model.F1Current.GetF1300End())
-                    },
-                    NonCurrentAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1095Begin()),
-                        End = SafeValue(model.F1Current.GetF1095End())
-                    },
-                    CurrentAssets = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1195Begin()),
-                        End = SafeValue(model.F1Current.GetF1195End())
-                    },
-                    Equity = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1495Begin()),
-                        End = SafeValue(model.F1Current.GetF1495End())
-                    },
-                    TotalLiabilities = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1900Begin()),
-                        End = SafeValue(model.F1Current.GetF1900End())
-                    },
-                    CurrentLiabilities = new BalanceItemData
-                    {
-                        Beginning = SafeValue(model.F1Current.GetF1695Begin()),
-                        End = SafeValue(model.F1Current.GetF1695End())
-                    }
-                }
+                BaseYear = CreateYearBalanceData(model.F1Base),
+                CurrentYear = CreateYearBalanceData(model.F1Current)
             },
             IncomeStatement = new IncomeStatementData
             {
-                BaseYear = new YearIncomeData
-                {
-                    Revenue = SafeValue(model.F2Base.F2000.Current),
-                    GrossProfit = SafeValue(model.F2Base.F2050.Current),
-                    OperatingProfit = SafeValue(model.F2Base.GetF2190Current()),
-                    NetProfit = SafeValue(model.F2Base.GetF2350Current())
-                },
-                CurrentYear = new YearIncomeData
-                {
-                    Revenue = SafeValue(model.F2Current.F2000.Current),
-                    GrossProfit = SafeValue(model.F2Current.F2050.Current),
-                    OperatingProfit = SafeValue(model.F2Current.GetF2190Current()),
-                    NetProfit = SafeValue(model.F2Current.GetF2350Current())
-                }
+                BaseYear = CreateYearIncomeData(model.F2Base),
+                CurrentYear = CreateYearIncomeData(model.F2Current)
             }
         };
 
         return JsonSerializer.Serialize(context, AFSJsonSerializerContext.Default.FinancialContextData);
     }
+
+    private static YearBalanceData CreateYearBalanceData(Form1 f1) => new()
+    {
+        TotalAssets = new BalanceItemData { Beginning = SafeValue(f1.GetF1300Begin()), End = SafeValue(f1.GetF1300End()) },
+        NonCurrentAssets = new BalanceItemData { Beginning = SafeValue(f1.GetF1095Begin()), End = SafeValue(f1.GetF1095End()) },
+        CurrentAssets = new BalanceItemData { Beginning = SafeValue(f1.GetF1195Begin()), End = SafeValue(f1.GetF1195End()) },
+        Equity = new BalanceItemData { Beginning = SafeValue(f1.GetF1495Begin()), End = SafeValue(f1.GetF1495End()) },
+        TotalLiabilities = new BalanceItemData { Beginning = SafeValue(f1.GetF1900Begin()), End = SafeValue(f1.GetF1900End()) },
+        CurrentLiabilities = new BalanceItemData { Beginning = SafeValue(f1.GetF1695Begin()), End = SafeValue(f1.GetF1695End()) }
+    };
+
+    private static YearIncomeData CreateYearIncomeData(Form2 f2) => new()
+    {
+        Revenue = SafeValue(f2.F2000.Current),
+        GrossProfit = SafeValue(f2.F2050.Current),
+        OperatingProfit = SafeValue(f2.GetF2190Current()),
+        NetProfit = SafeValue(f2.GetF2350Current())
+    };
 
     /// <summary>
     /// Serialize stability classification data for AI analysis
@@ -237,7 +177,7 @@ public static class JsonSerializationHelper
         IHasStabilityValues precrisisStability,
         IHasStabilityValues crisisStability)
     {
-        bool IsPass(string value) => value == "+";
+        bool IsPass(string value) => string.Equals(value, "+", StringComparison.Ordinal);
 
         var data = new StabilityClassificationData
         {

@@ -37,7 +37,7 @@ public interface IAIFinancialAdvisor
     /// </summary>
     /// <param name="ratios">Dictionary of financial ratios</param>
     /// <returns>AI-generated recommendations</returns>
-    Task<string> GetRecommendationsAsync(Dictionary<string, double> ratios);
+    Task<string> GetRecommendationsAsync(IDictionary<string, double> ratios);
 
     /// <summary>
     /// Explain a specific financial ratio or metric

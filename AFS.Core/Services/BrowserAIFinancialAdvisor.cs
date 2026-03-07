@@ -154,7 +154,7 @@ Keep the response concise and actionable.";
         return await GetResponseAsync(prompt);
     }
 
-    public async Task<string> GetRecommendationsAsync(Dictionary<string, double> ratios)
+    public async Task<string> GetRecommendationsAsync(IDictionary<string, double> ratios)
     {
         var ratiosText = string.Join("\n", ratios.Select(r => $"- {r.Key}: {r.Value:N2}"));
 

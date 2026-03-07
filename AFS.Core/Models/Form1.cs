@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class Form1
     {
@@ -60,189 +60,34 @@
         public BeginEnd F1690 { get; set; } = new();
         public BeginEnd F1700 { get; set; } = new();
 
+        private BeginEnd[] GetAllFieldsArray() =>
+        [
+            F1001, F1002, F1005, F1011, F1012, F1015, F1020, F1030, F1035, F1040, F1045, F1090,
+            F1101, F1102, F1103, F1104, F1110, F1120, F1125, F1130, F1135, F1136, F1140, F1145,
+            F1155, F1160, F1165, F1170, F1190, F1200, F1400, F1405, F1410, F1415, F1420, F1425,
+            F1430, F1500, F1510, F1515, F1520, F1525, F1600, F1605, F1610, F1615, F1620, F1621,
+            F1625, F1630, F1635, F1640, F1645, F1660, F1665, F1690, F1700
+        ];
+
         internal void Init(Form1 form1)
         {
-            F1001.Init(form1.F1001);
-            F1002.Init(form1.F1002);
-            F1005.Init(form1.F1005);
-            F1011.Init(form1.F1011);
-            F1012.Init(form1.F1012);
-            F1015.Init(form1.F1015);
-            F1020.Init(form1.F1020);
-            F1030.Init(form1.F1030);
-            F1035.Init(form1.F1035);
-            F1040.Init(form1.F1040);
-            F1045.Init(form1.F1045);
-            F1090.Init(form1.F1090);
-            F1101.Init(form1.F1101);
-            F1102.Init(form1.F1102);
-            F1103.Init(form1.F1103);
-            F1104.Init(form1.F1104);
-            F1110.Init(form1.F1110);
-            F1120.Init(form1.F1120);
-            F1125.Init(form1.F1125);
-            F1130.Init(form1.F1130);
-            F1135.Init(form1.F1135);
-            F1136.Init(form1.F1136);
-            F1140.Init(form1.F1140);
-            F1145.Init(form1.F1145);
-            F1155.Init(form1.F1155);
-            F1160.Init(form1.F1160);
-            F1165.Init(form1.F1165);
-            F1170.Init(form1.F1170);
-            F1190.Init(form1.F1190);
-            F1200.Init(form1.F1200);
-            F1400.Init(form1.F1400);
-            F1405.Init(form1.F1405);
-            F1410.Init(form1.F1410);
-            F1415.Init(form1.F1415);
-            F1420.Init(form1.F1420);
-            F1425.Init(form1.F1425);
-            F1430.Init(form1.F1430);
-            F1500.Init(form1.F1500);
-            F1510.Init(form1.F1510);
-            F1515.Init(form1.F1515);
-            F1520.Init(form1.F1520);
-            F1525.Init(form1.F1525);
-            F1600.Init(form1.F1600);
-            F1605.Init(form1.F1605);
-            F1610.Init(form1.F1610);
-            F1615.Init(form1.F1615);
-            F1620.Init(form1.F1620);
-            F1621.Init(form1.F1621);
-            F1625.Init(form1.F1625);
-            F1630.Init(form1.F1630);
-            F1635.Init(form1.F1635);
-            F1640.Init(form1.F1640);
-            F1645.Init(form1.F1645);
-            F1660.Init(form1.F1660);
-            F1665.Init(form1.F1665);
-            F1690.Init(form1.F1690);
-            F1700.Init(form1.F1700);
+            var thisFields = GetAllFieldsArray();
+            var sourceFields = form1.GetAllFieldsArray();
+            for (int i = 0; i < thisFields.Length; i++)
+                thisFields[i].Init(sourceFields[i]);
         }
+
         internal void SubscribeOnChange(Action propertyChanged)
         {
-            F1001.PropertyChanged += propertyChanged;
-            F1002.PropertyChanged += propertyChanged;
-            F1005.PropertyChanged += propertyChanged;
-            F1011.PropertyChanged += propertyChanged;
-            F1012.PropertyChanged += propertyChanged;
-            F1015.PropertyChanged += propertyChanged;
-            F1020.PropertyChanged += propertyChanged;
-            F1030.PropertyChanged += propertyChanged;
-            F1035.PropertyChanged += propertyChanged;
-            F1040.PropertyChanged += propertyChanged;
-            F1045.PropertyChanged += propertyChanged;
-            F1090.PropertyChanged += propertyChanged;
-            F1101.PropertyChanged += propertyChanged;
-            F1102.PropertyChanged += propertyChanged;
-            F1103.PropertyChanged += propertyChanged;
-            F1104.PropertyChanged += propertyChanged;
-            F1110.PropertyChanged += propertyChanged;
-            F1120.PropertyChanged += propertyChanged;
-            F1125.PropertyChanged += propertyChanged;
-            F1130.PropertyChanged += propertyChanged;
-            F1135.PropertyChanged += propertyChanged;
-            F1136.PropertyChanged += propertyChanged;
-            F1140.PropertyChanged += propertyChanged;
-            F1145.PropertyChanged += propertyChanged;
-            F1155.PropertyChanged += propertyChanged;
-            F1160.PropertyChanged += propertyChanged;
-            F1165.PropertyChanged += propertyChanged;
-            F1170.PropertyChanged += propertyChanged;
-            F1190.PropertyChanged += propertyChanged;
-            F1200.PropertyChanged += propertyChanged;
-            F1400.PropertyChanged += propertyChanged;
-            F1405.PropertyChanged += propertyChanged;
-            F1410.PropertyChanged += propertyChanged;
-            F1415.PropertyChanged += propertyChanged;
-            F1420.PropertyChanged += propertyChanged;
-            F1425.PropertyChanged += propertyChanged;
-            F1430.PropertyChanged += propertyChanged;
-            F1500.PropertyChanged += propertyChanged;
-            F1510.PropertyChanged += propertyChanged;
-            F1515.PropertyChanged += propertyChanged;
-            F1520.PropertyChanged += propertyChanged;
-            F1525.PropertyChanged += propertyChanged;
-            F1600.PropertyChanged += propertyChanged;
-            F1605.PropertyChanged += propertyChanged;
-            F1610.PropertyChanged += propertyChanged;
-            F1615.PropertyChanged += propertyChanged;
-            F1620.PropertyChanged += propertyChanged;
-            F1621.PropertyChanged += propertyChanged;
-            F1625.PropertyChanged += propertyChanged;
-            F1630.PropertyChanged += propertyChanged;
-            F1635.PropertyChanged += propertyChanged;
-            F1640.PropertyChanged += propertyChanged;
-            F1645.PropertyChanged += propertyChanged;
-            F1660.PropertyChanged += propertyChanged;
-            F1665.PropertyChanged += propertyChanged;
-            F1690.PropertyChanged += propertyChanged;
-            F1700.PropertyChanged += propertyChanged;
+            foreach (var field in GetAllFieldsArray())
+                field.PropertyChanged += propertyChanged;
         }
 
         internal void UnSubscribeOnChange(Action? propertyChanged)
         {
-            if (propertyChanged != null)
-            {
-                F1001.PropertyChanged -= propertyChanged;
-                F1002.PropertyChanged -= propertyChanged;
-                F1005.PropertyChanged -= propertyChanged;
-                F1011.PropertyChanged -= propertyChanged;
-                F1012.PropertyChanged -= propertyChanged;
-                F1015.PropertyChanged -= propertyChanged;
-                F1020.PropertyChanged -= propertyChanged;
-                F1030.PropertyChanged -= propertyChanged;
-                F1035.PropertyChanged -= propertyChanged;
-                F1040.PropertyChanged -= propertyChanged;
-                F1045.PropertyChanged -= propertyChanged;
-                F1090.PropertyChanged -= propertyChanged;
-                F1101.PropertyChanged -= propertyChanged;
-                F1102.PropertyChanged -= propertyChanged;
-                F1103.PropertyChanged -= propertyChanged;
-                F1104.PropertyChanged -= propertyChanged;
-                F1110.PropertyChanged -= propertyChanged;
-                F1120.PropertyChanged -= propertyChanged;
-                F1125.PropertyChanged -= propertyChanged;
-                F1130.PropertyChanged -= propertyChanged;
-                F1135.PropertyChanged -= propertyChanged;
-                F1136.PropertyChanged -= propertyChanged;
-                F1140.PropertyChanged -= propertyChanged;
-                F1145.PropertyChanged -= propertyChanged;
-                F1155.PropertyChanged -= propertyChanged;
-                F1160.PropertyChanged -= propertyChanged;
-                F1165.PropertyChanged -= propertyChanged;
-                F1170.PropertyChanged -= propertyChanged;
-                F1190.PropertyChanged -= propertyChanged;
-                F1200.PropertyChanged -= propertyChanged;
-                F1400.PropertyChanged -= propertyChanged;
-                F1405.PropertyChanged -= propertyChanged;
-                F1410.PropertyChanged -= propertyChanged;
-                F1415.PropertyChanged -= propertyChanged;
-                F1420.PropertyChanged -= propertyChanged;
-                F1425.PropertyChanged -= propertyChanged;
-                F1430.PropertyChanged -= propertyChanged;
-                F1500.PropertyChanged -= propertyChanged;
-                F1510.PropertyChanged -= propertyChanged;
-                F1515.PropertyChanged -= propertyChanged;
-                F1520.PropertyChanged -= propertyChanged;
-                F1525.PropertyChanged -= propertyChanged;
-                F1600.PropertyChanged -= propertyChanged;
-                F1605.PropertyChanged -= propertyChanged;
-                F1610.PropertyChanged -= propertyChanged;
-                F1615.PropertyChanged -= propertyChanged;
-                F1620.PropertyChanged -= propertyChanged;
-                F1621.PropertyChanged -= propertyChanged;
-                F1625.PropertyChanged -= propertyChanged;
-                F1630.PropertyChanged -= propertyChanged;
-                F1635.PropertyChanged -= propertyChanged;
-                F1640.PropertyChanged -= propertyChanged;
-                F1645.PropertyChanged -= propertyChanged;
-                F1660.PropertyChanged -= propertyChanged;
-                F1665.PropertyChanged -= propertyChanged;
-                F1690.PropertyChanged -= propertyChanged;
-                F1700.PropertyChanged -= propertyChanged;
-            }
+            if (propertyChanged == null) return;
+            foreach (var field in GetAllFieldsArray())
+                field.PropertyChanged -= propertyChanged;
         }
 
         public double GetF1000Begin() => F1001.Begin - F1002.Begin;

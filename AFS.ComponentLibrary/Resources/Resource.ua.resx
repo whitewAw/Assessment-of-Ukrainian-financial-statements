@@ -480,7 +480,7 @@
   <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Зобов'язання, пов'язані з необоротними активами утримуваними для продажу, та групами вибуття</value>
   </data>
-  <data name="LineСode" xml:space="preserve">
+  <data name="LineCode" xml:space="preserve">
     <value>Код рядка</value>
   </data>
   <data name="LongTermBankCredits" xml:space="preserve">
@@ -669,7 +669,7 @@
   <data name="RecoveryRate" xml:space="preserve">
     <value>Коефіцієнт відновлення</value>
   </data>
-  <data name="RegisteredСapital" xml:space="preserve">
+  <data name="RegisteredCapital" xml:space="preserve">
     <value>Зареєстрований (пайовий) капітал</value>
   </data>
   <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">

@@ -8,111 +8,33 @@ namespace AFS.Core.Services.DataCalculations
 
         public StructureOfAccountsPayableChart(AFSModel model) => Init(model);
         private void Init(AFSModel model) => AssessmentOfReceivableAndPayable = new(model);
+
         public List<ChartDataItem> GetDataItem(bool baseYear)
         {
             List<ChartDataItem> assets = [];
 
-            var withBuyersOrSuppliersValue = GetWithBuyersOrSuppliers(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withBuyersOrSuppliersValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithBuyersOrSuppliers",
-                    Value = withBuyersOrSuppliersValue
-                });
-            }
-            var withLongTermLiabilitiesValue = GetWithLongTermLiabilities(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withLongTermLiabilitiesValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithLongTermLiabilities",
-                    Value = withLongTermLiabilitiesValue
-                });
-            }
-            var forBillsValue = GetForBills(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(forBillsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "ForBills",
-                    Value = forBillsValue
-                });
-            }
-            var fromInsuranceValue = GetFromInsurance(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(fromInsuranceValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "FromInsurance",
-                    Value = fromInsuranceValue
-                });
-            }
-            var withBudgetAndExtraBudgetaryFundsValue = GetWithBudgetAndExtraBudgetaryFunds(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withBudgetAndExtraBudgetaryFundsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithBudgetAndExtraBudgetaryFunds",
-                    Value = withBudgetAndExtraBudgetaryFundsValue
-                });
-            }
-            var withAccruedIncomeValue = GetWithAccruedIncome(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withAccruedIncomeValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithAccruedIncome",
-                    Value = withAccruedIncomeValue
-                });
-            }
-            var withPayrollValue = GetWithPayroll(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withPayrollValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithPayroll",
-                    Value = withPayrollValue
-                });
-            }
-            var withAdvancesValue = GetWithAdvances(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withAdvancesValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithAdvances",
-                    Value = withAdvancesValue
-                });
-            }
-            var withParticipantsValue = GetWithParticipants(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withParticipantsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithParticipants",
-                    Value = withParticipantsValue
-                });
-            }
-            var withInternalCashSettlementsValue = GetWithInternalCashSettlements(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withInternalCashSettlementsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithInternalCashSettlements",
-                    Value = withInternalCashSettlementsValue
-                });
-            }
-            var withOtherValue = GetWithOther(baseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(withOtherValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "WithOther",
-                    Value = withOtherValue
-                });
-            }
+            AddIfValid(assets, "WithBuyersOrSuppliers", GetWithBuyersOrSuppliers(baseYear));
+            AddIfValid(assets, "WithLongTermLiabilities", GetWithLongTermLiabilities(baseYear));
+            AddIfValid(assets, "ForBills", GetForBills(baseYear));
+            AddIfValid(assets, "FromInsurance", GetFromInsurance(baseYear));
+            AddIfValid(assets, "WithBudgetAndExtraBudgetaryFunds", GetWithBudgetAndExtraBudgetaryFunds(baseYear));
+            AddIfValid(assets, "WithAccruedIncome", GetWithAccruedIncome(baseYear));
+            AddIfValid(assets, "WithPayroll", GetWithPayroll(baseYear));
+            AddIfValid(assets, "WithAdvances", GetWithAdvances(baseYear));
+            AddIfValid(assets, "WithParticipants", GetWithParticipants(baseYear));
+            AddIfValid(assets, "WithInternalCashSettlements", GetWithInternalCashSettlements(baseYear));
+            AddIfValid(assets, "WithOther", GetWithOther(baseYear));
 
             return assets.OrderByDescending(item => item.Value).ToList();
+        }
+
+        private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
+        {
+            var val = value.GetValueOrDefault(0);
+            if (!AFSConstraints.IsZeroOrInvalid(val))
+            {
+                assets.Add(new ChartDataItem { Item = item, Value = val });
+            }
         }
 
         private double? GetWithBuyersOrSuppliers(bool baseYear)

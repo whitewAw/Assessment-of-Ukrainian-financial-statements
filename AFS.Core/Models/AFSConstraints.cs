@@ -83,7 +83,7 @@ namespace AFS.Core.Models
                 4 => "0.0000",
                 _ => throw new ArgumentException("Invalid digits value", nameof(digits)),
             };
-            return RoundStat(value, digits).ToString(mask);
+            return RoundStat(value, digits).ToString(mask, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public static double Round(double value, int digits = 1) => RoundStat(value, digits);

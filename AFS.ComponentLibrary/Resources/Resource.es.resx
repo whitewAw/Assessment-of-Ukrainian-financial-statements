@@ -831,7 +831,7 @@
 	<data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
     <value>Liabilities related to non-current assets held for sale</value>
   </data>
-	<data name="LineСode" xml:space="preserve">
+	<data name="LineCode" xml:space="preserve">
     <value>Row code</value>
   </data>
 	<data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
@@ -1110,7 +1110,7 @@
 	<data name="RecoveryRate" xml:space="preserve">
     <value>Recovery ratio</value>
   </data>
-	<data name="RegisteredСapital" xml:space="preserve">
+	<data name="RegisteredCapital" xml:space="preserve">
     <value>Registered (share) capital</value>
   </data>
 	<data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">

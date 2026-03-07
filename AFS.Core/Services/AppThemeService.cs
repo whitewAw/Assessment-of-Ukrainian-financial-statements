@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 
 namespace AFS.Core.Services;
 
@@ -32,7 +32,9 @@ public class AppThemeService
             // Try to get saved theme from localStorage
             var savedTheme = await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", "theme");
 
-            if (!string.IsNullOrEmpty(savedTheme) && (savedTheme == "light" || savedTheme == "dark"))
+            if (!string.IsNullOrEmpty(savedTheme) &&
+                (string.Equals(savedTheme, "light", StringComparison.Ordinal) ||
+                 string.Equals(savedTheme, "dark", StringComparison.Ordinal)))
             {
                 _currentTheme = savedTheme;
             }
@@ -58,7 +60,7 @@ public class AppThemeService
     /// </summary>
     public async Task ToggleThemeAsync()
     {
-        var newTheme = _currentTheme == "light" ? "dark" : "light";
+        var newTheme = string.Equals(_currentTheme, "light", StringComparison.Ordinal) ? "dark" : "light";
         await SetThemeAsync(newTheme);
     }
 
@@ -68,7 +70,8 @@ public class AppThemeService
     /// <param name="theme">Theme name: "light" or "dark"</param>
     public async Task SetThemeAsync(string theme)
     {
-        if (theme != "light" && theme != "dark")
+        if (!string.Equals(theme, "light", StringComparison.Ordinal) &&
+            !string.Equals(theme, "dark", StringComparison.Ordinal))
         {
             throw new ArgumentException("Theme must be 'light' or 'dark'", nameof(theme));
         }
@@ -95,12 +98,12 @@ public class AppThemeService
             await _jsRuntime.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{theme}')");
 
             // Update meta theme-color for mobile browsers
-            var themeColor = theme == "dark" ? "#1a1a1a" : "#512BD4";
+            var themeColor = string.Equals(theme, "dark", StringComparison.Ordinal) ? "#1a1a1a" : "#512BD4";
             await _jsRuntime.InvokeVoidAsync("eval",
          $"document.querySelector('meta[name=\"theme-color\"]').setAttribute('content', '{themeColor}')");
 
             // Fix inline styles for dark mode
-            if (theme == "dark")
+            if (string.Equals(theme, "dark", StringComparison.Ordinal))
             {
                 await FixInlineStylesAsync();
             }
@@ -150,15 +153,15 @@ public class AppThemeService
     /// <summary>
     /// Checks if the current theme is dark
     /// </summary>
-    public bool IsDarkMode => _currentTheme == "dark";
+    public bool IsDarkMode => string.Equals(_currentTheme, "dark", StringComparison.Ordinal);
 
     /// <summary>
     /// Gets the theme icon name for display
     /// </summary>
-    public string ThemeIcon => _currentTheme == "dark" ? "☀️" : "🌙";
+    public string ThemeIcon => string.Equals(_currentTheme, "dark", StringComparison.Ordinal) ? "☀️" : "🌙";
 
     /// <summary>
     /// Gets the theme toggle tooltip text
     /// </summary>
-    public string ThemeTooltip => _currentTheme == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode";
+    public string ThemeTooltip => string.Equals(_currentTheme, "dark", StringComparison.Ordinal) ? "Switch to Light Mode" : "Switch to Dark Mode";
 }

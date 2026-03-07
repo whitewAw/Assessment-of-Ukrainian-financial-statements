@@ -17,73 +17,25 @@ namespace AFS.Core.Services.DataCalculations
         {
             List<ChartDataItem> assets = [];
 
-            var nonCurrentImmobilizedAssetsValue = GetNonCurrentImmobilizedFunds(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(nonCurrentImmobilizedAssetsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "NonCurrentImmobilizedAssets",
-                    Value = nonCurrentImmobilizedAssetsValue
-                });
-            }
-            var tangibleCurrentAssetsValue = GetTangibleCurrentAssets(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(tangibleCurrentAssetsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "TangibleCurrentAssets",
-                    Value = tangibleCurrentAssetsValue
-                });
-            }
-            var accountsReceivableValue = GetAccountsReceivable(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(accountsReceivableValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "AccountsReceivable",
-                    Value = accountsReceivableValue
-                });
-            }
-            var cashCurrentFinancialInvestmentsValue = GetCashCurrentFinancialInvestments(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(cashCurrentFinancialInvestmentsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "CashCurrentFinancialInvestments",
-                    Value = cashCurrentFinancialInvestmentsValue
-                });
-            }
-            var otherCurrentAssetsValue = GetOtherCurrentAssets(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(otherCurrentAssetsValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "OtherCurrentAssets",
-                    Value = otherCurrentAssetsValue
-                });
-            }
-            var nonCurrentAssetsHeldForSaleValue = GetNonCurrentAssetsHeldForSale(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(nonCurrentAssetsHeldForSaleValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "NonCurrentAssetsHeldForSale",
-                    Value = nonCurrentAssetsHeldForSaleValue
-                });
-            }
-            var futureExpensesValue = GetFutureExpenses(baseYear, begin).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(futureExpensesValue))
-            {
-                assets.Add(new ChartDataItem
-                {
-                    Item = "FutureExpenses",
-                    Value = futureExpensesValue
-                });
-            }
+            AddIfValid(assets, "NonCurrentImmobilizedAssets", GetNonCurrentImmobilizedFunds(baseYear, begin));
+            AddIfValid(assets, "TangibleCurrentAssets", GetTangibleCurrentAssets(baseYear, begin));
+            AddIfValid(assets, "AccountsReceivable", GetAccountsReceivable(baseYear, begin));
+            AddIfValid(assets, "CashCurrentFinancialInvestments", GetCashCurrentFinancialInvestments(baseYear, begin));
+            AddIfValid(assets, "OtherCurrentAssets", GetOtherCurrentAssets(baseYear, begin));
+            AddIfValid(assets, "NonCurrentAssetsHeldForSale", GetNonCurrentAssetsHeldForSale(baseYear, begin));
+            AddIfValid(assets, "FutureExpenses", GetFutureExpenses(baseYear, begin));
 
             return assets.OrderByDescending(item => item.Value).ToList();
         }
 
+        private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
+        {
+            var val = value.GetValueOrDefault(0);
+            if (!AFSConstraints.IsZeroOrInvalid(val))
+            {
+                assets.Add(new ChartDataItem { Item = item, Value = val });
+            }
+        }
 
         public double? GetNonCurrentImmobilizedFunds(bool baseYear, bool begin) =>
             (begin, baseYear) switch

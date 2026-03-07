@@ -13,77 +13,36 @@ namespace AFS.Core.Services.DataCalculations
             FactorsAffectingTurnoverOfWorkingCapital = new(model);
             this.model = model;
         }
-        public List<ChartDateTimeItem> GetMoney()
+
+        public List<ChartDateTimeItem> GetMoney() =>
+            BuildTimeSeriesItems(
+                FactorsAffectingTurnoverOfWorkingCapital?.Money.BaseYear,
+                FactorsAffectingTurnoverOfWorkingCapital?.Money.CurrentYear);
+
+        public List<ChartDateTimeItem> GetReceivables() =>
+            BuildTimeSeriesItems(
+                FactorsAffectingTurnoverOfWorkingCapital?.Receivables.BaseYear,
+                FactorsAffectingTurnoverOfWorkingCapital?.Receivables.CurrentYear);
+
+        public List<ChartDateTimeItem> GetMaterialValues() =>
+            BuildTimeSeriesItems(
+                FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.BaseYear,
+                FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.CurrentYear);
+
+        private List<ChartDateTimeItem> BuildTimeSeriesItems(double? baseYearValue, double? currentYearValue)
         {
             List<ChartDateTimeItem> items = [];
 
-            var moneyBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.Money.BaseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(moneyBaseYear))
+            var baseVal = baseYearValue.GetValueOrDefault(0);
+            if (!AFSConstraints.IsZeroOrInvalid(baseVal))
             {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.BaseYear, 1, 1),
-                    Value = moneyBaseYear
-                });
+                items.Add(new ChartDateTimeItem { Date = new DateTime(model.BaseYear, 1, 1), Value = baseVal });
             }
 
-            var moneyCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.Money.CurrentYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(moneyCurrentYear))
+            var currentVal = currentYearValue.GetValueOrDefault(0);
+            if (!AFSConstraints.IsZeroOrInvalid(currentVal))
             {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.CurrentYear, 12, 31),
-                    Value = moneyCurrentYear
-                });
-            }
-            return items;
-        }
-        public List<ChartDateTimeItem> GetReceivables()
-        {
-            List<ChartDateTimeItem> items = [];
-
-            var receivablesBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.Receivables.BaseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(receivablesBaseYear))
-            {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.BaseYear, 1, 1),
-                    Value = receivablesBaseYear
-                });
-            }
-            var receivablesCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.Receivables.CurrentYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(receivablesCurrentYear))
-            {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.CurrentYear, 12, 31),
-                    Value = receivablesCurrentYear
-                });
-            }
-
-            return items;
-        }
-        public List<ChartDateTimeItem> GetMaterialValues()
-        {
-            List<ChartDateTimeItem> items = [];
-
-            var materialValuesBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.BaseYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(materialValuesBaseYear))
-            {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.BaseYear, 1, 1),
-                    Value = materialValuesBaseYear
-                });
-            }
-            var materialValuesCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.CurrentYear).GetValueOrDefault(0);
-            if (!AFSConstraints.IsZeroOrInvalid(materialValuesCurrentYear))
-            {
-                items.Add(new ChartDateTimeItem
-                {
-                    Date = new DateTime(model.CurrentYear, 12, 31),
-                    Value = materialValuesCurrentYear
-                });
+                items.Add(new ChartDateTimeItem { Date = new DateTime(model.CurrentYear, 12, 31), Value = currentVal });
             }
 
             return items;
