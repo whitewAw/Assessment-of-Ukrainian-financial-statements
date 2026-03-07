@@ -216,7 +216,7 @@ async function onFetch(event) {
         return await networkFirst(request);
 
     } catch (error) {
-        console.error('Service worker: Fetch error', error);
+        console.error('Service worker: Fetch error for', request.url, error);
 
         // Final fallback: try to serve index.html for navigation requests
         if (isNavigationRequest) {
@@ -224,6 +224,7 @@ async function onFetch(event) {
                 const cache = await caches.open(cacheName);
                 const indexResponse = await cache.match('index.html');
                 if (indexResponse) {
+                    console.info('Service worker: Serving cached index.html as fallback');
                     return indexResponse;
                 }
             } catch (cacheError) {
@@ -231,11 +232,40 @@ async function onFetch(event) {
             }
         }
 
-        return new Response('Network error occurred', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: { 'Content-Type': 'text/plain' }
-        });
+        // Return a user-friendly offline page instead of raw 503
+        return new Response(
+            `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>UFIN - Offline</title>
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                           display: flex; align-items: center; justify-content: center; 
+                           min-height: 100vh; margin: 0; background: #1a1a1a; color: #e8e8e8; }
+                    .container { text-align: center; padding: 2rem; }
+                    h1 { color: #512BD4; }
+                    button { background: #512BD4; color: white; border: none; padding: 12px 24px; 
+                             border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 1rem; }
+                    button:hover { background: #6B3FA0; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>📊 UFIN</h1>
+                    <h2>You're Offline</h2>
+                    <p>Please check your internet connection and try again.</p>
+                    <button onclick="location.reload()">Retry</button>
+                </div>
+            </body>
+            </html>`,
+            {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+            }
+        );
     }
 }
 
@@ -262,25 +292,36 @@ async function cacheFirst(request) {
  * Network-First strategy - try network first, fallback to cache
  */
 async function networkFirst(request) {
+    const cache = await caches.open(cacheName);
+    
     try {
         const networkResponse = await fetch(request);
 
         // Cache successful responses
         if (networkResponse.ok) {
-            const cache = await caches.open(cacheName);
             cache.put(request, networkResponse.clone());
         }
 
         return networkResponse;
     } catch (error) {
         // Network failed, try cache
-        const cache = await caches.open(cacheName);
         const cachedResponse = await cache.match(request);
 
         if (cachedResponse) {
+            console.info('Service worker: Serving from cache (offline)', request.url);
             return cachedResponse;
         }
 
+        // No cache available - return a more helpful error for non-critical resources
+        console.warn('Service worker: No cache available for', request.url);
+        
+        // For non-critical resources, return an empty response instead of throwing
+        const url = new URL(request.url);
+        if (url.pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot)$/i)) {
+            // Return empty response for images/fonts - they're not critical
+            return new Response('', { status: 200, statusText: 'OK (offline placeholder)' });
+        }
+        
         throw error;
     }
 }

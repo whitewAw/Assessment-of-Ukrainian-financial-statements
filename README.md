@@ -273,7 +273,16 @@ Assessment-of-Ukrainian-financial-statements/
 │   └── wwwroot/                     # Static assets
 │       ├── js/
 │       │   ├── chromeai.js          # Chrome AI JavaScript interop
-│       │   └── seo-manager.js       # Dynamic SEO management
+│       │   ├── seo-manager.js       # Dynamic SEO management
+│       │   ├── app.js               # Blazor startup & configuration
+│       │   ├── utils.js             # Utility functions
+│       │   ├── performance.js       # Performance monitoring
+│       │   ├── mobile-detection.js  # Mobile device detection
+│       │   └── service-worker-init.js # PWA service worker
+│       ├── css/
+│       │   ├── app.css              # Main application styles
+│       │   ├── dark-theme.css       # Dark mode styles
+│       │   └── radzen-dark-theme.css # Radzen dark mode overrides
 │       ├── index.html               # Application shell (multi-host)
 │       ├── 404.html                 # SPA fallback page
 │       ├── netlify.toml             # Netlify configuration
@@ -287,7 +296,10 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   ├── AIFinancialChatComponent.razor  # AI chat UI
 │   │   ├── Charts/                  # 7 interactive chart components
 │   │   ├── Tables/                  # 16 financial analysis tables
-│   │   └── TableComponents/         # Shared table elements
+│   │   ├── TableComponents/         # Shared table elements
+│   │   └── ChartsComponents/        # Shared chart elements
+│   ├── Helpers/
+│   │   └── ApexChartsHelper.cs      # AOT-safe chart configuration
 │   └── Resources/                   # Localization files (.resx)
 │
 ├── 📂 AFS.Core/                     # Business logic
@@ -295,23 +307,31 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   ├── AFSModel.cs             # Main application model
 │   │   ├── Form1.cs                # Balance sheet model
 │   │   ├── Form2.cs                # Income statement model
+│   │   ├── FixedAssetsInfo.cs      # Fixed assets data
+│   │   ├── ChartDataItem.cs        # Chart data models
 │   │   └── TablsModels/            # Table-specific models
 │   ├── Services/                   # Business services
-│   │   ├── DataCalculations/       # 16 financial calculation services
+│   │   ├── DataCalculations/       # 16+ financial calculation services
 │   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service
-│   │   ├── LocalStorageHandler.cs  # Browser storage
+│   │   ├── LocalStorageModelHandler.cs   # Model storage
+│   │   ├── LocalStorageCultureHandler.cs # Culture storage
 │   │   └── JsInterop.cs            # JavaScript interop
 │   ├── Interfaces/
-│   │   └── IAIFinancialAdvisor.cs  # AI service interface
+│   │   ├── IAIFinancialAdvisor.cs  # AI service interface
+│   │   ├── IHasBeginEnd.cs         # Begin/End value interface
+│   │   └── IFinancialDataContracts.cs # Data contracts
 │   └── Json/                       # AOT-safe JSON serialization
-│       └── AFSJsonSerializerContext.cs  # Source-generated serializers
+│       ├── AFSJsonSerializerContext.cs  # Source-generated serializers
+│       ├── ChartDataDtos.cs        # Chart data DTOs
+│       ├── FinancialAnalysisDtos.cs # Financial DTOs
+│       └── OpenAIDtos.cs           # AI integration DTOs
 │
 ├── 📂 .github/                      # GitHub configuration
 │   ├── workflows/                   # CI/CD workflows
 │   │   └── main.yml                # Deployment workflow
 │   └── ISSUE_TEMPLATE/             # Issue templates
 │
-├── 📄 CHROME_AI_SETUP_GUIDE.md     # AI setup instructions
+├── 📄 BROWSER_AI_SETUP.md          # AI setup instructions
 ├── 📄 CONTRIBUTING.md              # Contribution guidelines
 ├── 📄 CODE_OF_CONDUCT.md           # Community standards
 ├── 📄 Directory.Build.props        # Shared build settings & analyzers
