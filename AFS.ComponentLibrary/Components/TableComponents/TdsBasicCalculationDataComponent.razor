@@ -1,6 +1,6 @@
-﻿<TdComponent Align="MR">@Constraints.RoundStr(Item.BeginningOfyear)</TdComponent>
-<TdComponent Align="MR">@Constraints.RoundStr(Item.EndOfYear)</TdComponent>
-<TdComponent Align="MR">@Constraints.RoundStr(Item.Deviations)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.BeginningOfyear)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.EndOfYear)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.Deviations)</TdComponent>
 <TdComponent Align="MR">@GetGrowthRateText()</TdComponent>
 
 @code {
@@ -16,6 +16,6 @@
         {
             return "x";
         }
-        return Constraints.RoundStr(Item.GrowthRate);
+        return AFSConstraints.RoundStr(Item.GrowthRate);
     }
 }

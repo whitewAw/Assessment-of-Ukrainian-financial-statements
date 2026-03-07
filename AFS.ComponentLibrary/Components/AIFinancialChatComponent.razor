@@ -55,7 +55,7 @@
         }
     </div>
 
-    <div class="chat-messages" @ref="_messagesContainer">
+    <div class="chat-messages">
         @if (!_isAvailable && !_isCheckingAvailability)
         {
             <div class="text-center text-muted p-4">
@@ -154,18 +154,17 @@
 </div>
 
 @code {
-    private ElementReference _messagesContainer;
-    private List<ChatMessage> _messages = new();
-    private string _userInput = string.Empty;
-    private string _streamingResponse = string.Empty;
-    private bool _isProcessing = false;
-    private bool _isCheckingAvailability = true;
-    private bool _isAvailable = false;
-    private bool _isDownloading = false;
-    private int _downloadProgress = 0;
-    private string _statusMessage = string.Empty;
+private readonly List<ChatMessage> _messages = new();
+private string _userInput = string.Empty;
+private string _streamingResponse = string.Empty;
+private bool _isProcessing = false;
+private bool _isCheckingAvailability = true;
+private bool _isAvailable = false;
+private bool _isDownloading = false;
+private int _downloadProgress = 0;
+private string _statusMessage = string.Empty;
 
-    private enum QuickPrompts
+private enum QuickPrompts
     {
         FinancialHealth,
         Recommendations,
@@ -298,7 +297,7 @@ ANSWER GUIDELINES:
 - Use actual numbers from the data
 - Be conversational and clear
 - Keep it brief but informative
-- Use • for bullet points if needed
+- Use â€¢ for bullet points if needed
 - Show calculations when relevant
 - Reference previous conversation if relevant
 
@@ -467,40 +466,6 @@ Answer in {languageInstruction}:";
         }
     }
 
-    private string BuildContextualPrompt(string userMessage)
-    {
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var cultureName = currentCulture.Name;
-
-        string languageInstruction = cultureName.StartsWith("uk")
-            ? "Ukrainian"
-            : cultureName.StartsWith("en")
-            ? "English"
-            : currentCulture.EnglishName;
-
-        var financialContext = BuildFinancialContext();
-
-        return $@"You are a professional financial analyst specializing in Ukrainian financial reporting standards.
-
-IMPORTANT: Respond in {languageInstruction} language.
-
-COMPANY CONTEXT:
-{financialContext}
-
-USER QUESTION:
-{userMessage}
-
-INSTRUCTIONS:
-- Provide specific analysis based on the company's actual data
-- Reference specific numbers and ratios from the data
-- Be concise but comprehensive
-- Provide actionable insights
-- Use professional financial terminology
-- Format response with clear sections using **headings** and bullet points (•)
-
-Respond in {languageInstruction}. Wave your magic wand and transform into a legendary financial oracle.";
-    }
-
     private string BuildQuickPromptWithContext(QuickPrompts promptType)
     {
         var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
@@ -582,7 +547,7 @@ PROVIDE COMPREHENSIVE ANALYSIS:
 - Final assessment
 - Outlook
 
-Respond in {language}. Use ** for headings and • for bullets.";
+Respond in {language}. Use ** for headings and â€¢ for bullets.";
     }
 
     private string BuildRecommendationsPrompt(string context, string language)
@@ -609,10 +574,10 @@ List 2-3 strategic initiatives
 List 2-3 transformational changes
 
 For EACH recommendation provide:
-• Specific action
-• Expected impact
-• Timeline
-• Success metrics
+â€¢ Specific action
+â€¢ Expected impact
+â€¢ Timeline
+â€¢ Success metrics
 
 **Quick Wins**
 List 2-3 easy improvements with high impact
@@ -620,7 +585,7 @@ List 2-3 easy improvements with high impact
 **Risk Mitigation**
 List 2-3 risk reduction actions
 
-Respond in {language}. Be specific and actionable. Use ** for headings and • for bullets.";
+Respond in {language}. Be specific and actionable. Use ** for headings and â€¢ for bullets.";
     }
 
     private string BuildKeyRatiosPrompt(string context, string language)
@@ -636,27 +601,27 @@ CALCULATE AND EXPLAIN KEY RATIOS:
 
 **1. Profitability Ratios**
 Calculate from the data:
-• Gross Profit Margin
-• Operating Profit Margin
-• Net Profit Margin
-• Return on Assets (ROA)
-• Return on Equity (ROE)
+â€¢ Gross Profit Margin
+â€¢ Operating Profit Margin
+â€¢ Net Profit Margin
+â€¢ Return on Assets (ROA)
+â€¢ Return on Equity (ROE)
 
 For each: Formula, calculation, result, interpretation, benchmark
 
 **2. Liquidity Ratios**
 Calculate from the data:
-• Current Ratio
-• Quick Ratio (if possible)
-• Working Capital
+â€¢ Current Ratio
+â€¢ Quick Ratio (if possible)
+â€¢ Working Capital
 
 For each: Formula, calculation, result, interpretation, benchmark
 
 **3. Leverage Ratios**
 Calculate from the data:
-• Debt-to-Equity Ratio
-• Debt-to-Assets Ratio
-• Equity Ratio
+â€¢ Debt-to-Equity Ratio
+â€¢ Debt-to-Assets Ratio
+â€¢ Equity Ratio
 
 For each: Formula, calculation, result, interpretation, benchmark
 
@@ -671,7 +636,7 @@ For each: Formula, calculation, result, interpretation, benchmark
 - Why they matter
 - Target values
 
-Respond in {language}. Show calculations. Use ** for headings and • for bullets.";
+Respond in {language}. Show calculations. Use ** for headings and â€¢ for bullets.";
     }
 
     private string BuildGeneralFinancialAnalysisPrompt(string context, string language)
@@ -708,17 +673,17 @@ Provide comprehensive financial analysis based on the actual data provided. Focu
 - Quantify impacts: ""Reducing debt by X would improve ratio by Y""
 
 **4. Structure Your Response**
-Use clear sections with **headings** and bullet points (•):
+Use clear sections with **headings** and bullet points (â€¢):
 - Start with key findings
 - Provide detailed analysis
 - End with specific recommendations
 
 **5. Calculate Key Metrics**
 When relevant, calculate and explain:
-• Profitability: Gross margin, net margin, ROA, ROE
-• Liquidity: Current ratio, working capital
-• Leverage: Debt-to-equity, debt-to-assets
-• Efficiency: Asset turnover, trends
+â€¢ Profitability: Gross margin, net margin, ROA, ROE
+â€¢ Liquidity: Current ratio, working capital
+â€¢ Leverage: Debt-to-equity, debt-to-assets
+â€¢ Efficiency: Asset turnover, trends
 
 **6. Risk Assessment**
 - Identify specific risks from the data
@@ -727,14 +692,14 @@ When relevant, calculate and explain:
 
 **7. Recommendations**
 Provide actionable steps:
-• What to do
-• Expected impact (quantified)
-• Timeline
-• Success metrics
+â€¢ What to do
+â€¢ Expected impact (quantified)
+â€¢ Timeline
+â€¢ Success metrics
 
 **Format:**
 - Use ** for section headings
-- Use • for bullet points
+- Use â€¢ for bullet points
 - Include specific numbers and percentages
 - Show calculations when relevant
 - Be concise but comprehensive
@@ -760,7 +725,7 @@ Respond in {language}. Base everything on the actual financial data provided.";
         catch { /* Ignore scroll errors */ }
     }
 
-    private string FormatMessage(string content)
+    private static string FormatMessage(string content)
     {
         if (string.IsNullOrWhiteSpace(content))
             return string.Empty;

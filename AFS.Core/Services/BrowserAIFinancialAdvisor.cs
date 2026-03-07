@@ -12,7 +12,6 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     private DotNetObjectReference<BrowserAIFinancialAdvisor>? _dotNetReference;
 
-    private string _streamingBuffer = string.Empty;
     private Action<string>? _currentStreamCallback;
     private Action<int>? _downloadProgressCallback;
 
@@ -102,7 +101,6 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
     {
         try
         {
-            _streamingBuffer = string.Empty;
             _currentStreamCallback = onChunkReceived;
             _dotNetReference = DotNetObjectReference.Create(this);
 
@@ -135,7 +133,6 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
     [JSInvokable]
     public void ReceiveStreamChunk(string chunk)
     {
-        _streamingBuffer += chunk;
         _currentStreamCallback?.Invoke(chunk);
     }
 

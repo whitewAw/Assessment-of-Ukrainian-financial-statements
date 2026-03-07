@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class AFSConstraints
     {
@@ -26,7 +26,7 @@
             };
             return RoundStat(value, digits).ToString(mask);
         }
-        public double Round(double value, int digits = 1) => RoundStat(value, digits);
-        public string RoundStr(double value, int digits = 1) => RoundStrStat(value, digits);
+        public static double Round(double value, int digits = 1) => RoundStat(value, digits);
+        public static string RoundStr(double value, int digits = 1) => RoundStrStat(value, digits);
     }
 }

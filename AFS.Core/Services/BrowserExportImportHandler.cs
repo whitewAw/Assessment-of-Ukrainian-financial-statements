@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Microsoft.Extensions.Logging;
@@ -10,10 +10,10 @@ namespace AFS.Core.Services
 {
     public class BrowserExportImportHandler : IModelExportImportHandler
     {
-        private JsInterop jsInterop;
-        private AFSModel model;
-        private AFSConstraints constraints;
-        private ILogger<BrowserExportImportHandler> logger;
+        private readonly JsInterop jsInterop;
+        private readonly AFSModel model;
+        private readonly AFSConstraints constraints;
+        private readonly ILogger<BrowserExportImportHandler> logger;
 
         public BrowserExportImportHandler(JsInterop jsInterop, AFSModel model, AFSConstraints constraints, ILoggerFactory loggerFactory)
         {

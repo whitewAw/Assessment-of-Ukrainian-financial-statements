@@ -1,4 +1,4 @@
-﻿@using AFS.Core.Services
+@using AFS.Core.Services
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Text
 @inject IModelExportImportHandler ExportImportHandler
@@ -16,13 +16,13 @@
 
 @code {
 
-    bool isSave;
-    bool isUpload;
-    bool isErase;
+bool isSave;
+bool isUpload;
+bool isErase;
 
-    string filePickerId = "filePickerId";
+private const string filePickerId = "filePickerId";
 
-    async Task OnLoadClick()
+async Task OnLoadClick()
     {
         isSave = true;
         await ExportImportHandler.ExportAsync(MainModel);

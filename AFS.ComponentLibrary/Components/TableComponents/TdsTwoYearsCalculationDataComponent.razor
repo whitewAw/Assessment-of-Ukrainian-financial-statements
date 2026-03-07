@@ -1,7 +1,7 @@
-﻿<TdComponent Align="MR">@Constraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
-<TdComponent Align="MR">@Constraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
-<TdComponent Align="MR">@Constraints.RoundStr(Item.Deviations, Digits)</TdComponent>
-<TdComponent Align="MR">@Constraints.RoundStr(Item.GrowthRate, Digits)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.Deviations, Digits)</TdComponent>
+<TdComponent Align="MR">@AFSConstraints.RoundStr(Item.GrowthRate, Digits)</TdComponent>
 
 @code {
     [Parameter]

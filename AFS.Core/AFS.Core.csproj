@@ -29,5 +29,8 @@
 	  <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
 	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.20.0.135146" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Helpers\" />
+	</ItemGroup>
 
 </Project>

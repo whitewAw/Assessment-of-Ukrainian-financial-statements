@@ -95,8 +95,10 @@ export async function createSession(progressCallback = null) {
             temperature: 0.7,  // Balanced creativity vs accuracy
             topK: 3,           // Focus on top predictions
             signal: currentAbortController.signal, // Add abort signal
+            // Note: Chrome AI officially supports [en, es, ja] for output, but we specify
+            // all app languages - the AI will respond based on prompt language instructions
             expectedInputLanguages: ["en", "uk", "ru", "es", "de", "fr"],  // Languages the app supports
-            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // Languages for AI output
+            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // App's supported languages
         };
 
         // Add download progress monitor if model is downloadable
@@ -163,8 +165,10 @@ export async function createSessionWithProgress(dotnetHelper, progressCallbackMe
             temperature: 0.7,  // Balanced creativity vs accuracy
             topK: 3,           // Focus on top predictions
             signal: currentAbortController.signal, // Add abort signal
+            // Note: Chrome AI officially supports [en, es, ja] for output, but we specify
+            // all app languages - the AI will respond based on prompt language instructions
             expectedInputLanguages: ["en", "uk", "ru", "es", "de", "fr"],  // Languages the app supports
-            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // Languages for AI output
+            expectedOutputLanguages: ["en", "uk", "ru", "es", "de", "fr"], // App's supported languages
         };
 
         // Add download progress monitor if model is downloadable

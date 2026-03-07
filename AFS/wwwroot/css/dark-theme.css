@@ -754,3 +754,99 @@ pre {
             height: 20px;
         }
 }
+
+/* ========================================
+   APEXCHARTS DARK MODE STYLES
+   ======================================== */
+
+[data-theme="dark"] .apexcharts-text,
+[data-theme="dark"] .apexcharts-text tspan,
+[data-theme="dark"] .apexcharts-title-text,
+[data-theme="dark"] .apexcharts-subtitle-text {
+    fill: #e8e8e8 !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-legend-text {
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-xaxis-label,
+[data-theme="dark"] .apexcharts-yaxis-label {
+    fill: #c0c0c0 !important;
+}
+
+[data-theme="dark"] .apexcharts-xaxis-title text,
+[data-theme="dark"] .apexcharts-yaxis-title text {
+    fill: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-gridline {
+    stroke: #4a4a4a !important;
+}
+
+[data-theme="dark"] .apexcharts-xaxis line,
+[data-theme="dark"] .apexcharts-yaxis line {
+    stroke: #4a4a4a !important;
+}
+
+[data-theme="dark"] .apexcharts-tooltip {
+    background: #2d2d2d !important;
+    border-color: #4a4a4a !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-tooltip-title {
+    background: #3a3a3a !important;
+    border-bottom-color: #4a4a4a !important;
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-tooltip-series-group {
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-tooltip-text-y-label,
+[data-theme="dark"] .apexcharts-tooltip-text-y-value {
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-datalabel,
+[data-theme="dark"] .apexcharts-datalabel-label,
+[data-theme="dark"] .apexcharts-datalabel-value {
+    fill: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-pie-label {
+    fill: #ffffff !important;
+}
+
+[data-theme="dark"] .apexcharts-radialbar-track {
+    stroke: #3a3a3a !important;
+}
+
+[data-theme="dark"] .apexcharts-menu {
+    background: #2d2d2d !important;
+    border-color: #4a4a4a !important;
+}
+
+[data-theme="dark"] .apexcharts-menu-item {
+    color: #e8e8e8 !important;
+}
+
+[data-theme="dark"] .apexcharts-menu-item:hover {
+    background: #3a3a3a !important;
+}
+
+[data-theme="dark"] .apexcharts-toolbar svg {
+    fill: #c0c0c0 !important;
+}
+
+[data-theme="dark"] .apexcharts-toolbar svg:hover {
+    fill: #e8e8e8 !important;
+}
+
+/* Donut center labels */
+[data-theme="dark"] .apexcharts-datalabels-group text {
+    fill: #e8e8e8 !important;
+}

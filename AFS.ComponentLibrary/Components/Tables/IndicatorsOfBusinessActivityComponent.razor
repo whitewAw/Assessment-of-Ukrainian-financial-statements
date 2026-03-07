@@ -121,40 +121,6 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 @code {
     private string? tableName;
     private string _aiAnalysis = string.Empty;
@@ -162,7 +128,6 @@
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -183,14 +148,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -347,23 +310,23 @@ Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 {jsonData}
 
 KEY FORMULAS:
-- Gross Profit Margin = Gross Profit ÷ Revenue
-- Business Activity Ratio = Revenue ÷ Average Total Assets
-- Labor Productivity = Revenue ÷ Average Number of Employees
-- Fixed Asset Turnover = Revenue ÷ Average Fixed Assets
-- Receivables Turnover (Days) = 360 ÷ (Revenue ÷ Average Receivables)
-- Inventory Turnover (Days) = 360 ÷ (COGS ÷ Average Inventory)
+- Gross Profit Margin = Gross Profit Ã· Revenue
+- Business Activity Ratio = Revenue Ã· Average Total Assets
+- Labor Productivity = Revenue Ã· Average Number of Employees
+- Fixed Asset Turnover = Revenue Ã· Average Fixed Assets
+- Receivables Turnover (Days) = 360 Ã· (Revenue Ã· Average Receivables)
+- Inventory Turnover (Days) = 360 Ã· (COGS Ã· Average Inventory)
 - Operating Cycle = Receivables Days + Inventory Days
-- Current Assets Turnover = Revenue ÷ Average Current Assets
-- Equity Turnover = Revenue ÷ Average Equity
-- Total Capital Turnover = Revenue ÷ Average Total Capital
-- Economic Growth Stability = Net Income ÷ Average Equity
-- Equity Payback Period = 1 ÷ Economic Growth Stability
+- Current Assets Turnover = Revenue Ã· Average Current Assets
+- Equity Turnover = Revenue Ã· Average Equity
+- Total Capital Turnover = Revenue Ã· Average Total Capital
+- Economic Growth Stability = Net Income Ã· Average Equity
+- Equity Payback Period = 1 Ã· Economic Growth Stability
 
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on INTERPRETATION and OPERATIONAL IMPACT
@@ -405,25 +368,25 @@ ANALYSIS SECTIONS:
    - {MainModel.CurrentYear}: [value] thousand UAH per employee
    - Change: [absolute] ([percentage]%)
    - **Interpretation:**
-     • Improving = Workforce efficiency gains
-     • Declining = Productivity issues
+     â€¢ Improving = Workforce efficiency gains
+     â€¢ Declining = Productivity issues
    - Root causes and implications
 
 **4. Fixed Asset Turnover Analysis**:
    - {MainModel.BaseYear}: [value] UAH per UAH of fixed assets
    - {MainModel.CurrentYear}: [value] UAH per UAH of fixed assets
    - **Interpretation:**
-     • >2.0 = Good asset utilization
-     • 1.0-2.0 = Moderate
-     • <1.0 = Underutilized assets
+     â€¢ >2.0 = Good asset utilization
+     â€¢ 1.0-2.0 = Moderate
+     â€¢ <1.0 = Underutilized assets
    - Capital efficiency assessment
 
 **5. Receivables Turnover Analysis**:
    - Revolutions: {MainModel.BaseYear}: [X] times {MainModel.CurrentYear}: [Y] times
    - Days: {MainModel.BaseYear}: [X] days {MainModel.CurrentYear}: [Y] days
    - **Interpretation:**
-     • Fewer days = Faster collection
-     • More days = Slower collection
+     â€¢ Fewer days = Faster collection
+     â€¢ More days = Slower collection
    - Credit policy effectiveness
    - Days Sales Outstanding (DSO) assessment
 
@@ -431,8 +394,8 @@ ANALYSIS SECTIONS:
    - Revolutions: {MainModel.BaseYear}: [X] times {MainModel.CurrentYear}: [Y] times
    - Days: {MainModel.BaseYear}: [X] days {MainModel.CurrentYear}: [Y] days
    - **Interpretation:**
-     • Higher turnover = Efficient inventory management
-     • Lower turnover = Excess or slow-moving inventory
+     â€¢ Higher turnover = Efficient inventory management
+     â€¢ Lower turnover = Excess or slow-moving inventory
    - Inventory holding costs
    - Stock management efficiency
 
@@ -442,8 +405,8 @@ ANALYSIS SECTIONS:
    - Change: [deviation] days
    - **Formula:** Receivables Days + Inventory Days
    - **Interpretation:**
-     • Shorter cycle = Faster cash conversion
-     • Longer cycle = More working capital tied up
+     â€¢ Shorter cycle = Faster cash conversion
+     â€¢ Longer cycle = More working capital tied up
    - Cash flow implications
    - Working capital requirements
 
@@ -473,16 +436,16 @@ ANALYSIS SECTIONS:
     - {MainModel.BaseYear}: [value]
     - {MainModel.CurrentYear}: [value]
     - **Interpretation:**
-      • Positive & increasing = Sustainable growth
-      • Negative = Unsustainable (consuming equity)
+      â€¢ Positive & increasing = Sustainable growth
+      â€¢ Negative = Unsustainable (consuming equity)
     
     **Equity Payback Period:**
     - {MainModel.BaseYear}: [value] years
     - {MainModel.CurrentYear}: [value] years
     - **Interpretation:**
-      • Lower is better (faster recovery)
-      • Shows how long to recover equity from earnings
-      • If negative: Company is losing money
+      â€¢ Lower is better (faster recovery)
+      â€¢ Shows how long to recover equity from earnings
+      â€¢ If negative: Company is losing money
     
     **Strategic Implications:**
     - Growth sustainability
@@ -494,77 +457,77 @@ ANALYSIS SECTIONS:
     - Strengths: Which indicators performing well?
     - Weaknesses: Which indicators need improvement?
     - Comparative analysis:
-      • Asset turnover trends
-      • Working capital efficiency
-      • Profitability vs activity balance
+      â€¢ Asset turnover trends
+      â€¢ Working capital efficiency
+      â€¢ Profitability vs activity balance
 
 **12. Strategic Recommendations**:
     
     **For Improving Profitability:**
-    • Gross margin enhancement strategies
-    • Cost reduction opportunities
-    • Pricing optimization
-    • Target margins: [specific %]
+    â€¢ Gross margin enhancement strategies
+    â€¢ Cost reduction opportunities
+    â€¢ Pricing optimization
+    â€¢ Target margins: [specific %]
     
     **For Improving Productivity:**
-    • Labor productivity initiatives
-    • Fixed asset utilization optimization
-    • Technology and automation
-    • Training and development
-    • Target: [specific UAH/employee]
+    â€¢ Labor productivity initiatives
+    â€¢ Fixed asset utilization optimization
+    â€¢ Technology and automation
+    â€¢ Training and development
+    â€¢ Target: [specific UAH/employee]
     
     **For Improving Turnover:**
-    • **Receivables Management:**
+    â€¢ **Receivables Management:**
       - Accelerate collections
       - Tighten credit terms
       - Target DSO: <[X] days
     
-    • **Inventory Management:**
+    â€¢ **Inventory Management:**
       - Optimize inventory levels
       - Reduce slow-moving stock
       - Just-in-time practices
       - Target turnover: >[X] times
     
-    • **Operating Cycle Reduction:**
+    â€¢ **Operating Cycle Reduction:**
       - Current: [X] days
       - Target: <[Y] days
       - Methods: Faster collection + leaner inventory
     
     **For Capital Efficiency:**
-    • Asset optimization
-    • Working capital management
-    • Capital allocation improvements
-    • Target turnover ratios
+    â€¢ Asset optimization
+    â€¢ Working capital management
+    â€¢ Capital allocation improvements
+    â€¢ Target turnover ratios
     
     **For Sustainable Growth:**
-    • Retain earnings for growth
-    • Balanced expansion
-    • Profitability focus
-    • Target growth rate: [%]
+    â€¢ Retain earnings for growth
+    â€¢ Balanced expansion
+    â€¢ Profitability focus
+    â€¢ Target growth rate: [%]
     
     **Implementation Timeline:**
-    • Immediate (30 days):
+    â€¢ Immediate (30 days):
       - Collection acceleration
       - Inventory audit
       - Performance metrics review
     
-    • Short-term (3-6 months):
+    â€¢ Short-term (3-6 months):
       - Process improvements
       - Productivity enhancements
       - Working capital optimization
     
-    • Long-term (1-2 years):
+    â€¢ Long-term (1-2 years):
       - Strategic investments
       - Capability building
       - Sustainable growth achievement
     
     **Monthly KPIs to Track:**
-    • Labor Productivity (UAH/employee)
-    • Operating Cycle Duration (days)
-    • Receivables Turnover (days)
-    • Inventory Turnover (times)
-    • Total Capital Turnover (times)
-    • Gross Profit Margin (%)
+    â€¢ Labor Productivity (UAH/employee)
+    â€¢ Operating Cycle Duration (days)
+    â€¢ Receivables Turnover (days)
+    â€¢ Inventory Turnover (times)
+    â€¢ Total Capital Turnover (times)
+    â€¢ Gross Profit Margin (%)
 
 INTERPRETATION GUIDANCE:
 - **Turnover Ratios:** HIGHER is generally better (faster velocity)
@@ -608,7 +571,7 @@ All values in appropriate units (UAH, times, days, years). Write entire response
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -618,6 +581,6 @@ All values in appropriate units (UAH, times, days, years). Write entire response
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }

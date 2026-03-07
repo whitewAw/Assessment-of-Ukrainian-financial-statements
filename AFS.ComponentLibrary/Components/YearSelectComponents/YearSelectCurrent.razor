@@ -3,12 +3,12 @@
                 @bind-Value=@MainModel.CurrentYear />
 
 @code {
-    [Parameter]
-    public Action? FieldChanged {get; set;}
+[Parameter]
+public Action? FieldChanged {get; set;}
 
-    List<int> YearList = new();
+private readonly List<int> YearList = new();
 
-    void FillYearList()
+void FillYearList()
     {
         for (int firstYear = AFSConstraints.MinYear, lastYear = AFSConstraints.MaxYear; firstYear < lastYear; lastYear--)
         {

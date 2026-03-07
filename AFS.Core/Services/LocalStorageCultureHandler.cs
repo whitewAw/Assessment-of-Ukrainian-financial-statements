@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Logging;
@@ -8,8 +8,8 @@ namespace AFS.Core.Services
 {
     public class LocalStorageCultureHandler : ICultureStorageHandler
     {
-        private ILocalStorageService storage;
-        private ILogger<LocalStorageCultureHandler> logger;
+        private readonly ILocalStorageService storage;
+        private readonly ILogger<LocalStorageCultureHandler> logger;
 
         public LocalStorageCultureHandler(ILocalStorageService storage, ILoggerFactory loggerFactory)
         {

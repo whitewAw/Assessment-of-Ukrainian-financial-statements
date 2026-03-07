@@ -9,7 +9,7 @@
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
-    <PieSeriesComponent Assets=@baseList />
+    <PieSeriesComponent ChartAssets=@baseList />
 </RadzenCard>
 
 @* @ResLoc["AIFinancialAnalysis"] Section *@
@@ -100,50 +100,16 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 @code {
     private string? tableName;
     List<ChartDataItem>? baseList;
+    
     
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -165,14 +131,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -299,7 +263,7 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -309,6 +273,6 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }

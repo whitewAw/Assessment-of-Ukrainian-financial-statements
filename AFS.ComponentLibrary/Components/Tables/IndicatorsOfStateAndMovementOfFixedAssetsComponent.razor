@@ -139,40 +139,6 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 @code {
     private string? tableName;
     private string _aiAnalysis = string.Empty;
@@ -180,7 +146,6 @@
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -202,14 +167,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -335,7 +298,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear:N4} ({(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear * 100):N2}%)
    Deviation: {IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.Deviations:N4}
    Dynamics: x (not applicable for ratios)
-   Formula: New Assets ÷ Original Cost at End
+   Formula: New Assets Ã· Original Cost at End
    Interpretation: Renewal intensity - higher = more aggressive modernization
    Benchmarks: 0.05-0.10 = normal, 0.10-0.20 = active, >0.20 = aggressive
 
@@ -358,7 +321,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear:N4} ({(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear * 100):N2}%)
    Deviation: {IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.Deviations:N4}
    Dynamics: x (not applicable for ratios)
-   Formula: Retired Assets ÷ Original Cost at Beginning
+   Formula: Retired Assets Ã· Original Cost at Beginning
    Interpretation: Disposal intensity - lower typically better (preserving assets)
    Benchmarks: <0.01 = minimal, 0.01-0.05 = normal, >0.05 = high turnover
 
@@ -381,7 +344,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.CurrentYear:N4} ({(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.CurrentYear * 100):N2}%)
    Deviation: {IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.Deviations:N4}
    Dynamics: x (not applicable for ratios)
-   Formula: Accrued Depreciation at Begin ÷ Original Cost at Begin
+   Formula: Accrued Depreciation at Begin Ã· Original Cost at Begin
    Interpretation: Asset age/wear at year-start - lower = newer
    Benchmarks: <0.30 = very new, 0.30-0.50 = mature, 0.50-0.70 = aging, >0.70 = old
 
@@ -390,7 +353,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.CurrentYear:N4} ({(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.CurrentYear * 100):N2}%)
    Deviation: {IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.Deviations:N4}
    Dynamics: x (not applicable for ratios)
-   Formula: Accrued Depreciation at End ÷ Original Cost at End
+   Formula: Accrued Depreciation at End Ã· Original Cost at End
    Interpretation: Asset age/wear at year-end - lower = newer
    Same benchmarks as Row 9
 
@@ -413,11 +376,11 @@ ROW-BY-ROW DATA STRUCTURE:
    Same benchmarks as Row 11
 
 CALCULATED RELATIONSHIPS:
-• Recovery vs Disposal Balance:
+â€¢ Recovery vs Disposal Balance:
   {MainModel.BaseYear}: Recovery {IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.BaseYear:N4} vs Disposal {IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.BaseYear:N4} = {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.BaseYear > IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.BaseYear ? "NET EXPANSION" : "NET CONTRACTION")}
   {MainModel.CurrentYear}: Recovery {IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear:N4} vs Disposal {IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear:N4} = {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear > IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear ? "NET EXPANSION" : "NET CONTRACTION")}
 
-• Depreciation vs Fitness (Inverse):
+â€¢ Depreciation vs Fitness (Inverse):
   Beginning {MainModel.CurrentYear}: Depreciation {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.CurrentYear * 100):N2}% + Fitness {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForBegin.CurrentYear * 100):N2}% = 100%
   End {MainModel.CurrentYear}: Depreciation {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.CurrentYear * 100):N2}% + Fitness {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForEnd.CurrentYear * 100):N2}% = 100%
 ";
@@ -432,24 +395,24 @@ UNDERSTANDING THIS TABLE:
 This table measures ASSET QUALITY, RENEWAL INTENSITY, and CONDITION using 12 interconnected indicators organized in 4 groups:
 
 **GROUP 1: RENEWAL METRICS (Rows 1-3)**
-• Row 1: Investment amount
-• Row 2: Asset base (denominator)
-• Row 3: Recovery Ratio = Row 1 ÷ Row 2
+â€¢ Row 1: Investment amount
+â€¢ Row 2: Asset base (denominator)
+â€¢ Row 3: Recovery Ratio = Row 1 Ã· Row 2
 
 **GROUP 2: DISPOSAL METRICS (Rows 4-6)**
-• Row 4: Disposal amount
-• Row 5: Asset base (denominator)
-• Row 6: Disposal Ratio = Row 4 ÷ Row 5
+â€¢ Row 4: Disposal amount
+â€¢ Row 5: Asset base (denominator)
+â€¢ Row 6: Disposal Ratio = Row 4 Ã· Row 5
 
 **GROUP 3: DEPRECIATION AMOUNTS (Rows 7-8)**
-• Row 7: Wear at beginning
-• Row 8: Wear at end
+â€¢ Row 7: Wear at beginning
+â€¢ Row 8: Wear at end
 
 **GROUP 4: CONDITION RATIOS (Rows 9-12)**
-• Row 9: Depreciation % at begin = Row 7 ÷ Row 5
-• Row 10: Depreciation % at end = Row 8 ÷ Row 2
-• Row 11: Fitness % at begin = 1 - Row 9
-• Row 12: Fitness % at end = 1 - Row 10
+â€¢ Row 9: Depreciation % at begin = Row 7 Ã· Row 5
+â€¢ Row 10: Depreciation % at end = Row 8 Ã· Row 2
+â€¢ Row 11: Fitness % at begin = 1 - Row 9
+â€¢ Row 12: Fitness % at end = 1 - Row 10
 
 CRITICAL FORMATTING RULES:
 - DO NOT create or display any tables
@@ -470,21 +433,21 @@ RESPONSE STRUCTURE:
 - Capital investment trend (Row 1)
 - Asset base trend (Row 2)
 - Recovery Ratio assessment (Row 3):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear * 100):N2}%
-  • Change analysis
-  • Benchmark: <10% = low, 10-20% = active, >20% = aggressive
-  • Is renewal adequate?
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.CurrentYear * 100):N2}%
+  â€¢ Change analysis
+  â€¢ Benchmark: <10% = low, 10-20% = active, >20% = aggressive
+  â€¢ Is renewal adequate?
 
 **3. Disposal Activity Analysis** (Rows 4-6)
 - Retirement trend (Row 4)
 - Starting asset base (Row 5)
 - Disposal Ratio assessment (Row 6):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear * 100):N2}%
-  • Change analysis
-  • Benchmark: <1% = minimal, 1-5% = normal, >5% = high
-  • Disposal strategy assessment
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.CurrentYear * 100):N2}%
+  â€¢ Change analysis
+  â€¢ Benchmark: <1% = minimal, 1-5% = normal, >5% = high
+  â€¢ Disposal strategy assessment
 
 **4. Recovery vs Disposal Balance**
 - {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.RecoveryRate.BaseYear * 100):N2}% recovery vs {(IndicatorsOfStateAndMovementOfFixedAssets.DisposalRate.BaseYear * 100):N2}% disposal
@@ -500,24 +463,24 @@ RESPONSE STRUCTURE:
 
 **6. Asset Age Assessment** (Rows 9-10)
 - Beginning Depreciation Ratio (Row 9):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.CurrentYear * 100):N2}%
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtBegin.CurrentYear * 100):N2}%
   
 - Ending Depreciation Ratio (Row 10):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.CurrentYear * 100):N2}%
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.DepreciationRateOfFixedAssetAtEnd.CurrentYear * 100):N2}%
   
 - Benchmark: <30% = very new, 30-50% = mature, 50-70% = aging, >70% = old
 - Are assets getting newer or older?
 
 **7. Asset Fitness Assessment** (Rows 11-12)
 - Beginning Fitness Ratio (Row 11):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForBegin.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForBegin.CurrentYear * 100):N2}%
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForBegin.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForBegin.CurrentYear * 100):N2}%
   
 - Ending Fitness Ratio (Row 12):
-  • {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForEnd.BaseYear * 100):N2}%
-  • {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForEnd.CurrentYear * 100):N2}%
+  â€¢ {MainModel.BaseYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForEnd.BaseYear * 100):N2}%
+  â€¢ {MainModel.CurrentYear}: {(IndicatorsOfStateAndMovementOfFixedAssets.SuitabilityRatioForEnd.CurrentYear * 100):N2}%
   
 - Benchmark: >70% = excellent, 50-70% = adequate, 30-50% = poor, <30% = critical
 - Asset usability trend
@@ -586,7 +549,7 @@ Remember: Write in {languageInstruction}. NO tables. Focus on ASSET CONDITION an
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -597,6 +560,6 @@ Remember: Write in {languageInstruction}. NO tables. Focus on ASSET CONDITION an
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }

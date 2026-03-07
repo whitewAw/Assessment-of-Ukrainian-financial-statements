@@ -1,9 +1,9 @@
-﻿<tr>
+<tr>
     <TdComponent Align="ML">@Item.Number</TdComponent>
     <TdComponent Align="ML" Spacing=@Spacing>@ChildContent</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@Constraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@Constraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@Constraints.RoundStr(Item.Deviations, Digits)</TdComponent>
+    <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
+    <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
+    <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(Item.Deviations, Digits)</TdComponent>
     <TdComponent Align="MR" Spacing="pr-2">@GetGrowthRate()</TdComponent>
 </tr>
 
@@ -25,6 +25,6 @@
         {
             return "x";
         }
-        return Constraints.RoundStr(Item.GrowthRate, Digits > 2 ? 2 : Digits);
+        return AFSConstraints.RoundStr(Item.GrowthRate, Digits > 2 ? 2 : Digits);
     }
 }

@@ -9,8 +9,8 @@
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
-    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atBeginOfYear"] Assets=@baseList />
-    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atEndOfYear"] Assets=@currentList/>
+    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />
+    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atEndOfYear"] ChartAssets=@currentList/>
 </RadzenCard>
 
 @* @ResLoc["AIFinancialAnalysis"] Section *@
@@ -93,6 +93,7 @@
         }
     }
     
+    
     @if (!string.IsNullOrEmpty(_errorMessage))
     {
         <div class="alert alert-danger">
@@ -100,40 +101,6 @@
         </div>
     }
 </RadzenCard>
-
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
 
 @code {
     private string? tableName;
@@ -145,7 +112,6 @@
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -169,14 +135,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -296,7 +260,7 @@ Asset Composition Data:
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on STRUCTURE, BALANCE, and STRATEGIC IMPLICATIONS
@@ -315,98 +279,98 @@ ANALYSIS SECTIONS:
    - Percentage of total assets
    - Amount (if significant)
    - **Interpretation:**
-     • What this category represents
-     • Why it matters
-     • Industry context
+     â€¢ What this category represents
+     â€¢ Why it matters
+     â€¢ Industry context
 
 **3. Current vs Non-Current Asset Balance**:
    - Total current assets vs non-current assets
    - Percentage split
    - **Interpretation:**
-     • Is the balance appropriate?
-     • Liquidity implications
-     • Operational implications
-     • Strategic fit with business model
+     â€¢ Is the balance appropriate?
+     â€¢ Liquidity implications
+     â€¢ Operational implications
+     â€¢ Strategic fit with business model
 
 **4. Changes During the Year**:
    - Compare beginning vs end of year
    - Which categories grew/shrank?
    - Percentage changes
    - **Interpretation:**
-     • What drove these changes?
-     • Strategic shifts visible?
-     • Positive or negative trend?
+     â€¢ What drove these changes?
+     â€¢ Strategic shifts visible?
+     â€¢ Positive or negative trend?
 
 **5. Asset Quality Assessment**:
    - Productive vs non-productive assets
    - Liquid vs illiquid composition
    - Working capital allocation
    - **Interpretation:**
-     • Asset quality level
-     • Earning potential
-     • Risk assessment
+     â€¢ Asset quality level
+     â€¢ Earning potential
+     â€¢ Risk assessment
 
 **6. Strategic Implications**:
    - What does this structure tell us about business strategy?
    - Capital allocation priorities
    - Growth vs stability focus
    - **Assessment:**
-     • Strategic clarity
-     • Alignment with goals
-     • Potential conflicts
+     â€¢ Strategic clarity
+     â€¢ Alignment with goals
+     â€¢ Potential conflicts
 
 **7. Risk Identification**:
    - Concentration risks (too much in one category)
    - Liquidity risks (too many fixed assets)
    - Operational risks
    - **Specific risks:**
-     • Identify top 3 risks from this structure
-     • Severity level
-     • Mitigation needs
+     â€¢ Identify top 3 risks from this structure
+     â€¢ Severity level
+     â€¢ Mitigation needs
 
 **8. Benchmark Comparison**:
    - Industry typical asset structure
    - How does this compare?
    - **Assessment:**
-     • Above/below industry norms
-     • Reasons for differences
-     • Justified or concerning?
+     â€¢ Above/below industry norms
+     â€¢ Reasons for differences
+     â€¢ Justified or concerning?
 
 **9. Optimization Opportunities**:
    - Which asset categories seem over/underweighted?
    - Rebalancing recommendations
    - **Specific actions:**
-     • Increase/decrease specific categories
-     • Target percentages
-     • Timeline for rebalancing
+     â€¢ Increase/decrease specific categories
+     â€¢ Target percentages
+     â€¢ Timeline for rebalancing
 
 **10. Strategic Recommendations**:
     
     **Asset Structure Optimization:**
-    • Target composition: [specific %s]
-    • Priority adjustments: [categories to change]
-    • Timeline: [months]
+    â€¢ Target composition: [specific %s]
+    â€¢ Priority adjustments: [categories to change]
+    â€¢ Timeline: [months]
     
     **Liquidity Enhancement:**
-    • If too many fixed assets: Increase current assets
-    • Target current ratio improvement
-    • Working capital optimization
+    â€¢ If too many fixed assets: Increase current assets
+    â€¢ Target current ratio improvement
+    â€¢ Working capital optimization
     
     **Risk Mitigation:**
-    • Diversify if concentrated
-    • Balance productive vs support assets
-    • Improve asset quality
+    â€¢ Diversify if concentrated
+    â€¢ Balance productive vs support assets
+    â€¢ Improve asset quality
     
     **Performance Improvement:**
-    • Optimize asset utilization
-    • Dispose of non-performing assets
-    • Invest in high-return categories
+    â€¢ Optimize asset utilization
+    â€¢ Dispose of non-performing assets
+    â€¢ Invest in high-return categories
     
     **Monthly Monitoring:**
-    • Asset category percentages
-    • Current vs non-current balance
-    • Asset turnover by category
-    • Return on assets by category
+    â€¢ Asset category percentages
+    â€¢ Current vs non-current balance
+    â€¢ Asset turnover by category
+    â€¢ Return on assets by category
 
 INTERPRETATION GUIDANCE:
 - **Balanced structure** = Mix of current and non-current appropriate for business
@@ -447,7 +411,7 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -457,6 +421,6 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }

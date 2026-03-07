@@ -177,40 +177,6 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 @code {
     private string? tableName;
     private string? EstimationOfBalanceLiquidityAtBeginBase;
@@ -218,12 +184,12 @@
     private string? EstimationOfBalanceLiquidityAtBeginCurrent;
     private string? EstimationOfBalanceLiquidityAtEndCurrent;
     
+    
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -250,14 +216,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -410,7 +374,7 @@ Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on LIQUIDITY RISK and SOLVENCY
@@ -452,9 +416,9 @@ ANALYSIS SECTIONS:
    - This is THE MOST CRITICAL condition
    - Tests if company can pay immediate obligations
    - Negative surplus = SEVERE liquidity crisis !!
-   - Coverage ratio: A1 ÷ P1
-     • >1.0 = Can cover ?
-     • <1.0 = Cannot cover ?
+   - Coverage ratio: A1 Ã· P1
+     â€¢ >1.0 = Can cover ?
+     â€¢ <1.0 = Cannot cover ?
    
    **Trend Analysis:**
    - Is deficit/surplus improving?
@@ -562,62 +526,62 @@ ANALYSIS SECTIONS:
    - Intra-year changes (begin vs end each year)
    - Inter-year changes (2019 vs 2020)
    - **Key questions:**
-     • Is liquidity improving or deteriorating?
-     • Are deficits growing or shrinking?
-     • Which categories show most improvement/decline?
-     • What's driving changes?
+     â€¢ Is liquidity improving or deteriorating?
+     â€¢ Are deficits growing or shrinking?
+     â€¢ Which categories show most improvement/decline?
+     â€¢ What's driving changes?
 
 **10. Strategic Recommendations**:
     
     **Immediate Actions (if illiquid):**
     
     **For A1 < P1 (Cash shortage):**
-    • Accelerate receivables collection
-    • Negotiate payment term extensions
-    • Secure emergency credit line
-    • Reduce non-essential spending
-    • Sell liquid assets if necessary
-    • Target: A1 = P1 within 30 days
+    â€¢ Accelerate receivables collection
+    â€¢ Negotiate payment term extensions
+    â€¢ Secure emergency credit line
+    â€¢ Reduce non-essential spending
+    â€¢ Sell liquid assets if necessary
+    â€¢ Target: A1 = P1 within 30 days
     
     **For A2 < P2 (Near-term pressure):**
-    • Improve collection processes
-    • Renegotiate short-term debt
-    • Consider factoring receivables
-    • Reduce inventory where possible
-    • Target: A2 = P2 within 90 days
+    â€¢ Improve collection processes
+    â€¢ Renegotiate short-term debt
+    â€¢ Consider factoring receivables
+    â€¢ Reduce inventory where possible
+    â€¢ Target: A2 = P2 within 90 days
     
     **For A3 < P3 (Medium-term concern):**
-    • Optimize inventory levels
-    • Refinance long-term debt
-    • Extend debt maturity
-    • Improve working capital efficiency
-    • Target: A3 = P3 within 180 days
+    â€¢ Optimize inventory levels
+    â€¢ Refinance long-term debt
+    â€¢ Extend debt maturity
+    â€¢ Improve working capital efficiency
+    â€¢ Target: A3 = P3 within 180 days
     
     **For A4 > P4 (Capital structure):**
-    • Increase equity through retained earnings
-    • Reduce fixed asset investments
-    • Sell non-core assets
-    • Deleverage over time
-    • Target: A4 = P4 within 1-2 years
+    â€¢ Increase equity through retained earnings
+    â€¢ Reduce fixed asset investments
+    â€¢ Sell non-core assets
+    â€¢ Deleverage over time
+    â€¢ Target: A4 = P4 within 1-2 years
     
     **Liquidity Improvement Strategies:**
-    • Cash management optimization
-    • Working capital reduction
-    • Asset-liability matching
-    • Diversification of funding sources
-    • Contingency planning
+    â€¢ Cash management optimization
+    â€¢ Working capital reduction
+    â€¢ Asset-liability matching
+    â€¢ Diversification of funding sources
+    â€¢ Contingency planning
     
     **Monitoring and Control:**
-    • Daily cash position monitoring
-    • Weekly liquidity reports
-    • Monthly condition testing
-    • Quarterly strategic review
+    â€¢ Daily cash position monitoring
+    â€¢ Weekly liquidity reports
+    â€¢ Monthly condition testing
+    â€¢ Quarterly strategic review
     
     **Target Liquidity Position:**
-    • All 4 conditions met consistently
-    • Positive cash buffer: [specific amount]
-    • Coverage ratios: A1/P1 > 1.2, A2/P2 > 1.5
-    • Timeline: [specific months]
+    â€¢ All 4 conditions met consistently
+    â€¢ Positive cash buffer: [specific amount]
+    â€¢ Coverage ratios: A1/P1 > 1.2, A2/P2 > 1.5
+    â€¢ Timeline: [specific months]
 
 INTERPRETATION GUIDANCE:
 - **Positive Surplus:** Asset > Liability (GOOD)
@@ -676,7 +640,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -686,6 +650,6 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }

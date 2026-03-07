@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Blazored.LocalStorage;
@@ -11,10 +11,10 @@ namespace AFS.Core.Services
 {
     public class LocalStorageModelHandler : IModelStorageHandler
     {
-        private ILocalStorageService storage;
-        private AFSModel model;
-        private ILogger<LocalStorageModelHandler> logger;
-        private HttpClient http;
+        private readonly ILocalStorageService storage;
+        private readonly AFSModel model;
+        private readonly ILogger<LocalStorageModelHandler> logger;
+        private readonly HttpClient http;
 
         public LocalStorageModelHandler(ILocalStorageService storage, AFSModel model, ILoggerFactory loggerFactory, HttpClient http)
         {

@@ -1,4 +1,4 @@
-﻿@page "/indicatorsofturnoverofcurrentassets"
+@page "/indicatorsofturnoverofcurrentassets"
 @using AFS.Core.Interfaces
 @inject IndicatorsOfTurnoverOfCurrentAssets IndicatorsOfTurnoverOfCurrentAssets
 @inject AFSModel AFSModel
@@ -43,7 +43,7 @@
                 <TdComponent Align="ML">6.</TdComponent>
                 <TdComponent Align="ML">@ResLoc["ReleaseOrLackOfCurrentAssetsDueTurnover"]</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">@Constraints.RoundStr(@IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear, 4)</TdComponent>
+                <TdComponent Align="MR" Spacing="pr-2">@AFSConstraints.RoundStr(@IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear, 4)</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
                 <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
             </tr>
@@ -138,40 +138,6 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
-
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
-
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
-
 @code {
     private string? tableName;
     private string _aiAnalysis = string.Empty;
@@ -179,7 +145,6 @@
     private bool _isAnalyzing = false;
     private bool _isCheckingAvailability = true;
     private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -201,14 +166,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -496,13 +459,13 @@ RESPONSE STRUCTURE:
 - **Target metrics**: Specific numerical goals
 
 INTERPRETATION GUIDE:
-✅ GOOD TRENDS:
+? GOOD TRENDS:
 - Row 3 (days): DECREASING = faster turnover
 - Row 4 (times): INCREASING = more frequent cycling
 - Row 5 (ratio): DECREASING = less capital needed
 - Row 6: NEGATIVE number = capital freed up
 
-❌ BAD TRENDS:
+? BAD TRENDS:
 - Row 3 (days): INCREASING = slower turnover
 - Row 4 (times): DECREASING = less frequent cycling
 - Row 5 (ratio): INCREASING = more capital tied up
@@ -525,7 +488,7 @@ Remember: Write your entire response in {languageInstruction}. Do NOT create tab
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;

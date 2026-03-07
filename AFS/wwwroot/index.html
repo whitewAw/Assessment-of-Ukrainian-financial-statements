@@ -522,12 +522,11 @@
     <!-- Apple Startup Images for Better Mobile Experience -->
     <link rel="apple-touch-startup-image" href="icon-512.png" />
 
-    <!-- Preload critical WASM resources for faster startup -->
-    <link rel="preload" href="_framework/blazor.webassembly.js" as="script" crossorigin="anonymous" />
+    <!-- Preconnect to CDN for faster resource loading -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     
-    <!-- Module preload for Blazor runtime -->
-    <link rel="modulepreload" href="_framework/blazor.webassembly.js" />
+    <!-- Note: blazor.webassembly.js preload removed - it uses autostart="false" 
+         and is loaded on-demand by app.js, making preload counterproductive -->
 </head>
 
 <body>
@@ -624,6 +623,9 @@
 
     <!-- Radzen - Low priority, defer -->
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js" defer></script>
+
+    <!-- Note: Blazor-ApexCharts scripts are loaded automatically by the package -->
+    <!-- Do NOT manually include them - Blazor handles static web assets -->
 
     <!-- Performance monitoring - Lowest priority -->
     <script src="js/performance.js" defer async></script>

@@ -1,32 +1,53 @@
-﻿@using System.Globalization
+@using System.Globalization
 @inject ICultureStorageHandler CultureHandler
 @inject NavigationManager Navigator
 
 <div class="culture-selector" role="region" aria-label="@selectLanguageLabel">
     <RadzenDropDown TValue="CultureInfo"
                     Data="@supportedCultures"
-                    TextProperty="Text"
-                    ValueProperty="Value"
                     @bind-Value="@currentCulture"
                     Change="CultureChanged"
                     Style="min-width: 150px;"
                     Placeholder="@selectLanguageLabel"
-                    aria-label="@selectLanguageLabel" />
+                    aria-label="@selectLanguageLabel">
+        <Template Context="culture">
+            @(GetDisplayText((CultureInfo)culture))
+        </Template>
+    </RadzenDropDown>
 </div>
 
 @code {
-    private readonly IReadOnlyList<CultureData> supportedCultures = new[]
+    private static readonly Dictionary<string, (string Flag, string NativeName)> cultureDisplayData = new()
     {
-        new CultureData(CultureInfo.GetCultureInfo("en"), "English", "🇺🇸"),
-        new CultureData(CultureInfo.GetCultureInfo("uk-UA"), "Українська", "🇺🇦"),
-        new CultureData(CultureInfo.GetCultureInfo("ru"), "Русский", "🇷🇺"),
-        new CultureData(CultureInfo.GetCultureInfo("es"), "Español", "🇪🇸"),
-        new CultureData(CultureInfo.GetCultureInfo("de"), "Deutsch", "🇩🇪"),
-        new CultureData(CultureInfo.GetCultureInfo("fr"), "Français", "🇫🇷")
+        ["en"] = ("🇺🇸", "English"),
+        ["uk-UA"] = ("🇺🇦", "Українська"),
+        ["ru"] = ("🇷🇺", "Русский"),
+        ["es"] = ("🇪🇸", "Español"),
+        ["de"] = ("🇩🇪", "Deutsch"),
+        ["fr"] = ("🇫🇷", "Français")
+    };
+
+    private readonly IReadOnlyList<CultureInfo> supportedCultures = new[]
+    {
+        CultureInfo.GetCultureInfo("en"),
+        CultureInfo.GetCultureInfo("uk-UA"),
+        CultureInfo.GetCultureInfo("ru"),
+        CultureInfo.GetCultureInfo("es"),
+        CultureInfo.GetCultureInfo("de"),
+        CultureInfo.GetCultureInfo("fr")
     };
 
     private CultureInfo currentCulture = CultureInfo.GetCultureInfo("en");
     private string selectLanguageLabel => ResLoc?["SelectLanguage"] ?? "Select Language";
+
+    private static string GetFlag(CultureInfo culture) =>
+        cultureDisplayData.TryGetValue(culture.Name, out var data) ? data.Flag : "🌐";
+
+    private static string GetNativeName(CultureInfo culture) =>
+        cultureDisplayData.TryGetValue(culture.Name, out var data) ? data.NativeName : culture.NativeName;
+
+    private static string GetDisplayText(CultureInfo culture) =>
+        $"{GetFlag(culture)} {GetNativeName(culture)}";
 
     protected override void OnInitialized()
     {
@@ -34,9 +55,10 @@
         var current = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.CurrentCulture;
 
         // Try to find exact match first, then by two-letter ISO code
-        var matchingCulture = supportedCultures.FirstOrDefault(c => c.Value.Name == current.Name) ?? supportedCultures.FirstOrDefault(c => c.Value.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName);
+        var matchingCulture = supportedCultures.FirstOrDefault(c => c.Name == current.Name) ??
+                             supportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName);
 
-        currentCulture = matchingCulture?.Value ?? CultureInfo.GetCultureInfo("en");
+        currentCulture = matchingCulture ?? CultureInfo.GetCultureInfo("en");
 
         base.OnInitialized();
     }
@@ -56,11 +78,5 @@
                 Console.Error.WriteLine($"Failed to change culture: {ex.Message}");
             }
         }
-    }
-
-    // Helper class for dropdown with flag emojis
-    private sealed record CultureData(CultureInfo Value, string NativeName, string Flag)
-    {
-        public string Text => $"{Flag} {NativeName}";
     }
 }

@@ -151,12 +151,13 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
 | [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
-| [Radzen Blazor](https://blazor.radzen.com/) | 9.0.8 | Component Library |
+| [Radzen Blazor](https://blazor.radzen.com/) | 9.0.8 | UI Component Library |
+| [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 6.1.0 | AOT-Compatible Charts |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
-| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.19 | Code Analysis |
-| [SonarAnalyzer](https://www.sonarqube.org/) | 10.20.0 | Code Quality |
-| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 2.0.257 | Code Analysis |
+| [SonarAnalyzer](https://www.sonarqube.org/) | 10.16.0 | Code Quality |
+| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.14.1 | Refactoring & Analysis |
 
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
@@ -166,6 +167,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ Native WASM optimization (`-Oz`)
 - ✅ .NET 10 performance enhancements
 - ✅ **AOT-safe JSON serialization** (source-generated, zero reflection)
+- ✅ **AOT-safe charts** (ApexCharts with lambda expressions, no reflection)
 - ✅ Comprehensive code analyzers (Meziantou, SonarQube, Roslynator)
 - ✅ Nullable reference types enabled
 - ✅ Code style enforcement in build
@@ -182,6 +184,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Service Worker     - Offline-first caching                  │
 │  ✅ Exception Handling - Optimized WASM exception handling      │
 │  ✅ JSON Serialization - Source-generated, zero reflection      │
+│  ✅ Charts             - ApexCharts with AOT-safe lambdas       │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -195,6 +198,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Roslynator           - 500+ code analysis rules             │
 │  ✅ Nullable Reference   - Null safety enabled                  │
 │  ✅ EnforceCodeStyle     - Consistent code formatting           │
+│  ✅ Clean Build          - 0 warnings, 0 errors                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -311,6 +315,7 @@ Assessment-of-Ukrainian-financial-statements/
 ├── 📄 CONTRIBUTING.md              # Contribution guidelines
 ├── 📄 CODE_OF_CONDUCT.md           # Community standards
 ├── 📄 Directory.Build.props        # Shared build settings & analyzers
+├── 📄 nuget.config                 # NuGet package sources
 ├── 📄 LICENSE                      # MIT License
 └── 📄 README.md                    # This file
 ```
@@ -326,9 +331,14 @@ The project uses a centralized build configuration:
 - Code style enforcement in build
 - Comprehensive warning suppressions with documentation
 
+**nuget.config** - Package source configuration:
+- Uses only official NuGet.org source
+- Ensures consistent builds for all contributors
+- Avoids conflicts with user-specific NuGet configurations
+
 **TrimmerRoots.xml** - IL Trimmer configuration:
 - Preserves Blazor components for DI property injection
-- Maintains Radzen reflection capabilities
+- Maintains chart model types for ApexCharts
 - Keeps localization infrastructure intact
 
 ---
@@ -566,7 +576,8 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 
 ### Built With
 - [Blazor](https://blazor.net/) - Microsoft's web framework
-- [Radzen](https://blazor.radzen.com/) - Blazor component library
+- [Radzen](https://blazor.radzen.com/) - Blazor UI component library
+- [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) - AOT-compatible chart library
 - [Chrome AI](https://developer.chrome.com/docs/ai/built-in) - Google's built-in AI
 - [Gemini Nano](https://blog.google/technology/ai/google-gemini-ai/) - Lightweight AI model
 - [Open Iconic](https://useiconic.com/open/) - Icon set
@@ -626,6 +637,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [x] **Multi-host deployment (GitHub Pages + Netlify)**
 - [x] **SEO optimization for Google Search**
 - [x] **SPA routing for direct URL access**
+- [x] **AOT-safe charts (ApexCharts)**
+- [x] **Zero-reflection JSON serialization**
 
 ### In Progress 🚧
 - [ ] Enhanced AI prompts and training

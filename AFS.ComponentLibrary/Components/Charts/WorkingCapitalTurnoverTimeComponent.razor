@@ -2,6 +2,7 @@
 @using AFS.Core.Models
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
+@using AFS.ComponentLibrary.Helpers
 @inject WorkingCapitalTurnoverTimeChart WorkingCapitalTurnoverTimeChart
 @inject AFSModel AFSModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -9,25 +10,28 @@
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
-    <RadzenChart>
-        <RadzenLineSeries Data="@money" CategoryProperty="Date" Title=@ResLoc["MoneyAndTheirEquivalents"] LineType="LineType.Dashed" ValueProperty="Value">
-            <RadzenMarkers MarkerType="MarkerType.Square" />
-        </RadzenLineSeries>
-        <RadzenLineSeries Data="@receivables" CategoryProperty="Date" Title="@ResLoc["AccountsReceivable"]" ValueProperty="Value">
-            <RadzenMarkers MarkerType="MarkerType.Circle" />
-        </RadzenLineSeries>
-        <RadzenLineSeries Data="@materialValues" CategoryProperty="Date" Title="@ResLoc["Tangibles"]" ValueProperty="Value">
-            <RadzenMarkers MarkerType="MarkerType.Triangle" />
-        </RadzenLineSeries>
-        <RadzenCategoryAxis FormatString="{0:MM/yyyy}" />
-        <RadzenValueAxis>
-            <RadzenGridLines Visible="true" />
-            <RadzenAxisTitle Text=@ResLoc["days"] />
-        </RadzenValueAxis>
-        <RadzenLineSeries Visible=false Data="@money" CategoryProperty="Date" Title="asasdasdasdasdasdasdsdasd" LineType="LineType.Dashed" ValueProperty="Value">
-            <RadzenMarkers MarkerType="MarkerType.Square" />
-        </RadzenLineSeries>
-    </RadzenChart>
+    <ApexChart TItem="ChartDateTimeItem"
+               Height="350"
+               Options="@_lineChartOptions">
+        <ApexPointSeries TItem="ChartDateTimeItem"
+                         Items="money"
+                         Name="@ResLoc["MoneyAndTheirEquivalents"]"
+                         SeriesType="SeriesType.Line"
+                         XValue="@(e => e.Date.ToString("MM/yyyy"))"
+                         YValue="@(e => (decimal?)e.Value)" />
+        <ApexPointSeries TItem="ChartDateTimeItem"
+                         Items="receivables"
+                         Name="@ResLoc["AccountsReceivable"]"
+                         SeriesType="SeriesType.Line"
+                         XValue="@(e => e.Date.ToString("MM/yyyy"))"
+                         YValue="@(e => (decimal?)e.Value)" />
+        <ApexPointSeries TItem="ChartDateTimeItem"
+                         Items="materialValues"
+                         Name="@ResLoc["Tangibles"]"
+                         SeriesType="SeriesType.Line"
+                         XValue="@(e => e.Date.ToString("MM/yyyy"))"
+                         YValue="@(e => (decimal?)e.Value)" />
+    </ApexChart>
 </RadzenCard>
 
 @* @ResLoc["AIFinancialAnalysis"] Section *@
@@ -118,69 +122,50 @@
     }
 </RadzenCard>
 
-<style>
-    .typing-indicator {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-    }
+@* Typing indicator styles are defined in dark-theme.css *@
 
-    .typing-indicator span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #0056b3;
-        animation: bounce 1.4s infinite ease-in-out;
-        display: inline-block;
-    }
 
-    .typing-indicator span:nth-child(1) {
-        animation-delay: -0.32s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-        animation-delay: -0.16s;
-    }
-
-    @@keyframes bounce {
-        0%, 80%, 100% {
-            transform: scale(0);
-        }
-        40% {
-            transform: scale(1);
-        }
-    }
-</style>
 
 @code {
-    private string? tableName;
+private string? tableName;
 
-    List<ChartDateTimeItem>? money;
-    List<ChartDateTimeItem>? receivables;
-    List<ChartDateTimeItem>? materialValues;
+List<ChartDateTimeItem>? money;
+List<ChartDateTimeItem>? receivables;
+List<ChartDateTimeItem>? materialValues;
     
-    private string _aiAnalysis = string.Empty;
-    private string _errorMessage = string.Empty;
-    private bool _isAnalyzing = false;
-    private bool _isCheckingAvailability = true;
-    private bool _isAIAvailable = false;
-    private string _availabilityMessage = string.Empty;
+private string _aiAnalysis = string.Empty;
+private string _errorMessage = string.Empty;
+private bool _isAnalyzing = false;
+private bool _isCheckingAvailability = true;
+private bool _isAIAvailable = false;
 
-    protected override async Task OnInitializedAsync()
+private readonly ApexChartOptions<ChartDateTimeItem> _lineChartOptions = 
+    ApexChartsHelper.GetLineChartOptions<ChartDateTimeItem>();
+
+protected override async Task OnInitializedAsync()
+{
+    // Initialize Y-axis title for localization
+    _lineChartOptions.Yaxis = new List<YAxis>
     {
-        string name = ResLoc["WorkingCapitalTurnoverTime"];
-        string number = "III.";
-
-        tableName = $"{number} {name}";
-
-        money = WorkingCapitalTurnoverTimeChart.GetMoney();
-        receivables = WorkingCapitalTurnoverTimeChart.GetReceivables();
-        materialValues = WorkingCapitalTurnoverTimeChart.GetMaterialValues();
+        new YAxis
+        {
+            Title = new AxisTitle { Text = ResLoc["days"].ToString() }
+        }
+    };
         
-        await CheckAIAvailability();
+    string name = ResLoc["WorkingCapitalTurnoverTime"];
+    string number = "III.";
 
-        base.OnInitialized();
-    }
+    tableName = $"{number} {name}";
+
+    money = WorkingCapitalTurnoverTimeChart.GetMoney();
+    receivables = WorkingCapitalTurnoverTimeChart.GetReceivables();
+    materialValues = WorkingCapitalTurnoverTimeChart.GetMaterialValues();
+        
+    await CheckAIAvailability();
+
+    base.OnInitialized();
+}
 
     private async Task CheckAIAvailability()
     {
@@ -189,14 +174,12 @@
 
         try
         {
-            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
+            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
             _isAIAvailable = isAvailable;
-            _availabilityMessage = message;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _isAIAvailable = false;
-            _availabilityMessage = $"Error checking AI availability: {ex.Message}";
         }
         finally
         {
@@ -330,7 +313,7 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
         _errorMessage = string.Empty;
     }
 
-    private string FormatAIResponse(string response)
+    private static string FormatAIResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
@@ -340,6 +323,6 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
             .Replace("\n", "<br/>")
             .Replace("**", "<strong>")
             .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+            .Replace("- ", "â€¢ ");
     }
 }
