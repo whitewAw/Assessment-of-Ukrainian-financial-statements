@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -18,7 +18,7 @@ namespace AFS.Core.Services.DataCalculations
         {
             Base.BalanceAtBeginInitialCost = model.F1Base.F1011.Begin;
             Base.Received = model.AdditionalInfo.FixedAssetsInfoBase.ReceivedFixedAssets;
-            Base.ReceivedNew = model.AdditionalInfo.FixedAssetsInfoBase.ReceivedNewFixedAssets;
+            Base.ReceivedNewlyAcquired = model.AdditionalInfo.FixedAssetsInfoBase.ReceivedNewlyAcquiredFixedAssets;
             Base.Left = model.AdditionalInfo.FixedAssetsInfoBase.LeftFixedAssets;
             Base.Liquidated = model.AdditionalInfo.FixedAssetsInfoBase.LiquidatedFixedAssets;
             Base.BalanceAtEndInitialCost = model.F1Base.F1011.End;
@@ -28,7 +28,7 @@ namespace AFS.Core.Services.DataCalculations
         {
             Current.BalanceAtBeginInitialCost = model.F1Current.F1011.Begin;
             Current.Received = model.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedFixedAssets;
-            Current.ReceivedNew = model.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedNewFixedAssets;
+            Current.ReceivedNewlyAcquired = model.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedNewlyAcquiredFixedAssets;
             Current.Left = model.AdditionalInfo.FixedAssetsInfoCurrent.LeftFixedAssets;
             Current.Liquidated = model.AdditionalInfo.FixedAssetsInfoCurrent.LiquidatedFixedAssets;
             Current.BalanceAtEndInitialCost = model.F1Current.F1011.End;

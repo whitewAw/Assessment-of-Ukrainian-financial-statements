@@ -30,10 +30,15 @@
     ║ MA0016 - Collection abstraction - ApexCharts/Radzen require List<T> for binding║
     ║ MA0048 - File name != type name - Related types grouped intentionally        ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 3: MINOR ISSUES (Would require extensive changes for little gain)   ║
+    ║ Category 3: SONAR - PROJECT NAMING/DESIGN CONVENTIONS                        ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ CA1031 - Catch specific exceptions - JS Interop can throw many exception types║
-    ║ CA1711 - Suffix naming - Existing naming convention in codebase              ║
+    ║ S101 - Class naming - AFS prefix is project convention (AFSModel, etc.)      ║
+    ║ S1075 - Hardcoded URI - OpenAI API endpoint is intentionally hardcoded       ║
+    ║ S1118 - Utility class - UnicodeConverter is partial class with GeneratedRegex║
+    ║ S1172 - Unused parameter - Method signature required for interface contract  ║
+    ║ S3246 - Covariant parameter - Interface design is intentional                ║
+    ║ S3260 - Seal private class - Nested classes in Razor components              ║
+    ║ S3928 - Parameter name - Radzen component parameter validation               ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
     -->
 
@@ -43,17 +48,8 @@
     <!-- Category 2: Style preferences -->
     <NoWarn>$(NoWarn);MA0016;MA0048</NoWarn>
 
-
-    <!-- Category 3: Minor issues -->
-    <NoWarn>$(NoWarn);CA1031;CA1711</NoWarn>
-
-    <!-- Additional Sonar rules -->
-    <NoWarn>$(NoWarn);S112;S6667;S1172;S3928;S101;S3260;S3246;S1118;S125;S1075</NoWarn>
-
-    
-    
-    <!-- Roslynator rules -->
-    <NoWarn>$(NoWarn);RCS1021;RCS1036;RCS1037;RCS1102;RCS1118;RCS1124;RCS1141;RCS1163;RCS1181;RCS1194</NoWarn>
+    <!-- Category 3: Sonar - Project naming/design conventions -->
+    <NoWarn>$(NoWarn);S101;S1075;S1118;S1172;S3246;S3260;S3928</NoWarn>
   </PropertyGroup>
 
 

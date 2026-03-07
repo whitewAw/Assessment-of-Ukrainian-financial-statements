@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -39,8 +39,8 @@ namespace AFS.Core.Services.DataCalculations
         private void CostOfNewFixedAssetsInit(AvailabilityAndMovementOfFixedAssets aMFA)
         {
             CostOfNewFixedAssets.Number = "1.";
-            CostOfNewFixedAssets.BaseYear = aMFA.Base.ReceivedNew;
-            CostOfNewFixedAssets.CurrentYear = aMFA.Current.ReceivedNew;
+            CostOfNewFixedAssets.BaseYear = aMFA.Base.ReceivedNewlyAcquired;
+            CostOfNewFixedAssets.CurrentYear = aMFA.Current.ReceivedNewlyAcquired;
         }
         private void InitialCostOfFixedAssetsAtEndInit(AvailabilityAndMovementOfFixedAssets aMFA)
         {

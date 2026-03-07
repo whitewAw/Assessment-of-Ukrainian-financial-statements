@@ -31,7 +31,7 @@ async Task OnLoadClick()
 
     async Task OnUploadClick()
     {
-        await JsInterop.TriggerClick(filePickerId);
+        await JsInterop.TriggerClickAsync(filePickerId);
     }
 
     private async Task LoadFiles(InputFileChangeEventArgs file)

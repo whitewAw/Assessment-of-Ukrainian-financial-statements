@@ -260,8 +260,8 @@ COLUMN-BY-COLUMN DATA STRUCTURE:
    
    Received during the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Base.Received:N2}
-     - Including new: {AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew:N2}
-     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%
+     - Including new: {AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired:N2}
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%
    
    Left in the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
@@ -283,8 +283,8 @@ COLUMN-BY-COLUMN DATA STRUCTURE:
    
    Received during the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Current.Received:N2}
-     - Including new: {AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew:N2}
-     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}%
+     - Including new: {AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired:N2}
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}%
    
    Left in the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
@@ -361,8 +361,8 @@ RESPONSE STRUCTURE:
 - Investment as % of beginning balance (capital intensity)
 
 **Investment Quality**:
-- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}% were new
-- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}% were new
+- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}% were new
+- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}% were new
 - Interpretation: 100% = modernization, <100% = used/transferred assets
 
 **4. Asset Disposal Analysis**

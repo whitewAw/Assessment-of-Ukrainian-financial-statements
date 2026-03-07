@@ -30,7 +30,7 @@ namespace AFS.Core.Services
             using var fileStream = new MemoryStream(randomBinaryData);
             var fileName = $"{model.CompanyName}_{model.BaseYear}_{model.CurrentYear}{constraints.FileExtension}";
             using var streamRef = new DotNetStreamReference(stream: fileStream);
-            await jsInterop.ExportToFile(fileName, streamRef);
+            await jsInterop.ExportToFileAsync(fileName, streamRef);
         }
 
         public async Task<AFSModel?> ImportAsync(Stream inputStream)

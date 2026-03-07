@@ -3,7 +3,7 @@ namespace AFS.Core.Models
     public class FixedAssetsInfo : TrackedEntity
     {
         private double receivedFixedAssets;
-        private double receivedNewFixedAssets;
+        private double receivedNewlyAcquiredFixedAssets;
         private double withdrawnFixedAssets;
         private double liquidatedFixedAssets;
 
@@ -13,10 +13,13 @@ namespace AFS.Core.Models
             set => SetProperty(ref receivedFixedAssets, AFSConstraints.RoundStat(value));
         }
 
-        public double ReceivedNewFixedAssets
+        /// <summary>
+        /// Newly acquired fixed assets (as opposed to transferred/used assets).
+        /// </summary>
+        public double ReceivedNewlyAcquiredFixedAssets
         {
-            get => receivedNewFixedAssets;
-            set => SetProperty(ref receivedNewFixedAssets, AFSConstraints.RoundStat(value));
+            get => receivedNewlyAcquiredFixedAssets;
+            set => SetProperty(ref receivedNewlyAcquiredFixedAssets, AFSConstraints.RoundStat(value));
         }
 
         public double LeftFixedAssets
@@ -34,7 +37,7 @@ namespace AFS.Core.Models
         internal void Init(FixedAssetsInfo info)
         {
             receivedFixedAssets = info.ReceivedFixedAssets;
-            receivedNewFixedAssets = info.ReceivedNewFixedAssets;
+            receivedNewlyAcquiredFixedAssets = info.ReceivedNewlyAcquiredFixedAssets;
             withdrawnFixedAssets = info.LeftFixedAssets;
             liquidatedFixedAssets = info.LiquidatedFixedAssets;
         }

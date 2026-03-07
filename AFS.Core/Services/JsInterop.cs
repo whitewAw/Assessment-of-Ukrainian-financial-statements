@@ -28,13 +28,13 @@ namespace AFS.Core.Services
             GC.SuppressFinalize(this);
         }
 
-        public async ValueTask ExportToFile(string fileName, DotNetStreamReference streamRef)
+        public async ValueTask ExportToFileAsync(string fileName, DotNetStreamReference streamRef)
         {
             var module = await moduleTask.Value;
             await module.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
         }
 
-        public async ValueTask TriggerClick(string id)
+        public async ValueTask TriggerClickAsync(string id)
         {
             var module = await moduleTask.Value;
             await module.InvokeVoidAsync("triggerClick", id);
