@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
 	<TargetFramework>net10.0</TargetFramework>
@@ -44,9 +44,11 @@
 		<IlcDisableReflection>false</IlcDisableReflection>
 		
 		<!-- Suppress known Blazor framework trimming warnings that are false positives -->
+		<!-- IL2026: Radzen Template uses dynamic types internally - preserved via TrimmerRoots -->
+		<!-- IL2104: Third-party assemblies (Radzen, ApexCharts, Blazored, etc.) produce trim warnings -->
 		<!-- IL2110/IL2111: Router.NotFoundPage and LayoutView.Layout use DynamicallyAccessedMembers -->
 		<!-- These are safe in Blazor WebAssembly as the components are preserved by TrimmerRootAssembly -->
-		<NoWarn>$(NoWarn);IL2110;IL2111</NoWarn>
+		<NoWarn>$(NoWarn);IL2026;IL2104;IL2110;IL2111</NoWarn>
 	</PropertyGroup>
 	
 	<ItemGroup>

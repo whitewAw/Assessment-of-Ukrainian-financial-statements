@@ -1,4 +1,4 @@
-﻿name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -51,22 +51,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Cache .NET workloads
-        uses: actions/cache@v4
-        id: workload-cache
-        with:
-          path: |
-            ~/.dotnet/sdk-manifests
-            ~/.dotnet/packs
-            ~/.dotnet/workloads
-          key: ${{ runner.os }}-workloads-net10-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-workloads-net10-
-
       - name: Install .NET WebAssembly workloads
         run: |
           dotnet workload install wasm-tools wasm-experimental --skip-manifest-update
-          echo "Workloads installed successfully"
+          echo "✅ Workloads installed successfully"
 
       - name: Verify workloads
         run: dotnet workload list

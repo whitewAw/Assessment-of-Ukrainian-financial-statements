@@ -52,7 +52,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ **Privacy-focused** - All calculations happen in your browser
 - ✅ **No installation** - Just open and use
 - ✅ **Multi-language** - Supports 6 languages (Ukrainian, English, German, Spanish, French, Russian)
-- ✅ **Professional-grade** - 16 comprehensive financial analysis tables + 7 interactive charts
+- ✅ **Professional-grade** - 17 comprehensive financial analysis tables + 7 interactive charts
 - ✅ **Open Source** - Free to use, modify, and contribute
 
 ---
@@ -95,7 +95,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 ---
 
-### 📊 Financial Analysis (16 Tables + 7 Charts)
+### 📊 Financial Analysis (17 Tables + 7 Charts)
 
 #### Analysis Tables:
 1. **Characteristics of Capital** - Capital structure and efficiency
@@ -112,8 +112,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 12. **Indicators of Business Activity** - Operational efficiency
 13. **Liquidity Indicators of Balance** - Short-term solvency
 14. **Solvency Ratios** - Long-term financial health
-15. **General Indicators of Financial Stability** - Overall stability metrics
-16. **Classification of Financial Stability Types** - Risk categorization
+15. **Indicators of Financial Stability** - Financial stability ratios
+16. **General Indicators of Financial Stability** - Overall stability metrics
+17. **Classification of Financial Stability Types** - Risk categorization
 
 #### Interactive Charts:
 1. **Composition of Assets** (Base & Current) - Asset structure visualization
@@ -266,10 +267,12 @@ Assessment-of-Ukrainian-financial-statements/
 ├── 📂 AFS/                           # Main Blazor WebAssembly app
 │   ├── Program.cs                    # Application entry point
 │   ├── App.razor                     # Root component with router
+│   ├── _Imports.razor               # Global using directives
 │   ├── Pages/                        # Page components
-│   │   ├── AIAssistant.razor        # AI Assistant page
-│   │   ├── Index.razor              # Home page
-│   │   └── [16 analysis pages]      # Financial analysis pages
+│   │   └── AIAssistant.razor        # AI Assistant page
+│   ├── Shared/                       # Shared layout components
+│   │   └── MainLayout.razor         # Main application layout
+│   ├── TrimmerRoots.xml             # AOT/Trimmer configuration
 │   └── wwwroot/                     # Static assets
 │       ├── js/
 │       │   ├── chromeai.js          # Chrome AI JavaScript interop
@@ -285,43 +288,50 @@ Assessment-of-Ukrainian-financial-statements/
 │       │   └── radzen-dark-theme.css # Radzen dark mode overrides
 │       ├── index.html               # Application shell (multi-host)
 │       ├── 404.html                 # SPA fallback page
-│       ├── netlify.toml             # Netlify configuration
-│       ├── robots.txt               # GitHub Pages robots
-│       ├── robots-netlify.txt       # Netlify robots
-│       ├── sitemap.xml              # GitHub Pages sitemap
-│       └── sitemap-netlify.xml      # Netlify sitemap
+│       └── [hosting configs]        # robots.txt, sitemap.xml, etc.
 │
-├── 📂 AFS.ComponentLibrary/         # Reusable components
+├── 📂 AFS.ComponentLibrary/         # Reusable UI components
 │   ├── Components/
 │   │   ├── AIFinancialChatComponent.razor  # AI chat UI
+│   │   ├── Form1Component.razor     # Balance sheet input form
+│   │   ├── Form2Component.razor     # Income statement input form
+│   │   ├── NavMenu.razor            # Navigation menu
+│   │   ├── ThemeToggle.razor        # Dark/light mode toggle
+│   │   ├── CultureSelector.razor    # Language selector
 │   │   ├── Charts/                  # 7 interactive chart components
-│   │   ├── Tables/                  # 16 financial analysis tables
-│   │   ├── TableComponents/         # Shared table elements
-│   │   └── ChartsComponents/        # Shared chart elements
+│   │   ├── Tables/                  # 17 financial analysis tables
+│   │   ├── TableComponents/         # Shared table elements (Td, Th, Tr)
+│   │   ├── ChartsComponents/        # Shared chart elements
+│   │   └── YearSelectComponents/    # Year selection dropdowns
 │   ├── Helpers/
 │   │   └── ApexChartsHelper.cs      # AOT-safe chart configuration
-│   └── Resources/                   # Localization files (.resx)
+│   └── Resources/                   # Localization files (6 languages)
+│       └── Resource.*.resx          # ua, en, de, es, fr, ru
 │
-├── 📂 AFS.Core/                     # Business logic
+├── 📂 AFS.Core/                     # Business logic & services
 │   ├── Models/                      # Data models
 │   │   ├── AFSModel.cs             # Main application model
 │   │   ├── Form1.cs                # Balance sheet model
 │   │   ├── Form2.cs                # Income statement model
-│   │   ├── FixedAssetsInfo.cs      # Fixed assets data
 │   │   ├── ChartDataItem.cs        # Chart data models
 │   │   └── TablsModels/            # Table-specific models
 │   ├── Services/                   # Business services
 │   │   ├── DataCalculations/       # 16+ financial calculation services
 │   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service
-│   │   ├── LocalStorageModelHandler.cs   # Model storage
-│   │   ├── LocalStorageCultureHandler.cs # Culture storage
+│   │   ├── OpenAIFinancialAdvisor.cs     # OpenAI service (alternative)
+│   │   ├── JsonSerializationHelper.cs    # AOT-safe JSON helpers
+│   │   ├── LocalStorageModelHandler.cs   # Model persistence
+│   │   ├── LocalStorageCultureHandler.cs # Culture persistence
+│   │   ├── AppThemeService.cs      # Theme management
 │   │   └── JsInterop.cs            # JavaScript interop
 │   ├── Interfaces/
 │   │   ├── IAIFinancialAdvisor.cs  # AI service interface
 │   │   ├── IHasBeginEnd.cs         # Begin/End value interface
-│   │   └── IFinancialDataContracts.cs # Data contracts
+│   │   └── IHasBaseCurrent.cs      # Base/Current interface
+│   ├── Components/
+│   │   └── PageSeoHelper.cs        # SEO management helper
 │   └── Json/                       # AOT-safe JSON serialization
-│       ├── AFSJsonSerializerContext.cs  # Source-generated serializers
+│       ├── AFSJsonSerializerContext.cs  # Source-generated serializers (85+ types)
 │       ├── ChartDataDtos.cs        # Chart data DTOs
 │       ├── FinancialAnalysisDtos.cs # Financial DTOs
 │       └── OpenAIDtos.cs           # AI integration DTOs
@@ -641,7 +651,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### Completed ✅
 - [x] Multi-language support (6 languages)
-- [x] 16 comprehensive financial analysis tables
+- [x] 17 comprehensive financial analysis tables
 - [x] 7 interactive charts
 - [x] PWA with offline support
 - [x] AOT compilation optimization
@@ -659,6 +669,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [x] **SPA routing for direct URL access**
 - [x] **AOT-safe charts (ApexCharts)**
 - [x] **Zero-reflection JSON serialization**
+- [x] **Code quality analyzers (Meziantou, SonarQube, Roslynator)**
 
 ### In Progress 🚧
 - [ ] Enhanced AI prompts and training
@@ -690,7 +701,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ![AI Powered](https://img.shields.io/badge/AI-Powered-brightgreen)
 
 ### Key Metrics
-- **16** Financial Analysis Tables
+- **17** Financial Analysis Tables
 - **7** Interactive Charts
 - **6** Languages Supported
 - **100%** Client-Side Processing

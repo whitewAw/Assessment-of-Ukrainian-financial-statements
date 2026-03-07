@@ -14,13 +14,6 @@
   <assembly fullname="Microsoft.Extensions.Localization.Abstractions" preserve="all" />
   <assembly fullname="Microsoft.Extensions.Localization" preserve="all" />
   
-  <!-- Preserve resource types and properties -->
-  <assembly fullname="AFS.ComponentLibrary">
-    <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all">
-      <method signature="System.String get_Item(System.String)" preserve="all" />
-    </type>
-  </assembly>
-  
   <!-- Preserve ChartDataItem and ChartDateTimeItem for Radzen chart reflection -->
   <assembly fullname="AFS.Core">
     <type fullname="AFS.Core.Models.ChartDataItem" preserve="all">

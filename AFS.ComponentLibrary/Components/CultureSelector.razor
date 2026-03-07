@@ -11,7 +11,7 @@
                     Placeholder="@selectLanguageLabel"
                     aria-label="@selectLanguageLabel">
         <Template Context="culture">
-            @(GetDisplayText((CultureInfo)culture))
+            @GetDisplayTextSafe(culture)
         </Template>
     </RadzenDropDown>
 </div>
@@ -48,6 +48,10 @@
 
     private static string GetDisplayText(CultureInfo culture) =>
         $"{GetFlag(culture)} {GetNativeName(culture)}";
+    
+    // AOT-safe wrapper to avoid dynamic cast in template
+    private static string GetDisplayTextSafe(object? cultureObj) =>
+        cultureObj is CultureInfo culture ? GetDisplayText(culture) : string.Empty;
 
     protected override void OnInitialized()
     {
