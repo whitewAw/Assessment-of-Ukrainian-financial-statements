@@ -24,12 +24,12 @@
     ║ S6562 - DateTimeKind - Not applicable in browser environment                 ║
     ║ CA1824 - NeutralResourcesLanguage - Not needed for client-side WASM          ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 2: INTENTIONAL PATTERNS IN FINANCIAL CALCULATIONS                   ║
+    ║ Category 2: FINANCIAL CALCULATION PATTERNS (100+ occurrences, intentional)   ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ S1244 - Floating point equality - Intentional for zero-check in formulas     ║
-    ║ S1125 - Boolean literals - Explicit comparisons improve formula readability  ║
+    ║ S1244 - Floating point zero-check - Used for division-by-zero guards         ║
+    ║ S1125 - Boolean literals - Explicit true/false in chart visibility logic     ║
     ║ S1110 - Redundant parentheses - Improves readability in complex formulas     ║
-    ║ S3358 - Nested ternary - Used in formula calculations for clarity            ║
+    ║ S3358 - Nested ternary - Used in localization and conditional rendering      ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ Category 3: STYLE PREFERENCES (Low impact, not bugs)                         ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
@@ -61,7 +61,7 @@
     <!-- Category 1: Not applicable to Blazor WASM -->
     <NoWarn>$(NoWarn);MA0004;CA2007;S6966;S6562;CA1824</NoWarn>
     
-    <!-- Category 2: Financial calculation patterns -->
+    <!-- Category 2: Financial calculation patterns (100+ occurrences across charts/tables) -->
     <NoWarn>$(NoWarn);S1244;S1125;S1110;S3358</NoWarn>
     
     <!-- Category 3: Style preferences -->
@@ -72,6 +72,7 @@
     
     <!-- Additional Sonar rules -->
     <NoWarn>$(NoWarn);S112;S6667;S1172;S3928;S101;S3260;S3246;S1118;S125;S1075</NoWarn>
+    
     
     <!-- Roslynator rules -->
     <NoWarn>$(NoWarn);RCS1021;RCS1036;RCS1037;RCS1102;RCS1118;RCS1124;RCS1141;RCS1163;RCS1181;RCS1194</NoWarn>
