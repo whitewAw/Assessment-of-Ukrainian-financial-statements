@@ -10,12 +10,6 @@
     [Parameter]
     public bool IsShowGrowthRate { get; set; } = true;
 
-    private string GetGrowthRateText()
-    {
-        if (IsShowGrowthRate == false)
-        {
-            return "x";
-        }
-        return AFSConstraints.RoundStr(Item.GrowthRate);
-    }
+    private string GetGrowthRateText() =>
+        IsShowGrowthRate ? AFSConstraints.RoundStr(Item.GrowthRate) : "x";
 }

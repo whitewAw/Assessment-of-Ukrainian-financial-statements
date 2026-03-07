@@ -245,17 +245,7 @@
 
     private string BuildFixedAssetsAnalysisPrompt()
     {
-        // Detect current UI language from CultureInfo
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var languageName = currentCulture.EnglishName;
-        var cultureName = currentCulture.Name;
-        
-        // Map culture to language instruction
-        string languageInstruction = cultureName.StartsWith("uk") 
-            ? "Ukrainian" 
-            : cultureName.StartsWith("en") 
-            ? "English" 
-            : languageName;
+        string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
         // Build structured data with proper column structure matching table
         var structuredData = $@"TABLE 5: AVAILABILITY AND MOVEMENT OF FIXED ASSETS
@@ -271,22 +261,22 @@ COLUMN-BY-COLUMN DATA STRUCTURE:
    Received during the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Base.Received:N2}
      - Including new: {AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew:N2}
-     - New as % of total received: {((AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100) : 0)):N2}%
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%
    
    Left in the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
      - Including liquidated: {AvailabilityAndMovementOfFixedAssets.Base.Liquidated:N2}
-     - Liquidated as % of total left: {((AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100) : 0)):N2}%
+     - Liquidated as % of total left: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100 : 0):N2}%
    
    End-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost:N2}
    End-of-year balance net of depreciation: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
    
    CALCULATED METRICS:
-   Net change in year: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtBeginInitialCost):N2}
-   Net addition (Received - Left): {(AvailabilityAndMovementOfFixedAssets.Base.Received - AvailabilityAndMovementOfFixedAssets.Base.Left):N2}
-   Accumulated depreciation: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation):N2}
-   Depreciation rate: {((AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? ((AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100) : 0)):N2}%
-   Investment ratio (Received/Left): {((AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left) : 0)):N2}x
+   Net change in year: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtBeginInitialCost:N2}
+   Net addition (Received - Left): {AvailabilityAndMovementOfFixedAssets.Base.Received - AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+   Accumulated depreciation: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
+   Depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100 : 0):N2}%
+   Investment ratio (Received/Left): {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left : 0):N2}x
 
 **{MainModel.CurrentYear} YEAR:**
    Beginning-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost:N2}
@@ -294,27 +284,27 @@ COLUMN-BY-COLUMN DATA STRUCTURE:
    Received during the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Current.Received:N2}
      - Including new: {AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew:N2}
-     - New as % of total received: {((AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100) : 0)):N2}%
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}%
    
    Left in the reporting period:
      - Total: {AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
      - Including liquidated: {AvailabilityAndMovementOfFixedAssets.Current.Liquidated:N2}
-     - Liquidated as % of total left: {((AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100) : 0)):N2}%
+     - Liquidated as % of total left: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100 : 0):N2}%
    
    End-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost:N2}
    End-of-year balance net of depreciation: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation:N2}
    
    CALCULATED METRICS:
-   Net change in year: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost):N2}
-   Net addition (Received - Left): {(AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Current.Left):N2}
-   Accumulated depreciation: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation):N2}
-   Depreciation rate: {((AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? ((AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100) : 0)):N2}%
-   Investment ratio (Received/Left): {((AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left) : 0)):N2}x
+   Net change in year: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost:N2}
+   Net addition (Received - Left): {AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
+   Accumulated depreciation: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation:N2}
+   Depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100 : 0):N2}%
+   Investment ratio (Received/Left): {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left : 0):N2}x
 
 YEAR-OVER-YEAR COMPARISON:
-   Change in capital investment: {(AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received):N2} ({((AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? ((AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received) / AvailabilityAndMovementOfFixedAssets.Base.Received * 100) : 0)):N2}%)
-   Change in disposals: {(AvailabilityAndMovementOfFixedAssets.Current.Left - AvailabilityAndMovementOfFixedAssets.Base.Left):N2}
-   Change in net book value: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation):N2}
+   Change in capital investment: {AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received:N2} ({(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received) / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%)
+   Change in disposals: {AvailabilityAndMovementOfFixedAssets.Current.Left - AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+   Change in net book value: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
 ";
 
         return $@"You are a financial analyst specializing in fixed assets management and capital investment analysis. Analyze the Availability and Movement of Fixed Assets for {MainModel.CompanyName}.
@@ -371,8 +361,8 @@ RESPONSE STRUCTURE:
 - Investment as % of beginning balance (capital intensity)
 
 **Investment Quality**:
-- {MainModel.BaseYear}: {((AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100) : 0)):N2}% were new
-- {MainModel.CurrentYear}: {((AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100) : 0)):N2}% were new
+- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}% were new
+- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNew / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}% were new
 - Interpretation: 100% = modernization, <100% = used/transferred assets
 
 **4. Asset Disposal Analysis**
@@ -381,18 +371,18 @@ RESPONSE STRUCTURE:
 - Disposal trend
 
 **Disposal Quality**:
-- {MainModel.BaseYear}: {((AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100) : 0)):N2}% were liquidated
-- {MainModel.CurrentYear}: {((AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100) : 0)):N2}% were liquidated
+- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100 : 0):N2}% were liquidated
+- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100 : 0):N2}% were liquidated
 - Interpretation: High % = end-of-life disposals, Low % = assets still valuable
 
 **5. Investment vs Disposal Balance**
-- {MainModel.BaseYear} ratio: {((AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left) : 0)):N2}x (Received/Left)
-- {MainModel.CurrentYear} ratio: {((AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left) : 0)):N2}x
+- {MainModel.BaseYear} ratio: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left : 0):N2}x (Received/Left)
+- {MainModel.CurrentYear} ratio: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left : 0):N2}x
 - Interpretation: >5x = aggressive expansion, 1-5x = growth with renewal, <1x = contraction
 
 **6. Depreciation and Asset Age**
-- {MainModel.BaseYear} depreciation rate: {((AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? ((AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100) : 0)):N2}%
-- {MainModel.CurrentYear} depreciation rate: {((AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? ((AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100) : 0)):N2}%
+- {MainModel.BaseYear} depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100 : 0):N2}%
+- {MainModel.CurrentYear} depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100 : 0):N2}%
 - Trend: Increasing = aging, Decreasing = renewal
 - Benchmark: 30-40% = new, 50-60% = mature, >70% = aging
 

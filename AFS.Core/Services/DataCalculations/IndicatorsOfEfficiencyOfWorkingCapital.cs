@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -59,7 +59,7 @@ namespace AFS.Core.Services.DataCalculations
         private void IntegratedIndicatorOfEfficiencyOfCurrentAssetsInit()
         {
             IntegratedIndicatorOfEfficiencyOfCurrentAssets.Number = "6.";
-            if (ProfitabilityOfCurrentAssets.BaseYear == 0)
+            if (AFSConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.BaseYear))
             {
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.BaseYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.BaseYear / 100);
             }
@@ -68,7 +68,7 @@ namespace AFS.Core.Services.DataCalculations
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.BaseYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.BaseYear * ProfitabilityOfCurrentAssets.BaseYear / 100);
             }
 
-            if (ProfitabilityOfCurrentAssets.CurrentYear == 0)
+            if (AFSConstraints.IsEffectivelyZero(ProfitabilityOfCurrentAssets.CurrentYear))
             {
                 IntegratedIndicatorOfEfficiencyOfCurrentAssets.CurrentYear = Math.Sqrt(NumberOfRevolutionsOfCurrentAssets.CurrentYear / 100);
             }

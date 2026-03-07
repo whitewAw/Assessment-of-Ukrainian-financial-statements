@@ -222,14 +222,7 @@
 
     private string BuildAssetCompositionPrompt()
     {
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var cultureName = currentCulture.Name;
-        
-        string languageInstruction = cultureName.StartsWith("uk") 
-            ? "Ukrainian" 
-            : cultureName.StartsWith("en") 
-            ? "English" 
-            : currentCulture.EnglishName;
+        string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
         // Use AOT-optimized JSON serialization
         var jsonData = JsonSerializationHelper.SerializeAssetComposition(

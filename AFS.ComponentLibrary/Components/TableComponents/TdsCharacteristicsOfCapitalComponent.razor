@@ -18,16 +18,10 @@
     [Parameter]
     public string? FieldName { get; set; }
     [Parameter]
-    public string? Spacing { get; set; } = String.Empty;
+    public string? Spacing { get; set; } = string.Empty;
     [Parameter]
     public bool IsShowGrowthRate { get; set; } = true;
 
-    private string GetGrowthRateText(CharacteristicsOfCapitalCalculationRow Item)
-    {
-        if (IsShowGrowthRate == false)
-        {
-            return "x";
-        }
-        return AFSConstraints.RoundStr(Item.GrowthRate);
-    }
+    private string GetGrowthRateText(CharacteristicsOfCapitalCalculationRow Item) =>
+        IsShowGrowthRate ? AFSConstraints.RoundStr(Item.GrowthRate) : "x";
 }

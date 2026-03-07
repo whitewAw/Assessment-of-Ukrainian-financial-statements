@@ -10,10 +10,10 @@ namespace AFS.Core.Services.DataCalculations
         private void Init(AFSModel model) => AssessmentOfReceivableAndPayable = new(model);
         public List<ChartDataItem> GetDataItem(bool baseYear)
         {
-            List<ChartDataItem> assets = new();
+            List<ChartDataItem> assets = [];
 
             var withBuyersOrSuppliersValue = GetWithBuyersOrSuppliers(baseYear).GetValueOrDefault(0);
-            if (withBuyersOrSuppliersValue != 0 && !Double.IsNaN(withBuyersOrSuppliersValue) && !Double.IsInfinity(withBuyersOrSuppliersValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withBuyersOrSuppliersValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -22,7 +22,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withLongTermLiabilitiesValue = GetWithLongTermLiabilities(baseYear).GetValueOrDefault(0);
-            if (withLongTermLiabilitiesValue != 0 && !Double.IsNaN(withLongTermLiabilitiesValue) && !Double.IsInfinity(withLongTermLiabilitiesValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withLongTermLiabilitiesValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -31,7 +31,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var forBillsValue = GetForBills(baseYear).GetValueOrDefault(0);
-            if (forBillsValue != 0 && !Double.IsNaN(forBillsValue) && !Double.IsInfinity(forBillsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(forBillsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -40,7 +40,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var fromInsuranceValue = GetFromInsurance(baseYear).GetValueOrDefault(0);
-            if (fromInsuranceValue != 0 && !Double.IsNaN(fromInsuranceValue) && !Double.IsInfinity(fromInsuranceValue))
+            if (!AFSConstraints.IsZeroOrInvalid(fromInsuranceValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -49,7 +49,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withBudgetAndExtraBudgetaryFundsValue = GetWithBudgetAndExtraBudgetaryFunds(baseYear).GetValueOrDefault(0);
-            if (withBudgetAndExtraBudgetaryFundsValue != 0 && !Double.IsNaN(withBudgetAndExtraBudgetaryFundsValue) && !Double.IsInfinity(withBudgetAndExtraBudgetaryFundsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withBudgetAndExtraBudgetaryFundsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -58,7 +58,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withAccruedIncomeValue = GetWithAccruedIncome(baseYear).GetValueOrDefault(0);
-            if (withAccruedIncomeValue != 0 && !Double.IsNaN(withAccruedIncomeValue) && !Double.IsInfinity(withAccruedIncomeValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withAccruedIncomeValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -67,7 +67,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withPayrollValue = GetWithPayroll(baseYear).GetValueOrDefault(0);
-            if (withPayrollValue != 0 && !Double.IsNaN(withPayrollValue) && !Double.IsInfinity(withPayrollValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withPayrollValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -76,7 +76,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withAdvancesValue = GetWithAdvances(baseYear).GetValueOrDefault(0);
-            if (withAdvancesValue != 0 && !Double.IsNaN(withAdvancesValue) && !Double.IsInfinity(withAdvancesValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withAdvancesValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -85,7 +85,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withParticipantsValue = GetWithParticipants(baseYear).GetValueOrDefault(0);
-            if (withParticipantsValue != 0 && !Double.IsNaN(withParticipantsValue) && !Double.IsInfinity(withParticipantsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withParticipantsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -94,7 +94,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withInternalCashSettlementsValue = GetWithInternalCashSettlements(baseYear).GetValueOrDefault(0);
-            if (withInternalCashSettlementsValue != 0 && !Double.IsNaN(withInternalCashSettlementsValue) && !Double.IsInfinity(withInternalCashSettlementsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withInternalCashSettlementsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -103,7 +103,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var withOtherValue = GetWithOther(baseYear).GetValueOrDefault(0);
-            if (withOtherValue != 0 && !Double.IsNaN(withOtherValue) && !Double.IsInfinity(withOtherValue))
+            if (!AFSConstraints.IsZeroOrInvalid(withOtherValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -114,137 +114,93 @@ namespace AFS.Core.Services.DataCalculations
 
             return assets.OrderByDescending(item => item.Value).ToList();
         }
+        
         private double? GetWithBuyersOrSuppliers(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithLongTermLiabilities(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetForBills(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.ForBills.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.ForBills.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.ForBills.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.ForBills.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetFromInsurance(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.FromInsurance.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.FromInsurance.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.FromInsurance.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.FromInsurance.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithBudgetAndExtraBudgetaryFunds(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithAccruedIncome(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithPayroll(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithPayroll.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithPayroll.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithPayroll.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithPayroll.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithAdvances(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithAdvances.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithAdvances.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithAdvances.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithAdvances.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithParticipants(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithParticipants.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithParticipants.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithParticipants.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithParticipants.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithInternalCashSettlements(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
+        
         private double? GetWithOther(bool baseYear)
         {
-            if (baseYear == true && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithOther.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100;
-            }
-            else if (baseYear == false && AssessmentOfReceivableAndPayable != null)
-            {
-                return AssessmentOfReceivableAndPayable.WithOther.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-            }
-            return 0;
+            if (AssessmentOfReceivableAndPayable == null) return 0;
+            return baseYear
+                ? AssessmentOfReceivableAndPayable.WithOther.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
+                : AssessmentOfReceivableAndPayable.WithOther.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
         }
     }
 }

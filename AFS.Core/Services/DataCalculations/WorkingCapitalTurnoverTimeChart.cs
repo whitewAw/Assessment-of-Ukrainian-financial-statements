@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -15,10 +15,10 @@ namespace AFS.Core.Services.DataCalculations
         }
         public List<ChartDateTimeItem> GetMoney()
         {
-            List<ChartDateTimeItem> items = new();
+            List<ChartDateTimeItem> items = [];
 
             var moneyBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.Money.BaseYear).GetValueOrDefault(0);
-            if (moneyBaseYear != 0 && !Double.IsNaN(moneyBaseYear) && !Double.IsInfinity(moneyBaseYear))
+            if (!AFSConstraints.IsZeroOrInvalid(moneyBaseYear))
             {
                 items.Add(new ChartDateTimeItem
                 {
@@ -28,7 +28,7 @@ namespace AFS.Core.Services.DataCalculations
             }
 
             var moneyCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.Money.CurrentYear).GetValueOrDefault(0);
-            if (moneyCurrentYear != 0 && !Double.IsNaN(moneyCurrentYear) && !Double.IsInfinity(moneyCurrentYear))
+            if (!AFSConstraints.IsZeroOrInvalid(moneyCurrentYear))
             {
                 items.Add(new ChartDateTimeItem
                 {
@@ -40,10 +40,10 @@ namespace AFS.Core.Services.DataCalculations
         }
         public List<ChartDateTimeItem> GetReceivables()
         {
-            List<ChartDateTimeItem> items = new();
+            List<ChartDateTimeItem> items = [];
 
             var receivablesBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.Receivables.BaseYear).GetValueOrDefault(0);
-            if (receivablesBaseYear != 0 && !Double.IsNaN(receivablesBaseYear) && !Double.IsInfinity(receivablesBaseYear))
+            if (!AFSConstraints.IsZeroOrInvalid(receivablesBaseYear))
             {
                 items.Add(new ChartDateTimeItem
                 {
@@ -52,7 +52,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var receivablesCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.Receivables.CurrentYear).GetValueOrDefault(0);
-            if (receivablesCurrentYear != 0 && !Double.IsNaN(receivablesCurrentYear) && !Double.IsInfinity(receivablesCurrentYear))
+            if (!AFSConstraints.IsZeroOrInvalid(receivablesCurrentYear))
             {
                 items.Add(new ChartDateTimeItem
                 {
@@ -65,10 +65,10 @@ namespace AFS.Core.Services.DataCalculations
         }
         public List<ChartDateTimeItem> GetMaterialValues()
         {
-            List<ChartDateTimeItem> items = new();
+            List<ChartDateTimeItem> items = [];
 
             var materialValuesBaseYear = (FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.BaseYear).GetValueOrDefault(0);
-            if (materialValuesBaseYear != 0 && !Double.IsNaN(materialValuesBaseYear) && !Double.IsInfinity(materialValuesBaseYear))
+            if (!AFSConstraints.IsZeroOrInvalid(materialValuesBaseYear))
             {
                 items.Add(new ChartDateTimeItem
                 {
@@ -77,7 +77,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var materialValuesCurrentYear = (FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.CurrentYear).GetValueOrDefault(0);
-            if (materialValuesCurrentYear != 0 && !Double.IsNaN(materialValuesCurrentYear) && !Double.IsInfinity(materialValuesCurrentYear))
+            if (!AFSConstraints.IsZeroOrInvalid(materialValuesCurrentYear))
             {
                 items.Add(new ChartDateTimeItem
                 {

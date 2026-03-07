@@ -43,15 +43,11 @@ public class NonCurrentImmobilizedFunds
         Current.BeginningOfyear = model.F1Current.GetF1095Begin();
         Current.EndOfYear = model.F1Current.GetF1095End();
 
-        InPercentageOfAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
-        InPercentageOfAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
+        InPercentageOfAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
+        InPercentageOfAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -72,15 +68,11 @@ public class CurrentMobileAssets
         Current.BeginningOfyear = model.F1Current.GetF1195Begin() - model.F1Current.F1170.Begin + model.F1Current.F1200.Begin;
         Current.EndOfYear = model.F1Current.GetF1195End() - model.F1Current.F1170.End + model.F1Current.F1200.End;
 
-        InPercentageOfAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
-        InPercentageOfAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
+        InPercentageOfAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
+        InPercentageOfAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -101,15 +93,11 @@ public class TangibleCurrentAssets
         Current.BeginningOfyear = model.F1Current.GetAccountsTangibleAssets(true);
         Current.EndOfYear = model.F1Current.GetAccountsTangibleAssets(false);
 
-        InPercentageOfCurrentAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
-        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -130,15 +118,11 @@ public class AccountsReceivable
         Current.BeginningOfyear = model.F1Current.GetAccountsReceivable(true);
         Current.EndOfYear = model.F1Current.GetAccountsReceivable(false);
 
-        InPercentageOfCurrentAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
-        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -159,15 +143,11 @@ public class CashCurrentFinancialInvestments
         Current.BeginningOfyear = model.F1Current.GetAccountsMoney(true);
         Current.EndOfYear = model.F1Current.GetAccountsMoney(false);
 
-        InPercentageOfCurrentAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
-        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -188,15 +168,11 @@ public class OtherCurrentAssets
         Current.BeginningOfyear = model.F1Current.F1190.Begin;
         Current.EndOfYear = model.F1Current.F1190.End;
 
-        InPercentageOfCurrentAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
-        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -217,15 +193,11 @@ public class NonCurrentAssetsHeldForSale
         Current.BeginningOfyear = model.F1Current.F1200.Begin;
         Current.EndOfYear = model.F1Current.F1200.End;
 
-        InPercentageOfCurrentAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
-        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfCurrentAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, currentMobileAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, currentMobileAssets.Base.EndOfYear) * 100;
+        InPercentageOfCurrentAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, currentMobileAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfCurrentAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, currentMobileAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }
 
 /// <summary>
@@ -246,13 +218,9 @@ public class FutureExpenses
         Current.BeginningOfyear = model.F1Current.F1170.Begin;
         Current.EndOfYear = model.F1Current.F1170.End;
 
-        InPercentageOfAssetsBase.BeginningOfyear = SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
-        InPercentageOfAssetsBase.EndOfYear = SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
-        InPercentageOfAssetsCurrent.BeginningOfyear = SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
-        InPercentageOfAssetsCurrent.EndOfYear = SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
+        InPercentageOfAssetsBase.BeginningOfyear = AFSConstraints.SafeDivide(Base.BeginningOfyear, totalAssets.Base.BeginningOfyear) * 100;
+        InPercentageOfAssetsBase.EndOfYear = AFSConstraints.SafeDivide(Base.EndOfYear, totalAssets.Base.EndOfYear) * 100;
+        InPercentageOfAssetsCurrent.BeginningOfyear = AFSConstraints.SafeDivide(Current.BeginningOfyear, totalAssets.Current.BeginningOfyear) * 100;
+        InPercentageOfAssetsCurrent.EndOfYear = AFSConstraints.SafeDivide(Current.EndOfYear, totalAssets.Current.EndOfYear) * 100;
     }
-
-    private static double SafeDivide(double numerator, double denominator) =>
-        denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator) ? 0 :
-        double.IsNaN(numerator / denominator) || double.IsInfinity(numerator / denominator) ? 0 : numerator / denominator;
 }

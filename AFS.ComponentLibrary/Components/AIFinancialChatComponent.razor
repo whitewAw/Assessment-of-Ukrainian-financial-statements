@@ -264,14 +264,7 @@ private enum QuickPrompts
         try
         {
             // Get current culture and language
-            var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-            var cultureName = currentCulture.Name;
-            
-            string languageInstruction = cultureName.StartsWith("uk")
-                ? "Ukrainian"
-                : cultureName.StartsWith("en")
-                ? "English"
-                : currentCulture.EnglishName;
+            string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
             // Build comprehensive financial context
             var financialContext = BuildFinancialContext();
@@ -468,14 +461,7 @@ Answer in {languageInstruction}:";
 
     private string BuildQuickPromptWithContext(QuickPrompts promptType)
     {
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var cultureName = currentCulture.Name;
-
-        string languageInstruction = cultureName.StartsWith("uk")
-            ? "Ukrainian"
-            : cultureName.StartsWith("en")
-            ? "English"
-            : currentCulture.EnglishName;
+        string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
         var financialContext = BuildFinancialContext();
 

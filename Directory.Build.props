@@ -13,6 +13,7 @@
   <!-- Enforce code style during build -->
   <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     
+    
     <!-- 
     ╔══════════════════════════════════════════════════════════════════════════════╗
     ║                    SUPPRESSED WARNINGS - DOCUMENTED REASONS                  ║
@@ -24,14 +25,7 @@
     ║ S6562 - DateTimeKind - Not applicable in browser environment                 ║
     ║ CA1824 - NeutralResourcesLanguage - Not needed for client-side WASM          ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 2: FINANCIAL CALCULATION PATTERNS (100+ occurrences, intentional)   ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ S1244 - Floating point zero-check - Used for division-by-zero guards         ║
-    ║ S1125 - Boolean literals - Explicit true/false in chart visibility logic     ║
-    ║ S1110 - Redundant parentheses - Improves readability in complex formulas     ║
-    ║ S3358 - Nested ternary - Used in localization and conditional rendering      ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 3: STYLE PREFERENCES (Low impact, not bugs)                         ║
+    ║ Category 2: STYLE PREFERENCES (Low impact, not bugs)                         ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ MA0006 - string.Equals - Simple comparisons are readable as-is               ║
     ║ MA0011 - IFormatProvider - Internal formatting, culture not critical         ║
@@ -41,7 +35,7 @@
     ║ MA0051 - Method too long - Calculation methods are inherently long           ║
     ║ MA0115 - Use Span - Micro-optimization not needed for this app               ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 4: MINOR ISSUES (Would require extensive changes for little gain)   ║
+    ║ Category 3: MINOR ISSUES (Would require extensive changes for little gain)   ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ CA1031 - Catch specific exceptions - Defensive programming in UI layer       ║
     ║ CA1062 - Validate parameters - Blazor framework handles null checks          ║
@@ -61,18 +55,14 @@
     <!-- Category 1: Not applicable to Blazor WASM -->
     <NoWarn>$(NoWarn);MA0004;CA2007;S6966;S6562;CA1824</NoWarn>
     
-    <!-- Category 2: Financial calculation patterns (100+ occurrences across charts/tables) -->
-    <NoWarn>$(NoWarn);S1244;S1125;S1110;S3358</NoWarn>
-    
-    <!-- Category 3: Style preferences -->
+    <!-- Category 2: Style preferences -->
     <NoWarn>$(NoWarn);MA0006;MA0011;MA0015;MA0016;MA0048;MA0051;MA0115;MA0074;MA0046;MA0009</NoWarn>
     
-    <!-- Category 4: Minor issues -->
+    <!-- Category 3: Minor issues -->
     <NoWarn>$(NoWarn);CA1031;CA1062;CA1305;CA1310;CA1711;CA1724;CA1816;CA1848;CA1852;CA2201;CA2208;CA2254</NoWarn>
     
     <!-- Additional Sonar rules -->
     <NoWarn>$(NoWarn);S112;S6667;S1172;S3928;S101;S3260;S3246;S1118;S125;S1075</NoWarn>
-    
     
     <!-- Roslynator rules -->
     <NoWarn>$(NoWarn);RCS1021;RCS1036;RCS1037;RCS1102;RCS1118;RCS1124;RCS1141;RCS1163;RCS1181;RCS1194</NoWarn>

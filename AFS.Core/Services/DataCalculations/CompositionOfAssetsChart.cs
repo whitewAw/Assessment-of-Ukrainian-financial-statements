@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -15,10 +15,10 @@ namespace AFS.Core.Services.DataCalculations
 
         public List<ChartDataItem> GetDataItem(bool baseYear, bool begin)
         {
-            List<ChartDataItem> assets = new();
+            List<ChartDataItem> assets = [];
 
             var nonCurrentImmobilizedAssetsValue = GetNonCurrentImmobilizedFunds(baseYear, begin).GetValueOrDefault(0);
-            if (nonCurrentImmobilizedAssetsValue != 0 && !Double.IsNaN(nonCurrentImmobilizedAssetsValue) && !Double.IsInfinity(nonCurrentImmobilizedAssetsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(nonCurrentImmobilizedAssetsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -27,7 +27,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var tangibleCurrentAssetsValue = GetTangibleCurrentAssets(baseYear, begin).GetValueOrDefault(0);
-            if (tangibleCurrentAssetsValue != 0 && !Double.IsNaN(tangibleCurrentAssetsValue) && !Double.IsInfinity(tangibleCurrentAssetsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(tangibleCurrentAssetsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -36,7 +36,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var accountsReceivableValue = GetAccountsReceivable(baseYear, begin).GetValueOrDefault(0);
-            if (accountsReceivableValue != 0 && !Double.IsNaN(accountsReceivableValue) && !Double.IsInfinity(accountsReceivableValue))
+            if (!AFSConstraints.IsZeroOrInvalid(accountsReceivableValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -45,7 +45,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var cashCurrentFinancialInvestmentsValue = GetCashCurrentFinancialInvestments(baseYear, begin).GetValueOrDefault(0);
-            if (cashCurrentFinancialInvestmentsValue != 0 && !Double.IsNaN(cashCurrentFinancialInvestmentsValue) && !Double.IsInfinity(cashCurrentFinancialInvestmentsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(cashCurrentFinancialInvestmentsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -54,7 +54,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var otherCurrentAssetsValue = GetOtherCurrentAssets(baseYear, begin).GetValueOrDefault(0);
-            if (otherCurrentAssetsValue != 0 && !Double.IsNaN(otherCurrentAssetsValue) && !Double.IsInfinity(otherCurrentAssetsValue))
+            if (!AFSConstraints.IsZeroOrInvalid(otherCurrentAssetsValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -63,7 +63,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var nonCurrentAssetsHeldForSaleValue = GetNonCurrentAssetsHeldForSale(baseYear, begin).GetValueOrDefault(0);
-            if (nonCurrentAssetsHeldForSaleValue != 0 && !Double.IsNaN(nonCurrentAssetsHeldForSaleValue) && !Double.IsInfinity(nonCurrentAssetsHeldForSaleValue))
+            if (!AFSConstraints.IsZeroOrInvalid(nonCurrentAssetsHeldForSaleValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -72,7 +72,7 @@ namespace AFS.Core.Services.DataCalculations
                 });
             }
             var futureExpensesValue = GetFutureExpenses(baseYear, begin).GetValueOrDefault(0);
-            if (futureExpensesValue != 0 && !Double.IsNaN(futureExpensesValue) && !Double.IsInfinity(futureExpensesValue))
+            if (!AFSConstraints.IsZeroOrInvalid(futureExpensesValue))
             {
                 assets.Add(new ChartDataItem
                 {
@@ -85,151 +85,67 @@ namespace AFS.Core.Services.DataCalculations
         }
 
 
-        public double? GetNonCurrentImmobilizedFunds(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetNonCurrentImmobilizedFunds(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.NonCurrentImmobilizedFunds.Current.EndOfYear,
+            };
 
-        public double? GetTangibleCurrentAssets(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetTangibleCurrentAssets(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.TangibleCurrentAssets.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.TangibleCurrentAssets.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.TangibleCurrentAssets.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.TangibleCurrentAssets.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.TangibleCurrentAssets.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.TangibleCurrentAssets.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.TangibleCurrentAssets.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.TangibleCurrentAssets.Current.EndOfYear,
+            };
 
-        public double? GetAccountsReceivable(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetAccountsReceivable(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.AccountsReceivable.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.AccountsReceivable.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.AccountsReceivable.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.AccountsReceivable.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.AccountsReceivable.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.AccountsReceivable.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.AccountsReceivable.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.AccountsReceivable.Current.EndOfYear,
+            };
 
-        public double? GetCashCurrentFinancialInvestments(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetCashCurrentFinancialInvestments(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.CashCurrentFinancialInvestments.Current.EndOfYear,
+            };
 
-        public double? GetOtherCurrentAssets(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetOtherCurrentAssets(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.OtherCurrentAssets.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.OtherCurrentAssets.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.OtherCurrentAssets.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.OtherCurrentAssets.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.OtherCurrentAssets.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.OtherCurrentAssets.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.OtherCurrentAssets.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.OtherCurrentAssets.Current.EndOfYear,
+            };
 
-        public double? GetNonCurrentAssetsHeldForSale(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetNonCurrentAssetsHeldForSale(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.NonCurrentAssetsHeldForSale.Current.EndOfYear,
+            };
 
-        public double? GetFutureExpenses(bool baseYear, bool begin)
-        {
-            if (begin == true && baseYear == true)
+        public double? GetFutureExpenses(bool baseYear, bool begin) =>
+            (begin, baseYear) switch
             {
-                return CharacteristicsOfCapital?.FutureExpenses.Base.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == true)
-            {
-                return CharacteristicsOfCapital?.FutureExpenses.Base.EndOfYear;
-            }
-            else if (begin == true && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.FutureExpenses.Current.BeginningOfyear;
-            }
-            else if (begin == false && baseYear == false)
-            {
-                return CharacteristicsOfCapital?.FutureExpenses.Current.EndOfYear;
-            }
-            return 0;
-        }
+                (true, true) => CharacteristicsOfCapital?.FutureExpenses.Base.BeginningOfyear,
+                (false, true) => CharacteristicsOfCapital?.FutureExpenses.Base.EndOfYear,
+                (true, false) => CharacteristicsOfCapital?.FutureExpenses.Current.BeginningOfyear,
+                (false, false) => CharacteristicsOfCapital?.FutureExpenses.Current.EndOfYear,
+            };
     }
 }

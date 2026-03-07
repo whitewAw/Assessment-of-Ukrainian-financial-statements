@@ -624,7 +624,7 @@ public static class JsonSerializationHelper
 
     private static double CalculatePercentageChange(double baseValue, double currentValue)
     {
-        if (baseValue == 0 || double.IsNaN(baseValue) || double.IsInfinity(baseValue)) return 0;
+        if (AFSConstraints.IsZeroOrInvalid(baseValue)) return 0;
         if (double.IsNaN(currentValue) || double.IsInfinity(currentValue)) return 0;
         var result = ((currentValue - baseValue) / baseValue) * 100;
         if (double.IsNaN(result) || double.IsInfinity(result)) return 0;

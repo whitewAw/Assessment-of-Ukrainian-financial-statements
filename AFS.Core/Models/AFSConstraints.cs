@@ -47,6 +47,26 @@ namespace AFS.Core.Models
             return (currentValue - baseValue) / baseValue * 100;
         }
 
+        /// <summary>
+        /// Gets the language name for AI prompts based on the current UI culture.
+        /// Supports: Ukrainian, English, German, Spanish, French, Russian.
+        /// </summary>
+        public static string GetLanguageInstruction()
+        {
+            var cultureName = System.Globalization.CultureInfo.CurrentUICulture.Name;
+            
+            return cultureName[..2].ToLowerInvariant() switch
+            {
+                "uk" => "Ukrainian",
+                "en" => "English",
+                "de" => "German",
+                "es" => "Spanish",
+                "fr" => "French",
+                "ru" => "Russian",
+                _ => "English"
+            };
+        }
+
         public static double RoundStat(double value, int digits = 1) => Math.Round(value, digits, MidpointRounding.ToEven);
 
         public static string RoundStrStat(double value, int digits = 1)

@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -508,7 +508,7 @@ namespace AFS.Core.Services.DataCalculations
         /// </summary>
         private static double SafeDivide(double numerator, double denominator)
         {
-            if (denominator == 0 || double.IsNaN(denominator) || double.IsInfinity(denominator))
+            if (AFSConstraints.IsZeroOrInvalid(denominator))
                 return 0;
 
             var result = numerator / denominator;

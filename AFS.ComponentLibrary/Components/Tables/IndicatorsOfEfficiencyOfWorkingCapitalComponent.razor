@@ -231,17 +231,7 @@
 
     private string BuildEfficiencyAnalysisPrompt()
     {
-        // Detect current UI language from CultureInfo
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var languageName = currentCulture.EnglishName;
-        var cultureName = currentCulture.Name;
-        
-        // Map culture to language instruction
-        string languageInstruction = cultureName.StartsWith("uk") 
-            ? "Ukrainian" 
-            : cultureName.StartsWith("en") 
-            ? "English" 
-            : languageName;
+        string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
         // Build structured data with proper row numbering matching table structure
         var structuredData = $@"TABLE 4: INDICATORS OF EFFICIENCY OF WORKING CAPITAL

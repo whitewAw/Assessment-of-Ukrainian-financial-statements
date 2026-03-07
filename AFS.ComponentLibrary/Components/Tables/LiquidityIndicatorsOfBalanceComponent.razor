@@ -303,14 +303,7 @@
 
     private string BuildLiquidityPrompt()
     {
-        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture;
-        var cultureName = currentCulture.Name;
-        
-        string languageInstruction = cultureName.StartsWith("uk") 
-            ? "Ukrainian" 
-            : cultureName.StartsWith("en") 
-            ? "English" 
-            : currentCulture.EnglishName;
+        string languageInstruction = AFSConstraints.GetLanguageInstruction();
 
         // Use AOT-optimized JSON serialization
         var jsonData = JsonSerializationHelper.SerializeLiquidityIndicators(
@@ -619,7 +612,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
     
     private string GetLiquidity(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4, bool beginOfYear)
     {
-        if (beginOfYear == true)
+        if (beginOfYear)
         {
             if (A1P1.ABegin >= A1P1.PBegin && A2P2.ABegin >= A2P2.PBegin && A3P3.ABegin >= A3P3.PBegin && A4P4.ABegin <= A4P4.PBegin)
             {
