@@ -5,7 +5,6 @@ using Blazored.LocalStorage;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
 using System.Text.Json;
-//using System.Text.Json;
 
 namespace AFS.Core.Services
 {
@@ -18,6 +17,11 @@ namespace AFS.Core.Services
 
         public LocalStorageModelHandler(ILocalStorageService storage, AFSModel model, ILoggerFactory loggerFactory, HttpClient http)
         {
+            ArgumentNullException.ThrowIfNull(storage);
+            ArgumentNullException.ThrowIfNull(model);
+            ArgumentNullException.ThrowIfNull(loggerFactory);
+            ArgumentNullException.ThrowIfNull(http);
+
             this.storage = storage;
             this.model = model;
             logger = loggerFactory.CreateLogger<LocalStorageModelHandler>();
@@ -42,18 +46,22 @@ namespace AFS.Core.Services
                 {
                     return JsonSerializer.Deserialize(jsonModel, AFSJsonSerializerContext.Default.AFSModel);
                 }
-                catch (Exception ex)
+                catch (JsonException ex)
                 {
-                    logger.LogError(ex.Message);
+                    logger.LogError("JSON deserialization failed: {Message}", ex.Message);
                 }
             }
             try
             {
                 return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AFSJsonSerializerContext.Default.AFSModel);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                logger.LogError(ex.Message);
+                logger.LogError("HTTP request failed: {Message}", ex.Message);
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("JSON deserialization failed: {Message}", ex.Message);
             }
             return null;
         }

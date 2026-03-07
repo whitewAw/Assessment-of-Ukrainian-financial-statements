@@ -13,6 +13,9 @@ namespace AFS.Core.Services
 
         public LocalStorageCultureHandler(ILocalStorageService storage, ILoggerFactory loggerFactory)
         {
+            ArgumentNullException.ThrowIfNull(storage);
+            ArgumentNullException.ThrowIfNull(loggerFactory);
+
             this.storage = storage;
             logger = loggerFactory.CreateLogger<LocalStorageCultureHandler>();
         }
@@ -26,9 +29,9 @@ namespace AFS.Core.Services
                 {
                     return new CultureInfo(langCulture);
                 }
-                catch (Exception ex)
+                catch (CultureNotFoundException ex)
                 {
-                    logger.LogError(ex, "Failed to create CultureInfo for: {Culture}", langCulture);
+                    logger.LogError(ex, "Invalid culture name: {Culture}", langCulture);
                 }
             }
             // Default to English if no culture is stored

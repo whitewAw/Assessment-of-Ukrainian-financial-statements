@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 
 namespace AFS.Core.Services
 {
@@ -8,6 +8,7 @@ namespace AFS.Core.Services
 
         public JsInterop(IJSRuntime jsRuntime)
         {
+            ArgumentNullException.ThrowIfNull(jsRuntime);
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./_content/AFS.ComponentLibrary/JsInterop.js").AsTask());
         }

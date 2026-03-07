@@ -17,6 +17,7 @@ public class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDisposable
 
     public BrowserAIFinancialAdvisor(IJSRuntime jsRuntime)
     {
+        ArgumentNullException.ThrowIfNull(jsRuntime);
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js").AsTask());
     }
 

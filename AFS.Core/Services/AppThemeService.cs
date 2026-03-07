@@ -14,6 +14,7 @@ public class AppThemeService
 
     public AppThemeService(IJSRuntime jsRuntime)
     {
+        ArgumentNullException.ThrowIfNull(jsRuntime);
         _jsRuntime = jsRuntime;
     }
 
