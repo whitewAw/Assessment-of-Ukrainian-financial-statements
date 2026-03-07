@@ -164,6 +164,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
 - ✅ WASM SIMD for faster math calculations
+- ✅ WASM Deduplication for smaller bundle
 - ✅ IL Trimming for smaller bundles
 - ✅ Brotli Compression
 - ✅ Native WASM optimization (`-Oz`)
@@ -183,6 +184,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 ├─────────────────────────────────────────────────────────────────┤
 │  ✅ AOT Compilation    - IL → WebAssembly at build time         │
 │  ✅ WASM SIMD          - ~20-30% faster math operations         │
+│  ✅ WASM Dedup         - Removes duplicate WASM code            │
 │  ✅ IL Stripping       - Removes unused IL after AOT            │
 │  ✅ Size Optimization  - Emscripten -Oz flag                    │
 │  ✅ Service Worker     - Offline-first caching                  │
@@ -191,6 +193,8 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ Charts             - ApexCharts with AOT-safe lambdas       │
 │  ✅ Events             - EventHandler pattern (AOT-safe)        │
 │  ✅ Regex              - GeneratedRegex (compile-time)          │
+│  ✅ No HTTP Diagnostics- HttpActivityPropagation disabled       │
+│  ✅ No EventSource     - EventSource tracing disabled           │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
