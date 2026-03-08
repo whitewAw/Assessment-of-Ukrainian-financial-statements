@@ -154,19 +154,19 @@
     <value>A1 &gt;= L1+L2+L3</value>
   </data>
   <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
-    <value>Absolute financial stability</value>
+    <value>Absolutní finanční stabilita</value>
   </data>
   <data name="AbsoluteLiquidityRatio" xml:space="preserve">
-    <value>Absolute liquidity ratio</value>
+    <value>Ukazatel absolutní likvidity</value>
   </data>
   <data name="accounts" xml:space="preserve">
     <value>receivable</value>
   </data>
   <data name="AccountsPayable" xml:space="preserve">
-    <value>Accounts payable</value>
+    <value>Závazky</value>
   </data>
   <data name="AccountsReceivable" xml:space="preserve">
-    <value>Accounts receivable</value>
+    <value>Pohledávky</value>
   </data>
   <data name="AccountsReceivableForDebts" xml:space="preserve">
     <value>Accounts receivable for debts</value>
@@ -205,7 +205,7 @@
     <value>AI is analyzing your financial data...</value>
   </data>
   <data name="AIAssistantName" xml:space="preserve">
-    <value>AI Assistant</value>
+    <value>AI Asistent</value>
   </data>
   <data name="AIAssistantPage" xml:space="preserve">
     <value>AI Assistant page</value>
@@ -223,118 +223,118 @@
     <value>Please follow the setup instructions above to enable Chrome AI</value>
   </data>
   <data name="AINotAvailable" xml:space="preserve">
-    <value>Chrome AI Not Available</value>
+    <value>Chrome AI není k dispozici</value>
   </data>
   <data name="AINotReady" xml:space="preserve">
     <value>AI Assistant Not Ready</value>
   </data>
   <data name="AIReady" xml:space="preserve">
-    <value>Chrome AI is ready to use</value>
+    <value>Chrome AI je připraven k použití</value>
   </data>
   <data name="Amortization" xml:space="preserve">
-    <value>Amortization</value>
+    <value>Amortizace</value>
   </data>
   <data name="AnalyzeAssetComposition" xml:space="preserve">
-    <value>Analyze Asset Composition ({0})</value>
+    <value>Analyzovat složení aktiv ({0})</value>
   </data>
   <data name="AnalyzeBusinessActivity" xml:space="preserve">
-    <value>Analyze Business Activity</value>
+    <value>Analyzovat podnikatelskou aktivitu</value>
   </data>
   <data name="AnalyzeCapitalSources" xml:space="preserve">
-    <value>Analyze Capital Sources</value>
+    <value>Analyzovat zdroje kapitálu</value>
   </data>
   <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
-    <value>Analyze Capital Sources ({0})</value>
+    <value>Analyzovat zdroje kapitálu ({0})</value>
   </data>
   <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
-    <value>Analyze Characteristics of Capital</value>
+    <value>Analyzovat charakteristiku kapitálu</value>
   </data>
   <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
-    <value>Analyze Factors Affecting Turnover</value>
+    <value>Analyzovat faktory ovlivňující obrat</value>
   </data>
   <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
     <value>Analyze the overall financial health of my company based on the available data</value>
   </data>
   <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
-    <value>Analyze Financial Stability Indicators</value>
+    <value>Analyzovat ukazatele finanční stability</value>
   </data>
   <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
-    <value>Analyze Fixed Assets Efficiency</value>
+    <value>Analyzovat efektivitu dlouhodobého majetku</value>
   </data>
   <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
-    <value>Analyze Fixed Assets Factors</value>
+    <value>Analyzovat faktory dlouhodobého majetku</value>
   </data>
   <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
-    <value>Analyze Fixed Assets Movement</value>
+    <value>Analyzovat pohyb dlouhodobého majetku</value>
   </data>
   <data name="AnalyzeFixedAssetsState" xml:space="preserve">
-    <value>Analyze Fixed Assets State</value>
+    <value>Analyzovat stav dlouhodobého majetku</value>
   </data>
   <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
-    <value>Analyze General Financial Stability</value>
+    <value>Analyzovat obecnou finanční stabilitu</value>
   </data>
   <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
-    <value>Analyze Intangible Assets Efficiency</value>
+    <value>Analyzovat efektivitu nehmotných aktiv</value>
   </data>
   <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
-    <value>Analyze Liquidity Indicators</value>
+    <value>Analyzovat ukazatele likvidity</value>
   </data>
   <data name="AnalyzePayableStructure" xml:space="preserve">
-    <value>Analyze Payable Structure ({0})</value>
+    <value>Analyzovat strukturu závazků ({0})</value>
   </data>
   <data name="AnalyzeReceivablesPayables" xml:space="preserve">
-    <value>Analyze Receivables and Payables</value>
+    <value>Analyzovat pohledávky a závazky</value>
   </data>
   <data name="AnalyzeSolvencyRatios" xml:space="preserve">
-    <value>Analyze Solvency Ratios</value>
+    <value>Analyzovat ukazatele solventnosti</value>
   </data>
   <data name="AnalyzeStabilityClassification" xml:space="preserve">
-    <value>Analyze Stability Classification</value>
+    <value>Analyzovat klasifikaci stability</value>
   </data>
   <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
-    <value>Analyze Turnover Indicators</value>
+    <value>Analyzovat ukazatele obratu</value>
   </data>
   <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
-    <value>Analyze Working Capital Efficiency</value>
+    <value>Analyzovat efektivitu pracovního kapitálu</value>
   </data>
   <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
-    <value>Analyze Working Capital Turnover</value>
+    <value>Analyzovat obrat pracovního kapitálu</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Jste si jistí?</value>
   </data>
   <data name="Article" xml:space="preserve">
-    <value>Article</value>
+    <value>Článek</value>
   </data>
   <data name="AskAboutFinancialData" xml:space="preserve">
-    <value>Ask about your financial data...</value>
+    <value>Zeptejte se na svá finanční data...</value>
   </data>
   <data name="AskQuestions" xml:space="preserve">
-    <value>Ask Questions</value>
+    <value>Položit otázky</value>
   </data>
   <data name="AssessmentOfFinancialStatements" xml:space="preserve">
-    <value>Assessment of Ukrainian financial statements</value>
+    <value>Hodnocení ukrajinských finančních výkazů</value>
   </data>
   <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
     <value>Assessment of receivable and payable</value>
   </data>
   <data name="Asset" xml:space="preserve">
-    <value>Asset</value>
+    <value>Aktivum</value>
   </data>
   <data name="AtBeginningReportingPeriod" xml:space="preserve">
-    <value>At the beginning of the reporting period</value>
+    <value>Na začátku účetního období</value>
   </data>
   <data name="atBeginOfYear" xml:space="preserve">
-    <value>At the beginning of the year</value>
+    <value>Na začátku roku</value>
   </data>
   <data name="AtEndingReportingPeriod" xml:space="preserve">
-    <value>At the ending of the reporting period</value>
+    <value>Na konci účetního období</value>
   </data>
   <data name="atEndOf" xml:space="preserve">
-    <value>At the end of the {0} year</value>
+    <value>Na konci roku {0}</value>
   </data>
   <data name="atEndOfYear" xml:space="preserve">
-    <value>At the end of the year</value>
+    <value>Na konci roku</value>
   </data>
   <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
     <value>Availability and movement of fixed assets</value>
@@ -367,7 +367,7 @@
     <value>Average balances of current assets</value>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Balance</value>
+    <value>Bilance</value>
   </data>
   <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
     <value>Beginning-of-year balance at historical cost</value>
@@ -379,16 +379,16 @@
     <value>End-of-year balance net of depreciation</value>
   </data>
   <data name="BalanceIsLiquid" xml:space="preserve">
-    <value>Liquid balance</value>
+    <value>Likvidní bilance</value>
   </data>
   <data name="BalanceIsNotLiquid" xml:space="preserve">
-    <value>Illiquid balance</value>
+    <value>Nelikvidní bilance</value>
   </data>
   <data name="basePeriod" xml:space="preserve">
-    <value>base period</value>
+    <value>základní období</value>
   </data>
   <data name="BaseYear" xml:space="preserve">
-    <value>Base year</value>
+    <value>Základní rok</value>
   </data>
   <data name="BrowserAI" xml:space="preserve">
     <value>Browser AI (Chrome 127+)</value>
@@ -418,7 +418,7 @@
     <value>Cash and current financial investments</value>
   </data>
   <data name="CharacteristicsOfCapital" xml:space="preserve">
-    <value>Capital characteristics</value>
+    <value>Charakteristika kapitálu</value>
   </data>
   <data name="ChatWithAI" xml:space="preserve">
     <value>Chat with AI</value>
@@ -436,7 +436,7 @@
     <value>Classification of types of financial stability based on the degree of liquidity of working capital</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Vymazat</value>
   </data>
   <data name="CoefficientOfBusinessActivity" xml:space="preserve">
     <value>Business activity ratio</value>
@@ -472,10 +472,10 @@
     <value>Long-term investment structure ratio</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>Company name</value>
+    <value>Název společnosti</value>
   </data>
   <data name="CompositionOfAssets" xml:space="preserve">
-    <value>Asset composition</value>
+    <value>Složení aktiv</value>
   </data>
   <data name="ComprehensiveIncome" xml:space="preserve">
     <value>Total income</value>
@@ -499,7 +499,7 @@
     <value>Current accounts payable for</value>
   </data>
   <data name="CurrentAssets" xml:space="preserve">
-    <value>Current assets</value>
+    <value>Oběžná aktiva</value>
   </data>
   <data name="CurrentBiologicalAssets" xml:space="preserve">
     <value>Current biological assets</value>
@@ -523,10 +523,10 @@
     <value>Current provisions</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
-    <value>Current year</value>
+    <value>Běžný rok</value>
   </data>
   <data name="days" xml:space="preserve">
-    <value>days</value>
+    <value>dnů</value>
   </data>
   <data name="DeductionsSocialEvents" xml:space="preserve">
     <value>Social contributions</value>
@@ -541,10 +541,10 @@
     <value>End-of-year depreciation ratio of fixed assets</value>
   </data>
   <data name="deviation" xml:space="preserve">
-    <value>deviation</value>
+    <value>odchylka</value>
   </data>
   <data name="Deviation_" xml:space="preserve">
-    <value>Deviation</value>
+    <value>Odchylka</value>
   </data>
   <data name="DisposalRate" xml:space="preserve">
     <value>Disposal ratio</value>
@@ -568,7 +568,7 @@
     <value>Equity</value>
   </data>
   <data name="EraseData" xml:space="preserve">
-    <value>Erase data</value>
+    <value>Smazat data</value>
   </data>
   <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
     <value>Assessment of balance liquidity {0} at the beginning of {1} year</value>
@@ -604,7 +604,7 @@
     <value>Income (loss) from income tax</value>
   </data>
   <data name="ExplainKeyRatiosButton" xml:space="preserve">
-    <value>Explain Key Ratios</value>
+    <value>Vysvětlit klíčové ukazatele</value>
   </data>
   <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
     <value>Fixed asset turnover factor analysis</value>
@@ -613,7 +613,7 @@
     <value>Factors influencing the turnover of current assets</value>
   </data>
   <data name="FAQ" xml:space="preserve">
-    <value>Frequently Asked Questions</value>
+    <value>Často kladené otázky</value>
   </data>
   <data name="FAQAnswer1" xml:space="preserve">
     <value>Yes! Browser AI uses Chrome's built-in Gemini Nano model. No API keys, no costs, no usage limits.</value>
@@ -652,13 +652,13 @@
     <value>Financial result from operating activities</value>
   </data>
   <data name="FinancialResults" xml:space="preserve">
-    <value>Financial results</value>
+    <value>Finanční výsledky</value>
   </data>
   <data name="finishedProducts" xml:space="preserve">
     <value>finished products</value>
   </data>
   <data name="FixedAssets" xml:space="preserve">
-    <value>Fixed assets</value>
+    <value>Dlouhodobý majetek</value>
   </data>
   <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
     <value>Working capital turnover ratio</value>
@@ -703,10 +703,10 @@
     <value>General indicators of financial stability</value>
   </data>
   <data name="GeneralInformation" xml:space="preserve">
-    <value>General info</value>
+    <value>Obecné informace</value>
   </data>
   <data name="GetRecommendationsButton" xml:space="preserve">
-    <value>Get Recommendations</value>
+    <value>Získat doporučení</value>
   </data>
   <data name="goodsWorksServices" xml:space="preserve">
     <value>Goods, works, services</value>
@@ -724,7 +724,7 @@
     <value>Hard-to-sell assets (A4)</value>
   </data>
   <data name="HowToUse" xml:space="preserve">
-    <value>How to Use</value>
+    <value>Jak používat</value>
   </data>
   <data name="in%OfBorrowedCapital" xml:space="preserve">
     <value>The same as a percentage of the attracted capital</value>
@@ -793,16 +793,16 @@
     <value>In the long-term perspective</value>
   </data>
   <data name="AIAssistant" xml:space="preserve">
-    <value>AI Assistant</value>
+    <value>AI Asistent</value>
   </data>
   <data name="InputData" xml:space="preserve">
-    <value>Input data</value>
+    <value>Vstupní data</value>
   </data>
   <data name="InShortTerm" xml:space="preserve">
     <value>In the short-term perspective</value>
   </data>
   <data name="IntangibleAssets" xml:space="preserve">
-    <value>Intangible assets</value>
+    <value>Nehmotná aktiva</value>
   </data>
   <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
     <value>Integrated indicator of working capital utilization efficiency</value>
@@ -826,7 +826,7 @@
     <value>Labor productivity</value>
   </data>
   <data name="Liabilities" xml:space="preserve">
-    <value>Liability</value>
+    <value>Závazky</value>
   </data>
   <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Liabilities related to non-current assets held for sale and disposal groups</value>
@@ -904,13 +904,13 @@
     <value>Net income from sales of products (goods, works, services)</value>
   </data>
   <data name="NetProfit" xml:space="preserve">
-    <value>Net profit</value>
+    <value>Čistý zisk</value>
   </data>
   <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
     <value>Net profit (loss) per ordinary share</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Ne</value>
   </data>
   <data name="NoDataSentDescription" xml:space="preserve">
     <value>Your financial data never leaves your device</value>
@@ -919,7 +919,7 @@
     <value>No Data Sent</value>
   </data>
   <data name="NonCurrentAssets" xml:space="preserve">
-    <value>Non-current assets</value>
+    <value>Dlouhodobá aktiva</value>
   </data>
   <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Non-current assets held for sale and disposal groups</value>
@@ -1009,7 +1009,7 @@
     <value>people</value>
   </data>
   <data name="Period" xml:space="preserve">
-    <value>Period</value>
+    <value>Období</value>
   </data>
   <data name="PermanentLiabilities" xml:space="preserve">
     <value>Permanent liabilities (P4)</value>
@@ -1021,13 +1021,13 @@
     <value>Pre-crisis financial stability</value>
   </data>
   <data name="PrivacyAndSecurity" xml:space="preserve">
-    <value>Privacy &amp; Security</value>
+    <value>Soukromí a bezpečnost</value>
   </data>
   <data name="PrivateDescription" xml:space="preserve">
     <value>All AI processing happens in your browser</value>
   </data>
   <data name="PrivateTitle" xml:space="preserve">
-    <value>100% Private</value>
+    <value>100% soukromé</value>
   </data>
   <data name="ProceedsFromSales" xml:space="preserve">
     <value>Revenue from sales of products</value>
@@ -1051,7 +1051,7 @@
     <value>Enterprise profitability ratio</value>
   </data>
   <data name="ProfitFromOperatingActivities" xml:space="preserve">
-    <value>Operating profit</value>
+    <value>Provozní zisk</value>
   </data>
   <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
     <value>Profit (loss) from discontinued operations after tax</value>
@@ -1072,7 +1072,7 @@
     <value>Click &lt;strong&gt;Explain Key Ratios&lt;/strong&gt; to understand metrics</value>
   </data>
   <data name="QuickActions" xml:space="preserve">
-    <value>Quick Actions</value>
+    <value>Rychlé akce</value>
   </data>
   <data name="QuickSellingAssets" xml:space="preserve">
     <value>Quick-liquid assets (A2)</value>
@@ -1105,7 +1105,7 @@
     <value>Received during the reporting period</value>
   </data>
   <data name="RecheckAvailability" xml:space="preserve">
-    <value>Recheck Availability</value>
+    <value>Znovu zkontrolovat dostupnost</value>
   </data>
   <data name="RecommendationsPrompt" xml:space="preserve">
     <value>What are your top recommendations to improve my company's financial position?</value>
@@ -1120,7 +1120,7 @@
     <value>Release (-), absence of current assets (+) due to changes in their turnover</value>
   </data>
   <data name="ReserveCapital" xml:space="preserve">
-    <value>Reserve capital</value>
+    <value>Rezervní kapitál</value>
   </data>
   <data name="ResponseStoppedByUser" xml:space="preserve">
     <value>[Response stopped by user]</value>
@@ -1159,13 +1159,13 @@
     <value>The same as % of assets</value>
   </data>
   <data name="SaveToFile" xml:space="preserve">
-    <value>Save to file</value>
+    <value>Uložit do souboru</value>
   </data>
   <data name="SellingExpenses" xml:space="preserve">
     <value>Labor costs</value>
   </data>
   <data name="SendMessage" xml:space="preserve">
-    <value>Send message</value>
+    <value>Odeslat zprávu</value>
   </data>
   <data name="Settlements" xml:space="preserve">
     <value>Settlements</value>
@@ -1180,7 +1180,7 @@
     <value>settlements for labor</value>
   </data>
   <data name="SetupRequired" xml:space="preserve">
-    <value>Setup Required</value>
+    <value>Vyžadováno nastavení</value>
   </data>
   <data name="SetupStep1" xml:space="preserve">
     <value>Enable Chrome AI flags</value>
@@ -1210,7 +1210,7 @@
     <value>Solvency loss ratio</value>
   </data>
   <data name="SolvencyRatios" xml:space="preserve">
-    <value>Solvency indicators</value>
+    <value>Ukazatele solventnosti</value>
   </data>
   <data name="SolvencyRecoveryRatio" xml:space="preserve">
     <value>Recovery solvency ratio</value>
@@ -1228,7 +1228,7 @@
     <value>Stocks</value>
   </data>
   <data name="StopAnalysis" xml:space="preserve">
-    <value>Stop Analysis</value>
+    <value>Zastavit analýzu</value>
   </data>
   <data name="StopGeneration" xml:space="preserve">
     <value>Stop generation</value>
@@ -1246,7 +1246,7 @@
     <value>Fitness ratio at the end of the year</value>
   </data>
   <data name="Table" xml:space="preserve">
-    <value>Table</value>
+    <value>Tabulka</value>
   </data>
   <data name="TangibleCurrentAssets" xml:space="preserve">
     <value>Material current assets</value>
@@ -1303,10 +1303,10 @@
     <value>Total current assets</value>
   </data>
   <data name="total_" xml:space="preserve">
-    <value>total</value>
+    <value>celkem</value>
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>Turnover</value>
+    <value>Obrat</value>
   </data>
   <data name="TurnoverInSettlements" xml:space="preserve">
     <value>Turnover of funds in calculations</value>
@@ -1336,10 +1336,10 @@
     <value>Unpaid capital</value>
   </data>
   <data name="UploadFromFile" xml:space="preserve">
-    <value>Load from file</value>
+    <value>Načíst ze souboru</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Value</value>
+    <value>Hodnota</value>
   </data>
   <data name="ViewSetupGuide" xml:space="preserve">
     <value>View Setup Guide</value>
@@ -1390,24 +1390,24 @@
     <value>Turnover time of current assets</value>
   </data>
   <data name="year" xml:space="preserve">
-    <value>year</value>
+    <value>rok</value>
   </data>
   <data name="years" xml:space="preserve">
-    <value>years</value>
+    <value>roky</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Ano</value>
   </data>
   <data name="You" xml:space="preserve">
-    <value>You</value>
+    <value>Vy</value>
   </data>
   <data name="EnjoyingUFIN" xml:space="preserve">
-  <value>Enjoying UFIN?</value>
+  <value>Líbí se vám UFIN?</value>
 </data>
 <data name="StarOnGitHubMessage" xml:space="preserve">
   <value>If you find this tool helpful, please give it a star on GitHub! It helps other developers discover the project.</value>
 </data>
 <data name="StarOnGitHub" xml:space="preserve">
-  <value>Star on GitHub</value>
+  <value>Hvězdička na GitHubu</value>
 </data>
 </root>
