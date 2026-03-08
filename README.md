@@ -51,7 +51,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ **Offline-first** - Works without internet after initial load
 - ✅ **Privacy-focused** - All calculations happen in your browser
 - ✅ **No installation** - Just open and use
-- ✅ **Multi-language** - Supports 6 languages (Ukrainian, English, German, Spanish, French, Russian)
+- ✅ **Multi-language** - Supports 7 languages (Ukrainian, English, German, Spanish, French, Polish, Russian)
 - ✅ **Professional-grade** - 17 comprehensive financial analysis tables + 7 interactive charts
 - ✅ **Open Source** - Free to use, modify, and contribute
 
@@ -128,6 +128,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - German (Deutsch) 🇩🇪
 - Spanish (Español) 🇪🇸
 - French (Français) 🇫🇷
+- Polish (Polski) 🇵🇱
 - Russian (Русский) 🇷🇺
 
 ### 💾 Data Management

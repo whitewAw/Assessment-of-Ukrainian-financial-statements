@@ -28,7 +28,8 @@
         ["ru"] = ("🇷🇺", "Русский"),
         ["es"] = ("🇪🇸", "Español"),
         ["de"] = ("🇩🇪", "Deutsch"),
-        ["fr"] = ("🇫🇷", "Français")
+        ["fr"] = ("🇫🇷", "Français"),
+        ["pl"] = ("🇵🇱", "Polski")
     };
 
     private static readonly CultureInfo[] supportedCultures =
@@ -38,7 +39,8 @@
         CultureInfo.GetCultureInfo("ru"),
         CultureInfo.GetCultureInfo("es"),
         CultureInfo.GetCultureInfo("de"),
-        CultureInfo.GetCultureInfo("fr")
+        CultureInfo.GetCultureInfo("fr"),
+        CultureInfo.GetCultureInfo("pl")
     ];
 
     private readonly List<CultureDisplayItem> cultureItems = supportedCultures
