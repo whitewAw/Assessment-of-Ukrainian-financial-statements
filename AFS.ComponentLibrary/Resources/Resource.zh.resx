@@ -1,0 +1,1357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A1A2A3&lt;P1" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1+P2</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1+P2+P3</value>
+  </data>
+  <data name="A1A2A3P1" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1</value>
+  </data>
+  <data name="A1A2A3P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1+P2</value>
+  </data>
+  <data name="A1A2A3P1P2P3" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="A1A2P1" xml:space="preserve">
+    <value>A1+A2 &gt;= P1</value>
+  </data>
+  <data name="A1A2P1P2" xml:space="preserve">
+    <value>A1+A2 &gt;= P1+P2</value>
+  </data>
+  <data name="A1A2P1P2P3" xml:space="preserve">
+    <value>A1+A2 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="A1P1" xml:space="preserve">
+    <value>A1 &gt;= P1</value>
+  </data>
+  <data name="A1P1P2" xml:space="preserve">
+    <value>A1 &gt;= P1+P2</value>
+  </data>
+  <data name="A1P1P2P3" xml:space="preserve">
+    <value>A1 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
+    <value>绝对财务稳定性</value>
+  </data>
+  <data name="AbsoluteLiquidityRatio" xml:space="preserve">
+    <value>绝对流动比率</value>
+  </data>
+  <data name="accounts" xml:space="preserve">
+    <value>应收账款</value>
+  </data>
+  <data name="AccountsPayable" xml:space="preserve">
+    <value>应付账款</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>应收账款</value>
+  </data>
+  <data name="AccountsReceivableForDebts" xml:space="preserve">
+    <value>债务应收账款</value>
+  </data>
+  <data name="AccruedDepreciationAtBegin" xml:space="preserve">
+    <value>年初累计折旧</value>
+  </data>
+  <data name="AccruedDepreciationAtEnd" xml:space="preserve">
+    <value>年末累计折旧</value>
+  </data>
+  <data name="accumulatedDepreciation" xml:space="preserve">
+    <value>累计折旧</value>
+  </data>
+  <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
+    <value>累计汇率差异</value>
+  </data>
+  <data name="AdditionalCapital" xml:space="preserve">
+    <value>资本公积</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>附加信息</value>
+  </data>
+  <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
+    <value>调整后普通股平均数</value>
+  </data>
+  <data name="adjustedIndicator" xml:space="preserve">
+    <value>调整后指标</value>
+  </data>
+  <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>调整后每股普通股净利润（亏损）</value>
+  </data>
+  <data name="AdministrativeExpenses" xml:space="preserve">
+    <value>管理费用</value>
+  </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>人工智能正在分析您的财务数据...</value>
+  </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>人工智能助手</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>人工智能助手</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>人工智能助手页面</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>获取人工智能驱动的即时分析和建议</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>人工智能财务分析</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>人工智能财务助手</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>请按照上述设置说明启用Chrome AI</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI不可用</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>人工智能助手尚未准备就绪</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>Chrome AI已准备就绪</value>
+  </data>
+  <data name="Amortization" xml:space="preserve">
+    <value>摊销</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>分析资产构成（{0}）</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>分析经营活动</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>分析资本来源</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>分析资本来源（{0}）</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>分析资本特征</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>分析影响周转率的因素</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>根据现有数据分析我公司的整体财务状况</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>分析财务稳定性指标</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>分析固定资产效率</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>分析固定资产因素</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>分析固定资产变动</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>分析固定资产状况</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>分析总体财务稳定性</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>分析无形资产效率</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>分析流动性指标</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>分析应付账款结构（{0}）</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>分析应收应付账款</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>分析偿债能力比率</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>分析稳定性分类</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>分析周转率指标</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>分析营运资本效率</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>分析营运资本周转</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>您确定吗？</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>询问有关您的财务数据...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>提问</value>
+  </data>
+  <data name="AssessmentOfFinancialStatements" xml:space="preserve">
+    <value>财务报表评估</value>
+  </data>
+  <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
+    <value>应收应付账款对比评估</value>
+  </data>
+  <data name="Asset" xml:space="preserve">
+    <value>资产</value>
+  </data>
+  <data name="AtBeginningReportingPeriod" xml:space="preserve">
+    <value>报告期初</value>
+  </data>
+  <data name="atBeginOfYear" xml:space="preserve">
+    <value>年初</value>
+  </data>
+  <data name="AtEndingReportingPeriod" xml:space="preserve">
+    <value>报告期末</value>
+  </data>
+  <data name="atEndOf" xml:space="preserve">
+    <value>{0}年末</value>
+  </data>
+  <data name="atEndOfYear" xml:space="preserve">
+    <value>年末</value>
+  </data>
+  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+    <value>固定资产可用性及变动</value>
+  </data>
+  <data name="AvailabilityForStockFormation" xml:space="preserve">
+    <value>用于存货形成的流动、长期和短期资产可用性</value>
+  </data>
+  <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
+    <value>用于存货形成的流动和长期资产可用性</value>
+  </data>
+  <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
+    <value>用于存货形成的营运资本可用性</value>
+  </data>
+  <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
+    <value>固定资产年均成本</value>
+  </data>
+  <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
+    <value>无形资产年均成本</value>
+  </data>
+  <data name="averageBalances" xml:space="preserve">
+    <value>平均余额</value>
+  </data>
+  <data name="AverageNumberOfOrdinaryShares" xml:space="preserve">
+    <value>普通股平均数</value>
+  </data>
+  <data name="AverageWorkingCapitalBalances" xml:space="preserve">
+    <value>营运资本平均余额</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>资产负债表</value>
+  </data>
+  <data name="BalanceAtBeginningOfYearAtOriginalCost" xml:space="preserve">
+    <value>年初余额（原值）</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>年末余额（原值）</value>
+  </data>
+  <data name="BalanceAtEndOfYearNetOfDepreciation" xml:space="preserve">
+    <value>年末余额（扣除折旧后）</value>
+  </data>
+  <data name="BalanceIsLiquid" xml:space="preserve">
+    <value>资产负债表具有流动性</value>
+  </data>
+  <data name="BalanceIsNotLiquid" xml:space="preserve">
+    <value>资产负债表不具有流动性</value>
+  </data>
+  <data name="basePeriod" xml:space="preserve">
+    <value>基期</value>
+  </data>
+  <data name="BaseYear" xml:space="preserve">
+    <value>基年</value>
+  </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>浏览器人工智能（Chrome 127+）</value>
+  </data>
+  <data name="bySettlementsWithParticipants" xml:space="preserve">
+    <value>与参与者的结算</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
+    <value>固定资产使用效率指标计算</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
+    <value>表{0}。{1}公司{2}-{3}年固定资产使用效率指标计算</value>
+  </data>
+  <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
+    <value>股票盈利能力指标计算</value>
+  </data>
+  <data name="CapitalInRevaluations" xml:space="preserve">
+    <value>重估资本</value>
+  </data>
+  <data name="CapitalIntensityOfProducts" xml:space="preserve">
+    <value>产品资本密集度</value>
+  </data>
+  <data name="cargo" xml:space="preserve">
+    <value>货物</value>
+  </data>
+  <data name="CashCurrentFinancialInvestments" xml:space="preserve">
+    <value>现金及流动金融投资</value>
+  </data>
+  <data name="CharacteristicsOfCapital" xml:space="preserve">
+    <value>资本特征</value>
+  </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>与人工智能聊天</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>正在检查人工智能可用性...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome AI不可用</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome AI目前不可用。请访问</value>
+  </data>
+  <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
+    <value>按流动资产流动性程度分类的财务稳定性类型</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="CoefficientOfBusinessActivity" xml:space="preserve">
+    <value>经营活动系数</value>
+  </data>
+  <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
+    <value>借入资本集中度系数</value>
+  </data>
+  <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
+    <value>财务资源使用效率系数</value>
+  </data>
+  <data name="CoefficientOfFinancialDependence" xml:space="preserve">
+    <value>财务依赖系数</value>
+  </data>
+  <data name="CoefficientOfFinancialIndependence" xml:space="preserve">
+    <value>财务独立系数</value>
+  </data>
+  <data name="CoefficientOfFinancialStability" xml:space="preserve">
+    <value>财务稳定系数</value>
+  </data>
+  <data name="CoefficientOfIndependence" xml:space="preserve">
+    <value>独立性系数（自有资本集中度）</value>
+  </data>
+  <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
+    <value>借入资金长期使用系数</value>
+  </data>
+  <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
+    <value>所有者权益机动性系数</value>
+  </data>
+  <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
+    <value>自有资金使用系数</value>
+  </data>
+  <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
+    <value>经济增长稳定系数</value>
+  </data>
+  <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
+    <value>长期投资结构系数</value>
+  </data>
+  <data name="CoefficientOfRealValueOfFixedAssets" xml:space="preserve">
+    <value>固定资产实际价值系数</value>
+  </data>
+  <data name="CoefficientOfSecuringWorkingCapital" xml:space="preserve">
+    <value>营运资本保障系数</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>公司名称</value>
+  </data>
+  <data name="CompositionOfAssets" xml:space="preserve">
+    <value>资产构成</value>
+  </data>
+  <data name="ComprehensiveIncome" xml:space="preserve">
+    <value>综合收益</value>
+  </data>
+  <data name="CostOfGoodsSold" xml:space="preserve">
+    <value>销售成本</value>
+  </data>
+  <data name="CostOfLeftFixedAssets" xml:space="preserve">
+    <value>处置固定资产成本</value>
+  </data>
+  <data name="CrisisFinancialStability" xml:space="preserve">
+    <value>危机财务稳定性</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>格里夫纳</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>流动</value>
+  </data>
+  <data name="CurrentAccountsPayableFor" xml:space="preserve">
+    <value>流动应付账款</value>
+  </data>
+  <data name="CurrentAssets" xml:space="preserve">
+    <value>流动资产</value>
+  </data>
+  <data name="CurrentBiologicalAssets" xml:space="preserve">
+    <value>流动生物资产</value>
+  </data>
+  <data name="CurrentFinancialInvestments" xml:space="preserve">
+    <value>流动金融投资</value>
+  </data>
+  <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
+    <value>流动负债和准备金</value>
+  </data>
+  <data name="CurrentLiquidityFactor" xml:space="preserve">
+    <value>流动比率</value>
+  </data>
+  <data name="CurrentMobileAssets" xml:space="preserve">
+    <value>流动（变现）资产</value>
+  </data>
+  <data name="currentPeriod" xml:space="preserve">
+    <value>报告期</value>
+  </data>
+  <data name="CurrentSupplies" xml:space="preserve">
+    <value>流动准备金</value>
+  </data>
+  <data name="CurrentYear" xml:space="preserve">
+    <value>本年度</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="DeductionsSocialEvents" xml:space="preserve">
+    <value>社会保障扣款</value>
+  </data>
+  <data name="DeferredTaxLiabilities" xml:space="preserve">
+    <value>递延所得税负债</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
+    <value>年初固定资产折旧率</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
+    <value>年末固定资产折旧率</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>偏差</value>
+  </data>
+  <data name="Deviation_" xml:space="preserve">
+    <value>偏差</value>
+  </data>
+  <data name="DisposalRate" xml:space="preserve">
+    <value>处置率</value>
+  </data>
+  <data name="DividendsPerSimpleShare" xml:space="preserve">
+    <value>每股普通股股息</value>
+  </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>正在下载Gemini Nano模型... {0}%</value>
+  </data>
+  <data name="Dynamics" xml:space="preserve">
+    <value>动态变化</value>
+  </data>
+  <data name="ElementsOperatingCosts" xml:space="preserve">
+    <value>营业成本要素</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>启用Chrome AI开始聊天...</value>
+  </data>
+  <data name="Equity" xml:space="preserve">
+    <value>所有者权益</value>
+  </data>
+  <data name="EraseData" xml:space="preserve">
+    <value>删除数据</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
+    <value>{0}资产负债表{1}年初流动性评估</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
+    <value>{0}资产负债表{1}年末流动性评估</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>"我的流动比率意味着什么？"</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>"如何改善我的负债率？"</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>"为什么我的盈利能力在下降？"</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"我的现金流状况如何？"</value>
+  </data>
+  <data name="ExampleQuestions" xml:space="preserve">
+    <value>示例问题</value>
+  </data>
+  <data name="ExcessOfDebt" xml:space="preserve">
+    <value>债务过剩</value>
+  </data>
+  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+    <value>所得税费用（收益）</value>
+  </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>解释关键比率</value>
+  </data>
+  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+    <value>固定资产盈利能力因素分析</value>
+  </data>
+  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+    <value>影响营运资本周转的因素</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>常见问题</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>是的！浏览器人工智能使用Chrome内置的Gemini Nano模型。无需API密钥，无费用，无使用限制。</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT在OpenAI服务器上运行（需要互联网/API密钥）。浏览器人工智能完全在您的浏览器中运行（无服务器，无API密钥，设置后可离线工作）。</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>绝对安全！所有人工智能处理都在您的浏览器本地进行。您的财务数据永远不会离开您的设备。</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>目前支持：Chrome 127+、Chrome Canary、Edge 127+（基于Chromium）。即将支持：Firefox和Safari。</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>这真的免费吗？</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>与ChatGPT有什么区别？</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>我的数据安全吗？</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>支持哪些浏览器？</value>
+  </data>
+  <data name="FinancialExpenses" xml:space="preserve">
+    <value>财务费用</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>财务健康</value>
+  </data>
+  <data name="FinancialResultBeforeTax" xml:space="preserve">
+    <value>税前财务成果</value>
+  </data>
+  <data name="FinancialResults" xml:space="preserve">
+    <value>财务成果</value>
+  </data>
+  <data name="finishedProducts" xml:space="preserve">
+    <value>产成品</value>
+  </data>
+  <data name="FixedAssets" xml:space="preserve">
+    <value>固定资产</value>
+  </data>
+  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+    <value>营运资本固定比率</value>
+  </data>
+  <data name="ForBills" xml:space="preserve">
+    <value>票据</value>
+  </data>
+  <data name="ForReportingPeriod" xml:space="preserve">
+    <value>报告期</value>
+  </data>
+  <data name="ForSamePeriodLastYear" xml:space="preserve">
+    <value>去年同期</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>获取设置说明。</value>
+  </data>
+  <data name="fromAccruedIncome" xml:space="preserve">
+    <value>应计收入</value>
+  </data>
+  <data name="FromInsurance" xml:space="preserve">
+    <value>保险</value>
+  </data>
+  <data name="fromInternalSettlements" xml:space="preserve">
+    <value>内部结算</value>
+  </data>
+  <data name="fromMoney" xml:space="preserve">
+    <value>货币资金</value>
+  </data>
+  <data name="fromReceivables" xml:space="preserve">
+    <value>应收款项</value>
+  </data>
+  <data name="fromTangibleAssets" xml:space="preserve">
+    <value>有形资产</value>
+  </data>
+  <data name="FutureExpenses" xml:space="preserve">
+    <value>待摊费用</value>
+  </data>
+  <data name="FutureIncome" xml:space="preserve">
+    <value>递延收益</value>
+  </data>
+  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+    <value>总体财务稳定性指标</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>获取建议</value>
+  </data>
+  <data name="GettingStarted" xml:space="preserve">
+    <value>入门指南</value>
+  </data>
+  <data name="goodsWorksServices" xml:space="preserve">
+    <value>商品、工程、服务</value>
+  </data>
+  <data name="Gross" xml:space="preserve">
+    <value>毛</value>
+  </data>
+  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+    <value>每1格里夫纳销售产品毛利</value>
+  </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>增长率</value>
+  </data>
+  <data name="HardToSellAssets" xml:space="preserve">
+    <value>难以变现资产（A4）</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>使用方法</value>
+  </data>
+  <data name="in%OfBorrowedCapital" xml:space="preserve">
+    <value>占借入资本的百分比</value>
+  </data>
+  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+    <value>占营运资本的百分比</value>
+  </data>
+  <data name="in%ToEquity" xml:space="preserve">
+    <value>占所有者权益的百分比</value>
+  </data>
+  <data name="in%toSourcesOfCapital" xml:space="preserve">
+    <value>占资本来源的百分比</value>
+  </data>
+  <data name="includingDueTo" xml:space="preserve">
+    <value>其中由于</value>
+  </data>
+  <data name="includingEliminated" xml:space="preserve">
+    <value>其中已消除</value>
+  </data>
+  <data name="includingIncomeTax" xml:space="preserve">
+    <value>其中所得税</value>
+  </data>
+  <data name="includingNew" xml:space="preserve">
+    <value>其中新增</value>
+  </data>
+  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+    <value>权益参与收益</value>
+  </data>
+  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+    <value>与其他综合收益相关的所得税</value>
+  </data>
+  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+    <value>未完工资本投资</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>指标</value>
+  </data>
+  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+    <value>经营活动指标</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+    <value>无形资产使用效率指标</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+    <value>营运资本使用效率指标</value>
+  </data>
+  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+    <value>财务稳定性指标</value>
+  </data>
+  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+    <value>固定资产状态和变动指标</value>
+  </data>
+  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+    <value>营运资本周转指标</value>
+  </data>
+  <data name="initialCost" xml:space="preserve">
+    <value>原值</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+    <value>期初固定资产原值</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+    <value>期末固定资产原值</value>
+  </data>
+  <data name="InLongTerm" xml:space="preserve">
+    <value>长期</value>
+  </data>
+  <data name="InputData" xml:space="preserve">
+    <value>输入数据</value>
+  </data>
+  <data name="InShortTerm" xml:space="preserve">
+    <value>短期</value>
+  </data>
+  <data name="IntangibleAssets" xml:space="preserve">
+    <value>无形资产</value>
+  </data>
+  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+    <value>营运资本使用效率综合指标</value>
+  </data>
+  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+    <value>固定资产使用效率综合指标</value>
+  </data>
+  <data name="IntermediateCoverageRatio" xml:space="preserve">
+    <value>中间覆盖率</value>
+  </data>
+  <data name="InvestmentProperty" xml:space="preserve">
+    <value>投资性房地产</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>解释我应该关注的最重要的财务比率</value>
+  </data>
+  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+    <value>人均劳动资本</value>
+  </data>
+  <data name="LaborProductivity" xml:space="preserve">
+    <value>劳动生产率</value>
+  </data>
+  <data name="Liabilities" xml:space="preserve">
+    <value>负债</value>
+  </data>
+  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>与持有待售非流动资产相关的负债</value>
+  </data>
+  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+    <value>与待售非流动资产相关的负债</value>
+  </data>
+  <data name="LineCode" xml:space="preserve">
+    <value>行代码</value>
+  </data>
+  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+    <value>资产负债表流动性指标</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>加载中，请稍候...</value>
+  </data>
+  <data name="LongTermBankCredits" xml:space="preserve">
+    <value>长期银行贷款</value>
+  </data>
+  <data name="LongTermBiologicalAssets" xml:space="preserve">
+    <value>长期生物资产</value>
+  </data>
+  <data name="LongTermFinancialIvestments" xml:space="preserve">
+    <value>长期金融投资</value>
+  </data>
+  <data name="longTermLiabilities" xml:space="preserve">
+    <value>长期负债</value>
+  </data>
+  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+    <value>长期负债和担保</value>
+  </data>
+  <data name="LongTermLiabilitiesP" xml:space="preserve">
+    <value>长期负债（P3）</value>
+  </data>
+  <data name="LongTermLiabilities_" xml:space="preserve">
+    <value>长期负债</value>
+  </data>
+  <data name="LongTermLoans" xml:space="preserve">
+    <value>长期准备金</value>
+  </data>
+  <data name="LongTermReceivables" xml:space="preserve">
+    <value>长期应收款</value>
+  </data>
+  <data name="loss" xml:space="preserve">
+    <value>亏损</value>
+  </data>
+  <data name="LossesFromEquityParticipation" xml:space="preserve">
+    <value>权益参与损失</value>
+  </data>
+  <data name="MaterialCosts" xml:space="preserve">
+    <value>材料成本</value>
+  </data>
+  <data name="materialValuesTurnover" xml:space="preserve">
+    <value>材料周转</value>
+  </data>
+  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+    <value>货币资金及等价物</value>
+  </data>
+  <data name="moneyTurnover" xml:space="preserve">
+    <value>资金周转</value>
+  </data>
+  <data name="MostLiquidAssets" xml:space="preserve">
+    <value>最具流动性资产（A1）</value>
+  </data>
+  <data name="MostUrgentCommitments" xml:space="preserve">
+    <value>最紧迫负债（P1）</value>
+  </data>
+  <data name="NetFinancialResult" xml:space="preserve">
+    <value>净财务成果</value>
+  </data>
+  <data name="NetIncomeFromSales" xml:space="preserve">
+    <value>销售净收入</value>
+  </data>
+  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+    <value>产品（商品、工程、服务）销售净收入</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>净利润</value>
+  </data>
+  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>每股普通股净利润（亏损）</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>您的财务数据永远不会离开您的设备</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>不发送数据</value>
+  </data>
+  <data name="NonCurrentAssets" xml:space="preserve">
+    <value>非流动资产</value>
+  </data>
+  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>持有待售非流动资产</value>
+  </data>
+  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+    <value>非流动（固定）资产</value>
+  </data>
+  <data name="NormalFinancialStability" xml:space="preserve">
+    <value>正常财务稳定性</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+    <value>营运资本周转次数</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>设置后无需互联网即可工作</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>支持离线</value>
+  </data>
+  <data name="OneDaySalesRevenue" xml:space="preserve">
+    <value>单日销售收入</value>
+  </data>
+  <data name="onIssuedAdvances" xml:space="preserve">
+    <value>已发出预付款</value>
+  </data>
+  <data name="onReceivedAdvances" xml:space="preserve">
+    <value>已收预付款</value>
+  </data>
+  <data name="OperatingCycleDuration" xml:space="preserve">
+    <value>营业周期天数</value>
+  </data>
+  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+    <value>税后其他综合收益</value>
+  </data>
+  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+    <value>税前其他综合收益</value>
+  </data>
+  <data name="OtherCurrentAssets" xml:space="preserve">
+    <value>其他流动资产</value>
+  </data>
+  <data name="OtherCurrentLiabilities" xml:space="preserve">
+    <value>其他流动负债</value>
+  </data>
+  <data name="OtherCurrentReceivables" xml:space="preserve">
+    <value>其他流动应收款</value>
+  </data>
+  <data name="OtherExpenses" xml:space="preserve">
+    <value>其他费用</value>
+  </data>
+  <data name="OtherFinancialIncome" xml:space="preserve">
+    <value>其他财务收益</value>
+  </data>
+  <data name="otherFinancialInvestments" xml:space="preserve">
+    <value>其他金融投资</value>
+  </data>
+  <data name="OtherFixedAssets" xml:space="preserve">
+    <value>其他固定资产</value>
+  </data>
+  <data name="OtherIncome" xml:space="preserve">
+    <value>其他收入</value>
+  </data>
+  <data name="OtherLongTermLiabilities" xml:space="preserve">
+    <value>其他长期负债</value>
+  </data>
+  <data name="OtherOperatingExpenses" xml:space="preserve">
+    <value>其他营业费用</value>
+  </data>
+  <data name="OtherOperatingIncome" xml:space="preserve">
+    <value>其他营业收入</value>
+  </data>
+  <data name="OtherTotalIncome" xml:space="preserve">
+    <value>其他综合收益</value>
+  </data>
+  <data name="OverallLiquidityRatio" xml:space="preserve">
+    <value>总体流动比率</value>
+  </data>
+  <data name="OwnCurrentAssets" xml:space="preserve">
+    <value>自有营运资本</value>
+  </data>
+  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+    <value>支付盈余（+）或不足（-）</value>
+  </data>
+  <data name="people" xml:space="preserve">
+    <value>人</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>期间</value>
+  </data>
+  <data name="PermanentLiabilities" xml:space="preserve">
+    <value>永久性负债（P4）</value>
+  </data>
+  <data name="PostponedTaxAssets" xml:space="preserve">
+    <value>递延所得税资产</value>
+  </data>
+  <data name="PreCrisisFinancialStability" xml:space="preserve">
+    <value>危机前财务稳定性</value>
+  </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>隐私与安全</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>所有人工智能处理都在您的浏览器中进行</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100%隐私</value>
+  </data>
+  <data name="ProceedsFromSales" xml:space="preserve">
+    <value>销售收入</value>
+  </data>
+  <data name="productionStocks" xml:space="preserve">
+    <value>生产存货</value>
+  </data>
+  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+    <value>人均生产率</value>
+  </data>
+  <data name="profit" xml:space="preserve">
+    <value>利润</value>
+  </data>
+  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+    <value>营运资本盈利能力</value>
+  </data>
+  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+    <value>固定资产盈利能力</value>
+  </data>
+  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+    <value>企业盈利能力比率</value>
+  </data>
+  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+    <value>经营活动利润</value>
+  </data>
+  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+    <value>税后终止经营利润（亏损）</value>
+  </data>
+  <data name="PromissoryNotesIssued" xml:space="preserve">
+    <value>已开票据</value>
+  </data>
+  <data name="PromissoryNotesReceived" xml:space="preserve">
+    <value>已收票据</value>
+  </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>点击&lt;strong&gt;财务健康&lt;/strong&gt;进行总体分析</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>点击&lt;strong&gt;获取建议&lt;/strong&gt;获得可操作的建议</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>点击&lt;strong&gt;解释关键比率&lt;/strong&gt;了解指标含义</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>快速操作</value>
+  </data>
+  <data name="QuickSellingAssets" xml:space="preserve">
+    <value>快速变现资产（A2）</value>
+  </data>
+  <data name="RaisedCapital" xml:space="preserve">
+    <value>筹集资本</value>
+  </data>
+  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+    <value>筹集资本结构比率</value>
+  </data>
+  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+    <value>借入资本与所有者权益比率</value>
+  </data>
+  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+    <value>流动资产与固定资产比率</value>
+  </data>
+  <data name="receivable" xml:space="preserve">
+    <value>应收款</value>
+  </data>
+  <data name="ReceivablesForProducts" xml:space="preserve">
+    <value>产品、商品、工程、服务应收款</value>
+  </data>
+  <data name="receivablesTurnover" xml:space="preserve">
+    <value>应收款周转</value>
+  </data>
+  <data name="ReceivedFixedAssets" xml:space="preserve">
+    <value>收到的固定资产</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>报告期内收到</value>
+  </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>重新检查可用性</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>改善公司财务状况的主要建议是什么？</value>
+  </data>
+  <data name="RecoveryRate" xml:space="preserve">
+    <value>回收率</value>
+  </data>
+  <data name="RegisteredCapital" xml:space="preserve">
+    <value>注册（实收）资本</value>
+  </data>
+  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+    <value>因周转变化释放（-）、不足（+）的流动资产</value>
+  </data>
+  <data name="ReserveCapital" xml:space="preserve">
+    <value>盈余公积</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[响应已被用户停止]</value>
+  </data>
+  <data name="RetainedEarnings" xml:space="preserve">
+    <value>未分配利润（未弥补亏损）</value>
+  </data>
+  <data name="RetiredFixedAssets" xml:space="preserve">
+    <value>报废固定资产</value>
+  </data>
+  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+    <value>所有者权益回报期</value>
+  </data>
+  <data name="ReturnOnFixedAssets" xml:space="preserve">
+    <value>固定资产收益率</value>
+  </data>
+  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+    <value>无形资产收益率</value>
+  </data>
+  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+    <value>金融工具重估（减值）</value>
+  </data>
+  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+    <value>非流动资产重估（减值）</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>收入</value>
+  </data>
+  <data name="revolutions" xml:space="preserve">
+    <value>周转次数</value>
+  </data>
+  <data name="SalaryExpenses" xml:space="preserve">
+    <value>工资费用</value>
+  </data>
+  <data name="Samein%OfAssets" xml:space="preserve">
+    <value>占资产的百分比</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>保存到文件</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>选择语言</value>
+  </data>
+  <data name="SellingExpenses" xml:space="preserve">
+    <value>销售费用</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>发送消息</value>
+  </data>
+  <data name="Settlements" xml:space="preserve">
+    <value>结算</value>
+  </data>
+  <data name="settlementsWithBudget" xml:space="preserve">
+    <value>与预算的结算</value>
+  </data>
+  <data name="settlementsWithInsurance" xml:space="preserve">
+    <value>与保险的结算</value>
+  </data>
+  <data name="settlementsWithPayroll" xml:space="preserve">
+    <value>与工资的结算</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>需要设置</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>启用Chrome AI标志</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>下载Gemini Nano模型</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>重启Chrome</value>
+  </data>
+  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+    <value>联营企业和合营企业其他综合收益份额</value>
+  </data>
+  <data name="ShortTermBankCredits" xml:space="preserve">
+    <value>短期银行贷款</value>
+  </data>
+  <data name="ShortTermLiabilities" xml:space="preserve">
+    <value>短期负债（P2）</value>
+  </data>
+  <data name="ShortTermLoans" xml:space="preserve">
+    <value>短期借款</value>
+  </data>
+  <data name="SlowSellingAssets" xml:space="preserve">
+    <value>变现较慢资产（A3）</value>
+  </data>
+  <data name="SolvencyLossRatio" xml:space="preserve">
+    <value>偿债能力损失比率</value>
+  </data>
+  <data name="SolvencyRatios" xml:space="preserve">
+    <value>偿债能力比率</value>
+  </data>
+  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+    <value>偿债能力恢复比率</value>
+  </data>
+  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+    <value>资本形成来源</value>
+  </data>
+  <data name="StabilityType" xml:space="preserve">
+    <value>稳定性类型</value>
+  </data>
+  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+    <value>财务业绩报表（综合收益表）</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>存货</value>
+  </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>停止分析</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>停止生成</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>清除数据</value>
+  </data>
+  <data name="StructureOfAccountsPayable" xml:space="preserve">
+    <value>应付账款结构</value>
+  </data>
+  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+    <value>年初适用比率</value>
+  </data>
+  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+    <value>年末适用比率</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>表格</value>
+  </data>
+  <data name="TangibleCurrentAssets" xml:space="preserve">
+    <value>有形流动资产</value>
+  </data>
+  <data name="Tangibles" xml:space="preserve">
+    <value>有形资产</value>
+  </data>
+  <data name="TargetedFinancing" xml:space="preserve">
+    <value>专项融资</value>
+  </data>
+  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+    <value>投入使用的新固定资产成本</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>千格里夫纳</value>
+  </data>
+  <data name="times" xml:space="preserve">
+    <value>次</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>提问要具体</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>引用具体的比率或指标</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>提出后续问题以获得更清晰的解答</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>合计</value>
+  </data>
+  <data name="TotalAssets" xml:space="preserve">
+    <value>资产总额</value>
+  </data>
+  <data name="TotalCoverageRatio" xml:space="preserve">
+    <value>总覆盖率</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>总收入</value>
+  </data>
+  <data name="TotalReturnOnAssets" xml:space="preserve">
+    <value>资产总回报率</value>
+  </data>
+  <data name="TotalSection" xml:space="preserve">
+    <value>分部合计</value>
+  </data>
+  <data name="TotalSourcesOfCapital" xml:space="preserve">
+    <value>资本来源总额</value>
+  </data>
+  <data name="TotalWorkingCapital" xml:space="preserve">
+    <value>营运资本总额</value>
+  </data>
+  <data name="total_" xml:space="preserve">
+    <value>合计</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>周转</value>
+  </data>
+  <data name="TurnoverInSettlements" xml:space="preserve">
+    <value>结算周转</value>
+  </data>
+  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+    <value>营运资本周转</value>
+  </data>
+  <data name="TurnoverOfEquity" xml:space="preserve">
+    <value>所有者权益周转</value>
+  </data>
+  <data name="TurnoverOfInventories" xml:space="preserve">
+    <value>存货周转</value>
+  </data>
+  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+    <value>总资本周转</value>
+  </data>
+  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+    <value>营运资本周转</value>
+  </data>
+  <data name="TypesOfCurrentAssets" xml:space="preserve">
+    <value>流动资产类型</value>
+  </data>
+  <data name="unfinishedProduction" xml:space="preserve">
+    <value>在产品</value>
+  </data>
+  <data name="UnpaidCapital" xml:space="preserve">
+    <value>未缴资本</value>
+  </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>从文件上传</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>价值</value>
+  </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>查看设置指南</value>
+  </data>
+  <data name="wear" xml:space="preserve">
+    <value>磨损</value>
+  </data>
+  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+    <value>按权益法核算</value>
+  </data>
+  <data name="WithAccruedIncome" xml:space="preserve">
+    <value>与应计收入</value>
+  </data>
+  <data name="WithAdvances" xml:space="preserve">
+    <value>与预付款</value>
+  </data>
+  <data name="withBudget" xml:space="preserve">
+    <value>与预算</value>
+  </data>
+  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+    <value>与预算和预算外资金</value>
+  </data>
+  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+    <value>与买方或供应商</value>
+  </data>
+  <data name="WithdrawnCapital" xml:space="preserve">
+    <value>撤回资本</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>报告期内撤回</value>
+  </data>
+  <data name="WithInternalCashSettlements" xml:space="preserve">
+    <value>与内部现金结算</value>
+  </data>
+  <data name="WithLongTermLiabilities" xml:space="preserve">
+    <value>与长期负债</value>
+  </data>
+  <data name="WithOther" xml:space="preserve">
+    <value>与其他</value>
+  </data>
+  <data name="WithParticipants" xml:space="preserve">
+    <value>与参与者</value>
+  </data>
+  <data name="WithPayroll" xml:space="preserve">
+    <value>与工资</value>
+  </data>
+  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+    <value>营运资本周转天数</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="years" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>您</value>
+  </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+    <value>喜欢UFIN吗？</value>
+  </data>
+  <data name="StarOnGitHubMessage" xml:space="preserve">
+    <value>如果这个工具对您有帮助，请在GitHub上给个星标！这将帮助其他开发者发现这个项目。</value>
+  </data>
+  <data name="StarOnGitHub" xml:space="preserve">
+    <value>在GitHub上加星标</value>
+  </data>
+</root>

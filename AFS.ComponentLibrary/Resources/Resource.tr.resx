@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A1A2A3&lt;P1" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1+P2</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
+    <value>A1+A2+A3 &lt; P1+P2+P3</value>
+  </data>
+  <data name="A1A2A3P1" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1</value>
+  </data>
+  <data name="A1A2A3P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1+P2</value>
+  </data>
+  <data name="A1A2A3P1P2P3" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="A1A2P1" xml:space="preserve">
+    <value>A1+A2 &gt;= P1</value>
+  </data>
+  <data name="A1A2P1P2" xml:space="preserve">
+    <value>A1+A2 &gt;= P1+P2</value>
+  </data>
+  <data name="A1A2P1P2P3" xml:space="preserve">
+    <value>A1+A2 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="A1P1" xml:space="preserve">
+    <value>A1 &gt;= P1</value>
+  </data>
+  <data name="A1P1P2" xml:space="preserve">
+    <value>A1 &gt;= P1+P2</value>
+  </data>
+  <data name="A1P1P2P3" xml:space="preserve">
+    <value>A1 &gt;= P1+P2+P3</value>
+  </data>
+  <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
+    <value>Mutlak finansal istikrar</value>
+  </data>
+  <data name="AbsoluteLiquidityRatio" xml:space="preserve">
+    <value>Mutlak likidite oranı</value>
+  </data>
+  <data name="accounts" xml:space="preserve">
+    <value>alacaklar</value>
+  </data>
+  <data name="AccountsPayable" xml:space="preserve">
+    <value>Borçlar</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Alacaklar</value>
+  </data>
+  <data name="AccountsReceivableForDebts" xml:space="preserve">
+    <value>Hesap alacakları</value>
+  </data>
+  <data name="AccruedDepreciationAtBegin" xml:space="preserve">
+    <value>Yıl başındaki birikmiş amortisman</value>
+  </data>
+  <data name="AccruedDepreciationAtEnd" xml:space="preserve">
+    <value>Yıl sonundaki birikmiş amortisman</value>
+  </data>
+  <data name="accumulatedDepreciation" xml:space="preserve">
+    <value>birikmiş amortisman</value>
+  </data>
+  <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
+    <value>Birikmiş kur farkları</value>
+  </data>
+  <data name="AdditionalCapital" xml:space="preserve">
+    <value>Ek sermaye</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Ek bilgi</value>
+  </data>
+  <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Düzeltilmiş ortalama adi hisse sayısı</value>
+  </data>
+  <data name="adjustedIndicator" xml:space="preserve">
+    <value>düzeltilmiş gösterge</value>
+  </data>
+  <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Adi hisse başına düzeltilmiş net kar (zarar)</value>
+  </data>
+  <data name="AdministrativeExpenses" xml:space="preserve">
+    <value>Yönetim giderleri</value>
+  </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>Yapay zeka finansal verilerinizi analiz ediyor...</value>
+  </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>Yapay Zeka Asistanı</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>Yapay Zeka Asistanı</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>Yapay Zeka Asistanı sayfası</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>Yapay zeka destekli anlık analizler ve öneriler alın</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>Yapay Zeka Finansal Analizi</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>Yapay Zeka Finansal Asistanı</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>Chrome AI'yı etkinleştirmek için lütfen yukarıdaki kurulum talimatlarını izleyin</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI kullanılamıyor</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>Yapay Zeka Asistanı hazır değil</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>Chrome AI kullanıma hazır</value>
+  </data>
+  <data name="Amortization" xml:space="preserve">
+    <value>Amortisman</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>Varlık yapısını analiz et ({0})</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>İş faaliyetlerini analiz et</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>Sermaye kaynaklarını analiz et</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>Sermaye kaynaklarını analiz et ({0})</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>Sermaye özelliklerini analiz et</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>Ciroyu etkileyen faktörleri analiz et</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>Mevcut verilere göre şirketimin genel finansal sağlığını analiz et</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>Finansal istikrar göstergelerini analiz et</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>Duran varlık verimliliğini analiz et</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>Duran varlık faktörlerini analiz et</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>Duran varlık hareketlerini analiz et</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>Duran varlık durumunu analiz et</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>Genel finansal istikrarı analiz et</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>Maddi olmayan varlık verimliliğini analiz et</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>Likidite göstergelerini analiz et</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>Borç yapısını analiz et ({0})</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>Alacak ve borçları analiz et</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>Ödeme gücü oranlarını analiz et</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>İstikrar sınıflandırmasını analiz et</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>Ciro göstergelerini analiz et</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>İşletme sermayesi verimliliğini analiz et</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>İşletme sermayesi cirosunu analiz et</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Emin misiniz?</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Madde</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>Finansal verileriniz hakkında sorun...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>Soru sorun</value>
+  </data>
+  <data name="AssessmentOfFinancialStatements" xml:space="preserve">
+    <value>Finansal tabloların değerlendirmesi</value>
+  </data>
+  <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
+    <value>Alacak ve borçların karşılaştırmalı değerlendirmesi</value>
+  </data>
+  <data name="Asset" xml:space="preserve">
+    <value>Varlık</value>
+  </data>
+  <data name="AtBeginningReportingPeriod" xml:space="preserve">
+    <value>Raporlama döneminin başında</value>
+  </data>
+  <data name="atBeginOfYear" xml:space="preserve">
+    <value>yıl başında</value>
+  </data>
+  <data name="AtEndingReportingPeriod" xml:space="preserve">
+    <value>Raporlama döneminin sonunda</value>
+  </data>
+  <data name="atEndOf" xml:space="preserve">
+    <value>{0} yılı sonunda</value>
+  </data>
+  <data name="atEndOfYear" xml:space="preserve">
+    <value>yıl sonunda</value>
+  </data>
+  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Duran varlıkların mevcudiyeti ve hareketi</value>
+  </data>
+  <data name="AvailabilityForStockFormation" xml:space="preserve">
+    <value>Stok oluşumu için dönen, uzun vadeli ve kısa vadeli varlıkların kullanılabilirliği</value>
+  </data>
+  <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
+    <value>Stok oluşumu için dönen ve uzun vadeli varlıkların kullanılabilirliği</value>
+  </data>
+  <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
+    <value>Stok oluşumu için işletme sermayesinin kullanılabilirliği</value>
+  </data>
+  <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
+    <value>Duran varlıkların yıllık ortalama değeri</value>
+  </data>
+  <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
+    <value>Maddi olmayan varlıkların yıllık ortalama değeri</value>
+  </data>
+  <data name="averageBalances" xml:space="preserve">
+    <value>ortalama bakiyeler</value>
+  </data>
+  <data name="AverageNumberOfOrdinaryShares" xml:space="preserve">
+    <value>Ortalama adi hisse sayısı</value>
+  </data>
+  <data name="AverageWorkingCapitalBalances" xml:space="preserve">
+    <value>Ortalama işletme sermayesi bakiyeleri</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Bilanço</value>
+  </data>
+  <data name="BalanceAtBeginningOfYearAtOriginalCost" xml:space="preserve">
+    <value>Yıl başındaki bakiye (maliyet değeri)</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>Yıl sonundaki bakiye (maliyet değeri)</value>
+  </data>
+  <data name="BalanceAtEndOfYearNetOfDepreciation" xml:space="preserve">
+    <value>Yıl sonundaki bakiye (amortisman sonrası)</value>
+  </data>
+  <data name="BalanceIsLiquid" xml:space="preserve">
+    <value>Bilanço likittir</value>
+  </data>
+  <data name="BalanceIsNotLiquid" xml:space="preserve">
+    <value>Bilanço likit değildir</value>
+  </data>
+  <data name="basePeriod" xml:space="preserve">
+    <value>baz dönem</value>
+  </data>
+  <data name="BaseYear" xml:space="preserve">
+    <value>Baz yıl</value>
+  </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>Tarayıcı Yapay Zekası (Chrome 127+)</value>
+  </data>
+  <data name="bySettlementsWithParticipants" xml:space="preserve">
+    <value>katılımcılarla hesaplaşmalar</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
+    <value>Duran varlık kullanım verimliliği göstergelerinin hesaplanması</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
+    <value>Tablo {0}. {1} şirketinin {2}-{3} yılları için duran varlık kullanım verimliliği göstergelerinin hesaplanması</value>
+  </data>
+  <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
+    <value>Hisse karlılık göstergelerinin hesaplanması</value>
+  </data>
+  <data name="CapitalInRevaluations" xml:space="preserve">
+    <value>Yeniden değerleme sermayesi</value>
+  </data>
+  <data name="CapitalIntensityOfProducts" xml:space="preserve">
+    <value>Üretimin sermaye yoğunluğu</value>
+  </data>
+  <data name="cargo" xml:space="preserve">
+    <value>mallar</value>
+  </data>
+  <data name="CashCurrentFinancialInvestments" xml:space="preserve">
+    <value>Nakit ve cari finansal yatırımlar</value>
+  </data>
+  <data name="CharacteristicsOfCapital" xml:space="preserve">
+    <value>Sermaye özellikleri</value>
+  </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>Yapay Zeka ile sohbet</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>Yapay zeka kullanılabilirliği kontrol ediliyor...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome AI kullanılamıyor</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome AI şu anda kullanılamıyor. Ziyaret edin</value>
+  </data>
+  <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
+    <value>Dönen varlıkların likidite derecesine göre finansal istikrar türlerinin sınıflandırılması</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Temizle</value>
+  </data>
+  <data name="CoefficientOfBusinessActivity" xml:space="preserve">
+    <value>İş faaliyeti katsayısı</value>
+  </data>
+  <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
+    <value>Yabancı sermaye yoğunlaşma katsayısı</value>
+  </data>
+  <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
+    <value>Finansal kaynak kullanım verimliliği katsayısı</value>
+  </data>
+  <data name="CoefficientOfFinancialDependence" xml:space="preserve">
+    <value>Finansal bağımlılık katsayısı</value>
+  </data>
+  <data name="CoefficientOfFinancialIndependence" xml:space="preserve">
+    <value>Finansal bağımsızlık katsayısı</value>
+  </data>
+  <data name="CoefficientOfFinancialStability" xml:space="preserve">
+    <value>Finansal istikrar katsayısı</value>
+  </data>
+  <data name="CoefficientOfIndependence" xml:space="preserve">
+    <value>Bağımsızlık katsayısı (öz sermaye yoğunlaşması)</value>
+  </data>
+  <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
+    <value>Yabancı kaynak uzun vadeli kullanım katsayısı</value>
+  </data>
+  <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
+    <value>Öz sermaye manevra kabiliyeti katsayısı</value>
+  </data>
+  <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
+    <value>Öz kaynak kullanım katsayısı</value>
+  </data>
+  <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
+    <value>Ekonomik büyüme istikrar katsayısı</value>
+  </data>
+  <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
+    <value>Uzun vadeli yatırım yapısı katsayısı</value>
+  </data>
+  <data name="CoefficientOfRealValueOfFixedAssets" xml:space="preserve">
+    <value>Duran varlıkların gerçek değer katsayısı</value>
+  </data>
+  <data name="CoefficientOfSecuringWorkingCapital" xml:space="preserve">
+    <value>İşletme sermayesi güvence katsayısı</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Şirket adı</value>
+  </data>
+  <data name="CompositionOfAssets" xml:space="preserve">
+    <value>Varlık yapısı</value>
+  </data>
+  <data name="ComprehensiveIncome" xml:space="preserve">
+    <value>Kapsamlı gelir</value>
+  </data>
+  <data name="CostOfGoodsSold" xml:space="preserve">
+    <value>Satılan malın maliyeti</value>
+  </data>
+  <data name="CostOfLeftFixedAssets" xml:space="preserve">
+    <value>Elden çıkarılan duran varlıkların değeri</value>
+  </data>
+  <data name="CrisisFinancialStability" xml:space="preserve">
+    <value>Kriz finansal istikrarı</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>UAH</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="CurrentAccountsPayableFor" xml:space="preserve">
+    <value>Cari borçlar</value>
+  </data>
+  <data name="CurrentAssets" xml:space="preserve">
+    <value>Dönen varlıklar</value>
+  </data>
+  <data name="CurrentBiologicalAssets" xml:space="preserve">
+    <value>Cari biyolojik varlıklar</value>
+  </data>
+  <data name="CurrentFinancialInvestments" xml:space="preserve">
+    <value>Cari finansal yatırımlar</value>
+  </data>
+  <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
+    <value>Kısa vadeli yükümlülükler ve karşılıklar</value>
+  </data>
+  <data name="CurrentLiquidityFactor" xml:space="preserve">
+    <value>Cari likidite oranı</value>
+  </data>
+  <data name="CurrentMobileAssets" xml:space="preserve">
+    <value>Dönen (mobil) varlıklar</value>
+  </data>
+  <data name="currentPeriod" xml:space="preserve">
+    <value>raporlama dönemi</value>
+  </data>
+  <data name="CurrentSupplies" xml:space="preserve">
+    <value>Cari karşılıklar</value>
+  </data>
+  <data name="CurrentYear" xml:space="preserve">
+    <value>Cari yıl</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>gün</value>
+  </data>
+  <data name="DeductionsSocialEvents" xml:space="preserve">
+    <value>Sosyal güvenlik kesintileri</value>
+  </data>
+  <data name="DeferredTaxLiabilities" xml:space="preserve">
+    <value>Ertelenmiş vergi yükümlülükleri</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
+    <value>Yıl başındaki duran varlık aşınma oranı</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
+    <value>Yıl sonundaki duran varlık aşınma oranı</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>sapma</value>
+  </data>
+  <data name="Deviation_" xml:space="preserve">
+    <value>Sapma</value>
+  </data>
+  <data name="DisposalRate" xml:space="preserve">
+    <value>Elden çıkarma oranı</value>
+  </data>
+  <data name="DividendsPerSimpleShare" xml:space="preserve">
+    <value>Adi hisse başına temettü</value>
+  </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>Gemini Nano modeli indiriliyor... {0}%</value>
+  </data>
+  <data name="Dynamics" xml:space="preserve">
+    <value>Dinamikler</value>
+  </data>
+  <data name="ElementsOperatingCosts" xml:space="preserve">
+    <value>İşletme giderleri unsurları</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>Sohbete başlamak için Chrome AI'yı etkinleştirin...</value>
+  </data>
+  <data name="Equity" xml:space="preserve">
+    <value>Öz sermaye</value>
+  </data>
+  <data name="EraseData" xml:space="preserve">
+    <value>Verileri sil</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
+    <value>{0} bilançosunun {1} yılı başındaki likidite değerlendirmesi</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
+    <value>{0} bilançosunun {1} yılı sonundaki likidite değerlendirmesi</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>"Cari oranım ne anlama geliyor?"</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>"Borç oranımı nasıl iyileştirebilirim?"</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>"Karlılığım neden düşüyor?"</value>
+  </data>
+  <data name="ExampleQuestions" xml:space="preserve">
+    <value>Örnek sorular</value>
+  </data>
+  <data name="ExcessOfDebt" xml:space="preserve">
+    <value>Borç fazlası</value>
+  </data>
+  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+    <value>Gelir vergisi giderleri (gelirleri)</value>
+  </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>Temel oranları açıkla</value>
+  </data>
+  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+    <value>Duran varlık karlılığının faktör analizi</value>
+  </data>
+  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+    <value>İşletme sermayesi cirosunu etkileyen faktörler</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>Sık Sorulan Sorular</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>Evet! Tarayıcı Yapay Zekası Chrome'a yerleşik Gemini Nano modelini kullanır. API anahtarı yok, maliyet yok, kullanım sınırı yok.</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT OpenAI sunucularında çalışır (internet/API anahtarı gerektirir). Tarayıcı Yapay Zekası tamamen tarayıcınızda çalışır (sunucu yok, API anahtarı yok, kurulumdan sonra çevrimdışı çalışır).</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>Kesinlikle! Tüm yapay zeka işlemleri tarayıcınızda yerel olarak gerçekleşir. Finansal verileriniz cihazınızdan asla çıkmaz.</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>Şu anda desteklenen: Chrome 127+, Chrome Canary, Edge 127+ (Chromium tabanlı). Yakında: Firefox ve Safari.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Bu gerçekten ücretsiz mi?</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>ChatGPT'den farkı nedir?</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>Verilerim güvende mi?</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>Hangi tarayıcılar destekleniyor?</value>
+  </data>
+  <data name="FinancialExpenses" xml:space="preserve">
+    <value>Finansman giderleri</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>Finansal sağlık</value>
+  </data>
+  <data name="FinancialResultBeforeTax" xml:space="preserve">
+    <value>Vergi öncesi finansal sonuç</value>
+  </data>
+  <data name="FinancialResults" xml:space="preserve">
+    <value>Finansal sonuçlar</value>
+  </data>
+  <data name="finishedProducts" xml:space="preserve">
+    <value>mamul ürünler</value>
+  </data>
+  <data name="FixedAssets" xml:space="preserve">
+    <value>Duran varlıklar</value>
+  </data>
+  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi sabitleme oranı</value>
+  </data>
+  <data name="ForBills" xml:space="preserve">
+    <value>Senetler için</value>
+  </data>
+  <data name="ForReportingPeriod" xml:space="preserve">
+    <value>Raporlama dönemi için</value>
+  </data>
+  <data name="ForSamePeriodLastYear" xml:space="preserve">
+    <value>Geçen yılın aynı dönemi için</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>kurulum talimatları için.</value>
+  </data>
+  <data name="fromAccruedIncome" xml:space="preserve">
+    <value>tahakkuk eden gelirlerden</value>
+  </data>
+  <data name="FromInsurance" xml:space="preserve">
+    <value>Sigortadan</value>
+  </data>
+  <data name="fromInternalSettlements" xml:space="preserve">
+    <value>iç hesaplaşmalardan</value>
+  </data>
+  <data name="fromMoney" xml:space="preserve">
+    <value>nakit</value>
+  </data>
+  <data name="fromReceivables" xml:space="preserve">
+    <value>alacaklardan</value>
+  </data>
+  <data name="fromTangibleAssets" xml:space="preserve">
+    <value>maddi değerler</value>
+  </data>
+  <data name="FutureExpenses" xml:space="preserve">
+    <value>Gelecek dönem giderleri</value>
+  </data>
+  <data name="FutureIncome" xml:space="preserve">
+    <value>Gelecek dönem gelirleri</value>
+  </data>
+  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+    <value>Genel finansal istikrar göstergeleri</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Genel bilgiler</value>
+  </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>Öneriler al</value>
+  </data>
+  <data name="GettingStarted" xml:space="preserve">
+    <value>Başlarken</value>
+  </data>
+  <data name="goodsWorksServices" xml:space="preserve">
+    <value>mal, iş, hizmetler</value>
+  </data>
+  <data name="Gross" xml:space="preserve">
+    <value>Brüt</value>
+  </data>
+  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+    <value>Satılan ürün başına brüt kar (1 UAH)</value>
+  </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>büyüme oranı</value>
+  </data>
+  <data name="HardToSellAssets" xml:space="preserve">
+    <value>Zor satılan varlıklar (A4)</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>Nasıl kullanılır</value>
+  </data>
+  <data name="in%OfBorrowedCapital" xml:space="preserve">
+    <value>Yabancı sermayenin yüzdesi olarak da</value>
+  </data>
+  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+    <value>işletme sermayesinin yüzdesi olarak</value>
+  </data>
+  <data name="in%ToEquity" xml:space="preserve">
+    <value>Öz sermayenin yüzdesi olarak da</value>
+  </data>
+  <data name="in%toSourcesOfCapital" xml:space="preserve">
+    <value>Sermaye kaynaklarının yüzdesi olarak da</value>
+  </data>
+  <data name="includingDueTo" xml:space="preserve">
+    <value>bunun dahilinde</value>
+  </data>
+  <data name="includingEliminated" xml:space="preserve">
+    <value>dahil tasfiye edilen</value>
+  </data>
+  <data name="includingIncomeTax" xml:space="preserve">
+    <value>dahil gelir vergisi</value>
+  </data>
+  <data name="includingNew" xml:space="preserve">
+    <value>dahil yeni</value>
+  </data>
+  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+    <value>Öz sermaye katılımından gelir</value>
+  </data>
+  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+    <value>Diğer kapsamlı gelirle ilgili gelir vergisi</value>
+  </data>
+  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+    <value>Tamamlanmamış sermaye yatırımları</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>Göstergeler</value>
+  </data>
+  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+    <value>İş faaliyeti göstergeleri</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+    <value>Maddi olmayan varlık kullanım verimliliği göstergeleri</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+    <value>İşletme sermayesi kullanım verimliliği göstergeleri</value>
+  </data>
+  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+    <value>Finansal istikrar göstergeleri</value>
+  </data>
+  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Duran varlıkların durum ve hareket göstergeleri</value>
+  </data>
+  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi ciro göstergeleri</value>
+  </data>
+  <data name="initialCost" xml:space="preserve">
+    <value>maliyet değeri</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+    <value>Dönem başındaki duran varlıkların maliyet değeri</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+    <value>Dönem sonundaki duran varlıkların maliyet değeri</value>
+  </data>
+  <data name="InLongTerm" xml:space="preserve">
+    <value>Uzun vadede</value>
+  </data>
+  <data name="InputData" xml:space="preserve">
+    <value>Giriş verileri</value>
+  </data>
+  <data name="InShortTerm" xml:space="preserve">
+    <value>Kısa vadede</value>
+  </data>
+  <data name="IntangibleAssets" xml:space="preserve">
+    <value>Maddi olmayan varlıklar</value>
+  </data>
+  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi kullanım verimliliğinin entegre göstergesi</value>
+  </data>
+  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+    <value>Duran varlık kullanım verimliliğinin entegre göstergesi</value>
+  </data>
+  <data name="IntermediateCoverageRatio" xml:space="preserve">
+    <value>Ara karşılama oranı</value>
+  </data>
+  <data name="InvestmentProperty" xml:space="preserve">
+    <value>Yatırım amaçlı gayrimenkuller</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>Odaklanmam gereken en önemli finansal oranları açıkla</value>
+  </data>
+  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+    <value>Ortalama çalışan başına işgücü sermayesi</value>
+  </data>
+  <data name="LaborProductivity" xml:space="preserve">
+    <value>İşgücü verimliliği</value>
+  </data>
+  <data name="Liabilities" xml:space="preserve">
+    <value>Yükümlülükler</value>
+  </data>
+  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Satış amaçlı elde tutulan duran varlıklarla ilgili yükümlülükler</value>
+  </data>
+  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+    <value>Satış amaçlı duran varlıklarla ilgili yükümlülükler</value>
+  </data>
+  <data name="LineCode" xml:space="preserve">
+    <value>Satır kodu</value>
+  </data>
+  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+    <value>Bilanço likidite göstergeleri</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>Yükleniyor, lütfen bekleyin...</value>
+  </data>
+  <data name="LongTermBankCredits" xml:space="preserve">
+    <value>Uzun vadeli banka kredileri</value>
+  </data>
+  <data name="LongTermBiologicalAssets" xml:space="preserve">
+    <value>Uzun vadeli biyolojik varlıklar</value>
+  </data>
+  <data name="LongTermFinancialIvestments" xml:space="preserve">
+    <value>Uzun vadeli finansal yatırımlar</value>
+  </data>
+  <data name="longTermLiabilities" xml:space="preserve">
+    <value>uzun vadeli yükümlülükler</value>
+  </data>
+  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+    <value>Uzun vadeli yükümlülükler ve teminatlar</value>
+  </data>
+  <data name="LongTermLiabilitiesP" xml:space="preserve">
+    <value>Uzun vadeli yükümlülükler (P3)</value>
+  </data>
+  <data name="LongTermLiabilities_" xml:space="preserve">
+    <value>Uzun vadeli yükümlülükler</value>
+  </data>
+  <data name="LongTermLoans" xml:space="preserve">
+    <value>Uzun vadeli karşılıklar</value>
+  </data>
+  <data name="LongTermReceivables" xml:space="preserve">
+    <value>Uzun vadeli alacaklar</value>
+  </data>
+  <data name="loss" xml:space="preserve">
+    <value>zarar</value>
+  </data>
+  <data name="LossesFromEquityParticipation" xml:space="preserve">
+    <value>Öz sermaye katılımından zararlar</value>
+  </data>
+  <data name="MaterialCosts" xml:space="preserve">
+    <value>Malzeme maliyetleri</value>
+  </data>
+  <data name="materialValuesTurnover" xml:space="preserve">
+    <value>maddi değerler cirosu</value>
+  </data>
+  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+    <value>Nakit ve nakit benzerleri</value>
+  </data>
+  <data name="moneyTurnover" xml:space="preserve">
+    <value>nakit cirosu</value>
+  </data>
+  <data name="MostLiquidAssets" xml:space="preserve">
+    <value>En likit varlıklar (A1)</value>
+  </data>
+  <data name="MostUrgentCommitments" xml:space="preserve">
+    <value>En acil yükümlülükler (P1)</value>
+  </data>
+  <data name="NetFinancialResult" xml:space="preserve">
+    <value>Net finansal sonuç</value>
+  </data>
+  <data name="NetIncomeFromSales" xml:space="preserve">
+    <value>Satışlardan net gelir</value>
+  </data>
+  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+    <value>Ürün satışlarından net gelir (mal, iş, hizmetler)</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>Net kar</value>
+  </data>
+  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Adi hisse başına net kar (zarar)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>Finansal verileriniz cihazınızdan asla çıkmaz</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>Veri gönderilmiyor</value>
+  </data>
+  <data name="NonCurrentAssets" xml:space="preserve">
+    <value>Duran varlıklar</value>
+  </data>
+  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Satış amaçlı elde tutulan duran varlıklar</value>
+  </data>
+  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+    <value>Duran (sabit) varlıklar</value>
+  </data>
+  <data name="NormalFinancialStability" xml:space="preserve">
+    <value>Normal finansal istikrar</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>Sıra no</value>
+  </data>
+  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi devir sayısı</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>Kurulumdan sonra internet olmadan çalışır</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>Çevrimdışı çalışır</value>
+  </data>
+  <data name="OneDaySalesRevenue" xml:space="preserve">
+    <value>Bir günlük satış geliri</value>
+  </data>
+  <data name="onIssuedAdvances" xml:space="preserve">
+    <value>verilen avanslar için</value>
+  </data>
+  <data name="onReceivedAdvances" xml:space="preserve">
+    <value>alınan avanslar için</value>
+  </data>
+  <data name="OperatingCycleDuration" xml:space="preserve">
+    <value>İşletme döngüsü süresi</value>
+  </data>
+  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+    <value>Vergi sonrası diğer kapsamlı gelir</value>
+  </data>
+  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+    <value>Vergi öncesi diğer kapsamlı gelir</value>
+  </data>
+  <data name="OtherCurrentAssets" xml:space="preserve">
+    <value>Diğer dönen varlıklar</value>
+  </data>
+  <data name="OtherCurrentLiabilities" xml:space="preserve">
+    <value>Diğer kısa vadeli yükümlülükler</value>
+  </data>
+  <data name="OtherCurrentReceivables" xml:space="preserve">
+    <value>Diğer kısa vadeli alacaklar</value>
+  </data>
+  <data name="OtherExpenses" xml:space="preserve">
+    <value>Diğer giderler</value>
+  </data>
+  <data name="OtherFinancialIncome" xml:space="preserve">
+    <value>Diğer finansal gelirler</value>
+  </data>
+  <data name="otherFinancialInvestments" xml:space="preserve">
+    <value>diğer finansal yatırımlar</value>
+  </data>
+  <data name="OtherFixedAssets" xml:space="preserve">
+    <value>Diğer duran varlıklar</value>
+  </data>
+  <data name="OtherIncome" xml:space="preserve">
+    <value>Diğer gelirler</value>
+  </data>
+  <data name="OtherLongTermLiabilities" xml:space="preserve">
+    <value>Diğer uzun vadeli yükümlülükler</value>
+  </data>
+  <data name="OtherOperatingExpenses" xml:space="preserve">
+    <value>Diğer işletme giderleri</value>
+  </data>
+  <data name="OtherOperatingIncome" xml:space="preserve">
+    <value>Diğer işletme gelirleri</value>
+  </data>
+  <data name="OtherTotalIncome" xml:space="preserve">
+    <value>Diğer toplam gelir</value>
+  </data>
+  <data name="OverallLiquidityRatio" xml:space="preserve">
+    <value>Genel likidite oranı</value>
+  </data>
+  <data name="OwnCurrentAssets" xml:space="preserve">
+    <value>Öz işletme sermayesi</value>
+  </data>
+  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+    <value>Ödeme fazlası (+) veya açığı (-)</value>
+  </data>
+  <data name="people" xml:space="preserve">
+    <value>kişi</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Dönem</value>
+  </data>
+  <data name="PermanentLiabilities" xml:space="preserve">
+    <value>Kalıcı yükümlülükler (P4)</value>
+  </data>
+  <data name="PostponedTaxAssets" xml:space="preserve">
+    <value>Ertelenmiş vergi varlıkları</value>
+  </data>
+  <data name="PreCrisisFinancialStability" xml:space="preserve">
+    <value>Kriz öncesi finansal istikrar</value>
+  </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>Gizlilik ve güvenlik</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>Tüm yapay zeka işlemleri tarayıcınızda gerçekleşir</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>%100 gizli</value>
+  </data>
+  <data name="ProceedsFromSales" xml:space="preserve">
+    <value>Satış gelirleri</value>
+  </data>
+  <data name="productionStocks" xml:space="preserve">
+    <value>üretim stokları</value>
+  </data>
+  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+    <value>Ortalama çalışan başına verimlilik</value>
+  </data>
+  <data name="profit" xml:space="preserve">
+    <value>kar</value>
+  </data>
+  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi karlılığı</value>
+  </data>
+  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+    <value>Duran varlık karlılığı</value>
+  </data>
+  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+    <value>İşletme karlılık oranı</value>
+  </data>
+  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+    <value>İşletme faaliyetlerinden kar</value>
+  </data>
+  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+    <value>Durdurulan faaliyetlerden vergi sonrası kar (zarar)</value>
+  </data>
+  <data name="PromissoryNotesIssued" xml:space="preserve">
+    <value>Düzenlenen senetler</value>
+  </data>
+  <data name="PromissoryNotesReceived" xml:space="preserve">
+    <value>Alınan senetler</value>
+  </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>Genel analiz için &lt;strong&gt;Finansal sağlık&lt;/strong&gt;'a tıklayın</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>Uygulanabilir tavsiyeler için &lt;strong&gt;Öneriler al&lt;/strong&gt;'a tıklayın</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>Metrikleri anlamak için &lt;strong&gt;Temel oranları açıkla&lt;/strong&gt;'ya tıklayın</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Hızlı işlemler</value>
+  </data>
+  <data name="QuickSellingAssets" xml:space="preserve">
+    <value>Hızlı satılan varlıklar (A2)</value>
+  </data>
+  <data name="RaisedCapital" xml:space="preserve">
+    <value>Toplanan sermaye</value>
+  </data>
+  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+    <value>Toplanan sermaye yapısı oranı</value>
+  </data>
+  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+    <value>Yabancı sermaye ve öz sermaye oranı</value>
+  </data>
+  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+    <value>Mobil ve sabit varlıklar oranı</value>
+  </data>
+  <data name="receivable" xml:space="preserve">
+    <value>alacaklar</value>
+  </data>
+  <data name="ReceivablesForProducts" xml:space="preserve">
+    <value>Ürün, mal, iş, hizmet alacakları</value>
+  </data>
+  <data name="receivablesTurnover" xml:space="preserve">
+    <value>alacak cirosu</value>
+  </data>
+  <data name="ReceivedFixedAssets" xml:space="preserve">
+    <value>Alınan duran varlıklar</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>Raporlama döneminde alınan</value>
+  </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>Kullanılabilirliği tekrar kontrol et</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>Şirketimin finansal sağlığını iyileştirmek için ana önerileriniz nelerdir?</value>
+  </data>
+  <data name="RecoveryRate" xml:space="preserve">
+    <value>Kurtarma oranı</value>
+  </data>
+  <data name="RegisteredCapital" xml:space="preserve">
+    <value>Kayıtlı (tescilli) sermaye</value>
+  </data>
+  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+    <value>Ciro değişikliklerinden dolayı dönen varlık serbest bırakma (-), eksiklik (+)</value>
+  </data>
+  <data name="ReserveCapital" xml:space="preserve">
+    <value>Yedek sermaye</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[Yanıt kullanıcı tarafından durduruldu]</value>
+  </data>
+  <data name="RetainedEarnings" xml:space="preserve">
+    <value>Dağıtılmamış karlar (karşılanmamış zarar)</value>
+  </data>
+  <data name="RetiredFixedAssets" xml:space="preserve">
+    <value>Emekliye ayrılan duran varlıklar</value>
+  </data>
+  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+    <value>Öz sermaye getiri dönemi</value>
+  </data>
+  <data name="ReturnOnFixedAssets" xml:space="preserve">
+    <value>Duran varlık getirisi</value>
+  </data>
+  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+    <value>Maddi olmayan varlık getirisi</value>
+  </data>
+  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+    <value>Finansal araçların yeniden değerlemesi (değer düşüklüğü)</value>
+  </data>
+  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+    <value>Duran varlıkların yeniden değerlemesi (değer düşüklüğü)</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>gelir</value>
+  </data>
+  <data name="revolutions" xml:space="preserve">
+    <value>devir</value>
+  </data>
+  <data name="SalaryExpenses" xml:space="preserve">
+    <value>Maaş giderleri</value>
+  </data>
+  <data name="Samein%OfAssets" xml:space="preserve">
+    <value>Varlıkların yüzdesi olarak da</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Dosyaya kaydet</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Dil seçin</value>
+  </data>
+  <data name="SellingExpenses" xml:space="preserve">
+    <value>Satış giderleri</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Mesaj gönder</value>
+  </data>
+  <data name="Settlements" xml:space="preserve">
+    <value>Hesaplaşmalar</value>
+  </data>
+  <data name="settlementsWithBudget" xml:space="preserve">
+    <value>bütçe ile hesaplaşmalar</value>
+  </data>
+  <data name="settlementsWithInsurance" xml:space="preserve">
+    <value>sigorta ile hesaplaşmalar</value>
+  </data>
+  <data name="settlementsWithPayroll" xml:space="preserve">
+    <value>maaş ile hesaplaşmalar</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>Kurulum gerekli</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Chrome AI bayraklarını etkinleştirin</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Gemini Nano modelini indirin</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Chrome'u yeniden başlatın</value>
+  </data>
+  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+    <value>İştirakler ve ortak girişimlerin diğer kapsamlı gelirindeki pay</value>
+  </data>
+  <data name="ShortTermBankCredits" xml:space="preserve">
+    <value>Kısa vadeli banka kredileri</value>
+  </data>
+  <data name="ShortTermLiabilities" xml:space="preserve">
+    <value>Kısa vadeli yükümlülükler (P2)</value>
+  </data>
+  <data name="ShortTermLoans" xml:space="preserve">
+    <value>Kısa vadeli krediler</value>
+  </data>
+  <data name="SlowSellingAssets" xml:space="preserve">
+    <value>Yavaş satılan varlıklar (A3)</value>
+  </data>
+  <data name="SolvencyLossRatio" xml:space="preserve">
+    <value>Ödeme gücü kaybı oranı</value>
+  </data>
+  <data name="SolvencyRatios" xml:space="preserve">
+    <value>Ödeme gücü oranları</value>
+  </data>
+  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+    <value>Ödeme gücü kurtarma oranı</value>
+  </data>
+  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+    <value>Sermaye oluşum kaynakları</value>
+  </data>
+  <data name="StabilityType" xml:space="preserve">
+    <value>İstikrar türü</value>
+  </data>
+  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+    <value>Finansal performans tablosu (Kapsamlı gelir tablosu)</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Stoklar</value>
+  </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>Analizi durdur</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>Oluşturmayı durdur</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Verileri temizle</value>
+  </data>
+  <data name="StructureOfAccountsPayable" xml:space="preserve">
+    <value>Borç yapısı</value>
+  </data>
+  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+    <value>Yıl başındaki uygunluk oranı</value>
+  </data>
+  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+    <value>Yıl sonundaki uygunluk oranı</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Tablo</value>
+  </data>
+  <data name="TangibleCurrentAssets" xml:space="preserve">
+    <value>Maddi dönen varlıklar</value>
+  </data>
+  <data name="Tangibles" xml:space="preserve">
+    <value>Maddi değerler</value>
+  </data>
+  <data name="TargetedFinancing" xml:space="preserve">
+    <value>Hedefli finansman</value>
+  </data>
+  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+    <value>Faaliyete alınan yeni duran varlıkların maliyeti</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>bin UAH</value>
+  </data>
+  <data name="times" xml:space="preserve">
+    <value>kez</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>Sorularınızda spesifik olun</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>Belirli oranlara veya metriklere atıfta bulunun</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>Daha fazla netlik için takip soruları sorun</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>İpuçları</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Toplam</value>
+  </data>
+  <data name="TotalAssets" xml:space="preserve">
+    <value>Toplam varlıklar</value>
+  </data>
+  <data name="TotalCoverageRatio" xml:space="preserve">
+    <value>Toplam karşılama oranı</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Toplam gelir</value>
+  </data>
+  <data name="TotalReturnOnAssets" xml:space="preserve">
+    <value>Toplam varlık getirisi</value>
+  </data>
+  <data name="TotalSection" xml:space="preserve">
+    <value>Bölüm toplamı</value>
+  </data>
+  <data name="TotalSourcesOfCapital" xml:space="preserve">
+    <value>Toplam sermaye kaynakları</value>
+  </data>
+  <data name="TotalWorkingCapital" xml:space="preserve">
+    <value>Toplam işletme sermayesi</value>
+  </data>
+  <data name="total_" xml:space="preserve">
+    <value>toplam</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>Ciro</value>
+  </data>
+  <data name="TurnoverInSettlements" xml:space="preserve">
+    <value>Hesaplaşmalardaki ciro</value>
+  </data>
+  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+    <value>İşletme sermayesi cirosu</value>
+  </data>
+  <data name="TurnoverOfEquity" xml:space="preserve">
+    <value>Öz sermaye cirosu</value>
+  </data>
+  <data name="TurnoverOfInventories" xml:space="preserve">
+    <value>Stok cirosu</value>
+  </data>
+  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+    <value>Toplam sermaye cirosu</value>
+  </data>
+  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+    <value>İşletme sermayesi cirosu</value>
+  </data>
+  <data name="TypesOfCurrentAssets" xml:space="preserve">
+    <value>Dönen varlık türleri</value>
+  </data>
+  <data name="unfinishedProduction" xml:space="preserve">
+    <value>yarı mamul</value>
+  </data>
+  <data name="UnpaidCapital" xml:space="preserve">
+    <value>Ödenmemiş sermaye</value>
+  </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>Dosyadan yükle</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Değer</value>
+  </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>Kurulum kılavuzunu görüntüle</value>
+  </data>
+  <data name="wear" xml:space="preserve">
+    <value>Aşınma</value>
+  </data>
+  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+    <value>öz sermaye yöntemiyle muhasebeleştirilen</value>
+  </data>
+  <data name="WithAccruedIncome" xml:space="preserve">
+    <value>Tahakkuk eden gelirlerle</value>
+  </data>
+  <data name="WithAdvances" xml:space="preserve">
+    <value>Avanslarla</value>
+  </data>
+  <data name="withBudget" xml:space="preserve">
+    <value>bütçe ile</value>
+  </data>
+  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+    <value>Bütçe ve bütçe dışı fonlarla</value>
+  </data>
+  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+    <value>Alıcılar veya tedarikçilerle</value>
+  </data>
+  <data name="WithdrawnCapital" xml:space="preserve">
+    <value>Çekilen sermaye</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>Raporlama döneminde çekilen</value>
+  </data>
+  <data name="WithInternalCashSettlements" xml:space="preserve">
+    <value>İç nakit hesaplaşmalarıyla</value>
+  </data>
+  <data name="WithLongTermLiabilities" xml:space="preserve">
+    <value>Uzun vadeli yükümlülüklerle</value>
+  </data>
+  <data name="WithOther" xml:space="preserve">
+    <value>Diğerleriyle</value>
+  </data>
+  <data name="WithParticipants" xml:space="preserve">
+    <value>Katılımcılarla</value>
+  </data>
+  <data name="WithPayroll" xml:space="preserve">
+    <value>Maaşla</value>
+  </data>
+  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+    <value>işletme sermayesi ciro süresi</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>yıl</value>
+  </data>
+  <data name="years" xml:space="preserve">
+    <value>yıllar</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>Siz</value>
+  </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+    <value>UFIN'i beğendiniz mi?</value>
+  </data>
+  <data name="StarOnGitHubMessage" xml:space="preserve">
+    <value>Bu araç size yardımcı olduysa, lütfen GitHub'da yıldız verin! Bu, diğer geliştiricilerin projeyi bulmasına yardımcı olacaktır.</value>
+  </data>
+  <data name="StarOnGitHub" xml:space="preserve">
+    <value>GitHub'da yıldız ver</value>
+  </data>
+</root>
