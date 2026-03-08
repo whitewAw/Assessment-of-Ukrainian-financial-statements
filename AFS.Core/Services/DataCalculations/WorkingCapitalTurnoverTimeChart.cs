@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -36,13 +36,13 @@ namespace AFS.Core.Services.DataCalculations
             var baseVal = baseYearValue.GetValueOrDefault(0);
             if (!AfsConstraints.IsZeroOrInvalid(baseVal))
             {
-                items.Add(new ChartDateTimeItem { Date = new DateTime(model.BaseYear, 1, 1), Value = baseVal });
+                items.Add(new ChartDateTimeItem { Date = new DateTime(model.BaseYear, 1, 1, 0, 0, 0, DateTimeKind.Utc), Value = baseVal });
             }
 
             var currentVal = currentYearValue.GetValueOrDefault(0);
             if (!AfsConstraints.IsZeroOrInvalid(currentVal))
             {
-                items.Add(new ChartDateTimeItem { Date = new DateTime(model.CurrentYear, 12, 31), Value = currentVal });
+                items.Add(new ChartDateTimeItem { Date = new DateTime(model.CurrentYear, 12, 31, 0, 0, 0, DateTimeKind.Utc), Value = currentVal });
             }
 
             return items;

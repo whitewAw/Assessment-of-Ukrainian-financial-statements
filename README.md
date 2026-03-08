@@ -230,16 +230,14 @@ This application provides a powerful, browser-based tool for comprehensive analy
 ┌─────────────────────────────────────────────────────────────────┐
 │              CATEGORY 1: BLAZOR WASM NOT APPLICABLE             │
 ├─────────────────────────────────────────────────────────────────┤
-│  MA0004/CA2007 - ConfigureAwait (single-threaded WASM)          │
+│  MA0004/CA2007 - ConfigureAwait (no SyncContext in WASM)        │
 │  S6966        - Await false positives in Blazor lifecycle       │
-│  S6562        - DateTimeKind not applicable in browser          │
-│  CA1824       - NeutralResourcesLanguage not needed client-side │
 ├─────────────────────────────────────────────────────────────────┤
 │              CATEGORY 2: STYLE PREFERENCES                      │
 ├─────────────────────────────────────────────────────────────────┤
 │  MA0016       - List<T> required by ApexCharts/Radzen binding   │
 └─────────────────────────────────────────────────────────────────┘
-Total: 6 documented suppressions (all justified)
+Total: 4 documented suppressions (all justified)
 ```
 
 ---
@@ -405,7 +403,7 @@ The project uses a centralized build configuration:
 - Code analysis with latest rules (Meziantou, Sonar, Roslynator)
 - Code style enforcement in build
 - `IsAotCompatible` and `IsTrimmable` for AOT/trimming safety
-- Only 6 documented warning suppressions (all justified)
+- Only 4 documented warning suppressions (all justified)
 
 **nuget.config** - Package source configuration:
 - Uses only official NuGet.org source
