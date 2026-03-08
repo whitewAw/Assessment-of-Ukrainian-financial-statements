@@ -94,49 +94,38 @@ a:hover, .btn-link:hover {
 }
 
 /* ========================================
-   APEXCHARTS SIZING FIX
-   Ensures charts respect container bounds in production
+   APEXCHARTS RESPONSIVE SIZING
+   Charts automatically size to container
    ======================================== */
 
-/* Force charts to respect container width */
-.apexcharts-canvas,
-.apexcharts-canvas foreignObject,
-.apexcharts-inner,
-.apexcharts-svg,
-[class*="apexcharts"] {
-    max-width: 100% !important;
-    width: 100% !important;
+/* Chart container - responsive width */
+.chart-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
-.apexcharts-svg {
-    overflow: visible;
+/* ApexCharts auto-sizing - let chart fill container */
+.apexcharts-canvas {
+    margin: 0 auto;
 }
 
-/* Pie/donut charts transform origin */
+/* Pie/donut charts - center properly */
 .apexcharts-pie,
-.apexcharts-pie-area,
-.apexcharts-datalabels-group {
+.apexcharts-pie-area {
     transform-origin: center center;
 }
 
-/* RadzenCard and chart containers */
+/* RadzenCard - no overflow scroll */
 .rz-card {
-    overflow: hidden;
-}
-
-.chart-container {
-    width: 100% !important;
-    overflow: hidden;
-}
-
-.content {
-    overflow-x: hidden;
-    max-width: 100%;
-}
-
-.main .rz-card,
-.content .rz-card {
+    width: 100%;
     box-sizing: border-box;
+}
+
+/* Content area */
+.content {
+    max-width: 100%;
 }
 
 @media (max-width: 767px) {

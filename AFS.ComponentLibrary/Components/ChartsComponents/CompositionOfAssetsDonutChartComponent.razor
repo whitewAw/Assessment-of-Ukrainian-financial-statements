@@ -1,11 +1,10 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
 
-<div class="chart-container" style="width: 100%; max-width: 600px; margin: 0 auto;">
+<div class="chart-container">
     <ApexChart TItem="ChartDataItem"
                Title="@Period"
                Height="400"
-               Width="600"
                Options="@_chartOptions">
         <ApexPointSeries TItem="ChartDataItem"
                          Items="ChartAssets"
