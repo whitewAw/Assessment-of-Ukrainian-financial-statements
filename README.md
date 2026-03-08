@@ -338,8 +338,8 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   └── YearSelectComponents/    # Year selection dropdowns
 │   ├── Helpers/
 │   │   └── ApexChartsHelper.cs      # AOT-safe chart configuration
-│   └── Resources/                   # Localization files (6 languages)
-│       └── Resource.*.resx          # ua, en, de, es, fr, ru
+│   └── Resources/                   # Localization files (7 languages)
+│       └── Resource.*.resx          # uk, en, de, es, fr, pl, ru
 │
 ├── 📂 AFS.Core/                     # Business logic & services
 │   ├── Models/                      # Data models
@@ -412,6 +412,103 @@ The project uses a centralized build configuration:
 - Preserves `Radzen.Blazor` for UI components
 - Preserves `AFS.ComponentLibrary` for chart/table components
 - Chart data types protected via source-generated JSON serializer
+
+---
+
+## 🌍 Adding a New Language
+
+The application supports localization through .NET resource files. Follow these steps to add a new language:
+
+### Step 1: Create Resource File
+
+Create a new resource file in `AFS.ComponentLibrary/Resources/`:
+
+```
+Resource.{lang-code}.resx
+```
+
+**Examples:**
+- `Resource.pl.resx` (Polish)
+- `Resource.it.resx` (Italian)
+- `Resource.pt.resx` (Portuguese)
+
+> **Tip:** Copy an existing file (e.g., `Resource.en.resx`) and translate all values.
+
+### Step 2: Update Culture Selector
+
+Edit `AFS.ComponentLibrary/Components/CultureSelector.razor`:
+
+1. **Add to display data dictionary** (around line 24):
+```csharp
+private static readonly Dictionary<string, (string Flag, string NativeName)> cultureDisplayData = new()
+{
+    ["en"] = ("🇺🇸", "English"),
+    ["uk-UA"] = ("🇺🇦", "Українська"),
+    // ... existing languages ...
+    ["xx"] = ("🇽🇽", "Native Name")  // Add your language
+};
+```
+
+2. **Add to supported cultures array** (around line 34):
+```csharp
+private static readonly CultureInfo[] supportedCultures =
+[
+    CultureInfo.GetCultureInfo("en"),
+    CultureInfo.GetCultureInfo("uk-UA"),
+    // ... existing languages ...
+    CultureInfo.GetCultureInfo("xx")  // Add your language code
+];
+```
+
+### Step 3: Update AI Language Support
+
+Edit `AFS.Core/Models/AfsConstraints.cs` to add AI response language:
+
+```csharp
+public static string GetLanguageInstruction()
+{
+    var cultureName = System.Globalization.CultureInfo.CurrentUICulture.Name;
+
+    return cultureName[..2].ToLowerInvariant() switch
+    {
+        "uk" => "Ukrainian",
+        "en" => "English",
+        "de" => "German",
+        "es" => "Spanish",
+        "fr" => "French",
+        "pl" => "Polish",
+        "ru" => "Russian",
+        "xx" => "YourLanguage",  // Add your language
+        _ => "English"
+    };
+}
+```
+
+### Step 4: Update Documentation
+
+Update `README.md`:
+1. Update language count in the Overview section
+2. Add the new language to the Internationalization list
+
+### Language Code Reference
+
+| Language | Code | Flag | Native Name |
+|----------|------|------|-------------|
+| Ukrainian | `uk-UA` | 🇺🇦 | Українська |
+| English | `en` | 🇺🇸 | English |
+| German | `de` | 🇩🇪 | Deutsch |
+| Spanish | `es` | 🇪🇸 | Español |
+| French | `fr` | 🇫🇷 | Français |
+| Polish | `pl` | 🇵🇱 | Polski |
+| Russian | `ru` | 🇷🇺 | Русский |
+
+### Translation Guidelines
+
+1. **Use Ukrainian as the base** - `Resource.resx` contains the authoritative Ukrainian text
+2. **Adapt, don't just translate** - Use proper financial terminology for each language
+3. **Preserve placeholders** - Keep `{0}`, `{1}`, etc. in the same positions
+4. **Keep formatting** - Preserve XML entities like `&lt;`, `&gt;`, etc.
+5. **Test thoroughly** - Check all pages after adding translations
 
 ---
 

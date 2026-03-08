@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class AfsConstraints
     {
@@ -49,7 +49,7 @@
 
         /// <summary>
         /// Gets the language name for AI prompts based on the current UI culture.
-        /// Supports: Ukrainian, English, German, Spanish, French, Russian.
+        /// Supports: Ukrainian, English, German, Spanish, French, Polish, Russian.
         /// </summary>
         public static string GetLanguageInstruction()
         {
@@ -62,6 +62,7 @@
                 "de" => "German",
                 "es" => "Spanish",
                 "fr" => "French",
+                "pl" => "Polish",
                 "ru" => "Russian",
                 _ => "English"
             };
