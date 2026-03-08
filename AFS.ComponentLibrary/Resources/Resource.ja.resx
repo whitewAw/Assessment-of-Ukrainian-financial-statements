@@ -95,1290 +95,1290 @@
     <value>A1 &gt;= P1+P2+P3</value>
   </data>
   <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
-    <value>Stabilità finanziaria assoluta</value>
+    <value>絶対的財務安定性</value>
   </data>
   <data name="AbsoluteLiquidityRatio" xml:space="preserve">
-    <value>Indice di liquidità immediata</value>
+    <value>絶対流動性比率</value>
   </data>
   <data name="accounts" xml:space="preserve">
-    <value>crediti</value>
+    <value>売掛金</value>
   </data>
   <data name="AccountsPayable" xml:space="preserve">
-    <value>Debiti</value>
+    <value>買掛金</value>
   </data>
   <data name="AccountsReceivable" xml:space="preserve">
-    <value>Crediti</value>
+    <value>売掛金</value>
   </data>
   <data name="AccountsReceivableForDebts" xml:space="preserve">
-    <value>Crediti verso clienti</value>
+    <value>債務に対する売掛金</value>
   </data>
   <data name="AccruedDepreciationAtBegin" xml:space="preserve">
-    <value>Ammortamento accumulato all'inizio dell'anno</value>
+    <value>年初累計減価償却額</value>
   </data>
   <data name="AccruedDepreciationAtEnd" xml:space="preserve">
-    <value>Ammortamento accumulato alla fine dell'anno</value>
+    <value>年末累計減価償却額</value>
   </data>
   <data name="accumulatedDepreciation" xml:space="preserve">
-    <value>ammortamento accumulato</value>
+    <value>累計減価償却額</value>
   </data>
   <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
-    <value>Differenze cambio accumulate</value>
+    <value>累積為替差額</value>
   </data>
   <data name="AdditionalCapital" xml:space="preserve">
-    <value>Capitale aggiuntivo</value>
+    <value>追加資本</value>
   </data>
   <data name="AdditionalInfo" xml:space="preserve">
-    <value>Informazioni aggiuntive</value>
+    <value>追加情報</value>
   </data>
   <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
-    <value>Numero medio rettificato di azioni ordinarie</value>
+    <value>調整後普通株式平均数</value>
   </data>
   <data name="adjustedIndicator" xml:space="preserve">
-    <value>indicatore rettificato</value>
+    <value>調整後指標</value>
   </data>
   <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
-    <value>Utile (perdita) netto rettificato per azione ordinaria</value>
+    <value>調整後1株当たり純利益（損失）</value>
   </data>
   <data name="AdministrativeExpenses" xml:space="preserve">
-    <value>Spese amministrative</value>
+    <value>管理費</value>
   </data>
   <data name="AIAnalyzingData" xml:space="preserve">
-    <value>L'IA sta analizzando i tuoi dati finanziari...</value>
+    <value>AIが財務データを分析しています...</value>
   </data>
   <data name="AIAssistant" xml:space="preserve">
-    <value>Assistente IA</value>
+    <value>AIアシスタント</value>
   </data>
   <data name="AIAssistantName" xml:space="preserve">
-    <value>Assistente IA</value>
+    <value>AIアシスタント</value>
   </data>
   <data name="AIAssistantPage" xml:space="preserve">
-    <value>pagina Assistente IA</value>
+    <value>AIアシスタントページ</value>
   </data>
   <data name="AIAssistantSubtitle" xml:space="preserve">
-    <value>Ottieni analisi istantanee e raccomandazioni basate sull'IA</value>
+    <value>AIによる即時分析とアドバイスを取得</value>
   </data>
   <data name="AIFinancialAnalysis" xml:space="preserve">
-    <value>Analisi finanziaria IA</value>
+    <value>AI財務分析</value>
   </data>
   <data name="AIFinancialAssistant" xml:space="preserve">
-    <value>Assistente finanziario IA</value>
+    <value>AI財務アシスタント</value>
   </data>
   <data name="AIFollowSetupInstructions" xml:space="preserve">
-    <value>Segui le istruzioni di configurazione sopra per abilitare Chrome AI</value>
+    <value>Chrome AIを有効にするには、上記の設定手順に従ってください</value>
   </data>
   <data name="AINotAvailable" xml:space="preserve">
-    <value>Chrome AI non disponibile</value>
+    <value>Chrome AIは利用できません</value>
   </data>
   <data name="AINotReady" xml:space="preserve">
-    <value>L'Assistente IA non è pronto</value>
+    <value>AIアシスタントは準備ができていません</value>
   </data>
   <data name="AIReady" xml:space="preserve">
-    <value>Chrome AI è pronto per l'uso</value>
+    <value>Chrome AIは使用可能です</value>
   </data>
   <data name="Amortization" xml:space="preserve">
-    <value>Ammortamento</value>
+    <value>償却</value>
   </data>
   <data name="AnalyzeAssetComposition" xml:space="preserve">
-    <value>Analizza la composizione degli attivi ({0})</value>
+    <value>資産構成を分析 ({0})</value>
   </data>
   <data name="AnalyzeBusinessActivity" xml:space="preserve">
-    <value>Analizza l'attività aziendale</value>
+    <value>事業活動を分析</value>
   </data>
   <data name="AnalyzeCapitalSources" xml:space="preserve">
-    <value>Analizza le fonti di capitale</value>
+    <value>資本源を分析</value>
   </data>
   <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
-    <value>Analizza le fonti di capitale ({0})</value>
+    <value>資本源を分析 ({0})</value>
   </data>
   <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
-    <value>Analizza le caratteristiche del capitale</value>
+    <value>資本特性を分析</value>
   </data>
   <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
-    <value>Analizza i fattori che influenzano il fatturato</value>
+    <value>回転率に影響する要因を分析</value>
   </data>
   <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
-    <value>Analizza la salute finanziaria complessiva della mia azienda sulla base dei dati disponibili</value>
+    <value>利用可能なデータに基づいて、会社の全体的な財務状況を分析してください</value>
   </data>
   <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
-    <value>Analizza gli indicatori di stabilità finanziaria</value>
+    <value>財務安定性指標を分析</value>
   </data>
   <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
-    <value>Analizza l'efficienza delle immobilizzazioni</value>
+    <value>固定資産効率を分析</value>
   </data>
   <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
-    <value>Analizza i fattori delle immobilizzazioni</value>
+    <value>固定資産要因を分析</value>
   </data>
   <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
-    <value>Analizza il movimento delle immobilizzazioni</value>
+    <value>固定資産変動を分析</value>
   </data>
   <data name="AnalyzeFixedAssetsState" xml:space="preserve">
-    <value>Analizza lo stato delle immobilizzazioni</value>
+    <value>固定資産状態を分析</value>
   </data>
   <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
-    <value>Analizza la stabilità finanziaria generale</value>
+    <value>全般的な財務安定性を分析</value>
   </data>
   <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
-    <value>Analizza l'efficienza delle attività immateriali</value>
+    <value>無形資産効率を分析</value>
   </data>
   <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
-    <value>Analizza gli indicatori di liquidità</value>
+    <value>流動性指標を分析</value>
   </data>
   <data name="AnalyzePayableStructure" xml:space="preserve">
-    <value>Analizza la struttura dei debiti ({0})</value>
+    <value>買掛金構造を分析 ({0})</value>
   </data>
   <data name="AnalyzeReceivablesPayables" xml:space="preserve">
-    <value>Analizza crediti e debiti</value>
+    <value>売掛金と買掛金を分析</value>
   </data>
   <data name="AnalyzeSolvencyRatios" xml:space="preserve">
-    <value>Analizza gli indici di solvibilità</value>
+    <value>支払能力比率を分析</value>
   </data>
   <data name="AnalyzeStabilityClassification" xml:space="preserve">
-    <value>Analizza la classificazione della stabilità</value>
+    <value>安定性分類を分析</value>
   </data>
   <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
-    <value>Analizza gli indicatori di rotazione</value>
+    <value>回転率指標を分析</value>
   </data>
   <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
-    <value>Analizza l'efficienza del capitale circolante</value>
+    <value>運転資本効率を分析</value>
   </data>
   <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
-    <value>Analizza la rotazione del capitale circolante</value>
+    <value>運転資本回転率を分析</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Sei sicuro?</value>
+    <value>よろしいですか？</value>
   </data>
   <data name="Article" xml:space="preserve">
-    <value>Voce</value>
+    <value>項目</value>
   </data>
   <data name="AskAboutFinancialData" xml:space="preserve">
-    <value>Chiedi informazioni sui tuoi dati finanziari...</value>
+    <value>財務データについて質問...</value>
   </data>
   <data name="AskQuestions" xml:space="preserve">
-    <value>Fai domande</value>
+    <value>質問する</value>
   </data>
   <data name="AssessmentOfFinancialStatements" xml:space="preserve">
-    <value>Valutazione dei bilanci</value>
+    <value>財務諸表の評価</value>
   </data>
   <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
-    <value>Valutazione comparativa di crediti e debiti</value>
+    <value>売掛金と買掛金の比較評価</value>
   </data>
   <data name="Asset" xml:space="preserve">
-    <value>Attivo</value>
+    <value>資産</value>
   </data>
   <data name="AtBeginningReportingPeriod" xml:space="preserve">
-    <value>All'inizio del periodo di riferimento</value>
+    <value>報告期間の開始時</value>
   </data>
   <data name="atBeginOfYear" xml:space="preserve">
-    <value>all'inizio dell'anno</value>
+    <value>年初</value>
   </data>
   <data name="AtEndingReportingPeriod" xml:space="preserve">
-    <value>Alla fine del periodo di riferimento</value>
+    <value>報告期間の終了時</value>
   </data>
   <data name="atEndOf" xml:space="preserve">
-    <value>alla fine dell'anno {0}</value>
+    <value>{0}年末</value>
   </data>
   <data name="atEndOfYear" xml:space="preserve">
-    <value>alla fine dell'anno</value>
+    <value>年末</value>
   </data>
   <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
-    <value>Disponibilità e movimento delle immobilizzazioni</value>
+    <value>固定資産の利用可能性と変動</value>
   </data>
   <data name="AvailabilityForStockFormation" xml:space="preserve">
-    <value>Disponibilità di attività correnti, a lungo e breve termine per la formazione delle scorte</value>
+    <value>在庫形成のための流動・長期・短期資産の利用可能性</value>
   </data>
   <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
-    <value>Disponibilità di attività correnti e a lungo termine per la formazione delle scorte</value>
+    <value>在庫形成のための流動・長期資産の利用可能性</value>
   </data>
   <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
-    <value>Disponibilità di capitale circolante per la formazione delle scorte</value>
+    <value>在庫形成のための運転資本の利用可能性</value>
   </data>
   <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
-    <value>Costo medio annuo delle immobilizzazioni</value>
+    <value>固定資産の年間平均費用</value>
   </data>
   <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
-    <value>Costo medio annuo delle attività immateriali</value>
+    <value>無形資産の年間平均費用</value>
   </data>
   <data name="averageBalances" xml:space="preserve">
-    <value>saldi medi</value>
+    <value>平均残高</value>
   </data>
   <data name="AverageNumberOfOrdinaryShares" xml:space="preserve">
-    <value>Numero medio di azioni ordinarie</value>
+    <value>普通株式平均数</value>
   </data>
   <data name="AverageWorkingCapitalBalances" xml:space="preserve">
-    <value>Saldi medi del capitale circolante</value>
+    <value>運転資本平均残高</value>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Bilancio</value>
+    <value>貸借対照表</value>
   </data>
   <data name="BalanceAtBeginningOfYearAtOriginalCost" xml:space="preserve">
-    <value>Saldo all'inizio dell'anno (costo storico)</value>
+    <value>年初残高（取得原価）</value>
   </data>
   <data name="BalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
-    <value>Saldo alla fine dell'anno (costo storico)</value>
+    <value>年末残高（取得原価）</value>
   </data>
   <data name="BalanceAtEndOfYearNetOfDepreciation" xml:space="preserve">
-    <value>Saldo alla fine dell'anno (al netto dell'ammortamento)</value>
+    <value>年末残高（減価償却控除後）</value>
   </data>
   <data name="BalanceIsLiquid" xml:space="preserve">
-    <value>Il bilancio è liquido</value>
+    <value>貸借対照表は流動的です</value>
   </data>
   <data name="BalanceIsNotLiquid" xml:space="preserve">
-    <value>Il bilancio non è liquido</value>
+    <value>貸借対照表は流動的ではありません</value>
   </data>
   <data name="basePeriod" xml:space="preserve">
-    <value>periodo base</value>
+    <value>基準期間</value>
   </data>
   <data name="BaseYear" xml:space="preserve">
-    <value>Anno base</value>
+    <value>基準年</value>
   </data>
   <data name="BrowserAI" xml:space="preserve">
-    <value>IA del browser (Chrome 127+)</value>
+    <value>ブラウザAI（Chrome 127+）</value>
   </data>
   <data name="bySettlementsWithParticipants" xml:space="preserve">
-    <value>regolamenti con i partecipanti</value>
+    <value>参加者との決済</value>
   </data>
   <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
-    <value>Calcolo degli indicatori di efficienza d'uso delle immobilizzazioni</value>
+    <value>固定資産使用効率指標の計算</value>
   </data>
   <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
-    <value>Tabella {0}. Calcolo degli indicatori di efficienza d'uso delle immobilizzazioni di {1} per {2}-{3}</value>
+    <value>表{0}。{1}社の{2}-{3}年固定資産使用効率指標の計算</value>
   </data>
   <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
-    <value>Calcolo degli indicatori di redditività delle azioni</value>
+    <value>株式収益性指標の計算</value>
   </data>
   <data name="CapitalInRevaluations" xml:space="preserve">
-    <value>Riserva di rivalutazione</value>
+    <value>再評価資本</value>
   </data>
   <data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Intensità di capitale della produzione</value>
+    <value>製品の資本集約度</value>
   </data>
   <data name="cargo" xml:space="preserve">
-    <value>merci</value>
+    <value>貨物</value>
   </data>
   <data name="CashCurrentFinancialInvestments" xml:space="preserve">
-    <value>Disponibilità liquide e investimenti finanziari correnti</value>
+    <value>現金および流動金融投資</value>
   </data>
   <data name="CharacteristicsOfCapital" xml:space="preserve">
-    <value>Caratteristiche del capitale</value>
+    <value>資本の特性</value>
   </data>
   <data name="ChatWithAI" xml:space="preserve">
-    <value>Chatta con l'IA</value>
+    <value>AIとチャット</value>
   </data>
   <data name="CheckingAIAvailability" xml:space="preserve">
-    <value>Verifica disponibilità IA...</value>
+    <value>AIの利用可能性を確認中...</value>
   </data>
   <data name="ChromeAINotAvailable" xml:space="preserve">
-    <value>Chrome AI non disponibile</value>
+    <value>Chrome AIは利用できません</value>
   </data>
   <data name="ChromeAINotAvailableMessage" xml:space="preserve">
-    <value>Chrome AI non è attualmente disponibile. Visita</value>
+    <value>Chrome AIは現在利用できません。アクセスしてください</value>
   </data>
   <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
-    <value>Classificazione dei tipi di stabilità finanziaria per grado di liquidità delle attività correnti</value>
+    <value>流動資産の流動性程度による財務安定性タイプの分類</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Cancella</value>
+    <value>クリア</value>
   </data>
   <data name="CoefficientOfBusinessActivity" xml:space="preserve">
-    <value>Coefficiente di attività aziendale</value>
+    <value>事業活動係数</value>
   </data>
   <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
-    <value>Coefficiente di concentrazione del capitale di terzi</value>
+    <value>借入資本集中係数</value>
   </data>
   <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
-    <value>Coefficiente di efficienza dell'uso delle risorse finanziarie</value>
+    <value>財務資源使用効率係数</value>
   </data>
   <data name="CoefficientOfFinancialDependence" xml:space="preserve">
-    <value>Coefficiente di dipendenza finanziaria</value>
+    <value>財務依存係数</value>
   </data>
   <data name="CoefficientOfFinancialIndependence" xml:space="preserve">
-    <value>Coefficiente di indipendenza finanziaria</value>
+    <value>財務独立係数</value>
   </data>
   <data name="CoefficientOfFinancialStability" xml:space="preserve">
-    <value>Coefficiente di stabilità finanziaria</value>
+    <value>財務安定性係数</value>
   </data>
   <data name="CoefficientOfIndependence" xml:space="preserve">
-    <value>Coefficiente di indipendenza (concentrazione del capitale proprio)</value>
+    <value>独立係数（自己資本集中度）</value>
   </data>
   <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
-    <value>Coefficiente di utilizzo a lungo termine dei fondi presi in prestito</value>
+    <value>借入資金長期使用係数</value>
   </data>
   <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
-    <value>Coefficiente di manovrabilità del capitale proprio</value>
+    <value>自己資本機動性係数</value>
   </data>
   <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
-    <value>Coefficiente di utilizzo dei fondi propri</value>
+    <value>自己資金活用係数</value>
   </data>
   <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
-    <value>Coefficiente di stabilità della crescita economica</value>
+    <value>経済成長安定性係数</value>
   </data>
   <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
-    <value>Coefficiente di struttura degli investimenti a lungo termine</value>
+    <value>長期投資構造係数</value>
   </data>
   <data name="CoefficientOfRealValueOfFixedAssets" xml:space="preserve">
-    <value>Coefficiente del valore reale delle immobilizzazioni</value>
+    <value>固定資産実質価値係数</value>
   </data>
   <data name="CoefficientOfSecuringWorkingCapital" xml:space="preserve">
-    <value>Coefficiente di copertura del capitale circolante</value>
+    <value>運転資本確保係数</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>Nome azienda</value>
+    <value>会社名</value>
   </data>
   <data name="CompositionOfAssets" xml:space="preserve">
-    <value>Composizione degli attivi</value>
+    <value>資産構成</value>
   </data>
   <data name="ComprehensiveIncome" xml:space="preserve">
-    <value>Risultato complessivo</value>
+    <value>包括利益</value>
   </data>
   <data name="CostOfGoodsSold" xml:space="preserve">
-    <value>Costo del venduto</value>
+    <value>売上原価</value>
   </data>
   <data name="CostOfLeftFixedAssets" xml:space="preserve">
-    <value>Valore delle immobilizzazioni cedute</value>
+    <value>除却固定資産の費用</value>
   </data>
   <data name="CrisisFinancialStability" xml:space="preserve">
-    <value>Stabilità finanziaria critica</value>
+    <value>危機的財務安定性</value>
   </data>
   <data name="currency" xml:space="preserve">
-    <value>UAH</value>
+    <value>グリブナ</value>
   </data>
   <data name="Current" xml:space="preserve">
-    <value>Corrente</value>
+    <value>流動</value>
   </data>
   <data name="CurrentAccountsPayableFor" xml:space="preserve">
-    <value>Debiti correnti per</value>
+    <value>流動買掛金</value>
   </data>
   <data name="CurrentAssets" xml:space="preserve">
-    <value>Attività correnti</value>
+    <value>流動資産</value>
   </data>
   <data name="CurrentBiologicalAssets" xml:space="preserve">
-    <value>Attività biologiche correnti</value>
+    <value>流動生物資産</value>
   </data>
   <data name="CurrentFinancialInvestments" xml:space="preserve">
-    <value>Investimenti finanziari correnti</value>
+    <value>流動金融投資</value>
   </data>
   <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
-    <value>Passività correnti e accantonamenti</value>
+    <value>流動負債および引当金</value>
   </data>
   <data name="CurrentLiquidityFactor" xml:space="preserve">
-    <value>Indice di liquidità corrente</value>
+    <value>流動比率</value>
   </data>
   <data name="CurrentMobileAssets" xml:space="preserve">
-    <value>Attività correnti (mobili)</value>
+    <value>流動（機動）資産</value>
   </data>
   <data name="currentPeriod" xml:space="preserve">
-    <value>periodo corrente</value>
+    <value>報告期間</value>
   </data>
   <data name="CurrentSupplies" xml:space="preserve">
-    <value>Accantonamenti correnti</value>
+    <value>流動引当金</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
-    <value>Anno corrente</value>
+    <value>当年度</value>
   </data>
   <data name="days" xml:space="preserve">
-    <value>giorni</value>
+    <value>日</value>
   </data>
   <data name="DeductionsSocialEvents" xml:space="preserve">
-    <value>Contributi previdenziali</value>
+    <value>社会保険料控除</value>
   </data>
   <data name="DeferredTaxLiabilities" xml:space="preserve">
-    <value>Passività per imposte differite</value>
+    <value>繰延税金負債</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
-    <value>Tasso di ammortamento delle immobilizzazioni all'inizio dell'anno</value>
+    <value>年初固定資産減価償却率</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
-    <value>Tasso di ammortamento delle immobilizzazioni alla fine dell'anno</value>
+    <value>年末固定資産減価償却率</value>
   </data>
   <data name="deviation" xml:space="preserve">
-    <value>scostamento</value>
+    <value>偏差</value>
   </data>
   <data name="Deviation_" xml:space="preserve">
-    <value>Scostamento</value>
+    <value>偏差</value>
   </data>
   <data name="DisposalRate" xml:space="preserve">
-    <value>Tasso di dismissione</value>
+    <value>除却率</value>
   </data>
   <data name="DividendsPerSimpleShare" xml:space="preserve">
-    <value>Dividendi per azione ordinaria</value>
+    <value>普通株式1株当たり配当</value>
   </data>
   <data name="DownloadingGeminiNano" xml:space="preserve">
-    <value>Download del modello Gemini Nano in corso... {0}%</value>
+    <value>Gemini Nanoモデルをダウンロード中... {0}%</value>
   </data>
   <data name="Dynamics" xml:space="preserve">
-    <value>Dinamiche</value>
+    <value>動態</value>
   </data>
   <data name="ElementsOperatingCosts" xml:space="preserve">
-    <value>Elementi dei costi operativi</value>
+    <value>営業費用の要素</value>
   </data>
   <data name="EnableChromeAIToChat" xml:space="preserve">
-    <value>Abilita Chrome AI per iniziare a chattare...</value>
+    <value>チャットを開始するにはChrome AIを有効にしてください...</value>
   </data>
   <data name="Equity" xml:space="preserve">
-    <value>Patrimonio netto</value>
+    <value>自己資本</value>
   </data>
   <data name="EraseData" xml:space="preserve">
-    <value>Cancella dati</value>
+    <value>データを削除</value>
   </data>
   <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
-    <value>Valutazione della liquidità del bilancio {0} all'inizio dell'anno {1}</value>
+    <value>{0}貸借対照表の{1}年初流動性評価</value>
   </data>
   <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
-    <value>Valutazione della liquidità del bilancio {0} alla fine dell'anno {1}</value>
+    <value>{0}貸借対照表の{1}年末流動性評価</value>
   </data>
   <data name="ExampleQuestion1" xml:space="preserve">
-    <value>"Cosa significa il mio indice di liquidità corrente?"</value>
+    <value>「流動比率は何を意味しますか？」</value>
   </data>
   <data name="ExampleQuestion2" xml:space="preserve">
-    <value>"Come posso migliorare il mio rapporto di indebitamento?"</value>
+    <value>「負債比率をどう改善できますか？」</value>
   </data>
   <data name="ExampleQuestion3" xml:space="preserve">
-    <value>"Perché la mia redditività sta diminuendo?"</value>
-  </data>
-  <data name="ExampleQuestions" xml:space="preserve">
-    <value>Domande di esempio</value>
-  </data>
-  <data name="ExcessOfDebt" xml:space="preserve">
-    <value>Eccesso di debito</value>
-  </data>
-  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
-    <value>Oneri (proventi) per imposte sul reddito</value>
-  </data>
-  <data name="ExplainKeyRatiosButton" xml:space="preserve">
-    <value>Spiega gli indici chiave</value>
-  </data>
-  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
-    <value>Analisi fattoriale della redditività delle immobilizzazioni</value>
-  </data>
-  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
-    <value>Fattori che influenzano la rotazione del capitale circolante</value>
-  </data>
-  <data name="FAQ" xml:space="preserve">
-    <value>Domande frequenti</value>
-  </data>
-  <data name="FAQAnswer1" xml:space="preserve">
-    <value>Sì! L'IA del browser utilizza il modello Gemini Nano integrato in Chrome. Nessuna chiave API, nessun costo, nessun limite di utilizzo.</value>
-  </data>
-  <data name="FAQAnswer2" xml:space="preserve">
-    <value>ChatGPT funziona sui server OpenAI (richiede internet/chiave API). L'IA del browser funziona interamente nel tuo browser (nessun server, nessuna chiave API, funziona offline dopo la configurazione).</value>
-  </data>
-  <data name="FAQAnswer3" xml:space="preserve">
-    <value>Assolutamente! Tutta l'elaborazione IA avviene localmente nel tuo browser. I tuoi dati finanziari non lasciano mai il tuo dispositivo.</value>
-  </data>
-  <data name="FAQAnswer4" xml:space="preserve">
-    <value>Attualmente supportati: Chrome 127+, Chrome Canary, Edge 127+ (basato su Chromium). Prossimamente: Firefox e Safari.</value>
-  </data>
-  <data name="FAQQuestion1" xml:space="preserve">
-    <value>È davvero gratuito?</value>
-  </data>
-  <data name="FAQQuestion2" xml:space="preserve">
-    <value>Qual è la differenza con ChatGPT?</value>
-  </data>
-  <data name="FAQQuestion3" xml:space="preserve">
-    <value>I miei dati sono al sicuro?</value>
-  </data>
-  <data name="FAQQuestion4" xml:space="preserve">
-    <value>Quali browser sono supportati?</value>
-  </data>
-  <data name="FinancialExpenses" xml:space="preserve">
-    <value>Oneri finanziari</value>
-  </data>
-  <data name="FinancialHealthButton" xml:space="preserve">
-    <value>Salute finanziaria</value>
-  </data>
-  <data name="FinancialResultBeforeTax" xml:space="preserve">
-    <value>Risultato finanziario prima delle imposte</value>
-  </data>
-  <data name="FinancialResults" xml:space="preserve">
-    <value>Risultati finanziari</value>
-  </data>
-  <data name="finishedProducts" xml:space="preserve">
-    <value>prodotti finiti</value>
-  </data>
-  <data name="FixedAssets" xml:space="preserve">
-    <value>Immobilizzazioni</value>
-  </data>
-  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
-    <value>Indice di immobilizzo del capitale circolante</value>
-  </data>
-  <data name="ForBills" xml:space="preserve">
-    <value>Per effetti</value>
-  </data>
-  <data name="ForReportingPeriod" xml:space="preserve">
-    <value>Per il periodo di riferimento</value>
-  </data>
-  <data name="ForSamePeriodLastYear" xml:space="preserve">
-    <value>Per lo stesso periodo dell'anno precedente</value>
-  </data>
-  <data name="ForSetupInstructions" xml:space="preserve">
-    <value>per le istruzioni di configurazione.</value>
-  </data>
-  <data name="fromAccruedIncome" xml:space="preserve">
-    <value>da ratei attivi</value>
-  </data>
-  <data name="FromInsurance" xml:space="preserve">
-    <value>Da assicurazioni</value>
-  </data>
-  <data name="fromInternalSettlements" xml:space="preserve">
-    <value>da regolamenti interni</value>
-  </data>
-  <data name="fromMoney" xml:space="preserve">
-    <value>disponibilità liquide</value>
-  </data>
-  <data name="fromReceivables" xml:space="preserve">
-    <value>da crediti</value>
-  </data>
-  <data name="fromTangibleAssets" xml:space="preserve">
-    <value>valori materiali</value>
-  </data>
-  <data name="FutureExpenses" xml:space="preserve">
-    <value>Risconti attivi</value>
-  </data>
-  <data name="FutureIncome" xml:space="preserve">
-    <value>Risconti passivi</value>
-  </data>
-  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
-    <value>Indicatori generali di stabilità finanziaria</value>
-  </data>
-  <data name="GeneralInformation" xml:space="preserve">
-    <value>Informazioni generali</value>
-  </data>
-  <data name="GetRecommendationsButton" xml:space="preserve">
-    <value>Ottieni raccomandazioni</value>
-  </data>
-  <data name="GettingStarted" xml:space="preserve">
-    <value>Per iniziare</value>
-  </data>
-  <data name="goodsWorksServices" xml:space="preserve">
-    <value>beni, lavori, servizi</value>
-  </data>
-  <data name="Gross" xml:space="preserve">
-    <value>Lordo</value>
-  </data>
-  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
-    <value>Utile lordo per 1 UAH di prodotti venduti</value>
-  </data>
-  <data name="growthRate" xml:space="preserve">
-    <value>tasso di crescita</value>
-  </data>
-  <data name="HardToSellAssets" xml:space="preserve">
-    <value>Attività difficili da vendere (A4)</value>
-  </data>
-  <data name="HowToUse" xml:space="preserve">
-    <value>Come usare</value>
-  </data>
-  <data name="in%OfBorrowedCapital" xml:space="preserve">
-    <value>Anche come percentuale del capitale di terzi</value>
-  </data>
-  <data name="in%toCurrentMobileAssets" xml:space="preserve">
-    <value>come percentuale del capitale circolante</value>
-  </data>
-  <data name="in%ToEquity" xml:space="preserve">
-    <value>Anche come percentuale del patrimonio netto</value>
-  </data>
-  <data name="in%toSourcesOfCapital" xml:space="preserve">
-    <value>Anche come percentuale delle fonti di capitale</value>
-  </data>
-  <data name="includingDueTo" xml:space="preserve">
-    <value>di cui per</value>
-  </data>
-  <data name="includingEliminated" xml:space="preserve">
-    <value>di cui eliminati</value>
-  </data>
-  <data name="includingIncomeTax" xml:space="preserve">
-    <value>di cui imposte sul reddito</value>
-  </data>
-  <data name="includingNew" xml:space="preserve">
-    <value>di cui nuovi</value>
-  </data>
-  <data name="IncomeFromEquityParticipation" xml:space="preserve">
-    <value>Proventi da partecipazioni</value>
-  </data>
-  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
-    <value>Imposte sul reddito relative ad altre componenti del risultato complessivo</value>
-  </data>
-  <data name="IncompleteCapitalInvestments" xml:space="preserve">
-    <value>Immobilizzazioni in corso</value>
-  </data>
-  <data name="Indicators" xml:space="preserve">
-    <value>Indicatori</value>
-  </data>
-  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
-    <value>Indicatori di attività aziendale</value>
-  </data>
-  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
-    <value>Indicatori di efficienza d'uso delle attività immateriali</value>
-  </data>
-  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
-    <value>Indicatori di efficienza del capitale circolante</value>
-  </data>
-  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
-    <value>Indicatori di stabilità finanziaria</value>
-  </data>
-  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
-    <value>Indicatori di stato e movimento delle immobilizzazioni</value>
-  </data>
-  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Indicatori di rotazione del capitale circolante</value>
-  </data>
-  <data name="initialCost" xml:space="preserve">
-    <value>costo storico</value>
-  </data>
-  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
-    <value>Costo storico delle immobilizzazioni all'inizio del periodo</value>
-  </data>
-  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
-    <value>Costo storico delle immobilizzazioni alla fine del periodo</value>
-  </data>
-  <data name="InLongTerm" xml:space="preserve">
-    <value>Nel lungo termine</value>
-  </data>
-  <data name="InputData" xml:space="preserve">
-    <value>Dati di input</value>
-  </data>
-  <data name="InShortTerm" xml:space="preserve">
-    <value>Nel breve termine</value>
-  </data>
-  <data name="IntangibleAssets" xml:space="preserve">
-    <value>Attività immateriali</value>
-  </data>
-  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
-    <value>Indicatore integrato di efficienza del capitale circolante</value>
-  </data>
-  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
-    <value>Indicatore integrato di efficienza delle immobilizzazioni</value>
-  </data>
-  <data name="IntermediateCoverageRatio" xml:space="preserve">
-    <value>Indice di copertura intermedio</value>
-  </data>
-  <data name="InvestmentProperty" xml:space="preserve">
-    <value>Investimenti immobiliari</value>
-  </data>
-  <data name="KeyRatiosPrompt" xml:space="preserve">
-    <value>Spiega gli indici finanziari più importanti su cui dovrei concentrarmi</value>
-  </data>
-  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
-    <value>Capitale di lavoro per dipendente medio</value>
-  </data>
-  <data name="LaborProductivity" xml:space="preserve">
-    <value>Produttività del lavoro</value>
-  </data>
-  <data name="Liabilities" xml:space="preserve">
-    <value>Passività</value>
-  </data>
-  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
-    <value>Passività relative ad attività non correnti destinate alla vendita</value>
-  </data>
-  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
-    <value>Passività relative ad attività non correnti destinate alla vendita</value>
-  </data>
-  <data name="LineCode" xml:space="preserve">
-    <value>Codice riga</value>
-  </data>
-  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
-    <value>Indicatori di liquidità del bilancio</value>
-  </data>
-  <data name="LoadingPleaseWait" xml:space="preserve">
-    <value>Caricamento in corso, attendere prego...</value>
-  </data>
-  <data name="LongTermBankCredits" xml:space="preserve">
-    <value>Debiti bancari a lungo termine</value>
-  </data>
-  <data name="LongTermBiologicalAssets" xml:space="preserve">
-    <value>Attività biologiche a lungo termine</value>
-  </data>
-  <data name="LongTermFinancialIvestments" xml:space="preserve">
-    <value>Investimenti finanziari a lungo termine</value>
-  </data>
-  <data name="longTermLiabilities" xml:space="preserve">
-    <value>passività a lungo termine</value>
-  </data>
-  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
-    <value>Passività a lungo termine e garanzie</value>
-  </data>
-  <data name="LongTermLiabilitiesP" xml:space="preserve">
-    <value>Passività a lungo termine (P3)</value>
-  </data>
-  <data name="LongTermLiabilities_" xml:space="preserve">
-    <value>Passività a lungo termine</value>
-  </data>
-  <data name="LongTermLoans" xml:space="preserve">
-    <value>Accantonamenti a lungo termine</value>
-  </data>
-  <data name="LongTermReceivables" xml:space="preserve">
-    <value>Crediti a lungo termine</value>
-  </data>
-  <data name="loss" xml:space="preserve">
-    <value>perdita</value>
-  </data>
-  <data name="LossesFromEquityParticipation" xml:space="preserve">
-    <value>Perdite da partecipazioni</value>
-  </data>
-  <data name="MaterialCosts" xml:space="preserve">
-    <value>Costi dei materiali</value>
-  </data>
-  <data name="materialValuesTurnover" xml:space="preserve">
-    <value>rotazione dei valori materiali</value>
-  </data>
-  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
-    <value>Disponibilità liquide e mezzi equivalenti</value>
-  </data>
-  <data name="moneyTurnover" xml:space="preserve">
-    <value>rotazione della cassa</value>
-  </data>
-  <data name="MostLiquidAssets" xml:space="preserve">
-    <value>Attività più liquide (A1)</value>
-  </data>
-  <data name="MostUrgentCommitments" xml:space="preserve">
-    <value>Impegni più urgenti (P1)</value>
-  </data>
-  <data name="NetFinancialResult" xml:space="preserve">
-    <value>Risultato finanziario netto</value>
-  </data>
-  <data name="NetIncomeFromSales" xml:space="preserve">
-    <value>Ricavi netti delle vendite</value>
-  </data>
-  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
-    <value>Ricavi netti dalla vendita di prodotti (beni, lavori, servizi)</value>
-  </data>
-  <data name="NetProfit" xml:space="preserve">
-    <value>Utile netto</value>
-  </data>
-  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
-    <value>Utile (perdita) netto per azione ordinaria</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="NoDataSentDescription" xml:space="preserve">
-    <value>I tuoi dati finanziari non lasciano mai il tuo dispositivo</value>
-  </data>
-  <data name="NoDataSentTitle" xml:space="preserve">
-    <value>Nessun dato inviato</value>
-  </data>
-  <data name="NonCurrentAssets" xml:space="preserve">
-    <value>Attività non correnti</value>
-  </data>
-  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
-    <value>Attività non correnti destinate alla vendita</value>
-  </data>
-  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
-    <value>Attività non correnti (immobilizzate)</value>
-  </data>
-  <data name="NormalFinancialStability" xml:space="preserve">
-    <value>Stabilità finanziaria normale</value>
-  </data>
-  <data name="NumberInOrder" xml:space="preserve">
-    <value>N°</value>
-  </data>
-  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
-    <value>Numero di rotazioni del capitale circolante</value>
-  </data>
-  <data name="OfflineCapableDescription" xml:space="preserve">
-    <value>Funziona senza internet dopo la configurazione</value>
-  </data>
-  <data name="OfflineCapableTitle" xml:space="preserve">
-    <value>Funziona offline</value>
-  </data>
-  <data name="OneDaySalesRevenue" xml:space="preserve">
-    <value>Ricavi di vendita giornalieri</value>
-  </data>
-  <data name="onIssuedAdvances" xml:space="preserve">
-    <value>per anticipi emessi</value>
-  </data>
-  <data name="onReceivedAdvances" xml:space="preserve">
-    <value>per anticipi ricevuti</value>
-  </data>
-  <data name="OperatingCycleDuration" xml:space="preserve">
-    <value>Durata del ciclo operativo</value>
-  </data>
-  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
-    <value>Altre componenti del risultato complessivo al netto delle imposte</value>
-  </data>
-  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
-    <value>Altre componenti del risultato complessivo al lordo delle imposte</value>
-  </data>
-  <data name="OtherCurrentAssets" xml:space="preserve">
-    <value>Altre attività correnti</value>
-  </data>
-  <data name="OtherCurrentLiabilities" xml:space="preserve">
-    <value>Altre passività correnti</value>
-  </data>
-  <data name="OtherCurrentReceivables" xml:space="preserve">
-    <value>Altri crediti correnti</value>
-  </data>
-  <data name="OtherExpenses" xml:space="preserve">
-    <value>Altri costi</value>
-  </data>
-  <data name="OtherFinancialIncome" xml:space="preserve">
-    <value>Altri proventi finanziari</value>
-  </data>
-  <data name="otherFinancialInvestments" xml:space="preserve">
-    <value>altri investimenti finanziari</value>
-  </data>
-  <data name="OtherFixedAssets" xml:space="preserve">
-    <value>Altre immobilizzazioni</value>
-  </data>
-  <data name="OtherIncome" xml:space="preserve">
-    <value>Altri proventi</value>
-  </data>
-  <data name="OtherLongTermLiabilities" xml:space="preserve">
-    <value>Altre passività a lungo termine</value>
-  </data>
-  <data name="OtherOperatingExpenses" xml:space="preserve">
-    <value>Altri costi operativi</value>
-  </data>
-  <data name="OtherOperatingIncome" xml:space="preserve">
-    <value>Altri ricavi operativi</value>
-  </data>
-  <data name="OtherTotalIncome" xml:space="preserve">
-    <value>Altro risultato complessivo</value>
-  </data>
-  <data name="OverallLiquidityRatio" xml:space="preserve">
-    <value>Indice di liquidità generale</value>
-  </data>
-  <data name="OwnCurrentAssets" xml:space="preserve">
-    <value>Capitale circolante proprio</value>
-  </data>
-  <data name="PaymentSurplusOrShortage" xml:space="preserve">
-    <value>Eccedenza (+) o deficit (-) di pagamento</value>
-  </data>
-  <data name="people" xml:space="preserve">
-    <value>persone</value>
-  </data>
-  <data name="Period" xml:space="preserve">
-    <value>Periodo</value>
-  </data>
-  <data name="PermanentLiabilities" xml:space="preserve">
-    <value>Passività permanenti (P4)</value>
-  </data>
-  <data name="PostponedTaxAssets" xml:space="preserve">
-    <value>Attività per imposte differite</value>
-  </data>
-  <data name="PreCrisisFinancialStability" xml:space="preserve">
-    <value>Stabilità finanziaria pre-crisi</value>
-  </data>
-  <data name="PrivacyAndSecurity" xml:space="preserve">
-    <value>Privacy e sicurezza</value>
-  </data>
-  <data name="PrivateDescription" xml:space="preserve">
-    <value>Tutta l'elaborazione IA avviene nel tuo browser</value>
-  </data>
-  <data name="PrivateTitle" xml:space="preserve">
-    <value>100% privato</value>
-  </data>
-  <data name="ProceedsFromSales" xml:space="preserve">
-    <value>Ricavi delle vendite</value>
-  </data>
-  <data name="productionStocks" xml:space="preserve">
-    <value>scorte di produzione</value>
-  </data>
-  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
-    <value>Produttività per dipendente medio</value>
-  </data>
-  <data name="profit" xml:space="preserve">
-    <value>utile</value>
-  </data>
-  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
-    <value>Redditività del capitale circolante</value>
-  </data>
-  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
-    <value>Redditività delle immobilizzazioni</value>
-  </data>
-  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
-    <value>Indice di redditività dell'impresa</value>
-  </data>
-  <data name="ProfitFromOperatingActivities" xml:space="preserve">
-    <value>Utile dalle attività operative</value>
-  </data>
-  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
-    <value>Utile (perdita) da attività cessate al netto delle imposte</value>
-  </data>
-  <data name="PromissoryNotesIssued" xml:space="preserve">
-    <value>Effetti emessi</value>
-  </data>
-  <data name="PromissoryNotesReceived" xml:space="preserve">
-    <value>Effetti ricevuti</value>
-  </data>
-  <data name="QuickAction1" xml:space="preserve">
-    <value>Clicca &lt;strong&gt;Salute finanziaria&lt;/strong&gt; per un'analisi generale</value>
-  </data>
-  <data name="QuickAction2" xml:space="preserve">
-    <value>Clicca &lt;strong&gt;Ottieni raccomandazioni&lt;/strong&gt; per consigli pratici</value>
-  </data>
-  <data name="QuickAction3" xml:space="preserve">
-    <value>Clicca &lt;strong&gt;Spiega gli indici chiave&lt;/strong&gt; per capire le metriche</value>
-  </data>
-  <data name="QuickActions" xml:space="preserve">
-    <value>Azioni rapide</value>
-  </data>
-  <data name="QuickSellingAssets" xml:space="preserve">
-    <value>Attività a rapido realizzo (A2)</value>
-  </data>
-  <data name="RaisedCapital" xml:space="preserve">
-    <value>Capitale raccolto</value>
-  </data>
-  <data name="RatedCapitalStructureRatio" xml:space="preserve">
-    <value>Indice di struttura del capitale raccolto</value>
-  </data>
-  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
-    <value>Rapporto tra capitale di terzi e patrimonio netto</value>
-  </data>
-  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
-    <value>Rapporto tra attività mobili e immobilizzate</value>
-  </data>
-  <data name="receivable" xml:space="preserve">
-    <value>crediti</value>
-  </data>
-  <data name="ReceivablesForProducts" xml:space="preserve">
-    <value>Crediti per prodotti, beni, lavori, servizi</value>
-  </data>
-  <data name="receivablesTurnover" xml:space="preserve">
-    <value>rotazione dei crediti</value>
-  </data>
-  <data name="ReceivedFixedAssets" xml:space="preserve">
-    <value>Immobilizzazioni ricevute</value>
-  </data>
-  <data name="ReceivedForReportingPeriod" xml:space="preserve">
-    <value>Ricevute nel periodo di riferimento</value>
-  </data>
-  <data name="RecheckAvailability" xml:space="preserve">
-    <value>Verifica nuovamente disponibilità</value>
-  </data>
-  <data name="RecommendationsPrompt" xml:space="preserve">
-    <value>Quali sono le tue principali raccomandazioni per migliorare la salute finanziaria della mia azienda?</value>
-  </data>
-  <data name="RecoveryRate" xml:space="preserve">
-    <value>Tasso di recupero</value>
-  </data>
-  <data name="RegisteredCapital" xml:space="preserve">
-    <value>Capitale sociale (registrato)</value>
-  </data>
-  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
-    <value>Rilascio (-), carenza (+) di attività correnti dovuta a variazioni di rotazione</value>
-  </data>
-  <data name="ReserveCapital" xml:space="preserve">
-    <value>Riserva legale</value>
-  </data>
-  <data name="ResponseStoppedByUser" xml:space="preserve">
-    <value>[Risposta interrotta dall'utente]</value>
-  </data>
-  <data name="RetainedEarnings" xml:space="preserve">
-    <value>Utili non distribuiti (perdite non coperte)</value>
-  </data>
-  <data name="RetiredFixedAssets" xml:space="preserve">
-    <value>Immobilizzazioni dismesse</value>
-  </data>
-  <data name="ReturnOnEquityPeriod" xml:space="preserve">
-    <value>Periodo di ritorno del patrimonio netto</value>
-  </data>
-  <data name="ReturnOnFixedAssets" xml:space="preserve">
-    <value>Rendimento delle immobilizzazioni</value>
-  </data>
-  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
-    <value>Rendimento delle attività immateriali</value>
-  </data>
-  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
-    <value>Rivalutazione (svalutazione) degli strumenti finanziari</value>
-  </data>
-  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
-    <value>Rivalutazione (svalutazione) delle attività non correnti</value>
-  </data>
-  <data name="revenue" xml:space="preserve">
-    <value>ricavi</value>
-  </data>
-  <data name="revolutions" xml:space="preserve">
-    <value>rotazioni</value>
-  </data>
-  <data name="SalaryExpenses" xml:space="preserve">
-    <value>Costi del personale</value>
-  </data>
-  <data name="Samein%OfAssets" xml:space="preserve">
-    <value>Anche come percentuale degli attivi</value>
-  </data>
-  <data name="SaveToFile" xml:space="preserve">
-    <value>Salva su file</value>
-  </data>
-  <data name="SelectLanguage" xml:space="preserve">
-    <value>Seleziona lingua</value>
-  </data>
-  <data name="SellingExpenses" xml:space="preserve">
-    <value>Costi di vendita</value>
-  </data>
-  <data name="SendMessage" xml:space="preserve">
-    <value>Invia messaggio</value>
-  </data>
-  <data name="Settlements" xml:space="preserve">
-    <value>Regolamenti</value>
-  </data>
-  <data name="settlementsWithBudget" xml:space="preserve">
-    <value>regolamenti con il bilancio</value>
-  </data>
-  <data name="settlementsWithInsurance" xml:space="preserve">
-    <value>regolamenti con assicurazioni</value>
-  </data>
-  <data name="settlementsWithPayroll" xml:space="preserve">
-    <value>regolamenti con stipendi</value>
-  </data>
-  <data name="SetupRequired" xml:space="preserve">
-    <value>Configurazione necessaria</value>
-  </data>
-  <data name="SetupStep1" xml:space="preserve">
-    <value>Abilita i flag di Chrome AI</value>
-  </data>
-  <data name="SetupStep2" xml:space="preserve">
-    <value>Scarica il modello Gemini Nano</value>
-  </data>
-  <data name="SetupStep3" xml:space="preserve">
-    <value>Riavvia Chrome</value>
-  </data>
-  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
-    <value>Quota delle altre componenti del risultato complessivo di collegate e joint venture</value>
-  </data>
-  <data name="ShortTermBankCredits" xml:space="preserve">
-    <value>Debiti bancari a breve termine</value>
-  </data>
-  <data name="ShortTermLiabilities" xml:space="preserve">
-    <value>Passività a breve termine (P2)</value>
-  </data>
-  <data name="ShortTermLoans" xml:space="preserve">
-    <value>Prestiti a breve termine</value>
-  </data>
-  <data name="SlowSellingAssets" xml:space="preserve">
-    <value>Attività a lento realizzo (A3)</value>
-  </data>
-  <data name="SolvencyLossRatio" xml:space="preserve">
-    <value>Indice di perdita di solvibilità</value>
-  </data>
-  <data name="SolvencyRatios" xml:space="preserve">
-    <value>Indici di solvibilità</value>
-  </data>
-  <data name="SolvencyRecoveryRatio" xml:space="preserve">
-    <value>Indice di recupero della solvibilità</value>
-  </data>
-  <data name="SourcesOfCapitalFormation" xml:space="preserve">
-    <value>Fonti di formazione del capitale</value>
-  </data>
-  <data name="StabilityType" xml:space="preserve">
-    <value>Tipo di stabilità</value>
-  </data>
-  <data name="StatementOfFinancialPerformance" xml:space="preserve">
-    <value>Conto economico (Prospetto del risultato complessivo)</value>
-  </data>
-  <data name="Stocks" xml:space="preserve">
-    <value>Rimanenze</value>
-  </data>
-  <data name="StopAnalysis" xml:space="preserve">
-    <value>Interrompi analisi</value>
-  </data>
-  <data name="StopGeneration" xml:space="preserve">
-    <value>Interrompi generazione</value>
-  </data>
-  <data name="String" xml:space="preserve">
-    <value>Cancella dati</value>
-  </data>
-  <data name="StructureOfAccountsPayable" xml:space="preserve">
-    <value>Struttura dei debiti</value>
-  </data>
-  <data name="SuitabilityRatioForBegin" xml:space="preserve">
-    <value>Indice di idoneità all'inizio dell'anno</value>
-  </data>
-  <data name="SuitabilityRatioForEnd" xml:space="preserve">
-    <value>Indice di idoneità alla fine dell'anno</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>Tabella</value>
-  </data>
-  <data name="TangibleCurrentAssets" xml:space="preserve">
-    <value>Attività correnti materiali</value>
-  </data>
-  <data name="Tangibles" xml:space="preserve">
-    <value>Valori materiali</value>
-  </data>
-  <data name="TargetedFinancing" xml:space="preserve">
-    <value>Finanziamento mirato</value>
-  </data>
-  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
-    <value>Costo delle nuove immobilizzazioni messe in esercizio</value>
-  </data>
-  <data name="thousandUAH" xml:space="preserve">
-    <value>migliaia UAH</value>
-  </data>
-  <data name="times" xml:space="preserve">
-    <value>volte</value>
-  </data>
-  <data name="Tip1" xml:space="preserve">
-    <value>Sii specifico nelle tue domande</value>
-  </data>
-  <data name="Tip2" xml:space="preserve">
-    <value>Fai riferimento a indici o metriche specifiche</value>
-  </data>
-  <data name="Tip3" xml:space="preserve">
-    <value>Fai domande di approfondimento per maggiore chiarezza</value>
-  </data>
-  <data name="Tips" xml:space="preserve">
-    <value>Suggerimenti</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Totale</value>
-  </data>
-  <data name="TotalAssets" xml:space="preserve">
-    <value>Totale attivo</value>
-  </data>
-  <data name="TotalCoverageRatio" xml:space="preserve">
-    <value>Indice di copertura totale</value>
-  </data>
-  <data name="TotalIncome" xml:space="preserve">
-    <value>Totale ricavi</value>
-  </data>
-  <data name="TotalReturnOnAssets" xml:space="preserve">
-    <value>Rendimento totale degli attivi</value>
-  </data>
-  <data name="TotalSection" xml:space="preserve">
-    <value>Totale sezione</value>
-  </data>
-  <data name="TotalSourcesOfCapital" xml:space="preserve">
-    <value>Totale fonti di capitale</value>
-  </data>
-  <data name="TotalWorkingCapital" xml:space="preserve">
-    <value>Capitale circolante totale</value>
-  </data>
-  <data name="total_" xml:space="preserve">
-    <value>totale</value>
-  </data>
-  <data name="Turnover" xml:space="preserve">
-    <value>Fatturato</value>
-  </data>
-  <data name="TurnoverInSettlements" xml:space="preserve">
-    <value>Rotazione nei regolamenti</value>
-  </data>
-  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Rotazione del capitale circolante</value>
-  </data>
-  <data name="TurnoverOfEquity" xml:space="preserve">
-    <value>Rotazione del patrimonio netto</value>
-  </data>
-  <data name="TurnoverOfInventories" xml:space="preserve">
-    <value>Rotazione delle rimanenze</value>
-  </data>
-  <data name="TurnoverOfTotalCapital" xml:space="preserve">
-    <value>Rotazione del capitale totale</value>
-  </data>
-  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
-    <value>Rotazione del capitale circolante</value>
-  </data>
-  <data name="TypesOfCurrentAssets" xml:space="preserve">
-    <value>Tipi di attività correnti</value>
-  </data>
-  <data name="unfinishedProduction" xml:space="preserve">
-    <value>produzione in corso</value>
-  </data>
-  <data name="UnpaidCapital" xml:space="preserve">
-    <value>Capitale non versato</value>
-  </data>
-  <data name="UploadFromFile" xml:space="preserve">
-    <value>Carica da file</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Valore</value>
-  </data>
-  <data name="ViewSetupGuide" xml:space="preserve">
-    <value>Visualizza guida configurazione</value>
-  </data>
-  <data name="wear" xml:space="preserve">
-    <value>Usura</value>
-  </data>
-  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
-    <value>contabilizzate con il metodo del patrimonio netto</value>
-  </data>
-  <data name="WithAccruedIncome" xml:space="preserve">
-    <value>Con ratei attivi</value>
-  </data>
-  <data name="WithAdvances" xml:space="preserve">
-    <value>Con anticipi</value>
-  </data>
-  <data name="withBudget" xml:space="preserve">
-    <value>con il bilancio</value>
-  </data>
-  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
-    <value>Con bilancio e fondi extra-bilancio</value>
-  </data>
-  <data name="WithBuyersOrSuppliers" xml:space="preserve">
-    <value>Con clienti o fornitori</value>
-  </data>
-  <data name="WithdrawnCapital" xml:space="preserve">
-    <value>Capitale ritirato</value>
-  </data>
-  <data name="WithdrewInReportingPeriod" xml:space="preserve">
-    <value>Ritirato nel periodo di riferimento</value>
-  </data>
-  <data name="WithInternalCashSettlements" xml:space="preserve">
-    <value>Con regolamenti interni di cassa</value>
-  </data>
-  <data name="WithLongTermLiabilities" xml:space="preserve">
-    <value>Con passività a lungo termine</value>
-  </data>
-  <data name="WithOther" xml:space="preserve">
-    <value>Con altri</value>
-  </data>
-  <data name="WithParticipants" xml:space="preserve">
-    <value>Con i partecipanti</value>
-  </data>
-  <data name="WithPayroll" xml:space="preserve">
-    <value>Con stipendi</value>
-  </data>
-  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
-    <value>tempo di rotazione del capitale circolante</value>
-  </data>
-  <data name="year" xml:space="preserve">
-    <value>anno</value>
-  </data>
-  <data name="years" xml:space="preserve">
-    <value>anni</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Sì</value>
-  </data>
-  <data name="You" xml:space="preserve">
-    <value>Tu</value>
-  </data>
-  <data name="EnjoyingUFIN" xml:space="preserve">
-    <value>Ti piace UFIN?</value>
-  </data>
-  <data name="StarOnGitHubMessage" xml:space="preserve">
-    <value>Se questo strumento ti è stato utile, per favore metti una stella su GitHub! Aiuterà altri sviluppatori a trovare il progetto.</value>
-  </data>
-  <data name="StarOnGitHub" xml:space="preserve">
-    <value>Metti una stella su GitHub</value>
-  </data>
-  <data name="AverageNumberOfEmployees" xml:space="preserve">
-    <value>Numero medio di dipendenti</value>
-  </data>
-  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
-    <value>Numero medio di azioni ordinarie</value>
-  </data>
-  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
-    <value>Saldo a inizio anno al costo storico</value>
-  </data>
-  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
-    <value>Saldo a fine anno al costo storico</value>
-  </data>
-  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
-    <value>Saldo a fine anno al netto degli ammortamenti</value>
+    <value>「なぜ収益性が低下しているのですか？」</value>
   </data>
   <data name="ExampleQuestion4" xml:space="preserve">
-    <value>"Quali sono i miei rischi maggiori?"</value>
+    <value>「キャッシュフローの状況はどうですか？」</value>
+  </data>
+  <data name="ExampleQuestions" xml:space="preserve">
+    <value>質問例</value>
+  </data>
+  <data name="ExcessOfDebt" xml:space="preserve">
+    <value>過剰債務</value>
+  </data>
+  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+    <value>法人税費用（収益）</value>
+  </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>主要比率を説明</value>
+  </data>
+  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+    <value>固定資産収益性の要因分析</value>
+  </data>
+  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+    <value>運転資本回転率に影響する要因</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>よくある質問</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>はい！ブラウザAIはChrome内蔵のGemini Nanoモデルを使用します。APIキー不要、費用なし、使用制限なしです。</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPTはOpenAIサーバーで動作します（インターネット/APIキーが必要）。ブラウザAIは完全にブラウザ内で動作します（サーバー不要、APIキー不要、設定後はオフラインで動作）。</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>もちろんです！すべてのAI処理はブラウザ内でローカルに行われます。財務データがデバイスから外に出ることはありません。</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>現在サポート：Chrome 127+、Chrome Canary、Edge 127+（Chromiumベース）。近日対応予定：FirefoxとSafari。</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>本当に無料ですか？</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>ChatGPTとの違いは何ですか？</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>データは安全ですか？</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>どのブラウザがサポートされていますか？</value>
+  </data>
+  <data name="FinancialExpenses" xml:space="preserve">
+    <value>財務費用</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>財務健全性</value>
+  </data>
+  <data name="FinancialResultBeforeTax" xml:space="preserve">
+    <value>税引前財務成果</value>
+  </data>
+  <data name="FinancialResults" xml:space="preserve">
+    <value>財務成果</value>
+  </data>
+  <data name="finishedProducts" xml:space="preserve">
+    <value>製品</value>
+  </data>
+  <data name="FixedAssets" xml:space="preserve">
+    <value>固定資産</value>
+  </data>
+  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+    <value>運転資本固定比率</value>
+  </data>
+  <data name="ForBills" xml:space="preserve">
+    <value>手形</value>
+  </data>
+  <data name="ForReportingPeriod" xml:space="preserve">
+    <value>報告期間</value>
+  </data>
+  <data name="ForSamePeriodLastYear" xml:space="preserve">
+    <value>前年同期</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>設定手順をご覧ください。</value>
+  </data>
+  <data name="fromAccruedIncome" xml:space="preserve">
+    <value>未収収益から</value>
+  </data>
+  <data name="FromInsurance" xml:space="preserve">
+    <value>保険から</value>
+  </data>
+  <data name="fromInternalSettlements" xml:space="preserve">
+    <value>内部決済から</value>
+  </data>
+  <data name="fromMoney" xml:space="preserve">
+    <value>現金</value>
+  </data>
+  <data name="fromReceivables" xml:space="preserve">
+    <value>売掛金から</value>
+  </data>
+  <data name="fromTangibleAssets" xml:space="preserve">
+    <value>有形資産</value>
+  </data>
+  <data name="FutureExpenses" xml:space="preserve">
+    <value>前払費用</value>
+  </data>
+  <data name="FutureIncome" xml:space="preserve">
+    <value>前受収益</value>
+  </data>
+  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+    <value>全般的財務安定性指標</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>基本情報</value>
+  </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>推奨事項を取得</value>
+  </data>
+  <data name="GettingStarted" xml:space="preserve">
+    <value>はじめに</value>
+  </data>
+  <data name="goodsWorksServices" xml:space="preserve">
+    <value>商品・工事・サービス</value>
+  </data>
+  <data name="Gross" xml:space="preserve">
+    <value>総</value>
+  </data>
+  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+    <value>販売製品1グリブナ当たり粗利益</value>
+  </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>成長率</value>
+  </data>
+  <data name="HardToSellAssets" xml:space="preserve">
+    <value>売却困難資産（A4）</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>使用方法</value>
+  </data>
+  <data name="in%OfBorrowedCapital" xml:space="preserve">
+    <value>借入資本に対する割合</value>
+  </data>
+  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+    <value>運転資本に対する割合</value>
+  </data>
+  <data name="in%ToEquity" xml:space="preserve">
+    <value>自己資本に対する割合</value>
+  </data>
+  <data name="in%toSourcesOfCapital" xml:space="preserve">
+    <value>資本源に対する割合</value>
+  </data>
+  <data name="includingDueTo" xml:space="preserve">
+    <value>～による分を含む</value>
+  </data>
+  <data name="includingEliminated" xml:space="preserve">
+    <value>消去分を含む</value>
+  </data>
+  <data name="includingIncomeTax" xml:space="preserve">
+    <value>法人税を含む</value>
+  </data>
+  <data name="includingNew" xml:space="preserve">
+    <value>新規分を含む</value>
+  </data>
+  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+    <value>持分法投資利益</value>
+  </data>
+  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+    <value>その他の包括利益に係る法人税</value>
+  </data>
+  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+    <value>未完了設備投資</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>指標</value>
+  </data>
+  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+    <value>事業活動指標</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+    <value>無形資産使用効率指標</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+    <value>運転資本使用効率指標</value>
+  </data>
+  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+    <value>財務安定性指標</value>
+  </data>
+  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+    <value>固定資産の状態と変動の指標</value>
+  </data>
+  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+    <value>運転資本回転率指標</value>
+  </data>
+  <data name="initialCost" xml:space="preserve">
+    <value>取得原価</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+    <value>期首固定資産取得原価</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+    <value>期末固定資産取得原価</value>
+  </data>
+  <data name="InLongTerm" xml:space="preserve">
+    <value>長期</value>
+  </data>
+  <data name="InputData" xml:space="preserve">
+    <value>入力データ</value>
+  </data>
+  <data name="InShortTerm" xml:space="preserve">
+    <value>短期</value>
+  </data>
+  <data name="IntangibleAssets" xml:space="preserve">
+    <value>無形資産</value>
+  </data>
+  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+    <value>運転資本使用効率総合指標</value>
+  </data>
+  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+    <value>固定資産使用効率総合指標</value>
+  </data>
+  <data name="IntermediateCoverageRatio" xml:space="preserve">
+    <value>中間補償比率</value>
+  </data>
+  <data name="InvestmentProperty" xml:space="preserve">
+    <value>投資不動産</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>注目すべき最も重要な財務比率を説明してください</value>
+  </data>
+  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+    <value>従業員1人当たり労働資本</value>
+  </data>
+  <data name="LaborProductivity" xml:space="preserve">
+    <value>労働生産性</value>
+  </data>
+  <data name="Liabilities" xml:space="preserve">
+    <value>負債</value>
+  </data>
+  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>売却目的保有非流動資産に関連する負債</value>
+  </data>
+  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+    <value>売却用非流動資産に関連する負債</value>
+  </data>
+  <data name="LineCode" xml:space="preserve">
+    <value>行コード</value>
+  </data>
+  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+    <value>貸借対照表流動性指標</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>読み込み中、お待ちください...</value>
+  </data>
+  <data name="LongTermBankCredits" xml:space="preserve">
+    <value>長期銀行借入</value>
+  </data>
+  <data name="LongTermBiologicalAssets" xml:space="preserve">
+    <value>長期生物資産</value>
+  </data>
+  <data name="LongTermFinancialIvestments" xml:space="preserve">
+    <value>長期金融投資</value>
+  </data>
+  <data name="longTermLiabilities" xml:space="preserve">
+    <value>長期負債</value>
+  </data>
+  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+    <value>長期負債および担保</value>
+  </data>
+  <data name="LongTermLiabilitiesP" xml:space="preserve">
+    <value>長期負債（P3）</value>
+  </data>
+  <data name="LongTermLiabilities_" xml:space="preserve">
+    <value>長期負債</value>
+  </data>
+  <data name="LongTermLoans" xml:space="preserve">
+    <value>長期引当金</value>
+  </data>
+  <data name="LongTermReceivables" xml:space="preserve">
+    <value>長期売掛金</value>
+  </data>
+  <data name="loss" xml:space="preserve">
+    <value>損失</value>
+  </data>
+  <data name="LossesFromEquityParticipation" xml:space="preserve">
+    <value>持分法投資損失</value>
+  </data>
+  <data name="MaterialCosts" xml:space="preserve">
+    <value>材料費</value>
+  </data>
+  <data name="materialValuesTurnover" xml:space="preserve">
+    <value>材料回転率</value>
+  </data>
+  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+    <value>現金および現金同等物</value>
+  </data>
+  <data name="moneyTurnover" xml:space="preserve">
+    <value>資金回転率</value>
+  </data>
+  <data name="MostLiquidAssets" xml:space="preserve">
+    <value>最流動性資産（A1）</value>
+  </data>
+  <data name="MostUrgentCommitments" xml:space="preserve">
+    <value>最緊急負債（P1）</value>
+  </data>
+  <data name="NetFinancialResult" xml:space="preserve">
+    <value>純財務成果</value>
+  </data>
+  <data name="NetIncomeFromSales" xml:space="preserve">
+    <value>売上純収益</value>
+  </data>
+  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+    <value>製品（商品・工事・サービス）売上純収益</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>純利益</value>
+  </data>
+  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>普通株式1株当たり純利益（損失）</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>財務データがデバイスから外に出ることはありません</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>データ送信なし</value>
+  </data>
+  <data name="NonCurrentAssets" xml:space="preserve">
+    <value>非流動資産</value>
+  </data>
+  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>売却目的保有非流動資産</value>
+  </data>
+  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+    <value>非流動（固定）資産</value>
+  </data>
+  <data name="NormalFinancialStability" xml:space="preserve">
+    <value>正常な財務安定性</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>番号</value>
+  </data>
+  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+    <value>運転資本回転回数</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>設定後はインターネットなしで動作</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>オフライン対応</value>
+  </data>
+  <data name="OneDaySalesRevenue" xml:space="preserve">
+    <value>1日売上収益</value>
+  </data>
+  <data name="onIssuedAdvances" xml:space="preserve">
+    <value>発行前払金に対して</value>
+  </data>
+  <data name="onReceivedAdvances" xml:space="preserve">
+    <value>受領前受金に対して</value>
+  </data>
+  <data name="OperatingCycleDuration" xml:space="preserve">
+    <value>営業サイクル日数</value>
+  </data>
+  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+    <value>税引後その他の包括利益</value>
+  </data>
+  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+    <value>税引前その他の包括利益</value>
+  </data>
+  <data name="OtherCurrentAssets" xml:space="preserve">
+    <value>その他流動資産</value>
+  </data>
+  <data name="OtherCurrentLiabilities" xml:space="preserve">
+    <value>その他流動負債</value>
+  </data>
+  <data name="OtherCurrentReceivables" xml:space="preserve">
+    <value>その他流動売掛金</value>
+  </data>
+  <data name="OtherExpenses" xml:space="preserve">
+    <value>その他費用</value>
+  </data>
+  <data name="OtherFinancialIncome" xml:space="preserve">
+    <value>その他財務収益</value>
+  </data>
+  <data name="otherFinancialInvestments" xml:space="preserve">
+    <value>その他金融投資</value>
+  </data>
+  <data name="OtherFixedAssets" xml:space="preserve">
+    <value>その他固定資産</value>
+  </data>
+  <data name="OtherIncome" xml:space="preserve">
+    <value>その他収益</value>
+  </data>
+  <data name="OtherLongTermLiabilities" xml:space="preserve">
+    <value>その他長期負債</value>
+  </data>
+  <data name="OtherOperatingExpenses" xml:space="preserve">
+    <value>その他営業費用</value>
+  </data>
+  <data name="OtherOperatingIncome" xml:space="preserve">
+    <value>その他営業収益</value>
+  </data>
+  <data name="OtherTotalIncome" xml:space="preserve">
+    <value>その他の包括利益</value>
+  </data>
+  <data name="OverallLiquidityRatio" xml:space="preserve">
+    <value>総合流動性比率</value>
+  </data>
+  <data name="OwnCurrentAssets" xml:space="preserve">
+    <value>自己運転資本</value>
+  </data>
+  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+    <value>支払余剰（+）または不足（-）</value>
+  </data>
+  <data name="people" xml:space="preserve">
+    <value>人</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>期間</value>
+  </data>
+  <data name="PermanentLiabilities" xml:space="preserve">
+    <value>永続負債（P4）</value>
+  </data>
+  <data name="PostponedTaxAssets" xml:space="preserve">
+    <value>繰延税金資産</value>
+  </data>
+  <data name="PreCrisisFinancialStability" xml:space="preserve">
+    <value>危機前財務安定性</value>
+  </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>プライバシーとセキュリティ</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>すべてのAI処理はブラウザ内で行われます</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100%プライベート</value>
+  </data>
+  <data name="ProceedsFromSales" xml:space="preserve">
+    <value>売上高</value>
+  </data>
+  <data name="productionStocks" xml:space="preserve">
+    <value>生産在庫</value>
+  </data>
+  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+    <value>従業員1人当たり生産性</value>
+  </data>
+  <data name="profit" xml:space="preserve">
+    <value>利益</value>
+  </data>
+  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+    <value>運転資本収益性</value>
+  </data>
+  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+    <value>固定資産収益性</value>
+  </data>
+  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+    <value>企業収益性比率</value>
+  </data>
+  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+    <value>営業活動利益</value>
+  </data>
+  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+    <value>税引後非継続事業利益（損失）</value>
+  </data>
+  <data name="PromissoryNotesIssued" xml:space="preserve">
+    <value>発行手形</value>
+  </data>
+  <data name="PromissoryNotesReceived" xml:space="preserve">
+    <value>受取手形</value>
+  </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value><strong>財務健全性</strong>をクリックして全体分析</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value><strong>推奨事項を取得</strong>をクリックして実行可能なアドバイス</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value><strong>主要比率を説明</strong>をクリックして指標を理解</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>クイックアクション</value>
+  </data>
+  <data name="QuickSellingAssets" xml:space="preserve">
+    <value>即売性資産（A2）</value>
+  </data>
+  <data name="RaisedCapital" xml:space="preserve">
+    <value>調達資本</value>
+  </data>
+  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+    <value>調達資本構造比率</value>
+  </data>
+  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+    <value>借入資本と自己資本の比率</value>
+  </data>
+  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+    <value>流動資産と固定資産の比率</value>
+  </data>
+  <data name="receivable" xml:space="preserve">
+    <value>売掛金</value>
+  </data>
+  <data name="ReceivablesForProducts" xml:space="preserve">
+    <value>製品・商品・工事・サービス売掛金</value>
+  </data>
+  <data name="receivablesTurnover" xml:space="preserve">
+    <value>売掛金回転率</value>
+  </data>
+  <data name="ReceivedFixedAssets" xml:space="preserve">
+    <value>受入固定資産</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>報告期間中の受入</value>
+  </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>利用可能性を再確認</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>会社の財務健全性を改善するための主な推奨事項は何ですか？</value>
+  </data>
+  <data name="RecoveryRate" xml:space="preserve">
+    <value>回収率</value>
+  </data>
+  <data name="RegisteredCapital" xml:space="preserve">
+    <value>登録（払込）資本</value>
+  </data>
+  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+    <value>回転率変動による流動資産の解放（-）・不足（+）</value>
+  </data>
+  <data name="ReserveCapital" xml:space="preserve">
+    <value>準備資本</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[ユーザーにより応答停止]</value>
+  </data>
+  <data name="RetainedEarnings" xml:space="preserve">
+    <value>利益剰余金（累積損失）</value>
+  </data>
+  <data name="RetiredFixedAssets" xml:space="preserve">
+    <value>除却固定資産</value>
+  </data>
+  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+    <value>自己資本回収期間</value>
+  </data>
+  <data name="ReturnOnFixedAssets" xml:space="preserve">
+    <value>固定資産利益率</value>
+  </data>
+  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+    <value>無形資産利益率</value>
+  </data>
+  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+    <value>金融商品の再評価（減損）</value>
+  </data>
+  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+    <value>非流動資産の再評価（減損）</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>収益</value>
+  </data>
+  <data name="revolutions" xml:space="preserve">
+    <value>回転</value>
+  </data>
+  <data name="SalaryExpenses" xml:space="preserve">
+    <value>給与費用</value>
+  </data>
+  <data name="Samein%OfAssets" xml:space="preserve">
+    <value>資産に対する割合</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>ファイルに保存</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>言語を選択</value>
+  </data>
+  <data name="SellingExpenses" xml:space="preserve">
+    <value>販売費</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>メッセージを送信</value>
+  </data>
+  <data name="Settlements" xml:space="preserve">
+    <value>決済</value>
+  </data>
+  <data name="settlementsWithBudget" xml:space="preserve">
+    <value>予算との決済</value>
+  </data>
+  <data name="settlementsWithInsurance" xml:space="preserve">
+    <value>保険との決済</value>
+  </data>
+  <data name="settlementsWithPayroll" xml:space="preserve">
+    <value>給与との決済</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>設定が必要</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Chrome AIフラグを有効化</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Gemini Nanoモデルをダウンロード</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Chromeを再起動</value>
+  </data>
+  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+    <value>関連会社・共同企業のその他の包括利益の持分</value>
+  </data>
+  <data name="ShortTermBankCredits" xml:space="preserve">
+    <value>短期銀行借入</value>
+  </data>
+  <data name="ShortTermLiabilities" xml:space="preserve">
+    <value>短期負債（P2）</value>
+  </data>
+  <data name="ShortTermLoans" xml:space="preserve">
+    <value>短期借入金</value>
+  </data>
+  <data name="SlowSellingAssets" xml:space="preserve">
+    <value>低流動性資産（A3）</value>
+  </data>
+  <data name="SolvencyLossRatio" xml:space="preserve">
+    <value>支払能力喪失比率</value>
+  </data>
+  <data name="SolvencyRatios" xml:space="preserve">
+    <value>支払能力比率</value>
+  </data>
+  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+    <value>支払能力回復比率</value>
+  </data>
+  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+    <value>資本形成源</value>
+  </data>
+  <data name="StabilityType" xml:space="preserve">
+    <value>安定性タイプ</value>
+  </data>
+  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+    <value>財務業績計算書（包括利益計算書）</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>在庫</value>
+  </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>分析を停止</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>生成を停止</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>データをクリア</value>
+  </data>
+  <data name="StructureOfAccountsPayable" xml:space="preserve">
+    <value>買掛金の構造</value>
+  </data>
+  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+    <value>年初適合性比率</value>
+  </data>
+  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+    <value>年末適合性比率</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>表</value>
+  </data>
+  <data name="TangibleCurrentAssets" xml:space="preserve">
+    <value>有形流動資産</value>
+  </data>
+  <data name="Tangibles" xml:space="preserve">
+    <value>有形資産</value>
+  </data>
+  <data name="TargetedFinancing" xml:space="preserve">
+    <value>目的別資金調達</value>
+  </data>
+  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+    <value>稼働開始した新規固定資産の費用</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>千グリブナ</value>
+  </data>
+  <data name="times" xml:space="preserve">
+    <value>回</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>質問は具体的に</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>特定の比率や指標を参照</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>より明確にするためにフォローアップの質問を</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>ヒント</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>合計</value>
+  </data>
+  <data name="TotalAssets" xml:space="preserve">
+    <value>総資産</value>
+  </data>
+  <data name="TotalCoverageRatio" xml:space="preserve">
+    <value>総補償比率</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>総収益</value>
+  </data>
+  <data name="TotalReturnOnAssets" xml:space="preserve">
+    <value>総資産利益率</value>
+  </data>
+  <data name="TotalSection" xml:space="preserve">
+    <value>セクション合計</value>
+  </data>
+  <data name="TotalSourcesOfCapital" xml:space="preserve">
+    <value>資本源合計</value>
+  </data>
+  <data name="TotalWorkingCapital" xml:space="preserve">
+    <value>運転資本合計</value>
+  </data>
+  <data name="total_" xml:space="preserve">
+    <value>合計</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>売上高</value>
+  </data>
+  <data name="TurnoverInSettlements" xml:space="preserve">
+    <value>決済の回転</value>
+  </data>
+  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+    <value>運転資本回転率</value>
+  </data>
+  <data name="TurnoverOfEquity" xml:space="preserve">
+    <value>自己資本回転率</value>
+  </data>
+  <data name="TurnoverOfInventories" xml:space="preserve">
+    <value>棚卸資産回転率</value>
+  </data>
+  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+    <value>総資本回転率</value>
+  </data>
+  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+    <value>運転資本回転率</value>
+  </data>
+  <data name="TypesOfCurrentAssets" xml:space="preserve">
+    <value>流動資産の種類</value>
+  </data>
+  <data name="unfinishedProduction" xml:space="preserve">
+    <value>仕掛品</value>
+  </data>
+  <data name="UnpaidCapital" xml:space="preserve">
+    <value>未払資本</value>
+  </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>ファイルからアップロード</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>価値</value>
+  </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>設定ガイドを表示</value>
+  </data>
+  <data name="wear" xml:space="preserve">
+    <value>摩耗</value>
+  </data>
+  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+    <value>持分法による会計処理</value>
+  </data>
+  <data name="WithAccruedIncome" xml:space="preserve">
+    <value>未収収益との</value>
+  </data>
+  <data name="WithAdvances" xml:space="preserve">
+    <value>前払金との</value>
+  </data>
+  <data name="withBudget" xml:space="preserve">
+    <value>予算との</value>
+  </data>
+  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+    <value>予算および予算外資金との</value>
+  </data>
+  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+    <value>買い手または供給者との</value>
+  </data>
+  <data name="WithdrawnCapital" xml:space="preserve">
+    <value>引出資本</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>報告期間中に引出</value>
+  </data>
+  <data name="WithInternalCashSettlements" xml:space="preserve">
+    <value>内部現金決済との</value>
+  </data>
+  <data name="WithLongTermLiabilities" xml:space="preserve">
+    <value>長期負債との</value>
+  </data>
+  <data name="WithOther" xml:space="preserve">
+    <value>その他との</value>
+  </data>
+  <data name="WithParticipants" xml:space="preserve">
+    <value>参加者との</value>
+  </data>
+  <data name="WithPayroll" xml:space="preserve">
+    <value>給与との</value>
+  </data>
+  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+    <value>運転資本回転日数</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="years" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>あなた</value>
+  </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+    <value>UFINをお楽しみいただけていますか？</value>
+  </data>
+  <data name="StarOnGitHubMessage" xml:space="preserve">
+    <value>このツールが役に立ったら、GitHubでスターを付けてください！他の開発者がこのプロジェクトを発見するのに役立ちます。</value>
+  </data>
+  <data name="StarOnGitHub" xml:space="preserve">
+    <value>GitHubでスター</value>
+  </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>従業員平均数</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>普通株式平均数</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>年初残高（取得原価）</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>年末残高（取得原価）</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>年末残高（減価償却控除後）</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
-    <value>Eccedenza (+), deficit (-) di fondi propri correnti, a lungo e breve termine per la formazione delle riserve</value>
+    <value>在庫形成のための自己運転資金・長期・短期借入金の余剰（+）・不足（-）</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
-    <value>Eccedenza (+), deficit (-) di fondi propri correnti e prestiti a lungo termine per la formazione delle riserve</value>
+    <value>在庫形成のための自己運転資金・長期借入金の余剰（+）・不足（-）</value>
   </data>
   <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
-    <value>Eccedenza (+), deficit (-) di fondi propri correnti per la formazione delle riserve</value>
+    <value>在庫形成のための自己運転資金の余剰（+）・不足（-）</value>
   </data>
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
-    <value>Risultato finanziario delle attività operative</value>
+    <value>営業活動からの財務成果</value>
   </data>
 </root>

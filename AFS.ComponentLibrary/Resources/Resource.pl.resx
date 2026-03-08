@@ -1351,4 +1351,34 @@
   <data name="StarOnGitHub" xml:space="preserve">
     <value>Postaw gwiazdkę na GitHub</value>
   </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>Średnia liczba pracowników</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Średnia liczba akcji zwykłych</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>Saldo na początek roku wg kosztu historycznego</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>Saldo na koniec roku wg kosztu historycznego</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>Saldo na koniec roku po amortyzacji</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"Jakie są moje największe ryzyka?"</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+    <value>Nadwyżka (+), niedobór (-) własnych środków obrotowych, długo- i krótkoterminowych na tworzenie rezerw</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+    <value>Nadwyżka (+), niedobór (-) własnych środków obrotowych i długoterminowych na tworzenie rezerw</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+    <value>Nadwyżka (+), niedobór (-) własnych środków obrotowych na tworzenie rezerw</value>
+  </data>
+  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+    <value>Wynik finansowy z działalności operacyjnej</value>
+  </data>
 </root>

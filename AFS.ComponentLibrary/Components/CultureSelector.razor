@@ -36,7 +36,8 @@
         ["ro"] = ("🇷🇴", "Română"),
         ["hu"] = ("🇭🇺", "Magyar"),
         ["cs"] = ("🇨🇿", "Čeština"),
-        ["nl"] = ("🇳🇱", "Nederlands")
+        ["nl"] = ("🇳🇱", "Nederlands"),
+        ["ja"] = ("🇯🇵", "日本語")
     };
 
     private static readonly CultureInfo[] supportedCultures =
@@ -54,7 +55,8 @@
         CultureInfo.GetCultureInfo("ro"),
         CultureInfo.GetCultureInfo("hu"),
         CultureInfo.GetCultureInfo("cs"),
-        CultureInfo.GetCultureInfo("nl")
+        CultureInfo.GetCultureInfo("nl"),
+        CultureInfo.GetCultureInfo("ja")
     ];
 
     private readonly List<CultureDisplayItem> cultureItems = supportedCultures

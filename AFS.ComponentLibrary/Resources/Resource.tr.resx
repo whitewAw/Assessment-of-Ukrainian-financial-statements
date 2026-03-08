@@ -1351,4 +1351,34 @@
   <data name="StarOnGitHub" xml:space="preserve">
     <value>GitHub'da yıldız ver</value>
   </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>Ortalama çalışan sayısı</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Ortalama adi hisse sayısı</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>Yıl başı bakiyesi tarihi maliyetle</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>Yıl sonu bakiyesi tarihi maliyetle</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>Yıl sonu bakiyesi amortisman düşüldükten sonra</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"En büyük risklerim neler?"</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+    <value>Stok oluşumu için öz işletme, uzun ve kısa vadeli borçlanma fazlası (+), açığı (-)</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+    <value>Stok oluşumu için öz işletme ve uzun vadeli borçlanma fazlası (+), açığı (-)</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+    <value>Stok oluşumu için öz işletme sermayesi fazlası (+), açığı (-)</value>
+  </data>
+  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+    <value>Faaliyet sonuçlarından finansal sonuç</value>
+  </data>
 </root>

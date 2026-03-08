@@ -1354,4 +1354,31 @@
   <data name="StarOnGitHub" xml:space="preserve">
     <value>在GitHub上加星标</value>
   </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>平均员工人数</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>普通股平均数量</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>年初余额（按历史成本）</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>年末余额（按历史成本）</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>年末余额（扣除折旧后）</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+    <value>自有流动资金、长期及短期借入资金形成储备的盈余（+）或不足（-）</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+    <value>自有流动资金和长期借入资金形成储备的盈余（+）或不足（-）</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+    <value>自有流动资金形成储备的盈余（+）或不足（-）</value>
+  </data>
+  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+    <value>经营活动财务成果</value>
+  </data>
 </root>
