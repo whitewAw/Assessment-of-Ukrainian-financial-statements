@@ -28,13 +28,25 @@
 		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- BLAZOR-SPECIFIC SETTINGS (inherited trimming from Directory.Build.props) -->
+		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- Trimming Configuration -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>full</TrimMode>
+		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-		<!-- Keep reflection enabled - required by Radzen.Blazor and Blazored.LocalStorage -->
+
+		<!-- JSON Serialization - Keep reflection for Radzen.Blazor and Blazored.LocalStorage -->
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+
+		<!-- Blazor Compression -->
 		<BlazorEnableCompression>true</BlazorEnableCompression>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+
+		<!-- WASM-specific optimizations (safe for PWA) -->
+		<UseNativeHttpHandler>true</UseNativeHttpHandler>
+		<DebuggerSupport>false</DebuggerSupport>
+		<!-- Keep StackTraceSupport enabled for proper error handling in WASM -->
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- SUPPRESS TRIMMING WARNINGS FROM THIRD-PARTY ASSEMBLIES                -->

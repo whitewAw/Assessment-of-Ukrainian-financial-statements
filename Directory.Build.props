@@ -22,22 +22,13 @@
   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
   <!-- ══════════════════════════════════════════════════════════════════════ -->
-  <!-- SIZE OPTIMIZATION - Applied to all projects                           -->
+  <!-- RUNTIME FEATURE SWITCHES - Safe for AOT/WASM                          -->
   <!-- ══════════════════════════════════════════════════════════════════════ -->
-  <!-- Trimming optimizations -->
-  <PublishTrimmed>true</PublishTrimmed>
-  <TrimMode>full</TrimMode>
-  <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
-
-  <!-- Disable unused runtime features -->
-  <DebuggerSupport>false</DebuggerSupport>
+  <!-- Disable unused runtime features (safe for all project types) -->
   <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
   <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
   <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
   <EventSourceSupport>false</EventSourceSupport>
-  <UseSystemResourceKeys>true</UseSystemResourceKeys>
-  <StackTraceSupport>false</StackTraceSupport>
-  <UseNativeHttpHandler>true</UseNativeHttpHandler>
 
   </PropertyGroup>
 
