@@ -1,4 +1,4 @@
-﻿# Assessment of Ukrainian Financial Statements (AFS)
+# Assessment of Ukrainian Financial Statements (AFS)
 
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
@@ -238,14 +238,8 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │              CATEGORY 2: STYLE PREFERENCES                      │
 ├─────────────────────────────────────────────────────────────────┤
 │  MA0016       - List<T> required by ApexCharts/Radzen binding   │
-│  MA0048       - Related types grouped in same file intentionally│
-├─────────────────────────────────────────────────────────────────┤
-│              CATEGORY 3: PROJECT CONVENTIONS                    │
-├─────────────────────────────────────────────────────────────────┤
-│  S101         - AFS prefix is project acronym (AfsModel, etc.)  │
-│  S3928        - Radzen component parameter validation           │
 └─────────────────────────────────────────────────────────────────┘
-Total: 9 documented suppressions (all justified)
+Total: 6 documented suppressions (all justified)
 ```
 
 ---
@@ -354,33 +348,38 @@ Assessment-of-Ukrainian-financial-statements/
 │
 ├── 📂 AFS.Core/                     # Business logic & services
 │   ├── Models/                      # Data models
-│   │   ├── AfsModel.cs             # Main application model
-│   │   ├── Form1.cs                # Balance sheet model
-│   │   ├── Form2.cs                # Income statement model
-│   │   ├── ChartDataItem.cs        # Chart data models
-│   │   └── TablsModels/            # Table-specific models
-│   ├── Services/                   # Business services
-│   │   ├── DataCalculations/       # 16+ financial calculation services
+│   │   ├── AfsModel.cs              # Main application model
+│   │   ├── AfsConstraints.cs        # Application constants
+│   │   ├── Form1.cs                 # Balance sheet model
+│   │   ├── Form2.cs                 # Income statement model
+│   │   ├── ChartDataItem.cs         # Chart data models
+│   │   └── TablsModels/             # Table-specific models
+│   ├── Services/                    # Business services
+│   │   ├── DataCalculations/        # 40+ financial calculation services
 │   │   ├── BrowserAIFinancialAdvisor.cs  # Chrome AI service (sealed)
 │   │   ├── OpenAIFinancialAdvisor.cs     # OpenAI service (sealed)
 │   │   ├── LocalStorageModelHandler.cs   # Model persistence (sealed)
 │   │   ├── LocalStorageCultureHandler.cs # Culture persistence (sealed)
-│   │   ├── AppThemeService.cs      # Theme management (sealed)
-│   │   ├── JsInterop.cs            # JavaScript interop (sealed)
-│   │   ├── Log.cs                  # High-perf logging ([LoggerMessage])
-│   │   └── UnicodeConverter.cs     # Unicode helpers ([GeneratedRegex])
-│   ├── Interfaces/
-│   │   ├── IAIFinancialAdvisor.cs  # AI service interface
-│   │   └── IHasBeginEnd.cs         # Covariant interfaces (out T)
+│   │   ├── AppThemeService.cs       # Theme management (sealed)
+│   │   ├── JsInterop.cs             # JavaScript interop (sealed)
+│   │   ├── Log.cs                   # High-perf logging ([LoggerMessage])
+│   │   └── UnicodeConverter.cs      # Unicode helpers ([GeneratedRegex])
+│   ├── Interfaces/                  # 12 interface files
+│   │   ├── IAIFinancialAdvisor.cs   # AI service interface
+│   │   ├── IHasBeginEnd.cs          # Base interface
+│   │   ├── IHasBaseCurrent.cs       # Covariant interface (out T)
+│   │   ├── ICapitalSourceMetric.cs  # Capital metrics interface
+│   │   └── ...                      # Other financial interfaces
 │   ├── Exceptions/
-│   │   └── AIServiceException.cs   # Custom AI exception (AOT-safe)
+│   │   └── AIServiceException.cs    # Custom AI exception (AOT-safe)
 │   ├── Components/
-│   │   └── PageSeoHelper.cs        # SEO management helper
-│   └── Json/                       # AOT-safe JSON serialization
-│       ├── AFSJsonSerializerContext.cs  # Source-generated serializers (85+ types)
-│       ├── ChartDataDtos.cs        # Chart data DTOs
-│       ├── FinancialAnalysisDtos.cs # Financial DTOs
-│       └── OpenAIDtos.cs           # AI integration DTOs
+│   │   └── PageSeoHelper.cs         # SEO management helper
+│   └── Json/                        # AOT-safe JSON serialization (60+ files)
+│       ├── AfsJsonSerializerContext.cs  # Source-generated serializers (85+ types)
+│       ├── FinancialContextData.cs  # Financial context DTO
+│       ├── BusinessActivityData.cs  # Business activity DTO
+│       ├── SolvencyRatiosData.cs    # Solvency ratios DTO
+│       └── ...                      # 50+ individual DTO files
 │
 ├── 📂 .github/                      # GitHub configuration
 │   ├── workflows/                   # CI/CD workflows
@@ -406,7 +405,7 @@ The project uses a centralized build configuration:
 - Code analysis with latest rules (Meziantou, Sonar, Roslynator)
 - Code style enforcement in build
 - `IsAotCompatible` and `IsTrimmable` for AOT/trimming safety
-- Only 9 documented warning suppressions (all justified)
+- Only 6 documented warning suppressions (all justified)
 
 **nuget.config** - Package source configuration:
 - Uses only official NuGet.org source

@@ -33,7 +33,6 @@
     ║ Category 2: STYLE PREFERENCES (Low impact, not bugs)                         ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ MA0016 - Collection abstraction - ApexCharts/Radzen require List<T> for binding║
-    ║ MA0048 - File name != type name - Related types grouped intentionally        ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
     -->
 
@@ -41,7 +40,7 @@
     <NoWarn>$(NoWarn);MA0004;CA2007;S6966;S6562;CA1824</NoWarn>
 
     <!-- Category 2: Style preferences -->
-    <NoWarn>$(NoWarn);MA0016;MA0048</NoWarn>
+    <NoWarn>$(NoWarn);MA0016</NoWarn>
   </PropertyGroup>
 
 
