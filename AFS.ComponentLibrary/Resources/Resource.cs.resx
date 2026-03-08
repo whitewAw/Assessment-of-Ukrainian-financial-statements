@@ -502,25 +502,25 @@
     <value>Oběžná aktiva</value>
   </data>
   <data name="CurrentBiologicalAssets" xml:space="preserve">
-    <value>Current biological assets</value>
+    <value>Oběžná biologická aktiva</value>
   </data>
   <data name="CurrentFinancialInvestments" xml:space="preserve">
-    <value>Current financial investments</value>
+    <value>Oběžné finanční investice</value>
   </data>
   <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
-    <value>Current liabilities and provisions</value>
+    <value>ObĞžné závazky a rezervy</value>
   </data>
   <data name="CurrentLiquidityFactor" xml:space="preserve">
-    <value>Current liquidity ratio</value>
+    <value>Ukazatel bĞžné likvidity</value>
   </data>
   <data name="CurrentMobileAssets" xml:space="preserve">
-    <value>Current (mobile) assets</value>
+    <value>ObĞžná (pohyblivá) aktiva</value>
   </data>
   <data name="currentPeriod" xml:space="preserve">
-    <value>reporting period</value>
+    <value>vyčíslové období</value>
   </data>
   <data name="CurrentSupplies" xml:space="preserve">
-    <value>Current provisions</value>
+    <value>ObĞžné zásoby</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
     <value>Běžný rok</value>
@@ -529,16 +529,16 @@
     <value>dnů</value>
   </data>
   <data name="DeductionsSocialEvents" xml:space="preserve">
-    <value>Social contributions</value>
+    <value>Sociální sprívody</value>
   </data>
   <data name="DeferredTaxLiabilities" xml:space="preserve">
-    <value>Deferred tax liabilities</value>
+    <value>Odložené danťové závazky</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
-    <value>Beginning-of-year depreciation ratio of fixed assets</value>
+    <value>Poměrné opotrebení dlouhodobého majetku na začátku roku</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
-    <value>End-of-year depreciation ratio of fixed assets</value>
+    <value>Poměrné opotrebení dlouhodobého majetku na konci roku</value>
   </data>
   <data name="deviation" xml:space="preserve">
     <value>odchylka</value>
@@ -547,7 +547,7 @@
     <value>Odchylka</value>
   </data>
   <data name="DisposalRate" xml:space="preserve">
-    <value>Disposal ratio</value>
+    <value>PomĚrná likvidace</value>
   </data>
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Dividends per ordinary share</value>
@@ -649,55 +649,55 @@
     <value>Financial result before taxation</value>
   </data>
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
-    <value>Financial result from operating activities</value>
+    <value>Finanční výsledek z provozní činnosti</value>
   </data>
   <data name="FinancialResults" xml:space="preserve">
     <value>Finanční výsledky</value>
   </data>
   <data name="finishedProducts" xml:space="preserve">
-    <value>finished products</value>
+    <value>hotové výbrobky</value>
   </data>
   <data name="FixedAssets" xml:space="preserve">
     <value>Dlouhodobý majetek</value>
   </data>
   <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
-    <value>Working capital turnover ratio</value>
+    <value>Poměr obratu pracovního kapitálu</value>
   </data>
   <data name="ForBills" xml:space="preserve">
-    <value>Bills receivable</value>
+    <value>Dření kámene</value>
   </data>
   <data name="ForReportingPeriod" xml:space="preserve">
-    <value>For the reporting period</value>
+    <value>Za vyčíslovací období</value>
   </data>
   <data name="ForSamePeriodLastYear" xml:space="preserve">
-    <value>For a similar period of the previous year</value>
+    <value>Za stejné období předchozího roku</value>
   </data>
   <data name="ForSetupInstructions" xml:space="preserve">
     <value>for setup instructions.</value>
   </data>
   <data name="fromAccruedIncome" xml:space="preserve">
-    <value>from accrued income</value>
+    <value>z nározených příjmů</value>
   </data>
   <data name="FromInsurance" xml:space="preserve">
-    <value>From insurance</value>
+    <value>Z pojištění</value>
   </data>
   <data name="fromInternalSettlements" xml:space="preserve">
-    <value>from internal settlements</value>
+    <value>z interních vyporádání</value>
   </data>
   <data name="fromMoney" xml:space="preserve">
-    <value>Cash</value>
+    <value>Peníze</value>
   </data>
   <data name="fromReceivables" xml:space="preserve">
-    <value>Accounts receivable</value>
+    <value>Pohledávky</value>
   </data>
   <data name="fromTangibleAssets" xml:space="preserve">
-    <value>Material assets</value>
+    <value>Hmotatelový majetek</value>
   </data>
   <data name="FutureExpenses" xml:space="preserve">
-    <value>Future period expenses</value>
+    <value>Výaje budoucích období</value>
   </data>
   <data name="FutureIncome" xml:space="preserve">
-    <value>Future period income</value>
+    <value>Příjmy budoucích období</value>
   </data>
   <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
     <value>General indicators of financial stability</value>
@@ -709,16 +709,16 @@
     <value>Získat doporučení</value>
   </data>
   <data name="goodsWorksServices" xml:space="preserve">
-    <value>Goods, works, services</value>
+    <value>Zboží, práce, služby</value>
   </data>
   <data name="Gross" xml:space="preserve">
-    <value>Gross</value>
+    <value>Hrubé</value>
   </data>
   <data name="GrossProfitPerSoldProducts" xml:space="preserve">
     <value>Gross profit per UAH 1 of sales</value>
   </data>
   <data name="growthRate" xml:space="preserve">
-    <value>Growth rate</value>
+    <value>Tempo růstu</value>
   </data>
   <data name="HardToSellAssets" xml:space="preserve">
     <value>Hard-to-sell assets (A4)</value>
@@ -748,49 +748,49 @@
     <value>Including income tax</value>
   </data>
   <data name="includingNew" xml:space="preserve">
-    <value>Including new</value>
+    <value>Včetně nových</value>
   </data>
   <data name="IncomeFromEquityParticipation" xml:space="preserve">
-    <value>Income from participation in capital</value>
+    <value>Zisk z účasti na kapitálu</value>
   </data>
   <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
-    <value>Income tax related to other comprehensive income</value>
+    <value>Daně vztahující se k ostatním komplexním příjmům</value>
   </data>
   <data name="IncompleteCapitalInvestments" xml:space="preserve">
-    <value>Unfinished capital investments</value>
+    <value>Nedokončené kapitálové investice</value>
   </data>
   <data name="Indicators" xml:space="preserve">
-    <value>Indicators</value>
+    <value>Ukazatele</value>
   </data>
   <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
-    <value>Business activity indicators</value>
+    <value>Ukazatele podnikatelskou aktivitu</value>
   </data>
   <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
-    <value>Efficiency indicators of intangible assets utilization</value>
+    <value>Ukazatele efektivnosti využítíní nehmotných aktiv</value>
   </data>
   <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
-    <value>Efficiency indicators of working capital utilization</value>
+    <value>Ukazatele efektivnosti využítíní pracovního kapitálu</value>
   </data>
   <data name="IndicatorsOfFinancialStability" xml:space="preserve">
-    <value>Financial stability indicators</value>
+    <value>Ukazatele finanční stability</value>
   </data>
   <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
-    <value>Indicators of the state and movement of fixed assets</value>
+    <value>Ukazatele stavu a pohybu dlouhodobého majetku</value>
   </data>
   <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Turnover indicators of working capital</value>
+    <value>Ukazatele obratu pracovního kapitálu</value>
   </data>
   <data name="initialCost" xml:space="preserve">
-    <value>Original cost</value>
+    <value>Původní cena</value>
   </data>
   <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
-    <value>Original cost of fixed assets at the beginning of the period</value>
+    <value>Původní cena dlouhodobého majetku na začátku období</value>
   </data>
   <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
-    <value>Original cost of fixed assets at the end of the period</value>
+    <value>Původní cena dlouhodobého majetku na konci období</value>
   </data>
   <data name="InLongTerm" xml:space="preserve">
-    <value>In the long-term perspective</value>
+    <value>Z dlouhodobého hlediska</value>
   </data>
   <data name="AIAssistant" xml:space="preserve">
     <value>AI Asistent</value>
@@ -835,16 +835,16 @@
     <value>Liabilities related to non-current assets for sale</value>
   </data>
   <data name="LineCode" xml:space="preserve">
-    <value>Line code</value>
+    <value>Kód řádku</value>
   </data>
   <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
-    <value>Balance liquidity indicators</value>
+    <value>Ukazatele likvidity bilance</value>
   </data>
   <data name="LoadingPleaseWait" xml:space="preserve">
-    <value>Loading, please wait...</value>
+    <value>Načítání, pročákejte...</value>
   </data>
   <data name="LongTermBankCredits" xml:space="preserve">
-    <value>Long-term bank loans</value>
+    <value>Dlouhodobé bankovní úvěry</value>
   </data>
   <data name="LongTermBiologicalAssets" xml:space="preserve">
     <value>Long-term biological assets</value>
@@ -871,13 +871,13 @@
     <value>Long-term accounts receivable</value>
   </data>
   <data name="loss" xml:space="preserve">
-    <value>Loss</value>
+    <value>Ztráta</value>
   </data>
   <data name="LossesFromEquityParticipation" xml:space="preserve">
     <value>Loss from participation in capital</value>
   </data>
   <data name="MaterialCosts" xml:space="preserve">
-    <value>Material costs</value>
+    <value>Náklady na materiály</value>
   </data>
   <data name="materialValuesTurnover" xml:space="preserve">
     <value>Turnover of material assets</value>
@@ -898,106 +898,106 @@
     <value>Net financial result</value>
   </data>
   <data name="NetIncomeFromSales" xml:space="preserve">
-    <value>Net revenue from sales</value>
+    <value>Čistý výnos z prodeje</value>
   </data>
   <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
-    <value>Net income from sales of products (goods, works, services)</value>
+    <value>Čistý výnos z prodeje produktů (zboží, prací, služeb)</value>
   </data>
   <data name="NetProfit" xml:space="preserve">
     <value>Čistý zisk</value>
   </data>
   <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
-    <value>Net profit (loss) per ordinary share</value>
+    <value>Čistý zisk (ztráta) na jednu běžnou akcii</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
   <data name="NoDataSentDescription" xml:space="preserve">
-    <value>Your financial data never leaves your device</value>
+    <value>Vaše finanční data nikdy neopustí vaše zařízení</value>
   </data>
   <data name="NoDataSentTitle" xml:space="preserve">
-    <value>No Data Sent</value>
+    <value>Žádná data odesílána</value>
   </data>
   <data name="NonCurrentAssets" xml:space="preserve">
     <value>Dlouhodobá aktiva</value>
   </data>
   <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
-    <value>Non-current assets held for sale and disposal groups</value>
+    <value>Dlouhodobá aktiva k prodeji a skupiny aktiv k dispozici</value>
   </data>
   <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
-    <value>Non-current (fixed) assets</value>
+    <value>Dlouhodobé (némovité) aktivy</value>
   </data>
   <data name="NormalFinancialStability" xml:space="preserve">
-    <value>Normal financial stability</value>
+    <value>Normální finanční stabilita</value>
   </data>
   <data name="NumberInOrder" xml:space="preserve">
-    <value>No.</value>
+    <value>Č.</value>
   </data>
   <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
-    <value>Number of turnovers of current assets</value>
+    <value>Počet obratů obĞžného majetku</value>
   </data>
   <data name="OfflineCapableDescription" xml:space="preserve">
-    <value>Works without internet after setup</value>
+    <value>Funguje bez internetu po nastavení</value>
   </data>
   <data name="OfflineCapableTitle" xml:space="preserve">
-    <value>Offline Capable</value>
+    <value>Schopnost offline</value>
   </data>
   <data name="OneDaySalesRevenue" xml:space="preserve">
-    <value>One-day revenue from sales</value>
+    <value>Jednodendní výnos z prodeje</value>
   </data>
   <data name="onIssuedAdvances" xml:space="preserve">
-    <value>Against advances issued</value>
+    <value>K vydaném zpétvzávorkm</value>
   </data>
   <data name="onReceivedAdvances" xml:space="preserve">
-    <value>Against advances received</value>
+    <value>K přijatým záloham</value>
   </data>
   <data name="OperatingCycleDuration" xml:space="preserve">
-    <value>Duration of the operating cycle</value>
+    <value>Doba trvání provozního cyklu</value>
   </data>
   <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
-    <value>Other comprehensive income after tax</value>
+    <value>Ostatní komplexní příjem po daní</value>
   </data>
   <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
-    <value>Other comprehensive income before tax</value>
+    <value>Ostatní komplexní příjem před daní</value>
   </data>
   <data name="OtherCurrentAssets" xml:space="preserve">
-    <value>Other current assets</value>
+    <value>Ostatná obĞžná aktiva</value>
   </data>
   <data name="OtherCurrentLiabilities" xml:space="preserve">
-    <value>Other current liabilities</value>
+    <value>Ostatné obĞžné závazky</value>
   </data>
   <data name="OtherCurrentReceivables" xml:space="preserve">
-    <value>Other current accounts receivable</value>
+    <value>Ostatné obĞžné pohledávky</value>
   </data>
   <data name="OtherExpenses" xml:space="preserve">
-    <value>Other expenses</value>
+    <value>Ostatní náklady</value>
   </data>
   <data name="OtherFinancialIncome" xml:space="preserve">
-    <value>Other financial income</value>
+    <value>Ostatní finanční příjmy</value>
   </data>
   <data name="otherFinancialInvestments" xml:space="preserve">
-    <value>Other financial investments</value>
+    <value>Ostatní finanční investice</value>
   </data>
   <data name="OtherFixedAssets" xml:space="preserve">
-    <value>Other non-current assets</value>
+    <value>Ostatná dlouhodobá aktiva</value>
   </data>
   <data name="OtherIncome" xml:space="preserve">
-    <value>Other income</value>
+    <value>Ostatní příjmy</value>
   </data>
   <data name="OtherLongTermLiabilities" xml:space="preserve">
-    <value>Other long-term liabilities</value>
+    <value>Ostatné dlouhodobé závazky</value>
   </data>
   <data name="OtherOperatingExpenses" xml:space="preserve">
-    <value>Other operating expenses</value>
+    <value>Ostatní provozní náklady</value>
   </data>
   <data name="OtherOperatingIncome" xml:space="preserve">
-    <value>Other operating income</value>
+    <value>Ostatní provozní příjmy</value>
   </data>
   <data name="OtherTotalIncome" xml:space="preserve">
-    <value>Other comprehensive income</value>
+    <value>Ostatní komplexní příjmy</value>
   </data>
   <data name="OverallLiquidityRatio" xml:space="preserve">
-    <value>Overall liquidity ratio</value>
+    <value>Celkový poměr likvidity</value>
   </data>
   <data name="OwnCurrentAssets" xml:space="preserve">
     <value>Own current assets</value>
@@ -1048,19 +1048,19 @@
     <value>Profitability of fixed assets</value>
   </data>
   <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
-    <value>Enterprise profitability ratio</value>
+    <value>Poměr ziskovosti podniku</value>
   </data>
   <data name="ProfitFromOperatingActivities" xml:space="preserve">
     <value>Provozní zisk</value>
   </data>
   <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
-    <value>Profit (loss) from discontinued operations after tax</value>
+    <value>Zisk (ztráta) z ukončené činnosti po daní</value>
   </data>
   <data name="PromissoryNotesIssued" xml:space="preserve">
-    <value>Bills issued</value>
+    <value>Vydane smenicky</value>
   </data>
   <data name="PromissoryNotesReceived" xml:space="preserve">
-    <value>Bills received</value>
+    <value>Prijaté smenicky</value>
   </data>
   <data name="QuickAction1" xml:space="preserve">
     <value>Click &lt;strong&gt;Financial Health&lt;/strong&gt; for overall analysis</value>
@@ -1075,34 +1075,34 @@
     <value>Rychlé akce</value>
   </data>
   <data name="QuickSellingAssets" xml:space="preserve">
-    <value>Quick-liquid assets (A2)</value>
+    <value>Rychle prodejná aktiva (A2)</value>
   </data>
   <data name="RaisedCapital" xml:space="preserve">
-    <value>Capital raised</value>
+    <value>Sebrany kapital</value>
   </data>
   <data name="RatedCapitalStructureRatio" xml:space="preserve">
     <value>Capital structure ratio</value>
   </data>
   <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
-    <value>Ratio of attracted and own capital</value>
+    <value>Poměr přitazeného a vlastního kapitálu</value>
   </data>
   <data name="RatioOfMobileToImmobilized" xml:space="preserve">
-    <value>Ratio of mobile funds to immobilized</value>
+    <value>Poměr pohyblivého k dlouhodobému majetku</value>
   </data>
   <data name="receivable" xml:space="preserve">
-    <value>creditors</value>
+    <value>veritelé</value>
   </data>
   <data name="ReceivablesForProducts" xml:space="preserve">
-    <value>Accounts receivable for products, goods, works, services</value>
+    <value>Pohledávky za prodej produktů, zboží, prací, služeb</value>
   </data>
   <data name="receivablesTurnover" xml:space="preserve">
-    <value>Turnover of receivables</value>
+    <value>Obrat pohledávek</value>
   </data>
   <data name="ReceivedFixedAssets" xml:space="preserve">
-    <value>Received fixed assets</value>
+    <value>Přijaté dlouhodobé aktivy</value>
   </data>
   <data name="ReceivedForReportingPeriod" xml:space="preserve">
-    <value>Received during the reporting period</value>
+    <value>Přijato během vyčíslovacího období</value>
   </data>
   <data name="RecheckAvailability" xml:space="preserve">
     <value>Znovu zkontrolovat dostupnost</value>
@@ -1111,13 +1111,13 @@
     <value>What are your top recommendations to improve my company's financial position?</value>
   </data>
   <data name="RecoveryRate" xml:space="preserve">
-    <value>Recovery ratio</value>
+    <value>Poměr zotavení</value>
   </data>
   <data name="RegisteredCapital" xml:space="preserve">
-    <value>Registered (share) capital</value>
+    <value>Zapsaný (akciový) kapitál</value>
   </data>
   <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
-    <value>Release (-), absence of current assets (+) due to changes in their turnover</value>
+    <value>Uvolneni (-), chybejici obsah (+) obezneho majetku v dusledku zmeny jeho obratu</value>
   </data>
   <data name="ReserveCapital" xml:space="preserve">
     <value>Rezervní kapitál</value>
@@ -1126,34 +1126,34 @@
     <value>[Response stopped by user]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
-    <value>Undistributed profit (uncovered loss)</value>
+    <value>Nerozdeleny zisk (nepokryto ztrata)</value>
   </data>
   <data name="RetiredFixedAssets" xml:space="preserve">
-    <value>Decommissioned fixed assets</value>
+    <value>Vyrazeny dlouhodoba majetek</value>
   </data>
   <data name="ReturnOnEquityPeriod" xml:space="preserve">
-    <value>Payback period of own capital</value>
+    <value>Doba splaceni vlastniho kapitalu</value>
   </data>
   <data name="ReturnOnFixedAssets" xml:space="preserve">
-    <value>Fixed asset turnover</value>
+    <value>Obrat dlouhodobeho majetku</value>
   </data>
   <data name="ReturnOnIntangibleAssets" xml:space="preserve">
-    <value>Intangible asset turnover</value>
+    <value>Obrat nehmotnaleho majetku</value>
   </data>
   <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
-    <value>Revaluation of financial instruments</value>
+    <value>Preoceneni financnich nastroju</value>
   </data>
   <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
-    <value>Revaluation of non-current assets</value>
+    <value>Preoceneni dlouhodobe aktiv</value>
   </data>
   <data name="revenue" xml:space="preserve">
-    <value>revenues</value>
+    <value>vynos</value>
   </data>
   <data name="revolutions" xml:space="preserve">
-    <value>turnovers</value>
+    <value>obraty</value>
   </data>
   <data name="SalaryExpenses" xml:space="preserve">
-    <value>Labor costs</value>
+    <value>Pracovni naklady</value>
   </data>
   <data name="Samein%OfAssets" xml:space="preserve">
     <value>The same as % of assets</value>
@@ -1162,16 +1162,16 @@
     <value>Uložit do souboru</value>
   </data>
   <data name="SellingExpenses" xml:space="preserve">
-    <value>Labor costs</value>
+    <value>Prodejni naklady</value>
   </data>
   <data name="SendMessage" xml:space="preserve">
     <value>Odeslat zprávu</value>
   </data>
   <data name="Settlements" xml:space="preserve">
-    <value>Settlements</value>
+    <value>Vyporádání</value>
   </data>
   <data name="settlementsWithBudget" xml:space="preserve">
-    <value>settlements with the budget</value>
+    <value>vyporádání se súzumným rozpočtem</value>
   </data>
   <data name="settlementsWithInsurance" xml:space="preserve">
     <value>settlements with insurance</value>

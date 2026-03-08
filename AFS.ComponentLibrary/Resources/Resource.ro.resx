@@ -502,25 +502,25 @@
     <value>Active circulante</value>
   </data>
   <data name="CurrentBiologicalAssets" xml:space="preserve">
-    <value>Current biological assets</value>
+    <value>Active biologice circulante</value>
   </data>
   <data name="CurrentFinancialInvestments" xml:space="preserve">
-    <value>Current financial investments</value>
+    <value>Investiții financiare curente</value>
   </data>
   <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
-    <value>Current liabilities and provisions</value>
+    <value>Datorii curente și provizioane</value>
   </data>
   <data name="CurrentLiquidityFactor" xml:space="preserve">
-    <value>Current liquidity ratio</value>
+    <value>Rata lichiditate curentă</value>
   </data>
   <data name="CurrentMobileAssets" xml:space="preserve">
-    <value>Current (mobile) assets</value>
+    <value>Active circulante (mobile)</value>
   </data>
   <data name="currentPeriod" xml:space="preserve">
-    <value>reporting period</value>
+    <value>perioada de raportare</value>
   </data>
   <data name="CurrentSupplies" xml:space="preserve">
-    <value>Current provisions</value>
+    <value>Stocuri curente</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
     <value>Anul curent</value>
@@ -529,16 +529,16 @@
     <value>zile</value>
   </data>
   <data name="DeductionsSocialEvents" xml:space="preserve">
-    <value>Social contributions</value>
+    <value>Contribuții sociale</value>
   </data>
   <data name="DeferredTaxLiabilities" xml:space="preserve">
-    <value>Deferred tax liabilities</value>
+    <value>Datorii fiscale amânate</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
-    <value>Beginning-of-year depreciation ratio of fixed assets</value>
+    <value>Rata de amortizare a imobilizărilor la începutul anului</value>
   </data>
   <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
-    <value>End-of-year depreciation ratio of fixed assets</value>
+    <value>Rata de amortizare a imobilizărilor la sfârșitul anului</value>
   </data>
   <data name="deviation" xml:space="preserve">
     <value>abatere</value>
@@ -547,7 +547,7 @@
     <value>Abatere</value>
   </data>
   <data name="DisposalRate" xml:space="preserve">
-    <value>Disposal ratio</value>
+    <value>Rata de dezalocare</value>
   </data>
   <data name="DividendsPerSimpleShare" xml:space="preserve">
     <value>Dividends per ordinary share</value>
@@ -649,55 +649,55 @@
     <value>Financial result before taxation</value>
   </data>
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
-    <value>Financial result from operating activities</value>
+    <value>Rezultat financiar din activități operaionale</value>
   </data>
   <data name="FinancialResults" xml:space="preserve">
     <value>Rezultate financiare</value>
   </data>
   <data name="finishedProducts" xml:space="preserve">
-    <value>finished products</value>
+    <value>produse finite</value>
   </data>
   <data name="FixedAssets" xml:space="preserve">
     <value>Imobilizări</value>
   </data>
   <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
-    <value>Working capital turnover ratio</value>
+    <value>Rata de rotatie a capitalului de lucru</value>
   </data>
   <data name="ForBills" xml:space="preserve">
-    <value>Bills receivable</value>
+    <value>Efecte comerciale de incasat</value>
   </data>
   <data name="ForReportingPeriod" xml:space="preserve">
-    <value>For the reporting period</value>
+    <value>Pentru perioada de raportare</value>
   </data>
   <data name="ForSamePeriodLastYear" xml:space="preserve">
-    <value>For a similar period of the previous year</value>
+    <value>Pentru perioada similară a anului anterior</value>
   </data>
   <data name="ForSetupInstructions" xml:space="preserve">
     <value>for setup instructions.</value>
   </data>
   <data name="fromAccruedIncome" xml:space="preserve">
-    <value>from accrued income</value>
+    <value>din venituri acumulate</value>
   </data>
   <data name="FromInsurance" xml:space="preserve">
-    <value>From insurance</value>
+    <value>Din asigurare</value>
   </data>
   <data name="fromInternalSettlements" xml:space="preserve">
-    <value>from internal settlements</value>
+    <value>din regularizările interne</value>
   </data>
   <data name="fromMoney" xml:space="preserve">
-    <value>Cash</value>
+    <value>Numerar</value>
   </data>
   <data name="fromReceivables" xml:space="preserve">
-    <value>Accounts receivable</value>
+    <value>Creanțe</value>
   </data>
   <data name="fromTangibleAssets" xml:space="preserve">
-    <value>Material assets</value>
+    <value>Active materiale</value>
   </data>
   <data name="FutureExpenses" xml:space="preserve">
-    <value>Future period expenses</value>
+    <value>Cheltuieli perioadelor viitoare</value>
   </data>
   <data name="FutureIncome" xml:space="preserve">
-    <value>Future period income</value>
+    <value>Venituri perioadelor viitoare</value>
   </data>
   <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
     <value>General indicators of financial stability</value>
@@ -709,16 +709,16 @@
     <value>Obține recomandări</value>
   </data>
   <data name="goodsWorksServices" xml:space="preserve">
-    <value>Goods, works, services</value>
+    <value>Mărfuri, servicii de lucrări</value>
   </data>
   <data name="Gross" xml:space="preserve">
-    <value>Gross</value>
+    <value>Brut</value>
   </data>
   <data name="GrossProfitPerSoldProducts" xml:space="preserve">
     <value>Gross profit per UAH 1 of sales</value>
   </data>
   <data name="growthRate" xml:space="preserve">
-    <value>Growth rate</value>
+    <value>Rata de creștere</value>
   </data>
   <data name="HardToSellAssets" xml:space="preserve">
     <value>Hard-to-sell assets (A4)</value>
@@ -748,49 +748,49 @@
     <value>Including income tax</value>
   </data>
   <data name="includingNew" xml:space="preserve">
-    <value>Including new</value>
+    <value>Întreriind noul</value>
   </data>
   <data name="IncomeFromEquityParticipation" xml:space="preserve">
-    <value>Income from participation in capital</value>
+    <value>Venituri din participarea la capital</value>
   </data>
   <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
-    <value>Income tax related to other comprehensive income</value>
+    <value>Impozit pe venit aferent altor venituri cuprinzătoare</value>
   </data>
   <data name="IncompleteCapitalInvestments" xml:space="preserve">
-    <value>Unfinished capital investments</value>
+    <value>Investiții de capital netermănate</value>
   </data>
   <data name="Indicators" xml:space="preserve">
-    <value>Indicators</value>
+    <value>Indicatori</value>
   </data>
   <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
-    <value>Business activity indicators</value>
+    <value>Indicatori activității de afaceri</value>
   </data>
   <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
-    <value>Efficiency indicators of intangible assets utilization</value>
+    <value>Indicatori de eficiență ai utilizării activelor necorporale</value>
   </data>
   <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
-    <value>Efficiency indicators of working capital utilization</value>
+    <value>Indicatori de eficiență ai utilizării capitalului de lucru</value>
   </data>
   <data name="IndicatorsOfFinancialStability" xml:space="preserve">
-    <value>Financial stability indicators</value>
+    <value>Indicatori de stabilitate financiară</value>
   </data>
   <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
-    <value>Indicators of the state and movement of fixed assets</value>
+    <value>Indicatori ai stării și mișcării imobilizărilor</value>
   </data>
   <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Turnover indicators of working capital</value>
+    <value>Indicatori de rulaj ai capitalului de lucru</value>
   </data>
   <data name="initialCost" xml:space="preserve">
-    <value>Original cost</value>
+    <value>Cost original</value>
   </data>
   <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
-    <value>Original cost of fixed assets at the beginning of the period</value>
+    <value>Costul original al imobilizărilor la începutul perioadei</value>
   </data>
   <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
-    <value>Original cost of fixed assets at the end of the period</value>
+    <value>Costul original al imobilizărilor la sfârșitul perioadei</value>
   </data>
   <data name="InLongTerm" xml:space="preserve">
-    <value>In the long-term perspective</value>
+    <value>Din perspectiva pe termen lung</value>
   </data>
   <data name="AIAssistant" xml:space="preserve">
     <value>Asistent AI</value>
@@ -835,16 +835,16 @@
     <value>Liabilities related to non-current assets for sale</value>
   </data>
   <data name="LineCode" xml:space="preserve">
-    <value>Line code</value>
+    <value>Cod de linie</value>
   </data>
   <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
-    <value>Balance liquidity indicators</value>
+    <value>Indicatori de lichiditate a bilanțului</value>
   </data>
   <data name="LoadingPleaseWait" xml:space="preserve">
-    <value>Loading, please wait...</value>
+    <value>Încărcare, aștepta...</value>
   </data>
   <data name="LongTermBankCredits" xml:space="preserve">
-    <value>Long-term bank loans</value>
+    <value>Credite bancare pe termen lung</value>
   </data>
   <data name="LongTermBiologicalAssets" xml:space="preserve">
     <value>Long-term biological assets</value>
@@ -871,13 +871,13 @@
     <value>Long-term accounts receivable</value>
   </data>
   <data name="loss" xml:space="preserve">
-    <value>Loss</value>
+    <value>Pierdere</value>
   </data>
   <data name="LossesFromEquityParticipation" xml:space="preserve">
     <value>Loss from participation in capital</value>
   </data>
   <data name="MaterialCosts" xml:space="preserve">
-    <value>Material costs</value>
+    <value>Costuri materiale</value>
   </data>
   <data name="materialValuesTurnover" xml:space="preserve">
     <value>Turnover of material assets</value>
@@ -898,106 +898,106 @@
     <value>Net financial result</value>
   </data>
   <data name="NetIncomeFromSales" xml:space="preserve">
-    <value>Net revenue from sales</value>
+    <value>Venituri nete din vânzări</value>
   </data>
   <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
-    <value>Net income from sales of products (goods, works, services)</value>
+    <value>Venituri nete din vânzări de produse (mărfuri, servicii de lucru)</value>
   </data>
   <data name="NetProfit" xml:space="preserve">
     <value>Profit net</value>
   </data>
   <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
-    <value>Net profit (loss) per ordinary share</value>
+    <value>Profit (pierdere) net pe acțiune ordinară</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Nu</value>
   </data>
   <data name="NoDataSentDescription" xml:space="preserve">
-    <value>Your financial data never leaves your device</value>
+    <value>Datele dumneavoastră financia nu părăsesc niciodă dispozitivul</value>
   </data>
   <data name="NoDataSentTitle" xml:space="preserve">
-    <value>No Data Sent</value>
+    <value>Fără date trimise</value>
   </data>
   <data name="NonCurrentAssets" xml:space="preserve">
     <value>Active imobilizate</value>
   </data>
   <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
-    <value>Non-current assets held for sale and disposal groups</value>
+    <value>Active imobilizate deținute pentru vânzare și grupuri de vânzare</value>
   </data>
   <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
-    <value>Non-current (fixed) assets</value>
+    <value>Active imobilizate (fixe)</value>
   </data>
   <data name="NormalFinancialStability" xml:space="preserve">
-    <value>Normal financial stability</value>
+    <value>Stabilitate financiară normală</value>
   </data>
   <data name="NumberInOrder" xml:space="preserve">
-    <value>No.</value>
+    <value>Nr.</value>
   </data>
   <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
-    <value>Number of turnovers of current assets</value>
+    <value>Numărul de rotații ale activelor circulante</value>
   </data>
   <data name="OfflineCapableDescription" xml:space="preserve">
-    <value>Works without internet after setup</value>
+    <value>Funcionează fără internet după configurare</value>
   </data>
   <data name="OfflineCapableTitle" xml:space="preserve">
-    <value>Offline Capable</value>
+    <value>Capabil offline</value>
   </data>
   <data name="OneDaySalesRevenue" xml:space="preserve">
-    <value>One-day revenue from sales</value>
+    <value>Venituri din vânzări de o zi</value>
   </data>
   <data name="onIssuedAdvances" xml:space="preserve">
-    <value>Against advances issued</value>
+    <value>Impotriva anticipurilor emise</value>
   </data>
   <data name="onReceivedAdvances" xml:space="preserve">
-    <value>Against advances received</value>
+    <value>Impotriva anticipurilor primite</value>
   </data>
   <data name="OperatingCycleDuration" xml:space="preserve">
-    <value>Duration of the operating cycle</value>
+    <value>Durata ciclului operaional</value>
   </data>
   <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
-    <value>Other comprehensive income after tax</value>
+    <value>Alte venituri cuprinzătoare după impozit</value>
   </data>
   <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
-    <value>Other comprehensive income before tax</value>
+    <value>Alte venituri cuprinzătoare înaintea impozitului</value>
   </data>
   <data name="OtherCurrentAssets" xml:space="preserve">
-    <value>Other current assets</value>
+    <value>Alte active circulante</value>
   </data>
   <data name="OtherCurrentLiabilities" xml:space="preserve">
-    <value>Other current liabilities</value>
+    <value>Alte datorii circulante</value>
   </data>
   <data name="OtherCurrentReceivables" xml:space="preserve">
-    <value>Other current accounts receivable</value>
+    <value>Alte creanțe circulante</value>
   </data>
   <data name="OtherExpenses" xml:space="preserve">
-    <value>Other expenses</value>
+    <value>Alte cheltuieli</value>
   </data>
   <data name="OtherFinancialIncome" xml:space="preserve">
-    <value>Other financial income</value>
+    <value>Alte venituri financiare</value>
   </data>
   <data name="otherFinancialInvestments" xml:space="preserve">
-    <value>Other financial investments</value>
+    <value>Alte investiții financiare</value>
   </data>
   <data name="OtherFixedAssets" xml:space="preserve">
-    <value>Other non-current assets</value>
+    <value>Alte active imobilizate</value>
   </data>
   <data name="OtherIncome" xml:space="preserve">
-    <value>Other income</value>
+    <value>Alte venituri</value>
   </data>
   <data name="OtherLongTermLiabilities" xml:space="preserve">
-    <value>Other long-term liabilities</value>
+    <value>Alte datorii pe termen lung</value>
   </data>
   <data name="OtherOperatingExpenses" xml:space="preserve">
-    <value>Other operating expenses</value>
+    <value>Alte cheltuieli operaionale</value>
   </data>
   <data name="OtherOperatingIncome" xml:space="preserve">
-    <value>Other operating income</value>
+    <value>Alte venituri operaionale</value>
   </data>
   <data name="OtherTotalIncome" xml:space="preserve">
-    <value>Other comprehensive income</value>
+    <value>Alte venituri cuprinzătoare</value>
   </data>
   <data name="OverallLiquidityRatio" xml:space="preserve">
-    <value>Overall liquidity ratio</value>
+    <value>Rata generală de lichiditate</value>
   </data>
   <data name="OwnCurrentAssets" xml:space="preserve">
     <value>Own current assets</value>
@@ -1048,19 +1048,19 @@
     <value>Profitability of fixed assets</value>
   </data>
   <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
-    <value>Enterprise profitability ratio</value>
+    <value>Rata de rentabilitate a întreprinderii</value>
   </data>
   <data name="ProfitFromOperatingActivities" xml:space="preserve">
     <value>Profit operațional</value>
   </data>
   <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
-    <value>Profit (loss) from discontinued operations after tax</value>
+    <value>Profit (pierdere) din activități întrerupte după impozit</value>
   </data>
   <data name="PromissoryNotesIssued" xml:space="preserve">
-    <value>Bills issued</value>
+    <value>Cambii emise</value>
   </data>
   <data name="PromissoryNotesReceived" xml:space="preserve">
-    <value>Bills received</value>
+    <value>Cambii primite</value>
   </data>
   <data name="QuickAction1" xml:space="preserve">
     <value>Click &lt;strong&gt;Financial Health&lt;/strong&gt; for overall analysis</value>
@@ -1075,34 +1075,34 @@
     <value>Acțiuni rapide</value>
   </data>
   <data name="QuickSellingAssets" xml:space="preserve">
-    <value>Quick-liquid assets (A2)</value>
+    <value>Active rapid vanzabile (A2)</value>
   </data>
   <data name="RaisedCapital" xml:space="preserve">
-    <value>Capital raised</value>
+    <value>Capital ridicat</value>
   </data>
   <data name="RatedCapitalStructureRatio" xml:space="preserve">
-    <value>Capital structure ratio</value>
+    <value>Rata structurii capitalului</value>
   </data>
   <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
-    <value>Ratio of attracted and own capital</value>
+    <value>Raportul capitalului atras si propriu</value>
   </data>
   <data name="RatioOfMobileToImmobilized" xml:space="preserve">
-    <value>Ratio of mobile funds to immobilized</value>
+    <value>Raportul fondurilor mobile la imobilizari</value>
   </data>
   <data name="receivable" xml:space="preserve">
-    <value>creditors</value>
+    <value>creditori</value>
   </data>
   <data name="ReceivablesForProducts" xml:space="preserve">
-    <value>Accounts receivable for products, goods, works, services</value>
+    <value>Creanțe din vânzarea de produse, mărfuri, servicii de lucru</value>
   </data>
   <data name="receivablesTurnover" xml:space="preserve">
-    <value>Turnover of receivables</value>
+    <value>Rulajul creanțelor</value>
   </data>
   <data name="ReceivedFixedAssets" xml:space="preserve">
-    <value>Received fixed assets</value>
+    <value>Active imobilizate primite</value>
   </data>
   <data name="ReceivedForReportingPeriod" xml:space="preserve">
-    <value>Received during the reporting period</value>
+    <value>Primit in perioada de raportare</value>
   </data>
   <data name="RecheckAvailability" xml:space="preserve">
     <value>Reverifică disponibilitatea</value>
@@ -1111,10 +1111,10 @@
     <value>What are your top recommendations to improve my company's financial position?</value>
   </data>
   <data name="RecoveryRate" xml:space="preserve">
-    <value>Recovery ratio</value>
+    <value>Rata de recuperare</value>
   </data>
   <data name="RegisteredCapital" xml:space="preserve">
-    <value>Registered (share) capital</value>
+    <value>Capitalul inregistrat (actiuni)</value>
   </data>
   <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
     <value>Release (-), absence of current assets (+) due to changes in their turnover</value>
