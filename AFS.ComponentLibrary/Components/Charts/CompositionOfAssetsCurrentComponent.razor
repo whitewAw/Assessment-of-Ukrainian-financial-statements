@@ -17,7 +17,7 @@
 @* @ResLoc["AIFinancialAnalysis"] Section *@
 <RadzenCard Style="width: 100%; margin-top: 20px;">
     <h3 class="text-center mb-4">
-        <i class="oi oi-brain me-2"></i>
+        <RadzenIcon Icon="psychology" class="me-2" />
         @ResLoc["AIFinancialAnalysis"]
     </h3>
 
@@ -32,7 +32,7 @@
     {
         <div class="alert alert-warning">
             <h6 class="alert-heading">
-                <i class="oi oi-warning me-2"></i>
+                <RadzenIcon Icon="warning" class="me-2" />
                 @ResLoc["ChromeAINotAvailable"]
             </h6>
             <p class="mb-2">
@@ -41,7 +41,7 @@
                 @ResLoc["ForSetupInstructions"]
             </p>
             <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
-                <i class="oi oi-reload me-2"></i>
+                <RadzenIcon Icon="refresh" class="me-2" />
                 @ResLoc["RecheckAvailability"]
             </button>
         </div>
@@ -52,14 +52,14 @@
             @if (_isAnalyzing)
             {
                 <button class="btn btn-danger me-2" @onclick="StopAnalysis">
-                    <i class="oi oi-media-stop me-2"></i>
+                    <RadzenIcon Icon="stop" class="me-2" />
                     <span>@ResLoc["StopAnalysis"]</span>
                 </button>
             }
             else
             {
                 <button class="btn btn-primary me-2" @onclick="AnalyzeAssetComposition" disabled="@(!_isAIAvailable)">
-                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <RadzenIcon Icon="search" class="me-2" />
                     <span>@string.Format(ResLoc["AnalyzeAssetComposition"], MainModel.CurrentYear)</span>
                 </button>
             }
@@ -67,7 +67,7 @@
             @if (!string.IsNullOrEmpty(_aiAnalysis))
             {
                 <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
-                    <i class="oi oi-x me-2"></i>
+                    <RadzenIcon Icon="close" class="me-2" />
                     @ResLoc["Clear"]
                 </button>
             }

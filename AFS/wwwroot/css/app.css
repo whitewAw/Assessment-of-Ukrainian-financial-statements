@@ -93,6 +93,24 @@ a:hover, .btn-link:hover {
     padding-top: 1.1rem;
 }
 
+/* ========================================
+   APEXCHARTS SIZING FIX
+   Ensures charts respect container bounds in production
+   ======================================== */
+
+.apexcharts-canvas {
+    max-width: 100% !important;
+}
+
+.apexcharts-svg {
+    max-width: 100% !important;
+}
+
+/* Ensure chart containers don't overflow */
+[class*="apexcharts"] {
+    max-width: 100%;
+}
+
 @media (max-width: 767px) {
     .content {
         padding: 0.5rem;

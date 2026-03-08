@@ -1,17 +1,19 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
 
-<ApexChart TItem="ChartDataItem"
-           Title="@Period"
-           Height="350"
-           Options="@_chartOptions">
-    <ApexPointSeries TItem="ChartDataItem"
-                     Items="ChartAssets"
-                     Name="@ResLoc["Value"]"
-                     SeriesType="SeriesType.Donut"
-                     XValue="@(e => ResLoc[e.Item ?? string.Empty].ToString())"
-                     YValue="@(e => (decimal)(e.Value ?? 0))" />
-</ApexChart>
+<div style="width: 100%; max-width: 100%;">
+    <ApexChart TItem="ChartDataItem"
+               Title="@Period"
+               Height="350"
+               Options="@_chartOptions">
+        <ApexPointSeries TItem="ChartDataItem"
+                         Items="ChartAssets"
+                         Name="@ResLoc["Value"]"
+                         SeriesType="SeriesType.Donut"
+                         XValue="@(e => ResLoc[e.Item ?? string.Empty].ToString())"
+                         YValue="@(e => (decimal)(e.Value ?? 0))" />
+    </ApexChart>
+</div>
 
 @code {
     [Parameter]
