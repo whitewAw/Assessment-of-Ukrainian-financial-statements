@@ -129,6 +129,119 @@
 }
 
 /* ========================================
+   HIGHLIGHTED MENU ITEMS
+   Input Data & AI Assistant
+   ======================================== */
+
+/* Base highlight styles */
+.nav-item-highlight {
+    margin-bottom: 0.5rem;
+}
+
+.nav-item-highlight ::deep a {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.15) 100%);
+    border: 2px solid rgba(255, 193, 7, 0.5);
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item-highlight ::deep a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #ffc107, #ff9800);
+    border-radius: 4px 0 0 4px;
+}
+
+.nav-item-highlight ::deep a:hover {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.35) 0%, rgba(255, 152, 0, 0.25) 100%);
+    border-color: rgba(255, 193, 7, 0.8);
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.3);
+    transform: translateX(4px);
+}
+
+.nav-item-highlight ::deep a.active {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.4) 0%, rgba(255, 152, 0, 0.3) 100%);
+    border-color: #ffc107;
+    border-left: none;
+    padding-left: 1rem;
+}
+
+.nav-item-highlight ::deep a.active::before {
+    width: 5px;
+    background: linear-gradient(to bottom, #ffeb3b, #ffc107);
+}
+
+/* AI Assistant special styling */
+.nav-item-ai ::deep a {
+    background: linear-gradient(135deg, rgba(91, 192, 222, 0.25) 0%, rgba(125, 211, 252, 0.15) 100%);
+    border-color: rgba(91, 192, 222, 0.5);
+}
+
+.nav-item-ai ::deep a::before {
+    background: linear-gradient(to bottom, #5bc0de, #7dd3fc);
+}
+
+.nav-item-ai ::deep a:hover {
+    background: linear-gradient(135deg, rgba(91, 192, 222, 0.4) 0%, rgba(125, 211, 252, 0.25) 100%);
+    border-color: rgba(125, 211, 252, 0.8);
+    box-shadow: 0 0 12px rgba(91, 192, 222, 0.4);
+}
+
+.nav-item-ai ::deep a.active {
+    background: linear-gradient(135deg, rgba(91, 192, 222, 0.5) 0%, rgba(125, 211, 252, 0.35) 100%);
+    border-color: #7dd3fc;
+}
+
+.nav-item-ai ::deep a.active::before {
+    background: linear-gradient(to bottom, #7dd3fc, #38bdf8);
+}
+
+/* Pulse animation for highlighted items */
+@keyframes menu-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+    }
+    50% {
+        box-shadow: 0 0 8px 2px rgba(255, 193, 7, 0.3);
+    }
+}
+
+@keyframes menu-pulse-ai {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(91, 192, 222, 0);
+    }
+    50% {
+        box-shadow: 0 0 8px 2px rgba(91, 192, 222, 0.3);
+    }
+}
+
+.nav-item-highlight:not(:has(a.active)) ::deep a {
+    animation: menu-pulse 3s ease-in-out infinite;
+}
+
+.nav-item-ai:not(:has(a.active)) ::deep a {
+    animation: menu-pulse-ai 3s ease-in-out infinite;
+}
+
+/* Icon styling for highlighted items */
+.nav-item-highlight ::deep .oi {
+    color: #ffc107;
+    filter: drop-shadow(0 0 2px rgba(255, 193, 7, 0.5));
+}
+
+.nav-item-ai ::deep .oi {
+    color: #7dd3fc;
+    filter: drop-shadow(0 0 2px rgba(125, 211, 252, 0.5));
+}
+
+/* ========================================
    COLLAPSIBLE MENU
    ======================================== */
 

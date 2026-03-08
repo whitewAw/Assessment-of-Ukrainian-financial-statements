@@ -2,10 +2,12 @@
     <TdComponent TextAlignment="ML" Spacing=@Spacing>@FieldName</TdComponent>
     <TdComponent>@FieldNumber</TdComponent>
     <TdComponent TextAlignment="MR">
-        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Begin class="w-100" />
+        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Begin class="w-100" 
+                       Placeholder="0.0" aria-label="@($"{FieldName} - {BeginLabel}")" />
     </TdComponent>
     <TdComponent TextAlignment="MR">
-        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.End class="w-100" />
+        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.End class="w-100"
+                       Placeholder="0.0" aria-label="@($"{FieldName} - {EndLabel}")" />
     </TdComponent>
 </tr>
 
@@ -19,4 +21,7 @@
     public string? FieldName { get; set; }
     [Parameter]
     public string Spacing { get; set; } = String.Empty;
+
+    private string BeginLabel => ResLoc["AtBeginningReportingPeriod"];
+    private string EndLabel => ResLoc["AtEndingReportingPeriod"];
 }

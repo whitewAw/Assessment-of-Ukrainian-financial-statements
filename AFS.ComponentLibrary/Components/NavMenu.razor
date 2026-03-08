@@ -1,4 +1,4 @@
-﻿@inject IJSRuntime JS
+@inject IJSRuntime JS
 
 <nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
     <div class="container-fluid px-1">
@@ -19,16 +19,16 @@
 
 <div class="@NavMenuCssClass" id="main-nav" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        <div class="nav-item nav-item-highlight px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-pencil" aria-hidden="true"></span>
                 @ResLoc["InputData"]
             </NavLink>
         </div>
-        
-        <div class="nav-item px-3">
+
+        <div class="nav-item nav-item-highlight nav-item-ai px-3">
           <NavLink class="nav-link" href="ai-assistant">
-             <span class="oi oi-brain" aria-hidden="true"></span>
+             <span class="oi oi-star" aria-hidden="true"></span>
                 AI Assistant
           </NavLink>
         </div>

@@ -2,10 +2,12 @@
     <TdComponent TextAlignment="ML">@FieldName</TdComponent>
     <TdComponent>@FieldNumber</TdComponent>
     <TdComponent TextAlignment="MR">
-        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Current class="w-100" />
+        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Current class="w-100"
+                       Placeholder="0.0" aria-label="@($"{FieldName} - {CurrentLabel}")" />
     </TdComponent>
     <TdComponent TextAlignment="MR">
-        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Previous class="w-100" />
+        <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Previous class="w-100"
+                       Placeholder="0.0" aria-label="@($"{FieldName} - {PreviousLabel}")" />
     </TdComponent>
 </tr>
 
@@ -16,4 +18,7 @@
     public string? FieldNumber { get; set; }
     [Parameter]
     public string? FieldName { get; set; }
+
+    private string CurrentLabel => ResLoc["ForReportingPeriod"];
+    private string PreviousLabel => ResLoc["ForPreviousPeriod"];
 }

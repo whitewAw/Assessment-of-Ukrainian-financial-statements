@@ -167,24 +167,75 @@
     border-bottom-color: #4a4a4a !important;
 }
 
-/* Radzen Forms */
+/* Radzen Forms - Enhanced Input Styling for Dark Mode */
 [data-theme="dark"] .rz-textbox,
 [data-theme="dark"] .rz-numeric,
 [data-theme="dark"] .rz-datepicker,
-[data-theme="dark"] .rz-dropdown {
-    background-color: #2d2d2d !important;
-    color: #e8e8e8 !important;
-    border-color: #4a4a4a !important;
+[data-theme="dark"] .rz-dropdown,
+[data-theme="dark"] .rz-spinner {
+    background-color: #1a3a5c !important;
+    color: #ffffff !important;
+    border: 2px solid #5bc0de !important;
+    border-radius: 6px !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3) !important;
 }
 
-    [data-theme="dark"] .rz-textbox:focus,
-    [data-theme="dark"] .rz-numeric:focus,
-    [data-theme="dark"] .rz-datepicker:focus,
-    [data-theme="dark"] .rz-dropdown:focus {
-        background-color: #2d2d2d !important;
-        border-color: #5da3db !important;
-        box-shadow: 0 0 0 0.2rem rgba(93, 163, 219, 0.25) !important;
+    [data-theme="dark"] .rz-textbox:hover,
+    [data-theme="dark"] .rz-numeric:hover,
+    [data-theme="dark"] .rz-datepicker:hover,
+    [data-theme="dark"] .rz-dropdown:hover,
+    [data-theme="dark"] .rz-spinner:hover {
+        background-color: #234b73 !important;
+        border-color: #7dd3fc !important;
+        box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     }
+
+    [data-theme="dark"] .rz-textbox:focus,
+    [data-theme="dark"] .rz-textbox:focus-within,
+    [data-theme="dark"] .rz-numeric:focus,
+    [data-theme="dark"] .rz-numeric:focus-within,
+    [data-theme="dark"] .rz-datepicker:focus,
+    [data-theme="dark"] .rz-datepicker:focus-within,
+    [data-theme="dark"] .rz-dropdown:focus,
+    [data-theme="dark"] .rz-dropdown:focus-within,
+    [data-theme="dark"] .rz-dropdown.rz-state-focused,
+    [data-theme="dark"] .rz-spinner:focus,
+    [data-theme="dark"] .rz-spinner:focus-within {
+        background-color: #1e4976 !important;
+        border-color: #7dd3fc !important;
+        box-shadow: 0 0 0 4px rgba(91, 192, 222, 0.5), 0 0 12px rgba(125, 211, 252, 0.4) !important;
+    }
+
+/* Input text styling */
+[data-theme="dark"] .rz-textbox input,
+[data-theme="dark"] .rz-numeric input,
+[data-theme="dark"] .rz-spinner input,
+[data-theme="dark"] .rz-datepicker input {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    background-color: transparent !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .rz-textbox input::placeholder,
+[data-theme="dark"] .rz-numeric input::placeholder {
+    color: #9ecbeb !important;
+    font-weight: 400 !important;
+    text-shadow: none;
+}
+
+/* Dropdown label and trigger */
+[data-theme="dark"] .rz-dropdown .rz-dropdown-label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger,
+[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger .rzi {
+    color: #7dd3fc !important;
+    background-color: transparent !important;
+}
 
 /* Radzen Dialog */
 [data-theme="dark"] .rz-dialog,
@@ -199,19 +250,26 @@
     border-bottom-color: #4a4a4a !important;
 }
 
-/* Radzen Dropdown Panel */
+/* Radzen Dropdown Panel - Enhanced Styling */
 [data-theme="dark"] .rz-dropdown-panel,
 [data-theme="dark"] .rz-dropdown-items-wrapper {
-    background-color: #242424 !important;
-    border-color: #4a4a4a !important;
+    background-color: #1a3a5c !important;
+    border: 2px solid #5bc0de !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .rz-dropdown-item {
-    color: #e8e8e8 !important;
+    color: #ffffff !important;
 }
 
     [data-theme="dark"] .rz-dropdown-item:hover {
-        background-color: #2d2d2d !important;
+        background-color: #234b73 !important;
+    }
+
+    [data-theme="dark"] .rz-dropdown-item.rz-state-highlight {
+        background-color: #1e4976 !important;
+        color: #7dd3fc !important;
     }
 
 /* Radzen Calendar */
