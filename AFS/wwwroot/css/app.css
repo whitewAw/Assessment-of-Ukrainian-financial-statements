@@ -481,36 +481,22 @@ a:hover, .btn-link:hover {
     transition: all 0.2s ease;
 }
 
-/* Light mode - Input field styling */
+/* Light mode - Input field styling variables */
 :root {
     --input-bg-light: #fff8e1;
     --input-border-light: #ffc107;
     --input-focus-border-light: #ff9800;
     --input-focus-shadow-light: rgba(255, 193, 7, 0.35);
     --input-hover-bg-light: #fff3cd;
-    --label-bg-light: #f8f9fa;
-}
-
-/* Dark mode - Input field styling variables */
-[data-theme="dark"] {
-    --input-bg-dark: #1a3a5c;
-    --input-border-dark: #5bc0de;
-    --input-focus-border-dark: #7dd3fc;
-    --input-focus-shadow-dark: rgba(91, 192, 222, 0.5);
-    --input-hover-bg-dark: #234b73;
-    --label-bg-dark: #1a1d21;
 }
 
 /* ========================================
-   GENERAL INPUT STYLING (Cards, Forms)
-   Company name, year selectors, etc.
+   LIGHT MODE INPUT STYLING
    ======================================== */
 
-/* Light mode - General inputs */
+/* General inputs (Cards, Forms) */
 .rz-textbox,
-.rz-dropdown,
-.rz-card .rz-textbox,
-.rz-card .rz-dropdown {
+.rz-dropdown {
     background-color: var(--input-bg-light) !important;
     border: 2px solid var(--input-border-light) !important;
     border-radius: 6px !important;
@@ -519,9 +505,7 @@ a:hover, .btn-link:hover {
 }
 
 .rz-textbox:hover,
-.rz-dropdown:hover,
-.rz-card .rz-textbox:hover,
-.rz-card .rz-dropdown:hover {
+.rz-dropdown:hover {
     background-color: var(--input-hover-bg-light) !important;
     border-color: var(--input-focus-border-light) !important;
     box-shadow: 0 0 0 3px var(--input-focus-shadow-light) !important;
@@ -529,12 +513,7 @@ a:hover, .btn-link:hover {
 
 .rz-textbox:focus-within,
 .rz-dropdown:focus-within,
-.rz-textbox:focus,
-.rz-dropdown.rz-state-focused,
-.rz-card .rz-textbox:focus-within,
-.rz-card .rz-dropdown:focus-within,
-.rz-card .rz-textbox:focus,
-.rz-card .rz-dropdown.rz-state-focused {
+.rz-dropdown.rz-state-focused {
     background-color: #ffffff !important;
     border-color: var(--input-focus-border-light) !important;
     box-shadow: 0 0 0 4px var(--input-focus-shadow-light), 
@@ -543,131 +522,18 @@ a:hover, .btn-link:hover {
 }
 
 .rz-textbox input,
-.rz-dropdown .rz-dropdown-label,
-.rz-card .rz-textbox input,
-.rz-card .rz-dropdown .rz-dropdown-label {
+.rz-dropdown .rz-dropdown-label {
     font-weight: 500 !important;
     color: #212529 !important;
 }
 
-.rz-textbox input::placeholder,
-.rz-card .rz-textbox input::placeholder {
+.rz-textbox input::placeholder {
     color: #6c757d !important;
     font-style: italic !important;
     opacity: 0.8 !important;
 }
 
-/* Dark mode - General inputs (Company name, Years, etc.) */
-[data-theme="dark"] .rz-textbox,
-[data-theme="dark"] .rz-dropdown,
-[data-theme="dark"] .rz-card .rz-textbox,
-[data-theme="dark"] .rz-card .rz-dropdown,
-html[data-theme="dark"] .rz-textbox,
-html[data-theme="dark"] .rz-dropdown,
-:root[data-theme="dark"] .rz-textbox,
-:root[data-theme="dark"] .rz-dropdown {
-    background-color: #1a3a5c !important;
-    border: 2px solid #5bc0de !important;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3) !important;
-}
-
-[data-theme="dark"] .rz-textbox:hover,
-[data-theme="dark"] .rz-dropdown:hover,
-[data-theme="dark"] .rz-card .rz-textbox:hover,
-[data-theme="dark"] .rz-card .rz-dropdown:hover,
-html[data-theme="dark"] .rz-textbox:hover,
-html[data-theme="dark"] .rz-dropdown:hover,
-:root[data-theme="dark"] .rz-textbox:hover,
-:root[data-theme="dark"] .rz-dropdown:hover {
-    background-color: #234b73 !important;
-    border-color: #7dd3fc !important;
-    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
-[data-theme="dark"] .rz-textbox:focus-within,
-[data-theme="dark"] .rz-dropdown:focus-within,
-[data-theme="dark"] .rz-textbox:focus,
-[data-theme="dark"] .rz-dropdown.rz-state-focused,
-[data-theme="dark"] .rz-card .rz-textbox:focus-within,
-[data-theme="dark"] .rz-card .rz-dropdown:focus-within,
-html[data-theme="dark"] .rz-textbox:focus-within,
-html[data-theme="dark"] .rz-dropdown:focus-within,
-:root[data-theme="dark"] .rz-textbox:focus-within,
-:root[data-theme="dark"] .rz-dropdown:focus-within {
-    background-color: #1e4976 !important;
-    border-color: #7dd3fc !important;
-    box-shadow: 0 0 0 4px rgba(91, 192, 222, 0.5), 0 0 12px rgba(125, 211, 252, 0.4) !important;
-}
-
-[data-theme="dark"] .rz-textbox input,
-[data-theme="dark"] .rz-dropdown .rz-dropdown-label,
-[data-theme="dark"] .rz-card .rz-textbox input,
-[data-theme="dark"] .rz-card .rz-dropdown .rz-dropdown-label,
-html[data-theme="dark"] .rz-textbox input,
-html[data-theme="dark"] .rz-dropdown .rz-dropdown-label,
-:root[data-theme="dark"] .rz-textbox input,
-:root[data-theme="dark"] .rz-dropdown .rz-dropdown-label {
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    background-color: transparent !important;
-}
-
-[data-theme="dark"] .rz-textbox input::placeholder,
-[data-theme="dark"] .rz-card .rz-textbox input::placeholder,
-html[data-theme="dark"] .rz-textbox input::placeholder,
-:root[data-theme="dark"] .rz-textbox input::placeholder {
-    color: #9ecbeb !important;
-    font-weight: 400 !important;
-    text-shadow: none;
-}
-
-/* Dropdown trigger/wrapper in dark mode */
-[data-theme="dark"] .rz-dropdown .rz-helper,
-[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger,
-html[data-theme="dark"] .rz-dropdown .rz-helper,
-html[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger,
-:root[data-theme="dark"] .rz-dropdown .rz-helper,
-:root[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger {
-    color: #ffffff !important;
-    background-color: transparent !important;
-}
-
-[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger .rzi,
-html[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger .rzi,
-:root[data-theme="dark"] .rz-dropdown .rz-dropdown-trigger .rzi {
-    color: #7dd3fc !important;
-}
-
-/* Dropdown panel styling for dark mode */
-[data-theme="dark"] .rz-dropdown-panel,
-html[data-theme="dark"] .rz-dropdown-panel,
-:root[data-theme="dark"] .rz-dropdown-panel {
-    background-color: #1a3a5c !important;
-    border: 2px solid #5bc0de !important;
-}
-
-[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item,
-html[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item,
-:root[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item {
-    color: #ffffff !important;
-}
-
-[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item:hover,
-[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item.rz-state-highlight,
-html[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item:hover,
-html[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item.rz-state-highlight,
-:root[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item:hover,
-:root[data-theme="dark"] .rz-dropdown-panel .rz-dropdown-item.rz-state-highlight {
-    background-color: #234b73 !important;
-}
-
-/* ========================================
-   TABLE INPUT STYLING
-   Form 1, Form 2, Additional Info tables
-   ======================================== */
-
-/* Input container cells in tables - Light mode */
+/* Table inputs - Light mode */
 td .rz-numeric,
 td .rz-textbox,
 td .rz-spinner,
@@ -706,7 +572,6 @@ th .rz-spinner:focus-within {
     outline: none !important;
 }
 
-/* Input field inner elements */
 td .rz-numeric input,
 td .rz-textbox input,
 td .rz-spinner input,
@@ -718,7 +583,6 @@ th .rz-spinner input {
     color: #212529 !important;
 }
 
-/* Placeholder text styling */
 td .rz-numeric input::placeholder,
 td .rz-textbox input::placeholder,
 th .rz-numeric input::placeholder,
@@ -728,71 +592,28 @@ th .rz-textbox input::placeholder {
     opacity: 0.8 !important;
 }
 
-/* Dark mode - Table Input field styling */
-[data-theme="dark"] td .rz-numeric,
-[data-theme="dark"] td .rz-textbox,
-[data-theme="dark"] td .rz-spinner,
-[data-theme="dark"] th .rz-numeric,
-[data-theme="dark"] th .rz-textbox,
-[data-theme="dark"] th .rz-spinner {
-    background-color: #1a3a5c !important;
-    border: 2px solid #5bc0de !important;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3) !important;
-}
-
-[data-theme="dark"] td .rz-numeric:hover,
-[data-theme="dark"] td .rz-textbox:hover,
-[data-theme="dark"] td .rz-spinner:hover,
-[data-theme="dark"] th .rz-numeric:hover,
-[data-theme="dark"] th .rz-textbox:hover,
-[data-theme="dark"] th .rz-spinner:hover {
-    background-color: #234b73 !important;
-    border-color: #7dd3fc !important;
-    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
-[data-theme="dark"] td .rz-numeric:focus-within,
-[data-theme="dark"] td .rz-textbox:focus-within,
-[data-theme="dark"] td .rz-spinner:focus-within,
-[data-theme="dark"] th .rz-numeric:focus-within,
-[data-theme="dark"] th .rz-textbox:focus-within,
-[data-theme="dark"] th .rz-spinner:focus-within {
-    background-color: #1e4976 !important;
-    border-color: #7dd3fc !important;
-    box-shadow: 0 0 0 4px rgba(91, 192, 222, 0.5), 0 0 12px rgba(125, 211, 252, 0.4) !important;
-}
-
-[data-theme="dark"] td .rz-numeric input,
-[data-theme="dark"] td .rz-textbox input,
-[data-theme="dark"] td .rz-spinner input,
-[data-theme="dark"] th .rz-numeric input,
-[data-theme="dark"] th .rz-textbox input,
-[data-theme="dark"] th .rz-spinner input {
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] td .rz-numeric input::placeholder,
-[data-theme="dark"] td .rz-textbox input::placeholder,
-[data-theme="dark"] th .rz-numeric input::placeholder,
-[data-theme="dark"] th .rz-textbox input::placeholder {
-    color: #9ecbeb !important;
-    font-weight: 400 !important;
-    text-shadow: none;
-}
-
-/* Label/display cells styling - contrasting with inputs */
-td:not(:has(.rz-numeric)):not(:has(.rz-textbox)):not(:has(.rz-spinner)) {
-    background-color: transparent;
-}
+/* ========================================
+   MISC INPUT STYLING
+   ======================================== */
 
 /* Section headers in forms */
 th[colspan] {
     font-weight: 600 !important;
 }
 
-/* Visual indicator icon for input cells */
+/* Form input helper text */
+.input-helper-text {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+[data-theme="dark"] .input-helper-text {
+    color: #adb5bd;
+}
+
+/* Visual indicator for input cells */
 td:has(.rz-numeric)::before,
 td:has(.rz-textbox)::before {
     content: "";
@@ -811,47 +632,15 @@ td:has(.rz-textbox)::before {
     background: linear-gradient(to bottom, #5bc0de, #7dd3fc);
 }
 
-/* Form input helper text */
-.input-helper-text {
-    font-size: 0.75rem;
-    color: #6c757d;
-    margin-top: 0.25rem;
-    font-style: italic;
-}
-
-[data-theme="dark"] .input-helper-text {
-    color: #adb5bd;
-}
-
-/* Pulse animation for empty required inputs */
+/* Pulse animation for light mode inputs */
 @keyframes input-pulse-light {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
-    }
-    50% {
-        box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.3);
-    }
-}
-
-@keyframes input-pulse-dark {
-    0%, 100% {
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3);
-    }
-    50% {
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 6px rgba(91, 192, 222, 0.4), 0 0 15px rgba(125, 211, 252, 0.3);
-    }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.3); }
 }
 
 td .rz-numeric:not(:focus-within) input:placeholder-shown,
 td .rz-textbox:not(:focus-within) input:placeholder-shown {
     animation: input-pulse-light 2s ease-in-out infinite;
-}
-
-[data-theme="dark"] td .rz-numeric:not(:focus-within),
-[data-theme="dark"] td .rz-textbox:not(:focus-within),
-[data-theme="dark"] th .rz-numeric:not(:focus-within),
-[data-theme="dark"] th .rz-textbox:not(:focus-within) {
-    animation: input-pulse-dark 2.5s ease-in-out infinite;
 }
 
 /* Mobile optimization for inputs */
@@ -868,4 +657,90 @@ td .rz-textbox:not(:focus-within) input:placeholder-shown {
     td .rz-textbox input {
         font-size: 16px !important;
     }
+}
+
+/* ========================================
+   CHAT INPUT STYLING
+   AI Assistant chat input field
+   ======================================== */
+
+/* Light mode - Chat input */
+.chat-input,
+.form-control.chat-input {
+    background-color: var(--input-bg-light) !important;
+    border: 2px solid var(--input-border-light) !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    transition: all 0.2s ease;
+}
+
+.chat-input:hover,
+.form-control.chat-input:hover {
+    background-color: var(--input-hover-bg-light) !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-light) !important;
+}
+
+.chat-input:focus,
+.form-control.chat-input:focus {
+    background-color: #ffffff !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 4px var(--input-focus-shadow-light), 
+                inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
+}
+
+.chat-input::placeholder,
+.form-control.chat-input::placeholder {
+    color: #6c757d !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+}
+
+/* Disabled state */
+.chat-input:disabled,
+.form-control.chat-input:disabled {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+    opacity: 0.7 !important;
+    cursor: not-allowed;
+}
+
+/* Dark mode - Chat input (handled by radzen-dark-theme.css pattern) */
+[data-theme="dark"] .chat-input,
+[data-theme="dark"] .form-control.chat-input {
+    background-color: #1a3a5c !important;
+    border: 2px solid #5bc0de !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3) !important;
+}
+
+[data-theme="dark"] .chat-input:hover,
+[data-theme="dark"] .form-control.chat-input:hover {
+    background-color: #234b73 !important;
+    border-color: #7dd3fc !important;
+    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .chat-input:focus,
+[data-theme="dark"] .form-control.chat-input:focus {
+    background-color: #1e4976 !important;
+    border-color: #7dd3fc !important;
+    box-shadow: 0 0 0 4px rgba(91, 192, 222, 0.5), 0 0 12px rgba(125, 211, 252, 0.4) !important;
+}
+
+[data-theme="dark"] .chat-input::placeholder,
+[data-theme="dark"] .form-control.chat-input::placeholder {
+    color: #9ecbeb !important;
+    font-style: italic !important;
+}
+
+[data-theme="dark"] .chat-input:disabled,
+[data-theme="dark"] .form-control.chat-input:disabled {
+    background-color: #2d2d2d !important;
+    border-color: #4a4a4a !important;
+    color: #999999 !important;
 }

@@ -388,3 +388,23 @@
     [data-theme="dark"] .rz-button-text {
         color: #ffffff !important;
     }
+
+/* ========================================
+   PULSE ANIMATION FOR DARK MODE INPUTS
+   ======================================== */
+
+@keyframes input-pulse-dark {
+    0%, 100% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3);
+    }
+    50% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 6px rgba(91, 192, 222, 0.4), 0 0 15px rgba(125, 211, 252, 0.3);
+    }
+}
+
+[data-theme="dark"] td .rz-numeric:not(:focus-within),
+[data-theme="dark"] td .rz-textbox:not(:focus-within),
+[data-theme="dark"] th .rz-numeric:not(:focus-within),
+[data-theme="dark"] th .rz-textbox:not(:focus-within) {
+    animation: input-pulse-dark 2.5s ease-in-out infinite;
+}

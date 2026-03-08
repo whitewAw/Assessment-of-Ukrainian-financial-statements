@@ -202,36 +202,7 @@ button, .btn {
         color: #ffffff !important;
     }
 
-/* Radzen Buttons - Fix contrast */
-.rz-button {
-    color: #ffffff !important;
-}
-
-    .rz-button:hover {
-        color: #ffffff !important;
-    }
-
-/* Fix button text contrast in light mode */
-[data-theme="light"] .btn-primary,
-[data-theme="light"] .rz-button-primary {
-    color: #ffffff !important;
-}
-
-/* Fix button text contrast in dark mode */
-[data-theme="dark"] .btn-primary,
-[data-theme="dark"] .rz-button,
-[data-theme="dark"] .rz-button-primary {
-    background-color: var(--button-primary) !important;
-    color: #ffffff !important;
-    border-color: var(--button-primary) !important;
-}
-
-    [data-theme="dark"] .btn-primary:hover,
-    [data-theme="dark"] .rz-button:hover,
-    [data-theme="dark"] .rz-button-primary:hover {
-        background-color: var(--button-primary-hover) !important;
-        color: #ffffff !important;
-    }
+/* Note: Detailed Radzen button styles are in radzen-dark-theme.css */
 
 /* ========================================
    FORMS & INPUTS
@@ -392,122 +363,14 @@ table {
 }
 
 /* ========================================
-   RADZEN COMPONENTS - ENHANCED DARK MODE
+   RADZEN COMPONENTS - BASIC DARK MODE
+   Note: Detailed Radzen overrides are in radzen-dark-theme.css
    ======================================== */
 
-/* Radzen Dialog */
-.rz-dialog {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary) !important;
-}
-
-.rz-dialog-titlebar {
-    background-color: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
-    border-bottom-color: var(--border-color) !important;
-}
-
-.rz-dialog-content {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary) !important;
-}
-
-/* Radzen DataGrid */
-.rz-datatable,
-.rz-grid {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary) !important;
-}
-
-.rz-datatable-header,
-.rz-grid-header {
-    background-color: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
-}
-
-.rz-datatable-data,
-.rz-grid-data {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary) !important;
-}
-
-    .rz-datatable-data tr:hover,
-    .rz-grid-data tr:hover {
-        background-color: var(--bg-secondary) !important;
-    }
-
-    .rz-datatable-data td,
-    .rz-grid-data td {
-        color: var(--text-primary) !important;
-        border-color: var(--border-color) !important;
-    }
-
-/* Radzen Tabs */
-.rz-tabview,
-.rz-tabview-panels,
-.rz-tabview-panel {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary) !important;
-}
-
-.rz-tabview-nav {
-    background-color: var(--bg-secondary) !important;
-}
-
-.rz-tabview-nav-link {
-    color: var(--text-secondary) !important;
-}
-
-    .rz-tabview-nav-link:hover {
-        color: var(--text-primary) !important;
-        background-color: var(--bg-tertiary) !important;
-    }
-
-    .rz-tabview-nav-link.rz-tabview-selected {
-        color: var(--text-primary) !important;
-        background-color: var(--card-bg) !important;
-    }
-
-/* Radzen Chart */
+/* Basic Radzen component theming using CSS variables */
 .rz-chart {
     background-color: var(--card-bg) !important;
 }
-
-/* Radzen Button */
-.rz-button {
-    background-color: var(--button-primary) !important;
-    border-color: var(--button-primary) !important;
-    color: #ffffff !important;
-}
-
-    .rz-button:hover {
-        background-color: var(--button-primary-hover) !important;
-    }
-
-.rz-button-secondary {
-    background-color: var(--bg-tertiary) !important;
-    color: var(--text-primary) !important;
-}
-
-/* Radzen Dropdown */
-.rz-dropdown {
-    background-color: var(--input-bg) !important;
-    color: var(--text-primary) !important;
-    border-color: var(--input-border) !important;
-}
-
-.rz-dropdown-panel {
-    background-color: var(--card-bg) !important;
-    border-color: var(--border-color) !important;
-}
-
-.rz-dropdown-item {
-    color: var(--text-primary) !important;
-}
-
-    .rz-dropdown-item:hover {
-        background-color: var(--bg-secondary) !important;
-    }
 
 /* Radzen Checkbox */
 .rz-chkbox-box {
