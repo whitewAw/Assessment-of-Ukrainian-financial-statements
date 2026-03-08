@@ -1,5 +1,8 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
+@using AFS.ComponentLibrary.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> ResLoc
 
 <div class="chart-container">
     <ApexChart TItem="ChartDataItem"
