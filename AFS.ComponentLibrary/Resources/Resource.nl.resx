@@ -409,7 +409,7 @@
     <value>Capital in reappraisals</value>
   </data>
   <data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Production capacity</value>
+    <value>Kapitaalintensiteit van producten</value>
   </data>
   <data name="cargo" xml:space="preserve">
     <value>goods</value>

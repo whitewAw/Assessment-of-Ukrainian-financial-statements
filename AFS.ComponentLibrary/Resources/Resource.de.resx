@@ -409,7 +409,7 @@
     <value>Eigenkapital in Neubewertungen</value>
   </data>
   <data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Produktionskapazität</value>
+    <value>Kapitalintensität der Produkte</value>
   </data>
   <data name="cargo" xml:space="preserve">
     <value>Waren</value>
@@ -826,7 +826,7 @@
     <value>Produktivität</value>
   </data>
   <data name="Liabilities" xml:space="preserve">
-    <value>passiv</value>
+    <value>Verbindlichkeiten</value>
   </data>
   <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Verbindlichkeiten im Zusammenhang mit zur Veräußerung gehaltenen langfristigen Vermögenswerten und Veräußerungsgruppen</value>

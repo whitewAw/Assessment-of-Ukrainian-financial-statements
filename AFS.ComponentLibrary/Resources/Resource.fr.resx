@@ -409,7 +409,7 @@
     <value>Capital dans les réévaluations</value>
   </data>
   <data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Capacité capitalistique des produits</value>
+    <value>Intensité capitalistique des produits</value>
   </data>
   <data name="cargo" xml:space="preserve">
     <value>marchandises</value>
@@ -826,7 +826,7 @@
     <value>Productivité</value>
   </data>
   <data name="Liabilities" xml:space="preserve">
-    <value>passif</value>
+    <value>Passifs</value>
   </data>
   <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Passifs liés aux actifs non courants destinés à la vente et aux groupes destinés à être cédés</value>

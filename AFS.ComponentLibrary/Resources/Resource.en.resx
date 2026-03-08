@@ -409,7 +409,7 @@
     <value>Capital in reappraisals</value>
   </data>
   <data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Production capacity</value>
+    <value>Capital intensity of products</value>
   </data>
   <data name="cargo" xml:space="preserve">
     <value>goods</value>
@@ -826,7 +826,7 @@
     <value>Labor productivity</value>
   </data>
   <data name="Liabilities" xml:space="preserve">
-    <value>Liability</value>
+    <value>Liabilities</value>
   </data>
   <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
     <value>Liabilities related to non-current assets held for sale and disposal groups</value>
@@ -1162,7 +1162,7 @@
     <value>Save to file</value>
   </data>
   <data name="SellingExpenses" xml:space="preserve">
-    <value>Labor costs</value>
+    <value>Selling expenses</value>
   </data>
   <data name="SendMessage" xml:space="preserve">
     <value>Send message</value>

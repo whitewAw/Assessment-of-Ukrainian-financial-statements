@@ -409,7 +409,7 @@
     <value>Capital en reevaluaciones</value>
   </data>
 	<data name="CapitalIntensityOfProducts" xml:space="preserve">
-    <value>Capacidad de fondo de producción</value>
+	<value>Intensidad de capital de los productos</value>
   </data>
 	<data name="cargo" xml:space="preserve">
     <value>bienes</value>
@@ -826,7 +826,7 @@
 	<value>Productividad laboral</value>
   </data>
 	<data name="Liabilities" xml:space="preserve">
-	<value>Pasivo</value>
+	<value>Pasivos</value>
   </data>
 	<data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
 	<value>Pasivos relacionados con activos no corrientes mantenidos para la venta</value>
