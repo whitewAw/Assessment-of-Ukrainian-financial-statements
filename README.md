@@ -228,15 +228,11 @@ This application provides a powerful, browser-based tool for comprehensive analy
 ### Suppressed Warnings (Documented)
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              CATEGORY 1: BLAZOR WASM NOT APPLICABLE             │
-├─────────────────────────────────────────────────────────────────┤
-│  MA0004/CA2007 - ConfigureAwait (no SyncContext in WASM)        │
-├─────────────────────────────────────────────────────────────────┤
-│              CATEGORY 2: STYLE PREFERENCES                      │
+│              STYLE PREFERENCES                                   │
 ├─────────────────────────────────────────────────────────────────┤
 │  MA0016       - List<T> required by ApexCharts/Radzen binding   │
 └─────────────────────────────────────────────────────────────────┘
-Total: 3 documented suppressions (all justified)
+Total: 1 documented suppression (justified)
 ```
 
 ---
@@ -402,7 +398,7 @@ The project uses a centralized build configuration:
 - Code analysis with latest rules (Meziantou, Sonar, Roslynator)
 - Code style enforcement in build
 - `IsAotCompatible` and `IsTrimmable` for AOT/trimming safety
-- Only 3 documented warning suppressions (all justified)
+- Only 1 documented warning suppression (justified)
 
 **nuget.config** - Package source configuration:
 - Uses only official NuGet.org source

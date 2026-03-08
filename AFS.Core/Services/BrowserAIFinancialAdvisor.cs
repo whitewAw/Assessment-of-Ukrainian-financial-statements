@@ -27,8 +27,8 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
     {
         try
         {
-            var module = await _moduleTask.Value;
-            var result = await module.InvokeAsync<JsonElement>("checkAvailability");
+            var module = await _moduleTask.Value.ConfigureAwait(false);
+            var result = await module.InvokeAsync<JsonElement>("checkAvailability").ConfigureAwait(false);
 
             var available = result.GetProperty("available").GetBoolean();
             var reason = result.GetProperty("reason").GetString() ?? "Unknown";
@@ -51,11 +51,11 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
             _downloadProgressCallback = onProgressUpdate;
             _dotNetReference = DotNetObjectReference.Create(this);
 
-            var module = await _moduleTask.Value;
+            var module = await _moduleTask.Value.ConfigureAwait(false);
             var result = await module.InvokeAsync<JsonElement>(
                 "createSessionWithProgress",
                 _dotNetReference,
-                nameof(OnDownloadProgress));
+                nameof(OnDownloadProgress)).ConfigureAwait(false);
 
             var success = result.GetProperty("success").GetBoolean();
             return success;
@@ -80,8 +80,8 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
     {
         try
         {
-            var module = await _moduleTask.Value;
-            var result = await module.InvokeAsync<JsonElement>("prompt", prompt);
+            var module = await _moduleTask.Value.ConfigureAwait(false);
+            var result = await module.InvokeAsync<JsonElement>("prompt", prompt).ConfigureAwait(false);
 
             var success = result.GetProperty("success").GetBoolean();
             if (!success)
@@ -111,12 +111,12 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
             _currentStreamCallback = onChunkReceived;
             _dotNetReference = DotNetObjectReference.Create(this);
 
-            var module = await _moduleTask.Value;
+            var module = await _moduleTask.Value.ConfigureAwait(false);
             var result = await module.InvokeAsync<JsonElement>(
                 "promptStreaming",
                 prompt,
                 _dotNetReference,
-                nameof(ReceiveStreamChunk));
+                nameof(ReceiveStreamChunk)).ConfigureAwait(false);
 
             var success = result.GetProperty("success").GetBoolean();
             if (!success)
@@ -162,7 +162,7 @@ Provide:
 
 Keep the response concise and actionable.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 
     public async Task<string> GetRecommendationsAsync(IDictionary<string, double> ratios)
@@ -180,7 +180,7 @@ Provide:
 
 Be specific and practical.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 
     public async Task<string> ExplainRatioAsync(string ratioName, double value, string? context = null)
@@ -200,16 +200,16 @@ Include:
 
 Keep it brief and easy to understand.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 
     public async ValueTask DisposeAsync()
     {
         if (_moduleTask.IsValueCreated)
         {
-            var module = await _moduleTask.Value;
-            await module.InvokeVoidAsync("destroySession");
-            await module.DisposeAsync();
+            var module = await _moduleTask.Value.ConfigureAwait(false);
+            await module.InvokeVoidAsync("destroySession").ConfigureAwait(false);
+            await module.DisposeAsync().ConfigureAwait(false);
         }
 
         _dotNetReference?.Dispose();

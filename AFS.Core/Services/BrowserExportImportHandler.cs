@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Microsoft.Extensions.Logging;
@@ -30,14 +30,14 @@ namespace AFS.Core.Services
             using var fileStream = new MemoryStream(randomBinaryData);
             var fileName = $"{model.CompanyName}_{model.BaseYear}_{model.CurrentYear}{constraints.FileExtension}";
             using var streamRef = new DotNetStreamReference(stream: fileStream);
-            await jsInterop.ExportToFileAsync(fileName, streamRef);
+            await jsInterop.ExportToFileAsync(fileName, streamRef).ConfigureAwait(false);
         }
 
         public async Task<AfsModel?> ImportAsync(Stream inputStream)
         {
             try
             {
-                return await JsonSerializer.DeserializeAsync(inputStream, AfsJsonSerializerContext.Default.AfsModel);
+                return await JsonSerializer.DeserializeAsync(inputStream, AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

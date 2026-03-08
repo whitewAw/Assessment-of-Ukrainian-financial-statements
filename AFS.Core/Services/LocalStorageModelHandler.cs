@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using Blazored.LocalStorage;
@@ -34,7 +34,7 @@ namespace AFS.Core.Services
 
         public async Task InitializeModelAsync()
         {
-            var readModel = await ReadModelAsync();
+            var readModel = await ReadModelAsync().ConfigureAwait(false);
             if (readModel != null)
             {
                 model.Init(readModel);
@@ -43,7 +43,7 @@ namespace AFS.Core.Services
 
         public async Task<AfsModel?> ReadModelAsync()
         {
-            var jsonModel = await storage.GetItemAsStringAsync(AfsConstraints.ModelJsonName);
+            var jsonModel = await storage.GetItemAsStringAsync(AfsConstraints.ModelJsonName).ConfigureAwait(false);
             if (jsonModel != null)
             {
                 try
@@ -57,7 +57,7 @@ namespace AFS.Core.Services
             }
             try
             {
-                return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AfsJsonSerializerContext.Default.AfsModel);
+                return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
             {
@@ -73,7 +73,7 @@ namespace AFS.Core.Services
         public async Task WriteModelAsync(AfsModel model)
         {
             string jsonString = JsonSerializer.Serialize(model, AfsJsonSerializerContext.Default.AfsModel);
-            await storage.SetItemAsStringAsync(AfsConstraints.ModelJsonName, jsonString);
+            await storage.SetItemAsStringAsync(AfsConstraints.ModelJsonName, jsonString).ConfigureAwait(false);
         }
     }
 }

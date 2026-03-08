@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Logging;
@@ -26,7 +26,7 @@ namespace AFS.Core.Services
 
         public async Task<CultureInfo> ReadCultureAsync()
         {
-            var langCulture = await storage.GetItemAsStringAsync(AfsConstraints.LangCultureName);
+            var langCulture = await storage.GetItemAsStringAsync(AfsConstraints.LangCultureName).ConfigureAwait(false);
             if (langCulture != null)
             {
                 try
@@ -44,14 +44,14 @@ namespace AFS.Core.Services
 
         public async Task InitializeCultureAsync()
         {
-            CultureInfo defaultCulture = await ReadCultureAsync();
+            CultureInfo defaultCulture = await ReadCultureAsync().ConfigureAwait(false);
             CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
             CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
         }
 
         public async Task WriteCultureAsync(CultureInfo cultureInfo)
         {
-            await storage.SetItemAsStringAsync(AfsConstraints.LangCultureName, cultureInfo.Name);
+            await storage.SetItemAsStringAsync(AfsConstraints.LangCultureName, cultureInfo.Name).ConfigureAwait(false);
         }
     }
 }

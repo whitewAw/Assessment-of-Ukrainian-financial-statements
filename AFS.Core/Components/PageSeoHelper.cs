@@ -27,10 +27,10 @@ namespace AFS.Core.Components
             try
             {
                 // Update title
-                await _jsRuntime.InvokeVoidAsync("eval", $"document.title = '{JavaScriptEncode(title)}'");
+                await _jsRuntime.InvokeVoidAsync("eval", $"document.title = '{JavaScriptEncode(title)}'").ConfigureAwait(false);
 
                 // Call SEO manager to update all meta tags
-                await _jsRuntime.InvokeVoidAsync("registerPageSeo", title, description);
+                await _jsRuntime.InvokeVoidAsync("registerPageSeo", title, description).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

@@ -32,7 +32,7 @@ public sealed class AppThemeService
         try
         {
             // Try to get saved theme from localStorage
-            var savedTheme = await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", "theme");
+            var savedTheme = await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", "theme").ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(savedTheme) &&
                 (string.Equals(savedTheme, "light", StringComparison.Ordinal) ||
@@ -44,11 +44,11 @@ public sealed class AppThemeService
             {
                 // Check system preference
                 var prefersDark = await _jsRuntime.InvokeAsync<bool>("eval",
-          "window.matchMedia('(prefers-color-scheme: dark)').matches");
+          "window.matchMedia('(prefers-color-scheme: dark)').matches").ConfigureAwait(false);
                 _currentTheme = prefersDark ? "dark" : "light";
             }
 
-            await ApplyThemeAsync(_currentTheme);
+            await ApplyThemeAsync(_currentTheme).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -63,7 +63,7 @@ public sealed class AppThemeService
     public async Task ToggleThemeAsync()
     {
         var newTheme = string.Equals(_currentTheme, "light", StringComparison.Ordinal) ? "dark" : "light";
-        await SetThemeAsync(newTheme);
+        await SetThemeAsync(newTheme).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -81,10 +81,10 @@ public sealed class AppThemeService
         _currentTheme = theme;
 
         // Save to localStorage
-        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "theme", theme);
+        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "theme", theme).ConfigureAwait(false);
 
         // Apply theme
-        await ApplyThemeAsync(theme);
+        await ApplyThemeAsync(theme).ConfigureAwait(false);
 
         // Notify subscribers
         OnThemeChanged?.Invoke(this, EventArgs.Empty);
@@ -97,17 +97,17 @@ public sealed class AppThemeService
     {
         try
         {
-            await _jsRuntime.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{theme}')");
+            await _jsRuntime.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{theme}')").ConfigureAwait(false);
 
             // Update meta theme-color for mobile browsers
             var themeColor = string.Equals(theme, "dark", StringComparison.Ordinal) ? "#1a1a1a" : "#512BD4";
             await _jsRuntime.InvokeVoidAsync("eval",
-         $"document.querySelector('meta[name=\"theme-color\"]').setAttribute('content', '{themeColor}')");
+         $"document.querySelector('meta[name=\"theme-color\"]').setAttribute('content', '{themeColor}')").ConfigureAwait(false);
 
             // Fix inline styles for dark mode
             if (string.Equals(theme, "dark", StringComparison.Ordinal))
             {
-                await FixInlineStylesAsync();
+                await FixInlineStylesAsync().ConfigureAwait(false);
             }
         }
         catch (Exception ex)
@@ -144,7 +144,7 @@ public sealed class AppThemeService
                 });
           ";
 
-            await _jsRuntime.InvokeVoidAsync("eval", script);
+            await _jsRuntime.InvokeVoidAsync("eval", script).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

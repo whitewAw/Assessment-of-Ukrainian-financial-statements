@@ -1,4 +1,4 @@
-﻿using AFS.Core.Exceptions;
+using AFS.Core.Exceptions;
 using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using System.Net.Http.Json;
@@ -79,11 +79,11 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
             };
 
             var content = JsonContent.Create(requestBody, AfsJsonSerializerContext.Default.OpenAIRequest);
-            var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content);
+            var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync(AfsJsonSerializerContext.Default.OpenAIResponse);
+            var result = await response.Content.ReadFromJsonAsync(AfsJsonSerializerContext.Default.OpenAIResponse).ConfigureAwait(false);
 
             return result?.Choices?[0]?.Message?.Content ?? string.Empty;
         }
@@ -101,7 +101,7 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
     {
         // For simplicity, we'll use non-streaming for OpenAI
         // Implementing true streaming would require SSE (Server-Sent Events) handling
-        var response = await GetResponseAsync(prompt);
+        var response = await GetResponseAsync(prompt).ConfigureAwait(false);
         onChunkReceived?.Invoke(response);
     }
 
@@ -120,7 +120,7 @@ Provide:
 
 Keep the response concise and actionable.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 
     public async Task<string> GetRecommendationsAsync(IDictionary<string, double> ratios)
@@ -138,7 +138,7 @@ Provide:
 
 Be specific and practical.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 
     public async Task<string> ExplainRatioAsync(string ratioName, double value, string? context = null)
@@ -158,6 +158,6 @@ Include:
 
 Keep it brief and easy to understand.";
 
-        return await GetResponseAsync(prompt);
+        return await GetResponseAsync(prompt).ConfigureAwait(false);
     }
 }

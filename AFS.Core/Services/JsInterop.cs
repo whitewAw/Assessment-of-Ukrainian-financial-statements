@@ -21,8 +21,8 @@ namespace AFS.Core.Services
         {
             if (moduleTask.IsValueCreated)
             {
-                var module = await moduleTask.Value;
-                await module.DisposeAsync();
+                var module = await moduleTask.Value.ConfigureAwait(false);
+                await module.DisposeAsync().ConfigureAwait(false);
             }
 
             GC.SuppressFinalize(this);
@@ -30,14 +30,14 @@ namespace AFS.Core.Services
 
         public async ValueTask ExportToFileAsync(string fileName, DotNetStreamReference streamRef)
         {
-            var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+            var module = await moduleTask.Value.ConfigureAwait(false);
+            await module.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef).ConfigureAwait(false);
         }
 
         public async ValueTask TriggerClickAsync(string id)
         {
-            var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("triggerClick", id);
+            var module = await moduleTask.Value.ConfigureAwait(false);
+            await module.InvokeVoidAsync("triggerClick", id).ConfigureAwait(false);
         }
 
     }

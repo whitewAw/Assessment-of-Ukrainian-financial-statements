@@ -1,4 +1,4 @@
-﻿using AFS;
+using AFS;
 using AFS.Core.Components;
 using AFS.Core.Interfaces;
 using AFS.Core.Models;
@@ -127,7 +127,7 @@ if (!string.IsNullOrEmpty(uri.Query))
             var cultureStorageService = host.Services.GetRequiredService<ICultureStorageHandler>();
             var requestedCulture = CultureInfo.GetCultureInfo(langParam);
 
-            await cultureStorageService.WriteCultureAsync(requestedCulture);
+            await cultureStorageService.WriteCultureAsync(requestedCulture).ConfigureAwait(false);
             CultureInfo.DefaultThreadCurrentCulture = requestedCulture;
             CultureInfo.DefaultThreadCurrentUICulture = requestedCulture;
         }
@@ -145,7 +145,7 @@ var cultureTask = Task.Run(async () =>
     var cultureStorageService = host.Services.GetService<ICultureStorageHandler>();
     if (cultureStorageService != null)
     {
-        await cultureStorageService.InitializeCultureAsync();
+        await cultureStorageService.InitializeCultureAsync().ConfigureAwait(false);
     }
 });
 
@@ -154,11 +154,11 @@ var modelTask = Task.Run(async () =>
     var modelStorageHandler = host.Services.GetService<IModelStorageHandler>();
     if (modelStorageHandler != null)
     {
-        await modelStorageHandler.InitializeModelAsync();
+        await modelStorageHandler.InitializeModelAsync().ConfigureAwait(false);
     }
 });
 
 // Wait for both initialization tasks
-await Task.WhenAll(cultureTask, modelTask);
+await Task.WhenAll(cultureTask, modelTask).ConfigureAwait(false);
 
-await host.RunAsync();
+await host.RunAsync().ConfigureAwait(false);
