@@ -26,6 +26,8 @@
 		<WasmNativeStrip>true</WasmNativeStrip>
 		<WasmDedup>true</WasmDedup>
 		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
+		<!-- Use webcil format for better compression (smaller than .dll) -->
+		<WasmEnableWebcil>true</WasmEnableWebcil>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
@@ -35,6 +37,9 @@
 		<TrimMode>full</TrimMode>
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+		<!-- Remove unused code paths -->
+		<TrimmerDefaultAction>link</TrimmerDefaultAction>
+		<EnableAggressiveTrimming>true</EnableAggressiveTrimming>
 
 		<!-- JSON Serialization - Keep reflection for Radzen.Blazor and Blazored.LocalStorage -->
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
