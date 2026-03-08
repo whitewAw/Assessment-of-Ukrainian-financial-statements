@@ -141,7 +141,10 @@
     <base href="/" />
 
     <!-- Multi-host URL Configuration -->
-    <script>!function(){var e=location.hostname.toLowerCase(),t="whitewaw.github.io"===e,a="localhost"===e||"127.0.0.1"===e,n=t?"/Assessment-of-Ukrainian-financial-statements/":"/",o="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",i=t?o:a?location.origin+n:"https://ua-finance.netlify.app/",r=/https:\/\/whitewaw\.github\.io\/Assessment-of-Ukrainian-financial-statements\//g;document.querySelector("base").href=n;var s=document.getElementById("canonical");s&&(s.href=i);var c=document.getElementById("preconnect-host");c&&!t&&(c.href=location.origin),document.querySelectorAll('meta[content*="whitewaw.github.io"]').forEach(function(e){e.content=e.content.replace(r,i)}),document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(e){e.href=e.href.replace(r,i)}),document.querySelectorAll('script[type="application/ld+json"]').forEach(function(e){e.textContent.includes("whitewaw.github.io")&&(e.textContent=e.textContent.replace(r,i))}),t&&function(){var e=document.getElementById("seo-content");e&&e.querySelectorAll('a[href^="/"]').forEach(function(e){var t=e.getAttribute("href");t.startsWith(n)||(e.href=n+t.substring(1))})}(),window.UFIN_CONFIG={basePath:n,baseUrl:location.origin+n,siteUrl:i,isGitHubPages:t}}();</script>
+    <script>
+    // @ts-nocheck
+    !function(){var e=location.hostname.toLowerCase(),t="whitewaw.github.io"===e,a="localhost"===e||"127.0.0.1"===e,n=t?"/Assessment-of-Ukrainian-financial-statements/":"/",o="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/",i=t?o:a?location.origin+n:"https://ua-finance.netlify.app/",r=/https:\/\/whitewaw\.github\.io\/Assessment-of-Ukrainian-financial-statements\//g;var b=document.querySelector("base");if(b)b.href=n;var s=document.getElementById("canonical");if(s)s.href=i;var c=document.getElementById("preconnect-host");if(c&&!t)c.href=location.origin;document.querySelectorAll('meta[content*="whitewaw.github.io"]').forEach(function(e){if(e.content)e.content=e.content.replace(r,i)});document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(function(e){if(e.href)e.href=e.href.replace(r,i)});document.querySelectorAll('script[type="application/ld+json"]').forEach(function(e){if(e.textContent&&e.textContent.includes("whitewaw.github.io"))e.textContent=e.textContent.replace(r,i)});if(t){var d=document.getElementById("seo-content");if(d)d.querySelectorAll('a[href^="/"]').forEach(function(e){var h=e.getAttribute("href");if(h&&!h.startsWith(n))e.href=n+h.substring(1)})}window.UFIN_CONFIG={basePath:n,baseUrl:location.origin+n,siteUrl:i,isGitHubPages:t}}();
+    </script>
 
     <!-- Sitemap for SEO -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
@@ -660,6 +663,9 @@
          loading="lazy" />
 
     <!-- Loading indicator -->
-    <script>!function(){var e=["Initializing","Loading runtime","Loading components","Almost ready"],n=0,t=document.getElementById("load-progress");if(t){var o=setInterval(function(){n=(n+1)%e.length,t.textContent=e[n]},800);window.addEventListener("ufin:loaded",function(){return clearInterval(o)})}}();</script>
+    <script>
+    // @ts-nocheck
+    !function(){var e=["Initializing","Loading runtime","Loading components","Almost ready"],n=0,t=document.getElementById("load-progress");if(t){var o=setInterval(function(){n=(n+1)%e.length;t.textContent=e[n]},800);window.addEventListener("ufin:loaded",function(){clearInterval(o)})}}();
+    </script>
 </body>
 </html>

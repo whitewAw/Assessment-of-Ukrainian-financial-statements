@@ -1407,7 +1407,7 @@
 <data name="StarOnGitHubMessage" xml:space="preserve">
   <value>If you find this tool helpful, please give it a star on GitHub! It helps other developers discover the project.</value>
 </data>
-<data name="StarOnGitHub" xml:space="preserve">
-  <value>Star on GitHub</value>
-</data>
+  <data name="StarOnGitHub" xml:space="preserve">
+    <value>Star on GitHub</value>
+  </data>
 </root>

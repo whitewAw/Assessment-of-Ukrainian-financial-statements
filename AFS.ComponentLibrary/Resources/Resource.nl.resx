@@ -1108,7 +1108,7 @@
     <value>Beschikbaarheid opnieuw controleren</value>
   </data>
   <data name="RecommendationsPrompt" xml:space="preserve">
-    <value>What are your top recommendations to improve my company's financial position?</value>
+    <value>Wat zijn uw belangrijkste aanbevelingen om de financiële positie van mijn bedrijf te verbeteren?</value>
   </data>
   <data name="RecoveryRate" xml:space="preserve">
     <value>Herstelratio</value>
@@ -1123,7 +1123,7 @@
     <value>Reservekapitaal</value>
   </data>
   <data name="ResponseStoppedByUser" xml:space="preserve">
-    <value>[Response stopped by user]</value>
+    <value>[Antwoord gestopt door gebruiker]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
     <value>Undistributed profit (uncovered loss)</value>
@@ -1156,7 +1156,7 @@
     <value>Labor costs</value>
   </data>
   <data name="Samein%OfAssets" xml:space="preserve">
-    <value>The same as % of assets</value>
+    <value>Hetzelfde als % van activa</value>
   </data>
   <data name="SaveToFile" xml:space="preserve">
     <value>Opslaan naar bestand</value>
@@ -1174,133 +1174,133 @@
     <value>settlements with the budget</value>
   </data>
   <data name="settlementsWithInsurance" xml:space="preserve">
-    <value>settlements with insurance</value>
+    <value>vereffeningen met verzekering</value>
   </data>
   <data name="settlementsWithPayroll" xml:space="preserve">
-    <value>settlements for labor</value>
+    <value>vereffeningen voor arbeid</value>
   </data>
   <data name="SetupRequired" xml:space="preserve">
     <value>Instelling vereist</value>
   </data>
   <data name="SetupStep1" xml:space="preserve">
-    <value>Enable Chrome AI flags</value>
+    <value>Chrome AI-vlaggen inschakelen</value>
   </data>
   <data name="SetupStep2" xml:space="preserve">
-    <value>Download Gemini Nano model</value>
+    <value>Gemini Nano-model downloaden</value>
   </data>
   <data name="SetupStep3" xml:space="preserve">
-    <value>Restart Chrome</value>
+    <value>Chrome herstarten</value>
   </data>
   <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
-    <value>Share of other comprehensive income from associates and joint ventures</value>
+    <value>Aandeel in overige gesamtresultaat van deelnemingen en joint ventures</value>
   </data>
   <data name="ShortTermBankCredits" xml:space="preserve">
-    <value>Short-term bank loans</value>
+    <value>Kortlopende bankkredieten</value>
   </data>
   <data name="ShortTermLiabilities" xml:space="preserve">
-    <value>Short-term liabilities (P2)</value>
+    <value>Kortlopende verplichtingen (P2)</value>
   </data>
   <data name="ShortTermLoans" xml:space="preserve">
-    <value>Short-term loans</value>
+    <value>Kortlopende leningen</value>
   </data>
   <data name="SlowSellingAssets" xml:space="preserve">
-    <value>Slow-liquid assets (A3)</value>
+    <value>Traag verkoopbare activa (A3)</value>
   </data>
   <data name="SolvencyLossRatio" xml:space="preserve">
-    <value>Solvency loss ratio</value>
+    <value>Solvabiliteitsverliesratio</value>
   </data>
   <data name="SolvencyRatios" xml:space="preserve">
     <value>Solvabiliteitsratio's</value>
   </data>
   <data name="SolvencyRecoveryRatio" xml:space="preserve">
-    <value>Recovery solvency ratio</value>
+    <value>Solvabiliteitsherstelratio</value>
   </data>
   <data name="SourcesOfCapitalFormation" xml:space="preserve">
-    <value>Capital formation sources</value>
+    <value>Kapitaalvormbronnen</value>
   </data>
   <data name="StabilityType" xml:space="preserve">
-    <value>Stability type</value>
+    <value>Stabiliteitstype</value>
   </data>
   <data name="StatementOfFinancialPerformance" xml:space="preserve">
-    <value>Income Statement (Comprehensive Income Statement)</value>
+    <value>Resultatenrekening (Gesamtresultatenrekening)</value>
   </data>
   <data name="Stocks" xml:space="preserve">
-    <value>Stocks</value>
+    <value>Voorraden</value>
   </data>
   <data name="StopAnalysis" xml:space="preserve">
     <value>Analyse stoppen</value>
   </data>
   <data name="StopGeneration" xml:space="preserve">
-    <value>Stop generation</value>
+    <value>Generatie stoppen</value>
   </data>
   <data name="String" xml:space="preserve">
-    <value>Erase data</value>
+    <value>Gegevens wissen</value>
   </data>
   <data name="StructureOfAccountsPayable" xml:space="preserve">
-    <value>Creditor structure</value>
+    <value>Crediteursstructuur</value>
   </data>
   <data name="SuitabilityRatioForBegin" xml:space="preserve">
-    <value>Fitness ratio at the beginning of the year</value>
+    <value>Geschiktheidsratio aan het begin van het jaar</value>
   </data>
   <data name="SuitabilityRatioForEnd" xml:space="preserve">
-    <value>Fitness ratio at the end of the year</value>
+    <value>Geschiktheidsratio aan het einde van het jaar</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Tabel</value>
   </data>
   <data name="TangibleCurrentAssets" xml:space="preserve">
-    <value>Material current assets</value>
+    <value>Materiële vlottende activa</value>
   </data>
   <data name="Tangibles" xml:space="preserve">
-    <value>Material values</value>
+    <value>Materiële waarden</value>
   </data>
   <data name="TargetedFinancing" xml:space="preserve">
-    <value>Target funding</value>
+    <value>Gerichte financiering</value>
   </data>
   <data name="TheCostOfNewFixedAssets" xml:space="preserve">
-    <value>Cost of new fixed assets put into operation</value>
+    <value>Kosten van nieuwe vaste activa in gebruik genomen</value>
   </data>
   <data name="thousandUAH" xml:space="preserve">
-    <value>thousand hryvnias</value>
+    <value>duizend hryvnia</value>
   </data>
   <data name="times" xml:space="preserve">
-    <value>times</value>
+    <value>keer</value>
   </data>
   <data name="Tip1" xml:space="preserve">
-    <value>Be specific in your questions</value>
+    <value>Wees specifiek in uw vragen</value>
   </data>
   <data name="Tip2" xml:space="preserve">
-    <value>Reference specific ratios or metrics</value>
+    <value>Verwijs naar specifieke ratio's of metrieken</value>
   </data>
   <data name="Tip3" xml:space="preserve">
-    <value>Ask follow-up questions for clarity</value>
+    <value>Stel vervolgvragen voor duidelijkheid</value>
   </data>
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Total</value>
+    <value>Totaal</value>
   </data>
   <data name="TotalAssets" xml:space="preserve">
-    <value>Total capital (assets)</value>
+    <value>Totaal kapitaal (activa)</value>
   </data>
   <data name="TotalCoverageRatio" xml:space="preserve">
-    <value>Total coverage ratio</value>
+    <value>Totale dekkingsratio</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
-    <value>Total income</value>
+    <value>Totaal inkomen</value>
   </data>
   <data name="TotalReturnOnAssets" xml:space="preserve">
-    <value>Overall return on total assets</value>
+    <value>Totaal rendement op totale activa</value>
   </data>
   <data name="TotalSection" xml:space="preserve">
-    <value>Overall by section</value>
+    <value>Totaal per sectie</value>
   </data>
   <data name="TotalSourcesOfCapital" xml:space="preserve">
-    <value>Total capital sources</value>
+    <value>Totale kapitaalbronnen</value>
   </data>
   <data name="TotalWorkingCapital" xml:space="preserve">
-    <value>Total current assets</value>
+    <value>Totale vlottende activa</value>
   </data>
   <data name="total_" xml:space="preserve">
     <value>totaal</value>
@@ -1309,31 +1309,31 @@
     <value>Omzet</value>
   </data>
   <data name="TurnoverInSettlements" xml:space="preserve">
-    <value>Turnover of funds in calculations</value>
+    <value>Omzet van middelen in berekeningen</value>
   </data>
   <data name="TurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Turnover of current assets</value>
+    <value>Omzet van vlottende activa</value>
   </data>
   <data name="TurnoverOfEquity" xml:space="preserve">
-    <value>Turnover of equity</value>
+    <value>Omzet van eigen vermogen</value>
   </data>
   <data name="TurnoverOfInventories" xml:space="preserve">
-    <value>Turnover of production inventories</value>
+    <value>Omzet van productie voorraden</value>
   </data>
   <data name="TurnoverOfTotalCapital" xml:space="preserve">
-    <value>Turnover of total capital</value>
+    <value>Omzet van totaal kapitaal</value>
   </data>
   <data name="TurnoverOfWorkingCapital" xml:space="preserve">
-    <value>Turnover of current assets</value>
+    <value>Omzet van werkkapitaal</value>
   </data>
   <data name="TypesOfCurrentAssets" xml:space="preserve">
-    <value>Types of current assets</value>
+    <value>Typen vlottende activa</value>
   </data>
   <data name="unfinishedProduction" xml:space="preserve">
-    <value>unfinished production</value>
+    <value>onafgemaakte productie</value>
   </data>
   <data name="UnpaidCapital" xml:space="preserve">
-    <value>Unpaid capital</value>
+    <value>Onbetaald kapitaal</value>
   </data>
   <data name="UploadFromFile" xml:space="preserve">
     <value>Laden uit bestand</value>
@@ -1342,52 +1342,52 @@
     <value>Waarde</value>
   </data>
   <data name="ViewSetupGuide" xml:space="preserve">
-    <value>View Setup Guide</value>
+    <value>Bekijk installatiegids</value>
   </data>
   <data name="wear" xml:space="preserve">
-    <value>wear and tear</value>
+    <value>slijtage</value>
   </data>
   <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
-    <value>accounted for by the equity method of other companies</value>
+    <value>verantwoord volgens vermogensmutatiemethode van andere bedrijven</value>
   </data>
   <data name="WithAccruedIncome" xml:space="preserve">
-    <value>From accrued income</value>
+    <value>Uit te ontvangen inkomsten</value>
   </data>
   <data name="WithAdvances" xml:space="preserve">
-    <value>In advances</value>
+    <value>In voorschotten</value>
   </data>
   <data name="withBudget" xml:space="preserve">
-    <value>with the budget</value>
+    <value>met de begroting</value>
   </data>
   <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
-    <value>With the budget and off-budget funds</value>
+    <value>Met de begroting en buitenbegrotingsfondsen</value>
   </data>
   <data name="WithBuyersOrSuppliers" xml:space="preserve">
-    <value>With buyers or suppliers</value>
+    <value>Met kopers of leveranciers</value>
   </data>
   <data name="WithdrawnCapital" xml:space="preserve">
-    <value>Withdrawn capital</value>
+    <value>Onttrokken kapitaal</value>
   </data>
   <data name="WithdrewInReportingPeriod" xml:space="preserve">
-    <value>Left in the reporting period</value>
+    <value>Vertrokken in de rapportageperiode</value>
   </data>
   <data name="WithInternalCashSettlements" xml:space="preserve">
-    <value>With internal settlements</value>
+    <value>Met interne verrekeningen</value>
   </data>
   <data name="WithLongTermLiabilities" xml:space="preserve">
-    <value>With long-term liabilities</value>
+    <value>Met langlopende verplichtingen</value>
   </data>
   <data name="WithOther" xml:space="preserve">
-    <value>With others</value>
+    <value>Met anderen</value>
   </data>
   <data name="WithParticipants" xml:space="preserve">
-    <value>With participants</value>
+    <value>Met deelnemers</value>
   </data>
   <data name="WithPayroll" xml:space="preserve">
-    <value>With labor payment</value>
+    <value>Met loonbetaling</value>
   </data>
   <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
-    <value>Turnover time of current assets</value>
+    <value>Omlooptijd van vlottende activa</value>
   </data>
   <data name="year" xml:space="preserve">
     <value>jaar</value>
@@ -1405,9 +1405,9 @@
   <value>Vindt u UFIN leuk?</value>
 </data>
 <data name="StarOnGitHubMessage" xml:space="preserve">
-  <value>If you find this tool helpful, please give it a star on GitHub! It helps other developers discover the project.</value>
+  <value>Als u dit hulpmiddel nuttig vindt, geef het dan een ster op GitHub! Het helpt andere ontwikkelaars het project te ontdekken.</value>
 </data>
-<data name="StarOnGitHub" xml:space="preserve">
-  <value>Ster op GitHub</value>
-</data>
+ <data name="StarOnGitHub" xml:space="preserve">
+   <value>Ster op GitHub</value>
+ </data>
 </root>

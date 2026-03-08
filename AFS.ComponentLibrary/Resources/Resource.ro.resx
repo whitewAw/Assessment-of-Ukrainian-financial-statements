@@ -1108,7 +1108,7 @@
     <value>Reverifică disponibilitatea</value>
   </data>
   <data name="RecommendationsPrompt" xml:space="preserve">
-    <value>What are your top recommendations to improve my company's financial position?</value>
+    <value>Care sunt recomandările dvs. principale pentru îmbunătățirea poziției financiare a companiei mele?</value>
   </data>
   <data name="RecoveryRate" xml:space="preserve">
     <value>Rata de recuperare</value>
@@ -1123,7 +1123,7 @@
     <value>Capital de rezervă</value>
   </data>
   <data name="ResponseStoppedByUser" xml:space="preserve">
-    <value>[Response stopped by user]</value>
+    <value>[Răspuns oprit de utilizator]</value>
   </data>
   <data name="RetainedEarnings" xml:space="preserve">
     <value>Undistributed profit (uncovered loss)</value>
@@ -1156,7 +1156,7 @@
     <value>Labor costs</value>
   </data>
   <data name="Samein%OfAssets" xml:space="preserve">
-    <value>The same as % of assets</value>
+    <value>La fel ca % din active</value>
   </data>
   <data name="SaveToFile" xml:space="preserve">
     <value>Salvează în fișier</value>
@@ -1174,133 +1174,133 @@
     <value>settlements with the budget</value>
   </data>
   <data name="settlementsWithInsurance" xml:space="preserve">
-    <value>settlements with insurance</value>
+    <value>regularizări cu asigurările</value>
   </data>
   <data name="settlementsWithPayroll" xml:space="preserve">
-    <value>settlements for labor</value>
+    <value>regularizări pentru muncă</value>
   </data>
   <data name="SetupRequired" xml:space="preserve">
     <value>Configurare necesară</value>
   </data>
   <data name="SetupStep1" xml:space="preserve">
-    <value>Enable Chrome AI flags</value>
+    <value>Activează marcajele Chrome AI</value>
   </data>
   <data name="SetupStep2" xml:space="preserve">
-    <value>Download Gemini Nano model</value>
+    <value>Descarcă modelul Gemini Nano</value>
   </data>
   <data name="SetupStep3" xml:space="preserve">
-    <value>Restart Chrome</value>
+    <value>Reporniți Chrome</value>
   </data>
   <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
-    <value>Share of other comprehensive income from associates and joint ventures</value>
+    <value>Cota din alte venituri cuprinzătoare din asociați și întreprinderi comune</value>
   </data>
   <data name="ShortTermBankCredits" xml:space="preserve">
-    <value>Short-term bank loans</value>
+    <value>Credite bancare pe termen scurt</value>
   </data>
   <data name="ShortTermLiabilities" xml:space="preserve">
-    <value>Short-term liabilities (P2)</value>
+    <value>Datorii pe termen scurt (P2)</value>
   </data>
   <data name="ShortTermLoans" xml:space="preserve">
-    <value>Short-term loans</value>
+    <value>Credite pe termen scurt</value>
   </data>
   <data name="SlowSellingAssets" xml:space="preserve">
-    <value>Slow-liquid assets (A3)</value>
+    <value>Active lent lichidabile (A3)</value>
   </data>
   <data name="SolvencyLossRatio" xml:space="preserve">
-    <value>Solvency loss ratio</value>
+    <value>Raportul pierderii solventabilității</value>
   </data>
   <data name="SolvencyRatios" xml:space="preserve">
     <value>Indicatori de solvabilitate</value>
   </data>
   <data name="SolvencyRecoveryRatio" xml:space="preserve">
-    <value>Recovery solvency ratio</value>
+    <value>Raportul recuperării solventabilității</value>
   </data>
   <data name="SourcesOfCapitalFormation" xml:space="preserve">
-    <value>Capital formation sources</value>
+    <value>Surse de formare a capitalului</value>
   </data>
   <data name="StabilityType" xml:space="preserve">
-    <value>Stability type</value>
+    <value>Tipul stabilității</value>
   </data>
   <data name="StatementOfFinancialPerformance" xml:space="preserve">
-    <value>Income Statement (Comprehensive Income Statement)</value>
+    <value>Contul de profit și pierderi (Situația veniturilor cuprinzătoare)</value>
   </data>
   <data name="Stocks" xml:space="preserve">
-    <value>Stocks</value>
+    <value>Stocuri</value>
   </data>
   <data name="StopAnalysis" xml:space="preserve">
     <value>Oprește analiza</value>
   </data>
   <data name="StopGeneration" xml:space="preserve">
-    <value>Stop generation</value>
+    <value>Opri generarea</value>
   </data>
   <data name="String" xml:space="preserve">
-    <value>Erase data</value>
+    <value>Șterge datele</value>
   </data>
   <data name="StructureOfAccountsPayable" xml:space="preserve">
-    <value>Creditor structure</value>
+    <value>Structura creditorilor</value>
   </data>
   <data name="SuitabilityRatioForBegin" xml:space="preserve">
-    <value>Fitness ratio at the beginning of the year</value>
+    <value>Raport de conformitate la începutul anului</value>
   </data>
   <data name="SuitabilityRatioForEnd" xml:space="preserve">
-    <value>Fitness ratio at the end of the year</value>
+    <value>Raport de conformitate la sfârșitul anului</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Tabel</value>
   </data>
   <data name="TangibleCurrentAssets" xml:space="preserve">
-    <value>Material current assets</value>
+    <value>Active circulante materiale</value>
   </data>
   <data name="Tangibles" xml:space="preserve">
-    <value>Material values</value>
+    <value>Valori materiale</value>
   </data>
   <data name="TargetedFinancing" xml:space="preserve">
-    <value>Target funding</value>
+    <value>Finanțare țintită</value>
   </data>
   <data name="TheCostOfNewFixedAssets" xml:space="preserve">
-    <value>Cost of new fixed assets put into operation</value>
+    <value>Costul activelor imobilizate noi puse în funcțiune</value>
   </data>
   <data name="thousandUAH" xml:space="preserve">
-    <value>thousand hryvnias</value>
+    <value>mii de grivne</value>
   </data>
   <data name="times" xml:space="preserve">
-    <value>times</value>
+    <value>ori</value>
   </data>
   <data name="Tip1" xml:space="preserve">
-    <value>Be specific in your questions</value>
+    <value>Fiți specific în întrebările dumneavoastră</value>
   </data>
   <data name="Tip2" xml:space="preserve">
-    <value>Reference specific ratios or metrics</value>
+    <value>Referiți-vă la rații sau metrici specifice</value>
   </data>
   <data name="Tip3" xml:space="preserve">
-    <value>Ask follow-up questions for clarity</value>
+    <value>Puneți întrebări ulterioare pentru claritate</value>
   </data>
   <data name="Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>Sfaturi</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
   <data name="TotalAssets" xml:space="preserve">
-    <value>Total capital (assets)</value>
+    <value>Capital total (active)</value>
   </data>
   <data name="TotalCoverageRatio" xml:space="preserve">
-    <value>Total coverage ratio</value>
+    <value>Raportul total de acoperire</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
-    <value>Total income</value>
+    <value>Venit total</value>
   </data>
   <data name="TotalReturnOnAssets" xml:space="preserve">
-    <value>Overall return on total assets</value>
+    <value>Rentabilitatea totală a activelor totale</value>
   </data>
   <data name="TotalSection" xml:space="preserve">
-    <value>Overall by section</value>
+    <value>Total pe secțiune</value>
   </data>
   <data name="TotalSourcesOfCapital" xml:space="preserve">
-    <value>Total capital sources</value>
+    <value>Surse totale de capital</value>
   </data>
   <data name="TotalWorkingCapital" xml:space="preserve">
-    <value>Total current assets</value>
+    <value>Active circulante totale</value>
   </data>
   <data name="total_" xml:space="preserve">
     <value>total</value>
@@ -1309,31 +1309,31 @@
     <value>Rulaj</value>
   </data>
   <data name="TurnoverInSettlements" xml:space="preserve">
-    <value>Turnover of funds in calculations</value>
+    <value>Rulajul fondurilor în calcule</value>
   </data>
   <data name="TurnoverOfCurrentAssets" xml:space="preserve">
-    <value>Turnover of current assets</value>
+    <value>Rulajul activelor circulante</value>
   </data>
   <data name="TurnoverOfEquity" xml:space="preserve">
-    <value>Turnover of equity</value>
+    <value>Rulajul capitalurilor proprii</value>
   </data>
   <data name="TurnoverOfInventories" xml:space="preserve">
-    <value>Turnover of production inventories</value>
+    <value>Rulajul stocurilor de producție</value>
   </data>
   <data name="TurnoverOfTotalCapital" xml:space="preserve">
-    <value>Turnover of total capital</value>
+    <value>Rulajul capitalului total</value>
   </data>
   <data name="TurnoverOfWorkingCapital" xml:space="preserve">
-    <value>Turnover of current assets</value>
+    <value>Rulajul capitalului de lucru</value>
   </data>
   <data name="TypesOfCurrentAssets" xml:space="preserve">
-    <value>Types of current assets</value>
+    <value>Tipuri de active circulante</value>
   </data>
   <data name="unfinishedProduction" xml:space="preserve">
-    <value>unfinished production</value>
+    <value>producție neterminată</value>
   </data>
   <data name="UnpaidCapital" xml:space="preserve">
-    <value>Unpaid capital</value>
+    <value>Capital neplătit</value>
   </data>
   <data name="UploadFromFile" xml:space="preserve">
     <value>Încărcare din fișier</value>
@@ -1342,52 +1342,52 @@
     <value>Valoare</value>
   </data>
   <data name="ViewSetupGuide" xml:space="preserve">
-    <value>View Setup Guide</value>
+    <value>Vizualizați ghidul de configurare</value>
   </data>
   <data name="wear" xml:space="preserve">
-    <value>wear and tear</value>
+    <value>uzură</value>
   </data>
   <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
-    <value>accounted for by the equity method of other companies</value>
+    <value>contabilizate prin metoda capitalurilor proprii ale altor companii</value>
   </data>
   <data name="WithAccruedIncome" xml:space="preserve">
-    <value>From accrued income</value>
+    <value>Din venituri acumulate</value>
   </data>
   <data name="WithAdvances" xml:space="preserve">
-    <value>In advances</value>
+    <value>În avansuri</value>
   </data>
   <data name="withBudget" xml:space="preserve">
-    <value>with the budget</value>
+    <value>cu bugetul</value>
   </data>
   <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
-    <value>With the budget and off-budget funds</value>
+    <value>Cu bugetul și fondurile extrabugetare</value>
   </data>
   <data name="WithBuyersOrSuppliers" xml:space="preserve">
-    <value>With buyers or suppliers</value>
+    <value>Cu cumpărătorii sau furnizorii</value>
   </data>
   <data name="WithdrawnCapital" xml:space="preserve">
-    <value>Withdrawn capital</value>
+    <value>Capital retras</value>
   </data>
   <data name="WithdrewInReportingPeriod" xml:space="preserve">
-    <value>Left in the reporting period</value>
+    <value>Retras în perioada de raportare</value>
   </data>
   <data name="WithInternalCashSettlements" xml:space="preserve">
-    <value>With internal settlements</value>
+    <value>Cu regularizări interne</value>
   </data>
   <data name="WithLongTermLiabilities" xml:space="preserve">
-    <value>With long-term liabilities</value>
+    <value>Cu datorii pe termen lung</value>
   </data>
   <data name="WithOther" xml:space="preserve">
-    <value>With others</value>
+    <value>Cu alții</value>
   </data>
   <data name="WithParticipants" xml:space="preserve">
-    <value>With participants</value>
+    <value>Cu participanții</value>
   </data>
   <data name="WithPayroll" xml:space="preserve">
-    <value>With labor payment</value>
+    <value>Cu plata muncii</value>
   </data>
   <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
-    <value>Turnover time of current assets</value>
+    <value>Timpul de rotație al activelor circulante</value>
   </data>
   <data name="year" xml:space="preserve">
     <value>an</value>
@@ -1405,9 +1405,9 @@
   <value>Vă place UFIN?</value>
 </data>
 <data name="StarOnGitHubMessage" xml:space="preserve">
-  <value>If you find this tool helpful, please give it a star on GitHub! It helps other developers discover the project.</value>
+  <value>Dacă considerați acest instrument util, vă rugăm să-i dați o stea pe GitHub! Ajută alți dezvoltatori să descopere proiectul.</value>
 </data>
-<data name="StarOnGitHub" xml:space="preserve">
-  <value>Stea pe GitHub</value>
-</data>
+ <data name="StarOnGitHub" xml:space="preserve">
+   <value>Stea pe GitHub</value>
+ </data>
 </root>
