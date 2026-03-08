@@ -8,7 +8,7 @@
 		<!-- GLOBALIZATION SETTINGS                                                 -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<InvariantGlobalization>false</InvariantGlobalization>
-		<!-- Required for dynamic culture switching (6 languages supported) -->
+		<!-- Required for dynamic culture switching at startup (15 languages supported) -->
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -28,21 +28,13 @@
 		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- TRIMMING SETTINGS - Reduces bundle size                               -->
+		<!-- BLAZOR-SPECIFIC SETTINGS (inherited trimming from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<PublishTrimmed>true</PublishTrimmed>
-		<TrimMode>partial</TrimMode>
-		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-
-		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- PERFORMANCE OPTIMIZATIONS                                             -->
-		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- Keep reflection enabled - required by Radzen.Blazor and Blazored.LocalStorage -->
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<BlazorEnableCompression>true</BlazorEnableCompression>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
-		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
-		<EventSourceSupport>false</EventSourceSupport>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- SUPPRESS TRIMMING WARNINGS FROM THIRD-PARTY ASSEMBLIES                -->
@@ -72,8 +64,7 @@
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="AFS" />
-		<TrimmerRootAssembly Include="Radzen.Blazor" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
 	</ItemGroup>
 
-</Project>
+	</Project>

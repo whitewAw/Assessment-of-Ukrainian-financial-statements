@@ -21,6 +21,24 @@
   <!-- Treat all warnings as errors for stricter code quality -->
   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- SIZE OPTIMIZATION - Applied to all projects                           -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- Trimming optimizations -->
+  <PublishTrimmed>true</PublishTrimmed>
+  <TrimMode>full</TrimMode>
+  <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+
+  <!-- Disable unused runtime features -->
+  <DebuggerSupport>false</DebuggerSupport>
+  <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+  <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+  <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+  <EventSourceSupport>false</EventSourceSupport>
+  <UseSystemResourceKeys>true</UseSystemResourceKeys>
+  <StackTraceSupport>false</StackTraceSupport>
+  <UseNativeHttpHandler>true</UseNativeHttpHandler>
+
   </PropertyGroup>
 
 
