@@ -122,10 +122,10 @@ private bool _isAIAvailable = false;
 
         baseList = CompositionOfAssets.GetDataItem(true, true);
         currentList= CompositionOfAssets.GetDataItem(true, false);
-        
+
         await CheckAIAvailability();
 
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     private async Task CheckAIAvailability()

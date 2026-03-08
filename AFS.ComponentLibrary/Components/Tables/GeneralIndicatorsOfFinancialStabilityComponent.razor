@@ -1,4 +1,4 @@
-﻿@page "/generalindicatorsoffinancialstability"
+@page "/generalindicatorsoffinancialstability"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
@@ -156,7 +156,7 @@
         
         await CheckAIAvailability();
         
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     private async Task CheckAIAvailability()

@@ -64,7 +64,7 @@
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Error in field change handler: {ex.Message}");
+            await Console.Error.WriteLineAsync($"Error in field change handler: {ex.Message}");
         }
     }
 
@@ -77,8 +77,8 @@
                 await ModelStorage.WriteModelAsync(MainModel);
             }
             catch (Exception ex)
-        {
-                Console.Error.WriteLine($"Error saving model to local storage: {ex.Message}");
+            {
+                await Console.Error.WriteLineAsync($"Error saving model to local storage: {ex.Message}");
             }
         }
     }
@@ -87,10 +87,11 @@
     {
         MainModel.UnSubscribeOnChange(OnModelPropertyChanged);
 
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = null;
-
-        await Task.CompletedTask;
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+            _cts = null;
+        }
     }
 }

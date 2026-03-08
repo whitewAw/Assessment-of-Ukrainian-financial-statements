@@ -26,7 +26,6 @@
     ║ Category 1: NOT APPLICABLE TO BLAZOR WEBASSEMBLY                             ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ MA0004/CA2007 - ConfigureAwait not needed (no SyncContext in WASM)           ║
-    ║ S6966 - Await async methods - False positives in Blazor lifecycle            ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║ Category 2: STYLE PREFERENCES (Low impact, not bugs)                         ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
@@ -35,7 +34,7 @@
     -->
 
     <!-- Category 1: Not applicable to Blazor WASM -->
-    <NoWarn>$(NoWarn);MA0004;CA2007;S6966</NoWarn>
+    <NoWarn>$(NoWarn);MA0004;CA2007</NoWarn>
 
     <!-- Category 2: Style preferences -->
     <NoWarn>$(NoWarn);MA0016</NoWarn>

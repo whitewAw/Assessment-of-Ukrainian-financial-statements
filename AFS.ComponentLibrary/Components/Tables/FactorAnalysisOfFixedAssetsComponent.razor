@@ -1,4 +1,4 @@
-﻿@page "/factoranalysisoffixedassets"
+@page "/factoranalysisoffixedassets"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @inject FactorAnalysisOfFixedAssets FactorAnalysisOfFixedAssets
@@ -128,7 +128,7 @@
         // Check AI availability on page load
         await CheckAIAvailability();
         
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     private async Task CheckAIAvailability()

@@ -88,7 +88,7 @@
             catch (Exception ex)
             {
                 // Log error but don't break the app
-                Console.Error.WriteLine($"Failed to change culture: {ex.Message}");
+                await Console.Error.WriteLineAsync($"Failed to change culture: {ex.Message}");
             }
         }
     }
