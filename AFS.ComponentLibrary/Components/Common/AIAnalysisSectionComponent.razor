@@ -1,0 +1,170 @@
+@using AFS.Core.Interfaces
+
+@* AI Financial Analysis Section - Reusable Component (DRY principle) *@
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+
+    @if (IsCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!IsAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="/Assessment-of-Ukrainian-financial-statements/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="OnRecheckAvailability">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (IsAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="OnStopAnalysis">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="OnAnalyze" disabled="@(!IsAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@AnalyzeButtonText</span>
+                </button>
+            }
+
+            @if (!string.IsNullOrEmpty(AIAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="OnClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (IsAnalyzing || !string.IsNullOrEmpty(AIAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (IsAnalyzing && string.IsNullOrEmpty(AIAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">@AnalyzingMessage</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(AIAnalysis))
+                </div>
+            </div>
+        }
+    }
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @ErrorMessage
+        </div>
+    }
+</RadzenCard>
+
+@code {
+    /// <summary>
+    /// Whether AI availability is being checked
+    /// </summary>
+    [Parameter]
+    public bool IsCheckingAvailability { get; set; }
+
+    /// <summary>
+    /// Whether AI is available
+    /// </summary>
+    [Parameter]
+    public bool IsAIAvailable { get; set; }
+
+    /// <summary>
+    /// Whether analysis is in progress
+    /// </summary>
+    [Parameter]
+    public bool IsAnalyzing { get; set; }
+
+    /// <summary>
+    /// The AI analysis result
+    /// </summary>
+    [Parameter]
+    public string AIAnalysis { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Error message to display
+    /// </summary>
+    [Parameter]
+    public string ErrorMessage { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Custom text for the analyze button
+    /// </summary>
+    [Parameter]
+    public string AnalyzeButtonText { get; set; } = "Analyze";
+
+    /// <summary>
+    /// Custom message while analyzing
+    /// </summary>
+    [Parameter]
+    public string AnalyzingMessage { get; set; } = "AI is analyzing...";
+
+    /// <summary>
+    /// Callback when analyze button is clicked
+    /// </summary>
+    [Parameter]
+    public EventCallback OnAnalyze { get; set; }
+
+    /// <summary>
+    /// Callback when stop button is clicked
+    /// </summary>
+    [Parameter]
+    public EventCallback OnStopAnalysis { get; set; }
+
+    /// <summary>
+    /// Callback when clear button is clicked
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClearAnalysis { get; set; }
+
+    /// <summary>
+    /// Callback when recheck availability button is clicked
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRecheckAvailability { get; set; }
+
+    private static string FormatAIResponse(string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+            return string.Empty;
+
+        return response
+            .Replace("\n\n", "<br/><br/>")
+            .Replace("\n", "<br/>")
+            .Replace("**", "<strong>")
+            .Replace("**", "</strong>")
+            .Replace("- ", "• ");
+    }
+}

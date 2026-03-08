@@ -1,5 +1,6 @@
 @page "/indicatorsofturnoverofcurrentassets"
 @using AFS.Core.Interfaces
+@using AFS.ComponentLibrary.Helpers
 @inject IndicatorsOfTurnoverOfCurrentAssets IndicatorsOfTurnoverOfCurrentAssets
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -40,12 +41,12 @@
             <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.FixingRatioOfCurrentAssets Digits=4
                                                 IsShowGrowthRate=false>@ResLoc["FixingRatioOfCurrentAssets"]</TrTwoYearsCalculationDataComponent>
             <tr>
-                <TdComponent Align="ML">6.</TdComponent>
-                <TdComponent Align="ML">@ResLoc["ReleaseOrLackOfCurrentAssetsDueTurnover"]</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(@IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear, 4)</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
-                <TdComponent Align="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="ML">6.</TdComponent>
+                <TdComponent TextAlignment="ML">@ResLoc["ReleaseOrLackOfCurrentAssetsDueTurnover"]</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(@IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear, 4)</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
             </tr>
         </tbody>
     </table>
@@ -159,26 +160,7 @@
         await base.OnInitializedAsync();
     }
 
-    private async Task CheckAIAvailability()
-    {
-        _isCheckingAvailability = true;
-        StateHasChanged();
-
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
-        catch (Exception)
-        {
-            _isAIAvailable = false;
-        }
-        finally
-        {
-            _isCheckingAvailability = false;
-            StateHasChanged();
-        }
-    }
+    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
 
     private async Task AnalyzeTurnoverIndicators()
     {
@@ -232,26 +214,7 @@
         }
     }
 
-    private async Task StopAnalysis()
-    {
-        try
-        {
-            // Call JavaScript to abort the current operation
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
-            await module.InvokeVoidAsync("abortCurrentOperation");
-
-            // Note: The stopped message is added by the catch block in the analyze method
-
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error stopping analysis: {ex.Message}");
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
+    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
 
     private string BuildTurnoverAnalysisPrompt()
     {
@@ -474,17 +437,5 @@ Remember: Write your entire response in {languageInstruction}. Do NOT create tab
         _errorMessage = string.Empty;
     }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        // Simple formatting for better readability
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
 }

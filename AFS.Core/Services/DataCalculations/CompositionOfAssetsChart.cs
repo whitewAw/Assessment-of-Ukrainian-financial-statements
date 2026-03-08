@@ -1,3 +1,4 @@
+using AFS.Core.Helpers;
 using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
@@ -17,24 +18,15 @@ namespace AFS.Core.Services.DataCalculations
         {
             List<ChartDataItem> assets = [];
 
-            AddIfValid(assets, "NonCurrentImmobilizedAssets", GetNonCurrentImmobilizedFunds(baseYear, begin));
-            AddIfValid(assets, "TangibleCurrentAssets", GetTangibleCurrentAssets(baseYear, begin));
-            AddIfValid(assets, "AccountsReceivable", GetAccountsReceivable(baseYear, begin));
-            AddIfValid(assets, "CashCurrentFinancialInvestments", GetCashCurrentFinancialInvestments(baseYear, begin));
-            AddIfValid(assets, "OtherCurrentAssets", GetOtherCurrentAssets(baseYear, begin));
-            AddIfValid(assets, "NonCurrentAssetsHeldForSale", GetNonCurrentAssetsHeldForSale(baseYear, begin));
-            AddIfValid(assets, "FutureExpenses", GetFutureExpenses(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "NonCurrentImmobilizedAssets", GetNonCurrentImmobilizedFunds(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "TangibleCurrentAssets", GetTangibleCurrentAssets(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "AccountsReceivable", GetAccountsReceivable(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "CashCurrentFinancialInvestments", GetCashCurrentFinancialInvestments(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "OtherCurrentAssets", GetOtherCurrentAssets(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "NonCurrentAssetsHeldForSale", GetNonCurrentAssetsHeldForSale(baseYear, begin));
+            ChartDataHelper.AddIfValid(assets, "FutureExpenses", GetFutureExpenses(baseYear, begin));
 
-            return assets.OrderByDescending(item => item.Value).ToList();
-        }
-
-        private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
-        {
-            var val = value.GetValueOrDefault(0);
-            if (!AfsConstraints.IsZeroOrInvalid(val))
-            {
-                assets.Add(new ChartDataItem { Item = item, Value = val });
-            }
+            return ChartDataHelper.SortDescending(assets);
         }
 
         public double? GetNonCurrentImmobilizedFunds(bool baseYear, bool begin) =>

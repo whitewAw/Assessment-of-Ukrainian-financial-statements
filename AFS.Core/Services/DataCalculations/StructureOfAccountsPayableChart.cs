@@ -1,3 +1,4 @@
+using AFS.Core.Helpers;
 using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
@@ -13,116 +14,118 @@ namespace AFS.Core.Services.DataCalculations
         {
             List<ChartDataItem> assets = [];
 
-            AddIfValid(assets, "WithBuyersOrSuppliers", GetWithBuyersOrSuppliers(baseYear));
-            AddIfValid(assets, "WithLongTermLiabilities", GetWithLongTermLiabilities(baseYear));
-            AddIfValid(assets, "ForBills", GetForBills(baseYear));
-            AddIfValid(assets, "FromInsurance", GetFromInsurance(baseYear));
-            AddIfValid(assets, "WithBudgetAndExtraBudgetaryFunds", GetWithBudgetAndExtraBudgetaryFunds(baseYear));
-            AddIfValid(assets, "WithAccruedIncome", GetWithAccruedIncome(baseYear));
-            AddIfValid(assets, "WithPayroll", GetWithPayroll(baseYear));
-            AddIfValid(assets, "WithAdvances", GetWithAdvances(baseYear));
-            AddIfValid(assets, "WithParticipants", GetWithParticipants(baseYear));
-            AddIfValid(assets, "WithInternalCashSettlements", GetWithInternalCashSettlements(baseYear));
-            AddIfValid(assets, "WithOther", GetWithOther(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithBuyersOrSuppliers", GetWithBuyersOrSuppliers(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithLongTermLiabilities", GetWithLongTermLiabilities(baseYear));
+            ChartDataHelper.AddIfValid(assets, "ForBills", GetForBills(baseYear));
+            ChartDataHelper.AddIfValid(assets, "FromInsurance", GetFromInsurance(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithBudgetAndExtraBudgetaryFunds", GetWithBudgetAndExtraBudgetaryFunds(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithAccruedIncome", GetWithAccruedIncome(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithPayroll", GetWithPayroll(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithAdvances", GetWithAdvances(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithParticipants", GetWithParticipants(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithInternalCashSettlements", GetWithInternalCashSettlements(baseYear));
+            ChartDataHelper.AddIfValid(assets, "WithOther", GetWithOther(baseYear));
 
-            return assets.OrderByDescending(item => item.Value).ToList();
+            return ChartDataHelper.SortDescending(assets);
         }
 
-        private static void AddIfValid(List<ChartDataItem> assets, string item, double? value)
-        {
-            var val = value.GetValueOrDefault(0);
-            if (!AfsConstraints.IsZeroOrInvalid(val))
-            {
-                assets.Add(new ChartDataItem { Item = item, Value = val });
-            }
-        }
+        private double? GetWithBuyersOrSuppliers(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithBuyersOrSuppliers.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithBuyersOrSuppliers.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithBuyersOrSuppliers(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithLongTermLiabilities(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithLongTermLiabilities.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithLongTermLiabilities.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithLongTermLiabilities(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithLongTermLiabilities.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetForBills(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.ForBills.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.ForBills.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetForBills(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.ForBills.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.ForBills.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetFromInsurance(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.FromInsurance.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.FromInsurance.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetFromInsurance(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.FromInsurance.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.FromInsurance.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithBudgetAndExtraBudgetaryFunds(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithBudgetAndExtraBudgetaryFunds.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithBudgetAndExtraBudgetaryFunds.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithBudgetAndExtraBudgetaryFunds(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithAccruedIncome(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithAccruedIncome.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithAccruedIncome.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithAccruedIncome(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithAccruedIncome.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithPayroll(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithPayroll.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithPayroll.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithPayroll(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithPayroll.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithPayroll.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithAdvances(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithAdvances.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithAdvances.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithAdvances(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithAdvances.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithAdvances.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithParticipants(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithParticipants.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithParticipants.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithParticipants(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithParticipants.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithParticipants.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithInternalCashSettlements(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithInternalCashSettlements.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithInternalCashSettlements.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
 
-        private double? GetWithInternalCashSettlements(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithInternalCashSettlements.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
-
-        private double? GetWithOther(bool baseYear)
-        {
-            if (AssessmentOfReceivableAndPayable == null) return 0;
-            return baseYear
-                ? AssessmentOfReceivableAndPayable.WithOther.PayableBase / AssessmentOfReceivableAndPayable.Total.PayableBase * 100
-                : AssessmentOfReceivableAndPayable.WithOther.PayableCurrent / AssessmentOfReceivableAndPayable.Total.PayableCurrent * 100;
-        }
+        private double? GetWithOther(bool baseYear) =>
+            baseYear
+                ? ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithOther.PayableBase,
+                    AssessmentOfReceivableAndPayable?.Total.PayableBase)
+                : ChartDataHelper.CalculatePercentage(
+                    AssessmentOfReceivableAndPayable?.WithOther.PayableCurrent,
+                    AssessmentOfReceivableAndPayable?.Total.PayableCurrent);
     }
 }

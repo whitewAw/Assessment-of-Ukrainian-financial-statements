@@ -1,6 +1,7 @@
 @page "/sourcesofcapitalformation"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
+@using AFS.ComponentLibrary.Helpers
 @inject SourcesOfCapitalFormation SourcesOfCapitalFormation
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -17,7 +18,7 @@
                                                       Current=@SourcesOfCapitalFormation.TotalSourcesOfCapital.Current Colspan=2 FieldName=@ResLoc["TotalSourcesOfCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.Equity.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.Equity.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.Equity.Base
                                                       Current=@SourcesOfCapitalFormation.Equity.Current FieldName=@ResLoc["Equity"] />
             </tr>
@@ -26,7 +27,7 @@
                                                       Current=@SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["in%toSourcesOfCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.OwnCurrentAssets.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.OwnCurrentAssets.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OwnCurrentAssets.Base
                                                       Current=@SourcesOfCapitalFormation.OwnCurrentAssets.Current Spacing="pl-3" FieldName=@ResLoc["OwnCurrentAssets"] />
             </tr>
@@ -35,7 +36,7 @@
                                                       Current=@SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%ToEquity"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.RaisedCapital.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.RaisedCapital.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.RaisedCapital.Base
                                                       Current=@SourcesOfCapitalFormation.RaisedCapital.Current FieldName=@ResLoc["RaisedCapital"] />
             </tr>
@@ -44,7 +45,7 @@
                                                       Current=@SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["in%toSourcesOfCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.LongTermLiabilities.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.LongTermLiabilities.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LongTermLiabilities.Base
                                                       Current=@SourcesOfCapitalFormation.LongTermLiabilities.Current Spacing="pl-3" FieldName=@ResLoc["LongTermLiabilities_"] />
             </tr>
@@ -53,7 +54,7 @@
                                                       Current=@SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.ShortTermLoans.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.ShortTermLoans.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.ShortTermLoans.Base
                                                       Current=@SourcesOfCapitalFormation.ShortTermLoans.Current Spacing="pl-3" FieldName=@ResLoc["ShortTermLoans"] />
             </tr>
@@ -63,7 +64,7 @@
             </tr>
 
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.AccountsPayable.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.AccountsPayable.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.AccountsPayable.Base
                                                       Current=@SourcesOfCapitalFormation.AccountsPayable.Current Spacing="pl-3" FieldName=@ResLoc["AccountsPayable"] />
             </tr>
@@ -72,7 +73,7 @@
                                                       Current=@SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.OtherCurrentLiabilities.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.OtherCurrentLiabilities.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OtherCurrentLiabilities.Base
                                                       Current=@SourcesOfCapitalFormation.OtherCurrentLiabilities.Current Spacing="pl-3" FieldName=@ResLoc["OtherCurrentLiabilities"] />
             </tr>
@@ -81,7 +82,7 @@
                                                       Current=@SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Base
                                                       Current=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Current Spacing="pl-3" FieldName=@ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"] />
             </tr>
@@ -90,7 +91,7 @@
                                                       Current=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
             </tr>
             <tr>
-                <TdComponent Rowspan="2" Align="ML">@SourcesOfCapitalFormation.FutureIncome.Number</TdComponent>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.FutureIncome.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.FutureIncome.Base
                                                       Current=@SourcesOfCapitalFormation.FutureIncome.Current FieldName=@ResLoc["FutureIncome"] />
             </tr>
@@ -211,26 +212,7 @@
         await base.OnInitializedAsync();
     }
 
-    private async Task CheckAIAvailability()
-    {
-        _isCheckingAvailability = true;
-        StateHasChanged();
-
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
-        catch (Exception)
-        {
-            _isAIAvailable = false;
-        }
-        finally
-        {
-            _isCheckingAvailability = false;
-            StateHasChanged();
-        }
-    }
+    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
 
     private async Task AnalyzeCapitalStructure()
     {
@@ -280,25 +262,7 @@
         }
     }
 
-    private async Task StopAnalysis()
-    {
-        try
-        {
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
-            await module.InvokeVoidAsync("abortCurrentOperation");
-
-            // Note: The stopped message is added by the catch block in the analyze method
-
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error stopping analysis: {ex.Message}");
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
+    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
 
     private string BuildCapitalStructurePrompt()
     {
@@ -549,16 +513,5 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
         _errorMessage = string.Empty;
     }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
 }

@@ -10,10 +10,10 @@
         <tbody>
             <tr>
                 <TdComponent>@ResLoc["AverageNumberOfEmployees"], @ResLoc["people"]</TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.AverageNumberOfEmployeesBase class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.AverageNumberOfEmployeesCurrent class="w-100" />
                 </TdComponent>
             </tr>
@@ -37,31 +37,31 @@
         <tbody>
             <tr>
                 <TdComponent>@MainModel.BaseYear&nbsp;@ResLoc["year"]</TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedFixedAssets class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedNewlyAcquiredFixedAssets class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LeftFixedAssets class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LiquidatedFixedAssets class="w-100" />
                 </TdComponent>
             </tr>
             <tr>
                 <TdComponent>@MainModel.CurrentYear&nbsp;@ResLoc["year"]</TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedFixedAssets class="w-100"  />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedNewlyAcquiredFixedAssets class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LeftFixedAssets class="w-100" />
                 </TdComponent>
-                <TdComponent Align="MR">
+                <TdComponent TextAlignment="MR">
                     <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LiquidatedFixedAssets class="w-100" />
                 </TdComponent>
             </tr>

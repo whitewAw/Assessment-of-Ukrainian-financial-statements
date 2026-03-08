@@ -1,5 +1,6 @@
 @page "/availabilityandmovementoffixedassets"
 @using AFS.Core.Interfaces
+@using AFS.ComponentLibrary.Helpers
 @inject AvailabilityAndMovementOfFixedAssets AvailabilityAndMovementOfFixedAssets
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -145,26 +146,7 @@
         await base.OnInitializedAsync();
     }
 
-    private async Task CheckAIAvailability()
-    {
-        _isCheckingAvailability = true;
-        StateHasChanged();
-
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
-        catch (Exception)
-        {
-            _isAIAvailable = false;
-        }
-        finally
-        {
-            _isCheckingAvailability = false;
-            StateHasChanged();
-        }
-    }
+    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
 
     private async Task AnalyzeFixedAssets()
     {
@@ -218,26 +200,7 @@
         }
     }
 
-    private async Task StopAnalysis()
-    {
-        try
-        {
-            // Call JavaScript to abort the current operation
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
-            await module.InvokeVoidAsync("abortCurrentOperation");
-
-            // Note: The stopped message is added by the catch block in the analyze method
-
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error stopping analysis: {ex.Message}");
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
+    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
 
     private string BuildFixedAssetsAnalysisPrompt()
     {
@@ -452,17 +415,5 @@ Remember: Write in {languageInstruction}. NO tables. Focus on FIXED ASSET STRATE
         _errorMessage = string.Empty;
     }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        // Simple formatting for better readability
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
 }

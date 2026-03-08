@@ -1,12 +1,12 @@
-﻿<tr>
-    <TdComponent Align="ML">@Item.Number</TdComponent>
-    <TdComponent Align="ML">@ChildContent</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseBegin,Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseEnd,Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentBegin,Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentEnd,Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseDeviation,Digits)</TdComponent>
-    <TdComponent Align="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentDeviation,Digits)</TdComponent>
+<tr>
+    <TdComponent TextAlignment="ML">@Item.Number</TdComponent>
+    <TdComponent TextAlignment="ML">@ChildContent</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseBegin,Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseEnd,Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentBegin,Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentEnd,Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseDeviation,Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentDeviation,Digits)</TdComponent>
 </tr>
 
 @code {

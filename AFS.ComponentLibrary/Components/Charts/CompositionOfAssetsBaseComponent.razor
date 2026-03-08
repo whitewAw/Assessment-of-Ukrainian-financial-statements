@@ -2,6 +2,7 @@
 @using AFS.Core.Models
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
+@using AFS.ComponentLibrary.Helpers
 @inject CompositionOfAssetsChart CompositionOfAssets
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -106,7 +107,7 @@
 private string? tableName;
 IReadOnlyList<ChartDataItem>? baseList;
 IReadOnlyList<ChartDataItem>? currentList;
-    
+
 private string _aiAnalysis = string.Empty;
 private string _errorMessage = string.Empty;
 private bool _isAnalyzing = false;
@@ -123,9 +124,9 @@ private bool _isAIAvailable = false;
         baseList = CompositionOfAssets.GetDataItem(true, true);
         currentList= CompositionOfAssets.GetDataItem(true, false);
 
-        await CheckAIAvailability();
+        await CheckAIAvailability().ConfigureAwait(false);
 
-        await base.OnInitializedAsync();
+        await base.OnInitializedAsync().ConfigureAwait(false);
     }
 
     private async Task CheckAIAvailability()
@@ -133,20 +134,10 @@ private bool _isAIAvailable = false;
         _isCheckingAvailability = true;
         StateHasChanged();
 
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
-        catch (Exception)
-        {
-            _isAIAvailable = false;
-        }
-        finally
-        {
-            _isCheckingAvailability = false;
-            StateHasChanged();
-        }
+        _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false);
+
+        _isCheckingAvailability = false;
+        StateHasChanged();
     }
 
     private async Task AnalyzeAssetComposition()
@@ -165,30 +156,18 @@ private bool _isAIAvailable = false;
         try
         {
             var prompt = BuildAssetCompositionPrompt();
-            
+
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
                 _aiAnalysis += chunk;
-                InvokeAsync(StateHasChanged);
-            });
+                _ = InvokeAsync(StateHasChanged);
+            }).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
-            {
-                if (!string.IsNullOrEmpty(_aiAnalysis))
-                {
-                    _aiAnalysis += "\n\n[Analysis stopped by user]";
-                }
-                else
-                {
-                    _errorMessage = "Analysis was stopped by user.";
-                }
-            }
-            else
-            {
-                _errorMessage = $"Failed to analyze data: {ex.Message}";
-            }
+            var (appendText, errorMsg) = AIAnalysisHelper.HandleAnalysisException(ex, _aiAnalysis);
+            if (appendText != null) _aiAnalysis += appendText;
+            if (errorMsg != null) _errorMessage = errorMsg;
         }
         finally
         {
@@ -199,22 +178,9 @@ private bool _isAIAvailable = false;
 
     private async Task StopAnalysis()
     {
-        try
-        {
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
-            await module.InvokeVoidAsync("abortCurrentOperation");
-
-            // Note: The stopped message is added by the catch block in the analyze method
-
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error stopping analysis: {ex.Message}");
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
+        await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false);
+        _isAnalyzing = false;
+        StateHasChanged();
     }
 
     private string BuildAssetCompositionPrompt()
@@ -401,16 +367,5 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
         _errorMessage = string.Empty;
     }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
 }

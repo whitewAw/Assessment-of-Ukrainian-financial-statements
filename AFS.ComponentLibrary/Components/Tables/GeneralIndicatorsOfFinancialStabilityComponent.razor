@@ -1,6 +1,7 @@
 @page "/generalindicatorsoffinancialstability"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
+@using AFS.ComponentLibrary.Helpers
 @inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -13,37 +14,37 @@
         <THeadTwoYearsDetail />
         <tbody>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.Stocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.Stocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.Stocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.Stocks.Current FieldName=@ResLoc["Stocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalForStocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalAndLongTermForStocks"] />
             </tr>
             <tr>
-                <TdComponent Align="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Number</TdComponent>
                 <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base
                                                       Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks"] />
             </tr>
@@ -159,26 +160,7 @@
         await base.OnInitializedAsync();
     }
 
-    private async Task CheckAIAvailability()
-    {
-        _isCheckingAvailability = true;
-        StateHasChanged();
-
-        try
-        {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync();
-            _isAIAvailable = isAvailable;
-        }
-        catch (Exception)
-        {
-            _isAIAvailable = false;
-        }
-        finally
-        {
-            _isCheckingAvailability = false;
-            StateHasChanged();
-        }
-    }
+    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
 
     private async Task AnalyzeFinancialStability()
     {
@@ -228,25 +210,7 @@
         }
     }
 
-    private async Task StopAnalysis()
-    {
-        try
-        {
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js");
-            await module.InvokeVoidAsync("abortCurrentOperation");
-
-            // Note: The stopped message is added by the catch block in the analyze method
-
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error stopping analysis: {ex.Message}");
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
+    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
 
     private string BuildFinancialStabilityPrompt()
     {
@@ -562,16 +526,5 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
         _errorMessage = string.Empty;
     }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
 }

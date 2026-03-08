@@ -8,7 +8,11 @@ using System.Text.Json;
 
 namespace AFS.Core.Services
 {
-    public class BrowserExportImportHandler : IModelExportImportHandler
+    /// <summary>
+    /// Handles model export/import via browser file operations.
+    /// Sealed because it's a DI service not designed for inheritance.
+    /// </summary>
+    public sealed class BrowserExportImportHandler : IModelExportImportHandler
     {
         private readonly JsInterop jsInterop;
         private readonly AfsModel model;

@@ -1,10 +1,10 @@
 <tr>
-    <TdComponent Align="ML">@FieldName</TdComponent>
+    <TdComponent TextAlignment="ML">@FieldName</TdComponent>
     <TdComponent>@FieldNumber</TdComponent>
-    <TdComponent Align="MR">
+    <TdComponent TextAlignment="MR">
         <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Current class="w-100" />
     </TdComponent>
-    <TdComponent Align="MR">
+    <TdComponent TextAlignment="MR">
         <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@Field.Previous class="w-100" />
     </TdComponent>
 </tr>

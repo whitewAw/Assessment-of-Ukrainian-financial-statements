@@ -24,17 +24,17 @@
 
                     @* Section I: Non-Current Assets *@
                     <tr>
-                        <ThComponent Colspan="4" Align="ML" Spacing="pl-5">
+                        <ThComponent Colspan="4" TextAlignment="ML" Spacing="pl-5">
                             I. @ResLoc["NonCurrentAssets"]
                         </ThComponent>
                     </tr>
 
                     @* Intangible Assets *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["IntangibleAssets"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["IntangibleAssets"]</TdComponent>
                         <TdComponent>1000</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1000Begin()</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1000End()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1000Begin()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1000End()</TdComponent>
                     </tr>
                     <TrF1Component Field="@F1.F1001" FieldNumber="1001" Spacing="pl-4" FieldName="@ResLoc["initialCost"]" />
                     <TrF1Component Field="@F1.F1002" FieldNumber="1002" Spacing="pl-4" FieldName="@ResLoc["accumulatedDepreciation"]" />
@@ -42,10 +42,10 @@
 
                     @* Fixed Assets *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["FixedAssets"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["FixedAssets"]</TdComponent>
                         <TdComponent>1010</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1010Begin()</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1010End()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1010Begin()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1010End()</TdComponent>
                     </tr>
                     <TrF1Component Field="@F1.F1011" FieldNumber="1011" Spacing="pl-4" FieldName="@ResLoc["initialCost"]" />
                     <TrF1Component Field="@F1.F1012" FieldNumber="1012" Spacing="pl-4" FieldName="@ResLoc["wear"]" />
@@ -54,21 +54,21 @@
 
                     @* Long-Term Financial Investments *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["LongTermFinancialIvestments"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["LongTermFinancialIvestments"]</TdComponent>
                         <TdComponent Rowspan="2">1030</TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1030.Begin"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["LongTermFinancialIvestments"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1030.End"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["LongTermFinancialIvestments"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
                     <tr>
-                        <TdComponent Align="ML" Spacing="pl-4">@ResLoc["whichAccountedForUsingEquityMethod"]</TdComponent>
+                        <TdComponent TextAlignment="ML" Spacing="pl-4">@ResLoc["whichAccountedForUsingEquityMethod"]</TdComponent>
                     </tr>
 
                     <TrF1Component Field="@F1.F1035" FieldNumber="1035" Spacing="pl-4" FieldName="@ResLoc["otherFinancialInvestments"]" />
@@ -78,25 +78,25 @@
 
                     @* Section I Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["TotalSection"] I</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["TotalSection"] I</ThComponent>
                         <ThComponent>1095</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1095Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1095End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1095Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1095End()</ThComponent>
                     </tr>
 
                     @* Section II: Current Assets *@
                     <tr>
-                        <ThComponent Colspan="4" Align="ML" Spacing="pl-5">
+                        <ThComponent Colspan="4" TextAlignment="ML" Spacing="pl-5">
                             II. @ResLoc["CurrentAssets"]
                         </ThComponent>
                     </tr>
 
                     @* Stocks *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["Stocks"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["Stocks"]</TdComponent>
                         <TdComponent>1100</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1100Begin()</TdComponent>
-                        <TdComponent Align="MR" Spacing="pr-4">@F1.GetF1100End()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1100Begin()</TdComponent>
+                        <TdComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1100End()</TdComponent>
                     </tr>
                     <TrF1Component Field="@F1.F1101" FieldNumber="1101" Spacing="pl-4" FieldName="@ResLoc["productionStocks"]" />
                     <TrF1Component Field="@F1.F1102" FieldNumber="1102" Spacing="pl-4" FieldName="@ResLoc["unfinishedProduction"]" />
@@ -108,21 +108,21 @@
 
                     @* Accounts Receivable *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["AccountsReceivableForDebts"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["AccountsReceivableForDebts"]</TdComponent>
                         <TdComponent Rowspan="2">1130</TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1130.Begin"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["AccountsReceivableForDebts"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1130.End"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["AccountsReceivableForDebts"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
                     <tr>
-                        <TdComponent Align="ML" Spacing="pl-4">@ResLoc["onIssuedAdvances"]</TdComponent>
+                        <TdComponent TextAlignment="ML" Spacing="pl-4">@ResLoc["onIssuedAdvances"]</TdComponent>
                     </tr>
 
                     <TrF1Component Field="@F1.F1135" FieldNumber="1135" Spacing="pl-4" FieldName="@ResLoc["withBudget"]" />
@@ -137,24 +137,24 @@
 
                     @* Section II Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["TotalSection"] II</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["TotalSection"] II</ThComponent>
                         <ThComponent>1195</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1195Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1195End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1195Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1195End()</ThComponent>
                     </tr>
 
                     @* Section III: Non-Current Assets Held For Sale *@
                     <tr>
-                        <ThComponent Align="ML" Spacing="pl-5">
+                        <ThComponent TextAlignment="ML" Spacing="pl-5">
                             III. @ResLoc["NonCurrentAssetsHeldForSale"]
                         </ThComponent>
                         <ThComponent>1200</ThComponent>
-                        <ThComponent Align="MR">
+                        <ThComponent TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1200.Begin"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["NonCurrentAssetsHeldForSale"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </ThComponent>
-                        <ThComponent Align="MR">
+                        <ThComponent TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1200.End"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["NonCurrentAssetsHeldForSale"]} {ResLoc["AtEndingReportingPeriod"]}")" />
@@ -163,10 +163,10 @@
 
                     @* Balance Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["Balance"]</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["Balance"]</ThComponent>
                         <ThComponent>1300</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1300Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1300End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1300Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1300End()</ThComponent>
                     </tr>
                 </tbody>
             </table>
@@ -196,7 +196,7 @@
 
                     @* Section I: Equity *@
                     <tr>
-                        <ThComponent Colspan="4" Align="ML" Spacing="pl-5">
+                        <ThComponent Colspan="4" TextAlignment="ML" Spacing="pl-5">
                             I. @ResLoc["Equity"]
                         </ThComponent>
                     </tr>
@@ -211,15 +211,15 @@
 
                     @* Section I Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["TotalSection"] I</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["TotalSection"] I</ThComponent>
                         <ThComponent>1495</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1495Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1495End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1495Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1495End()</ThComponent>
                     </tr>
 
                     @* Section II: Long-Term Liabilities *@
                     <tr>
-                        <ThComponent Colspan="4" Align="ML" Spacing="pl-5">
+                        <ThComponent Colspan="4" TextAlignment="ML" Spacing="pl-5">
                             II. @ResLoc["LongTermLiabilitiesAndCollateral"]
                         </ThComponent>
                     </tr>
@@ -232,15 +232,15 @@
 
                     @* Section II Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["TotalSection"] II</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["TotalSection"] II</ThComponent>
                         <ThComponent>1595</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1595Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1595End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1595Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1595End()</ThComponent>
                     </tr>
 
                     @* Section III: Current Liabilities *@
                     <tr>
-                        <ThComponent Colspan="4" Align="ML" Spacing="pl-5">
+                        <ThComponent Colspan="4" TextAlignment="ML" Spacing="pl-5">
                             III. @ResLoc["CurrentLiabilitiesAndProvisions"]
                         </ThComponent>
                     </tr>
@@ -250,21 +250,21 @@
 
                     @* Current Accounts Payable *@
                     <tr>
-                        <TdComponent Align="ML">@ResLoc["CurrentAccountsPayableFor"]</TdComponent>
+                        <TdComponent TextAlignment="ML">@ResLoc["CurrentAccountsPayableFor"]</TdComponent>
                         <TdComponent Rowspan="2">1610</TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1610.Begin"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["CurrentAccountsPayableFor"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </TdComponent>
-                        <TdComponent Rowspan="2" Align="MR">
+                        <TdComponent Rowspan="2" TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1610.End"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["CurrentAccountsPayableFor"]} {ResLoc["AtEndingReportingPeriod"]}")" />
                         </TdComponent>
                     </tr>
                     <tr>
-                        <TdComponent Align="ML" Spacing="pl-4">@ResLoc["longTermLiabilities"]</TdComponent>
+                        <TdComponent TextAlignment="ML" Spacing="pl-4">@ResLoc["longTermLiabilities"]</TdComponent>
                     </tr>
 
                     <TrF1Component Field="@F1.F1615" FieldNumber="1615" Spacing="pl-4" FieldName="@ResLoc["goodsWorksServices"]" />
@@ -281,24 +281,24 @@
 
                     @* Section III Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["TotalSection"] III</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["TotalSection"] III</ThComponent>
                         <ThComponent>1695</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1695Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1695End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1695Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1695End()</ThComponent>
                     </tr>
 
                     @* Liabilities Related to Non-Current Assets Held For Sale *@
                     <tr>
-                        <ThComponent Align="ML" Spacing="pl-5">
+                        <ThComponent TextAlignment="ML" Spacing="pl-5">
                             III. @ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]
                         </ThComponent>
                         <ThComponent>1700</ThComponent>
-                        <ThComponent Align="MR">
+                        <ThComponent TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1700.Begin"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]} {ResLoc["AtBeginningReportingPeriod"]}")" />
                         </ThComponent>
-                        <ThComponent Align="MR">
+                        <ThComponent TextAlignment="MR">
                             <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value="@F1.F1700.End"
                                            class="w-100"
                                            aria-label="@($"{ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"]} {ResLoc["AtEndingReportingPeriod"]}")" />
@@ -307,10 +307,10 @@
 
                     @* Balance Total *@
                     <tr>
-                        <ThComponent Align="ML">@ResLoc["Balance"]</ThComponent>
+                        <ThComponent TextAlignment="ML">@ResLoc["Balance"]</ThComponent>
                         <ThComponent>1900</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1900Begin()</ThComponent>
-                        <ThComponent Align="MR" Spacing="pr-4">@F1.GetF1900End()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1900Begin()</ThComponent>
+                        <ThComponent TextAlignment="MR" Spacing="pr-4">@F1.GetF1900End()</ThComponent>
                     </tr>
                 </tbody>
             </table>
