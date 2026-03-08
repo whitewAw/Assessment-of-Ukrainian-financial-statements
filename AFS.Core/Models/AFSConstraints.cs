@@ -49,7 +49,7 @@ namespace AFS.Core.Models
 
         /// <summary>
         /// Gets the language name for AI prompts based on the current UI culture.
-        /// Supports: Ukrainian, English, German, Spanish, French, Polish, Turkish, Italian, Chinese, Russian.
+        /// Supports: Ukrainian, English, German, Spanish, French, Polish, Turkish, Italian, Chinese, Romanian, Hungarian, Czech, Dutch, Russian.
         /// </summary>
         public static string GetLanguageInstruction()
         {
@@ -66,6 +66,10 @@ namespace AFS.Core.Models
                 "tr" => "Turkish",
                 "it" => "Italian",
                 "zh" => "Chinese",
+                "ro" => "Romanian",
+                "hu" => "Hungarian",
+                "cs" => "Czech",
+                "nl" => "Dutch",
                 "ru" => "Russian",
                 _ => "English"
             };

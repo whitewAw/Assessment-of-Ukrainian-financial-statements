@@ -32,7 +32,11 @@
         ["pl"] = ("🇵🇱", "Polski"),
         ["tr"] = ("🇹🇷", "Türkçe"),
         ["it"] = ("🇮🇹", "Italiano"),
-        ["zh"] = ("🇨🇳", "简体中文")
+        ["zh"] = ("🇨🇳", "简体中文"),
+        ["ro"] = ("🇷🇴", "Română"),
+        ["hu"] = ("🇭🇺", "Magyar"),
+        ["cs"] = ("🇨🇿", "Čeština"),
+        ["nl"] = ("🇳🇱", "Nederlands")
     };
 
     private static readonly CultureInfo[] supportedCultures =
@@ -46,7 +50,11 @@
         CultureInfo.GetCultureInfo("pl"),
         CultureInfo.GetCultureInfo("tr"),
         CultureInfo.GetCultureInfo("it"),
-        CultureInfo.GetCultureInfo("zh")
+        CultureInfo.GetCultureInfo("zh"),
+        CultureInfo.GetCultureInfo("ro"),
+        CultureInfo.GetCultureInfo("hu"),
+        CultureInfo.GetCultureInfo("cs"),
+        CultureInfo.GetCultureInfo("nl")
     ];
 
     private readonly List<CultureDisplayItem> cultureItems = supportedCultures
