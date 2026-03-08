@@ -67,14 +67,7 @@ jobs:
           dotnet publish AFS/AFS.csproj \
             -c Release \
             -o release \
-            --no-restore \
-            -p:RunAOTCompilation=true \
-            -p:WasmStripILAfterAOT=true \
-            -p:PublishTrimmed=true \
-            -p:TrimMode=partial \
-            -p:BlazorEnableCompression=true \
-            -p:WasmNativeStrip=true \
-            -p:EmccLinkOptimizationFlag=-Oz
+            --no-restore
         env:
           # Increase memory for AOT compilation
           NODE_OPTIONS: --max_old_space_size=4096
