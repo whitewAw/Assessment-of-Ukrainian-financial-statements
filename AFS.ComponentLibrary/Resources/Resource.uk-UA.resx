@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -455,6 +455,9 @@
   </data>
   <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
     <value>Первісна вартість основних засобів на кінець періоду</value>
+  </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>AI Асистент</value>
   </data>
   <data name="InputData" xml:space="preserve">
     <value>Вхідні дані</value>
