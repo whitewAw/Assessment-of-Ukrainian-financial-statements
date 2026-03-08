@@ -7,7 +7,7 @@
     <ErrorContent Context="exception">
         <div class="alert alert-danger m-3" role="alert">
             <h4 class="alert-heading">
-                <span class="oi oi-warning" aria-hidden="true"></span>
+                <RadzenIcon Icon="warning" />
                 @errorTitle
             </h4>
             <p>@errorMessage</p>
@@ -26,14 +26,14 @@
             <hr />
             <div class="d-flex gap-2">
                 <button class="btn btn-primary" @onclick="Recover">
-                    <span class="oi oi-reload" aria-hidden="true"></span>
+                    <RadzenIcon Icon="refresh" />
                     @tryAgainText
                 </button>
 
                 @if (ShowHomeButton)
                 {
                     <a href="" class="btn btn-secondary">
-                        <span class="oi oi-home" aria-hidden="true"></span>
+                        <RadzenIcon Icon="home" />
                         @goHomeText
                     </a>
                 }

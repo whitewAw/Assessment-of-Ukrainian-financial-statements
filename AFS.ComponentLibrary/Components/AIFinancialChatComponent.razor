@@ -1,4 +1,4 @@
-﻿@using AFS.Core.Interfaces
+@using AFS.Core.Interfaces
 @using AFS.Core.Models
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Resources
@@ -39,7 +39,7 @@
         else if (_isAvailable)
         {
             <span class="status-available">
-                <i class="oi oi-check me-2"></i>
+                <RadzenIcon Icon="check_circle" class="me-2" />
                 @_statusMessage
             </span>
         }
@@ -47,7 +47,7 @@
         {
             <div class="alert alert-danger mb-0" role="alert" style="background-color: #f8d7da; border-color: #f5c2c7; color: #842029;">
                 <h6 class="alert-heading" style="color: #842029;">
-                    <i class="oi oi-warning me-2"></i>
+                    <RadzenIcon Icon="warning" class="me-2" />
                     @ResLoc["AINotAvailable"]
                 </h6>
                 <div style="white-space: pre-line; font-size: 0.9rem; color: #842029;">@_statusMessage</div>
@@ -59,11 +59,11 @@
         @if (!_isAvailable && !_isCheckingAvailability)
         {
             <div class="text-center text-muted p-4">
-                <i class="oi oi-info" style="font-size: 3rem, color: #6c757d;"></i>
+                <RadzenIcon Icon="info" style="font-size: 3rem; color: #6c757d;" />
                 <h5 class="mt-3" style="color: #495057;">@ResLoc["AINotReady"]</h5>
                 <p style="color: #6c757d;">@ResLoc["AIFollowSetupInstructions"]</p>
                 <button class="btn btn-primary mt-2" @onclick="CheckAIAvailability">
-                    <i class="oi oi-reload me-2"></i>
+                    <RadzenIcon Icon="refresh" class="me-2" />
                     @ResLoc["RecheckAvailability"]
                 </button>
             </div>
@@ -110,17 +110,17 @@
             <button class="btn btn-sm btn-outline-primary me-2 quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.FinancialHealth)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <span class="oi oi-pulse me-1" aria-hidden="true"></span> @ResLoc["FinancialHealthButton"]
+                <RadzenIcon Icon="favorite" class="me-1" /> @ResLoc["FinancialHealthButton"]
             </button>
             <button class="btn btn-sm btn-outline-primary me-2 quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.Recommendations)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <span class="oi oi-lightbulb me-1" aria-hidden="true"></span> @ResLoc["GetRecommendationsButton"]
+                <RadzenIcon Icon="lightbulb" class="me-1" /> @ResLoc["GetRecommendationsButton"]
             </button>
             <button class="btn btn-sm btn-outline-primary quick-action-btn"
                     @onclick="() => SendQuickPrompt(QuickPrompts.KeyRatios)"
                     disabled="@(!_isAvailable || _isProcessing)">
-                <span class="oi oi-graph me-1" aria-hidden="true"></span> @ResLoc["ExplainKeyRatiosButton"]
+                <RadzenIcon Icon="show_chart" class="me-1" /> @ResLoc["ExplainKeyRatiosButton"]
             </button>
         </div>
 
@@ -137,7 +137,7 @@
                 <button class="btn btn-danger stop-btn"
                         @onclick="StopStreaming"
                         title="@ResLoc["StopGeneration"]">
-                    <span class="oi oi-media-stop" aria-hidden="true"></span>
+                    <RadzenIcon Icon="stop" />
                 </button>
             }
             else
@@ -146,7 +146,7 @@
                         @onclick="SendMessage"
                         disabled="@(!_isAvailable || _isProcessing || string.IsNullOrWhiteSpace(_userInput))"
                         title="@(!_isAvailable ? ResLoc["AINotAvailable"] : ResLoc["SendMessage"])">
-                    <span class="oi oi-media-play" aria-hidden="true"></span>
+                    <RadzenIcon Icon="send" />
                 </button>
             }
         </div>

@@ -1,4 +1,4 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+/* Open-Iconic removed - using Radzen Material icons instead (saves ~162KB) */
 
 /* ========================================
    BASE STYLES & TYPOGRAPHY
@@ -407,7 +407,7 @@ a:hover, .btn-link:hover {
 /* Reduce paint complexity during interactions */
 @media (prefers-reduced-motion: no-preference) {
     .sidebar .nav-item {
-        contain: content;
+        contain: layout paint;
     }
 }
 
