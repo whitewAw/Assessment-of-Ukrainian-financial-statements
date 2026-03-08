@@ -8,6 +8,7 @@
 	Blazor WebAssembly Single Page Application (SPA)
 	All routes are handled client-side by Blazor Router
 	Last Updated: 2025-01-21
+	Supported Languages: 15 (uk, en, pl, ro, hu, cs, de, nl, fr, it, es, tr, zh, ja, ru)
 	Total URLs: 28
 	-->
 
@@ -19,10 +20,19 @@
 		<priority>1.0</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"/>
 		<xhtml:link rel="alternate" hreflang="uk" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=uk"/>
-		<xhtml:link rel="alternate" hreflang="ru" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=ru"/>
-		<xhtml:link rel="alternate" hreflang="es" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=es"/>
+		<xhtml:link rel="alternate" hreflang="pl" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=pl"/>
+		<xhtml:link rel="alternate" hreflang="ro" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=ro"/>
+		<xhtml:link rel="alternate" hreflang="hu" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=hu"/>
+		<xhtml:link rel="alternate" hreflang="cs" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=cs"/>
 		<xhtml:link rel="alternate" hreflang="de" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=de"/>
+		<xhtml:link rel="alternate" hreflang="nl" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=nl"/>
 		<xhtml:link rel="alternate" hreflang="fr" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=fr"/>
+		<xhtml:link rel="alternate" hreflang="it" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=it"/>
+		<xhtml:link rel="alternate" hreflang="es" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=es"/>
+		<xhtml:link rel="alternate" hreflang="tr" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=tr"/>
+		<xhtml:link rel="alternate" hreflang="zh" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=zh"/>
+		<xhtml:link rel="alternate" hreflang="ja" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=ja"/>
+		<xhtml:link rel="alternate" hreflang="ru" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/?lang=ru"/>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"/>
 		<image:image>
 			<image:loc>https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png</image:loc>
@@ -39,10 +49,19 @@
 		<priority>0.95</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant" />
 		<xhtml:link rel="alternate" hreflang="uk" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=uk" />
-		<xhtml:link rel="alternate" hreflang="ru" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=ru" />
-		<xhtml:link rel="alternate" hreflang="es" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=es" />
+		<xhtml:link rel="alternate" hreflang="pl" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=pl" />
+		<xhtml:link rel="alternate" hreflang="ro" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=ro" />
+		<xhtml:link rel="alternate" hreflang="hu" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=hu" />
+		<xhtml:link rel="alternate" hreflang="cs" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=cs" />
 		<xhtml:link rel="alternate" hreflang="de" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=de" />
+		<xhtml:link rel="alternate" hreflang="nl" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=nl" />
 		<xhtml:link rel="alternate" hreflang="fr" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=fr" />
+		<xhtml:link rel="alternate" hreflang="it" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=it" />
+		<xhtml:link rel="alternate" hreflang="es" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=es" />
+		<xhtml:link rel="alternate" hreflang="tr" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=tr" />
+		<xhtml:link rel="alternate" hreflang="zh" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=zh" />
+		<xhtml:link rel="alternate" hreflang="ja" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=ja" />
+		<xhtml:link rel="alternate" hreflang="ru" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant?lang=ru" />
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/ai-assistant" />
 		<image:image>
 			<image:loc>https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/icon-512.png</image:loc>

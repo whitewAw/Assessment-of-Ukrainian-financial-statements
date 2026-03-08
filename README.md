@@ -51,7 +51,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ **Offline-first** - Works without internet after initial load
 - ✅ **Privacy-focused** - All calculations happen in your browser
 - ✅ **No installation** - Just open and use
-- ✅ **Multi-language** - Supports 7 languages (Ukrainian, English, German, Spanish, French, Polish, Russian)
+- ✅ **Multi-language** - Supports 15 languages (ordered by Ukraine economic importance)
 - ✅ **Professional-grade** - 17 comprehensive financial analysis tables + 7 interactive charts
 - ✅ **Open Source** - Free to use, modify, and contribute
 
@@ -68,7 +68,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - 🔒 **100% Private** - No data sent to servers, everything runs locally
 - 💬 **Conversational Interface** - Chat naturally about your financial data
 - 📊 **Context-Aware** - AI has full access to your company's financial data
-- 🌍 **Multi-Language** - Responds in Ukrainian or English automatically
+- 🌍 **Multi-Language** - Responds in 15 languages automatically
 - ⚡ **Streaming Responses** - Real-time AI answers with stop control
 - 📈 **Smart Analysis** - Calculates ratios, identifies trends, provides recommendations
 
@@ -84,7 +84,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ Provide actionable recommendations with timelines
 - ✅ Identify risks and suggest mitigation strategies
 - ✅ Compare against industry benchmarks
-- ✅ Natural conversation in Ukrainian or English
+- ✅ Natural conversation in 15 supported languages
 
 #### Requirements:
 - Google Chrome 127+ with Prompt API enabled
@@ -122,14 +122,27 @@ This application provides a powerful, browser-based tool for comprehensive analy
 3. **Structure of Accounts Payable** (Base & Current) - Liability breakdown
 4. **Working Capital Turnover Time** - Efficiency trends
 
-### 🌍 Internationalization
-- Ukrainian (Українська) 🇺🇦
-- English 🇬🇧
-- German (Deutsch) 🇩🇪
-- Spanish (Español) 🇪🇸
-- French (Français) 🇫🇷
-- Polish (Polski) 🇵🇱
-- Russian (Русский) 🇷🇺
+### 🌍 Internationalization (15 Languages)
+
+*Ordered by importance for Ukraine's economy:*
+
+| # | Flag | Language | Reason |
+|---|------|----------|--------|
+| 1 | 🇺🇦 | Ukrainian (Українська) | Native |
+| 2 | 🇺🇸 | English | International business |
+| 3 | 🇵🇱 | Polish (Polski) | Neighbor, largest diaspora |
+| 4 | 🇷🇴 | Romanian (Română) | Neighbor |
+| 5 | 🇭🇺 | Hungarian (Magyar) | Neighbor |
+| 6 | 🇨🇿 | Czech (Čeština) | Neighbor region |
+| 7 | 🇩🇪 | German (Deutsch) | Major EU trade partner |
+| 8 | 🇳🇱 | Dutch (Nederlands) | EU partner (Rotterdam port) |
+| 9 | 🇫🇷 | French (Français) | EU partner |
+| 10 | 🇮🇹 | Italian (Italiano) | EU partner |
+| 11 | 🇪🇸 | Spanish (Español) | EU partner |
+| 12 | 🇹🇷 | Turkish (Türkçe) | Black Sea partner |
+| 13 | 🇨🇳 | Chinese (简体中文) | Growing trade |
+| 14 | 🇯🇵 | Japanese (日本語) | Technology & investment |
+| 15 | 🇷🇺 | Russian (Русский) | Historical context (last due to current situation) |
 
 ### 💾 Data Management
 - **Local Storage** - Save your data securely in browser
@@ -789,7 +802,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 🗺️ Roadmap
 
 ### Completed ✅
-- [x] Multi-language support (6 languages)
+- [x] Multi-language support (15 languages)
 - [x] 17 comprehensive financial analysis tables
 - [x] 7 interactive charts
 - [x] PWA with offline support
@@ -842,7 +855,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ### Key Metrics
 - **17** Financial Analysis Tables
 - **7** Interactive Charts
-- **6** Languages Supported
+- **15** Languages Supported
 - **100%** Client-Side Processing
 - **0** Server Dependencies
 - **0** Data Collection

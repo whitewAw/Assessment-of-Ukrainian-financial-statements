@@ -6,6 +6,7 @@
 	UFIN - Ukrainian Financial Statement Analysis Tool
 	https://ua-finance.netlify.app/
 	Optimized for Google Search
+	Supported Languages: 15 (uk, en, pl, ro, hu, cs, de, nl, fr, it, es, tr, zh, ja, ru)
 	Last Updated: 2025-01-21
 	-->
 
@@ -17,10 +18,19 @@
 		<priority>1.0</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://ua-finance.netlify.app/"/>
 		<xhtml:link rel="alternate" hreflang="uk" href="https://ua-finance.netlify.app/?lang=uk"/>
-		<xhtml:link rel="alternate" hreflang="ru" href="https://ua-finance.netlify.app/?lang=ru"/>
-		<xhtml:link rel="alternate" hreflang="es" href="https://ua-finance.netlify.app/?lang=es"/>
+		<xhtml:link rel="alternate" hreflang="pl" href="https://ua-finance.netlify.app/?lang=pl"/>
+		<xhtml:link rel="alternate" hreflang="ro" href="https://ua-finance.netlify.app/?lang=ro"/>
+		<xhtml:link rel="alternate" hreflang="hu" href="https://ua-finance.netlify.app/?lang=hu"/>
+		<xhtml:link rel="alternate" hreflang="cs" href="https://ua-finance.netlify.app/?lang=cs"/>
 		<xhtml:link rel="alternate" hreflang="de" href="https://ua-finance.netlify.app/?lang=de"/>
+		<xhtml:link rel="alternate" hreflang="nl" href="https://ua-finance.netlify.app/?lang=nl"/>
 		<xhtml:link rel="alternate" hreflang="fr" href="https://ua-finance.netlify.app/?lang=fr"/>
+		<xhtml:link rel="alternate" hreflang="it" href="https://ua-finance.netlify.app/?lang=it"/>
+		<xhtml:link rel="alternate" hreflang="es" href="https://ua-finance.netlify.app/?lang=es"/>
+		<xhtml:link rel="alternate" hreflang="tr" href="https://ua-finance.netlify.app/?lang=tr"/>
+		<xhtml:link rel="alternate" hreflang="zh" href="https://ua-finance.netlify.app/?lang=zh"/>
+		<xhtml:link rel="alternate" hreflang="ja" href="https://ua-finance.netlify.app/?lang=ja"/>
+		<xhtml:link rel="alternate" hreflang="ru" href="https://ua-finance.netlify.app/?lang=ru"/>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://ua-finance.netlify.app/"/>
 		<image:image>
 			<image:loc>https://ua-finance.netlify.app/icon-512.png</image:loc>
@@ -36,6 +46,19 @@
 		<priority>0.95</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://ua-finance.netlify.app/aiassistant"/>
 		<xhtml:link rel="alternate" hreflang="uk" href="https://ua-finance.netlify.app/aiassistant?lang=uk"/>
+		<xhtml:link rel="alternate" hreflang="pl" href="https://ua-finance.netlify.app/aiassistant?lang=pl"/>
+		<xhtml:link rel="alternate" hreflang="ro" href="https://ua-finance.netlify.app/aiassistant?lang=ro"/>
+		<xhtml:link rel="alternate" hreflang="hu" href="https://ua-finance.netlify.app/aiassistant?lang=hu"/>
+		<xhtml:link rel="alternate" hreflang="cs" href="https://ua-finance.netlify.app/aiassistant?lang=cs"/>
+		<xhtml:link rel="alternate" hreflang="de" href="https://ua-finance.netlify.app/aiassistant?lang=de"/>
+		<xhtml:link rel="alternate" hreflang="nl" href="https://ua-finance.netlify.app/aiassistant?lang=nl"/>
+		<xhtml:link rel="alternate" hreflang="fr" href="https://ua-finance.netlify.app/aiassistant?lang=fr"/>
+		<xhtml:link rel="alternate" hreflang="it" href="https://ua-finance.netlify.app/aiassistant?lang=it"/>
+		<xhtml:link rel="alternate" hreflang="es" href="https://ua-finance.netlify.app/aiassistant?lang=es"/>
+		<xhtml:link rel="alternate" hreflang="tr" href="https://ua-finance.netlify.app/aiassistant?lang=tr"/>
+		<xhtml:link rel="alternate" hreflang="zh" href="https://ua-finance.netlify.app/aiassistant?lang=zh"/>
+		<xhtml:link rel="alternate" hreflang="ja" href="https://ua-finance.netlify.app/aiassistant?lang=ja"/>
+		<xhtml:link rel="alternate" hreflang="ru" href="https://ua-finance.netlify.app/aiassistant?lang=ru"/>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://ua-finance.netlify.app/aiassistant"/>
 	</url>
 

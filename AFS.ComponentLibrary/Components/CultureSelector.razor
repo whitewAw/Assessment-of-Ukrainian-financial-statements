@@ -40,23 +40,24 @@
         ["ja"] = ("🇯🇵", "日本語")
     };
 
+    // Ordered by importance for Ukraine''s economy:
     private static readonly CultureInfo[] supportedCultures =
     [
-        CultureInfo.GetCultureInfo("en"),
-        CultureInfo.GetCultureInfo("uk-UA"),
-        CultureInfo.GetCultureInfo("ru"),
-        CultureInfo.GetCultureInfo("es"),
-        CultureInfo.GetCultureInfo("de"),
-        CultureInfo.GetCultureInfo("fr"),
-        CultureInfo.GetCultureInfo("pl"),
-        CultureInfo.GetCultureInfo("tr"),
-        CultureInfo.GetCultureInfo("it"),
-        CultureInfo.GetCultureInfo("zh"),
-        CultureInfo.GetCultureInfo("ro"),
-        CultureInfo.GetCultureInfo("hu"),
-        CultureInfo.GetCultureInfo("cs"),
-        CultureInfo.GetCultureInfo("nl"),
-        CultureInfo.GetCultureInfo("ja")
+        CultureInfo.GetCultureInfo("uk-UA"),  // Native
+        CultureInfo.GetCultureInfo("en"),     // International business
+        CultureInfo.GetCultureInfo("pl"),     // Neighbor, largest diaspora
+        CultureInfo.GetCultureInfo("ro"),     // Neighbor
+        CultureInfo.GetCultureInfo("hu"),     // Neighbor
+        CultureInfo.GetCultureInfo("cs"),     // Neighbor region
+        CultureInfo.GetCultureInfo("de"),     // Major EU trade partner
+        CultureInfo.GetCultureInfo("nl"),     // EU partner
+        CultureInfo.GetCultureInfo("fr"),     // EU partner
+        CultureInfo.GetCultureInfo("it"),     // EU partner
+        CultureInfo.GetCultureInfo("es"),     // EU partner
+        CultureInfo.GetCultureInfo("tr"),     // Black Sea partner
+        CultureInfo.GetCultureInfo("zh"),     // Growing trade
+        CultureInfo.GetCultureInfo("ja"),     // Technology
+        CultureInfo.GetCultureInfo("ru")      // Historical context (last due to current situation)
     ];
 
     private readonly List<CultureDisplayItem> cultureItems = supportedCultures
