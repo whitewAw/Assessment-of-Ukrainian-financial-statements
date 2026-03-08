@@ -18,7 +18,7 @@
     public string? Period { get; set; }
 
     [Parameter]
-    public List<ChartDataItem> ChartAssets { get; set; } = new();
+    public IReadOnlyList<ChartDataItem> ChartAssets { get; set; } = [];
 
     private static readonly ApexChartOptions<ChartDataItem> _chartOptions = 
         ApexChartsHelper.GetPieChartOptions<ChartDataItem>();

@@ -14,17 +14,17 @@ namespace AFS.Core.Services.DataCalculations
             this.model = model;
         }
 
-        public List<ChartDateTimeItem> GetMoney() =>
+        public IReadOnlyList<ChartDateTimeItem> GetMoney() =>
             BuildTimeSeriesItems(
                 FactorsAffectingTurnoverOfWorkingCapital?.Money.BaseYear,
                 FactorsAffectingTurnoverOfWorkingCapital?.Money.CurrentYear);
 
-        public List<ChartDateTimeItem> GetReceivables() =>
+        public IReadOnlyList<ChartDateTimeItem> GetReceivables() =>
             BuildTimeSeriesItems(
                 FactorsAffectingTurnoverOfWorkingCapital?.Receivables.BaseYear,
                 FactorsAffectingTurnoverOfWorkingCapital?.Receivables.CurrentYear);
 
-        public List<ChartDateTimeItem> GetMaterialValues() =>
+        public IReadOnlyList<ChartDateTimeItem> GetMaterialValues() =>
             BuildTimeSeriesItems(
                 FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.BaseYear,
                 FactorsAffectingTurnoverOfWorkingCapital?.MaterialValues.CurrentYear);

@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -13,7 +13,7 @@ namespace AFS.Core.Services.DataCalculations
             CharacteristicsOfCapital = new(model);
         }
 
-        public List<ChartDataItem> GetDataItem(bool baseYear, bool begin)
+        public IReadOnlyList<ChartDataItem> GetDataItem(bool baseYear, bool begin)
         {
             List<ChartDataItem> assets = [];
 

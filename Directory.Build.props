@@ -18,19 +18,9 @@
   <IsAotCompatible>true</IsAotCompatible>
   <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 
+  <!-- Treat all warnings as errors for stricter code quality -->
+  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
-    <!-- 
-    ╔══════════════════════════════════════════════════════════════════════════════╗
-    ║                    SUPPRESSED WARNINGS - DOCUMENTED REASONS                  ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ Category 1: STYLE PREFERENCES (Low impact, not bugs)                         ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║ MA0016 - Collection abstraction - ApexCharts/Radzen require List<T> for binding║
-    ╚══════════════════════════════════════════════════════════════════════════════╝
-    -->
-
-    <!-- Style preferences -->
-    <NoWarn>$(NoWarn);MA0016</NoWarn>
   </PropertyGroup>
 
 

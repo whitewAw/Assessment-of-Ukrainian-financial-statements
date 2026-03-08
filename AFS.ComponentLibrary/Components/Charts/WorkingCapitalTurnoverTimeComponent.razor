@@ -129,10 +129,10 @@
 @code {
 private string? tableName;
 
-List<ChartDateTimeItem>? money;
-List<ChartDateTimeItem>? receivables;
-List<ChartDateTimeItem>? materialValues;
-    
+IReadOnlyList<ChartDateTimeItem>? money;
+IReadOnlyList<ChartDateTimeItem>? receivables;
+IReadOnlyList<ChartDateTimeItem>? materialValues;
+
 private string _aiAnalysis = string.Empty;
 private string _errorMessage = string.Empty;
 private bool _isAnalyzing = false;

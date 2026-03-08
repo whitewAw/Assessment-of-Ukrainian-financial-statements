@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 
 namespace AFS.Core.Services.DataCalculations
 {
@@ -9,7 +9,7 @@ namespace AFS.Core.Services.DataCalculations
         public StructureOfAccountsPayableChart(AfsModel model) => Init(model);
         private void Init(AfsModel model) => AssessmentOfReceivableAndPayable = new(model);
 
-        public List<ChartDataItem> GetDataItem(bool baseYear)
+        public IReadOnlyList<ChartDataItem> GetDataItem(bool baseYear)
         {
             List<ChartDataItem> assets = [];
 

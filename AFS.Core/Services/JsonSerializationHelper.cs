@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 using AFS.Core.Json;
 using AFS.Core.Models;
 using System.Text.Json;
@@ -17,8 +17,8 @@ public static class JsonSerializationHelper
     public static string SerializeAssetComposition(
         string companyName,
         int year,
-        IList<ChartDataItem>? beginningOfYear,
-        IList<ChartDataItem>? endOfYear)
+        IEnumerable<ChartDataItem>? beginningOfYear,
+        IEnumerable<ChartDataItem>? endOfYear)
     {
         var data = new AssetCompositionData
         {
@@ -46,7 +46,7 @@ public static class JsonSerializationHelper
         string companyName,
         int year,
         int previousYear,
-        IList<ChartDataItem>? capitalSources)
+        IEnumerable<ChartDataItem>? capitalSources)
     {
         var data = new CapitalSourcesData
         {
@@ -70,7 +70,7 @@ public static class JsonSerializationHelper
         string companyName,
         int year,
         int previousYear,
-        IList<ChartDataItem>? payableStructure)
+        IEnumerable<ChartDataItem>? payableStructure)
     {
         var data = new PayableStructureData
         {
@@ -92,9 +92,9 @@ public static class JsonSerializationHelper
     /// </summary>
     public static string SerializeTurnoverTime(
         string companyName,
-        IList<ChartDateTimeItem>? money,
-        IList<ChartDateTimeItem>? receivables,
-        IList<ChartDateTimeItem>? materialValues)
+        IEnumerable<ChartDateTimeItem>? money,
+        IEnumerable<ChartDateTimeItem>? receivables,
+        IEnumerable<ChartDateTimeItem>? materialValues)
     {
         var data = new TurnoverTimeData
         {
