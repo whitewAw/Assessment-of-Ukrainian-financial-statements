@@ -8,14 +8,14 @@
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
-<RadzenCard Style="width: 100%;">
+<RadzenCard Style="width: 100%; max-width: 900px; margin: 0 auto;">
     <h2 class="text-center">@tableName</h2>
     <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />
     <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atEndOfYear"] ChartAssets=@currentList/>
 </RadzenCard>
 
 @* @ResLoc["AIFinancialAnalysis"] Section *@
-<RadzenCard Style="width: 100%; margin-top: 20px;">
+<RadzenCard Style="width: 100%; max-width: 900px; margin: 0 auto; margin-top: 20px;">
     <h3 class="text-center mb-4">
         <RadzenIcon Icon="psychology" class="me-2" />
         @ResLoc["AIFinancialAnalysis"]

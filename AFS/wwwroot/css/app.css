@@ -98,57 +98,44 @@ a:hover, .btn-link:hover {
    Ensures charts respect container bounds in production
    ======================================== */
 
-/* Force charts to respect container width - Critical for production */
+/* Force charts to respect container width */
 .apexcharts-canvas,
 .apexcharts-canvas foreignObject,
-.apexcharts-inner {
+.apexcharts-inner,
+.apexcharts-svg,
+[class*="apexcharts"] {
     max-width: 100% !important;
     width: 100% !important;
 }
 
 .apexcharts-svg {
-    max-width: 100% !important;
-    width: 100% !important;
     overflow: visible;
 }
 
-/* Ensure chart containers don't overflow */
-[class*="apexcharts"] {
-    max-width: 100% !important;
-}
-
-/* Critical: Force pie/donut charts to fit container */
+/* Pie/donut charts transform origin */
 .apexcharts-pie,
 .apexcharts-pie-area,
 .apexcharts-datalabels-group {
     transform-origin: center center;
 }
 
-/* RadzenCard containing charts - prevent overflow */
+/* RadzenCard and chart containers */
 .rz-card {
     overflow: hidden;
-    max-width: 100%;
 }
 
-/* Chart wrapper - the div wrapping ApexChart component */
-.rz-card > div,
-div:has(> .apexcharts-canvas) {
+.chart-container {
     width: 100% !important;
-    max-width: 100% !important;
     overflow: hidden;
 }
 
-/* Content area should constrain children */
 .content {
     overflow-x: hidden;
     max-width: 100%;
 }
 
-/* Main content area chart containers */
 .main .rz-card,
 .content .rz-card {
-    width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
 }
 
