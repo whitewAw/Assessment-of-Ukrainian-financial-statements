@@ -23,7 +23,10 @@ public static class ApexChartsHelper
             Chart = new Chart
             {
                 Background = "transparent",
-                FontFamily = "inherit"
+                FontFamily = "inherit",
+                Width = "100%",
+                RedrawOnParentResize = true,
+                RedrawOnWindowResize = true
             },
             Legend = new Legend
             {
