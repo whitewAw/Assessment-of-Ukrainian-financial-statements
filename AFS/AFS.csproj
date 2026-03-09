@@ -71,26 +71,19 @@
 		<ProjectReference Include="..\AFS.ComponentLibrary\AFS.ComponentLibrary.csproj" />
 		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
 	</ItemGroup>
-	
+
 
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
-	<!-- TRIMMER CONFIGURATION - Preserves assemblies needed for reflection/DI     -->
+	<!-- TRIMMER CONFIGURATION                                                      -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<!-- Only keep AFS.ComponentLibrary as root (it has IsTrimmable=false) -->
 	<ItemGroup>
-		<TrimmerRootAssembly Include="AFS" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
-		<TrimmerRootAssembly Include="AFS.Core" />
-		<TrimmerRootAssembly Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 
 	<!-- Preserve satellite assemblies (localization resources) from trimming -->
 	<ItemGroup>
 		<RuntimeHostConfigurationOption Include="System.Globalization.PredefinedCulturesOnly" Value="false" />
-	</ItemGroup>
-
-	<!-- Additional trimmer configuration -->
-	<ItemGroup>
-		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
 	</ItemGroup>
 
 	</Project>
