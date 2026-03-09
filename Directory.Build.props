@@ -13,8 +13,7 @@
   <!-- Enforce code style during build -->
   <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
-  <!-- AOT/Trimming Safety - Enable analyzers for all projects -->
-  <IsTrimmable>true</IsTrimmable>
+  <!-- AOT/Trimming Safety - Enable analyzers (trimming is configured per-project) -->
   <IsAotCompatible>true</IsAotCompatible>
   <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 
