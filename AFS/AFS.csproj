@@ -76,8 +76,9 @@
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<!-- TRIMMER CONFIGURATION                                                      -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
-	<!-- Only keep AFS.ComponentLibrary as root (it has IsTrimmable=false) -->
+	<!-- Preserve root assemblies that use DI/reflection -->
 	<ItemGroup>
+		<TrimmerRootAssembly Include="AFS" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
 	</ItemGroup>
 
