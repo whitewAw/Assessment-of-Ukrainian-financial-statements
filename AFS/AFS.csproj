@@ -3,20 +3,20 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-		
+
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- GLOBALIZATION SETTINGS                                                 -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<InvariantGlobalization>false</InvariantGlobalization>
 		<!-- Required for dynamic culture switching at startup (15 languages supported) -->
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-		
+
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- AOT COMPILATION - Ahead-of-time compilation for best runtime speed     -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
-		
+
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- WASM OPTIMIZATIONS                                                     -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
