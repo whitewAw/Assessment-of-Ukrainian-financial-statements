@@ -17,9 +17,10 @@ public static class ChartLabelHelper
     static ChartLabelHelper()
     {
         // Map chart data keys to strongly-typed Resource property accessors
+        // Keys extracted from: AFS.Core\Services\DataCalculations\*Chart.cs
         var dict = new Dictionary<string, Func<string>>(StringComparer.Ordinal)
         {
-            // Composition of Assets
+            // === Composition of Assets (CompositionOfAssetsChart) ===
             ["NonCurrentImmobilizedAssets"] = () => Resource.NonCurrentImmobilizedAssets,
             ["TangibleCurrentAssets"] = () => Resource.TangibleCurrentAssets,
             ["AccountsReceivable"] = () => Resource.AccountsReceivable,
@@ -28,15 +29,16 @@ public static class ChartLabelHelper
             ["NonCurrentAssetsHeldForSale"] = () => Resource.NonCurrentAssetsHeldForSale,
             ["FutureExpenses"] = () => Resource.FutureExpenses,
 
-            // Sources of Capital Formation
-            ["RegisteredCapital"] = () => Resource.RegisteredCapital,
-            ["AdditionalCapital"] = () => Resource.AdditionalCapital,
-            ["ReserveCapital"] = () => Resource.ReserveCapital,
-            ["RetainedEarnings"] = () => Resource.RetainedEarnings,
-            ["UnpaidCapital"] = () => Resource.UnpaidCapital,
-            ["WithdrawnCapital"] = () => Resource.WithdrawnCapital,
+            // === Sources of Capital Formation (SourcesOfCapitalFormationChart) ===
+            ["Equity"] = () => Resource.Equity,
+            ["LongTermLiabilities_"] = () => Resource.LongTermLiabilities_,
+            ["ShortTermLoans"] = () => Resource.ShortTermLoans,
+            ["AccountsPayable"] = () => Resource.AccountsPayable,
+            ["OtherCurrentLiabilities"] = () => Resource.OtherCurrentLiabilities,
+            ["LiabilitiesRelatedToNonCurrentAssetsForSale"] = () => Resource.LiabilitiesRelatedToNonCurrentAssetsForSale,
+            ["FutureIncome"] = () => Resource.FutureIncome,
 
-            // Structure of Accounts Payable
+            // === Structure of Accounts Payable (StructureOfAccountsPayableChart) ===
             ["WithBuyersOrSuppliers"] = () => Resource.WithBuyersOrSuppliers,
             ["WithLongTermLiabilities"] = () => Resource.WithLongTermLiabilities,
             ["ForBills"] = () => Resource.ForBills,
@@ -49,7 +51,7 @@ public static class ChartLabelHelper
             ["WithInternalCashSettlements"] = () => Resource.WithInternalCashSettlements,
             ["WithOther"] = () => Resource.WithOther,
 
-            // Common
+            // === Common ===
             ["Value"] = () => Resource.Value,
             ["Unknown"] = () => "Unknown",
         };
