@@ -662,6 +662,22 @@
          style="position: absolute; left: -9999px; visibility: hidden;" 
          loading="lazy" />
 
+    <!-- SPA Redirect Handler for GitHub Pages 404 -->
+    <script>
+    (function() {
+        var redirect = sessionStorage.getItem('ufin-redirect-path');
+        if (redirect) {
+            sessionStorage.removeItem('ufin-redirect-path');
+            // Wait for Blazor to load, then navigate
+            window.addEventListener('ufin:loaded', function() {
+                if (window.Blazor && redirect !== location.pathname) {
+                    window.Blazor.navigateTo(redirect, { forceLoad: false });
+                }
+            });
+        }
+    })();
+    </script>
+
     <!-- Loading indicator -->
     <script>
     // @ts-nocheck

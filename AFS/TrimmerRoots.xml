@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <!-- Preserve Resource types for localization (critical for chart labels) -->
+  <assembly fullname="AFS.ComponentLibrary">
+    <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all" />
+  </assembly>
+
+  <!-- Preserve localization infrastructure - Required for IStringLocalizer -->
+  <assembly fullname="Microsoft.Extensions.Localization">
+    <type fullname="Microsoft.Extensions.Localization.ResourceManagerStringLocalizer" preserve="all" />
+    <type fullname="Microsoft.Extensions.Localization.ResourceManagerStringLocalizerFactory" preserve="all" />
+  </assembly>
+</linker>

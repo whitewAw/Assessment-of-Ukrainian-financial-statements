@@ -354,11 +354,18 @@ async function staleWhileRevalidate(request) {
  */
 async function handleNavigationRequest(request) {
     const cache = await caches.open(cacheName);
+    const url = new URL(request.url);
+
+    // Determine base path (for GitHub Pages subdirectory deployment)
+    const basePath = url.pathname.includes('/Assessment-of-Ukrainian-financial-statements/') 
+        ? '/Assessment-of-Ukrainian-financial-statements/' 
+        : '/';
+    const indexPath = basePath + 'index.html';
 
     try {
         // For SPA routing, fetch index.html instead of the actual URL
         // This is because Blazor handles all routes client-side
-        const indexRequest = new Request('index.html', {
+        const indexRequest = new Request(indexPath, {
             method: 'GET',
             headers: request.headers,
             mode: 'same-origin',

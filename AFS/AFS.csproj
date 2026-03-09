@@ -32,11 +32,13 @@
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- Trimming Configuration - Aggressive but with targeted preservation -->
+		<!-- Trimming Configuration - Full mode with targeted preservation via TrimmerRoots.xml -->
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>full</TrimMode>
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+		<!-- Don't trim our app assemblies - they use reflection for localization -->
+		<TrimmerDefaultAction>link</TrimmerDefaultAction>
 
 		<!-- JSON Serialization - Keep reflection for Radzen.Blazor and Blazored.LocalStorage -->
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
@@ -79,11 +81,18 @@
 	<ItemGroup>
 		<TrimmerRootAssembly Include="AFS" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+		<TrimmerRootAssembly Include="AFS.Core" />
+		<TrimmerRootAssembly Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 
 	<!-- Preserve satellite assemblies (localization resources) from trimming -->
 	<ItemGroup>
 		<RuntimeHostConfigurationOption Include="System.Globalization.PredefinedCulturesOnly" Value="false" />
+	</ItemGroup>
+
+	<!-- Additional trimmer configuration -->
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
 	</ItemGroup>
 
 	</Project>
