@@ -3,6 +3,7 @@
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
+@implements IDisposable
 @inject CompositionOfAssetsChart CompositionOfAssets
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
@@ -10,8 +11,8 @@
 
 <RadzenCard>
     <h2 class="text-center">@tableName</h2>
-    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />
-    <CompositionOfAssetsDonutChartComponent Period=@ResLoc["atEndOfYear"] ChartAssets=@currentList/>
+    <CompositionOfAssetsDonutChartComponent @key="@("begin-" + MainModel.BaseYear)" Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />
+    <CompositionOfAssetsDonutChartComponent @key="@("end-" + MainModel.BaseYear)" Period=@ResLoc["atEndOfYear"] ChartAssets=@currentList/>
 </RadzenCard>
 
 @* @ResLoc["AIFinancialAnalysis"] Section *@
@@ -104,6 +105,7 @@
 </RadzenCard>
 
 @code {
+private CancellationTokenSource? _cts;
 private string? tableName;
 IReadOnlyList<ChartDataItem>? baseList;
 IReadOnlyList<ChartDataItem>? currentList;
@@ -116,6 +118,8 @@ private bool _isAIAvailable = false;
 
     protected override async Task OnInitializedAsync()
     {
+        _cts = new CancellationTokenSource();
+
         string name = ResLoc["CompositionOfAssets"];
         string number = "I.";
 
@@ -368,4 +372,11 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
     }
 
     private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
 }

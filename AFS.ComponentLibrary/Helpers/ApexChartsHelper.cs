@@ -10,11 +10,15 @@ public static class ApexChartsHelper
 {
     /// <summary>
     /// Gets the base chart options with consistent theming.
+    /// Each call generates a new instance with a unique chart ID to prevent conflicts
+    /// when multiple charts are rendered on the same page.
     /// </summary>
     public static ApexChartOptions<T> GetBaseOptions<T>() where T : class
     {
         return new ApexChartOptions<T>
         {
+            // Note: ApexCharts Blazor generates unique IDs automatically per instance,
+            // but we ensure each call returns a fresh options object
             Theme = new Theme
             {
                 Mode = Mode.Light,
@@ -26,7 +30,12 @@ public static class ApexChartsHelper
                 FontFamily = "inherit",
                 Width = "100%",
                 RedrawOnParentResize = true,
-                RedrawOnWindowResize = true
+                RedrawOnWindowResize = true,
+                Animations = new Animations
+                {
+                    Enabled = true,
+                    Speed = 300 // Faster animations reduce perceived layout shift
+                }
             },
             Legend = new Legend
             {

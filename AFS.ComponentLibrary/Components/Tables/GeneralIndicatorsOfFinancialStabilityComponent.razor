@@ -5,6 +5,7 @@
 @inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
+@implements IDisposable
 @inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
@@ -141,7 +142,8 @@
 </RadzenCard>
 
 @code {
-    private string? tableName;
+private CancellationTokenSource? _cts;
+        private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
     private bool _isAnalyzing = false;
@@ -150,6 +152,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _cts = new CancellationTokenSource();
+
         string name = ResLoc["GeneralIndicatorsOfFinancialStability"];
         int number = 15;
 
@@ -527,4 +531,11 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
     }
 
     private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
 }

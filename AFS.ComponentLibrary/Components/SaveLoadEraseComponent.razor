@@ -1,6 +1,7 @@
-﻿@using AFS.Core.Services
+@using AFS.Core.Services
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Text
+@implements IDisposable
 @inject IModelExportImportHandler ExportImportHandler
 @inject JsInterop JsInterop
 @inject DialogService DialogService
@@ -71,5 +72,11 @@ async Task OnLoadClick()
                     </div>
                 </div>
             </div>, new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = false });
+    }
+
+    public void Dispose()
+    {
+        // Close any open dialogs when component is disposed
+        DialogService.Close();
     }
 }

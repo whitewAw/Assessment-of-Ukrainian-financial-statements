@@ -5,6 +5,7 @@
 @inject LiquidityIndicatorsOfBalance LiquidityIndicatorsOfBalance
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
+@implements IDisposable
 @inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;">
@@ -179,7 +180,8 @@
 </RadzenCard>
 
 @code {
-    private string? tableName;
+private CancellationTokenSource? _cts;
+        private string? tableName;
     private string? EstimationOfBalanceLiquidityAtBeginBase;
     private string? EstimationOfBalanceLiquidityAtEndBase;
     private string? EstimationOfBalanceLiquidityAtBeginCurrent;
@@ -194,6 +196,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _cts = new CancellationTokenSource();
+
         string name = ResLoc["LiquidityIndicatorsOfBalance"];
         int number = 13;
 
@@ -583,4 +587,11 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
     }
 
     private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
 }

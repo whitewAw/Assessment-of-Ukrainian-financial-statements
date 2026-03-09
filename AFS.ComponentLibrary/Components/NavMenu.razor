@@ -1,3 +1,4 @@
+@implements IDisposable
 @inject IJSRuntime JS
 
 <nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
@@ -100,4 +101,9 @@
     };
 
     private sealed record NavMenuItem(string Number, string Label, string Href);
-}
+
+        public void Dispose()
+        {
+            // No resources to dispose, but implementing for consistency
+        }
+    }

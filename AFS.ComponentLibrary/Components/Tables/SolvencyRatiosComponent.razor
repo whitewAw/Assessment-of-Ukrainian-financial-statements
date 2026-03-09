@@ -5,6 +5,7 @@
 @inject SolvencyRatios SolvencyRatios
 @inject AfsModel AfsModel
 @inject IAIFinancialAdvisor AIAdvisor
+@implements IDisposable
 @inject IJSRuntime JS
 
 <RadzenCard Style="width: 100%;" aria-label="@tableName">
@@ -170,7 +171,8 @@
 </RadzenCard>
 
 @code {
-    private string? tableName;
+private CancellationTokenSource? _cts;
+        private string? tableName;
     private string tableAriaLabel => ResLoc?["SolvencyRatiosTable"] ?? "Solvency Ratios Table";
     
     private string _aiAnalysis = string.Empty;
@@ -181,6 +183,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _cts = new CancellationTokenSource();
+
         string name = ResLoc["SolvencyRatios"];
         const int tableNumber = 14;
 
@@ -563,4 +567,11 @@ All ratios are dimensionless (pure numbers). Write entire response in {languageI
     }
 
     private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
 }

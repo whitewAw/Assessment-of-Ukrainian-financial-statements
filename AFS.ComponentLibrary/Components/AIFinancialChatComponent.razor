@@ -3,6 +3,7 @@
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Resources
 @using Microsoft.Extensions.Localization
+@implements IDisposable
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 @inject AfsModel AfsModel
@@ -154,6 +155,7 @@
 </div>
 
 @code {
+private CancellationTokenSource? _cts;
 private readonly List<ChatMessage> _messages = new();
 private string _userInput = string.Empty;
 private string _streamingResponse = string.Empty;
@@ -173,6 +175,7 @@ private enum QuickPrompts
 
     protected override async Task OnInitializedAsync()
     {
+        _cts = new CancellationTokenSource();
         await CheckAIAvailability();
     }
 
@@ -730,6 +733,13 @@ Respond in {language}. Base everything on the actual financial data provided.";
         public string Content { get; set; } = string.Empty;
         public bool IsUser { get; set; }
         public DateTime Timestamp { get; set; }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
     }
 }
 

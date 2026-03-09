@@ -1,28 +1,48 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
 @using AFS.ComponentLibrary.Resources
+@implements IDisposable
 
 <div class="chart-container">
-    <ApexChart TItem="ChartDataItem"
-               Title="@Period"
-               Height="400"
-               Options="@_chartOptions">
-        <ApexPointSeries TItem="ChartDataItem"
-                         Items="ChartAssets"
-                         Name="@ResourceHelper.GetString("Value")"
-                         SeriesType="SeriesType.Donut"
-                         XValue="@(e => ResourceHelper.GetStringOrKey(e.Item))"
-                         YValue="@(e => (decimal)(e.Value ?? 0))" />
-    </ApexChart>
+    @if (ChartAssets.Count > 0)
+    {
+        <ApexChart @ref="_chart"
+                   TItem="ChartDataItem"
+                   Title="@Period"
+                   Height="400"
+                   Options="@_chartOptions">
+            <ApexPointSeries TItem="ChartDataItem"
+                             Items="ChartAssets"
+                             Name="@ResourceHelper.GetString("Value")"
+                             SeriesType="SeriesType.Donut"
+                             XValue="@(e => ResourceHelper.GetStringOrKey(e.Item))"
+                             YValue="@(e => (decimal)(e.Value ?? 0))" />
+        </ApexChart>
+     }
+    else
+    {
+        <div class="chart-skeleton d-flex align-items-center justify-content-center" style="height: 400px;">
+            <div class="text-muted">@ResourceHelper.GetString("Loading")</div>
+        </div>
+    } 
 </div>
 
 @code {
+    private ApexChart<ChartDataItem>? _chart;
+
     [Parameter]
     public string? Period { get; set; }
 
     [Parameter]
     public IReadOnlyList<ChartDataItem> ChartAssets { get; set; } = [];
 
-    private static readonly ApexChartOptions<ChartDataItem> _chartOptions = 
+    private readonly ApexChartOptions<ChartDataItem> _chartOptions = 
         ApexChartsHelper.GetDonutChartOptions<ChartDataItem>();
+
+    public void Dispose()
+    {
+        // ApexChart handles its own disposal internally
+        // This ensures proper cascading cleanup in Blazor's component lifecycle
+        _chart?.Dispose();
+    }
 }

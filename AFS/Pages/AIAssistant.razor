@@ -5,6 +5,7 @@
 @using AFS.ComponentLibrary.Components
 @using AFS.ComponentLibrary.Resources
 @using AFS.Core.Interfaces
+@implements IDisposable
 @inject IStringLocalizer<Resource> ResLoc
 @inject IAIFinancialAdvisor AIAdvisor
 
@@ -438,10 +439,12 @@
 </style>
 
 @code {
+private CancellationTokenSource? _cts;
 private bool _isAIAvailable = true; // Default to true, will be checked on init
 
 protected override async Task OnInitializedAsync()
 {
+    _cts = new CancellationTokenSource();
     await CheckAIAvailability();
 }
 
@@ -456,5 +459,12 @@ private async Task CheckAIAvailability()
         {
             _isAIAvailable = false;
         }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
     }
 }
