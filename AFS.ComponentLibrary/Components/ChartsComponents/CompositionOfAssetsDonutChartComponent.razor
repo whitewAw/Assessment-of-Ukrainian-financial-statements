@@ -1,8 +1,6 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
 @using AFS.ComponentLibrary.Resources
-@using Microsoft.Extensions.Localization
-@inject IStringLocalizer<Resource> ResLoc
 
 <div class="chart-container">
     <ApexChart TItem="ChartDataItem"
@@ -11,9 +9,9 @@
                Options="@_chartOptions">
         <ApexPointSeries TItem="ChartDataItem"
                          Items="ChartAssets"
-                         Name="@ResLoc["Value"]"
+                         Name="@ResourceHelper.GetString("Value")"
                          SeriesType="SeriesType.Donut"
-                         XValue="@(e => GetLocalizedLabel(e.Item))"
+                         XValue="@(e => ResourceHelper.GetStringOrKey(e.Item))"
                          YValue="@(e => (decimal)(e.Value ?? 0))" />
     </ApexChart>
 </div>
@@ -27,13 +25,4 @@
 
     private static readonly ApexChartOptions<ChartDataItem> _chartOptions = 
         ApexChartsHelper.GetDonutChartOptions<ChartDataItem>();
-
-    private string GetLocalizedLabel(string? key)
-    {
-        if (string.IsNullOrEmpty(key))
-            return "Unknown";
-
-        var localized = ResLoc[key];
-        return localized.ResourceNotFound ? key : localized.Value ?? key;
-    }
 }

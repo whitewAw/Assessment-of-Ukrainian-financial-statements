@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
-  <!-- Preserve Resource class for localization - Required for chart labels -->
+  <!-- Preserve Resource class for localization -->
   <assembly fullname="AFS.ComponentLibrary">
     <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all" />
   </assembly>
+
+  <!-- Preserve embedded resources -->
+  <assembly fullname="AFS.ComponentLibrary" preserve="resources" />
 </linker>
