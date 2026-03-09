@@ -2,8 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<!-- Enable trimming for this project - it doesn't use reflection -->
-		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
