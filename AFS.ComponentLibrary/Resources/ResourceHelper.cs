@@ -1,37 +1,43 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Resources;
 
 namespace AFS.ComponentLibrary.Resources;
 
 /// <summary>
-/// AOT-safe resource helper that ensures ResourceManager is preserved during trimming.
-/// Uses direct ResourceManager access instead of IStringLocalizer.
+/// AOT-safe resource helper that uses the generated Resource class directly.
+/// Falls back to the key if resource not found.
 /// </summary>
 public static class ResourceHelper
 {
-    // Reference to ensure ResourceManager types are preserved
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ResourceManager))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(Resource))]
+    /// <summary>
+    /// Gets a localized string. Uses Resource.ResourceManager with current UI culture.
+    /// If trimming breaks ResourceManager, returns the key itself as fallback.
+    /// </summary>
     public static string GetString(string? key)
     {
         if (string.IsNullOrEmpty(key))
             return string.Empty;
 
+        // Try to get the localized string
         try
         {
-            return Resource.ResourceManager.GetString(key, CultureInfo.CurrentUICulture) ?? key;
+            // Set the culture for the Resource class
+            Resource.Culture = CultureInfo.CurrentUICulture;
+            var result = Resource.ResourceManager.GetString(key, CultureInfo.CurrentUICulture);
+            if (!string.IsNullOrEmpty(result))
+                return result;
         }
         catch
         {
-            return key;
+            // ResourceManager failed, fall through to fallback
         }
+
+        // Fallback: return the key itself (better than "series-1")
+        return key;
     }
 
     /// <summary>
-    /// Gets a localized string with a fallback to the key if not found.
+    /// Gets a localized string with key as fallback.
     /// </summary>
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ResourceManager))]
     public static string GetStringOrKey(string? key)
     {
         if (string.IsNullOrEmpty(key))
@@ -39,12 +45,16 @@ public static class ResourceHelper
 
         try
         {
+            Resource.Culture = CultureInfo.CurrentUICulture;
             var result = Resource.ResourceManager.GetString(key, CultureInfo.CurrentUICulture);
-            return string.IsNullOrEmpty(result) ? key : result;
+            if (!string.IsNullOrEmpty(result))
+                return result;
         }
         catch
         {
-            return key;
+            // Fall through to return key
         }
+
+        return key;
     }
 }

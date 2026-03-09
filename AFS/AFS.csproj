@@ -32,13 +32,11 @@
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- Trimming Configuration - Full mode with targeted preservation via TrimmerRoots.xml -->
+		<!-- Trimming Configuration - Partial mode preserves assemblies marked IsTrimmable=false -->
 		<PublishTrimmed>true</PublishTrimmed>
-		<TrimMode>full</TrimMode>
+		<TrimMode>partial</TrimMode>
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-		<!-- Don't trim our app assemblies - they use reflection for localization -->
-		<TrimmerDefaultAction>link</TrimmerDefaultAction>
 
 		<!-- JSON Serialization - Keep reflection for Radzen.Blazor and Blazored.LocalStorage -->
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
