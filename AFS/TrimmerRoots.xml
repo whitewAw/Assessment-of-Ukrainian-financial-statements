@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
-  <!-- Preserve Resource class and ResourceManager for localization -->
+  <!-- Preserve Resource class for localization -->
   <assembly fullname="AFS.ComponentLibrary">
     <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all" />
-  </assembly>
-
-  <!-- Preserve System.Resources.ResourceManager - Required for localization -->
-  <assembly fullname="System.Resources.ResourceManager">
-    <type fullname="System.Resources.ResourceManager" preserve="all" />
-    <type fullname="System.Resources.ResourceReader" preserve="all" />
-    <type fullname="System.Resources.RuntimeResourceSet" preserve="all" />
-  </assembly>
-
-  <!-- Preserve System.Private.CoreLib resource types -->
-  <assembly fullname="System.Private.CoreLib">
-    <type fullname="System.Resources.*" preserve="all" />
+    <type fullname="AFS.ComponentLibrary.Resources.ResourceHelper" preserve="all" />
   </assembly>
 </linker>
