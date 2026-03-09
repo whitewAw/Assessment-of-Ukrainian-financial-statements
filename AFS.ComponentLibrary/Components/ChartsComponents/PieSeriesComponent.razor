@@ -13,7 +13,7 @@
                          Items="ChartAssets"
                          Name="@ResLoc["Value"]"
                          SeriesType="SeriesType.Pie"
-                         XValue="@(e => ResLoc[e.Item ?? string.Empty].ToString())"
+                         XValue="@(e => GetLocalizedLabel(e.Item))"
                          YValue="@(e => (decimal)(e.Value ?? 0))" />
     </ApexChart>
 </div>
@@ -27,4 +27,13 @@
 
     private static readonly ApexChartOptions<ChartDataItem> _chartOptions = 
         ApexChartsHelper.GetPieChartOptions<ChartDataItem>();
+
+    private string GetLocalizedLabel(string? key)
+    {
+        if (string.IsNullOrEmpty(key))
+            return "Unknown";
+
+        var localized = ResLoc[key];
+        return localized.ResourceNotFound ? key : localized.Value ?? key;
+    }
 }

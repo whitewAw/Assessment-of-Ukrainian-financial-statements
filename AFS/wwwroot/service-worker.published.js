@@ -350,30 +350,47 @@ async function staleWhileRevalidate(request) {
 
 /**
  * Handle navigation requests (page loads)
+ * For SPAs, always serve index.html for navigation requests
  */
 async function handleNavigationRequest(request) {
-    try {
-        // Try network first for navigation (ensures fresh content)
-        const networkResponse = await fetch(request);
+    const cache = await caches.open(cacheName);
 
-        if (networkResponse.ok) {
-            const cache = await caches.open(cacheName);
-            cache.put('index.html', networkResponse.clone());
-            return networkResponse;
+    try {
+        // For SPA routing, fetch index.html instead of the actual URL
+        // This is because Blazor handles all routes client-side
+        const indexRequest = new Request('index.html', {
+            method: 'GET',
+            headers: request.headers,
+            mode: 'same-origin',
+            credentials: 'same-origin'
+        });
+
+        // Try network first for fresh content
+        try {
+            const networkResponse = await fetch(indexRequest);
+
+            if (networkResponse.ok) {
+                cache.put('index.html', networkResponse.clone());
+                return networkResponse;
+            }
+        } catch (networkError) {
+            // Network failed, will try cache below
+            console.info('Service worker: Network unavailable, trying cache');
         }
 
-        throw new Error('Network response not ok');
-
-    } catch (error) {
-        // Network failed, serve cached index.html
-        const cache = await caches.open(cacheName);
+        // Network failed or not ok, serve cached index.html
         const cachedResponse = await cache.match('index.html');
 
         if (cachedResponse) {
-            console.info('Service worker: Serving cached index.html (offline mode)');
+            console.info('Service worker: Serving cached index.html for SPA route');
             return cachedResponse;
         }
 
+        // No cached index.html, throw to trigger offline page
+        throw new Error('No cached index.html available');
+
+    } catch (error) {
+        console.error('Service worker: Navigation handling failed', error);
         throw error;
     }
 }
