@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<NeutralLanguage>uk-UA</NeutralLanguage>
+		<!-- Disable trimming for this assembly - it contains localization resources that use reflection -->
+		<IsTrimmable>false</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,11 +32,6 @@
 	<!-- Localization Resources - PUBLIC code generator for Resource.Designer.cs -->
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
-	</ItemGroup>
-
-	<!-- Preserve resource types from trimming -->
-	<ItemGroup>
-		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
 	</ItemGroup>
 
 </Project>

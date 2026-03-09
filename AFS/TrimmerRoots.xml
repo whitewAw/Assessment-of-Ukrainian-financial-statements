@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
-  <!-- Preserve Resource class for localization -->
-  <assembly fullname="AFS.ComponentLibrary">
-    <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all" />
-    <type fullname="AFS.ComponentLibrary.Resources.ResourceHelper" preserve="all" />
-  </assembly>
+  <!-- AFS.ComponentLibrary is marked IsTrimmable=false, so no need to preserve types here -->
+  <!-- This file is kept for any future trimmer configuration needs -->
 </linker>
