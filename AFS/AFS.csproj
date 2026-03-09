@@ -32,9 +32,9 @@
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- Trimming Configuration - Balanced for size vs functionality -->
+		<!-- Trimming Configuration - Aggressive but with targeted preservation -->
 		<PublishTrimmed>true</PublishTrimmed>
-		<TrimMode>partial</TrimMode>
+		<TrimMode>full</TrimMode>
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
 
@@ -72,16 +72,13 @@
 		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
 	</ItemGroup>
 	
-	
+
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<!-- TRIMMER CONFIGURATION - Preserves assemblies needed for reflection/DI     -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
 		<TrimmerRootAssembly Include="AFS" />
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
-		<!-- Preserve localization assemblies -->
-		<TrimmerRootAssembly Include="Microsoft.Extensions.Localization" />
-		<TrimmerRootAssembly Include="Microsoft.Extensions.Localization.Abstractions" />
 	</ItemGroup>
 
 	<!-- Preserve satellite assemblies (localization resources) from trimming -->

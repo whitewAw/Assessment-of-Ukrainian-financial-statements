@@ -34,9 +34,8 @@
     --info-color: #17a2b8;
 }
 
-/* Dark Theme Colors - Manual toggle & System preference */
-[data-theme="dark"],
-:root:not([data-theme="light"]):has(body) {
+/* Dark Theme Colors - Applied via data-theme attribute */
+[data-theme="dark"] {
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
     --bg-tertiary: #3a3a3a;
@@ -62,6 +61,7 @@
     --info-color: #2196f3;
 }
 
+/* Auto Dark Mode - System preference fallback */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
         --bg-primary: #1a1a1a;

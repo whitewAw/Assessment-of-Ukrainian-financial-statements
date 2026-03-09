@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
-  <!-- Preserve all types in the Resources namespace for localization -->
+  <!-- Preserve only the Resource class for localization -->
   <assembly fullname="AFS.ComponentLibrary">
-    <type fullname="AFS.ComponentLibrary.Resources.*" preserve="all" />
-  </assembly>
-  
-  <!-- Preserve IStringLocalizer implementation types -->
-  <assembly fullname="Microsoft.Extensions.Localization">
-    <type fullname="Microsoft.Extensions.Localization.*" preserve="all" />
-  </assembly>
-  
-  <assembly fullname="Microsoft.Extensions.Localization.Abstractions">
-    <type fullname="Microsoft.Extensions.Localization.*" preserve="all" />
+    <type fullname="AFS.ComponentLibrary.Resources.Resource" preserve="all" />
   </assembly>
 </linker>

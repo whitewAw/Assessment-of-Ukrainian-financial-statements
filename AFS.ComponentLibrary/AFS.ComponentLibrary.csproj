@@ -3,8 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<NeutralLanguage>uk-UA</NeutralLanguage>
-		<!-- Ensure resources are not trimmed -->
-		<TrimmerRemoveSymbols>false</TrimmerRemoveSymbols>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -36,7 +34,7 @@
 
 	<!-- Preserve resource types from trimming -->
 	<ItemGroup>
-		<TrimmerRootDescriptor Include="TrimmerRoots.xml" Condition="Exists('TrimmerRoots.xml')" />
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
 	</ItemGroup>
 
 </Project>

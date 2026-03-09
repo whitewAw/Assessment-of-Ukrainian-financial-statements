@@ -91,14 +91,13 @@ a:hover, .btn-link:hover {
 
 .content {
     padding-top: 1.1rem;
+    max-width: 100%;
 }
 
 /* ========================================
    APEXCHARTS RESPONSIVE SIZING
-   Charts automatically size to container
    ======================================== */
 
-/* Chart container - responsive width */
 .chart-container {
     width: 100%;
     max-width: 100%;
@@ -106,26 +105,18 @@ a:hover, .btn-link:hover {
     box-sizing: border-box;
 }
 
-/* ApexCharts auto-sizing - let chart fill container */
 .apexcharts-canvas {
     margin: 0 auto;
 }
 
-/* Pie/donut charts - center properly */
 .apexcharts-pie,
 .apexcharts-pie-area {
     transform-origin: center center;
 }
 
-/* RadzenCard - no overflow scroll */
 .rz-card {
     width: 100%;
     box-sizing: border-box;
-}
-
-/* Content area */
-.content {
-    max-width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -362,7 +353,7 @@ a:hover, .btn-link:hover {
 }
 
 /* ========================================
-   PERFORMANCE OPTIMIZATIONS
+   PERFORMANCE & INP OPTIMIZATIONS
    ======================================== */
 
 .animated {
@@ -374,6 +365,9 @@ a:hover, .btn-link:hover {
     html {
         scroll-behavior: smooth;
     }
+    .sidebar .nav-item {
+        contain: layout paint;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -384,11 +378,7 @@ a:hover, .btn-link:hover {
     }
 }
 
-/* ========================================
-   INP OPTIMIZATION - INTERACTIVE ELEMENT PERFORMANCE
-   ======================================== */
-
-/* Enable GPU acceleration for frequently animated elements */
+/* GPU acceleration & touch optimization for interactive elements */
 .theme-toggle,
 .navbar-toggler,
 .nav-link,
@@ -398,20 +388,10 @@ a:hover, .btn-link:hover {
 .collapse {
     will-change: transform, opacity;
     contain: layout style;
+    touch-action: manipulation;
 }
 
-/* Immediate visual feedback for click interactions - critical for INP */
-.theme-toggle:active,
-.navbar-toggler:active,
-.btn:active,
-.rz-button:active,
-.nav-link:active {
-    transform: scale(0.95);
-    opacity: 0.85;
-    transition: transform 0.05s ease-out, opacity 0.05s ease-out !important;
-}
-
-/* Fast transitions for interactive elements */
+/* Fast transitions */
 .theme-toggle,
 .navbar-toggler,
 .btn,
@@ -419,31 +399,20 @@ a:hover, .btn-link:hover {
     transition: transform 0.1s ease-out, background-color 0.15s ease, opacity 0.1s ease-out;
 }
 
-/* Nav menu collapse animation optimized for INP */
-.sidebar .collapse {
-    transition: height 0.15s ease-out;
-}
-
-/* Clicked state class for JS-based feedback */
+/* Immediate visual feedback for INP */
+.theme-toggle:active,
+.navbar-toggler:active,
+.btn:active,
+.rz-button:active,
+.nav-link:active,
 .clicked {
     transform: scale(0.95);
     opacity: 0.85;
+    transition: transform 0.05s ease-out, opacity 0.05s ease-out !important;
 }
 
-/* Touch action optimization - prevents delays on mobile */
-.theme-toggle,
-.navbar-toggler,
-.nav-link,
-.btn,
-.rz-button {
-    touch-action: manipulation;
-}
-
-/* Reduce paint complexity during interactions */
-@media (prefers-reduced-motion: no-preference) {
-    .sidebar .nav-item {
-        contain: layout paint;
-    }
+.sidebar .collapse {
+    transition: height 0.15s ease-out;
 }
 
 /* ========================================
