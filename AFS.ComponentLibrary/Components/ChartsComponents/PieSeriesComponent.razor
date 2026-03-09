@@ -9,9 +9,9 @@
                Options="@_chartOptions">
         <ApexPointSeries TItem="ChartDataItem"
                          Items="ChartAssets"
-                         Name="@ResourceHelper.GetString("Value")"
+                         Name="@ChartLabels.Get("Value")"
                          SeriesType="SeriesType.Pie"
-                         XValue="@(e => ResourceHelper.GetStringOrKey(e.Item))"
+                         XValue="@(e => ChartLabels.Get(e.Item))"
                          YValue="@(e => (decimal)(e.Value ?? 0))" />
     </ApexChart>
 </div>
