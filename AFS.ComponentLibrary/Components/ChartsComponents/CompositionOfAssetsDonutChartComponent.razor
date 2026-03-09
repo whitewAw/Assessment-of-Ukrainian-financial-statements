@@ -1,6 +1,7 @@
 @using AFS.Core.Models
 @using AFS.ComponentLibrary.Helpers
 @using AFS.ComponentLibrary.Resources
+@using System.Globalization
 
 <div class="chart-container">
     <ApexChart TItem="ChartDataItem"
@@ -9,9 +10,9 @@
                Options="@_chartOptions">
         <ApexPointSeries TItem="ChartDataItem"
                          Items="ChartAssets"
-                         Name="@ChartLabels.Get("Value")"
+                         Name="@ResLoc["Value"]"
                          SeriesType="SeriesType.Donut"
-                         XValue="@(e => ChartLabels.Get(e.Item))"
+                         XValue="@(e => ResLoc[e.Item ?? "Unknown"].Value ?? e.Item ?? "Unknown")"
                          YValue="@(e => (decimal)(e.Value ?? 0))" />
     </ApexChart>
 </div>

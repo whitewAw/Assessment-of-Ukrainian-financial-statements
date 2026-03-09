@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<NeutralLanguage>uk-UA</NeutralLanguage>
-		<!-- Enable trimming - source generator provides AOT-safe localization -->
-		<IsTrimmable>true</IsTrimmable>
+		<!-- Disable trimming - IStringLocalizer uses reflection for resource lookup -->
+		<IsTrimmable>false</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,10 +19,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
-		<!-- Source generator for AOT-safe localization -->
-		<ProjectReference Include="..\AFS.Generators\AFS.Generators.csproj" 
-						  OutputItemType="Analyzer" 
-						  ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,11 +32,6 @@
 	<!-- Localization Resources - PUBLIC code generator for Resource.Designer.cs -->
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
-	</ItemGroup>
-
-	<!-- Pass .resx files to the source generator -->
-	<ItemGroup>
-		<AdditionalFiles Include="Resources\*.resx" />
 	</ItemGroup>
 
 </Project>
