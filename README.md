@@ -179,14 +179,16 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ AOT (Ahead-of-Time) Compilation
 - ✅ WASM SIMD for faster math calculations
 - ✅ WASM Deduplication for smaller bundle
-- ✅ IL Trimming for smaller bundles
+- ✅ IL Trimming for smaller bundles (`TrimMode=partial`)
 - ✅ Brotli Compression
-- ✅ Native WASM optimization (`-Oz`)
+- ✅ Native WASM optimization (`-Oz` compile and link)
 - ✅ .NET 10 performance enhancements
-- ✅ **AOT-safe JSON serialization** (source-generated, zero reflection)
+- ✅ **HybridGlobalization** - Browser-native `Intl` APIs instead of full ICU (~25MB savings)
+- ✅ **AOT-safe JSON serialization** (source-generated, reflection disabled)
 - ✅ **AOT-safe charts** (ApexCharts with lambda expressions, no reflection)
 - ✅ **AOT-safe events** (EventHandler pattern, no dynamic delegates)
 - ✅ **AOT-safe regex** (GeneratedRegex with timeout and ExplicitCapture)
+- ✅ **Runtime feature switches** - Disabled unused features (EventSource, StartupHook, etc.)
 - ✅ Comprehensive code analyzers (Meziantou, SonarQube, Roslynator)
 - ✅ Nullable reference types enabled
 - ✅ Code style enforcement in build
@@ -200,15 +202,17 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ WASM SIMD          - ~20-30% faster math operations         │
 │  ✅ WASM Dedup         - Removes duplicate WASM code            │
 │  ✅ IL Stripping       - Removes unused IL after AOT            │
-│  ✅ Size Optimization  - Emscripten -Oz flag                    │
+│  ✅ Size Optimization  - Emscripten -Oz (compile & link)        │
+│  ✅ HybridGlobalization- Browser Intl APIs (~25MB smaller)      │
 │  ✅ Service Worker     - Offline-first caching                  │
 │  ✅ Exception Handling - Optimized WASM exception handling      │
-│  ✅ JSON Serialization - Source-generated, zero reflection      │
+│  ✅ JSON Serialization - Source-generated, reflection disabled  │
 │  ✅ Charts             - ApexCharts with AOT-safe lambdas       │
 │  ✅ Events             - EventHandler pattern (AOT-safe)        │
 │  ✅ Regex              - GeneratedRegex (compile-time)          │
 │  ✅ No HTTP Diagnostics- HttpActivityPropagation disabled       │
 │  ✅ No EventSource     - EventSource tracing disabled           │
+│  ✅ Feature Switches   - Unused runtime features disabled       │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -422,9 +426,9 @@ The project uses a centralized build configuration:
 - Avoids conflicts with user-specific NuGet configurations
 
 **TrimmerRootAssembly** (in AFS.csproj) - IL Trimmer configuration:
-- Preserves `Radzen.Blazor` for UI components
-- Preserves `AFS.ComponentLibrary` for chart/table components
-- Chart data types protected via source-generated JSON serializer
+- Preserves `AFS.ComponentLibrary` for Blazor Router component discovery
+- Preserves `Microsoft.Extensions.Localization` for resource loading
+- Other assemblies trimmed based on usage analysis (optimized for size)
 
 ---
 

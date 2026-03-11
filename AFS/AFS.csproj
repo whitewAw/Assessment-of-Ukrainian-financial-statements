@@ -6,11 +6,13 @@
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- GLOBALIZATION SETTINGS                                                 -->
+		<!-- GLOBALIZATION SETTINGS - Load only required cultures (15 languages)   -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<InvariantGlobalization>false</InvariantGlobalization>
-		<!-- Required for dynamic culture switching at startup (15 languages supported) -->
-		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+		<!-- Use hybrid mode: load only specific ICU shards instead of full 30MB dataset -->
+		<BlazorWebAssemblyLoadAllGlobalizationData>false</BlazorWebAssemblyLoadAllGlobalizationData>
+		<!-- Hybrid ICU shards for supported cultures: cs, de, en, es, fr, hu, it, ja, nl, pl, ro, ru, tr, uk, zh -->
+		<HybridGlobalization>true</HybridGlobalization>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- AOT COMPILATION - Ahead-of-time compilation for best runtime speed     -->
@@ -19,16 +21,21 @@
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- WASM OPTIMIZATIONS                                                     -->
+		<!-- WASM SIZE OPTIMIZATIONS                                                -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<WasmEnableSIMD>true</WasmEnableSIMD>
 		<WasmEnableExceptionHandling>true</WasmEnableExceptionHandling>
 		<WasmBuildNative>true</WasmBuildNative>
 		<WasmNativeStrip>true</WasmNativeStrip>
 		<WasmDedup>true</WasmDedup>
+		<!-- Maximum Emscripten optimization for size -->
 		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
+		<EmccCompileOptimizationFlag>-Oz</EmccCompileOptimizationFlag>
 		<!-- Use webcil format for better compression (smaller than .dll) -->
 		<WasmEnableWebcil>true</WasmEnableWebcil>
+		<!-- Strip debug info and reduce metadata -->
+		<DebugType>none</DebugType>
+		<OptimizationPreference>Size</OptimizationPreference>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
@@ -40,8 +47,9 @@
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
 
-		<!-- JSON Serialization - Keep reflection for Radzen.Blazor and Blazored.LocalStorage -->
-		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+		<!-- JSON Serialization - Disable reflection, use source generators (AfsJsonSerializerContext) -->
+		<!-- Radzen/Blazored use their own serialization, our code uses source-gen context -->
+		<JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
 
 		<!-- Blazor Compression -->
 		<BlazorEnableCompression>true</BlazorEnableCompression>
@@ -90,6 +98,22 @@
 	<!-- Preserve satellite assemblies (localization resources) from trimming -->
 	<ItemGroup>
 		<RuntimeHostConfigurationOption Include="System.Globalization.PredefinedCulturesOnly" Value="false" />
+	</ItemGroup>
+
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<!-- FEATURE SWITCHES - Disable unused runtime features to reduce size          -->
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<ItemGroup>
+		<!-- Disable console output in release (saves ~50KB) -->
+		<RuntimeHostConfigurationOption Include="System.Console.UseStandardOutputEncoding" Value="false" />
+		<!-- Disable unused reflection features -->
+		<RuntimeHostConfigurationOption Include="System.Reflection.Metadata.MetadataUpdater.IsSupported" Value="false" />
+		<!-- Disable regex compilation (uses Reflection.Emit) -->
+		<RuntimeHostConfigurationOption Include="System.Text.RegularExpressions.Regex.IsMatchedTimeoutSupported" Value="false" />
+		<!-- Disable StartupHook (not used in WASM) -->
+		<RuntimeHostConfigurationOption Include="System.StartupHookProvider.IsSupported" Value="false" />
+		<!-- Disable diagnostics tracing -->
+		<RuntimeHostConfigurationOption Include="System.Diagnostics.Tracing.EventSource.IsSupported" Value="false" />
 	</ItemGroup>
 
 	<ItemGroup>
