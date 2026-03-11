@@ -6,13 +6,12 @@
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
-		<!-- GLOBALIZATION SETTINGS - Load only required cultures (15 languages)   -->
+		<!-- GLOBALIZATION SETTINGS - Full ICU data for dynamic culture switching  -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<InvariantGlobalization>false</InvariantGlobalization>
-		<!-- Use hybrid mode: load only specific ICU shards instead of full 30MB dataset -->
-		<BlazorWebAssemblyLoadAllGlobalizationData>false</BlazorWebAssemblyLoadAllGlobalizationData>
-		<!-- Hybrid ICU shards for supported cultures: cs, de, en, es, fr, hu, it, ja, nl, pl, ro, ru, tr, uk, zh -->
-		<HybridGlobalization>true</HybridGlobalization>
+		<!-- Required for dynamic culture switching at startup (15 languages supported) -->
+		<!-- HybridGlobalization doesn't support culture changes after startup -->
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- AOT COMPILATION - Ahead-of-time compilation for best runtime speed     -->
