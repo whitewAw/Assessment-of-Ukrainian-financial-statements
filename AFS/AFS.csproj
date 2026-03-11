@@ -83,11 +83,11 @@
 	
 
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
-	<!-- TRIMMER CONFIGURATION - Minimal roots for reflection-dependent assemblies -->
+	<!-- TRIMMER CONFIGURATION - Preserve assemblies needed for Blazor reflection  -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
-	<!-- AFS: Entry point auto-preserved by trimmer, no root needed -->
-	<!-- AFS.Core: Services preserved via DI registration in Program.cs -->
 	<ItemGroup>
+		<!-- Required: Blazor components need constructors preserved for DI -->
+		<TrimmerRootAssembly Include="AFS" />
 		<!-- Required: Router.AdditionalAssemblies uses reflection to discover @page components -->
 		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
 		<!-- Required: IStringLocalizer<T> uses reflection for resource loading -->
