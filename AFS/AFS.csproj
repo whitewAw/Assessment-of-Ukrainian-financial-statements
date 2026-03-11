@@ -47,9 +47,9 @@
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
 
-		<!-- JSON Serialization - Disable reflection, use source generators (AfsJsonSerializerContext) -->
-		<!-- Radzen/Blazored use their own serialization, our code uses source-gen context -->
-		<JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+		<!-- JSON Serialization - Keep reflection enabled for third-party libraries (Radzen, Blazored) -->
+		<!-- Our code uses source-generated AfsJsonSerializerContext, but libraries need reflection -->
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 
 		<!-- Blazor Compression -->
 		<BlazorEnableCompression>true</BlazorEnableCompression>

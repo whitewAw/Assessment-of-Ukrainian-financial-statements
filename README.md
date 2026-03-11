@@ -166,12 +166,12 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
 | [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
-| [Radzen Blazor](https://blazor.radzen.com/) | 9.0.8 | UI Component Library |
+| [Radzen Blazor](https://blazor.radzen.com/) | 9.1.0 | UI Component Library |
 | [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 6.1.0 | AOT-Compatible Charts |
-| [Bootstrap](https://getbootstrap.com/) | 5.3.8 | CSS Framework (local, offline PWA) |
+| [Bootstrap](https://getbootstrap.com/) | 5.3 | CSS Framework (local, offline PWA) |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
-| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.19 | Code Analysis |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.22 | Code Analysis |
 | [SonarAnalyzer](https://www.sonarqube.org/) | 10.20.0 | Code Quality |
 | [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
 
