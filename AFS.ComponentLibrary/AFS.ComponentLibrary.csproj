@@ -4,8 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<NeutralLanguage>uk-UA</NeutralLanguage>
-		<!-- Disable trimming for this assembly - it contains localization resources that use reflection -->
-		<IsTrimmable>false</IsTrimmable>
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
