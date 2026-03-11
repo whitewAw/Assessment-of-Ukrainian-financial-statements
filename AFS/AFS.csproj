@@ -34,6 +34,7 @@
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- Trimming Configuration - Partial mode preserves assemblies marked IsTrimmable=false -->
+		<IsTrimmable>true</IsTrimmable>
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>partial</TrimMode>
 		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
@@ -89,10 +90,6 @@
 		<RuntimeHostConfigurationOption Include="System.Globalization.PredefinedCulturesOnly" Value="false" />
 	</ItemGroup>
 
-	<!-- Additional trimmer configuration -->
-	<ItemGroup>
-		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
-	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.22" />
 	</ItemGroup>

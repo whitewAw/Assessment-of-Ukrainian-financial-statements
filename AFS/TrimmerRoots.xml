@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<linker>
-  <!-- AFS.ComponentLibrary is marked IsTrimmable=false, so no need to preserve types here -->
-  <!-- This file is kept for any future trimmer configuration needs -->
-</linker>

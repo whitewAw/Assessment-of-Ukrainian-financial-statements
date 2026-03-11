@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!-- Mark as trimmable for full AOT/trim support -->
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
