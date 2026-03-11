@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<NeutralLanguage>uk-UA</NeutralLanguage>
 		<!-- Disable trimming for this assembly - it contains localization resources that use reflection -->
 		<IsTrimmable>false</IsTrimmable>
@@ -13,8 +14,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazor-ApexCharts" Version="6.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.3" />
-		<PackageReference Include="Radzen.Blazor" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.4" />
+		<PackageReference Include="Radzen.Blazor" Version="9.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,6 +33,9 @@
 	<!-- Localization Resources - PUBLIC code generator for Resource.Designer.cs -->
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.22" />
 	</ItemGroup>
 
 </Project>
