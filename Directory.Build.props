@@ -28,6 +28,19 @@
   <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
   <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
   <EventSourceSupport>false</EventSourceSupport>
+  <!-- Replace BCL exception/resource messages with lookup keys (~100 KB WASM saving).
+       Trade-off: BCL errors in dev console become terse codes instead of full prose. -->
+  <UseSystemResourceKeys>true</UseSystemResourceKeys>
+  <!-- XmlUrlResolver/XmlDocument.Load network stack (we don't use XmlReader with remote URIs) -->
+  <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
+  <!-- COM interop is meaningless in WASM / browser -->
+  <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+  <!-- macOS/iOS-only native autorelease pools -->
+  <AutoreleasePoolSupport>false</AutoreleasePoolSupport>
+  <!-- C++/CLI hosting (Windows-only, not applicable to WASM) -->
+  <EnableCppCLIHostActivation>false</EnableCppCLIHostActivation>
+  <!-- Legacy UTF-7 encoding (unsafe, obsolete) -->
+  <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
 
   </PropertyGroup>
 

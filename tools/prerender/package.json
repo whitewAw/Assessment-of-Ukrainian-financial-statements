@@ -1,0 +1,13 @@
+{
+  "name": "ufin-prerender",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-time prerender for the UFIN Blazor WebAssembly app. Runs each route in headless Chromium and writes static HTML snapshots so non-JS crawlers (Bing, Yandex, AI bots) see real content.",
+  "type": "module",
+  "scripts": {
+    "prerender": "node prerender.mjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}

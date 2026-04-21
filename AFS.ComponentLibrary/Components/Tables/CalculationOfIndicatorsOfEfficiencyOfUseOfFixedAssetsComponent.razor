@@ -1,4 +1,4 @@
-@page "/calculationofIndicatorsofefficiencyofuseoffixedassets"
+@page "/calculationofindicatorsofefficiencyofuseoffixedassets"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @using System.Text.Json
@@ -7,6 +7,9 @@
 @inject IAIFinancialAdvisor AIAdvisor
 @implements IDisposable
 @inject IJSRuntime JS
+
+<SeoHead Title="Fixed Assets Efficiency Calculator | UFIN"
+         Description="Calculate fixed-asset productivity, return on fixed assets, fund-equipping and fund-arming ratios from Ukrainian financial statements." />
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>

@@ -286,6 +286,79 @@ Allow: /
 Crawl-delay: 5
 
 # ============================================
+# AI SEARCH & ASSISTANT CRAWLERS
+# (Allow so UFIN can be cited in ChatGPT Search,
+#  Perplexity, Gemini, Claude, Apple Intelligence)
+# ============================================
+
+# OpenAI - search index for ChatGPT Search
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI - training crawler
+User-agent: GPTBot
+Allow: /
+
+# OpenAI - in-chat browsing on user request
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic - Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google - opt-in for Gemini / Vertex AI grounding (separate from Googlebot)
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence / Siri grounding (separate from Applebot)
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon (Alexa / AI products)
+User-agent: Amazonbot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# DuckDuckGo AI (DuckAssist)
+User-agent: DuckAssistBot
+Allow: /
+
+# ============================================
 # ACADEMIC & RESEARCH BOTS
 # ============================================
 

@@ -1,0 +1,52 @@
+@* 
+    Reusable SEO head component for Blazor pages.
+    Emits <PageTitle>, page-specific <meta name="description">, Open Graph & Twitter
+    overrides, and an optional visible (or sr-only) <h1> for the route.
+
+    Usage:
+        <SeoHead Title="Liquidity Ratios Calculator | UFIN"
+                 Description="Free calculator for current, quick and cash ratios..."
+                 Heading="Liquidity Ratios" />
+*@
+
+@if (!string.IsNullOrWhiteSpace(Title))
+{
+    <PageTitle>@Title</PageTitle>
+}
+
+<HeadContent>
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <meta name="description" content="@Description" />
+        <meta property="og:description" content="@Description" />
+        <meta name="twitter:description" content="@Description" />
+    }
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <meta property="og:title" content="@Title" />
+        <meta name="twitter:title" content="@Title" />
+    }
+</HeadContent>
+
+@if (!string.IsNullOrWhiteSpace(Heading))
+{
+    <h1 class="@HeadingClass">@Heading</h1>
+}
+
+@code {
+    /// <summary>Page <title> (also used for og:title and twitter:title).</summary>
+    [Parameter] public string? Title { get; set; }
+
+    /// <summary>Page meta description (also used for og:description and twitter:description).</summary>
+    [Parameter] public string? Description { get; set; }
+
+    /// <summary>Optional visible H1 text rendered inside the page.</summary>
+    [Parameter] public string? Heading { get; set; }
+
+    /// <summary>
+    /// CSS class for the H1. Defaults to "sr-only" so the heading is announced to
+    /// screen readers and indexed by crawlers without changing the visual layout.
+    /// Pass an empty string or any class to make it visible.
+    /// </summary>
+    [Parameter] public string HeadingClass { get; set; } = "sr-only";
+}

@@ -9,6 +9,9 @@
 @inject IAIFinancialAdvisor AIAdvisor
 @inject IJSRuntime JS
 
+<SeoHead Title="Asset Composition Chart — Current Year | UFIN"
+         Description="Interactive pie chart showing the composition of a Ukrainian company’s assets in the current reporting year." />
+
 <RadzenCard>
     <h2 class="text-center">@tableName</h2>
     <CompositionOfAssetsDonutChartComponent @key="@("begin-" + MainModel.CurrentYear)" Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />

@@ -183,7 +183,14 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ Brotli Compression
 - ✅ Native WASM optimization (`-Oz` compile and link)
 - ✅ .NET 10 performance enhancements
-- ✅ **HybridGlobalization** - Browser-native `Intl` APIs instead of full ICU (~25MB savings)
+- ✅ **Full ICU globalization data** - required for startup-time dynamic culture
+  switching across 15 languages. `HybridGlobalization` is incompatible with this
+  pattern in .NET 10 (culture must not change after runtime init).
+- ✅ **BCL feature switches** - `UseSystemResourceKeys`, `XmlResolverIsNetworkingEnabledByDefault=false`,
+  `BuiltInComInteropSupport=false`, `AutoreleasePoolSupport=false`,
+  `EnableCppCLIHostActivation=false`, `EnableUnsafeUTF7Encoding=false`
+- ✅ **Symbol-map stripping** - `WasmEmitSymbolMap=false` guarantees no `.symbols` files ship
+- ✅ **Heap pre-reservation** - `EmccMaximumHeapSize=2 GiB` lets the linker pre-allocate a tight segment
 - ✅ **AOT-safe JSON serialization** (source-generated, reflection disabled)
 - ✅ **AOT-safe charts** (ApexCharts with lambda expressions, no reflection)
 - ✅ **AOT-safe events** (EventHandler pattern, no dynamic delegates)
@@ -203,7 +210,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 │  ✅ WASM Dedup         - Removes duplicate WASM code            │
 │  ✅ IL Stripping       - Removes unused IL after AOT            │
 │  ✅ Size Optimization  - Emscripten -Oz (compile & link)        │
-│  ✅ HybridGlobalization- Browser Intl APIs (~25MB smaller)      │
+│  ✅ Full ICU           - Required for 15-language dynamic switch │
+│  ✅ BCL Feature Switches - UseSystemResourceKeys, no XML net, etc│
+│  ✅ WasmEmitSymbolMap  - false — no .symbols files in deploy     │
 │  ✅ Service Worker     - Offline-first caching                  │
 │  ✅ Exception Handling - Optimized WASM exception handling      │
 │  ✅ JSON Serialization - Source-generated, reflection disabled  │
@@ -348,6 +357,7 @@ Assessment-of-Ukrainian-financial-statements/
 │   │   ├── NavMenu.razor            # Navigation menu
 │   │   ├── ThemeToggle.razor        # Dark/light mode toggle
 │   │   ├── CultureSelector.razor    # Language selector
+│   │   ├── SeoHead.razor            # Per-route <PageTitle>, meta description & H1
 │   │   ├── Charts/                  # 7 interactive chart components
 │   │   ├── Tables/                  # 17 financial analysis tables
 │   │   ├── TableComponents/         # Shared table elements (Td, Th, Tr)
@@ -395,8 +405,14 @@ Assessment-of-Ukrainian-financial-statements/
 │
 ├── 📂 .github/                      # GitHub configuration
 │   ├── workflows/                   # CI/CD workflows
-│   │   └── main.yml                # Deployment workflow
+│   │   └── main.yml                # Deployment workflow (incl. prerender)
 │   └── ISSUE_TEMPLATE/             # Issue templates
+│
+├── 📂 tools/                        # Build-time tooling
+│   └── prerender/                   # Headless-Chromium prerender for SEO
+│       ├── prerender.mjs            # Captures rendered HTML per route
+│       ├── generate-og-image.mjs    # 1200x630 OG/Twitter image generator
+│       └── package.json             # puppeteer devDep
 │
 ├── 📄 BROWSER_AI_SETUP.md          # AI setup instructions
 ├── 📄 CONTRIBUTING.md              # Contribution guidelines
@@ -637,11 +653,16 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 
 The application supports **simultaneous deployment** to multiple hosting platforms with automatic URL configuration:
 
-| Host | Base Path | SPA Routing | Auto-Configured |
-|------|-----------|-------------|-----------------|
-| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | 404.html redirect | ✅ |
-| Netlify | `/` | `_redirects` | ✅ |
-| Localhost | `/` | Dev server | ✅ |
+| Host | Base Path | SPA Routing | Canonical | Auto-Configured |
+|------|-----------|-------------|-----------|-----------------|
+| **Netlify** (`ua-finance.netlify.app`) | `/` | `_redirects` | ⭐ **Primary** | ✅ |
+| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | `404.html` redirect | → Netlify | ✅ |
+| Localhost | `/` | Dev server | → Netlify | ✅ |
+
+> **Why one canonical?** Both deployments serve identical content. To prevent
+> Google from splitting search ranking signals across two duplicate URLs,
+> every page emits `<link rel="canonical" href="https://ua-finance.netlify.app/...">`
+> regardless of host — consolidating link equity into a single indexable URL.
 
 #### How It Works
 
@@ -678,6 +699,9 @@ Deployment is automated via GitHub Actions on push to `main` branch.
 - Service worker hash fixing
 - Automatic base path handling
 - Brotli compression
+- **Build-time prerender** (Puppeteer + headless Chromium) of every route
+  in `sitemap.xml`, so non-JS crawlers (Bing, Yandex, GPTBot, ClaudeBot,
+  PerplexityBot, social-preview bots) receive fully rendered HTML
 
 ### Netlify
 
@@ -714,6 +738,72 @@ sed -i 's|<base href="/" />|<base href="/your-repo-name/" />|g' \
 - **Vercel** - Connect your GitHub repository
 - **Firebase Hosting** - Use Firebase CLI
 - **Any static hosting** - Upload `wwwroot` contents
+
+---
+
+## 🔍 SEO Architecture
+
+UFIN is a **Blazor WebAssembly SPA**, which is a notoriously hard target for
+search engines (most crawlers do not execute JavaScript). The repo ships a
+defence-in-depth SEO setup so the app remains discoverable on Google, Bing,
+Yandex, DuckDuckGo, and modern AI search engines.
+
+### Static signals (in every served HTML)
+- **Visible pre-hydration hero** in `index.html` (H1, description, feature grid,
+  deep-link navigation) — prevents Google’s Soft-404 classifier from flagging the
+  page as thin content while Blazor WASM is still loading. Blazor replaces it on
+  hydration so users never see it after load.
+- Single canonical host: `https://ua-finance.netlify.app/` (no duplicate-content split)
+- Comprehensive Open Graph + Twitter Card meta
+- 6 JSON-LD blocks: `WebApplication`, `SoftwareApplication`, `FAQPage`,
+  `Organization`, `BreadcrumbList`, `WebSite` with `SearchAction`
+- 15 `hreflang` alternates (one per supported language) + `x-default`
+- `sitemap.xml` + host-specific `sitemap-netlify.xml`
+- `robots.txt` explicitly allow-listing modern AI crawlers:
+  `GPTBot`, `OAI-SearchBot`, `ChatGPT-User`, `ClaudeBot`, `Claude-Web`,
+  `anthropic-ai`, `PerplexityBot`, `Perplexity-User`, `Google-Extended`,
+  `Applebot`, `Applebot-Extended`, `Amazonbot`, `Meta-ExternalAgent`,
+  `MistralAI-User`, `YouBot`, `cohere-ai`, `DuckAssistBot`
+
+### PWA correctness
+- Service worker registered with `updateViaCache: 'none'` so `service-worker.js`
+  itself is never served from the HTTP cache — guarantees users pick up a new
+  deploy on their next visit, not 24 hours later.
+- `manifest.json` `screenshots[]` intentionally empty until real 1280×720
+  screenshots exist (Chrome rejects under-sized entries and falls back to the
+  minimal install card).
+
+### Per-route signals (Blazor)
+The `<SeoHead>` component (`AFS.ComponentLibrary`) emits a route-specific
+`<PageTitle>`, `<meta name="description">`, OG/Twitter overrides, and an
+optional `<h1>` (defaults to `sr-only` so it indexes without altering layout):
+
+```razor
+<SeoHead Title="Liquidity Ratios Calculator | UFIN"
+         Description="Free liquidity analysis of a Ukrainian balance sheet..."
+         Heading="Liquidity Ratios" />
+```
+
+### Build-time prerender (`tools/prerender/`)
+Puppeteer crawls every URL in `sitemap.xml`, waits for Blazor to hydrate,
+and writes `<route>/index.html` snapshots into the published `wwwroot`.
+Non-JS crawlers consequently see real HTML — not just the loading spinner.
+
+Generate the social-share image any time:
+```powershell
+cd tools/prerender
+npm install
+node generate-og-image.mjs ../../AFS/wwwroot/og-image.png
+```
+
+### Search-engine verification (manual one-time setup)
+An empty slot is reserved in `index.html`:
+```html
+<meta name="google-site-verification" content="" />
+```
+Paste the token from [Google Search Console](https://search.google.com/search-console)
+and [Bing Webmaster Tools](https://www.bing.com/webmasters), then submit
+`https://ua-finance.netlify.app/sitemap.xml`.
 
 ---
 

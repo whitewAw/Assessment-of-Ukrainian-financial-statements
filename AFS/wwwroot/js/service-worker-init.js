@@ -13,7 +13,7 @@
             const basePath = baseElement ? baseElement.getAttribute('href') : '/';
             const swPath = basePath + 'service-worker.js';
 
-            navigator.serviceWorker.register(swPath, { scope: basePath })
+            navigator.serviceWorker.register(swPath, { scope: basePath, updateViaCache: 'none' })
                 .then(function (registration) {
                     console.log('Service Worker registered successfully:', {
                         scope: registration.scope,

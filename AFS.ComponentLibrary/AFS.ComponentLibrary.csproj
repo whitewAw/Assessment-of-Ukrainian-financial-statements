@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -13,8 +13,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazor-ApexCharts" Version="6.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.4" />
-		<PackageReference Include="Radzen.Blazor" Version="9.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.6" />
+		<PackageReference Include="Radzen.Blazor" Version="10.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,7 +34,8 @@
 		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.22" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.50" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.23.0.137933" />
 	</ItemGroup>
 
 </Project>

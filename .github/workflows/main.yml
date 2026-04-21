@@ -55,7 +55,7 @@ jobs:
 
       - name: Install .NET WebAssembly workloads
         run: |
-          dotnet workload install wasm-tools wasm-experimental --skip-manifest-update
+          dotnet workload install wasm-tools --skip-manifest-update
           echo "✅ Workloads installed successfully"
 
       - name: Verify workloads
@@ -133,11 +133,32 @@ jobs:
           else
             echo "✅ Using existing custom 404.html"
           fi
-          
+
           # Add .nojekyll to prevent Jekyll processing
           touch release/wwwroot/.nojekyll
-          
+
           echo "✅ SPA routing files ready"
+
+      - name: Setup Node.js for prerendering
+        uses: actions/setup-node@v4
+        with:
+          # Node 22 is the current LTS (Node 20 reaches EOL April 2026).
+          node-version: '22'
+
+      - name: Install prerender dependencies
+        working-directory: tools/prerender
+        run: npm install --no-audit --no-fund --no-progress
+
+      - name: Prerender routes (Bing/Yandex/AI-bot SEO)
+        # Renders each route in headless Chromium and writes static <route>/index.html
+        # snapshots so non-JS crawlers see real content instead of the loading spinner.
+        # Failures of individual routes do NOT fail the build.
+        continue-on-error: true
+        run: |
+          node tools/prerender/prerender.mjs release/wwwroot \
+            --baseHref=/Assessment-of-Ukrainian-financial-statements/ \
+            --origin=https://ua-finance.netlify.app
+          echo "✅ Prerender step finished"
 
       - name: Update sitemap lastmod dates
         run: |

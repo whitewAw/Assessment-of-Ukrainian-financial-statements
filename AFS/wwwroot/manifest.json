@@ -1,7 +1,7 @@
 {
-"name": "UFIN - Free Financial Calculator | AI-Powered Analysis Tool",
+"name": "UFIN – Ukrainian Financial Statement Analysis",
 "short_name": "UFIN",
-"description": "🆓 100% FREE AI-powered financial analysis. Calculate liquidity ratios, ROA, ROE, solvency metrics instantly. 16 tables + 7 charts. No registration. Works offline. Trusted by 10,000+ businesses.",
+"description": "Free, open-source calculator for Ukrainian financial statements. Analyze balance sheets and income statements, compute liquidity, solvency and profitability ratios. Works offline, no registration, 15 languages, optional on-device AI assistant.",
   "start_url": "./",
   "scope": "./",
   "id": "ufin-financial-analysis",
@@ -41,22 +41,7 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "UFIN Financial Analysis Dashboard"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "UFIN Mobile Financial Analysis"
-    }
-  ],
+  "screenshots": [],
   "shortcuts": [
     {
       "name": "AI Assistant",

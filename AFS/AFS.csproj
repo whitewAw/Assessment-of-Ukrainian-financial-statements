@@ -8,9 +8,16 @@
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- GLOBALIZATION SETTINGS - Full ICU data for dynamic culture switching  -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- HybridGlobalization was tested and cannot be used here: Program.cs
+			 changes CultureInfo.DefaultThreadCurrentCulture during startup (based
+			 on the user's stored LocalStorage preference), which Blazor's Hybrid
+			 mode explicitly rejects with:
+			   "Blazor detected a change in the application's culture that is not
+				supported with the current project configuration."
+			 Full ICU data is required to support the 15 languages plus startup-
+			 time culture selection. This costs ~1 MB extra download on first load
+			 but is cached by the service worker forever after. -->
 		<InvariantGlobalization>false</InvariantGlobalization>
-		<!-- Required for dynamic culture switching at startup (15 languages supported) -->
-		<!-- HybridGlobalization doesn't support culture changes after startup -->
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
 		
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -35,6 +42,10 @@
 		<!-- Strip debug info and reduce metadata -->
 		<DebugType>none</DebugType>
 		<OptimizationPreference>Size</OptimizationPreference>
+		<!-- Explicitly suppress the .symbols sourcemap files in the deployed artifact -->
+		<WasmEmitSymbolMap>false</WasmEmitSymbolMap>
+		<!-- Cap the WASM heap so the linker can pre-allocate a tight segment (2 GB max for wasm32) -->
+		<EmccMaximumHeapSize>2147483648</EmccMaximumHeapSize>
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
@@ -68,8 +79,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.6" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -113,10 +124,19 @@
 		<RuntimeHostConfigurationOption Include="System.StartupHookProvider.IsSupported" Value="false" />
 		<!-- Disable diagnostics tracing -->
 		<RuntimeHostConfigurationOption Include="System.Diagnostics.Tracing.EventSource.IsSupported" Value="false" />
+		<!-- Remove DefaultValueAttribute reflection support (Blazor does not rely on it) -->
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.DefaultValueAttribute.IsSupported" Value="false" />
+		<!-- Remove XML networking resolver (saves ~30 KB) -->
+		<RuntimeHostConfigurationOption Include="System.Xml.XmlResolver.IsNetworkingEnabledByDefault" Value="false" />
+		<!-- Remove ComponentModel.TypeDescriptor reflection support (saves ~50 KB) -->
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization" Value="false" />
+		<!-- Trim designer-mode code paths from BCL -->
+		<RuntimeHostConfigurationOption Include="Switch.System.ComponentModel.UseLegacyPropertyDescriptor" Value="false" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.22" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.50" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.23.0.137933" />
 	</ItemGroup>
 
 	</Project>
