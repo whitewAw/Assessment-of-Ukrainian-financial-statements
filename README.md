@@ -53,7 +53,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ **Offline-first** - Works without internet after initial load
 - ✅ **Privacy-focused** - All calculations happen in your browser
 - ✅ **No installation** - Just open and use
-- ✅ **Multi-language** - Supports 15 languages (ordered by Ukraine economic importance)
+- ✅ **Multi-language** - 15-language UI **and** SEO-indexable landing intro (ordered by Ukraine economic importance)
 - ✅ **Professional-grade** - 17 comprehensive financial analysis tables + 7 interactive charts
 - ✅ **Open Source** - Free to use, modify, and contribute
 
@@ -953,6 +953,24 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [ ] AI-powered anomaly detection
 - [ ] Custom AI training on user data
 - [ ] Voice commands for AI assistant
+
+### Growth & Distribution 📈
+
+Technical SEO is **complete** (sitemap, hreflang ×15, JSON-LD, prerender, localized landing intro). Search-engine *visibility*, however, is downstream of authority signals (backlinks, brand searches, custom domain) — none of which can be solved in code. Items below are in **rough order of impact**, biggest first:
+
+- [ ] **Custom domain** (e.g. `ufin.com.ua`, `ua-finance.com`, `bilans.ua`) — $10–30/yr. The single biggest trust signal upgrade. `*.netlify.app` is treated as low-trust by Google. After registration: point CNAME at Netlify, enable HTTPS, then update `<base href>` rewrites in `.github/workflows/main.yml`, all `<loc>` entries in `sitemap.xml`, the `CANONICAL` constant in `index.html`, the JSON-LD `@id` URLs, and the `Sitemap:` line in `robots.txt`.
+- [ ] **Backlinks from Ukrainian accounting / fintech / university sites** — even 5–10 quality inbound links would 10× ranking ability for Ukrainian queries. Outreach targets: KNEU / KPI / Lviv Polytechnic accounting faculties, [Habr](https://habr.com/) Ukrainian-language post, [DOU.ua](https://dou.ua/) project showcase, Reddit `r/ukraine` / `r/Ukrainian`, accounting Telegram channels, IFA Ukraine, Ukrainian Bar Association tax-law section.
+- [ ] **Long-form content per ratio** — turn each calculator route into an SEO landing page: `@page "/articles/current-ratio-explained"` with formula, examples, Ukrainian industry benchmarks, link to calculator. ≈ 18 routes × 15 languages × 800 words. This is exactly what `buhgalter.com.ua` and `dtkt.com.ua` do to dominate Ukrainian finance SERPs. Could be partially automated using the existing AI Assistant prompt infrastructure.
+- [ ] **Submit to directories**: [ProductHunt](https://www.producthunt.com/) launch, [AlternativeTo](https://alternativeto.net/) (under accounting/finance), [FreeCodeCamp catalog](https://www.freecodecamp.org/news/), [Awesome Blazor](https://github.com/AdrienTorris/awesome-blazor) PR, [Awesome WASM](https://github.com/mbasso/awesome-wasm) PR, [Awesome Ukrainian Open Source](https://github.com/blacklisted/awesome-ukrainian-os) PR, [Chrome AI gallery](https://developer.chrome.com/docs/ai/built-in) submission (you ship Gemini Nano integration — they're actively curating).
+
+**Realistic timeline if all four are pursued:**
+
+| Effort | Expected outcome (Ukrainian market) |
+|---|---|
+| Custom domain only | +20–40% trust; minor ranking lift |
+| + 5–10 backlinks | Top-10 for ~30–80 long-tail queries (3–6 months) |
+| + 20 article pages | Top-3 for many long-tails, top-10 for some head terms (6–12 months) |
+| + directory submissions | One-time traffic spikes (500–5000 visits per launch), some sticky brand searches |
 
 ---
 

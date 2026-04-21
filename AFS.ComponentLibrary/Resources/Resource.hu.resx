@@ -1410,4 +1410,40 @@
  <data name="StarOnGitHub" xml:space="preserve">
    <value>Csillagozás a GitHubon</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Ukrán pénzügyi kimutatások elemzése</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Ingyenes, nyílt forráskódú eszköz ukrán mérlegek (1. űrlap) és eredménykimutatások (2. űrlap) elemzéséhez. Számítsa ki a likviditási, fizetőképességi, jövedelmezőségi és üzleti aktivitási mutatókat közvetlenül a böngészőben — regisztráció nélkül, szerverhívás nélkül, 100% privát. Eredmények 15 nyelven. Opcionális helyi AI-asszisztens (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Likviditás és fizetőképesség&lt;/strong&gt; — likviditási mutató, gyorsráta, pénzmutató, forgótőke, eladósodottság, kamatfedezet.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Jövedelmezőség&lt;/strong&gt; — ROA, ROE, bruttó és nettó árrés, működési árrés.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Üzleti aktivitás&lt;/strong&gt; — eszköz-, követelés-, készlet- és kötelezettségforgás, működési ciklus elemzése.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Opcionális AI-asszisztens&lt;/strong&gt; — beépített Chrome Gemini Nano. Offline válaszol az adatairól; semmi nem hagyja el az eszközt.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Ugrás egy konkrét kalkulátorra:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>vagy adja meg az adatait az alábbi űrlapon.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Likviditás</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Fizetőképesség</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Üzleti aktivitás</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Pénzügyi stabilitás</value>
+  </data>
 </root>

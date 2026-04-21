@@ -1410,4 +1410,40 @@
 	<data name="StarOnGitHub" xml:space="preserve">
    <value>Dar estrella en GitHub</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+	<value>Análisis de estados financieros ucranianos</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+	<value>Herramienta gratuita y de código abierto para analizar balances (Formulario 1) y estados de resultados (Formulario 2) ucranianos. Calcule ratios de liquidez, solvencia, rentabilidad y actividad directamente en su navegador — sin registro, sin llamadas al servidor, 100% privado. Resultados en 15 idiomas. Asistente de IA opcional en el dispositivo (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+	<value>&lt;strong&gt;Liquidez y solvencia&lt;/strong&gt; — ratio corriente, rápido, de caja, capital de trabajo, endeudamiento, cobertura de intereses.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+	<value>&lt;strong&gt;Rentabilidad&lt;/strong&gt; — ROA, ROE, margen bruto y neto, margen operativo.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+	<value>&lt;strong&gt;Actividad&lt;/strong&gt; — rotación de activos, cuentas por cobrar, inventarios y cuentas por pagar, análisis del ciclo operativo.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+	<value>&lt;strong&gt;Asistente de IA opcional&lt;/strong&gt; — Chrome Gemini Nano integrado. Responde preguntas sobre sus datos sin conexión; nada sale del dispositivo.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+	<value>Ir a una calculadora específica:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+	<value>o introduzca sus cifras en el formulario a continuación.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+	<value>Liquidez</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+	<value>Solvencia</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+	<value>Actividad</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+	<value>Estabilidad financiera</value>
+  </data>
 </root>

@@ -1410,4 +1410,40 @@
  <data name="StarOnGitHub" xml:space="preserve">
    <value>Ster op GitHub</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Analyse van Oekraïense financiële overzichten</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Gratis open-source tool voor het analyseren van Oekraïense balansen (Formulier 1) en winst- en verliesrekeningen (Formulier 2). Bereken liquiditeits-, solvabiliteits-, winstgevendheids- en activiteitsratio's rechtstreeks in uw browser — geen registratie, geen serververkeer, 100% privé. Resultaten in 15 talen. Optionele AI-assistent op het apparaat (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Liquiditeit en solvabiliteit&lt;/strong&gt; — current ratio, quick ratio, kasratio, werkkapitaal, debt-to-equity, rentedekking.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Winstgevendheid&lt;/strong&gt; — ROA, ROE, bruto- en nettowinstmarge, operationele marge.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Bedrijfsactiviteit&lt;/strong&gt; — omloopsnelheid van activa, vorderingen, voorraden en schulden, analyse operationele cyclus.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Optionele AI-assistent&lt;/strong&gt; — ingebouwde Chrome Gemini Nano. Beantwoordt offline vragen over uw gegevens; niets verlaat het apparaat.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Ga naar een specifieke calculator:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>of voer uw cijfers in het formulier hieronder in.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Liquiditeit</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Solvabiliteit</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Bedrijfsactiviteit</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Financiële stabiliteit</value>
+  </data>
 </root>

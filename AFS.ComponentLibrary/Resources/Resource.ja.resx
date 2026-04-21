@@ -1381,4 +1381,40 @@
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
     <value>営業活動からの財務成果</value>
   </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>ウクライナ財務諸表分析</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>ウクライナの貸借対照表（様式1）および損益計算書（様式2）を分析する、無料でオープンソースのツールです。流動性、支払能力、収益性、活動性の指標をブラウザで直接計算できます — 登録不要、サーバーへの送信なし、100%プライベート。15言語に対応。オンデバイスのAIアシスタント（Chrome Gemini Nano）も選択可能。</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;流動性・支払能力&lt;/strong&gt; — 流動比率、当座比率、現金比率、運転資本、負債比率、インタレストカバレッジ。</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;収益性&lt;/strong&gt; — ROA、ROE、売上総利益率、純利益率、営業利益率。</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;活動性&lt;/strong&gt; — 総資産、売上債権、棚卸資産、仕入債務の回転率、営業循環分析。</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;任意のAIアシスタント&lt;/strong&gt; — Chrome内蔵のGemini Nano。データに関する質問にオフラインで回答し、デバイス外には何も送信しません。</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>特定の計算機へ移動:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>または下のフォームに数値を入力してください。</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>流動性</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>支払能力</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>活動性</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>財務安定性</value>
+  </data>
 </root>

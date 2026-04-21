@@ -1381,4 +1381,40 @@
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
     <value>Wynik finansowy z działalności operacyjnej</value>
   </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Analiza ukraińskich sprawozdań finansowych</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Darmowe narzędzie open source do analizy ukraińskich bilansów (Formularz 1) i rachunków zysków i strat (Formularz 2). Obliczaj wskaźniki płynności, wypłacalności, rentowności i aktywności bezpośrednio w przeglądarce — bez rejestracji, bez zapytań do serwera, w 100% prywatnie. Wyniki w 15 językach. Opcjonalny asystent AI działający na urządzeniu (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Płynność i wypłacalność&lt;/strong&gt; — wskaźnik płynności bieżącej, szybkiej, natychmiastowej, kapitał obrotowy, dźwignia finansowa, pokrycie odsetek.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Rentowność&lt;/strong&gt; — ROA, ROE, rentowność brutto i netto, marża operacyjna.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Aktywność biznesowa&lt;/strong&gt; — rotacja aktywów, należności, zapasów i zobowiązań, analiza cyklu operacyjnego.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Opcjonalny asystent AI&lt;/strong&gt; — wbudowany Chrome Gemini Nano. Odpowiada na pytania o Twoje dane offline; nic nie opuszcza urządzenia.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Przejdź do wybranego kalkulatora:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>lub wprowadź swoje dane w formularzu poniżej.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Płynność</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Wypłacalność</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Aktywność biznesowa</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Stabilność finansowa</value>
+  </data>
 </root>

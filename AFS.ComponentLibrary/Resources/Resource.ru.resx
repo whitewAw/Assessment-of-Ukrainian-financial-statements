@@ -1410,4 +1410,40 @@
  <data name="StarOnGitHub" xml:space="preserve">
    <value>Поставить звезду на GitHub</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Анализ финансовой отчётности Украины</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Бесплатный инструмент с открытым исходным кодом для анализа украинских балансов (Форма 1) и отчётов о финансовых результатах (Форма 2). Рассчитывайте показатели ликвидности, платёжеспособности, рентабельности и деловой активности прямо в браузере — без регистрации, без серверных запросов, 100% приватно. Результаты на 15 языках. Опциональный AI-помощник на устройстве (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Ликвидность и платёжеспособность&lt;/strong&gt; — коэффициенты текущей, быстрой, абсолютной ликвидности, оборотный капитал, финансовый рычаг, покрытие процентов.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Рентабельность&lt;/strong&gt; — ROA, ROE, валовая и чистая рентабельность, операционная маржа.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Деловая активность&lt;/strong&gt; — оборачиваемость активов, дебиторской и кредиторской задолженности, запасов, анализ операционного цикла.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Опциональный AI-помощник&lt;/strong&gt; — встроенный Chrome Gemini Nano. Отвечает на вопросы о ваших данных офлайн; ничего не покидает устройство.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Перейти к конкретному калькулятору:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>или введите свои данные в форме ниже.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Ликвидность</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Платёжеспособность</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Деловая активность</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Финансовая устойчивость</value>
+  </data>
 </root>

@@ -1381,4 +1381,40 @@
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
     <value>Faaliyet sonuçlarından finansal sonuç</value>
   </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Ukrayna Finansal Tablolar Analizi</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Ukrayna bilançolarını (Form 1) ve gelir tablolarını (Form 2) analiz etmek için ücretsiz, açık kaynaklı araç. Likidite, borç ödeme gücü, kârlılık ve faaliyet oranlarını doğrudan tarayıcınızda hesaplayın — kayıt yok, sunucu trafiği yok, %100 gizli. 15 dilde sonuçlar. Opsiyonel cihaz üzerinde AI asistanı (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Likidite ve borç ödeme gücü&lt;/strong&gt; — cari oran, asit-test oranı, nakit oranı, işletme sermayesi, borç/özkaynak, faiz karşılama.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Kârlılık&lt;/strong&gt; — ROA, ROE, brüt ve net kâr marjı, faaliyet kâr marjı.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Faaliyet&lt;/strong&gt; — varlık, alacak, stok ve borç devir hızı, faaliyet döngüsü analizi.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Opsiyonel AI asistanı&lt;/strong&gt; — Chrome'a entegre Gemini Nano. Verileriniz hakkındaki sorulara çevrimdışı yanıt verir; hiçbir şey cihazdan çıkmaz.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Belirli bir hesaplayıcıya git:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>veya aşağıdaki forma verilerinizi girin.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Likidite</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Borç ödeme gücü</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Faaliyet</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Finansal istikrar</value>
+  </data>
 </root>

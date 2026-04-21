@@ -1381,4 +1381,40 @@
   <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
     <value>经营活动财务成果</value>
   </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>乌克兰财务报表分析</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>免费的开源工具，用于分析乌克兰资产负债表（表1）和损益表（表2）。直接在您的浏览器中计算流动性、偿债能力、盈利能力和经营活动比率 — 无需注册，无服务器往返，100% 私密。支持 15 种语言。可选设备端 AI 助手（Chrome Gemini Nano）。</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;流动性和偿债能力&lt;/strong&gt; — 流动比率、速动比率、现金比率、营运资本、资产负债率、利息保障倍数。</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;盈利能力&lt;/strong&gt; — 资产回报率、净资产收益率、毛利率和净利率、营业利润率。</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;经营活动&lt;/strong&gt; — 资产、应收账款、存货、应付账款周转率，营业周期分析。</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;可选 AI 助手&lt;/strong&gt; — Chrome 内置 Gemini Nano。离线回答有关您数据的问题；任何内容都不会离开设备。</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>跳转到特定计算器：</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>或在下方表单中输入您的数据。</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>流动性</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>偿债能力</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>经营活动</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>财务稳定性</value>
+  </data>
 </root>

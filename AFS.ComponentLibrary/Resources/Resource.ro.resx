@@ -1410,4 +1410,40 @@
  <data name="StarOnGitHub" xml:space="preserve">
    <value>Stea pe GitHub</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Analiza situațiilor financiare ucrainene</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Instrument gratuit, open-source pentru analiza bilanțurilor (Formularul 1) și a contului de profit și pierdere (Formularul 2) din Ucraina. Calculați indicatori de lichiditate, solvabilitate, profitabilitate și activitate comercială direct în browser — fără înregistrare, fără interacțiuni cu serverul, 100% privat. Rezultate în 15 limbi. Asistent AI opțional pe dispozitiv (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Lichiditate și solvabilitate&lt;/strong&gt; — rata curentă, rata rapidă, rata de numerar, capital de lucru, grad de îndatorare, acoperirea dobânzilor.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Profitabilitate&lt;/strong&gt; — ROA, ROE, marja brută și netă, marja operațională.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Activitate comercială&lt;/strong&gt; — rotația activelor, creanțelor, stocurilor și datoriilor, analiza ciclului operațional.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Asistent AI opțional&lt;/strong&gt; — Chrome Gemini Nano încorporat. Răspunde la întrebări despre datele dvs. offline; nimic nu părăsește dispozitivul.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Accesează un calculator specific:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>sau introduceți cifrele în formularul de mai jos.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Lichiditate</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Solvabilitate</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Activitate comercială</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Stabilitate financiară</value>
+  </data>
 </root>

@@ -3,8 +3,14 @@
 @implements IAsyncDisposable
 
 <SeoHead Title="UFIN – Free Ukrainian Financial Statement Analysis Tool"
-         Description="Enter your Ukrainian balance sheet (Form 1) and income statement (Form 2) and instantly calculate liquidity, solvency, profitability and business-activity ratios. Free, open source, works offline in your browser."
-         Heading="Ukrainian Financial Statement Analysis" />
+         Description="Enter your Ukrainian balance sheet (Form 1) and income statement (Form 2) and instantly calculate liquidity, solvency, profitability and business-activity ratios. Free, open source, works offline in your browser." />
+
+@* Visible intro article — renders ~250 words of indexable content above the
+   tabs so the post-hydration DOM is not just an empty form. Fixes the Soft 404
+   classification Google Search Console was reporting for "/" and "/?lang=*".
+   The H1 lives in AppIntroArticle (so we drop SeoHead's optional Heading here
+   to avoid emitting two <h1> tags on the same page). *@
+<AppIntroArticle />
 
 <RadzenTabs TabPosition="0" RenderMode="TabRenderMode.Client">
     <Tabs>

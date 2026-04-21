@@ -1410,4 +1410,40 @@
 <data name="StarOnGitHub" xml:space="preserve">
      <value>Hvězdička na GitHubu</value>
    </data>
-  </root>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Analýza ukrajinských účetních výkazů</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Bezplatný open-source nástroj pro analýzu ukrajinských rozvah (Formulář 1) a výkazů zisku a ztráty (Formulář 2). Spočítejte ukazatele likvidity, solventnosti, rentability a obchodní aktivity přímo v prohlížeči — bez registrace, bez serveru, 100% soukromě. Výsledky v 15 jazycích. Volitelný AI asistent přímo v zařízení (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Likvidita a solventnost&lt;/strong&gt; — běžná, pohotová a peněžní likvidita, pracovní kapitál, zadluženost, úrokové krytí.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Rentabilita&lt;/strong&gt; — ROA, ROE, hrubá a čistá marže, provozní marže.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Obchodní aktivita&lt;/strong&gt; — obrat aktiv, pohledávek, zásob a závazků, analýza provozního cyklu.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Volitelný AI asistent&lt;/strong&gt; — zabudovaný Chrome Gemini Nano. Odpovídá na otázky o vašich datech offline; nic neopouští zařízení.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Přejít na konkrétní kalkulátor:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>nebo zadejte své údaje do formuláře níže.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Likvidita</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Solventnost</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Obchodní aktivita</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Finanční stabilita</value>
+  </data>
+</root>

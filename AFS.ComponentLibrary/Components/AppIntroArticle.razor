@@ -1,0 +1,151 @@
+@*
+    Visible, always-rendered intro block for the landing page (MainInputComponent).
+
+    WHY THIS EXISTS
+    ---------------
+    Blazor WebAssembly replaces <div id="app">'s contents on hydration, which
+    overwrites the pre-hydration hero in index.html. That leaves Googlebot's
+    rendered-pass DOM with only <RadzenTabs> — six empty input tabs — which its
+    Soft 404 classifier judges as thin/error content. Result: "?lang=en" and
+    the root URL are both flagged "Excluded — Soft 404" in Search Console.
+
+    This component renders ~250 words of substantive, indexable content (H1,
+    descriptive paragraph, four-item feature grid, four deep links) ABOVE the
+    tabs so the hydrated DOM always has real content. Survives Blazor's
+    #app rewrite because it IS part of the Blazor view.
+
+    Kept English-only to match the pre-hydration hero in index.html (primary
+    SEO target) and avoid forcing 15 .resx translations for intro copy. The
+    form tabs below this block are fully localised.
+*@
+
+<article class="app-intro" aria-labelledby="app-intro-heading">
+    <h1 id="app-intro-heading" class="app-intro__heading">
+        @ResLoc["IntroHeading"]
+    </h1>
+
+    <p class="app-intro__lede">
+        @ResLoc["IntroLede"]
+    </p>
+
+    @* Feature values contain inline <strong> tags, so they must be rendered
+       as MarkupString. The strings come from .resx (uk/en/pl/ro/hu/cs/de/nl/
+       fr/it/es/tr/zh/ja/ru — 15 cultures) and are safe, author-controlled
+       content — not user input. *@
+    <ul class="app-intro__features">
+        <li>@((MarkupString)ResLoc["IntroFeatureLiquidity"].Value)</li>
+        <li>@((MarkupString)ResLoc["IntroFeatureProfitability"].Value)</li>
+        <li>@((MarkupString)ResLoc["IntroFeatureBusinessActivity"].Value)</li>
+        <li>@((MarkupString)ResLoc["IntroFeatureAI"].Value)</li>
+    </ul>
+
+    <p class="app-intro__jump">
+        @ResLoc["IntroJumpPrefix"]
+        <NavLink href="liquidityindicatorsofbalance">@ResLoc["IntroJumpLiquidity"]</NavLink> ·
+        <NavLink href="solvencyratios">@ResLoc["IntroJumpSolvency"]</NavLink> ·
+        <NavLink href="indicatorsofbusinessactivity">@ResLoc["IntroJumpBusinessActivity"]</NavLink> ·
+        <NavLink href="generalindicatorsoffinancialstability">@ResLoc["IntroJumpStability"]</NavLink>
+        — @ResLoc["IntroJumpSuffix"]
+    </p>
+</article>
+
+<style>
+    .app-intro {
+        max-width: 980px;
+        margin: 0 auto 18px;
+        padding: 18px 20px 14px;
+        border: 1px solid #e3e3ea;
+        border-left: 4px solid #512BD4;
+        border-radius: 8px;
+        background: #fafafd;
+        color: #1a1a1a;
+        line-height: 1.5;
+    }
+
+    .app-intro__heading {
+        font-size: clamp(20px, 2.2vw, 26px);
+        line-height: 1.2;
+        margin: 0 0 10px;
+        color: #052767;
+        font-weight: 700;
+    }
+
+    .app-intro__lede {
+        font-size: 15px;
+        margin: 0 0 12px;
+        color: #333;
+    }
+
+    .app-intro__features {
+        margin: 0 0 10px;
+        padding: 0 0 0 20px;
+        font-size: 14px;
+        color: #333;
+    }
+
+        .app-intro__features li {
+            margin-bottom: 4px;
+        }
+
+    .app-intro__jump {
+        margin: 0;
+        font-size: 13px;
+        color: #555;
+    }
+
+        .app-intro__jump a {
+            color: #052767;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+            .app-intro__jump a:hover {
+                color: #512BD4;
+            }
+
+    @@media (prefers-color-scheme: dark) {
+        .app-intro {
+            background: #1e1e24;
+            border-color: #333;
+            border-left-color: #b4a3ff;
+            color: #f0f0f5;
+        }
+
+        .app-intro__heading {
+            color: #b4a3ff;
+        }
+
+        .app-intro__lede,
+        .app-intro__features {
+            color: #c0c0c8;
+        }
+
+        .app-intro__jump {
+            color: #aaa;
+        }
+
+            .app-intro__jump a {
+                color: #c7b8ff;
+            }
+    }
+
+    @@media (max-width: 640px) {
+        .app-intro {
+            padding: 14px 14px 10px;
+            border-left-width: 3px;
+            margin-bottom: 12px;
+        }
+
+        .app-intro__heading {
+            font-size: 18px;
+        }
+
+        .app-intro__lede {
+            font-size: 14px;
+        }
+
+        .app-intro__features {
+            font-size: 13px;
+        }
+    }
+</style>

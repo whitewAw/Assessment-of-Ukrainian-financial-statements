@@ -1410,4 +1410,40 @@
   <data name="StarOnGitHub" xml:space="preserve">
     <value>Star on GitHub</value>
   </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Ukrainian Financial Statement Analysis</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Free, open-source tool for analysing Ukrainian balance sheets (Form 1) and income statements (Form 2). Calculate liquidity, solvency, profitability and business-activity ratios directly in your browser — no registration, no server round-trips, 100% private. Results in 15 languages. Optional on-device AI assistant (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Liquidity &amp;amp; solvency&lt;/strong&gt; — current ratio, quick ratio, cash ratio, working capital, debt-to-equity, interest coverage.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Profitability&lt;/strong&gt; — ROA, ROE, gross and net profit margin, operating-profit margin.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Business activity&lt;/strong&gt; — asset, receivables, inventory and payables turnover, operating-cycle analysis.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Optional AI assistant&lt;/strong&gt; — Chrome built-in Gemini Nano. Answers questions about your data offline; nothing leaves the device.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Jump to a specific calculator:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>or enter your figures in the form below.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Liquidity</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Solvency</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Business activity</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Financial stability</value>
+  </data>
 </root>

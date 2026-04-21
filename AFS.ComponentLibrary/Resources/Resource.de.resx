@@ -1410,4 +1410,40 @@
  <data name="StarOnGitHub" xml:space="preserve">
    <value>Auf GitHub sternen</value>
  </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Analyse ukrainischer Finanzberichte</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Kostenloses Open-Source-Tool zur Analyse ukrainischer Bilanzen (Formular 1) und Gewinn- und Verlustrechnungen (Formular 2). Berechnen Sie Liquiditäts-, Solvenz-, Rentabilitäts- und Aktivitätskennzahlen direkt im Browser — ohne Anmeldung, ohne Serveranfragen, 100% privat. Ergebnisse in 15 Sprachen. Optionaler On-Device-KI-Assistent (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Liquidität und Solvenz&lt;/strong&gt; — Liquiditätsgrad 1./2./3., Working Capital, Verschuldungsgrad, Zinsdeckungsgrad.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Rentabilität&lt;/strong&gt; — ROA, ROE, Brutto- und Nettomarge, operative Marge.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Geschäftsaktivität&lt;/strong&gt; — Umschlagshäufigkeit von Vermögen, Forderungen, Beständen und Verbindlichkeiten, Betriebszyklusanalyse.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Optionaler KI-Assistent&lt;/strong&gt; — integrierter Chrome Gemini Nano. Beantwortet Fragen zu Ihren Daten offline; nichts verlässt das Gerät.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Direkt zu einem Rechner:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>oder geben Sie Ihre Zahlen im Formular unten ein.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Liquidität</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Solvenz</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Geschäftsaktivität</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Finanzielle Stabilität</value>
+  </data>
 </root>
