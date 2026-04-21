@@ -9,9 +9,11 @@
 [![Stand With Ukraine](https://img.shields.io/badge/Stand_With-Ukraine-FFD500?labelColor=005BBB)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 [![Developed by](https://img.shields.io/badge/Developed_by-Alex_%28Oleksandr%29_Shevchenko-0066CC?logo=github)](https://github.com/whitewAw)
 
-<!-- Visitor Counter Badges -->
-![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FwhitewAw%2FAssessment-of-Ukrainian-financial-statements&label=Repo%20Visitors&labelColor=%23512BD4&countColor=%23263759)
-![Site Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements&label=Site%20Visitors&labelColor=%2328a745&countColor=%23263759)
+<!-- Per-host visitor counters. The `path` values must match exactly what
+     index.html sends to api.visitorbadge.io — see the host-aware <img id="vbadge">
+     script in AFS/wwwroot/index.html. -->
+[![Netlify Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fua-finance.netlify.app&label=Netlify%20Visitors&labelColor=%2300C7B7&countColor=%23263759)](https://ua-finance.netlify.app/)
+[![GitHub Pages Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements&label=GitHub%20Pages%20Visitors&labelColor=%23181717&countColor=%23263759)](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
 [![GitHub Profile Views](https://komarev.com/ghpvc/?username=whitewAw&label=Profile%20Views&color=0e75b6&style=flat)](https://github.com/whitewAw)
 
 
