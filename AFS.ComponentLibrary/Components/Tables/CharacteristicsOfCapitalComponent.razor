@@ -1,4 +1,4 @@
-@page "/characteristicsofcapital"
+﻿@page "/characteristicsofcapital"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @inject CharacteristicsOfCapital CharacteristicsOfCapital
@@ -8,7 +8,7 @@
 @inject IJSRuntime JS
 
 <SeoHead Title="Characteristics of Capital | UFIN"
-         Description="Analyze capital structure and working-capital characteristics from a Ukrainian balance sheet — own, borrowed and total capital with year-over-year comparison." />
+         Description="Analyze capital structure and working-capital characteristics from a Ukrainian balance sheet â€” own, borrowed and total capital with year-over-year comparison." />
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -186,6 +186,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -229,6 +233,10 @@ private CancellationTokenSource? _cts;
 
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 _ = InvokeAsync(StateHasChanged);
             }).ConfigureAwait(false);
@@ -405,11 +413,11 @@ IMPORTANT: Respond in {languageInstruction} language. The user interface is in {
 {structuredData}
 
 UNDERSTANDING THE DATA STRUCTURE:
-• Each year ({MainModel.BaseYear} and {MainModel.CurrentYear}) has TWO time points: Beginning and End
-• This gives FOUR total observations to track trends
-• Each row shows absolute values AND percentages
-• Rows 1-2 show % of TOTAL ASSETS
-• Rows 2.1-2.3 show % of WORKING CAPITAL
+â€¢ Each year ({MainModel.BaseYear} and {MainModel.CurrentYear}) has TWO time points: Beginning and End
+â€¢ This gives FOUR total observations to track trends
+â€¢ Each row shows absolute values AND percentages
+â€¢ Rows 1-2 show % of TOTAL ASSETS
+â€¢ Rows 2.1-2.3 show % of WORKING CAPITAL
 
 CRITICAL FORMATTING RULES:
 - DO NOT create or display any tables in your response
@@ -507,6 +515,7 @@ Remember: Write in {languageInstruction}. NO tables. Focus on MEANING and RECOMM
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

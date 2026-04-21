@@ -1,4 +1,4 @@
-@page "/indicatorsofefficiencyofuseofintangibleassets"
+﻿@page "/indicatorsofefficiencyofuseofintangibleassets"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -9,7 +9,7 @@
 @inject IJSRuntime JS
 
 <SeoHead Title="Intangible Assets Efficiency | UFIN"
-         Description="Measure return on intangible assets and goodwill for Ukrainian businesses — productivity, profitability and structural share of intangibles." />
+         Description="Measure return on intangible assets and goodwill for Ukrainian businesses â€” productivity, profitability and structural share of intangibles." />
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -115,6 +115,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -160,6 +164,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -251,8 +259,8 @@ Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 {jsonData}
 
 KEY FORMULAS TO UNDERSTAND:
-- Intangible Asset Turnover = Revenue ÷ Intangible Assets (UAH per UAH)
-- Capital Intensity = Intangible Assets ÷ Revenue = 1 ÷ Turnover (UAH per UAH)
+- Intangible Asset Turnover = Revenue Ã· Intangible Assets (UAH per UAH)
+- Capital Intensity = Intangible Assets Ã· Revenue = 1 Ã· Turnover (UAH per UAH)
 
 **Relationship:**
 - Turnover and Capital Intensity are INVERSE metrics
@@ -262,7 +270,7 @@ KEY FORMULAS TO UNDERSTAND:
 RESPONSE FORMAT:
 - Write in clear, professional narrative style
 - Use headings with ** for section titles (e.g., **1. Executive Summary**)
-- Use bullet points (•) for lists
+- Use bullet points (â€¢) for lists
 - Integrate numbers naturally into sentences
 - NO tables, NO raw data dumps
 - Focus on what the numbers MEAN, not just what they ARE
@@ -290,9 +298,9 @@ ANALYSIS SECTIONS:
    - Assess the size of intellectual capital investment
    - Compare to tangible fixed assets (if context allows)
    - Interpret trend:
-     • Growing = Investing in IP, software, brands
-     • Stable = Maintaining existing knowledge capital
-     • Declining = Amortization exceeding new investments
+     â€¢ Growing = Investing in IP, software, brands
+     â€¢ Stable = Maintaining existing knowledge capital
+     â€¢ Declining = Amortization exceeding new investments
    
    **Context:**
    - Are intangible assets significant for this company?
@@ -305,7 +313,7 @@ ANALYSIS SECTIONS:
    - Evaluate revenue sustainability
 
 **4. Intangible Asset Turnover Analysis** (Indicator #3):
-   - Formula: Revenue ÷ Intangible Assets
+   - Formula: Revenue Ã· Intangible Assets
    - {MainModel.BaseYear}: [turnover] UAH revenue per UAH of intangibles
    - {MainModel.CurrentYear}: [turnover] UAH revenue per UAH of intangibles
    - Change: [absolute], [percentage]%
@@ -328,7 +336,7 @@ ANALYSIS SECTIONS:
    - Is efficiency trending in the right direction?
 
 **5. Capital Intensity of Production Analysis** (Indicator #4):
-   - Formula: Intangible Assets ÷ Revenue = 1 ÷ Turnover
+   - Formula: Intangible Assets Ã· Revenue = 1 Ã· Turnover
    - {MainModel.BaseYear}: [intensity] UAH of intangibles per UAH of revenue
    - {MainModel.CurrentYear}: [intensity] UAH of intangibles per UAH of revenue
    - Change: [absolute], [percentage]%
@@ -344,13 +352,13 @@ ANALYSIS SECTIONS:
    - >0.10 (>10%) = Capital intensive intangibles
    
    **Relationship to Turnover:**
-   - Verify: Capital Intensity × Turnover should equal 1
+   - Verify: Capital Intensity Ã— Turnover should equal 1
    - They tell the same story from different perspectives
 
 **6. Turnover vs Capital Intensity - The Complete Picture**:
    **Mathematical Relationship:**
    ```
-   Capital Intensity = 1 ÷ Turnover
+   Capital Intensity = 1 Ã· Turnover
    ```
    
    **What Happened:**
@@ -394,10 +402,10 @@ ANALYSIS SECTIONS:
    - How does intangible asset efficiency compare to fixed assets?
    - Are intangibles more or less productive than tangible assets?
    - Industry context:
-     • Tech/software companies: High intangible turnover expected
-     • Manufacturing: Lower intangible intensity
-     • Consumer brands: Moderate intangibles (trademarks)
-     • Services: Varies by type
+     â€¢ Tech/software companies: High intangible turnover expected
+     â€¢ Manufacturing: Lower intangible intensity
+     â€¢ Consumer brands: Moderate intangibles (trademarks)
+     â€¢ Services: Varies by type
    
    - Assess if the company's intangible efficiency is appropriate for its sector
 
@@ -405,51 +413,51 @@ ANALYSIS SECTIONS:
     Provide specific, actionable recommendations:
     
     **For Improving Intangible Asset Turnover**:
-    • If turnover is low (<10): Monetization strategies
+    â€¢ If turnover is low (<10): Monetization strategies
       - License unused IP
       - Leverage brands more effectively
       - Maximize software ROI
       - Divest non-strategic intangibles
-    • If turnover is adequate: Sustain and optimize
+    â€¢ If turnover is adequate: Sustain and optimize
       - Continue effective IP management
       - Protect key intangibles
       - Strategic renewal of IP portfolio
-    • Target turnover: [specific UAH per UAH]
+    â€¢ Target turnover: [specific UAH per UAH]
     
     **For Reducing Capital Intensity**:
-    • If intensity is high (>0.05): Efficiency programs
+    â€¢ If intensity is high (>0.05): Efficiency programs
       - Audit intangible asset portfolio
       - Identify underperforming IP
       - Accelerate amortization where appropriate
       - Lean approach to new intangible investments
-    • Target intensity: <0.01 (less than 1%)
+    â€¢ Target intensity: <0.01 (less than 1%)
     
     **Intellectual Capital Strategy**:
-    • Should the company invest MORE or LESS in intangibles?
-    • R&D investment priorities
-    • IP acquisition vs organic development
-    • Brand building vs other priorities
-    • Software/technology investments
+    â€¢ Should the company invest MORE or LESS in intangibles?
+    â€¢ R&D investment priorities
+    â€¢ IP acquisition vs organic development
+    â€¢ Brand building vs other priorities
+    â€¢ Software/technology investments
     
     **Monetization Opportunities**:
-    • Licensing unused patents or IP
-    • Franchising brands
-    • Software-as-a-service models
-    • Strategic partnerships leveraging IP
-    • IP portfolio optimization
+    â€¢ Licensing unused patents or IP
+    â€¢ Franchising brands
+    â€¢ Software-as-a-service models
+    â€¢ Strategic partnerships leveraging IP
+    â€¢ IP portfolio optimization
     
     **Protection and Management**:
-    • IP protection strategies
-    • Patent renewal decisions
-    • Trademark enforcement
-    • Software license management
-    • Customer relationship preservation
+    â€¢ IP protection strategies
+    â€¢ Patent renewal decisions
+    â€¢ Trademark enforcement
+    â€¢ Software license management
+    â€¢ Customer relationship preservation
     
     **Implementation Timeline**:
-    • Immediate (30 days): Intangible asset inventory and audit
-    • Short-term (3-6 months): Monetization quick wins
-    • Long-term (1-2 years): Strategic IP portfolio optimization
-    • Ongoing: Quarterly intangible efficiency monitoring
+    â€¢ Immediate (30 days): Intangible asset inventory and audit
+    â€¢ Short-term (3-6 months): Monetization quick wins
+    â€¢ Long-term (1-2 years): Strategic IP portfolio optimization
+    â€¢ Ongoing: Quarterly intangible efficiency monitoring
 
 INTERPRETATION GUIDANCE:
 - Intangible Asset Turnover: HIGHER is BETTER (more revenue per UAH)
@@ -481,7 +489,7 @@ SPECIAL CONSIDERATIONS FOR INTANGIBLE ASSETS:
 WRITING STYLE:
 - Be direct and professional
 - Use active voice
-- Integrate numbers into narrative (e.g., ""Intangible Asset Turnover of 1,358 UAH means each UAH of intellectual capital generated 1,358 UAH of revenue—exceptionally high efficiency indicating a lean, productive IP portfolio"")
+- Integrate numbers into narrative (e.g., ""Intangible Asset Turnover of 1,358 UAH means each UAH of intellectual capital generated 1,358 UAH of revenueâ€”exceptionally high efficiency indicating a lean, productive IP portfolio"")
 - Explain WHY efficiency matters for knowledge-based value creation
 - Provide strategic intellectual capital guidance
 - Be analytical and insightful
@@ -499,6 +507,7 @@ All amounts are in thousand UAH. Turnover and intensity are in UAH per UAH. Reme
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

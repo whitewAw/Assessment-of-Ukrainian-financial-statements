@@ -1,4 +1,4 @@
-@page "/sourcesofcapitalformation"
+﻿@page "/sourcesofcapitalformation"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -197,6 +197,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -240,6 +244,10 @@ private CancellationTokenSource? _cts;
             
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -303,7 +311,7 @@ CRITICAL FORMATTING RULES:
 - Reference numbers naturally in sentences
 
 DATA STRUCTURE:
-You are analyzing FOUR data points per metric (2 years × 2 time points):
+You are analyzing FOUR data points per metric (2 years Ã— 2 time points):
 - {MainModel.BaseYear} Beginning and End
 - {MainModel.CurrentYear} Beginning and End
 
@@ -312,13 +320,13 @@ This table shows CAPITAL STRUCTURE - how the company finances its operations.
 CAPITAL HIERARCHY:
 Total Capital Sources (100%)
 +- 1. Equity (Own Capital) + % of Total
-¦  +- 1.1 Own Current Assets + % of Equity
+Â¦  +- 1.1 Own Current Assets + % of Equity
 +- 2. Borrowed Capital + % of Total
-¦  +- 2.1 Long-term Liabilities + % of Debt
-¦  +- 2.2 Short-term Loans + % of Debt
-¦  +- 2.3 Accounts Payable + % of Debt
-¦  +- 2.4 Other Current Liabilities + % of Debt
-¦  +- 2.5 Liabilities for Assets Held for Sale
+Â¦  +- 2.1 Long-term Liabilities + % of Debt
+Â¦  +- 2.2 Short-term Loans + % of Debt
+Â¦  +- 2.3 Accounts Payable + % of Debt
+Â¦  +- 2.4 Other Current Liabilities + % of Debt
+Â¦  +- 2.5 Liabilities for Assets Held for Sale
 +- 3. Future Period Income
 
 NAMING CONVENTIONS:
@@ -332,15 +340,15 @@ Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 {jsonData}
 
 KEY FORMULAS:
-- Equity Ratio = Equity ÷ Total Capital × 100
-- Debt Ratio = Borrowed Capital ÷ Total Capital × 100
-- Equity-to-Debt Ratio = Equity ÷ Borrowed Capital
-- Financial Leverage = Total Capital ÷ Equity
+- Equity Ratio = Equity Ã· Total Capital Ã— 100
+- Debt Ratio = Borrowed Capital Ã· Total Capital Ã— 100
+- Equity-to-Debt Ratio = Equity Ã· Borrowed Capital
+- Financial Leverage = Total Capital Ã· Equity
 
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on MEANING
@@ -365,19 +373,19 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
    - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
    - **Interpretation:**
-     • >50% = Strong financial independence ?
-     • 40-50% = Balanced, healthy
-     • 30-40% = Moderate leverage
-     • <30% = High leverage, risky
+     â€¢ >50% = Strong financial independence ?
+     â€¢ 40-50% = Balanced, healthy
+     â€¢ 30-40% = Moderate leverage
+     â€¢ <30% = High leverage, risky
    - Trend: improving or deteriorating?
 
 **4. Own Current Assets Analysis - CRITICAL**:
    - {MainModel.BaseYear}: [amount] ([percent]% of equity)
    - {MainModel.CurrentYear}: [amount] ([percent]% of equity)
    - **Interpretation:**
-     • Positive & Large = Equity finances working capital (conservative) ?
-     • Near Zero = Equity covers only fixed assets (balanced)
-     • NEGATIVE = Working capital ENTIRELY from debt (risky) 
+     â€¢ Positive & Large = Equity finances working capital (conservative) ?
+     â€¢ Near Zero = Equity covers only fixed assets (balanced)
+     â€¢ NEGATIVE = Working capital ENTIRELY from debt (risky) 
    - **This metric reveals HOW working capital is financed**
    - Assessment and implications
 
@@ -386,10 +394,10 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
    - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
    - **Interpretation:**
-     • <50% = Conservative, low risk 
-     • 50-60% = Moderate leverage
-     • 60-70% = Aggressive leverage
-     • >70% = High risk 
+     â€¢ <50% = Conservative, low risk 
+     â€¢ 50-60% = Moderate leverage
+     â€¢ 60-70% = Aggressive leverage
+     â€¢ >70% = High risk 
    - Debt reliance assessment
 
 **6. Equity vs Debt Balance**:
@@ -397,9 +405,9 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear}: Equity/Debt = [ratio]
    - {MainModel.CurrentYear}: Equity/Debt = [ratio]
    - **Benchmarks:**
-     • >1.0 = More equity than debt (conservative)
-     • 0.5-1.0 = Balanced
-     • <0.5 = Debt heavy (risky)
+     â€¢ >1.0 = More equity than debt (conservative)
+     â€¢ 0.5-1.0 = Balanced
+     â€¢ <0.5 = Debt heavy (risky)
    - Optimal capital structure assessment
 
 **7. Debt Component Decomposition**:
@@ -430,8 +438,8 @@ ANALYSIS SECTIONS:
    - Long-term vs Short-term debt ratio
    - Maturity balance assessment
    - **Risks:**
-     • Too much short-term = Refinancing risk
-     • All long-term = Higher cost
+     â€¢ Too much short-term = Refinancing risk
+     â€¢ All long-term = Higher cost
    - Optimal maturity mix recommendation
 
 **9. Capital Structure Evolution**:
@@ -439,52 +447,52 @@ ANALYSIS SECTIONS:
    - Intra-year changes (within each year)
    - Inter-year changes (2019 vs 2020)
    - **Identify trend:**
-     • Increasing leverage?
-     • Deleveraging?
-     • Stable structure?
+     â€¢ Increasing leverage?
+     â€¢ Deleveraging?
+     â€¢ Stable structure?
    - Financial strategy assessment
 
 **10. Strategic Recommendations**:
     
     **Capital Structure Optimization:**
-    • Target equity % (recommend 40-50%)
-    • Target debt % (recommend 50-60%)
-    • Optimal leverage level
+    â€¢ Target equity % (recommend 40-50%)
+    â€¢ Target debt % (recommend 50-60%)
+    â€¢ Optimal leverage level
     
     **If Equity is LOW (<30%):**
-    • Retain earnings instead of dividends
-    • Consider equity injection
-    • Reduce debt where possible
-    • Target: 40% equity within 2 years
+    â€¢ Retain earnings instead of dividends
+    â€¢ Consider equity injection
+    â€¢ Reduce debt where possible
+    â€¢ Target: 40% equity within 2 years
     
     **If Debt is HIGH (>70%):**
-    • Debt reduction priority
-    • Refinancing opportunities
-    • Asset sales if needed
-    • Target: <60% debt
+    â€¢ Debt reduction priority
+    â€¢ Refinancing opportunities
+    â€¢ Asset sales if needed
+    â€¢ Target: <60% debt
     
     **Own Current Assets Strategy:**
-    • If NEGATIVE: Increase equity for working capital
-    • Target: At least break-even
-    • Reduce fixed asset investments temporarily
-    • Build equity buffer
+    â€¢ If NEGATIVE: Increase equity for working capital
+    â€¢ Target: At least break-even
+    â€¢ Reduce fixed asset investments temporarily
+    â€¢ Build equity buffer
     
     **Debt Composition Optimization:**
-    • Maximize Accounts Payable (free credit)
-    • Extend payment terms with suppliers
-    • Minimize costly bank loans
-    • Balance long-term vs short-term
+    â€¢ Maximize Accounts Payable (free credit)
+    â€¢ Extend payment terms with suppliers
+    â€¢ Minimize costly bank loans
+    â€¢ Balance long-term vs short-term
     
     **Working Capital Financing:**
-    • How much from equity vs debt?
-    • Optimal mix for liquidity
-    • Credit line management
+    â€¢ How much from equity vs debt?
+    â€¢ Optimal mix for liquidity
+    â€¢ Credit line management
     
     **Implementation Timeline:**
-    • Immediate (30 days): [specific actions]
-    • Short-term (3-6 months): [tactical changes]
-    • Long-term (1-2 years): [strategic transformation]
-    • Quarterly monitoring: [key metrics]
+    â€¢ Immediate (30 days): [specific actions]
+    â€¢ Short-term (3-6 months): [tactical changes]
+    â€¢ Long-term (1-2 years): [strategic transformation]
+    â€¢ Quarterly monitoring: [key metrics]
 
 INTERPRETATION GUIDANCE:
 - Equity %: HIGHER is better (financial independence)
@@ -524,6 +532,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

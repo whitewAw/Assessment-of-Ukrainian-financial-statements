@@ -1,4 +1,4 @@
-@page "/factoranalysisoffixedassets"
+﻿@page "/factoranalysisoffixedassets"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -9,7 +9,7 @@
 @inject IJSRuntime JS
 
 <SeoHead Title="Factor Analysis of Fixed Assets | UFIN"
-         Description="Multi-factor decomposition of fixed-assets productivity — isolate the impact of asset value, output and structure on overall efficiency." />
+         Description="Multi-factor decomposition of fixed-assets productivity â€” isolate the impact of asset value, output and structure on overall efficiency." />
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -117,6 +117,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -162,6 +166,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -252,11 +260,11 @@ Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 CRITICAL FORMULAS - THE FACTOR DECOMPOSITION:
 
 **Primary Relationship:**
-Fixed Asset Turnover = Revenue ÷ Fixed Assets
+Fixed Asset Turnover = Revenue Ã· Fixed Assets
 
 **Factor Decomposition:**
-Fixed Asset Turnover = (Revenue ÷ Employees) ÷ (Fixed Assets ÷ Employees)
-                     = Labor Productivity ÷ Capital Intensity
+Fixed Asset Turnover = (Revenue Ã· Employees) Ã· (Fixed Assets Ã· Employees)
+                     = Labor Productivity Ã· Capital Intensity
 
 **This means:**
 - If Labor Productivity INCREASES ? Turnover INCREASES (positive)
@@ -269,7 +277,7 @@ Fixed Asset Turnover = (Revenue ÷ Employees) ÷ (Fixed Assets ÷ Employees)
 RESPONSE FORMAT:
 - Write in clear, professional narrative style
 - Use headings with ** for section titles (e.g., **1. Executive Summary**)
-- Use bullet points (•) for lists
+- Use bullet points (â€¢) for lists
 - Integrate numbers naturally into sentences
 - NO tables, NO raw data dumps
 - Focus on what the numbers MEAN, not just what they ARE
@@ -306,7 +314,7 @@ ANALYSIS SECTIONS:
    - Assess workforce efficiency
 
 **4. Labor Productivity Factor Analysis** (Factor #1):
-   - Formula: Revenue ÷ Employees
+   - Formula: Revenue Ã· Employees
    - {MainModel.BaseYear}: [productivity] thousand UAH per employee
    - {MainModel.CurrentYear}: [productivity] thousand UAH per employee
    - Change: [absolute] thousand UAH, [percentage]%
@@ -315,8 +323,8 @@ ANALYSIS SECTIONS:
    - Did employees become MORE or LESS productive?
    - Is revenue per worker improving or declining?
    - This factor's impact on turnover:
-     • If Labor Productivity UP ? Helps turnover INCREASE
-     • If Labor Productivity DOWN ? Causes turnover DECREASE
+     â€¢ If Labor Productivity UP ? Helps turnover INCREASE
+     â€¢ If Labor Productivity DOWN ? Causes turnover DECREASE
    
    **Root Causes:**
    - If productivity improved: Better training? Technology? Processes?
@@ -328,7 +336,7 @@ ANALYSIS SECTIONS:
    - Assess capital allocation per worker
 
 **6. Capital Intensity Factor Analysis** (Factor #2):
-   - Formula: Fixed Assets ÷ Employees
+   - Formula: Fixed Assets Ã· Employees
    - {MainModel.BaseYear}: [intensity] thousand UAH per employee
    - {MainModel.CurrentYear}: [intensity] thousand UAH per employee
    - Change: [absolute] thousand UAH, [percentage]%
@@ -337,8 +345,8 @@ ANALYSIS SECTIONS:
    - Did capital intensity PER WORKER increase or decrease?
    - Is the company becoming MORE or LESS capital intensive?
    - This factor's impact on turnover:
-     • If Capital Intensity UP ? Causes turnover DECREASE (more capital per worker)
-     • If Capital Intensity DOWN ? Helps turnover INCREASE (leaner operation)
+     â€¢ If Capital Intensity UP ? Causes turnover DECREASE (more capital per worker)
+     â€¢ If Capital Intensity DOWN ? Helps turnover INCREASE (leaner operation)
    
    **Root Causes:**
    - If intensity increased: Heavy investment? Automation? Overcapitalization?
@@ -347,18 +355,18 @@ ANALYSIS SECTIONS:
 **7. Factor Decomposition - The Complete Picture**:
    **Formula Breakdown:**
    ```
-   Fixed Asset Turnover = Labor Productivity ÷ Capital Intensity
+   Fixed Asset Turnover = Labor Productivity Ã· Capital Intensity
    ```
    
    **{MainModel.BaseYear}:**
    - Labor Productivity: [value]
    - Capital Intensity: [value]
-   - Turnover: [value] = [productivity] ÷ [intensity]
+   - Turnover: [value] = [productivity] Ã· [intensity]
    
    **{MainModel.CurrentYear}:**
    - Labor Productivity: [value]
    - Capital Intensity: [value]
-   - Turnover: [value] = [productivity] ÷ [intensity]
+   - Turnover: [value] = [productivity] Ã· [intensity]
    
    **Impact Analysis:**
    - Labor Productivity contribution: [+/-]%
@@ -371,20 +379,20 @@ ANALYSIS SECTIONS:
    - Four possible scenarios:
    
    **Scenario 1: Both Positive**
-   • Labor Productivity UP + Capital Intensity DOWN = Excellent
-   • Employees more productive AND leaner capital base
+   â€¢ Labor Productivity UP + Capital Intensity DOWN = Excellent
+   â€¢ Employees more productive AND leaner capital base
    
    **Scenario 2: Labor Wins**
-   • Labor Productivity UP > Capital Intensity UP
-   • Productivity gains offset capital investment
+   â€¢ Labor Productivity UP > Capital Intensity UP
+   â€¢ Productivity gains offset capital investment
    
    **Scenario 3: Capital Drags**
-   • Labor Productivity UP but Capital Intensity UP MORE
-   • Productivity gains lost to capital intensity
+   â€¢ Labor Productivity UP but Capital Intensity UP MORE
+   â€¢ Productivity gains lost to capital intensity
    
    **Scenario 4: Both Negative**
-   • Labor Productivity DOWN + Capital Intensity UP = Poor
-   • Declining efficiency AND heavier capital
+   â€¢ Labor Productivity DOWN + Capital Intensity UP = Poor
+   â€¢ Declining efficiency AND heavier capital
    
    - Which scenario applies to {MainModel.CompanyName}?
    - Strategic implications
@@ -411,46 +419,46 @@ ANALYSIS SECTIONS:
     Provide specific, factor-based recommendations:
     
     **For Improving Labor Productivity**:
-    • If declining: Urgent actions to restore efficiency
+    â€¢ If declining: Urgent actions to restore efficiency
       - Training programs
       - Process optimization
       - Technology investments
       - Performance management
-    • If improving: Sustain and accelerate
+    â€¢ If improving: Sustain and accelerate
       - Best practice sharing
       - Scaling successful initiatives
       - Continuous improvement culture
-    • Target: [specific UAH per employee]
+    â€¢ Target: [specific UAH per employee]
     
     **For Optimizing Capital Intensity**:
-    • If excessive: Capital rationalization
+    â€¢ If excessive: Capital rationalization
       - Asset utilization review
       - Divestment of underperforming assets
       - Lean capital approach
       - ROI-driven investments
-    • If appropriate: Maintain or strategic growth
+    â€¢ If appropriate: Maintain or strategic growth
       - Balanced capital allocation
       - Technology upgrades where justified
       - Automation where ROI positive
-    • Target: [specific UAH per employee]
+    â€¢ Target: [specific UAH per employee]
     
     **For Improving Fixed Asset Turnover**:
-    • Primary lever: Focus on [dominant factor]
-    • Secondary lever: Optimize [other factor]
-    • Balanced approach if both need work
-    • Target turnover: [specific UAH per UAH]
+    â€¢ Primary lever: Focus on [dominant factor]
+    â€¢ Secondary lever: Optimize [other factor]
+    â€¢ Balanced approach if both need work
+    â€¢ Target turnover: [specific UAH per UAH]
     
     **Strategic Choices**:
-    • Labor-intensive vs Capital-intensive strategy
-    • Automation vs Workforce expansion
-    • Asset-light vs Asset-heavy model
-    • Optimal balance for the industry
+    â€¢ Labor-intensive vs Capital-intensive strategy
+    â€¢ Automation vs Workforce expansion
+    â€¢ Asset-light vs Asset-heavy model
+    â€¢ Optimal balance for the industry
     
     **Implementation Roadmap**:
-    • Immediate (30 days): Quick wins for [dominant factor]
-    • Short-term (3-6 months): Tactical improvements
-    • Long-term (1-2 years): Strategic transformation
-    • Monthly monitoring: Track both factors
+    â€¢ Immediate (30 days): Quick wins for [dominant factor]
+    â€¢ Short-term (3-6 months): Tactical improvements
+    â€¢ Long-term (1-2 years): Strategic transformation
+    â€¢ Monthly monitoring: Track both factors
 
 INTERPRETATION GUIDANCE:
 - Labor Productivity: HIGHER is BETTER (more revenue per worker)
@@ -491,6 +499,7 @@ All amounts are in thousand UAH except employee counts. Productivity and intensi
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

@@ -1,4 +1,4 @@
-@page "/generalindicatorsoffinancialstability"
+﻿@page "/generalindicatorsoffinancialstability"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -146,6 +146,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -188,6 +192,10 @@ private CancellationTokenSource? _cts;
             
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -250,7 +258,7 @@ CRITICAL FORMATTING RULES:
 - Reference numbers naturally in sentences
 
 DATA STRUCTURE:
-This table analyzes FINANCIAL STABILITY through the lens of INVENTORY FINANCING. It examines how inventory (stocks) is financed using SEVEN KEY INDICATORS across FOUR time points (2 years × 2 time points each).
+This table analyzes FINANCIAL STABILITY through the lens of INVENTORY FINANCING. It examines how inventory (stocks) is financed using SEVEN KEY INDICATORS across FOUR time points (2 years Ã— 2 time points each).
 
 The central question: Is inventory financed by stable (own equity) or unstable (short-term debt) sources?
 
@@ -320,7 +328,7 @@ Based on deficits, companies are classified into 4 types:
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on STABILITY RISK and FUNDING SOURCES
@@ -343,8 +351,8 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [amount] thousand UAH
    - {MainModel.CurrentYear} End: [amount] thousand UAH
    - **Interpretation:**
-     • Positive = Own capital available for inventory
-     • Negative = All equity tied up in fixed assets
+     â€¢ Positive = Own capital available for inventory
+     â€¢ Negative = All equity tied up in fixed assets
    - Current status: [NEGATIVE -9.6M] = NO own capital for inventory!
 
 **4. Own + Long-term Capital Analysis (Source #2)**:
@@ -364,8 +372,8 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Absolute Stability (Type 1)
-     • <0 = Need external funding (Type 2, 3, or 4)
+     â€¢ =0 = Absolute Stability (Type 1)
+     â€¢ <0 = Need external funding (Type 2, 3, or 4)
    - Current: [-14.7M] = LARGE DEFICIT
    - Meaning: Inventory CANNOT be funded by own capital alone
 
@@ -374,8 +382,8 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Normal Stability (Type 2)
-     • <0 = Unstable/Crisis (Type 3 or 4)
+     â€¢ =0 = Normal Stability (Type 2)
+     â€¢ <0 = Unstable/Crisis (Type 3 or 4)
    - Current: [-10.4M] = STILL DEFICIT
    - Meaning: Even with long-term debt, cannot cover inventory
 
@@ -384,8 +392,8 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear} End: [value] thousand UAH
    - {MainModel.CurrentYear} End: [value] thousand UAH
    - **Interpretation:**
-     • =0 = Unstable but funded (Type 3)
-     • <0 = Crisis (Type 4) - Cannot fund inventory
+     â€¢ =0 = Unstable but funded (Type 3)
+     â€¢ <0 = Crisis (Type 4) - Cannot fund inventory
    - Current: [-10.2M] = CRISIS
    - Meaning: CANNOT fund inventory even with ALL sources!
 
@@ -393,19 +401,19 @@ ANALYSIS SECTIONS:
    **Four-Point Timeline Assessment:**
    
    {MainModel.BaseYear} Beginning:
-   • Test 1 (Own capital): [Pass/Fail]
-   • Test 2 (Own + Long-term): [Pass/Fail]
-   • Test 3 (Total sources): [Pass/Fail]
-   • Classification: Type [1/2/3/4]
+   â€¢ Test 1 (Own capital): [Pass/Fail]
+   â€¢ Test 2 (Own + Long-term): [Pass/Fail]
+   â€¢ Test 3 (Total sources): [Pass/Fail]
+   â€¢ Classification: Type [1/2/3/4]
    
    {MainModel.BaseYear} End:
-   • Classification: Type [X]
+   â€¢ Classification: Type [X]
    
    {MainModel.CurrentYear} Beginning:
-   • Classification: Type [X]
+   â€¢ Classification: Type [X]
    
    {MainModel.CurrentYear} End:
-   • Classification: Type [X]
+   â€¢ Classification: Type [X]
    
    **Overall Pattern:**
    - Consistent type or changing?
@@ -415,84 +423,84 @@ ANALYSIS SECTIONS:
 **10. Strategic Recommendations**:
     
     **If Type 4 (Crisis) - Current Situation:**
-    • CRITICAL: Cannot fund inventory even with all sources!
+    â€¢ CRITICAL: Cannot fund inventory even with all sources!
     
     **Immediate Actions (30 days):**
-    • Emergency inventory reduction
+    â€¢ Emergency inventory reduction
       - Target: Reduce inventory by [X]M UAH
       - Sell slow-moving stock
       - Just-in-time ordering
       - Free up working capital
     
-    • Increase funding sources
+    â€¢ Increase funding sources
       - Secure additional short-term credit
       - Negotiate extended supplier credit
       - Consider factoring receivables
       - Emergency capital injection
     
-    • Working capital optimization
+    â€¢ Working capital optimization
       - Accelerate receivables collection
       - Extend payables (carefully)
       - Release tied-up capital
     
     **If Type 3 (Unstable):**
-    • HIGH RISK: Dependent on short-term debt
+    â€¢ HIGH RISK: Dependent on short-term debt
     
-    • Reduce short-term debt dependency
-    • Convert short-term to long-term debt
-    • Increase own working capital
-    • Optimize inventory levels
-    • Target: Move to Type 2 within 12 months
+    â€¢ Reduce short-term debt dependency
+    â€¢ Convert short-term to long-term debt
+    â€¢ Increase own working capital
+    â€¢ Optimize inventory levels
+    â€¢ Target: Move to Type 2 within 12 months
     
     **If Type 2 (Normal Stability):**
-    • ACCEPTABLE: Funded by equity + long-term
+    â€¢ ACCEPTABLE: Funded by equity + long-term
     
-    • Maintain stable funding mix
-    • Monitor deficit trends
-    • Gradual improvement toward Type 1
-    • Focus on profitability to build equity
+    â€¢ Maintain stable funding mix
+    â€¢ Monitor deficit trends
+    â€¢ Gradual improvement toward Type 1
+    â€¢ Focus on profitability to build equity
     
     **If Type 1 (Absolute Stability):**
-    • EXCELLENT: Fully funded by equity
+    â€¢ EXCELLENT: Fully funded by equity
     
-    • Maintain conservative position
-    • Leverage for growth if appropriate
-    • Industry leadership position
+    â€¢ Maintain conservative position
+    â€¢ Leverage for growth if appropriate
+    â€¢ Industry leadership position
     
     **Long-term Stability Improvement (Type 4 to 2 to 1):**
     
     **Step 1: Exit Crisis (Type 4 to 3)**
     Timeline: 3-6 months
-    • Reduce inventory by 30-40%
-    • Secure adequate credit lines
-    • Stabilize operations
+    â€¢ Reduce inventory by 30-40%
+    â€¢ Secure adequate credit lines
+    â€¢ Stabilize operations
     
     **Step 2: Achieve Normal Stability (Type 3 to 2)**
     Timeline: 12-18 months
-    • Build own working capital
-    • Reduce short-term debt
-    • Extend debt maturity
-    • Increase equity through retained earnings
+    â€¢ Build own working capital
+    â€¢ Reduce short-term debt
+    â€¢ Extend debt maturity
+    â€¢ Increase equity through retained earnings
     
     **Step 3: Target Absolute Stability (Type 2 to 1)**
     Timeline: 2-3 years
-    • Continue equity accumulation
-    • Reduce all debt gradually
-    • Conservative inventory policies
-    • Strong profitability focus
+    â€¢ Continue equity accumulation
+    â€¢ Reduce all debt gradually
+    â€¢ Conservative inventory policies
+    â€¢ Strong profitability focus
     
     **Monthly Monitoring:**
-    • All 7 stability indicators
-    • Stability type classification
-    • Inventory levels
-    • Working capital position
-    • Short-term debt exposure
+    â€¢ All 7 stability indicators
+    â€¢ Stability type classification
+    â€¢ Inventory levels
+    â€¢ Working capital position
+    â€¢ Short-term debt exposure
     
     **Key Targets:**
-    • Deficit #5 (Own capital): Target =0 (long-term)
-    • Deficit #6 (Own + Long-term): Target =0 (medium-term)
-    • Deficit #7 (Total): Target =0 (immediate priority)
-    • Stability Type: Minimum Type 2, target Type 1
+    â€¢ Deficit #5 (Own capital): Target =0 (long-term)
+    â€¢ Deficit #6 (Own + Long-term): Target =0 (medium-term)
+    â€¢ Deficit #7 (Total): Target =0 (immediate priority)
+    â€¢ Stability Type: Minimum Type 2, target Type 1
 
 INTERPRETATION GUIDANCE:
 - **Negative deficits = Funding gap**
@@ -537,6 +545,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

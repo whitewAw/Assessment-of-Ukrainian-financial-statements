@@ -1,4 +1,4 @@
-@page "/calculationofindicatorsofefficiencyofuseoffixedassets"
+﻿@page "/calculationofindicatorsofefficiencyofuseoffixedassets"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @using System.Text.Json
@@ -129,6 +129,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -174,6 +178,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -237,7 +245,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.CurrentYear:N2}
    Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.Deviations:N2}
    Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.AverageAnnualCostOfFixedAssets.GrowthRate:N2}%
-   Formula: (Beginning FA + Ending FA) ÷ 2
+   Formula: (Beginning FA + Ending FA) Ã· 2
    Note: Capital base employed - DENOMINATOR
 
 **4. FIXED ASSET TURNOVER (RETURN)** (UAH per UAH) [HIGHER IS BETTER]
@@ -245,7 +253,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2}
    Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.Deviations:N2}
    Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.GrowthRate:N2}%
-   Formula: Revenue ÷ Average Fixed Assets
+   Formula: Revenue Ã· Average Fixed Assets
    Interpretation: Revenue generated per 1 UAH of fixed assets
    Benchmarks: <1.0 = poor, 1.0-2.0 = moderate, 2.0-4.0 = good, >4.0 = excellent
    Example: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2} means every 1 UAH in fixed assets generates {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ReturnOnFixedAssets.CurrentYear:N2} UAH in revenue
@@ -255,7 +263,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2}%
    Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.Deviations:N2}%
    Dynamics: x (not applicable - percentage point change)
-   Formula: (Operating Profit ÷ Average Fixed Assets) × 100
+   Formula: (Operating Profit Ã· Average Fixed Assets) Ã— 100
    Interpretation: Return on fixed assets - profit per 1 UAH invested
    Benchmarks: <5% = poor, 5-10% = acceptable, 10-20% = good, >20% = excellent
    Example: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2}% means every 1 UAH in fixed assets generates {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.ProfitabilityOnFixedAssets.CurrentYear:N2} kopiyok of operating profit
@@ -265,7 +273,7 @@ ROW-BY-ROW DATA STRUCTURE:
    {MainModel.CurrentYear}: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.CurrentYear:N2}
    Deviation: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.Deviations:N2}
    Dynamics: {CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets.IntegratedIndicatorOnFixedAssets.GrowthRate:N2}%
-   Formula: v(Turnover × Profitability / 100)
+   Formula: v(Turnover Ã— Profitability / 100)
    Interpretation: DuPont-style composite efficiency combining activity and profitability
    Note: Balances volume (turnover) and margin (profitability) efficiency
 ";
@@ -280,11 +288,11 @@ UNDERSTANDING THIS TABLE:
 Measures how effectively FIXED ASSETS generate REVENUE and PROFIT using 6 interconnected indicators.
 
 **ROW RELATIONSHIPS**:
-• Rows 1-2: INPUTS (revenue, profit)
-• Row 3: CAPITAL BASE (denominator)
-• Row 4: ACTIVITY EFFICIENCY (turnover)
-• Row 5: MARGIN EFFICIENCY (profitability)
-• Row 6: COMPOSITE EFFICIENCY (integrated)
+â€¢ Rows 1-2: INPUTS (revenue, profit)
+â€¢ Row 3: CAPITAL BASE (denominator)
+â€¢ Row 4: ACTIVITY EFFICIENCY (turnover)
+â€¢ Row 5: MARGIN EFFICIENCY (profitability)
+â€¢ Row 6: COMPOSITE EFFICIENCY (integrated)
 
 CRITICAL FORMATTING RULES:
 - NO tables in response
@@ -327,6 +335,7 @@ Remember: Write in {languageInstruction}. NO tables. Focus on FIXED ASSET EFFICI
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

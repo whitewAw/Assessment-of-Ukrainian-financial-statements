@@ -184,7 +184,12 @@
 
 @code {
 private CancellationTokenSource? _cts;
-        private string? tableName;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis). Also releases the captured `this` reference
+    // faster for GC, shortening the lifetime of the whole Radzen view tree.
+    private volatile bool _isDisposed;
+    private string? tableName;
     private string? EstimationOfBalanceLiquidityAtBeginBase;
     private string? EstimationOfBalanceLiquidityAtEndBase;
     private string? EstimationOfBalanceLiquidityAtBeginCurrent;
@@ -238,6 +243,10 @@ private CancellationTokenSource? _cts;
 
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 _ = InvokeAsync(StateHasChanged);
             }).ConfigureAwait(false);
@@ -593,6 +602,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

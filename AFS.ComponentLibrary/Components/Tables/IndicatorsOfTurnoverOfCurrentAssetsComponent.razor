@@ -1,4 +1,4 @@
-@page "/indicatorsofturnoverofcurrentassets"
+﻿@page "/indicatorsofturnoverofcurrentassets"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @inject IndicatorsOfTurnoverOfCurrentAssets IndicatorsOfTurnoverOfCurrentAssets
@@ -145,6 +145,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -190,6 +194,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -331,7 +339,7 @@ ROW-BY-ROW DATA STRUCTURE:
 **6. Release (-) or Absence (+) of current assets due to changes in turnover**
    Current Year: {IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear:N4} thousand UAH
    Interpretation: {(IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear < 0 ? "CAPITAL RELEASED (freed up) - GOOD" : "MORE CAPITAL NEEDED - CONCERNING")}
-   Formula: One-day revenue (current year) × Change in turnover days
+   Formula: One-day revenue (current year) Ã— Change in turnover days
 ";
 
         return $@"You are a financial analyst specializing in working capital management and efficiency analysis. Analyze the following Indicators of Turnover of Current Assets for {MainModel.CompanyName}.
@@ -341,12 +349,12 @@ IMPORTANT: Respond in {languageInstruction} language. The user interface is in {
 {structuredData}
 
 KEY FORMULAS TO UNDERSTAND:
-• Row 1: Average balances = (Beginning balance + Ending balance) / 2
-• Row 2.1: One-day revenue = Net revenue / 360 days
-• Row 3: Turnover days = Average balance / One-day revenue (LOWER = BETTER)
-• Row 4: Number of turnovers = Net revenue / Average balance (HIGHER = BETTER)
-• Row 5: Turnover ratio = Average working capital / Net revenue (LOWER = BETTER)
-• Row 6: Capital release = One-day revenue × Change in turnover days (NEGATIVE = GOOD)
+â€¢ Row 1: Average balances = (Beginning balance + Ending balance) / 2
+â€¢ Row 2.1: One-day revenue = Net revenue / 360 days
+â€¢ Row 3: Turnover days = Average balance / One-day revenue (LOWER = BETTER)
+â€¢ Row 4: Number of turnovers = Net revenue / Average balance (HIGHER = BETTER)
+â€¢ Row 5: Turnover ratio = Average working capital / Net revenue (LOWER = BETTER)
+â€¢ Row 6: Capital release = One-day revenue Ã— Change in turnover days (NEGATIVE = GOOD)
 
 CRITICAL FORMATTING RULES:
 - DO NOT create or display any tables in your response
@@ -366,8 +374,8 @@ RESPONSE STRUCTURE:
 **2. Average Balances Analysis** (Row 1 & sub-rows)
 - Total working capital changed from {MainModel.BaseYear} to {MainModel.CurrentYear}: direction & magnitude
 - For each component (1.1 Cash, 1.2 Receivables, 1.3 Inventory):
-  • What changed and why it matters
-  • Alignment with revenue growth
+  â€¢ What changed and why it matters
+  â€¢ Alignment with revenue growth
 
 **3. Revenue Performance** (Row 2)
 - Net revenue trend and business implications
@@ -448,6 +456,7 @@ Remember: Write your entire response in {languageInstruction}. Do NOT create tab
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

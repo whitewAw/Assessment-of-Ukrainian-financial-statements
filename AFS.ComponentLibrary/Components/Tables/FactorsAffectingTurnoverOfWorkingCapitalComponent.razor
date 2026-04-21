@@ -1,4 +1,4 @@
-@page "/factorsaffectingturnoverofworkingcapital"
+﻿@page "/factorsaffectingturnoverofworkingcapital"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @inject FactorsAffectingTurnoverOfWorkingCapital FactorsAffectingTurnoverOfWorkingCapital
@@ -8,7 +8,7 @@
 @inject IJSRuntime JS
 
 <SeoHead Title="Factors Affecting Working-Capital Turnover | UFIN"
-         Description="Identify the drivers of working-capital turnover — quantify the impact of revenue and average balances on operating-cycle efficiency." />
+         Description="Identify the drivers of working-capital turnover â€” quantify the impact of revenue and average balances on operating-cycle efficiency." />
 
 <RadzenCard Style="width: 100%;">
     <h2 class="text-center">@tableName</h2>
@@ -141,6 +141,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -186,6 +190,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -284,23 +292,23 @@ UNDERSTANDING FACTOR ANALYSIS:
 This table shows HOW and WHY turnover periods changed by decomposing the total change into TWO FACTORS:
 
 **TOTAL DEVIATION** = Change from {MainModel.BaseYear} to {MainModel.CurrentYear}
-  • Formula: Current year - Base year
-  • Example: 8.55 - 6.61 = 1.94 days (cash turnover WORSENED by 1.94 days)
+  â€¢ Formula: Current year - Base year
+  â€¢ Example: 8.55 - 6.61 = 1.94 days (cash turnover WORSENED by 1.94 days)
 
 **ADJUSTED INDICATOR** = What turnover WOULD BE if ONLY revenue changed
-  • Formula: Base year average balance / Current year one-day revenue
-  • Shows isolated impact of revenue growth/decline
-  • Example: If revenue drops, this increases (takes more days to turn over same balance)
+  â€¢ Formula: Base year average balance / Current year one-day revenue
+  â€¢ Shows isolated impact of revenue growth/decline
+  â€¢ Example: If revenue drops, this increases (takes more days to turn over same balance)
 
 **DUE TO REVENUE** = Impact of revenue changes on turnover
-  • Formula: Adjusted indicator - Base year
-  • Positive = revenue decline WORSENED turnover (more days needed)
-  • Negative = revenue growth IMPROVED turnover (fewer days needed)
+  â€¢ Formula: Adjusted indicator - Base year
+  â€¢ Positive = revenue decline WORSENED turnover (more days needed)
+  â€¢ Negative = revenue growth IMPROVED turnover (fewer days needed)
 
 **DUE TO AVERAGE BALANCES** = Impact of balance changes on turnover
-  • Formula: Current year - Adjusted indicator
-  • Positive = balances grew, WORSENING turnover (more capital tied up)
-  • Negative = balances shrank, IMPROVING turnover (less capital needed)
+  â€¢ Formula: Current year - Adjusted indicator
+  â€¢ Positive = balances grew, WORSENING turnover (more capital tied up)
+  â€¢ Negative = balances shrank, IMPROVING turnover (less capital needed)
 
 **VERIFICATION**: Total deviation = Due to revenue + Due to average balances
 
@@ -328,8 +336,8 @@ RESPONSE STRUCTURE:
 - Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (faster or slower?)
 - Adjusted indicator: what revenue alone would have caused
 - Factor breakdown:
-  • Revenue impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days - explain direction
-  • Balance impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days - explain direction
+  â€¢ Revenue impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days - explain direction
+  â€¢ Balance impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days - explain direction
 - Dominant factor: revenue or balances?
 - Business implications: good cash management or not?
 
@@ -337,8 +345,8 @@ RESPONSE STRUCTURE:
 - Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (collection faster or slower?)
 - Adjusted indicator interpretation
 - Factor breakdown:
-  • Revenue impact: explain what it means
-  • Balance impact: AR growing too much or shrinking appropriately?
+  â€¢ Revenue impact: explain what it means
+  â€¢ Balance impact: AR growing too much or shrinking appropriately?
 - Dominant factor
 - Collection efficiency assessment: improving or declining?
 - Credit policy implications
@@ -347,8 +355,8 @@ RESPONSE STRUCTURE:
 - Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (turning faster or slower?)
 - Adjusted indicator context
 - Factor breakdown:
-  • Revenue impact
-  • Balance impact: inventory accumulation or reduction?
+  â€¢ Revenue impact
+  â€¢ Balance impact: inventory accumulation or reduction?
 - Dominant factor
 - Inventory management quality: excellent, good, or concerning?
 
@@ -360,15 +368,15 @@ RESPONSE STRUCTURE:
 
 **7. Component Comparison**
 - Rank rows 1-3 by:
-  • Biggest total improvement/decline
-  • Most affected by revenue
-  • Most affected by balance changes
+  â€¢ Biggest total improvement/decline
+  â€¢ Most affected by revenue
+  â€¢ Most affected by balance changes
 - Identify problem areas vs strengths
 
 **8. Factor Dominance Assessment**
 - Were changes driven MORE by:
-  • Revenue performance (external/market)?
-  • Balance management (internal/operational)?
+  â€¢ Revenue performance (external/market)?
+  â€¢ Balance management (internal/operational)?
 - For each component: passive or active management?
 - Strategic control assessment
 
@@ -376,9 +384,9 @@ RESPONSE STRUCTURE:
 - Did revenue decline help or hurt efficiency?
 - Were balance increases justified by business needs?
 - Company positioning:
-  • Scaling efficiently (balances growing slower than revenue drop justifies)?
-  • Over-investing (balances too high)?
-  • Under-investing (balances too low for operations)?
+  â€¢ Scaling efficiently (balances growing slower than revenue drop justifies)?
+  â€¢ Over-investing (balances too high)?
+  â€¢ Under-investing (balances too low for operations)?
 
 **10. Key Findings** (3-5 bullets)
 - Most dramatic changes
@@ -452,6 +460,7 @@ Remember: Write in {languageInstruction}. NO tables. Focus on FACTOR ANALYSIS an
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

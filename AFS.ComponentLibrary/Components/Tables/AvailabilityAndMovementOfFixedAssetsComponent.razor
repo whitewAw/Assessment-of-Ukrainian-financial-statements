@@ -1,4 +1,4 @@
-@page "/availabilityandmovementoffixedassets"
+﻿@page "/availabilityandmovementoffixedassets"
 @using AFS.Core.Interfaces
 @using AFS.ComponentLibrary.Helpers
 @inject AvailabilityAndMovementOfFixedAssets AvailabilityAndMovementOfFixedAssets
@@ -131,6 +131,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -176,6 +180,10 @@ private CancellationTokenSource? _cts;
             // Get AI analysis with streaming (chunk by chunk)
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -294,10 +302,10 @@ This table tracks the LIFECYCLE of fixed assets showing acquisitions, disposals,
 Ending Balance = Beginning Balance + Received - Left
 
 **CRITICAL QUALITY INDICATORS**:
-• % New (of Received): 100% = all acquisitions are brand new (best)
-• % Liquidated (of Left): 100% = all disposals were worthless (concerning)
-• Depreciation Rate: Higher % = older assets, more worn
-• Investment Ratio: Received/Left > 1 = expanding
+â€¢ % New (of Received): 100% = all acquisitions are brand new (best)
+â€¢ % Liquidated (of Left): 100% = all disposals were worthless (concerning)
+â€¢ Depreciation Rate: Higher % = older assets, more worn
+â€¢ Investment Ratio: Received/Left > 1 = expanding
 
 CRITICAL FORMATTING RULES:
 - DO NOT create or display any tables
@@ -402,7 +410,7 @@ INTERPRETATION GUIDE:
 - Investment ratio <1x = Underinvestment
 
 EXAMPLE NARRATIVE:
-""The company dramatically accelerated capital investment in {MainModel.CurrentYear}, spending 6.3 million UAH on new fixed assets—more than 2.5 times the 2.5 million invested in {MainModel.BaseYear}. Importantly, 100% of these acquisitions were brand new assets, demonstrating a commitment to modernization. This aggressive investment, combined with minimal disposals, resulted in net asset growth of 5.4 million UAH, expanding the asset base by 19%. The depreciation rate improved from 4.1% to 12.2%, reflecting the infusion of new equipment though the overall asset base remains relatively new.""
+""The company dramatically accelerated capital investment in {MainModel.CurrentYear}, spending 6.3 million UAH on new fixed assetsâ€”more than 2.5 times the 2.5 million invested in {MainModel.BaseYear}. Importantly, 100% of these acquisitions were brand new assets, demonstrating a commitment to modernization. This aggressive investment, combined with minimal disposals, resulted in net asset growth of 5.4 million UAH, expanding the asset base by 19%. The depreciation rate improved from 4.1% to 12.2%, reflecting the infusion of new equipment though the overall asset base remains relatively new.""
 
 WRITING STYLE:
 - Professional and analytical
@@ -426,6 +434,7 @@ Remember: Write in {languageInstruction}. NO tables. Focus on FIXED ASSET STRATE
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

@@ -1,4 +1,4 @@
-@page "/classificationoftypesoffinancialstability"
+﻿@page "/classificationoftypesoffinancialstability"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -146,6 +146,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string? atEndOfBase;
     private string? atEndOfCurrent;
@@ -193,6 +197,10 @@ private CancellationTokenSource? _cts;
             
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 InvokeAsync(StateHasChanged);
             });
@@ -259,9 +267,9 @@ THE FOUR TYPES OF FINANCIAL STABILITY:
 **Type 1: Absolute Financial Stability**
 - BEST classification, very rare
 - Tests: Cash (A1) alone must cover liabilities
-  • Current: A1 = P1 (urgent payables)
-  • Short-term: A1 = P1+P2 (urgent + short-term)
-  • Long-term: A1 = P1+P2+P3 (all liabilities)
+  â€¢ Current: A1 = P1 (urgent payables)
+  â€¢ Short-term: A1 = P1+P2 (urgent + short-term)
+  â€¢ Long-term: A1 = P1+P2+P3 (all liabilities)
 - Interpretation: Maximum financial independence
 - Risk: Minimal, ultra-conservative
 - Implication: Company can pay ALL obligations from cash alone
@@ -269,9 +277,9 @@ THE FOUR TYPES OF FINANCIAL STABILITY:
 **Type 2: Normal Financial Stability**
 - GOOD classification, common and healthy
 - Tests: Liquid assets (A1+A2) must cover liabilities
-  • Current: A1+A2 = P1 (cash + receivables cover urgent)
-  • Short-term: A1+A2 = P1+P2 (liquid assets cover short-term)
-  • Long-term: A1+A2 = P1+P2+P3 (liquid assets cover all)
+  â€¢ Current: A1+A2 = P1 (cash + receivables cover urgent)
+  â€¢ Short-term: A1+A2 = P1+P2 (liquid assets cover short-term)
+  â€¢ Long-term: A1+A2 = P1+P2+P3 (liquid assets cover all)
 - Interpretation: Acceptable financial position
 - Risk: Low, sustainable
 - Implication: Normal operations, good credit standing
@@ -279,9 +287,9 @@ THE FOUR TYPES OF FINANCIAL STABILITY:
 **Type 3: Pre-Crisis Financial Stability**
 - RISKY classification, unstable
 - Tests: ALL current assets (A1+A2+A3) must cover liabilities
-  • Current: A1+A2+A3 = P1 (all current covers urgent)
-  • Short-term: A1+A2+A3 = P1+P2 (all current covers short-term)
-  • Long-term: A1+A2+A3 = P1+P2+P3 (all current covers all)
+  â€¢ Current: A1+A2+A3 = P1 (all current covers urgent)
+  â€¢ Short-term: A1+A2+A3 = P1+P2 (all current covers short-term)
+  â€¢ Long-term: A1+A2+A3 = P1+P2+P3 (all current covers all)
 - Interpretation: Dependent on inventory liquidation
 - Risk: Medium-High, refinancing vulnerable
 - Implication: Pre-crisis warning, action needed
@@ -289,9 +297,9 @@ THE FOUR TYPES OF FINANCIAL STABILITY:
 **Type 4: Crisis Financial Stability**
 - WORST classification, critical state
 - Tests: Cannot cover liabilities even with ALL current assets
-  • Current: A1+A2+A3 < P1 (cannot pay urgent)
-  • Short-term: A1+A2+A3 < P1+P2 (cannot pay short-term)
-  • Long-term: A1+A2+A3 < P1+P2+P3 (cannot pay all)
+  â€¢ Current: A1+A2+A3 < P1 (cannot pay urgent)
+  â€¢ Short-term: A1+A2+A3 < P1+P2 (cannot pay short-term)
+  â€¢ Long-term: A1+A2+A3 < P1+P2+P3 (cannot pay all)
 - Interpretation: Insolvency risk, bankruptcy potential
 - Risk: CRITICAL, emergency
 - Implication: Cannot meet obligations, crisis intervention required
@@ -312,7 +320,7 @@ Financial Classification Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on CLASSIFICATION VERDICT and IMPLICATIONS
@@ -330,16 +338,16 @@ ANALYSIS SECTIONS:
    Determine the company's stability type for each time point:
    
    **{MainModel.BaseYear} End:**
-   • Current perspective: [Type X]
-   • Short-term perspective: [Type X]
-   • Long-term perspective: [Type X]
-   • OVERALL CLASSIFICATION: Type [X]
+   â€¢ Current perspective: [Type X]
+   â€¢ Short-term perspective: [Type X]
+   â€¢ Long-term perspective: [Type X]
+   â€¢ OVERALL CLASSIFICATION: Type [X]
    
    **{MainModel.CurrentYear} End:**
-   • Current perspective: [Type X]
-   • Short-term perspective: [Type X]
-   • Long-term perspective: [Type X]
-   • OVERALL CLASSIFICATION: Type [X]
+   â€¢ Current perspective: [Type X]
+   â€¢ Short-term perspective: [Type X]
+   â€¢ Long-term perspective: [Type X]
+   â€¢ OVERALL CLASSIFICATION: Type [X]
    
    **Consistency Check:**
    - Same type both years? [Yes/No]
@@ -418,146 +426,146 @@ ANALYSIS SECTIONS:
 **7. What This Classification Means**:
    
    **If Type 1 (Absolute Stability):**
-   • EXCELLENT
-   • Can pay all obligations from cash alone
-   • Maximum financial independence
-   • Ultra-conservative capital structure
-   • Minimal bankruptcy risk
-   • May be over-capitalized
-   • Opportunity: Could leverage for growth
+   â€¢ EXCELLENT
+   â€¢ Can pay all obligations from cash alone
+   â€¢ Maximum financial independence
+   â€¢ Ultra-conservative capital structure
+   â€¢ Minimal bankruptcy risk
+   â€¢ May be over-capitalized
+   â€¢ Opportunity: Could leverage for growth
    
    **If Type 2 (Normal Stability):**
-   • GOOD
-   • Liquid assets cover all obligations
-   • Healthy, sustainable position
-   • Good credit standing
-   • Low bankruptcy risk
-   • Normal operations
-   • Action: Maintain position, monitor trends
+   â€¢ GOOD
+   â€¢ Liquid assets cover all obligations
+   â€¢ Healthy, sustainable position
+   â€¢ Good credit standing
+   â€¢ Low bankruptcy risk
+   â€¢ Normal operations
+   â€¢ Action: Maintain position, monitor trends
    
    **If Type 3 (Pre-Crisis):**
-   • RISKY
-   • Dependent on inventory liquidation
-   • Vulnerable to credit tightening
-   • High refinancing risk
-   • Medium-high bankruptcy risk
-   • Pre-crisis warning signal
-   • Action: Urgent improvement needed (Type 3 to Type 2)
+   â€¢ RISKY
+   â€¢ Dependent on inventory liquidation
+   â€¢ Vulnerable to credit tightening
+   â€¢ High refinancing risk
+   â€¢ Medium-high bankruptcy risk
+   â€¢ Pre-crisis warning signal
+   â€¢ Action: Urgent improvement needed (Type 3 to Type 2)
    
    **If Type 4 (Crisis):**
-   • CRITICAL
-   • Cannot pay obligations from current assets
-   • Insolvency risk imminent
-   • CRITICAL bankruptcy risk
-   • Emergency intervention required
-   • Stakeholder concern warranted
-   • Action: IMMEDIATE crisis management (Type 4 to Type 3 to Type 2)
+   â€¢ CRITICAL
+   â€¢ Cannot pay obligations from current assets
+   â€¢ Insolvency risk imminent
+   â€¢ CRITICAL bankruptcy risk
+   â€¢ Emergency intervention required
+   â€¢ Stakeholder concern warranted
+   â€¢ Action: IMMEDIATE crisis management (Type 4 to Type 3 to Type 2)
 
 **8. Trend Analysis and Consistency**:
    - Both years same type? [Yes/No]
    - If different: [Improving/Deteriorating]
    - Structural vs temporary classification
    - **Key questions:**
-     • Consistent classification = Structural characteristic
-     • Changing classification = Transitioning state
-     • Which direction moving? (toward Type 1 or Type 4?)
-     • Speed of change?
+     â€¢ Consistent classification = Structural characteristic
+     â€¢ Changing classification = Transitioning state
+     â€¢ Which direction moving? (toward Type 1 or Type 4?)
+     â€¢ Speed of change?
 
 **9. Root Causes of Current Classification**:
    Explain WHY the company is in this type:
    
    **Financial factors:**
-   • Cash position: [Strong/Weak]
-   • Receivables quality: [Good/Poor]
-   • Inventory levels: [Optimal/Excessive]
-   • Current liabilities: [Manageable/Excessive]
-   • Working capital: [Surplus/Deficit]
+   â€¢ Cash position: [Strong/Weak]
+   â€¢ Receivables quality: [Good/Poor]
+   â€¢ Inventory levels: [Optimal/Excessive]
+   â€¢ Current liabilities: [Manageable/Excessive]
+   â€¢ Working capital: [Surplus/Deficit]
    
    **Operational factors:**
-   • Business model characteristics
-   • Industry norms
-   • Growth phase
-   • Capital structure decisions
+   â€¢ Business model characteristics
+   â€¢ Industry norms
+   â€¢ Growth phase
+   â€¢ Capital structure decisions
    
    **Link to other tables:**
-   • Current ratio (Table 14): [value]
-   • Absolute liquidity (Table 14): [value]
-   • Inventory funding (Table 15): [deficit/surplus]
-   • Balance liquidity (Table 13): [Liquid/Illiquid]
+   â€¢ Current ratio (Table 14): [value]
+   â€¢ Absolute liquidity (Table 14): [value]
+   â€¢ Inventory funding (Table 15): [deficit/surplus]
+   â€¢ Balance liquidity (Table 13): [Liquid/Illiquid]
 
 **10. Strategic Recommendations**:
     
     **If Type 4 (CRISIS) - EMERGENCY ACTIONS:**
     
-    • IMMEDIATE (30 days):
-    • Emergency liquidity injection
-    • Reduce current liabilities by [X]%
-    • Increase liquid assets by [X]%
-    • Negotiate payment extensions
-    • Accelerate collections
-    • Reduce inventory by 30-40%
-    • Secure emergency credit line
-    • Stakeholder communication
-    • Target: Exit Type 4 immediately
+    â€¢ IMMEDIATE (30 days):
+    â€¢ Emergency liquidity injection
+    â€¢ Reduce current liabilities by [X]%
+    â€¢ Increase liquid assets by [X]%
+    â€¢ Negotiate payment extensions
+    â€¢ Accelerate collections
+    â€¢ Reduce inventory by 30-40%
+    â€¢ Secure emergency credit line
+    â€¢ Stakeholder communication
+    â€¢ Target: Exit Type 4 immediately
     
     **30-90 Days Plan (Type 4 to Type 3):**
-    • Build cash reserves
-    • Stabilize payables
-    • Optimize working capital
-    • Ensure A1+A2+A3 = P1 (minimum)
-    • Monitoring: Weekly liquidity reports
+    â€¢ Build cash reserves
+    â€¢ Stabilize payables
+    â€¢ Optimize working capital
+    â€¢ Ensure A1+A2+A3 = P1 (minimum)
+    â€¢ Monitoring: Weekly liquidity reports
     
     **If Type 3 (PRE-CRISIS) - URGENT IMPROVEMENT:**
     
-    • SHORT-TERM (3-6 months):
-    • Increase liquid assets (A1+A2)
-    • Reduce reliance on inventory
-    • Strengthen cash position
-    • Improve receivables collection
-    • Optimize inventory levels
-    • Target: Achieve Type 2 within 6-12 months
+    â€¢ SHORT-TERM (3-6 months):
+    â€¢ Increase liquid assets (A1+A2)
+    â€¢ Reduce reliance on inventory
+    â€¢ Strengthen cash position
+    â€¢ Improve receivables collection
+    â€¢ Optimize inventory levels
+    â€¢ Target: Achieve Type 2 within 6-12 months
     
     **6-12 Months Plan (Type 3 to Type 2):**
-    • Build working capital
-    • Ensure A1+A2 = P1+P2+P3
-    • Reduce short-term debt
-    • Strengthen balance sheet
+    â€¢ Build working capital
+    â€¢ Ensure A1+A2 = P1+P2+P3
+    â€¢ Reduce short-term debt
+    â€¢ Strengthen balance sheet
     
     **If Type 2 (NORMAL) - MAINTAIN & IMPROVE:**
     
-    • MEDIUM-TERM (1-2 years):
-    • Maintain healthy position
-    • Monitor trends closely
-    • Gradual improvement toward Type 1
-    • Build equity through retained earnings
-    • Optimize capital structure
-    • Target: Consider Type 1 if appropriate
+    â€¢ MEDIUM-TERM (1-2 years):
+    â€¢ Maintain healthy position
+    â€¢ Monitor trends closely
+    â€¢ Gradual improvement toward Type 1
+    â€¢ Build equity through retained earnings
+    â€¢ Optimize capital structure
+    â€¢ Target: Consider Type 1 if appropriate
     
     **If Type 1 (ABSOLUTE) - OPTIMIZE:**
     
-    • LONG-TERM:
-    • Maintain conservative position OR
-    • Consider strategic leverage for growth
-    • Evaluate opportunity cost of excess cash
-    • Balance independence vs ROE optimization
+    â€¢ LONG-TERM:
+    â€¢ Maintain conservative position OR
+    â€¢ Consider strategic leverage for growth
+    â€¢ Evaluate opportunity cost of excess cash
+    â€¢ Balance independence vs ROE optimization
     
     **Universal Monitoring (All Types):**
     
-    • Monthly KPIs:
-    • Classification type (1, 2, 3, or 4)
-    • All 12 test results (4 types × 3 perspectives)
-    • Cash position (A1)
-    • Liquid assets (A1+A2)
-    • Current assets (A1+A2+A3)
-    • Current liabilities (P1+P2+P3)
-    • Working capital
+    â€¢ Monthly KPIs:
+    â€¢ Classification type (1, 2, 3, or 4)
+    â€¢ All 12 test results (4 types Ã— 3 perspectives)
+    â€¢ Cash position (A1)
+    â€¢ Liquid assets (A1+A2)
+    â€¢ Current assets (A1+A2+A3)
+    â€¢ Current liabilities (P1+P2+P3)
+    â€¢ Working capital
     
     **Implementation Timeline:**
-    • Type 4 to Type 3: 3-6 months (URGENT)
-    • Type 3 to Type 2: 6-12 months (HIGH PRIORITY)
-    • Type 2 to Type 1: 1-3 years (OPTIONAL)
-    • Quarterly classification reviews
-    • Early warning if type deteriorates
+    â€¢ Type 4 to Type 3: 3-6 months (URGENT)
+    â€¢ Type 3 to Type 2: 6-12 months (HIGH PRIORITY)
+    â€¢ Type 2 to Type 1: 1-3 years (OPTIONAL)
+    â€¢ Quarterly classification reviews
+    â€¢ Early warning if type deteriorates
 
 INTERPRETATION GUIDANCE:
 - **Type 1 > Type 2 > Type 3 > Type 4** (Best to worst)
@@ -604,6 +612,7 @@ Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES. This i
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;

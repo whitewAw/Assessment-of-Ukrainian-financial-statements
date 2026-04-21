@@ -1,4 +1,4 @@
-@page "/assessmentofreceivableandpayable"
+﻿@page "/assessmentofreceivableandpayable"
 @using AFS.Core.Interfaces
 @using AFS.Core.Services
 @using AFS.ComponentLibrary.Helpers
@@ -177,6 +177,10 @@
 
 @code {
 private CancellationTokenSource? _cts;
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+    private volatile bool _isDisposed;
         private string? tableName;
     private string _aiAnalysis = string.Empty;
     private string _errorMessage = string.Empty;
@@ -228,6 +232,10 @@ private CancellationTokenSource? _cts;
 
             await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
                 _aiAnalysis += chunk;
                 _ = InvokeAsync(StateHasChanged);
             }).ConfigureAwait(false);
@@ -310,12 +318,12 @@ KEY FORMULAS:
 - Excess Receivable = Max(0, Receivable - Payable) for each category
 - Excess Payable = Max(0, Payable - Receivable) for each category
 - Net Position = Total Receivables - Total Payables
-- Receivable-to-Payable Ratio = Total Receivables ÷ Total Payables
+- Receivable-to-Payable Ratio = Total Receivables Ã· Total Payables
 
 RESPONSE FORMAT:
 - Professional narrative style
 - Headings with ** (e.g., **1. Executive Summary**)
-- Bullet points (•) for lists
+- Bullet points (â€¢) for lists
 - Numbers integrated into sentences
 - NO tables or raw data dumps
 - Focus on MEANING and LIQUIDITY IMPLICATIONS
@@ -347,21 +355,21 @@ ANALYSIS SECTIONS:
    - {MainModel.BaseYear}: [amount] thousand UAH
    - {MainModel.CurrentYear}: [amount] thousand UAH
    - **Interpretation:**
-     • POSITIVE = Net creditor (owed more than owing) ?
-     • NEGATIVE = Net debtor (owing more than owed) ??
-     • ZERO = Balanced
+     â€¢ POSITIVE = Net creditor (owed more than owing) ?
+     â€¢ NEGATIVE = Net debtor (owing more than owed) ??
+     â€¢ ZERO = Balanced
    - **Liquidity Impact:**
-     • If negative: Must fund this gap from operations/credit
-     • Direct working capital drain
-     • Cash management critical
+     â€¢ If negative: Must fund this gap from operations/credit
+     â€¢ Direct working capital drain
+     â€¢ Cash management critical
 
 **5. Receivable-to-Payable Ratio**:
    - {MainModel.BaseYear}: [ratio]
    - {MainModel.CurrentYear}: [ratio]
    - **Benchmarks:**
-     • >1.0 = More receivable (favorable position)
-     • 1.0 = Balanced
-     • <1.0 = More payable (net debtor) ??
+     â€¢ >1.0 = More receivable (favorable position)
+     â€¢ 1.0 = Balanced
+     â€¢ <1.0 = More payable (net debtor) ??
    - Trend analysis
 
 **6. Category-by-Category Analysis**:
@@ -393,56 +401,56 @@ ANALYSIS SECTIONS:
 
 **7. Cash Flow Implications**:
    - If all settlements occurred simultaneously:
-     • Net cash inflow or outflow?
-     • Amount: [net position]
+     â€¢ Net cash inflow or outflow?
+     â€¢ Amount: [net position]
    - **Working Capital Requirements:**
-     • Must fund payable excess from where?
-     • Credit line adequacy
+     â€¢ Must fund payable excess from where?
+     â€¢ Credit line adequacy
    - Payment timing management
 
 **8. Collection vs Payment Dynamics**:
    - Receivables declining faster/slower than payables?
    - **Possible scenarios:**
-     • Both declining: Contraction
-     • Receivables down, payables stable: Collection acceleration
-     • Both growing: Expansion
+     â€¢ Both declining: Contraction
+     â€¢ Receivables down, payables stable: Collection acceleration
+     â€¢ Both growing: Expansion
    - Implications for cash management
    - Days Sales Outstanding vs Days Payable Outstanding trend
 
 **9. Liquidity and Working Capital Assessment**:
    - Net position impact on liquidity
    - **If net debtor (negative position):**
-     • Immediate funding need
-     • Credit line requirements
-     • Cash buffer necessity
+     â€¢ Immediate funding need
+     â€¢ Credit line requirements
+     â€¢ Cash buffer necessity
    - **If net creditor (positive position):**
-     • Cash collection strategy
-     • Investment of excess funds
+     â€¢ Cash collection strategy
+     â€¢ Investment of excess funds
    - Trade credit leverage analysis
 
 **10. Strategic Recommendations**:
     
     **Receivable Management:**
-    • Accelerate collections if possible
-    • Review credit terms with customers
-    • Identify slow-paying customers
-    • Consider factoring for large receivables
-    • Target DSO reduction
-    • Target receivable level: [specific amount]
+    â€¢ Accelerate collections if possible
+    â€¢ Review credit terms with customers
+    â€¢ Identify slow-paying customers
+    â€¢ Consider factoring for large receivables
+    â€¢ Target DSO reduction
+    â€¢ Target receivable level: [specific amount]
     
     **Payable Management:**
-    • Negotiate extended payment terms
-    • Optimize payment timing (don't pay early)
-    • Leverage supplier credit effectively
-    • Don't damage relationships with late payment
-    • Manage cash disbursements strategically
-    • Target payable level: [specific amount]
+    â€¢ Negotiate extended payment terms
+    â€¢ Optimize payment timing (don't pay early)
+    â€¢ Leverage supplier credit effectively
+    â€¢ Don't damage relationships with late payment
+    â€¢ Manage cash disbursements strategically
+    â€¢ Target payable level: [specific amount]
     
     **Net Position Improvement:**
-    • Current net position: [amount]
-    • Target net position: [recommended amount]
-    • Timeline: [12-18 months]
-    • **Methods:**
+    â€¢ Current net position: [amount]
+    â€¢ Target net position: [recommended amount]
+    â€¢ Timeline: [12-18 months]
+    â€¢ **Methods:**
       - If net debtor: Increase collections, extend payables
       - If net creditor: Maintain favorable position
       - Balance growth with liquidity
@@ -454,30 +462,30 @@ ANALYSIS SECTIONS:
     4. **Others:** [clean up miscellaneous items]
     
     **Cash Management:**
-    • Forecast settlement funding need: [amount]
-    • Ensure adequate credit lines: [recommended amount]
-    • Monitor payment cycles closely
-    • Optimize working capital daily
-    • Weekly cash flow forecasting
+    â€¢ Forecast settlement funding need: [amount]
+    â€¢ Ensure adequate credit lines: [recommended amount]
+    â€¢ Monitor payment cycles closely
+    â€¢ Optimize working capital daily
+    â€¢ Weekly cash flow forecasting
     
     **Working Capital Targets:**
-    • Receivable-to-Payable Ratio: Target >0.90
-    • Net Position: Target <5M excess payable
-    • DSO (Days Sales Outstanding): Target [X days]
-    • DPO (Days Payable Outstanding): Target [Y days]
+    â€¢ Receivable-to-Payable Ratio: Target >0.90
+    â€¢ Net Position: Target <5M excess payable
+    â€¢ DSO (Days Sales Outstanding): Target [X days]
+    â€¢ DPO (Days Payable Outstanding): Target [Y days]
     
     **Implementation Timeline:**
-    • Immediate (30 days):
+    â€¢ Immediate (30 days):
       - Cash forecast & credit line review
       - Identify collection opportunities
       - Assess payment obligations
     
-    • Short-term (3-6 months):
+    â€¢ Short-term (3-6 months):
       - Collection acceleration program
       - Payment term negotiations
       - Working capital optimization
     
-    • Long-term (1-2 years):
+    â€¢ Long-term (1-2 years):
       - Structural improvement in net position
       - Sustainable working capital model
       - Target net position achievement
@@ -526,6 +534,7 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
 
     public void Dispose()
     {
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;
