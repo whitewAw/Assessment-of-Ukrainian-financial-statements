@@ -126,39 +126,49 @@ jobs:
             echo "⚠️ service-worker-assets.js not found, skipping hash fix"
             exit 0
           fi
-          
+
           jsFile=$(<service-worker-assets.js)
           json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
-          
+
           # Validate JSON
           if ! echo "$json" | jq empty 2>/dev/null; then
             echo "⚠️ Invalid JSON in service-worker-assets.js, skipping hash fix"
             exit 0
           fi
-          
+
+          # `jq -c` emits one JSON object per line. Read with `while IFS= read`
+          # rather than `for asset in $assets` so we don't word-split on
+          # whitespace inside any URL.
           assets=$(echo "$json" | jq '.assets[]' -c)
           updated_count=0
-          
-          for asset in $assets; do
+          while IFS= read -r asset; do
+            [ -z "$asset" ] && continue
             oldHash=$(echo "$asset" | jq -r '.hash')
             path=$(echo "$asset" | jq -r '.url')
-            
-            # Skip files that don't need hash updates
+
+            # Skip the SPA shell (its hash is recomputed by the SW at install time)
+            # and any manifest entry whose physical file is missing.
             if [[ "$path" == *"index.html"* ]] || [[ ! -f "$path" ]]; then
               continue
             fi
-            
+
             newHash="sha256-$(openssl dgst -sha256 -binary "$path" | openssl base64 -A)"
-            
+
             if [ "$oldHash" != "$newHash" ]; then
-              # Escape special characters for sed
+              # Escape sed metacharacters so a literal '+' or '/' inside the
+              # base64 hashes doesn't get re-interpreted.
               oldHashEscaped=$(printf '%s\n' "$oldHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
               newHashEscaped=$(printf '%s\n' "$newHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
               jsFile=$(echo -n "$jsFile" | sed "s|$oldHashEscaped|$newHashEscaped|g")
-              ((updated_count++))
+              # IMPORTANT: pre-increment, not post-increment.
+              # Under `set -e` (GitHub Actions default), `((x++))` evaluates to
+              # x's PRE-increment value; when x was 0 that's 0 → exit code 1
+              # → the whole step aborts the first time a hash actually changes.
+              # `((++x))` returns the NEW value (>=1 here), so it's always safe.
+              ((++updated_count))
             fi
-          done
-          
+          done <<< "$assets"
+
           echo -n "$jsFile" > service-worker-assets.js
           echo "✅ Updated $updated_count asset hashes"
 
