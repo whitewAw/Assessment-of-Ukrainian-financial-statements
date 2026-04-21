@@ -27,7 +27,7 @@ jobs:
       # Main Repository Metrics Card
       # ============================================
       - name: Generate Main Metrics
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
@@ -78,7 +78,7 @@ jobs:
       # Repository Activity Metrics
       # ============================================
       - name: Generate Activity Metrics
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
@@ -108,7 +108,7 @@ jobs:
       # Language & Technology Stack
       # ============================================
       - name: Generate Technology Stack
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
@@ -136,7 +136,7 @@ jobs:
       # Project Statistics with Traffic
       # ============================================
       - name: Generate Project Stats
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
@@ -164,7 +164,7 @@ jobs:
       # Achievements & Milestones
       # ============================================
       - name: Generate Achievements
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
@@ -191,7 +191,7 @@ jobs:
       # Compact Repository Card (for README)
       # ============================================
       - name: Generate Compact Card
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
@@ -217,7 +217,7 @@ jobs:
       - name: Metrics Generation Summary
         if: always()
         run: |
-          echo "## ?? Metrics Generation Complete" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Metrics Generation Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Metric | File |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
@@ -228,4 +228,4 @@ jobs:
           echo "| Achievements | \`metrics-achievements.svg\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Compact | \`metrics-compact.svg\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "?? Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "🕒 Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

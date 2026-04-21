@@ -74,6 +74,15 @@ jobs:
           # Increase memory for AOT compilation
           NODE_OPTIONS: --max_old_space_size=4096
 
+      # Snapshot the pristine build (with <base href="/" />) BEFORE the
+      # GH-Pages-specific sed rewrite below. Netlify pulls from this snapshot
+      # so it gets a build with the correct base path for the apex domain.
+      # See the "Deploy to Netlify" step at the end of this workflow.
+      - name: Snapshot build for Netlify
+        run: |
+          cp -R release release-netlify
+          echo "✅ Pristine build snapshot taken (release-netlify/) before base-tag rewrite"
+
       - name: Update base-tag for GitHub Pages
         run: |
           # Handle both formatted and minified base tags
@@ -288,6 +297,22 @@ jobs:
           clean: true
           single-commit: true
           commit-message: "Deploy: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
+
+      # Push the pristine (no base-tag rewrite) snapshot to a dedicated branch
+      # so Netlify can serve it from ua-finance.netlify.app with the correct
+      # <base href="/" />.
+      #
+      # ONE-TIME NETLIFY SETUP (do this in the Netlify dashboard):
+      #   Site settings → Build & deploy → Continuous deployment → Branch
+      #   change "Production branch" from `gh-pages` to `netlify-deploy`.
+      - name: Deploy to Netlify branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: netlify-deploy
+          folder: release-netlify/wwwroot
+          clean: true
+          single-commit: true
+          commit-message: "Netlify: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
 
       - name: Deployment Summary
         run: |
