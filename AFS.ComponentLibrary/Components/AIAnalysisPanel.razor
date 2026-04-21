@@ -1,0 +1,254 @@
+@using System.Text
+@using AFS.ComponentLibrary.Helpers
+@using AFS.Core.Interfaces
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
+@implements IDisposable
+
+@*
+    Shared AI-analysis panel used by every table component.
+
+    Replaces ~200 lines of near-identical Razor + C# that previously lived in
+    each of the 16 Tables/*.razor files. Centralising it also fixed three
+    performance/memory problems in one place:
+
+      * O(n^2) string accumulation: the old pattern was `_aiAnalysis += chunk`
+        inside the streaming callback, which reallocates the whole accumulator
+        on every chunk. Replaced with a StringBuilder + snapshot on render.
+      * Render-storm: the old pattern fired `InvokeAsync(StateHasChanged)` on
+        every chunk (20-50 renders/s). Now the callback only schedules a render
+        if one is not already pending, giving natural 60 fps coalescing.
+      * Late callback on disposed component: a volatile _isDisposed flag blocks
+        the captured `this` from touching state after Dispose, and releases the
+        captured reference for GC as soon as the next chunk arrives.
+
+    Caller contract:
+      <AIAnalysisPanel PromptBuilder="@BuildLiquidityPrompt"
+                       AnalyzeButtonLabel="@ResLoc["AnalyzeLiquidityIndicators"]"
+                       LoadingMessage="AI is analyzing balance liquidity..." />
+*@
+
+<RadzenCard Style="width: 100%; margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <i class="oi oi-brain me-2"></i>
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <i class="oi oi-warning me-2"></i>
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="aiassistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAvailabilityAsync">
+                <i class="oi oi-reload me-2"></i>
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysisAsync">
+                    <i class="oi oi-media-stop me-2"></i>
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeAsync" disabled="@(!_isAIAvailable)">
+                    <i class="oi oi-magnifying-glass me-2"></i>
+                    <span>@AnalyzeButtonLabel</span>
+                </button>
+            }
+
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <i class="oi oi-x me-2"></i>
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">@LoadingMessage</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)AIAnalysisHelper.FormatResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+@code {
+    /// <summary>Builds the prompt sent to the AI. Invoked once per analysis click.</summary>
+    [Parameter, EditorRequired] public Func<string> PromptBuilder { get; set; } = default!;
+
+    /// <summary>Localised label for the "Analyze" button (caller passes ResLoc["..."]).</summary>
+    [Parameter, EditorRequired] public string AnalyzeButtonLabel { get; set; } = default!;
+
+    /// <summary>
+    /// Localised message shown while the stream is still empty (caller supplies
+    /// a context-specific phrase). Intentionally parameterised rather than
+    /// resource-bound because the original call sites used hard-coded English.
+    /// </summary>
+    [Parameter] public string LoadingMessage { get; set; } = "AI is analyzing...";
+
+    // StringBuilder beats `_aiAnalysis += chunk` by O(n) -> O(1) amortised per chunk.
+    // A render snapshot is taken only when we're about to re-render, so the UI always
+    // sees a consistent string (no torn reads during mid-chunk accumulation).
+    private readonly StringBuilder _accumulator = new();
+    private string _aiAnalysis = string.Empty;
+    private string _errorMessage = string.Empty;
+    private bool _isAnalyzing;
+    private bool _isCheckingAvailability = true;
+    private bool _isAIAvailable;
+    // Render-coalescing flag: the streaming callback schedules at most one
+    // pending render at a time, giving us natural 60 fps updates even if the
+    // AI emits 50+ chunks per second.
+    private bool _renderPending;
+    // Set in Dispose(). volatile so the streaming callback sees the write
+    // without taking a lock; it short-circuits before touching any state.
+    private volatile bool _isDisposed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAvailabilityAsync().ConfigureAwait(false);
+    }
+
+    private async Task CheckAvailabilityAsync()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+        _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false);
+        _isCheckingAvailability = false;
+        StateHasChanged();
+    }
+
+    private async Task AnalyzeAsync()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _accumulator.Clear();
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = PromptBuilder();
+
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                if (_isDisposed)
+                {
+                    return;
+                }
+                _accumulator.Append(chunk);
+                ScheduleRender();
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            var (appendText, errorMsg) = AIAnalysisHelper.HandleAnalysisException(ex, _aiAnalysis);
+            if (appendText != null)
+            {
+                _accumulator.Append(appendText);
+            }
+            if (errorMsg != null)
+            {
+                _errorMessage = errorMsg;
+            }
+        }
+        finally
+        {
+            // Final snapshot so the view shows the complete response even
+            // if the last chunk came in faster than the coalesced render.
+            _aiAnalysis = _accumulator.ToString();
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    // Coalesces rapid-fire chunks into at most one pending render.
+    // If a render is already queued, subsequent chunks just append to the
+    // StringBuilder and return; the pending render snapshots everything
+    // accumulated so far.
+    private void ScheduleRender()
+    {
+        if (_renderPending)
+        {
+            return;
+        }
+        _renderPending = true;
+        _ = InvokeAsync(() =>
+        {
+            _renderPending = false;
+            if (_isDisposed)
+            {
+                return;
+            }
+            _aiAnalysis = _accumulator.ToString();
+            StateHasChanged();
+        });
+    }
+
+    private async Task StopAnalysisAsync()
+    {
+        await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false);
+        _isAnalyzing = false;
+        StateHasChanged();
+    }
+
+    private void ClearAnalysis()
+    {
+        _accumulator.Clear();
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    public void Dispose()
+    {
+        _isDisposed = true;
+    }
+}

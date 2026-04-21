@@ -57,7 +57,7 @@
 
     private void OnThemeChanged(object? sender, EventArgs e)
     {
-        InvokeAsync(StateHasChanged);
+        _ = InvokeAsync(StateHasChanged);
     }
 
     private async Task ToggleTheme()

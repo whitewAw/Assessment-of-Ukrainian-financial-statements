@@ -1,9 +1,11 @@
 # ============================================
 # robots.txt for UFIN - Ukrainian Financial Statement Analysis Tool
-# https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
+# Canonical host: https://ua-finance.netlify.app/
+# Mirror host:    https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
 # ============================================
 # Blazor WebAssembly PWA with AI-Powered Financial Analysis
-# Multi-language support: English, Ukrainian, Russian, Spanish, German, French
+# Multi-language support (15): English, Ukrainian, Polish, Romanian, Hungarian,
+# Czech, German, Dutch, French, Italian, Spanish, Turkish, Chinese, Japanese, Russian
 # Last Updated: 2025-01-21
 # ============================================
 
@@ -13,8 +15,10 @@
 User-agent: *
 Allow: /
 
-# Sitemap location (primary discovery mechanism)
-Sitemap: https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/sitemap.xml
+# Sitemap location (canonical host - Netlify).
+# The GH Actions workflow rewrites this URL to the github.io mirror when
+# publishing to the gh-pages branch.
+Sitemap: https://ua-finance.netlify.app/sitemap.xml
 
 # ============================================
 # BLAZOR WEBASSEMBLY SPECIFIC RULES

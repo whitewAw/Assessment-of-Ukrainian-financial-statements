@@ -1,12 +1,6 @@
 ﻿@page "/indicatorsofturnoverofcurrentassets"
-@using AFS.Core.Interfaces
-@using AFS.ComponentLibrary.Helpers
 @inject IndicatorsOfTurnoverOfCurrentAssets IndicatorsOfTurnoverOfCurrentAssets
 @inject AfsModel AfsModel
-@inject IAIFinancialAdvisor AIAdvisor
-@implements IDisposable
-@inject IJSRuntime JS
-
 <SeoHead Title="Current Assets Turnover Analysis | UFIN"
          Description="Calculate inventory, receivables and current-asset turnover ratios from Ukrainian financial statements with year-over-year comparison." />
 
@@ -56,182 +50,27 @@
     </table>
 </RadzenCard>
 
-<RadzenCard Style="width: 100%; margin-top: 20px;">
-    <h3 class="text-center mb-4">
-        <i class="oi oi-brain me-2"></i>
-        @ResLoc["AIFinancialAnalysis"]
-    </h3>
-
-    @if (_isCheckingAvailability)
-    {
-        <div class="d-flex justify-content-center mb-3">
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
-        </div>
-    }
-    else if (!_isAIAvailable)
-    {
-        <div class="alert alert-warning">
-            <h6 class="alert-heading">
-                <i class="oi oi-warning me-2"></i>
-                @ResLoc["ChromeAINotAvailable"]
-            </h6>
-            <p class="mb-2">
-                @ResLoc["ChromeAINotAvailableMessage"]
-                <a href="/Assessment-of-Ukrainian-financial-statements/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
-                @ResLoc["ForSetupInstructions"]
-            </p>
-            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
-                <i class="oi oi-reload me-2"></i>
-                @ResLoc["RecheckAvailability"]
-            </button>
-        </div>
-    }
-    else
-    {
-        <div class="d-flex justify-content-center mb-3">
-            @if (_isAnalyzing)
-            {
-                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
-                    <i class="oi oi-media-stop me-2"></i>
-                    <span>@ResLoc["StopAnalysis"]</span>
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-primary me-2" @onclick="AnalyzeTurnoverIndicators" disabled="@(!_isAIAvailable)">
-                    <i class="oi oi-magnifying-glass me-2"></i>
-                    @ResLoc["AnalyzeTurnoverIndicators"]
-                </button>
-            }
-
-            @if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
-                    <i class="oi oi-x me-2"></i>
-                    @ResLoc["Clear"]
-                </button>
-            }
-        </div>
-
-        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
-        {
-            <div class="alert alert-info">
-                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
-                {
-                    <div class="d-flex align-items-center">
-                        <span class="typing-indicator me-3">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                        <span class="text-muted">AI is analyzing balance liquidity...</span>
-                    </div>
-                }
-                <div style="white-space: pre-wrap; line-height: 1.6;">
-                    @((MarkupString)FormatAIResponse(_aiAnalysis))
-                </div>
-            </div>
-        }
-    }
-
-    @if (!string.IsNullOrEmpty(_errorMessage))
-    {
-        <div class="alert alert-danger">
-            <strong>@ResLoc["Error"]:</strong> @_errorMessage
-        </div>
-    }
-</RadzenCard>
+<AIAnalysisPanel PromptBuilder="@BuildTurnoverAnalysisPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeTurnoverIndicators"]"
+                 LoadingMessage="AI is analyzing balance liquidity..." />
 
 @code {
-private CancellationTokenSource? _cts;
     // Set when the component is disposed. Checked inside the AI streaming callback to
     // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
     // user navigates away mid-analysis) and to release captured references for GC faster.
-    private volatile bool _isDisposed;
         private string? tableName;
-    private string _aiAnalysis = string.Empty;
-    private string _errorMessage = string.Empty;
-    private bool _isAnalyzing = false;
-    private bool _isCheckingAvailability = true;
-    private bool _isAIAvailable = false;
-
     protected override async Task OnInitializedAsync()
     {
-        _cts = new CancellationTokenSource();
-
         string name = ResLoc["IndicatorsOfTurnoverOfCurrentAssets"];
         int number = 2;
 
         tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
         
         // Check AI availability on page load
-        await CheckAIAvailability();
-        
         await base.OnInitializedAsync();
     }
 
-    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
-
-    private async Task AnalyzeTurnoverIndicators()
-    {
-        if (!_isAIAvailable)
-        {
-            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
-            return;
-        }
-
-        _isAnalyzing = true;
-        _errorMessage = string.Empty;
-        _aiAnalysis = string.Empty;
-        StateHasChanged();
-
-        try
-        {
-            // Prepare financial data for AI analysis
-            var prompt = BuildTurnoverAnalysisPrompt();
-            
-            // Get AI analysis with streaming (chunk by chunk)
-            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
-            {
-                if (_isDisposed)
-                {
-                    return;
-                }
-                _aiAnalysis += chunk;
-                InvokeAsync(StateHasChanged);
-            });
-        }
-        catch (Exception ex)
-        {
-            // Check if it was cancelled
-            if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
-            {
-                // Add stopped indicator to partial response
-                if (!string.IsNullOrEmpty(_aiAnalysis))
-                {
-                    _aiAnalysis += "\n\n[Analysis stopped by user]";
-                }
-                else
-                {
-                    _errorMessage = "Analysis was stopped by user.";
-                }
-            }
-            else
-            {
-                _errorMessage = $"Failed to analyze data: {ex.Message}";
-            }
-        }
-        finally
-        {
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
-
-    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
-
-    private string BuildTurnoverAnalysisPrompt()
+                private string BuildTurnoverAnalysisPrompt()
     {
         string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
@@ -446,19 +285,4 @@ WRITING STYLE:
 Remember: Write your entire response in {languageInstruction}. Do NOT create tables. Focus on MEANING and RECOMMENDATIONS, not raw data repetition.";
     }
 
-    private void ClearAnalysis()
-    {
-        _aiAnalysis = string.Empty;
-        _errorMessage = string.Empty;
-    }
-
-    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
-
-    public void Dispose()
-    {
-        _isDisposed = true;
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = null;
-    }
-}
+        }

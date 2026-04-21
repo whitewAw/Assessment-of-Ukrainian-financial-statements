@@ -668,8 +668,13 @@
     <!-- Blazor WebAssembly script - Load with high priority -->
     <script src="_framework/blazor.webassembly.js" autostart="false" fetchpriority="high"></script>
 
-    <!-- Bootstrap JavaScript Bundle (includes Popper.js) - Local for offline PWA -->
-    <script src="js/bootstrap.bundle.min.js" defer></script>
+    <!-- Bootstrap JavaScript Bundle: removed. Audit (Dec 2025) confirmed zero
+         usages of data-bs-*, bootstrap.Modal, bootstrap.Collapse, bootstrap.Dropdown,
+         bootstrap.Tooltip, bootstrap.Popover, bootstrap.Offcanvas or bootstrap.Toast
+         anywhere in the codebase. The navbar toggle is handled by NavMenu's Blazor
+         @onclick handler (it just toggles a CSS class), which does not require
+         Bootstrap JS. Saves ~70 KB minified on every cold load. Only Bootstrap's
+         CSS (css/bootstrap/bootstrap.min.css) is still shipped. -->
 
     <!-- Critical utilities - Load immediately but small -->
     <script src="js/utils.js"></script>

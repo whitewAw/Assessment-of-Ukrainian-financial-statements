@@ -44,13 +44,22 @@ jobs:
           dotnet-version: '10.0.x'
           dotnet-quality: 'ga'
 
-      - name: Cache NuGet packages
+      - name: Cache NuGet packages and .NET workloads
         uses: actions/cache@v4
         id: nuget-cache
         with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Build.props') }}
+          # ~/.nuget/packages      - package cache
+          # ~/.dotnet/sdk-manifests - workload manifests
+          # ~/.dotnet/packs         - installed workload packs (wasm-tools ~200 MB)
+          # Caching the workload paths turns `dotnet workload install wasm-tools`
+          # from a 30-60 s download into a no-op on warm runs.
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/packs
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj', '**/Directory.Build.props', 'global.json') }}
           restore-keys: |
+            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
 
       - name: Install .NET WebAssembly workloads
@@ -80,8 +89,14 @@ jobs:
       # See the "Deploy to Netlify" step at the end of this workflow.
       - name: Snapshot build for Netlify
         run: |
-          cp -R release release-netlify
-          echo "✅ Pristine build snapshot taken (release-netlify/) before base-tag rewrite"
+          # `cp -al` = archive + hardlinks. Creates release-netlify/ as a
+          # hardlink mirror of release/ in O(file-count) without copying the
+          # ~60 MB of AOT output. The subsequent sed invocations against
+          # release/wwwroot/index.html rewrite the file (new inode), which
+          # safely breaks the link for that one file only — the netlify
+          # snapshot keeps the original content.
+          cp -al release release-netlify
+          echo "✅ Pristine build snapshot taken (release-netlify/, hardlinked) before base-tag rewrite"
 
       - name: Update base-tag for GitHub Pages
         run: |
@@ -89,6 +104,20 @@ jobs:
           sed -i 's|<base href="/" */>|<base href="/Assessment-of-Ukrainian-financial-statements/" />|g' release/wwwroot/index.html
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
+
+      # Rewrite canonical host in sitemap.xml and robots.txt so the gh-pages copy
+      # advertises its own URLs. The Netlify snapshot (release-netlify/) keeps
+      # the canonical ua-finance.netlify.app URLs untouched.
+      - name: Rewrite sitemap + robots for GitHub Pages
+        run: |
+          NETLIFY_HOST='https://ua-finance.netlify.app/'
+          GHPAGES_HOST='https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/'
+          for f in release/wwwroot/sitemap.xml release/wwwroot/robots.txt; do
+            if [ -f "$f" ]; then
+              sed -i "s|$NETLIFY_HOST|$GHPAGES_HOST|g" "$f"
+              echo "✅ Rewrote canonical host in $(basename "$f")"
+            fi
+          done
 
       - name: Fix service-worker-assets.js hashes
         working-directory: release/wwwroot

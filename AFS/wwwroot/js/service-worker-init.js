@@ -20,12 +20,19 @@
                         updateViaCache: registration.updateViaCache
                     });
 
-                    // Check for updates periodically
-                    setInterval(() => {
-                        registration.update().then(() => {
-                            console.log('Service Worker update check completed');
-                        });
-                    }, 60 * 60 * 1000); // Check every hour
+                    // Check for updates when the user returns to the tab.
+                    // This replaces a previous `setInterval(..., 1h)` which
+                    // fired 24 useless background update checks per day even
+                    // on hidden tabs — bad for mobile battery and does nothing
+                    // the user can observe. visibilitychange gives us a
+                    // natural event exactly when a fresh deploy could matter.
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState === 'visible') {
+                            registration.update().catch(err => {
+                                console.debug('Service Worker visibilitychange update failed:', err);
+                            });
+                        }
+                    });
 
                     // Update service worker on page load
                     registration.update();

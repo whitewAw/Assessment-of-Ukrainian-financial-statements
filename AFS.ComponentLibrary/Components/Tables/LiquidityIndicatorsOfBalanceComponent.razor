@@ -1,12 +1,6 @@
 @page "/liquidityindicatorsofbalance"
-@using AFS.Core.Interfaces
-@using AFS.Core.Services
-@using AFS.ComponentLibrary.Helpers
 @inject LiquidityIndicatorsOfBalance LiquidityIndicatorsOfBalance
 @inject AfsModel AfsModel
-@inject IAIFinancialAdvisor AIAdvisor
-@implements IDisposable
-@inject IJSRuntime JS
 
 <SeoHead Title="Liquidity Ratios Calculator | UFIN"
          Description="Free liquidity analysis of a Ukrainian balance sheet. Calculate current ratio, quick ratio, cash ratio and absolute liquidity from Form 1 line items. Runs locally in your browser." />
@@ -94,184 +88,39 @@
     </table>
 </RadzenCard>
 
-@* @ResLoc["AIFinancialAnalysis"] Section *@
-<RadzenCard Style="width: 100%; margin-top: 20px;">
-    <h3 class="text-center mb-4">
-        <i class="oi oi-brain me-2"></i>
-        @ResLoc["AIFinancialAnalysis"]
-    </h3>
-    
-    @if (_isCheckingAvailability)
-    {
-        <div class="d-flex justify-content-center mb-3">
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
-        </div>
-    }
-    else if (!_isAIAvailable)
-    {
-        <div class="alert alert-warning">
-            <h6 class="alert-heading">
-                <i class="oi oi-warning me-2"></i>
-                @ResLoc["ChromeAINotAvailable"]
-            </h6>
-            <p class="mb-2">
-                @ResLoc["ChromeAINotAvailableMessage"]
-                <a href="/Assessment-of-Ukrainian-financial-statements/ai-assistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
-                @ResLoc["ForSetupInstructions"]
-            </p>
-            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
-                <i class="oi oi-reload me-2"></i>
-                @ResLoc["RecheckAvailability"]
-            </button>
-        </div>
-    }
-    else
-    {
-        <div class="d-flex justify-content-center mb-3">
-            @if (_isAnalyzing)
-            {
-                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
-                    <i class="oi oi-media-stop me-2"></i>
-                    <span>@ResLoc["StopAnalysis"]</span>
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-primary me-2" @onclick="AnalyzeLiquidity" disabled="@(!_isAIAvailable)">
-                    <i class="oi oi-magnifying-glass me-2"></i>
-                    <span>@ResLoc["AnalyzeLiquidityIndicators"]</span>
-                </button>
-            }
-            
-            @if (!string.IsNullOrEmpty(_aiAnalysis))
-            {
-                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
-                    <i class="oi oi-x me-2"></i>
-                    @ResLoc["Clear"]
-                </button>
-            }
-        </div>
-
-        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
-        {
-            <div class="alert alert-info">
-                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
-                {
-                    <div class="d-flex align-items-center">
-                        <span class="typing-indicator me-3">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                        <span class="text-muted">AI is analyzing balance liquidity...</span>
-                    </div>
-                }
-                <div style="white-space: pre-wrap; line-height: 1.6;">
-                    @((MarkupString)FormatAIResponse(_aiAnalysis))
-                </div>
-            </div>
-        }
-    }
-    
-    @if (!string.IsNullOrEmpty(_errorMessage))
-    {
-        <div class="alert alert-danger">
-            <strong>@ResLoc["Error"]:</strong> @_errorMessage
-        </div>
-    }
-</RadzenCard>
+<AIAnalysisPanel PromptBuilder="@BuildLiquidityPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeLiquidityIndicators"]"
+                 LoadingMessage="AI is analyzing balance liquidity..." />
 
 @code {
-private CancellationTokenSource? _cts;
-    // Set when the component is disposed. Checked inside the AI streaming callback to
-    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
-    // user navigates away mid-analysis). Also releases the captured `this` reference
-    // faster for GC, shortening the lifetime of the whole Radzen view tree.
-    private volatile bool _isDisposed;
     private string? tableName;
     private string? EstimationOfBalanceLiquidityAtBeginBase;
     private string? EstimationOfBalanceLiquidityAtEndBase;
     private string? EstimationOfBalanceLiquidityAtBeginCurrent;
     private string? EstimationOfBalanceLiquidityAtEndCurrent;
-    
-    
-    private string _aiAnalysis = string.Empty;
-    private string _errorMessage = string.Empty;
-    private bool _isAnalyzing = false;
-    private bool _isCheckingAvailability = true;
-    private bool _isAIAvailable = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _cts = new CancellationTokenSource();
-
         string name = ResLoc["LiquidityIndicatorsOfBalance"];
-        int number = 13;
+        const int number = 13;
 
-        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        tableName = string.Format(System.Globalization.CultureInfo.CurrentCulture,
+            "{0} {1}. {2} {3} {4}-{5} {6}",
+            ResLoc["Table"], number, name, MainModel.CompanyName,
+            MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
 
-        EstimationOfBalanceLiquidityAtBeginBase = String.Format(ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.BaseYear);
-        EstimationOfBalanceLiquidityAtEndBase = String.Format(ResLoc["EstimationOfBalanceLiquidityAtEnd"], MainModel.CompanyName, MainModel.BaseYear);
-
-        EstimationOfBalanceLiquidityAtBeginCurrent = String.Format(ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.CurrentYear);
-        EstimationOfBalanceLiquidityAtEndCurrent = String.Format(ResLoc["EstimationOfBalanceLiquidityAtEnd"], MainModel.CompanyName, MainModel.CurrentYear);
-        
-        await CheckAIAvailability();
-        
-        await base.OnInitializedAsync();
+        EstimationOfBalanceLiquidityAtBeginBase    = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.BaseYear);
+        EstimationOfBalanceLiquidityAtEndBase      = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtEnd"],   MainModel.CompanyName, MainModel.BaseYear);
+        EstimationOfBalanceLiquidityAtBeginCurrent = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.CurrentYear);
+        EstimationOfBalanceLiquidityAtEndCurrent   = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtEnd"],   MainModel.CompanyName, MainModel.CurrentYear);
     }
-    
-    private async Task CheckAIAvailability() { _isCheckingAvailability = true; StateHasChanged(); _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false); _isCheckingAvailability = false; StateHasChanged(); }
-
-    private async Task AnalyzeLiquidity()
-    {
-        if (!_isAIAvailable)
-        {
-            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
-            return;
-        }
-
-        _isAnalyzing = true;
-        _errorMessage = string.Empty;
-        _aiAnalysis = string.Empty;
-        StateHasChanged();
-
-        try
-        {
-            var prompt = BuildLiquidityPrompt();
-
-            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
-            {
-                if (_isDisposed)
-                {
-                    return;
-                }
-                _aiAnalysis += chunk;
-                _ = InvokeAsync(StateHasChanged);
-            }).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            var (appendText, errorMsg) = AIAnalysisHelper.HandleAnalysisException(ex, _aiAnalysis);
-            if (appendText != null) _aiAnalysis += appendText;
-            if (errorMsg != null) _errorMessage = errorMsg;
-        }
-        finally
-        {
-            _isAnalyzing = false;
-            StateHasChanged();
-        }
-    }
-
-    private async Task StopAnalysis() { await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false); _isAnalyzing = false; StateHasChanged(); }
 
     private string BuildLiquidityPrompt()
     {
         string languageInstruction = AfsConstraints.GetLanguageInstruction();
 
         // Use AOT-optimized JSON serialization
-        var jsonData = JsonSerializationHelper.SerializeLiquidityIndicators(
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeLiquidityIndicators(
             MainModel.CompanyName,
             MainModel.BaseYear,
             MainModel.CurrentYear,
@@ -574,7 +423,7 @@ WRITING STYLE:
 
 All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
     }
-    
+
     private string GetLiquidity(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4, bool beginOfYear)
     {
         if (beginOfYear)
@@ -590,21 +439,5 @@ All amounts in thousand UAH. Write entire response in {languageInstruction}. DO 
             return ResLoc["BalanceIsLiquid"];
         }
         return ResLoc["BalanceIsNotLiquid"];
-    }
-
-    private void ClearAnalysis()
-    {
-        _aiAnalysis = string.Empty;
-        _errorMessage = string.Empty;
-    }
-
-    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
-
-    public void Dispose()
-    {
-        _isDisposed = true;
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = null;
     }
 }
