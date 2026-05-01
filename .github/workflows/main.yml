@@ -105,19 +105,20 @@ jobs:
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
 
-      # Rewrite canonical host in sitemap.xml and robots.txt so the gh-pages copy
-      # advertises its own URLs. The Netlify snapshot (release-netlify/) keeps
-      # the canonical ua-finance.netlify.app URLs untouched.
-      - name: Rewrite sitemap + robots for GitHub Pages
+      # Rewrite robots.txt for GitHub Pages so it points crawlers to the
+      # GH Pages sitemap URL. The sitemap itself keeps canonical (Netlify) URLs
+      # to match the <link rel="canonical"> in each page — this avoids
+      # conflicting signals (sitemap says host A, canonical says host B).
+      - name: Rewrite robots.txt for GitHub Pages
         run: |
           NETLIFY_HOST='https://ua-finance.netlify.app/'
           GHPAGES_HOST='https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/'
-          for f in release/wwwroot/sitemap.xml release/wwwroot/robots.txt; do
-            if [ -f "$f" ]; then
-              sed -i "s|$NETLIFY_HOST|$GHPAGES_HOST|g" "$f"
-              echo "✅ Rewrote canonical host in $(basename "$f")"
-            fi
-          done
+          f="release/wwwroot/robots.txt"
+          if [ -f "$f" ]; then
+            # Only rewrite the Sitemap: directive so crawlers can find it at the GH Pages URL
+            sed -i "s|Sitemap: ${NETLIFY_HOST}sitemap.xml|Sitemap: ${GHPAGES_HOST}sitemap.xml|g" "$f"
+            echo "✅ Rewrote Sitemap directive in robots.txt for GH Pages"
+          fi
 
       - name: Fix service-worker-assets.js hashes
         working-directory: release/wwwroot
@@ -177,13 +178,21 @@ jobs:
           # Keep the custom 404.html if it exists, otherwise copy index.html
           if [ ! -f "release/wwwroot/404.html" ]; then
             cp release/wwwroot/index.html release/wwwroot/404.html
-            echo "✅ 404.html created from index.html"
+            echo "✅ 404.html created from index.html (GH Pages)"
           else
-            echo "✅ Using existing custom 404.html"
+            echo "✅ Using existing custom 404.html (GH Pages)"
           fi
 
           # Add .nojekyll to prevent Jekyll processing
           touch release/wwwroot/.nojekyll
+
+          # Netlify snapshot: 404.html must exist so deep-linked routes work
+          if [ ! -f "release-netlify/wwwroot/404.html" ]; then
+            cp release-netlify/wwwroot/index.html release-netlify/wwwroot/404.html
+            echo "✅ 404.html created from index.html (Netlify)"
+          else
+            echo "✅ Using existing custom 404.html (Netlify)"
+          fi
 
           echo "✅ SPA routing files ready"
 
@@ -206,17 +215,29 @@ jobs:
           node tools/prerender/prerender.mjs release/wwwroot \
             --baseHref=/Assessment-of-Ukrainian-financial-statements/ \
             --origin=https://ua-finance.netlify.app
-          echo "✅ Prerender step finished"
+          echo "✅ Prerender step finished (GH Pages)"
+
+      - name: Prerender routes for Netlify snapshot
+        # Same prerender pass on the Netlify snapshot so ua-finance.netlify.app
+        # also serves real content to crawlers. Canonical origin is Netlify itself.
+        continue-on-error: true
+        run: |
+          node tools/prerender/prerender.mjs release-netlify/wwwroot \
+            --baseHref=/ \
+            --origin=https://ua-finance.netlify.app
+          echo "✅ Prerender step finished (Netlify)"
 
       - name: Update sitemap lastmod dates
         run: |
-          if [ -f release/wwwroot/sitemap.xml ]; then
-            TODAY=$(date +%Y-%m-%d)
-            sed -i "s|<lastmod>.*</lastmod>|<lastmod>$TODAY</lastmod>|g" release/wwwroot/sitemap.xml
-            echo "✅ Sitemap updated with date: $TODAY"
-          else
-            echo "⚠️ sitemap.xml not found, skipping"
-          fi
+          TODAY=$(date +%Y-%m-%d)
+          for sitemap in release/wwwroot/sitemap.xml release-netlify/wwwroot/sitemap.xml; do
+            if [ -f "$sitemap" ]; then
+              sed -i "s|<lastmod>.*</lastmod>|<lastmod>$TODAY</lastmod>|g" "$sitemap"
+              echo "✅ Sitemap updated with date: $TODAY ($sitemap)"
+            else
+              echo "⚠️ $sitemap not found, skipping"
+            fi
+          done
 
       - name: Create _headers file for CDN compatibility
         run: |

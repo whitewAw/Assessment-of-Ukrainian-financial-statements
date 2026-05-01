@@ -1,4 +1,4 @@
-﻿/**
+/**
  * SEO Manager for UFIN (Ukrainian Financial Statement Analysis) Blazor WebAssembly Application
  * Handles dynamic meta tag updates for better search engine indexing
  * Works with Blazor routing to ensure proper canonical URLs and meta tags
@@ -15,6 +15,7 @@ constructor() {
     var config = window.UFIN_CONFIG || {};
     this.basePath = config.basePath || this.detectBasePath();
     this.baseUrl = config.baseUrl || this.detectBaseUrl();
+    this.canonicalBaseUrl = config.canonicalUrl || 'https://ua-finance.netlify.app/';
     this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
     this.defaultImage = this.baseUrl + 'icon-512.png';
     this.initialized = false;
@@ -297,12 +298,13 @@ detectBaseUrl() {
         // Remove trailing slash for consistency
         relativePath = relativePath.replace(/\/$/, '');
 
-        // Build canonical URL: baseUrl already includes basePath
-        // baseUrl = "https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"
+        // Build canonical URL: always use the canonical host (Netlify) to consolidate
+        // duplicate-content signals regardless of which host the user is on.
+        // canonicalBaseUrl = "https://ua-finance.netlify.app/"
         // relativePath = "aiassistant" (without leading slash)
-        const canonicalUrl = relativePath 
-            ? `${this.baseUrl.replace(/\/$/, '')}/${relativePath}`
-            : this.baseUrl.replace(/\/$/, '') + '/';
+        const canonicalUrl = relativePath
+            ? `${this.canonicalBaseUrl.replace(/\/$/, '')}/${relativePath}`
+            : this.canonicalBaseUrl.replace(/\/$/, '') + '/';
             
         return canonicalUrl;
     }
