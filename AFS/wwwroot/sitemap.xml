@@ -245,7 +245,7 @@
 	</url>
 
 	<!-- Help & About -->
-	<url>
+    <!--<url>
 		<loc>https://ua-finance.netlify.app/help</loc>
 		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
@@ -257,5 +257,5 @@
 		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.6</priority>
-	</url>
+	</url>-->
 </urlset>
