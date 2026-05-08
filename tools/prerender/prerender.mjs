@@ -164,6 +164,11 @@ async function main() {
 
       let html = await page.content();
 
+      // Blazor emits marker comments like <!--!--> around render fragments.
+      // They are harmless in the live DOM but add noise to prerendered HTML
+      // consumed by crawlers and social-preview bots.
+      html = html.replace(/<!--!-->/g, '');
+
       // Force canonical to the production origin (server runs on localhost)
       html = html.replace(/http:\/\/127\.0\.0\.1:\d+/g, canonicalOrigin.replace(/\/$/, ''));
 

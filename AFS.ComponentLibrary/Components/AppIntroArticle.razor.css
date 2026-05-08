@@ -1,0 +1,121 @@
+.app-intro {
+    max-width: 980px;
+    margin: 0 auto 18px;
+    padding: 18px 20px 14px;
+    border: 1px solid #e3e3ea;
+    border-left: 4px solid #512BD4;
+    border-radius: 8px;
+    background: #fafafd;
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+.app-intro__heading {
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.2;
+    margin: 0 0 10px;
+    color: #052767;
+    font-weight: 700;
+}
+
+.app-intro__lede {
+    font-size: 15px;
+    margin: 0 0 12px;
+    color: #333;
+}
+
+.app-intro__features {
+    margin: 0 0 10px;
+    padding: 0 0 0 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+.app-intro__features li {
+    margin-bottom: 4px;
+}
+
+.app-intro__jump {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    align-items: baseline;
+}
+
+.app-intro__jump-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.app-intro__jump-list li {
+    display: inline;
+}
+
+.app-intro__jump-list li + li::before {
+    content: " · ";
+    padding: 0 4px;
+    color: #999;
+}
+
+.app-intro__jump a {
+    color: #052767;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.app-intro__jump a:hover {
+    color: #512BD4;
+}
+
+@media (prefers-color-scheme: dark) {
+    .app-intro {
+        background: #1e1e24;
+        border-color: #333;
+        border-left-color: #b4a3ff;
+        color: #f0f0f5;
+    }
+
+    .app-intro__heading {
+        color: #b4a3ff;
+    }
+
+    .app-intro__lede,
+    .app-intro__features {
+        color: #c0c0c8;
+    }
+
+    .app-intro__jump {
+        color: #aaa;
+    }
+
+    .app-intro__jump a {
+        color: #c7b8ff;
+    }
+}
+
+@media (max-width: 640px) {
+    .app-intro {
+        padding: 14px 14px 10px;
+        border-left-width: 3px;
+        margin-bottom: 12px;
+    }
+
+    .app-intro__heading {
+        font-size: 18px;
+    }
+
+    .app-intro__lede {
+        font-size: 14px;
+    }
+
+    .app-intro__features {
+        font-size: 13px;
+    }
+}

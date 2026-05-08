@@ -365,7 +365,7 @@ Assessment-of-Ukrainian-financial-statements/
 │   ├── Helpers/
 │   │   └── ApexChartsHelper.cs      # AOT-safe chart configuration
 │   └── Resources/                   # Localization files (7 languages)
-│       └── Resource.*.resx          # uk, en, de, es, fr, pl, ru
+│       └── Resource.*.resx          # 15 UI cultures: uk, en, pl, ro, hu, cs, de, nl, fr, it, es, tr, zh, ja, ru
 │
 ├── 📂 AFS.Core/                     # Business logic & services
 │   ├── Models/                      # Data models
@@ -404,7 +404,8 @@ Assessment-of-Ukrainian-financial-statements/
 │
 ├── 📂 .github/                      # GitHub configuration
 │   ├── workflows/                   # CI/CD workflows
-│   │   └── main.yml                # Deployment workflow (incl. prerender)
+│   │   ├── main.yml                # Deployment workflow (incl. prerender)
+│   │   └── metrics.yml             # Repository metrics SVG workflow
 │   └── ISSUE_TEMPLATE/             # Issue templates
 │
 ├── 📂 tools/                        # Build-time tooling
@@ -763,6 +764,10 @@ Yandex, DuckDuckGo, and modern AI search engines.
   deep-link navigation) — prevents Google’s Soft-404 classifier from flagging the
   page as thin content while Blazor WASM is still loading. Blazor replaces it on
   hydration so users never see it after load.
+- **Localized hydrated intro** in `AppIntroArticle.razor` repeats that substantive
+  landing content after Blazor starts, using the same 15-culture `.resx` set as
+  the rest of the UI. Its calculator links are exposed as a real `<nav>` + list
+  for assistive technologies, with visual separators rendered by CSS only.
 - Single canonical host: `https://ua-finance.netlify.app/` (no duplicate-content split)
 - Comprehensive Open Graph + Twitter Card meta
 - 6 JSON-LD blocks: `WebApplication`, `SoftwareApplication`, `FAQPage`,
@@ -803,6 +808,8 @@ optional `<h1>` (defaults to `sr-only` so it indexes without altering layout):
 Puppeteer crawls every URL in `sitemap.xml`, waits for Blazor to hydrate,
 and writes `<route>/index.html` snapshots into the published `wwwroot`.
 Non-JS crawlers consequently see real HTML — not just the loading spinner.
+The prerender step also removes Blazor render-fragment marker comments
+(`<!--!-->`) from snapshots so crawler-facing HTML is cleaner.
 
 Generate the social-share image any time:
 ```powershell
@@ -825,7 +832,7 @@ and [Bing Webmaster Tools](https://www.bing.com/webmasters), then submit
 ## 📚 Documentation
 
 ### For Users
-- [Live Application](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
+- [Live Application](https://ua-finance.netlify.app/)
 - [Chrome AI Setup Guide](BROWSER_AI_SETUP.md)
 - [User Manual](docs/USER_MANUAL.md) _(coming soon)_
 

@@ -36,6 +36,9 @@ jobs:
       METRICS_TZ: Europe/Kyiv
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       # ============================================
       # Preflight: fail fast with a clear message if METRICS_TOKEN is missing.
       # Without this, the metrics action errors deep in its internals with a
@@ -62,6 +65,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -111,6 +115,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -141,6 +146,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -171,6 +177,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -199,6 +206,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -227,6 +235,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: repository
@@ -243,6 +252,36 @@ jobs:
           plugin_languages_sections: most-used
           plugin_traffic: yes
         continue-on-error: true
+
+      - name: Collect rendered SVGs
+        if: always()
+        run: |
+          shopt -s nullglob
+          files=(/metrics_renders/*.svg)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::warning::No SVG files found in /metrics_renders. All metrics renders likely failed."
+            exit 0
+          fi
+          cp /metrics_renders/*.svg .
+          echo "✅ Collected ${#files[@]} SVG file(s) from /metrics_renders:"
+          ls -lh metrics*.svg
+
+      - name: Commit metrics SVGs
+        if: always()
+        run: |
+          if ! ls metrics*.svg >/dev/null 2>&1; then
+            echo "No metrics SVGs to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metrics*.svg
+          if git diff --cached --quiet; then
+            echo "No metrics SVG changes to commit."
+            exit 0
+          fi
+          git commit -m "Update repository metrics [skip ci]"
+          git push
 
       # ============================================
       # Safety net: upload generated SVGs as a workflow artifact even if the
