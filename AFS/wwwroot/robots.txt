@@ -1,387 +1,61 @@
-# ============================================
 # robots.txt for UFIN - Ukrainian Financial Statement Analysis Tool
-# Canonical host: https://ua-finance.netlify.app/
-# Mirror host:    https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
-# ============================================
-# Blazor WebAssembly PWA with AI-Powered Financial Analysis
-# Multi-language support (15): English, Ukrainian, Polish, Romanian, Hungarian,
-# Czech, German, Dutch, French, Italian, Spanish, Turkish, Chinese, Japanese, Russian
-# Last Updated: 2025-01-21
-# ============================================
+# Canonical: https://ua-finance.netlify.app/
+# Mirror:    https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
+# Repo:      https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements
+# License:   MIT
 
-# ============================================
-# DEFAULT RULES - Allow All Legitimate Bots
-# ============================================
+# ── Default rules ────────────────────────────────────────────────────
 User-agent: *
 Allow: /
-
-# Sitemap location (canonical host - Netlify).
-# The GH Actions workflow rewrites this URL to the github.io mirror when
-# publishing to the gh-pages branch.
 Sitemap: https://ua-finance.netlify.app/sitemap.xml
 
-# ============================================
-# BLAZOR WEBASSEMBLY SPECIFIC RULES
-# ============================================
-# Allow crawling of critical Blazor resources for PWA indexing
-Allow: /index.html
-Allow: /manifest.json
-Allow: /icon-192.png
-Allow: /icon-512.png
-Allow: /favicon.ico
-
-# Allow CSS and JavaScript (needed for SEO and rich snippets)
-Allow: /css/*.css
-Allow: /js/*.js
-Allow: /_content/*/css/*.css
-Allow: /_content/*/js/*.js
-
-# DISALLOW Blazor framework files (not useful for SEO, saves crawl budget)
+# Save crawl budget: exclude Blazor framework internals
 Disallow: /_framework/
 Disallow: /_bin/
-Disallow: /_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/
-
-# DISALLOW service worker files (internal app files)
 Disallow: /service-worker.js
 Disallow: /service-worker.published.js
 Disallow: /service-worker-assets.js
 
-# DISALLOW debug and development files
+# Exclude build/debug artifacts
 Disallow: /*.pdb$
 Disallow: /*.map$
-Disallow: /.vs/
-Disallow: /obj/
-Disallow: /bin/
 
-# ============================================
-# AI ASSISTANT & SPECIAL FEATURES
-# ============================================
-# ALLOW AI Assistant page (high-value content)
-Allow: /ai-assistant
-Allow: /ai-assistant?lang=*
-
-# Allow Chrome AI JavaScript module
-Allow: /js/chromeai.js
-
-# ============================================
-# MULTI-LANGUAGE ROUTES
-# ============================================
-# Allow language-specific routes (SEO important)
-Allow: /?lang=en
-Allow: /?lang=uk
-Allow: /?lang=ru
-Allow: /?lang=es
-Allow: /?lang=de
-Allow: /?lang=fr
-
-# ============================================
-# FINANCIAL ANALYSIS TABLES (17 Tables)
-# ============================================
-# Allow all financial analysis table routes
-Allow: /characteristicsofcapital
-Allow: /indicatorsofturnoverofcurrentassets
-Allow: /factorsaffectingturnoverofworkingcapital
-Allow: /indicatorsofefficiencyofworkingcapital
-Allow: /availabilityandmovementoffixedassets
-Allow: /indicatorsofstateandmovementoffixedassets
-Allow: /calculationofindicatorsofefficiencyofuseoffixedassets
-Allow: /factoranalysisoffixedassets
-Allow: /indicatorsofefficiencyofuseofintangibleassets
-Allow: /sourcesofcapitalformation
-Allow: /assessmentofreceivableandpayable
-Allow: /indicatorsofbusinessactivity
-Allow: /liquidityindicatorsofbalance
-Allow: /solvencyratios
-Allow: /generalindicatorsoffinancialstability
-Allow: /indicatorsoffinancialstability
-Allow: /classificationoftypesoffinancialstability
-
-# ============================================
-# INTERACTIVE CHARTS (7 Charts)
-# ============================================
-# Allow chart routes (lower priority but still indexable)
-Allow: /compositionofassetsbase
-Allow: /compositionofassetscurrent
-Allow: /sourcesofcapitalformationbase
-Allow: /sourcesofcapitalformationcurrent
-Allow: /structureofaccountspayablebase
-Allow: /structureofaccountspayablecurrent
-Allow: /workingcapitalturnovertime
-
-# ============================================
-# STATIC ASSETS
-# ============================================
-# Allow important static files
-Allow: /sample-data/*.json
-Allow: /localization/*.json
-
-# ============================================
-# GOOGLE SEARCH CONSOLE
-# ============================================
-# Allow Google verification files
-Allow: /google*.html
-Allow: /google*.txt
-
-# ============================================
-# CRAWL DELAY (Prevent Server Overload)
-# ============================================
-# General crawl delay for all bots
-Crawl-delay: 1
-
-# ============================================
-# MAJOR SEARCH ENGINES - Specific Rules
-# ============================================
-
-# --------------------------------------------
-# Google
-# --------------------------------------------
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-# Google Image Bot (allow for PWA icons and screenshots)
-User-agent: Googlebot-Image
-Allow: /icon-192.png
-Allow: /icon-512.png
-Allow: /screenshots/
-Allow: /*.png
-Allow: /*.jpg
-Allow: /*.jpeg
-Allow: /*.svg
-
-# Google Mobile Bot (important for PWA)
-User-agent: Googlebot-Mobile
-Allow: /
-Crawl-delay: 1
-
-# Google AdsBot (if running ads)
-User-agent: AdsBot-Google
-Allow: /
-Crawl-delay: 2
-
-# --------------------------------------------
-# Bing
-# --------------------------------------------
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: BingPreview
-Allow: /
-Crawl-delay: 2
-
-# --------------------------------------------
-# Yandex (Popular in Ukraine and Russia)
-# --------------------------------------------
-User-agent: Yandex
-Allow: /
-Crawl-delay: 2
-
-User-agent: YandexBot
-Allow: /
-Crawl-delay: 2
-
-User-agent: YandexImages
-Allow: /icon-192.png
-Allow: /icon-512.png
-Allow: /*.png
-Allow: /*.jpg
-
-# --------------------------------------------
-# DuckDuckGo
-# --------------------------------------------
-User-agent: DuckDuckBot
-Allow: /
-Crawl-delay: 1
-
-# --------------------------------------------
-# Baidu (Chinese Search Engine)
-# --------------------------------------------
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 2
-
-User-agent: Baiduspider-image
-Allow: /icon-192.png
-Allow: /icon-512.png
-Allow: /*.png
-Allow: /*.jpg
-
-# --------------------------------------------
-# Yahoo
-# --------------------------------------------
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
-
-# ============================================
-# SOCIAL MEDIA BOTS (Important for Rich Previews)
-# ============================================
-
-# Facebook
+# ── Social-media / preview bots (no crawl-delay) ────────────────────
 User-agent: facebookexternalhit
-Allow: /
 Crawl-delay: 0
 
 User-agent: Facebot
-Allow: /
 Crawl-delay: 0
 
-# Twitter/X
 User-agent: Twitterbot
-Allow: /
 Crawl-delay: 0
 
-User-agent: X-Bot
-Allow: /
-Crawl-delay: 0
-
-# LinkedIn
 User-agent: LinkedInBot
-Allow: /
 Crawl-delay: 0
 
-# Telegram
 User-agent: TelegramBot
-Allow: /
 Crawl-delay: 0
 
-# WhatsApp
 User-agent: WhatsApp
-Allow: /
 Crawl-delay: 0
 
-# Slack
 User-agent: Slackbot
-Allow: /
 Crawl-delay: 0
 
 User-agent: Slackbot-LinkExpanding
-Allow: /
 Crawl-delay: 0
 
-# Pinterest
-User-agent: Pinterestbot
-Allow: /
-Crawl-delay: 0
-
-# Reddit
-User-agent: Redditbot
-Allow: /
-Crawl-delay: 0
-
-# Discord
 User-agent: Discordbot
-Allow: /
 Crawl-delay: 0
 
-# ============================================
-# ARCHIVE BOTS (Historical Preservation)
-# ============================================
+User-agent: Redditbot
+Crawl-delay: 0
 
-# Internet Archive (Wayback Machine)
-User-agent: ia_archiver
-Allow: /
-Crawl-delay: 5
+User-agent: Pinterestbot
+Crawl-delay: 0
 
-# Common Crawl (Dataset for AI/ML)
-User-agent: CCBot
-Allow: /
-Crawl-delay: 5
-
-# ============================================
-# AI SEARCH & ASSISTANT CRAWLERS
-# (Allow so UFIN can be cited in ChatGPT Search,
-#  Perplexity, Gemini, Claude, Apple Intelligence)
-# ============================================
-
-# OpenAI - search index for ChatGPT Search
-User-agent: OAI-SearchBot
-Allow: /
-
-# OpenAI - training crawler
-User-agent: GPTBot
-Allow: /
-
-# OpenAI - in-chat browsing on user request
-User-agent: ChatGPT-User
-Allow: /
-
-# Anthropic - Claude
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-# Perplexity AI
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Perplexity-User
-Allow: /
-
-# Google - opt-in for Gemini / Vertex AI grounding (separate from Googlebot)
-User-agent: Google-Extended
-Allow: /
-
-# Apple Intelligence / Siri grounding (separate from Applebot)
-User-agent: Applebot
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-# Amazon (Alexa / AI products)
-User-agent: Amazonbot
-Allow: /
-
-# Meta AI
-User-agent: Meta-ExternalAgent
-Allow: /
-
-User-agent: FacebookBot
-Allow: /
-
-# Mistral
-User-agent: MistralAI-User
-Allow: /
-
-# You.com
-User-agent: YouBot
-Allow: /
-
-# Cohere
-User-agent: cohere-ai
-Allow: /
-
-# DuckDuckGo AI (DuckAssist)
-User-agent: DuckAssistBot
-Allow: /
-
-# ============================================
-# ACADEMIC & RESEARCH BOTS
-# ============================================
-
-# Google Scholar
-User-agent: Googlebot-Scholar
-Allow: /
-Crawl-delay: 2
-
-# Microsoft Academic
-User-agent: adidxbot
-Allow: /
-Crawl-delay: 2
-
-# ============================================
-# BAD BOTS - BLOCK AGGRESSIVE CRAWLERS
-# ============================================
-# These bots consume resources without adding value
-
-# SEO Tools (block aggressive crawlers)
+# ── Blocked bots ─────────────────────────────────────────────────────
+# Aggressive SEO scrapers
 User-agent: AhrefsBot
 Disallow: /
 
@@ -415,22 +89,7 @@ Disallow: /
 User-agent: Exabot
 Disallow: /
 
-User-agent: Gigabot
-Disallow: /
-
-User-agent: BecomeBot
-Disallow: /
-
-User-agent: SurveyBot
-Disallow: /
-
 User-agent: spbot
-Disallow: /
-
-User-agent: VoilaBot
-Disallow: /
-
-User-agent: psbot
 Disallow: /
 
 User-agent: YoudaoBot
@@ -439,14 +98,11 @@ Disallow: /
 User-agent: Sogou
 Disallow: /
 
-# Scraping Bots
+# Scraping / offline-copy bots
 User-agent: HTTrack
 Disallow: /
 
 User-agent: Wget
-Disallow: /
-
-User-agent: grub-client
 Disallow: /
 
 User-agent: WebReaper
@@ -455,54 +111,24 @@ Disallow: /
 User-agent: WebCopier
 Disallow: /
 
-User-agent: Offline Explorer
-Disallow: /
-
 User-agent: Teleport
 Disallow: /
 
 User-agent: WebZIP
 Disallow: /
 
-# AI Training Bots (block to prevent content scraping for AI training)
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: cohere-ai
-Disallow: /
-
-User-agent: Omgilibot
-Disallow: /
-
+# TikTok / ByteDance aggressive crawler
 User-agent: Bytespider
 Disallow: /
 
-# Email Harvesters
+# Email harvesters
 User-agent: EmailCollector
 Disallow: /
 
 User-agent: EmailSiphon
 Disallow: /
 
-User-agent: EmailWolf
-Disallow: /
-
-# Malicious Bots
-User-agent: asterias
-Disallow: /
-
+# Malicious bots
 User-agent: BackDoorBot
 Disallow: /
 
@@ -512,78 +138,5 @@ Disallow: /
 User-agent: ChinaClaw
 Disallow: /
 
-User-agent: Crescent
-Disallow: /
-
-User-agent: Indy Library
-Disallow: /
-
-User-agent: JennyBot
-Disallow: /
-
-User-agent: ProWebWalker
-Disallow: /
-
-User-agent: Telesoft
-Disallow: /
-
 User-agent: WebBandit
 Disallow: /
-
-# ============================================
-# PWA & MOBILE APP CRAWLERS
-# ============================================
-
-# Google Mobile App Indexing
-User-agent: Googlebot-Mobile
-Allow: /
-Allow: /manifest.json
-Allow: /icon-192.png
-Allow: /icon-512.png
-
-# Apple App Indexing
-User-agent: Applebot
-Allow: /
-Allow: /manifest.json
-Allow: /apple-touch-icon*.png
-
-# ============================================
-# SPECIAL INSTRUCTIONS
-# ============================================
-
-# GitHub Pages Hosting - Allow GitHub's infrastructure
-User-agent: GitHub-Hookshot
-Allow: /
-
-# Lighthouse / PageSpeed Insights (Google Performance Tools)
-User-agent: Chrome-Lighthouse
-Allow: /
-
-User-agent: PTST
-Allow: /
-
-# ============================================
-# NOTES & DOCUMENTATION
-# ============================================
-# This robots.txt is optimized for:
-# 1. Blazor WebAssembly PWA architecture
-# 2. AI-powered financial analysis features
-# 3. Multi-language support (6 languages)
-# 4. GitHub Pages hosting
-# 5. SEO best practices
-# 6. Privacy-first approach (block AI training bots)
-#
-# Key Features of This Application:
-# - 17 comprehensive financial analysis tables
-# - 7 interactive charts
-# - AI Assistant powered by Chrome's Gemini Nano
-# - Works offline (PWA)
-# - Supports: English, Ukrainian, Russian, Spanish, German, French
-# - 100% client-side processing
-# - Zero server dependencies
-#
-# For more information:
-# - Website: https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
-# - GitHub: https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements
-# - License: MIT
-# ============================================

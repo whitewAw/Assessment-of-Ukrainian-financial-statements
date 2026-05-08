@@ -14,9 +14,14 @@
     tabs so the hydrated DOM always has real content. Survives Blazor's
     #app rewrite because it IS part of the Blazor view.
 
-    Kept English-only to match the pre-hydration hero in index.html (primary
-    SEO target) and avoid forcing 15 .resx translations for intro copy. The
-    form tabs below this block are fully localised.
+    All strings are localised via ResLoc against AFS.ComponentLibrary's shared
+    .resx set (15 cultures: uk/en/pl/ro/hu/cs/de/nl/fr/it/es/tr/zh/ja/ru), so
+    the rendered DOM matches whichever culture the user (or Accept-Language)
+    selected. Pre-hydration hero in index.html remains English-only as a
+    fallback for crawlers that hit the page before Blazor boots.
+
+    Note: <h1> may receive tabindex="-1" at runtime from FocusOnNavigate so
+    keyboard/SR users land on the new page heading after route changes.
 *@
 
 <article class="app-intro" aria-labelledby="app-intro-heading">
@@ -29,9 +34,8 @@
     </p>
 
     @* Feature values contain inline <strong> tags, so they must be rendered
-       as MarkupString. The strings come from .resx (uk/en/pl/ro/hu/cs/de/nl/
-       fr/it/es/tr/zh/ja/ru — 15 cultures) and are safe, author-controlled
-       content — not user input. *@
+       as MarkupString. The strings come from .resx and are safe,
+       author-controlled content — not user input. *@
     <ul class="app-intro__features">
         <li>@((MarkupString)ResLoc["IntroFeatureLiquidity"].Value)</li>
         <li>@((MarkupString)ResLoc["IntroFeatureProfitability"].Value)</li>
@@ -39,14 +43,19 @@
         <li>@((MarkupString)ResLoc["IntroFeatureAI"].Value)</li>
     </ul>
 
-    <p class="app-intro__jump">
-        @ResLoc["IntroJumpPrefix"]
-        <NavLink href="liquidityindicatorsofbalance">@ResLoc["IntroJumpLiquidity"]</NavLink> ·
-        <NavLink href="solvencyratios">@ResLoc["IntroJumpSolvency"]</NavLink> ·
-        <NavLink href="indicatorsofbusinessactivity">@ResLoc["IntroJumpBusinessActivity"]</NavLink> ·
-        <NavLink href="generalindicatorsoffinancialstability">@ResLoc["IntroJumpStability"]</NavLink>
-        — @ResLoc["IntroJumpSuffix"]
-    </p>
+    @* Real <nav> + <ul> so screen readers announce a navigation landmark
+       and a list of N items. The "·" visual separators are CSS-only
+       (li + li::before) so AT users don't hear "middle dot" between links. *@
+    <nav class="app-intro__jump" aria-label="@ResLoc["IntroJumpAriaLabel"]">
+        <span class="app-intro__jump-prefix">@ResLoc["IntroJumpPrefix"]</span>
+        <ul class="app-intro__jump-list">
+            <li><NavLink href="liquidityindicatorsofbalance">@ResLoc["IntroJumpLiquidity"]</NavLink></li>
+            <li><NavLink href="solvencyratios">@ResLoc["IntroJumpSolvency"]</NavLink></li>
+            <li><NavLink href="indicatorsofbusinessactivity">@ResLoc["IntroJumpBusinessActivity"]</NavLink></li>
+            <li><NavLink href="generalindicatorsoffinancialstability">@ResLoc["IntroJumpStability"]</NavLink></li>
+        </ul>
+        <span class="app-intro__jump-suffix">— @ResLoc["IntroJumpSuffix"]</span>
+    </nav>
 </article>
 
 <style>
@@ -91,7 +100,30 @@
         margin: 0;
         font-size: 13px;
         color: #555;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 6px;
+        align-items: baseline;
     }
+
+        .app-intro__jump-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+            .app-intro__jump-list li {
+                display: inline;
+            }
+
+                .app-intro__jump-list li + li::before {
+                    content: " · ";
+                    padding: 0 4px;
+                    color: #999;
+                }
 
         .app-intro__jump a {
             color: #052767;

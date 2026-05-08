@@ -105,74 +105,6 @@ jobs:
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
 
-      # Rewrite robots.txt for GitHub Pages so it points crawlers to the
-      # GH Pages sitemap URL. The sitemap itself keeps canonical (Netlify) URLs
-      # to match the <link rel="canonical"> in each page — this avoids
-      # conflicting signals (sitemap says host A, canonical says host B).
-      - name: Rewrite robots.txt for GitHub Pages
-        run: |
-          NETLIFY_HOST='https://ua-finance.netlify.app/'
-          GHPAGES_HOST='https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/'
-          f="release/wwwroot/robots.txt"
-          if [ -f "$f" ]; then
-            # Only rewrite the Sitemap: directive so crawlers can find it at the GH Pages URL
-            sed -i "s|Sitemap: ${NETLIFY_HOST}sitemap.xml|Sitemap: ${GHPAGES_HOST}sitemap.xml|g" "$f"
-            echo "✅ Rewrote Sitemap directive in robots.txt for GH Pages"
-          fi
-
-      - name: Fix service-worker-assets.js hashes
-        working-directory: release/wwwroot
-        run: |
-          if [ ! -f service-worker-assets.js ]; then
-            echo "⚠️ service-worker-assets.js not found, skipping hash fix"
-            exit 0
-          fi
-
-          jsFile=$(<service-worker-assets.js)
-          json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
-
-          # Validate JSON
-          if ! echo "$json" | jq empty 2>/dev/null; then
-            echo "⚠️ Invalid JSON in service-worker-assets.js, skipping hash fix"
-            exit 0
-          fi
-
-          # `jq -c` emits one JSON object per line. Read with `while IFS= read`
-          # rather than `for asset in $assets` so we don't word-split on
-          # whitespace inside any URL.
-          assets=$(echo "$json" | jq '.assets[]' -c)
-          updated_count=0
-          while IFS= read -r asset; do
-            [ -z "$asset" ] && continue
-            oldHash=$(echo "$asset" | jq -r '.hash')
-            path=$(echo "$asset" | jq -r '.url')
-
-            # Skip the SPA shell (its hash is recomputed by the SW at install time)
-            # and any manifest entry whose physical file is missing.
-            if [[ "$path" == *"index.html"* ]] || [[ ! -f "$path" ]]; then
-              continue
-            fi
-
-            newHash="sha256-$(openssl dgst -sha256 -binary "$path" | openssl base64 -A)"
-
-            if [ "$oldHash" != "$newHash" ]; then
-              # Escape sed metacharacters so a literal '+' or '/' inside the
-              # base64 hashes doesn't get re-interpreted.
-              oldHashEscaped=$(printf '%s\n' "$oldHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
-              newHashEscaped=$(printf '%s\n' "$newHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
-              jsFile=$(echo -n "$jsFile" | sed "s|$oldHashEscaped|$newHashEscaped|g")
-              # IMPORTANT: pre-increment, not post-increment.
-              # Under `set -e` (GitHub Actions default), `((x++))` evaluates to
-              # x's PRE-increment value; when x was 0 that's 0 → exit code 1
-              # → the whole step aborts the first time a hash actually changes.
-              # `((++x))` returns the NEW value (>=1 here), so it's always safe.
-              ((++updated_count))
-            fi
-          done <<< "$assets"
-
-          echo -n "$jsFile" > service-worker-assets.js
-          echo "✅ Updated $updated_count asset hashes"
-
       - name: Prepare SPA routing files
         run: |
           # Keep the custom 404.html if it exists, otherwise copy index.html
@@ -240,8 +172,14 @@ jobs:
           done
 
       - name: Create _headers file for CDN compatibility
+        # _headers is a Netlify/Cloudflare Pages convention. GitHub Pages ignores it,
+        # so we still write it to both outputs (harmless on GH Pages, required on Netlify).
+        # The heredoc body is YAML-indented; we strip a fixed prefix with sed so the
+        # final file has path lines starting at column 1 (Netlify requires this).
         run: |
-          cat > release/wwwroot/_headers << 'EOF'
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            [ -d "$wwwroot" ] || continue
+            sed 's/^          //' > "$wwwroot/_headers" <<'EOF'
           # Security headers for all routes
           /*
             X-Frame-Options: DENY
@@ -277,14 +215,58 @@ jobs:
           /*.html
             Cache-Control: public, max-age=3600
           EOF
-          echo "✅ CDN headers file created"
+            echo "✅ _headers written to $wwwroot"
+          done
+
+      - name: Fix service-worker-assets.js hashes
+        run: |
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            if [ ! -f "$wwwroot/service-worker-assets.js" ]; then
+              echo "⚠️ $wwwroot/service-worker-assets.js not found, skipping hash fix"
+              continue
+            fi
+
+            pushd "$wwwroot" >/dev/null
+            jsFile=$(<service-worker-assets.js)
+            json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
+
+            if ! echo "$json" | jq empty 2>/dev/null; then
+              echo "⚠️ Invalid JSON in $wwwroot/service-worker-assets.js, skipping hash fix"
+              popd >/dev/null
+              continue
+            fi
+
+            assets=$(echo "$json" | jq '.assets[]' -c)
+            updated_count=0
+            while IFS= read -r asset; do
+              [ -z "$asset" ] && continue
+              oldHash=$(echo "$asset" | jq -r '.hash')
+              path=$(echo "$asset" | jq -r '.url')
+
+              if [[ "$path" == *"index.html"* ]] || [[ ! -f "$path" ]]; then
+                continue
+              fi
+
+              newHash="sha256-$(openssl dgst -sha256 -binary "$path" | openssl base64 -A)"
+
+              if [ "$oldHash" != "$newHash" ]; then
+                oldHashEscaped=$(printf '%s\n' "$oldHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
+                newHashEscaped=$(printf '%s\n' "$newHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
+                jsFile=$(echo -n "$jsFile" | sed "s|$oldHashEscaped|$newHashEscaped|g")
+                ((++updated_count))
+              fi
+            done <<< "$assets"
+
+            echo -n "$jsFile" > service-worker-assets.js
+            popd >/dev/null
+            echo "✅ Updated $updated_count asset hashes in $wwwroot"
+          done
 
       - name: Calculate deployment statistics
         id: stats
         run: |
+          # GH Pages output
           TOTAL_SIZE=$(du -sh release/wwwroot | cut -f1)
-          
-          # Calculate total WASM size (sum of all .wasm files)
           if [ -d "release/wwwroot/_framework" ]; then
             WASM_SIZE=$(find release/wwwroot/_framework -name "*.wasm" -exec du -cb {} + | tail -1 | cut -f1 | numfmt --to=iec-i --suffix=B 2>/dev/null || echo "N/A")
             WASM_COUNT=$(find release/wwwroot/_framework -name "*.wasm" | wc -l)
@@ -292,61 +274,76 @@ jobs:
             WASM_SIZE="N/A"
             WASM_COUNT=0
           fi
-          
           FILE_COUNT=$(find release/wwwroot -type f | wc -l)
-          
-          # Use delimiter to handle special characters
+
+          # Netlify output
+          if [ -d "release-netlify/wwwroot" ]; then
+            NETLIFY_TOTAL_SIZE=$(du -sh release-netlify/wwwroot | cut -f1)
+            NETLIFY_FILE_COUNT=$(find release-netlify/wwwroot -type f | wc -l)
+          else
+            NETLIFY_TOTAL_SIZE="N/A"
+            NETLIFY_FILE_COUNT=0
+          fi
+
           {
             echo "total_size=$TOTAL_SIZE"
             echo "wasm_size=$WASM_SIZE"
             echo "wasm_count=$WASM_COUNT"
             echo "file_count=$FILE_COUNT"
+            echo "netlify_total_size=$NETLIFY_TOTAL_SIZE"
+            echo "netlify_file_count=$NETLIFY_FILE_COUNT"
           } >> $GITHUB_OUTPUT
-          
+
           echo "📊 Deployment Statistics:"
-          echo "   Total size: $TOTAL_SIZE"
-          echo "   WASM size: $WASM_SIZE ($WASM_COUNT files)"
-          echo "   File count: $FILE_COUNT"
+          echo "   GH Pages — total: $TOTAL_SIZE, files: $FILE_COUNT, wasm: $WASM_SIZE ($WASM_COUNT)"
+          echo "   Netlify  — total: $NETLIFY_TOTAL_SIZE, files: $NETLIFY_FILE_COUNT"
 
       - name: Verify deployment files
         run: |
-          echo "=== Critical Files Check ==="
-          
           MISSING=0
-          
-          for file in index.html 404.html .nojekyll; do
-            if [ -f "release/wwwroot/$file" ]; then
-              echo "✅ $file"
+          # GH Pages requires .nojekyll; Netlify does not — keep it per-output.
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            label="GH Pages"
+            required="index.html 404.html .nojekyll"
+            if [ "$wwwroot" = "release-netlify/wwwroot" ]; then
+              label="Netlify"
+              required="index.html 404.html"
+            fi
+            echo "=== Critical Files Check ($label) ==="
+            if [ ! -d "$wwwroot" ]; then
+              echo "::error::$wwwroot directory missing"
+              MISSING=$((MISSING + 1))
+              continue
+            fi
+            for file in $required; do
+              if [ -f "$wwwroot/$file" ]; then
+                echo "✅ $file"
+              else
+                echo "❌ $file MISSING"
+                MISSING=$((MISSING + 1))
+              fi
+            done
+            for file in sitemap.xml robots.txt manifest.json favicon.ico; do
+              if [ -f "$wwwroot/$file" ]; then
+                echo "✅ $file"
+              else
+                echo "⚠️ $file (optional)"
+              fi
+            done
+            if [ -d "$wwwroot/_framework" ]; then
+              FRAMEWORK_FILES=$(find "$wwwroot/_framework" -type f | wc -l)
+              echo "✅ _framework/ ($FRAMEWORK_FILES files)"
             else
-              echo "❌ $file MISSING"
+              echo "❌ _framework/ MISSING"
               MISSING=$((MISSING + 1))
             fi
+            echo ""
           done
-          
-          # Optional files (warn but don't fail)
-          for file in sitemap.xml robots.txt manifest.json; do
-            if [ -f "release/wwwroot/$file" ]; then
-              echo "✅ $file"
-            else
-              echo "⚠️ $file (optional)"
-            fi
-          done
-          
-          # Check framework files
-          if [ -d "release/wwwroot/_framework" ]; then
-            FRAMEWORK_FILES=$(find release/wwwroot/_framework -type f | wc -l)
-            echo "✅ _framework/ ($FRAMEWORK_FILES files)"
-          else
-            echo "❌ _framework/ MISSING"
-            MISSING=$((MISSING + 1))
-          fi
-          
+
           if [ $MISSING -gt 0 ]; then
             echo "::error::$MISSING critical files are missing!"
             exit 1
           fi
-          
-          echo ""
           echo "=== Deployment Ready ==="
 
       - name: Deploy to GitHub Pages
@@ -376,13 +373,16 @@ jobs:
 
       - name: Deployment Summary
         run: |
-          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Total Size | ${{ steps.stats.outputs.total_size }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| WASM Size | ${{ steps.stats.outputs.wasm_size }} (${{ steps.stats.outputs.wasm_count }} files) |" >> $GITHUB_STEP_SUMMARY
-          echo "| File Count | ${{ steps.stats.outputs.file_count }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Commit | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🌐 **Live URL:** https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## 🚀 Deployment Complete"
+            echo ""
+            echo "| Metric | GH Pages | Netlify (canonical) |"
+            echo "|--------|----------|---------------------|"
+            echo "| Total Size | ${{ steps.stats.outputs.total_size }} | ${{ steps.stats.outputs.netlify_total_size }} |"
+            echo "| File Count | ${{ steps.stats.outputs.file_count }} | ${{ steps.stats.outputs.netlify_file_count }} |"
+            echo "| WASM | ${{ steps.stats.outputs.wasm_size }} (${{ steps.stats.outputs.wasm_count }} files) | — |"
+            echo "| Commit | \`${{ github.sha }}\` | \`${{ github.sha }}\` |"
+            echo ""
+            echo "🌐 **Canonical:** https://ua-finance.netlify.app/"
+            echo "🌐 **Mirror:** https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"
+          } >> "$GITHUB_STEP_SUMMARY"

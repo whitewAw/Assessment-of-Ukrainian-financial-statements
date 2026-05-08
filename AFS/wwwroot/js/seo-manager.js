@@ -23,6 +23,7 @@ constructor() {
     this.pageViews = 0;
     this.metaCache = new Map();
     this.prerenderHints = new Set();
+    this.supportedLanguages = ['en', 'uk', 'pl', 'ro', 'hu', 'cs', 'de', 'nl', 'fr', 'it', 'es', 'tr', 'zh', 'ja', 'ru'];
 }
     
 /**
@@ -302,9 +303,14 @@ detectBaseUrl() {
         // duplicate-content signals regardless of which host the user is on.
         // canonicalBaseUrl = "https://ua-finance.netlify.app/"
         // relativePath = "aiassistant" (without leading slash)
-        const canonicalUrl = relativePath
+        let canonicalUrl = relativePath
             ? `${this.canonicalBaseUrl.replace(/\/$/, '')}/${relativePath}`
             : this.canonicalBaseUrl.replace(/\/$/, '') + '/';
+
+        const lang = new URLSearchParams(window.location.search).get('lang');
+        if (lang && this.supportedLanguages.includes(lang)) {
+            canonicalUrl += `?lang=${encodeURIComponent(lang)}`;
+        }
             
         return canonicalUrl;
     }
@@ -653,14 +659,7 @@ detectBaseUrl() {
         }
         path = path.replace(/^\//, '').replace(/\/$/, '');
         
-        const languages = [
-            { code: 'en', name: 'English' },
-            { code: 'uk', name: 'Ukrainian' },
-            { code: 'ru', name: 'Russian' },
-            { code: 'es', name: 'Spanish' },
-            { code: 'de', name: 'German' },
-            { code: 'fr', name: 'French' }
-        ];
+        const languages = this.supportedLanguages;
 
         // Remove existing alternate links (except regional variants)
         document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => {
@@ -675,14 +674,14 @@ detectBaseUrl() {
 
         // Add new alternate links
         languages.forEach(lang => {
-            const existingLink = document.querySelector(`link[rel="alternate"][hreflang="${lang.code}"]`);
+            const existingLink = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
             if (!existingLink) {
                 const link = document.createElement('link');
                 link.rel = 'alternate';
-                link.hreflang = lang.code;
+                link.hreflang = lang;
                 // Build URL: baseUrl/path?lang=code
                 const fullPath = path ? `${baseForLinks}/${path}` : baseForLinks;
-                link.href = `${fullPath}?lang=${lang.code}`;
+                link.href = `${fullPath}?lang=${lang}`;
                 document.head.appendChild(link);
             }
         });

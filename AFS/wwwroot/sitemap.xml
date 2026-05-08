@@ -17,6 +17,7 @@
 		<changefreq>weekly</changefreq>
 		<priority>1.0</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://ua-finance.netlify.app/"/>
+      <xhtml:link rel="alternate" hreflang="en-US" href="https://ua-finance.netlify.app/?lang=en"/>
 		<xhtml:link rel="alternate" hreflang="uk" href="https://ua-finance.netlify.app/?lang=uk"/>
 		<xhtml:link rel="alternate" hreflang="pl" href="https://ua-finance.netlify.app/?lang=pl"/>
 		<xhtml:link rel="alternate" hreflang="ro" href="https://ua-finance.netlify.app/?lang=ro"/>
@@ -45,6 +46,7 @@
 		<changefreq>weekly</changefreq>
 		<priority>0.95</priority>
 		<xhtml:link rel="alternate" hreflang="en" href="https://ua-finance.netlify.app/aiassistant"/>
+       <xhtml:link rel="alternate" hreflang="en-US" href="https://ua-finance.netlify.app/aiassistant?lang=en"/>
 		<xhtml:link rel="alternate" hreflang="uk" href="https://ua-finance.netlify.app/aiassistant?lang=uk"/>
 		<xhtml:link rel="alternate" hreflang="pl" href="https://ua-finance.netlify.app/aiassistant?lang=pl"/>
 		<xhtml:link rel="alternate" hreflang="ro" href="https://ua-finance.netlify.app/aiassistant?lang=ro"/>

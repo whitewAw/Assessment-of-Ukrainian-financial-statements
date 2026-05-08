@@ -127,8 +127,8 @@
     <!-- Multi-host URL Configuration
          Canonical host = ua-finance.netlify.app (Netlify is the primary).
          When the page is served from any other host (GitHub Pages, local dev),
-         this script rewrites in-page URLs to the current origin so that
-         og:url / canonical / hreflang / JSON-LD reflect where the user is. -->
+         this script rewrites share/discovery URLs to the current origin while
+         keeping canonical URLs pointed at the Netlify primary host. -->
     <script>
     // @ts-nocheck
     !function () {
@@ -141,6 +141,7 @@
         // siteUrl = absolute base for the *current* host (used to mirror canonical/og:url for the runtime page)
         var siteUrl = isNetlify ? CANONICAL : (isGitHubPages || isLocal ? location.origin + basePath : CANONICAL);
         var rxNetlify = /https:\/\/ua-finance\.netlify\.app\//g;
+        var supportedLangs = ["en", "uk", "pl", "ro", "hu", "cs", "de", "nl", "fr", "it", "es", "tr", "zh", "ja", "ru"];
 
         // Always update <base> to the current host's base path (Blazor router needs this)
         var b = document.querySelector("base");
@@ -149,6 +150,19 @@
         // Update preconnect to current origin when not on the canonical host
         var pre = document.getElementById("preconnect-host");
         if (pre && !isNetlify) pre.href = location.origin;
+
+        // Keep language variants canonical to themselves, e.g. /?lang=fr.
+        // The canonical host remains Netlify even on mirror hosts.
+        var canonical = document.getElementById("canonical");
+        var lang = new URLSearchParams(location.search).get("lang");
+        if (canonical && lang && supportedLangs.indexOf(lang) !== -1) {
+            var relativePath = location.pathname;
+            if (relativePath.indexOf(basePath) === 0) relativePath = relativePath.substring(basePath.length);
+            relativePath = relativePath.replace(/^\//, "").replace(/\/$/, "");
+            canonical.href = relativePath
+                ? CANONICAL.replace(/\/$/, "") + "/" + relativePath + "?lang=" + encodeURIComponent(lang)
+                : CANONICAL + "?lang=" + encodeURIComponent(lang);
+        }
 
         // The static HTML ships with Netlify URLs (canonical). On non-canonical hosts,
         // rewrite OG/Twitter/JSON-LD/hreflang to the current host so social previews and
@@ -270,7 +284,7 @@
         "Working Capital Analysis",
         "Fixed Assets Evaluation",
         "Interactive Financial Charts",
-        "Multi-language Support (6 languages)",
+        "Multi-language Support (15 languages)",
         "Offline PWA Functionality",
         "Data Export/Import (JSON)",
         "Local Storage (Privacy-focused)",
@@ -342,7 +356,7 @@
                     "name": "What is UFIN and how does it help with financial analysis?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "UFIN (Ukrainian Financial Statement Analysis) is a free, professional-grade online tool for comprehensive financial analysis of Ukrainian businesses. It analyzes balance sheets and income statements to calculate key financial ratios including liquidity (current ratio, quick ratio, cash ratio), solvency (debt-to-equity, coverage ratios), profitability (ROA, ROE, profit margins), and business activity indicators. The tool provides instant results with interactive charts and supports 6 languages."
+                        "text": "UFIN (Ukrainian Financial Statement Analysis) is a free, professional-grade online tool for comprehensive financial analysis of Ukrainian businesses. It analyzes balance sheets and income statements to calculate key financial ratios including liquidity (current ratio, quick ratio, cash ratio), solvency (debt-to-equity, coverage ratios), profitability (ROA, ROE, profit margins), and business activity indicators. The tool provides instant results with interactive charts and supports 15 languages."
                     }
                 },
                 {
@@ -390,7 +404,7 @@
                     "name": "What languages does UFIN support?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "UFIN supports 6 languages: English, Ukrainian (Українська), Russian (Русский), German (Deutsch), Spanish (Español), and French (Français). You can switch languages at any time from the interface, making it accessible to international users and Ukrainian businesses worldwide."
+                        "text": "UFIN supports 15 languages: English, Ukrainian, Polish, Romanian, Hungarian, Czech, German, Dutch, French, Italian, Spanish, Turkish, Chinese, Japanese, and Russian. You can switch languages at any time from the interface, making it accessible to international users and Ukrainian businesses worldwide."
                     }
                 },
                 {
@@ -478,17 +492,9 @@
             "alternateName": ["UFIN", "Ukrainian Financial Analysis"],
             "url": "https://ua-finance.netlify.app/",
             "description": "Free professional financial analysis tool for Ukrainian businesses",
-            "inLanguage": ["en", "uk", "ru", "es", "de", "fr"],
+            "inLanguage": ["en", "uk", "pl", "ro", "hu", "cs", "de", "nl", "fr", "it", "es", "tr", "zh", "ja", "ru"],
             "publisher": {
                 "@id": "https://ua-finance.netlify.app/#organization"
-            },
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": {
-                    "@type": "EntryPoint",
-                    "urlTemplate": "https://ua-finance.netlify.app/?q={search_term_string}"
-                },
-                "query-input": "required name=search_term_string"
             }
         }
     </script>

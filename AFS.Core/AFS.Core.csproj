@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.58" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.76" />
 	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.25.0.139117" />
 	</ItemGroup>
 
