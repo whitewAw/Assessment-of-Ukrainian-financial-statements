@@ -102,9 +102,13 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
-          output_action: none
-          debug: yes
-          verify: yes
+          # output_action defaults to 'commit' — the action writes the SVG into
+          # the workspace and pushes a single commit per card. This is the
+          # action's primary supported code path; 'none' + manual collection
+          # produced silent failures (empty /metrics_renders) regardless of
+          # plugin configuration.
+          # 'verify: yes' is omitted because its validator silently deletes
+          # SVGs it doesn't approve, with no actionable diagnostic.
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -154,9 +158,6 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
-          output_action: none
-          debug: yes
-          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -187,9 +188,6 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
-          output_action: none
-          debug: yes
-          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -213,20 +211,13 @@ jobs:
 
       # ============================================
       # Project Statistics with Traffic
-      # TEMPORARILY DISABLED for bisection — see commit message.
-      # plugin_followup_sections: user has been flaky in v3.34. If the other
-      # four cards succeed with this skipped, the user-followup is the culprit.
       # ============================================
       - name: Generate Project Stats
         id: stats
-        if: false
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
-          output_action: none
-          debug: yes
-          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -248,21 +239,13 @@ jobs:
 
       # ============================================
       # Achievements & Milestones
-      # TEMPORARILY DISABLED for bisection — see commit message.
-      # plugin_notable_from: organization throws when the user has no org
-      # affiliations. If the other four cards succeed with this skipped, this
-      # plugin combination is the culprit.
       # ============================================
       - name: Generate Achievements
         id: achievements
-        if: false
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
-          output_action: none
-          debug: yes
-          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -291,9 +274,6 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
-          output_action: none
-          debug: yes
-          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: repository
@@ -311,48 +291,11 @@ jobs:
           plugin_traffic: yes
         continue-on-error: true
 
-      - name: Collect rendered SVGs
-        if: always()
-        run: |
-          echo "=== /metrics_renders contents ==="
-          if [ -d /metrics_renders ]; then
-            sudo ls -la /metrics_renders || ls -la /metrics_renders || true
-          else
-            echo "(directory does not exist — metrics action never created it)"
-          fi
-          echo "================================="
-          shopt -s nullglob
-          files=(/metrics_renders/*.svg)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "::warning::No SVG files found in /metrics_renders. All metrics renders likely failed — see the 'Generate ...' step logs above for the actual error (debug mode is on)."
-            exit 0
-          fi
-          sudo cp /metrics_renders/*.svg . || cp /metrics_renders/*.svg .
-          sudo chown "$USER":"$USER" metrics*.svg 2>/dev/null || true
-          echo "✅ Collected ${#files[@]} SVG file(s) from /metrics_renders:"
-          ls -lh metrics*.svg
-
-      - name: Commit metrics SVGs
-        if: always()
-        run: |
-          if ! ls metrics*.svg >/dev/null 2>&1; then
-            echo "No metrics SVGs to commit."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add metrics*.svg
-          if git diff --cached --quiet; then
-            echo "No metrics SVG changes to commit."
-            exit 0
-          fi
-          git commit -m "Update repository metrics [skip ci]"
-          git push
-
       # ============================================
       # Safety net: upload generated SVGs as a workflow artifact even if the
       # metrics action's auto-commit fails (rate limit, permission drift, etc.).
-      # The action writes SVGs to the repo root by default.
+      # The action writes SVGs to the repo root before committing, so they're
+      # available in the workspace regardless of commit outcome.
       # ============================================
       - name: Upload metrics artifacts
         if: always()
