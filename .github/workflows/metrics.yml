@@ -50,11 +50,48 @@ jobs:
         run: |
           if [ -z "$METRICS_TOKEN" ]; then
             echo "::error::METRICS_TOKEN secret is not configured."
-            echo "Create a fine-grained PAT with read:user, public_repo, read:org"
+            echo "Create a classic PAT with: read:user, public_repo, read:org"
+            echo "(fine-grained PATs do NOT work with lowlighter/metrics — it"
+            echo "needs cross-user GraphQL access that fine-grained tokens can't grant)"
             echo "and add it as a repository secret named METRICS_TOKEN."
             exit 1
           fi
           echo "✅ METRICS_TOKEN is configured"
+
+      # ============================================
+      # Validate the token can actually authenticate against GitHub.
+      # The metrics action errors out with a single confusing line if the
+      # token is expired, lacks scopes, or is a fine-grained PAT (which
+      # the action does not support); surface that with a useful message.
+      # ============================================
+      - name: Validate METRICS_TOKEN works
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          set -e
+          status=$(curl -s -o /tmp/who.json -w '%{http_code}' \
+            -H "Authorization: Bearer $METRICS_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user)
+          if [ "$status" != "200" ]; then
+            echo "::error::METRICS_TOKEN failed to authenticate (HTTP $status)."
+            echo "  - 401: token expired or revoked — regenerate the PAT"
+            echo "  - 403: token lacks scopes — needs read:user, public_repo, read:org"
+            echo "  - 404: token belongs to a deleted user"
+            cat /tmp/who.json || true
+            exit 1
+          fi
+          login=$(grep -oP '"login":\s*"\K[^"]+' /tmp/who.json | head -1)
+          echo "✅ METRICS_TOKEN authenticates as: $login"
+          if [ "${login,,}" != "${METRICS_USER,,}" ]; then
+            echo "::warning::Token user ($login) differs from METRICS_USER ($METRICS_USER) — metrics may target the wrong account."
+          fi
+          # Surface granted scopes so failures are easier to diagnose
+          scopes=$(curl -sI \
+            -H "Authorization: Bearer $METRICS_TOKEN" \
+            https://api.github.com/user | grep -i '^x-oauth-scopes:' || true)
+          echo "Token scopes: ${scopes:-<none — likely a fine-grained PAT, which is NOT supported>}"
 
       # ============================================
       # Main Repository Metrics Card
@@ -66,6 +103,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -116,6 +155,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -147,6 +188,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -178,6 +221,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -207,6 +252,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -236,6 +283,8 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
           output_action: none
+          debug: yes
+          verify: yes
 
           user: ${{ env.METRICS_USER }}
           template: repository
@@ -256,13 +305,21 @@ jobs:
       - name: Collect rendered SVGs
         if: always()
         run: |
+          echo "=== /metrics_renders contents ==="
+          if [ -d /metrics_renders ]; then
+            sudo ls -la /metrics_renders || ls -la /metrics_renders || true
+          else
+            echo "(directory does not exist — metrics action never created it)"
+          fi
+          echo "================================="
           shopt -s nullglob
           files=(/metrics_renders/*.svg)
           if [ ${#files[@]} -eq 0 ]; then
-            echo "::warning::No SVG files found in /metrics_renders. All metrics renders likely failed."
+            echo "::warning::No SVG files found in /metrics_renders. All metrics renders likely failed — see the 'Generate ...' step logs above for the actual error (debug mode is on)."
             exit 0
           fi
-          cp /metrics_renders/*.svg .
+          sudo cp /metrics_renders/*.svg . || cp /metrics_renders/*.svg .
+          sudo chown "$USER":"$USER" metrics*.svg 2>/dev/null || true
           echo "✅ Collected ${#files[@]} SVG file(s) from /metrics_renders:"
           ls -lh metrics*.svg
 
