@@ -213,9 +213,13 @@ jobs:
 
       # ============================================
       # Project Statistics with Traffic
+      # TEMPORARILY DISABLED for bisection — see commit message.
+      # plugin_followup_sections: user has been flaky in v3.34. If the other
+      # four cards succeed with this skipped, the user-followup is the culprit.
       # ============================================
       - name: Generate Project Stats
         id: stats
+        if: false
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -244,9 +248,14 @@ jobs:
 
       # ============================================
       # Achievements & Milestones
+      # TEMPORARILY DISABLED for bisection — see commit message.
+      # plugin_notable_from: organization throws when the user has no org
+      # affiliations. If the other four cards succeed with this skipped, this
+      # plugin combination is the culprit.
       # ============================================
       - name: Generate Achievements
         id: achievements
+        if: false
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}

@@ -171,6 +171,27 @@ jobs:
             fi
           done
 
+      - name: Rewrite GH Pages sitemap & robots to use GH Pages host
+        # The committed sitemap.xml/robots.txt use the Netlify canonical host
+        # (https://ua-finance.netlify.app/). The Netlify deploy keeps them as-is,
+        # but the GH Pages mirror needs its own host so Search Console / Bing can
+        # verify it. <link rel="canonical"> in every page still points to Netlify,
+        # so ranking signal is consolidated regardless.
+        run: |
+          GH_BASE="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements"
+          NL_BASE="https://ua-finance.netlify.app"
+          for f in release/wwwroot/sitemap.xml release/wwwroot/robots.txt; do
+            if [ -f "$f" ]; then
+              before=$(grep -c "$NL_BASE" "$f" || true)
+              # Use a delimiter that does not appear in URLs to keep sed safe
+              sed -i "s|$NL_BASE|$GH_BASE|g" "$f"
+              after=$(grep -c "$NL_BASE" "$f" || true)
+              echo "✅ Rewrote $f: $before -> $after Netlify references remaining"
+            else
+              echo "⚠️ $f not found, skipping"
+            fi
+          done
+
       - name: Create _headers file for CDN compatibility
         # _headers is a Netlify/Cloudflare Pages convention. GitHub Pages ignores it,
         # so we still write it to both outputs (harmless on GH Pages, required on Netlify).
