@@ -95,9 +95,19 @@ jobs:
 
       # ============================================
       # Main Repository Metrics Card
+      #
+      # NOTE: every metrics step `id` MUST start with `lowlighter_metrics_`.
+      # The action derives its image source from the step id via:
+      #   METRICS_SOURCE=$(echo $id | sed -E 's/metrics.*?$//g' | sed -E 's/_//g')
+      # If the result is `lowlighter`, the prebuilt image
+      # ghcr.io/lowlighter/metrics:v3.34 is pulled. Any other value (e.g. a
+      # short id like `main` or `activity`) makes the action treat the run as
+      # a forked version and rebuild the Dockerfile from scratch — which
+      # currently fails when `gem install licensed` tries to extract
+      # nokogiri's bundled libxml2 (xzcat is not in the base image).
       # ============================================
       - name: Generate Main Metrics
-        id: main
+        id: lowlighter_metrics_main
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -153,7 +163,7 @@ jobs:
       # Repository Activity Metrics
       # ============================================
       - name: Generate Activity Metrics
-        id: activity
+        id: lowlighter_metrics_activity
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -183,7 +193,7 @@ jobs:
       # Language & Technology Stack
       # ============================================
       - name: Generate Technology Stack
-        id: languages
+        id: lowlighter_metrics_languages
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -213,7 +223,7 @@ jobs:
       # Project Statistics with Traffic
       # ============================================
       - name: Generate Project Stats
-        id: stats
+        id: lowlighter_metrics_stats
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -241,7 +251,7 @@ jobs:
       # Achievements & Milestones
       # ============================================
       - name: Generate Achievements
-        id: achievements
+        id: lowlighter_metrics_achievements
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -269,7 +279,7 @@ jobs:
       # Compact Repository Card (for README)
       # ============================================
       - name: Generate Compact Card
-        id: compact
+        id: lowlighter_metrics_compact
         uses: lowlighter/metrics@v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -314,12 +324,12 @@ jobs:
       - name: Metrics Generation Summary
         if: always()
         env:
-          MAIN_OUTCOME: ${{ steps.main.outcome }}
-          ACTIVITY_OUTCOME: ${{ steps.activity.outcome }}
-          LANGUAGES_OUTCOME: ${{ steps.languages.outcome }}
-          STATS_OUTCOME: ${{ steps.stats.outcome }}
-          ACHIEVEMENTS_OUTCOME: ${{ steps.achievements.outcome }}
-          COMPACT_OUTCOME: ${{ steps.compact.outcome }}
+          MAIN_OUTCOME: ${{ steps.lowlighter_metrics_main.outcome }}
+          ACTIVITY_OUTCOME: ${{ steps.lowlighter_metrics_activity.outcome }}
+          LANGUAGES_OUTCOME: ${{ steps.lowlighter_metrics_languages.outcome }}
+          STATS_OUTCOME: ${{ steps.lowlighter_metrics_stats.outcome }}
+          ACHIEVEMENTS_OUTCOME: ${{ steps.lowlighter_metrics_achievements.outcome }}
+          COMPACT_OUTCOME: ${{ steps.lowlighter_metrics_compact.outcome }}
         run: |
           icon() {
             case "$1" in
