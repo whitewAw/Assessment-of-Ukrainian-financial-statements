@@ -175,6 +175,28 @@ async function main() {
       // Make sure <base> matches the deployment baseHref
       html = html.replace(/<base href="[^"]*"\s*\/?>/i, `<base href="${baseHref}" />`);
 
+      // Rewrite per-page social URLs to the *current* route. The static
+      // index.html ships with `og:url`/`twitter:url`/`<link rel="canonical">`
+      // pointing at the site root, which is correct for "/" but wrong for
+      // every sub-route after prerender. Social-share crawlers
+      // (facebookexternalhit, Twitterbot, LinkedInBot, Discordbot, Slackbot)
+      // read these tags verbatim and would otherwise show the homepage card
+      // for deep links. Google also uses og:url as a strong canonical hint.
+      const originNoSlash = canonicalOrigin.replace(/\/$/, '');
+      const absoluteRouteUrl = route === '/' ? `${originNoSlash}/` : `${originNoSlash}${route}`;
+      html = html.replace(
+        /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i,
+        `<meta property="og:url" content="${absoluteRouteUrl}" />`
+      );
+      html = html.replace(
+        /<meta\s+name="twitter:url"\s+content="[^"]*"\s*\/?>/i,
+        `<meta name="twitter:url" content="${absoluteRouteUrl}" />`
+      );
+      html = html.replace(
+        /<link\s+rel="canonical"\s+href="[^"]*"([^>]*)\/?>/i,
+        `<link rel="canonical" href="${absoluteRouteUrl}"$1 />`
+      );
+
       // Tag the snapshot for debuggability
       html = html.replace('</head>', `<meta name="prerender-rendered" content="${new Date().toISOString()}" /></head>`);
 

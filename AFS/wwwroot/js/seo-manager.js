@@ -301,17 +301,14 @@ detectBaseUrl() {
 
         // Build canonical URL: always use the canonical host (Netlify) to consolidate
         // duplicate-content signals regardless of which host the user is on.
-        // canonicalBaseUrl = "https://ua-finance.netlify.app/"
-        // relativePath = "aiassistant" (without leading slash)
+        // We intentionally drop ?lang=* — language variants serve identical
+        // prerendered HTML, so emitting a self-canonical for them causes
+        // Google Search Console to flag them as "Duplicate, Google chose
+        // different canonical".
         let canonicalUrl = relativePath
             ? `${this.canonicalBaseUrl.replace(/\/$/, '')}/${relativePath}`
             : this.canonicalBaseUrl.replace(/\/$/, '') + '/';
 
-        const lang = new URLSearchParams(window.location.search).get('lang');
-        if (lang && this.supportedLanguages.includes(lang)) {
-            canonicalUrl += `?lang=${encodeURIComponent(lang)}`;
-        }
-            
         return canonicalUrl;
     }
 
@@ -649,56 +646,46 @@ detectBaseUrl() {
     }
 
     /**
-     * Update alternate language links for international SEO
+     * Update alternate language links for international SEO.
+     *
+     * NOTE: We deliberately do NOT emit per-language `?lang=*` hreflang
+     * alternates. Prerender bakes one HTML per route, so language variants
+     * serve identical content — Google Search Console then flags every
+     * `?lang=*` URL as "Duplicate, Google chose different canonical".
+     * Until per-language prerender exists we only keep an `x-default`
+     * entry pointing at the bare route.
      */
-    updateAlternateLanguages(currentLang = 'en') {
+    updateAlternateLanguages(_currentLang = 'en') {
         // Get relative path (without base path)
         let path = window.location.pathname;
         if (path.startsWith(this.basePath)) {
             path = path.substring(this.basePath.length);
         }
         path = path.replace(/^\//, '').replace(/\/$/, '');
-        
-        const languages = this.supportedLanguages;
 
-        // Remove existing alternate links (except regional variants)
+        // Remove any previously-emitted per-language hreflang links (e.g. from
+        // older deploys) so the DOM matches what the static HTML promises.
         document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => {
             const hreflang = link.getAttribute('hreflang');
-            if (hreflang && !hreflang.includes('-') && hreflang !== 'x-default') {
+            if (hreflang && hreflang !== 'x-default') {
                 link.remove();
             }
         });
 
-        // Build base for alternate links (baseUrl already includes basePath)
+        // Ensure x-default is present and points at the bare route.
         const baseForLinks = this.baseUrl.replace(/\/$/, '');
+        const fullPath = path ? `${baseForLinks}/${path}` : `${baseForLinks}/`;
 
-        // Add new alternate links
-        languages.forEach(lang => {
-            const existingLink = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
-            if (!existingLink) {
-                const link = document.createElement('link');
-                link.rel = 'alternate';
-                link.hreflang = lang;
-                // Build URL: baseUrl/path?lang=code
-                const fullPath = path ? `${baseForLinks}/${path}` : baseForLinks;
-                link.href = `${fullPath}?lang=${lang}`;
-                document.head.appendChild(link);
-            }
-        });
-
-        // Add x-default if not exists
-        const xDefaultLink = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
+        let xDefaultLink = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
         if (!xDefaultLink) {
-            const defaultLink = document.createElement('link');
-            defaultLink.rel = 'alternate';
-            defaultLink.hreflang = 'x-default';
-            // x-default points to the page without lang param
-            const fullPath = path ? `${baseForLinks}/${path}` : `${baseForLinks}/`;
-            defaultLink.href = fullPath;
-            document.head.appendChild(defaultLink);
+            xDefaultLink = document.createElement('link');
+            xDefaultLink.rel = 'alternate';
+            xDefaultLink.hreflang = 'x-default';
+            document.head.appendChild(xDefaultLink);
         }
-        
-        console.log('[SEO] Alternate language links updated');
+        xDefaultLink.href = fullPath;
+
+        console.log('[SEO] Alternate language links updated (x-default only)');
     }
 
     /**

@@ -105,6 +105,20 @@ jobs:
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
 
+      - name: Mark GH Pages mirror as noindex
+        # GH Pages serves the same content as Netlify. Even with a Netlify
+        # canonical, Google still wastes crawl budget on whitewaw.github.io
+        # and lists every page as "Alternate page with proper canonical tag"
+        # in Search Console — visual noise that hides real issues.
+        # Promoting the existing `index, follow,...` robots meta to
+        # `noindex, follow` on the mirror keeps the canonical signal intact
+        # (Google still follows links to discover content) while removing
+        # the mirror URLs from the index entirely. Runs BEFORE the SPA
+        # routing step so the 404.html copy inherits noindex automatically.
+        run: |
+          sed -i 's|<meta name="robots" content="index, follow[^"]*"|<meta name="robots" content="noindex, follow"|g' release/wwwroot/index.html
+          echo "✅ Marked release/wwwroot/index.html as noindex (GH Pages mirror)"
+
       - name: Prepare SPA routing files
         run: |
           # Keep the custom 404.html if it exists, otherwise copy index.html
@@ -137,6 +151,18 @@ jobs:
       - name: Install prerender dependencies
         working-directory: tools/prerender
         run: npm install --no-audit --no-fund --no-progress
+
+      - name: Generate Open Graph image (1200x630)
+        # Renders a real 1.91:1 OG/Twitter card via headless Chromium and
+        # writes it into both deploy snapshots. Twitter/LinkedIn/Slack/Discord
+        # render <meta property="og:image"> at 1200x630 — the previous
+        # icon-512.png (square) produced a tiny thumbnail and triggered
+        # "Image not large enough" in Search Console Discover audits.
+        continue-on-error: true
+        run: |
+          node tools/prerender/generate-og-image.mjs release/wwwroot/og-image.png
+          node tools/prerender/generate-og-image.mjs release-netlify/wwwroot/og-image.png
+          echo "✅ og-image.png (1200x630) written to both snapshots"
 
       - name: Prerender routes (Bing/Yandex/AI-bot SEO)
         # Renders each route in headless Chromium and writes static <route>/index.html

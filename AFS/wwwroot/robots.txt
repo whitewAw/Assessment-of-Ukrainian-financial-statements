@@ -20,6 +20,19 @@ Disallow: /service-worker-assets.js
 Disallow: /*.pdb$
 Disallow: /*.map$
 
+# Drop ?lang=* tracking variants from the crawl set.
+# Prerender bakes one HTML per route (no per-language variants), so ?lang=*
+# URLs serve identical content to the bare route. Letting Google index them
+# triggers "Duplicate, Google chose different canonical" in Search Console.
+# The bare route stays indexable; Blazor still honours ?lang=* at runtime
+# for user-facing deep links.
+Disallow: /*?lang=
+Disallow: /*&lang=
+
+# Yandex-specific: collapse ?lang=* into the bare URL instead of indexing
+# each variant. Ignored by other crawlers (safe to keep).
+Clean-param: lang /
+
 # ── Social-media / preview bots (no crawl-delay) ────────────────────
 User-agent: facebookexternalhit
 Crawl-delay: 0
