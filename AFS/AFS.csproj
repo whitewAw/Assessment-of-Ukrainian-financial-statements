@@ -79,8 +79,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.7" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.8" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -135,8 +135,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.76" />
-	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.25.0.139117" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.88" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.26.0.140279" />
 	</ItemGroup>
 
 	</Project>

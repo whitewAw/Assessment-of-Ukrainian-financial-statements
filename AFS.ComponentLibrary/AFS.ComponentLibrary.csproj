@@ -13,8 +13,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazor-ApexCharts" Version="6.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.7" />
-		<PackageReference Include="Radzen.Blazor" Version="10.3.2" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.8" />
+		<PackageReference Include="Radzen.Blazor" Version="10.4.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,8 +34,8 @@
 		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.76" />
-	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.25.0.139117" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.88" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.26.0.140279" />
 	</ItemGroup>
 
 </Project>
