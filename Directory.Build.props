@@ -1,5 +1,26 @@
 <Project>
 <PropertyGroup>
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- PROJECT / REPOSITORY METADATA - Shared by all projects                 -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <Product>Assessment of Ukrainian Financial Statements</Product>
+  <Company>whitewAw</Company>
+  <Authors>Alex (Oleksandr) Shevchenko</Authors>
+  <Copyright>Copyright © 2022-$([System.DateTime]::UtcNow.Year) whitewAw</Copyright>
+  <Description>Blazor WebAssembly PWA for analyzing Ukrainian financial statements with local AI (Chrome Gemini Nano) and 17 analysis tables + 7 charts.</Description>
+  <PackageProjectUrl>https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements</PackageProjectUrl>
+  <RepositoryUrl>https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements.git</RepositoryUrl>
+  <RepositoryType>git</RepositoryType>
+  <RepositoryBranch>main</RepositoryBranch>
+  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  <PackageTags>blazor;webassembly;wasm;pwa;financial-analysis;ukraine;aot;ai;gemini-nano</PackageTags>
+  <NeutralLanguage>uk-UA</NeutralLanguage>
+
+  <!-- Deterministic builds + Source Link for reproducible diagnostics -->
+  <Deterministic>true</Deterministic>
+  <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
   <!-- Nullable reference types -->
   <Nullable>enable</Nullable>
 
