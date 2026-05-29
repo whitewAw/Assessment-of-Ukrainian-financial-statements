@@ -42,20 +42,27 @@
   <!-- Legacy UTF-7 encoding (unsafe, obsolete) -->
   <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
 
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- RESTORE / LOCK FILES - Deterministic dependency graph for CI           -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- Generate packages.lock.json next to each csproj on restore. CI must run
+       restore in locked mode to fail on any unintended graph change. -->
+  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
   </PropertyGroup>
 
 
-  <!-- Code Analyzers - Applied to all projects -->
+  <!-- Code Analyzers - Applied to all projects (versions in Directory.Packages.props) -->
   <ItemGroup>
-    <PackageReference Include="Meziantou.Analyzer" Version="3.0.22">
+    <PackageReference Include="Meziantou.Analyzer">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.20.0.135146">
+    <PackageReference Include="SonarAnalyzer.CSharp">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers" Version="4.15.0">
+    <PackageReference Include="Roslynator.Analyzers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

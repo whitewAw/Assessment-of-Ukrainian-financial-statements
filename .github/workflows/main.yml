@@ -71,7 +71,7 @@ jobs:
         run: dotnet workload list
 
       - name: Restore dependencies
-        run: dotnet restore AFS/AFS.csproj --locked-mode || dotnet restore AFS/AFS.csproj
+        run: dotnet restore AFS/AFS.csproj --locked-mode
 
       - name: Build and Publish with AOT
         run: |
