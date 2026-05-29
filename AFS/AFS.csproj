@@ -67,7 +67,9 @@
 
 		<!-- WASM-specific optimizations (safe for PWA) -->
 		<UseNativeHttpHandler>true</UseNativeHttpHandler>
-		<DebuggerSupport>false</DebuggerSupport>
+		<!-- Disable debugger metadata only in Release: keeps Debugger.Break, rich stacks
+			 and DebuggerDisplayAttribute working during `dotnet run`/F5 in Debug. -->
+		<DebuggerSupport Condition="'$(Configuration)' == 'Release'">false</DebuggerSupport>
 		<!-- Keep StackTraceSupport enabled for proper error handling in WASM -->
 
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -114,12 +116,8 @@
 	<!-- FEATURE SWITCHES - Disable unused runtime features to reduce size          -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
-		<!-- Disable console output in release (saves ~50KB) -->
-		<RuntimeHostConfigurationOption Include="System.Console.UseStandardOutputEncoding" Value="false" />
 		<!-- Disable unused reflection features -->
 		<RuntimeHostConfigurationOption Include="System.Reflection.Metadata.MetadataUpdater.IsSupported" Value="false" />
-		<!-- Disable regex compilation (uses Reflection.Emit) -->
-		<RuntimeHostConfigurationOption Include="System.Text.RegularExpressions.Regex.IsMatchedTimeoutSupported" Value="false" />
 		<!-- Disable StartupHook (not used in WASM) -->
 		<RuntimeHostConfigurationOption Include="System.StartupHookProvider.IsSupported" Value="false" />
 		<!-- Disable diagnostics tracing -->
@@ -130,13 +128,15 @@
 		<RuntimeHostConfigurationOption Include="System.Xml.XmlResolver.IsNetworkingEnabledByDefault" Value="false" />
 		<!-- Remove ComponentModel.TypeDescriptor reflection support (saves ~50 KB) -->
 		<RuntimeHostConfigurationOption Include="System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization" Value="false" />
-		<!-- Trim designer-mode code paths from BCL -->
-		<RuntimeHostConfigurationOption Include="Switch.System.ComponentModel.UseLegacyPropertyDescriptor" Value="false" />
+		<!-- Removed no-op switches: System.Console.UseStandardOutputEncoding (WASM uses
+			 browser console), System.Text.RegularExpressions.Regex.IsMatchedTimeoutSupported
+			 (not a real .NET switch), Switch.System.ComponentModel.UseLegacyPropertyDescriptor
+			 (.NET Framework only). They were emitted into the runtime manifest but had no effect. -->
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.88" />
-	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.26.0.140279" />
+	  <PackageReference Update="Meziantou.Analyzer" Version="3.0.98" />
+	  <PackageReference Update="SonarAnalyzer.CSharp" Version="10.27.0.140913" />
 	</ItemGroup>
 
 	</Project>

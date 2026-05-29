@@ -75,13 +75,28 @@ jobs:
 
       - name: Build and Publish with AOT
         run: |
+          set -o pipefail
           dotnet publish AFS/AFS.csproj \
             -c Release \
             -o release \
-            --no-restore
+            --no-restore 2>&1 | tee publish.log
         env:
           # Increase memory for AOT compilation
           NODE_OPTIONS: --max_old_space_size=4096
+
+      - name: Fail on AOT-correctness warnings (IL2026 / IL3050)
+        # IL2026 = RequiresUnreferencedCode, IL3050 = RequiresDynamicCode.
+        # These two are the only AOT-correctness diagnostics that indicate runtime
+        # breakage in published WASM (everything else is a trim hint). We tolerate
+        # the curated suppressions in AFS.csproj (IL2104/IL2110/IL2111) but never
+        # IL2026/IL3050 — if one appears it is a regression in *our* code or a new
+        # third-party reflection path we have to mitigate explicitly.
+        run: |
+          if grep -E 'warning (IL2026|IL3050)\b' publish.log; then
+            echo "::error::AOT-correctness regression detected (IL2026 or IL3050). See above."
+            exit 1
+          fi
+          echo "✅ No IL2026 / IL3050 in publish log"
 
       # Snapshot the pristine build (with <base href="/" />) BEFORE the
       # GH-Pages-specific sed rewrite below. Netlify pulls from this snapshot
