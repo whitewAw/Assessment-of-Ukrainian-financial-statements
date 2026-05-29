@@ -165,13 +165,13 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
 | [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
-| [Radzen Blazor](https://blazor.radzen.com/) | 9.1.0 | UI Component Library |
+| [Radzen Blazor](https://blazor.radzen.com/) | 10.4.6 | UI Component Library |
 | [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 6.1.0 | AOT-Compatible Charts |
 | [Bootstrap](https://getbootstrap.com/) | 5.3 | CSS Framework (local, offline PWA) |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
-| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.22 | Code Analysis |
-| [SonarAnalyzer](https://www.sonarqube.org/) | 10.20.0 | Code Quality |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.98 | Code Analysis |
+| [SonarAnalyzer](https://www.sonarqube.org/) | 10.27.0 | Code Quality |
 | [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
 
 ### Build Features
@@ -187,6 +187,13 @@ This application provides a powerful, browser-based tool for comprehensive analy
   pattern in .NET 10 (culture must not change after runtime init).
 - ✅ **BCL feature switches** - `UseSystemResourceKeys`, `XmlResolverIsNetworkingEnabledByDefault=false`,
   `BuiltInComInteropSupport=false`, `AutoreleasePoolSupport=false`,
+- ✅ **Release-only `DebuggerSupport=false`** - strips debugger metadata from the
+  published WASM while keeping `Debugger.Break`, rich stacks, and `DebuggerDisplay`
+  intact during local F5 / `dotnet run` (Debug config).
+- ✅ **CI AOT-correctness guard** - GitHub Actions build fails on `IL2026`
+  (RequiresUnreferencedCode) or `IL3050` (RequiresDynamicCode) so reflection or
+  dynamic-code regressions cannot ship silently. Curated suppressions remain
+  scoped to known third-party paths (`IL2104`/`IL2110`/`IL2111`).
   `EnableCppCLIHostActivation=false`, `EnableUnsafeUTF7Encoding=false`
 - ✅ **Symbol-map stripping** - `WasmEmitSymbolMap=false` guarantees no `.symbols` files ship
 - ✅ **Heap pre-reservation** - `EmccMaximumHeapSize=2 GiB` lets the linker pre-allocate a tight segment
