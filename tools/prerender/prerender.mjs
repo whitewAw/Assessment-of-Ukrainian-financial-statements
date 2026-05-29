@@ -192,9 +192,12 @@ async function main() {
         /<meta\s+name="twitter:url"\s+content="[^"]*"\s*\/?>/i,
         `<meta name="twitter:url" content="${absoluteRouteUrl}" />`
       );
+      // Match the canonical link tag and preserve any extra attributes (e.g. id="canonical")
+      // *without* the trailing slash, so we don't end up with `... / />` after our replacement
+      // re-appends the self-closing slash.
       html = html.replace(
-        /<link\s+rel="canonical"\s+href="[^"]*"([^>]*)\/?>/i,
-        `<link rel="canonical" href="${absoluteRouteUrl}"$1 />`
+        /<link\s+rel="canonical"\s+href="[^"]*"([^>]*?)\s*\/?\s*>/i,
+        (_m, extra) => `<link rel="canonical" href="${absoluteRouteUrl}"${extra} />`
       );
 
       // Tag the snapshot for debuggability

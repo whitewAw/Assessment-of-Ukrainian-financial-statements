@@ -116,8 +116,13 @@ jobs:
         # the mirror URLs from the index entirely. Runs BEFORE the SPA
         # routing step so the 404.html copy inherits noindex automatically.
         run: |
-          sed -i 's|<meta name="robots" content="index, follow[^"]*"|<meta name="robots" content="noindex, follow"|g' release/wwwroot/index.html
-          echo "✅ Marked release/wwwroot/index.html as noindex (GH Pages mirror)"
+          # Per spec, the bot-specific meta (`googlebot`, `bingbot`) overrides the
+          # generic `robots` meta. We must flip ALL three or Google keeps indexing
+          # the GH Pages mirror and reports "Page with canonical tag" rows in GSC.
+          sed -i 's|<meta name="robots" content="index, follow[^"]*"|<meta name="robots" content="noindex, follow"|g'    release/wwwroot/index.html
+          sed -i 's|<meta name="googlebot" content="index, follow[^"]*"|<meta name="googlebot" content="noindex, follow"|g' release/wwwroot/index.html
+          sed -i 's|<meta name="bingbot" content="index, follow[^"]*"|<meta name="bingbot" content="noindex, follow"|g'   release/wwwroot/index.html
+          echo "✅ Marked release/wwwroot/index.html as noindex for robots/googlebot/bingbot (GH Pages mirror)"
 
       - name: Prepare SPA routing files
         run: |
@@ -197,26 +202,28 @@ jobs:
             fi
           done
 
-      - name: Rewrite GH Pages sitemap & robots to use GH Pages host
-        # The committed sitemap.xml/robots.txt use the Netlify canonical host
-        # (https://ua-finance.netlify.app/). The Netlify deploy keeps them as-is,
-        # but the GH Pages mirror needs its own host so Search Console / Bing can
-        # verify it. <link rel="canonical"> in every page still points to Netlify,
-        # so ranking signal is consolidated regardless.
+      - name: Strip sitemap from GH Pages mirror (mirror is noindex)
+        # The GH Pages mirror is fully `noindex, follow` (see earlier step).
+        # Publishing a sitemap whose URLs are all noindex is a contradiction:
+        # Google Search Console reports it as "Discovered URLs: 0" and clutters
+        # the property with noise. Strategy for the mirror:
+        #   1. Delete sitemap.xml entirely so GH Pages returns 404.
+        #   2. Strip the `Sitemap:` directive from robots.txt for the same reason.
+        #   3. Do NOT rewrite the Netlify host elsewhere — the only remaining
+        #      Netlify reference in robots.txt is the comment header, which is
+        #      harmless and actually documents the canonical relationship.
+        # The Netlify snapshot (release-netlify/) keeps the canonical sitemap.xml
+        # and full robots.txt intact.
         run: |
-          GH_BASE="https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements"
-          NL_BASE="https://ua-finance.netlify.app"
-          for f in release/wwwroot/sitemap.xml release/wwwroot/robots.txt; do
-            if [ -f "$f" ]; then
-              before=$(grep -c "$NL_BASE" "$f" || true)
-              # Use a delimiter that does not appear in URLs to keep sed safe
-              sed -i "s|$NL_BASE|$GH_BASE|g" "$f"
-              after=$(grep -c "$NL_BASE" "$f" || true)
-              echo "✅ Rewrote $f: $before -> $after Netlify references remaining"
-            else
-              echo "⚠️ $f not found, skipping"
-            fi
-          done
+          if [ -f release/wwwroot/sitemap.xml ]; then
+            rm -f release/wwwroot/sitemap.xml
+            echo "✅ Removed release/wwwroot/sitemap.xml (mirror is noindex)"
+          fi
+          if [ -f release/wwwroot/robots.txt ]; then
+            # Remove any `Sitemap:` directive lines (case-insensitive, allow leading whitespace)
+            sed -i '/^[[:space:]]*[Ss]itemap:[[:space:]]*/d' release/wwwroot/robots.txt
+            echo "✅ Stripped Sitemap: directive from release/wwwroot/robots.txt"
+          fi
 
       - name: Create _headers file for CDN compatibility
         # _headers is a Netlify/Cloudflare Pages convention. GitHub Pages ignores it,
