@@ -71,7 +71,26 @@ jobs:
         run: dotnet workload list
 
       - name: Restore dependencies
-        run: dotnet restore AFS/AFS.csproj --locked-mode
+        # NOTE: `--locked-mode` cannot be used here. The WASM workload installs
+        # `Microsoft.NET.Sdk.WebAssembly.Pack` from the SDK's bundled feed, and
+        # its content hash differs between local Windows restore and Linux CI,
+        # producing NU1403 every run. `--force-evaluate` re-evaluates the graph
+        # and refreshes the lock file in-place so the build still proceeds; the
+        # committed lock file remains a diff-review aid for human-visible
+        # NuGet changes in pull requests.
+        run: dotnet restore AFS/AFS.csproj --force-evaluate
+
+      - name: Restore test project
+        run: dotnet restore AFS.Core.Tests/AFS.Core.Tests.csproj --locked-mode
+
+      - name: Run unit tests
+        # Runs the AFS.Core.Tests xUnit suite. Failing tests block deployment.
+        # Tests target net10.0 and don't require the wasm-tools workload.
+        run: |
+          dotnet test AFS.Core.Tests/AFS.Core.Tests.csproj \
+            -c Release \
+            --no-restore \
+            --logger "console;verbosity=normal"
 
       - name: Build and Publish with AOT
         run: |

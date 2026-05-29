@@ -324,6 +324,19 @@ To use the AI Assistant features:
 dotnet publish AFS/AFS.csproj -c Release -o publish
 ```
 
+### Run Tests
+
+```bash
+dotnet test AFS.Core.Tests/AFS.Core.Tests.csproj
+```
+
+### Repository Conventions
+
+- **`global.json`** pins the .NET SDK (`10.0.300`, `latestFeature` roll-forward).
+- **`Directory.Packages.props`** centrally manages every NuGet version (CPM). Project files contain `PackageReference Include="..."` with no `Version` attribute.
+- **`packages.lock.json`** is committed for each project; CI restores with `--locked-mode` to fail on any unintended dependency-graph drift.
+- **`Directory.Build.props`** owns shared analyzers, AOT/trim safety flags, BCL feature switches, and lock-file enablement.
+
 ---
 
 ## 📁 Project Structure
