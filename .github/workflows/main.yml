@@ -139,25 +139,6 @@ jobs:
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
 
-      - name: Mark GH Pages mirror as noindex
-        # GH Pages serves the same content as Netlify. Even with a Netlify
-        # canonical, Google still wastes crawl budget on whitewaw.github.io
-        # and lists every page as "Alternate page with proper canonical tag"
-        # in Search Console — visual noise that hides real issues.
-        # Promoting the existing `index, follow,...` robots meta to
-        # `noindex, follow` on the mirror keeps the canonical signal intact
-        # (Google still follows links to discover content) while removing
-        # the mirror URLs from the index entirely. Runs BEFORE the SPA
-        # routing step so the 404.html copy inherits noindex automatically.
-        run: |
-          # Per spec, the bot-specific meta (`googlebot`, `bingbot`) overrides the
-          # generic `robots` meta. We must flip ALL three or Google keeps indexing
-          # the GH Pages mirror and reports "Page with canonical tag" rows in GSC.
-          sed -i 's|<meta name="robots" content="index, follow[^"]*"|<meta name="robots" content="noindex, follow"|g'    release/wwwroot/index.html
-          sed -i 's|<meta name="googlebot" content="index, follow[^"]*"|<meta name="googlebot" content="noindex, follow"|g' release/wwwroot/index.html
-          sed -i 's|<meta name="bingbot" content="index, follow[^"]*"|<meta name="bingbot" content="noindex, follow"|g'   release/wwwroot/index.html
-          echo "✅ Marked release/wwwroot/index.html as noindex for robots/googlebot/bingbot (GH Pages mirror)"
-
       - name: Prepare SPA routing files
         run: |
           # Keep the custom 404.html if it exists, otherwise copy index.html
