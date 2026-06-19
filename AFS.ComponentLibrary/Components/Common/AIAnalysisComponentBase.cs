@@ -125,7 +125,7 @@ public abstract class AIAnalysisComponentBase : ComponentBase
     /// </summary>
     private void HandleAnalysisException(Exception ex)
     {
-        if (ex.Message.Contains("cancelled") || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+        if (ex.Message.Contains("cancelled", StringComparison.OrdinalIgnoreCase) || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
         {
             if (!string.IsNullOrEmpty(AIAnalysis))
             {
