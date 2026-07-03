@@ -1417,4 +1417,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>Finansal istikrar</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Girişi göster</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Girişi gizle</value>
+  </data>
 </root>

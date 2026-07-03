@@ -42,6 +42,11 @@ if (!existsSync(root)) {
   process.exit(2);
 }
 
+function normalizeRoute(route) {
+  if (!route || route === '/') return '/';
+  return `/${route.replace(/^\/+/, '').replace(/\/+$/, '')}`;
+}
+
 // --- Discover routes ----------------------------------------------------------
 
 async function discoverRoutes() {
@@ -69,8 +74,7 @@ async function discoverRoutes() {
       let p = u.pathname;
       // Strip the GitHub Pages path prefix if present
       p = p.replace(/^\/Assessment-of-Ukrainian-financial-statements/, '');
-      if (!p) p = '/';
-      routes.add(p);
+      routes.add(normalizeRoute(p));
     } catch { /* ignore malformed */ }
   }
   return [...routes];
@@ -143,7 +147,8 @@ async function main() {
 
   let succeeded = 0, failed = 0;
   for (const route of routes) {
-    const url = `http://127.0.0.1:${port}${route}`;
+    const normalizedRoute = normalizeRoute(route);
+    const url = `http://127.0.0.1:${port}${normalizedRoute}`;
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (compatible; UFIN-Prerender/1.0)');
     try {
@@ -183,7 +188,7 @@ async function main() {
       // read these tags verbatim and would otherwise show the homepage card
       // for deep links. Google also uses og:url as a strong canonical hint.
       const originNoSlash = canonicalOrigin.replace(/\/$/, '');
-      const absoluteRouteUrl = route === '/' ? `${originNoSlash}/` : `${originNoSlash}${route}`;
+      const absoluteRouteUrl = normalizedRoute === '/' ? `${originNoSlash}/` : `${originNoSlash}${normalizedRoute}`;
       html = html.replace(
         /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i,
         `<meta property="og:url" content="${absoluteRouteUrl}" />`
@@ -203,7 +208,7 @@ async function main() {
       // Tag the snapshot for debuggability
       html = html.replace('</head>', `<meta name="prerender-rendered" content="${new Date().toISOString()}" /></head>`);
 
-      const outDir = route === '/' ? root : path.join(root, route.replace(/^\//, ''));
+      const outDir = normalizedRoute === '/' ? root : path.join(root, normalizedRoute.replace(/^\//, ''));
       await fs.mkdir(outDir, { recursive: true });
       const outFile = path.join(outDir, 'index.html');
 
@@ -212,7 +217,7 @@ async function main() {
       await fs.writeFile(outFile, html, 'utf8');
 
       succeeded++;
-      console.log(`   ✅ ${route} -> ${path.relative(root, outFile)}`);
+      console.log(`   ✅ ${normalizedRoute} -> ${path.relative(root, outFile)}`);
     } catch (err) {
       failed++;
       console.warn(`   ⚠️  ${route} -> ${err.message}`);

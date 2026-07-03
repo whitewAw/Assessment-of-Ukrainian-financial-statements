@@ -1417,4 +1417,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>财务稳定性</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>显示简介</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>隐藏简介</value>
+  </data>
 </root>

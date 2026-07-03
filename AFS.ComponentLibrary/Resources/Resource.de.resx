@@ -1446,4 +1446,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>Finanzielle Stabilität</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Einführung anzeigen</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Einführung ausblenden</value>
+  </data>
 </root>

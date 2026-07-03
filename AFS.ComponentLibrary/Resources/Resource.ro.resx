@@ -1446,4 +1446,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>Stabilitate financiară</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Afișează introducerea</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Ascunde introducerea</value>
+  </data>
 </root>

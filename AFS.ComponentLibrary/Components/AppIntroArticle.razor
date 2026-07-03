@@ -24,36 +24,93 @@
     keyboard/SR users land on the new page heading after route changes.
 *@
 
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
 <article class="app-intro" aria-labelledby="app-intro-heading">
-    <h1 id="app-intro-heading" class="app-intro__heading">
-        @ResLoc["IntroHeading"]
-    </h1>
+    <div class="app-intro__header">
+        <h1 id="app-intro-heading" class="app-intro__heading">
+            @ResLoc["IntroHeading"]
+        </h1>
 
-    <p class="app-intro__lede">
-        @ResLoc["IntroLede"]
-    </p>
+        <button type="button"
+                class="app-intro__toggle"
+                @onclick="ToggleCollapsedAsync"
+                aria-expanded="@(!_isCollapsed)"
+                aria-controls="app-intro-content"
+                aria-label="@ToggleLabel">
+            <span aria-hidden="true">@ToggleIcon</span>
+            <span>@ToggleLabel</span>
+        </button>
+    </div>
 
-    @* Feature values contain inline <strong> tags, so they must be rendered
-       as MarkupString. The strings come from .resx and are safe,
-       author-controlled content — not user input. *@
-    <ul class="app-intro__features">
-        <li>@((MarkupString)ResLoc["IntroFeatureLiquidity"].Value)</li>
-        <li>@((MarkupString)ResLoc["IntroFeatureProfitability"].Value)</li>
-        <li>@((MarkupString)ResLoc["IntroFeatureBusinessActivity"].Value)</li>
-        <li>@((MarkupString)ResLoc["IntroFeatureAI"].Value)</li>
-    </ul>
+    @if (!_isCollapsed)
+    {
+        <div id="app-intro-content">
+            <p class="app-intro__lede">
+                @ResLoc["IntroLede"]
+            </p>
 
-    @* Real <nav> + <ul> so screen readers announce a navigation landmark
-       and a list of N items. The "·" visual separators are CSS-only
-       (li + li::before) so AT users don't hear "middle dot" between links. *@
-    <nav class="app-intro__jump" aria-label="@ResLoc["IntroJumpAriaLabel"]">
-        <span class="app-intro__jump-prefix">@ResLoc["IntroJumpPrefix"]</span>
-        <ul class="app-intro__jump-list">
-            <li><NavLink href="liquidityindicatorsofbalance">@ResLoc["IntroJumpLiquidity"]</NavLink></li>
-            <li><NavLink href="solvencyratios">@ResLoc["IntroJumpSolvency"]</NavLink></li>
-            <li><NavLink href="indicatorsofbusinessactivity">@ResLoc["IntroJumpBusinessActivity"]</NavLink></li>
-            <li><NavLink href="generalindicatorsoffinancialstability">@ResLoc["IntroJumpStability"]</NavLink></li>
-        </ul>
-        <span class="app-intro__jump-suffix">— @ResLoc["IntroJumpSuffix"]</span>
-    </nav>
+            @* Feature values contain inline <strong> tags, so they must be rendered
+               as MarkupString. The strings come from .resx and are safe,
+               author-controlled content — not user input. *@
+            <ul class="app-intro__features">
+                <li>@((MarkupString)ResLoc["IntroFeatureLiquidity"].Value)</li>
+                <li>@((MarkupString)ResLoc["IntroFeatureProfitability"].Value)</li>
+                <li>@((MarkupString)ResLoc["IntroFeatureBusinessActivity"].Value)</li>
+                <li>@((MarkupString)ResLoc["IntroFeatureAI"].Value)</li>
+            </ul>
+
+            @* Real <nav> + <ul> so screen readers announce a navigation landmark
+               and a list of N items. The "·" visual separators are CSS-only
+               (li + li::before) so AT users don't hear "middle dot" between links. *@
+            <nav class="app-intro__jump" aria-label="@ResLoc["IntroJumpAriaLabel"]">
+                <span class="app-intro__jump-prefix">@ResLoc["IntroJumpPrefix"]</span>
+                <ul class="app-intro__jump-list">
+                    <li><NavLink href="@AppHref("liquidityindicatorsofbalance")">@ResLoc["IntroJumpLiquidity"]</NavLink></li>
+                    <li><NavLink href="@AppHref("solvencyratios")">@ResLoc["IntroJumpSolvency"]</NavLink></li>
+                    <li><NavLink href="@AppHref("indicatorsofbusinessactivity")">@ResLoc["IntroJumpBusinessActivity"]</NavLink></li>
+                    <li><NavLink href="@AppHref("generalindicatorsoffinancialstability")">@ResLoc["IntroJumpStability"]</NavLink></li>
+                </ul>
+                <span class="app-intro__jump-suffix">— @ResLoc["IntroJumpSuffix"]</span>
+            </nav>
+        </div>
+    }
 </article>
+
+@code {
+    private const string CollapseStorageKey = "ufin.appIntro.collapsed";
+    private bool _isCollapsed;
+
+    private string ToggleLabel => _isCollapsed ? ResLoc["IntroShow"] : ResLoc["IntroHide"];
+    private string ToggleIcon => _isCollapsed ? "+" : "−";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var storedValue = await JS.InvokeAsync<string?>("localStorage.getItem", CollapseStorageKey);
+        if (bool.TryParse(storedValue, out var isCollapsed))
+        {
+            _isCollapsed = isCollapsed;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task ToggleCollapsedAsync()
+    {
+        _isCollapsed = !_isCollapsed;
+        await JS.InvokeVoidAsync("localStorage.setItem", CollapseStorageKey, _isCollapsed.ToString());
+    }
+
+    private string AppHref(string relativePath)
+    {
+        var baseRelativePath = Navigation.ToBaseRelativePath(Navigation.BaseUri);
+        var appBasePath = string.IsNullOrEmpty(baseRelativePath) ? "/" : $"/{baseRelativePath.TrimEnd('/')}/";
+
+        return $"{appBasePath}{relativePath.TrimStart('/')}";
+    }
+}

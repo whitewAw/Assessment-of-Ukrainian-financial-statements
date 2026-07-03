@@ -1417,4 +1417,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>財務安定性</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>イントロを表示</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>イントロを非表示</value>
+  </data>
 </root>

@@ -1417,4 +1417,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>Stabilità finanziaria</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Mostra introduzione</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Nascondi introduzione</value>
+  </data>
 </root>

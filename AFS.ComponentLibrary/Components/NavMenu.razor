@@ -1,8 +1,9 @@
 @inject IJSRuntime JS
+@inject NavigationManager Navigation
 
 <nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
     <div class="container-fluid px-1">
-        <a class="navbar-brand" href="" aria-label="@homeLabel">
+        <a class="navbar-brand" href="@AppHref(string.Empty)" aria-label="@homeLabel">
             @ResLoc["AssessmentOfFinancialStatements"]
         </a>
         <button title="@toggleMenuLabel"
@@ -20,14 +21,14 @@
 <div class="@NavMenuCssClass" id="main-nav" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item nav-item-highlight px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="@AppHref(string.Empty)" Match="NavLinkMatch.All">
                 <RadzenIcon Icon="edit" />
                 @ResLoc["InputData"]
             </NavLink>
         </div>
 
         <div class="nav-item nav-item-highlight nav-item-ai px-3">
-          <NavLink class="nav-link" href="aiassistant">
+          <NavLink class="nav-link" href="@AppHref("aiassistant")">
              <RadzenIcon Icon="auto_awesome" />
                 @ResLoc["AIAssistant"]
           </NavLink>
@@ -36,7 +37,7 @@
         @foreach (var item in navigationItems)
         {
             <div class="nav-item px-3" @key="item.Href">
-                <NavLink class="nav-link" href="@item.Href">
+                <NavLink class="nav-link" href="@AppHref(item.Href)">
                     @if (!string.IsNullOrEmpty(item.Number))
                     {
                         @item.Number
@@ -69,6 +70,14 @@
         // Yield to main thread to allow the CSS class change to paint
         // This ensures the visual update happens before any other processing
         await JS.InvokeVoidAsync("eval", "window.UFIN?.scheduler?.yieldToMain?.() || Promise.resolve()");
+    }
+
+    private string AppHref(string relativePath)
+    {
+        var baseRelativePath = Navigation.ToBaseRelativePath(Navigation.BaseUri);
+        var appBasePath = string.IsNullOrEmpty(baseRelativePath) ? "/" : $"/{baseRelativePath.TrimEnd('/')}/";
+
+        return string.IsNullOrEmpty(relativePath) ? appBasePath : $"{appBasePath}{relativePath.TrimStart('/')}";
     }
 
     private IReadOnlyList<NavMenuItem> navigationItems => GetNavigationItems();

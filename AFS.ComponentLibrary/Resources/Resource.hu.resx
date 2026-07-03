@@ -1446,4 +1446,10 @@
   <data name="IntroJumpStability" xml:space="preserve">
     <value>Pénzügyi stabilitás</value>
   </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Bevezető megjelenítése</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Bevezető elrejtése</value>
+  </data>
 </root>
