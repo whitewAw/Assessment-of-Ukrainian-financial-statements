@@ -1,0 +1,83 @@
+{
+"name": "UFIN – Ukrainian Financial Statement Analysis",
+"short_name": "UFIN",
+"description": "Free, open-source calculator for Ukrainian financial statements. Analyze balance sheets and income statements, compute liquidity, solvency and profitability ratios. Works offline, no registration, 15 languages, optional on-device AI assistant.",
+  "start_url": "./",
+  "scope": "./",
+  "id": "ufin-financial-analysis",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#512BD4",
+  "prefer_related_applications": false,
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["finance", "business", "productivity", "utilities"],
+  "iarc_rating_id": "",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "AI Assistant",
+      "short_name": "AI",
+      "description": "Ask AI about your financial data",
+      "url": "./aiassistant",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "Liquidity Analysis",
+      "short_name": "Liquidity",
+      "description": "Calculate liquidity ratios",
+      "url": "./liquidityindicatorsofbalance",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "Solvency Ratios",
+      "short_name": "Solvency",
+      "description": "Analyze financial solvency",
+      "url": "./solvencyratios",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "Financial Stability",
+      "short_name": "Stability",
+      "description": "Assess financial stability",
+      "url": "./generalindicatorsoffinancialstability",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    }
+  ],
+  "related_applications": [],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+  "edge_side_panel": {
+    "preferred_width": 480
+  }
+}
