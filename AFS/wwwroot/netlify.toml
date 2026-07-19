@@ -6,173 +6,27 @@
 
 # Redirects
 
-# Collapse language-query duplicates to the canonical homepage.
-# The app still supports language changes via LocalStorage at runtime, but
-# ?lang=* URLs are not separate static pages and should not appear in Google.
-[[redirects]]
-  from = "/"
-  query = { lang = ":lang" }
-  to = "/"
-  status = 301
-  force = true
+# NOTE: ?lang=* query variants are NOT redirected here.
+# Netlify query-based redirects with from==to path cause redirect loops.
+# Instead, the SPA serves index.html with a self-canonical tag pointing to
+# the bare URL (https://ua-finance.netlify.app/), which tells Google to
+# consolidate ?lang=* duplicates without a redirect.
 
-# Canonicalize extensionless app routes without a trailing slash.
-# Without this, static prerender snapshots at /route/index.html make Netlify
-# also serve /route/, which Google reports as a duplicate "page version with
-# canonical tag". The no-slash URLs are the sitemap and canonical URLs.
+# Redirect legacy /ai-assistant to canonical /aiassistant (sitemap URL).
 [[redirects]]
-  from = "/aiassistant/"
+  from = "/ai-assistant"
   to = "/aiassistant"
   status = 301
   force = true
 
+# Canonicalize extensionless app routes (strip trailing slash).
+# Without this, static prerender snapshots at /route/index.html make Netlify
+# also serve /route/, which Google reports as a duplicate "page version with
+# canonical tag". The no-slash URLs are the sitemap and canonical URLs.
+# A single splat rule handles all current and future routes.
 [[redirects]]
-  from = "/ai-assistant/"
-  to = "/ai-assistant"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/characteristicsofcapital/"
-  to = "/characteristicsofcapital"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsofturnoverofcurrentassets/"
-  to = "/indicatorsofturnoverofcurrentassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/factorsaffectingturnoverofworkingcapital/"
-  to = "/factorsaffectingturnoverofworkingcapital"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsofefficiencyofworkingcapital/"
-  to = "/indicatorsofefficiencyofworkingcapital"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/availabilityandmovementoffixedassets/"
-  to = "/availabilityandmovementoffixedassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsofstateandmovementoffixedassets/"
-  to = "/indicatorsofstateandmovementoffixedassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/calculationofindicatorsofefficiencyofuseoffixedassets/"
-  to = "/calculationofindicatorsofefficiencyofuseoffixedassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/factoranalysisoffixedassets/"
-  to = "/factoranalysisoffixedassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsofefficiencyofuseofintangibleassets/"
-  to = "/indicatorsofefficiencyofuseofintangibleassets"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/sourcesofcapitalformation/"
-  to = "/sourcesofcapitalformation"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/assessmentofreceivableandpayable/"
-  to = "/assessmentofreceivableandpayable"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsofbusinessactivity/"
-  to = "/indicatorsofbusinessactivity"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/liquidityindicatorsofbalance/"
-  to = "/liquidityindicatorsofbalance"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/solvencyratios/"
-  to = "/solvencyratios"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/generalindicatorsoffinancialstability/"
-  to = "/generalindicatorsoffinancialstability"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/classificationoftypesoffinancialstability/"
-  to = "/classificationoftypesoffinancialstability"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/indicatorsoffinancialstability/"
-  to = "/indicatorsoffinancialstability"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/compositionofassetsbase/"
-  to = "/compositionofassetsbase"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/compositionofassetscurrent/"
-  to = "/compositionofassetscurrent"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/workingcapitalturnovertime/"
-  to = "/workingcapitalturnovertime"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/sourcesofcapitalformationbase/"
-  to = "/sourcesofcapitalformationbase"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/sourcesofcapitalformationcurrent/"
-  to = "/sourcesofcapitalformationcurrent"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/structureofaccountspayablebase/"
-  to = "/structureofaccountspayablebase"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/structureofaccountspayablecurrent/"
-  to = "/structureofaccountspayablecurrent"
+  from = "/:slug/"
+  to = "/:slug"
   status = 301
   force = true
 
@@ -191,13 +45,13 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
-    X-Robots-Tag = "index, follow"
 
-# HTML - no cache
+# HTML - no cache, indexable
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "index, follow"
 
 # WASM - AOT optimized (long cache + correct MIME)
 [[headers]]
@@ -212,11 +66,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Blazor framework
+# Blazor framework (not indexable)
 [[headers]]
   for = "/_framework/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    X-Robots-Tag = "noindex"
 
 # JS/CSS - immutable
 [[headers]]

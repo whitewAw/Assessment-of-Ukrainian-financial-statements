@@ -258,9 +258,6 @@ detectBaseUrl() {
         
         // Update hreflang tags
         this.updateAlternateLanguages(lang);
-        
-        // Update content language
-        this.setMetaTag('content-language', lang || 'en', 'http-equiv');
     }
 
     /**

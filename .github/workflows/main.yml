@@ -139,6 +139,15 @@ jobs:
           sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
           echo "✅ Base tag updated for GitHub Pages"
 
+      - name: Add noindex to GitHub Pages mirror
+        # The GH Pages mirror uses canonical pointing to Netlify, but adding
+        # noindex explicitly prevents GSC "Page version with canonical tag" noise
+        # and ensures crawlers never index the mirror even if canonical is ignored.
+        run: |
+          sed -i 's|<meta name="robots" content="index, follow|<meta name="robots" content="noindex, follow|g' release/wwwroot/index.html
+          sed -i 's|<meta name="googlebot" content="index, follow|<meta name="googlebot" content="noindex, follow|g' release/wwwroot/index.html
+          echo "✅ noindex added to GH Pages mirror"
+
       - name: Prepare SPA routing files
         run: |
           # Keep the custom 404.html if it exists, otherwise copy index.html
