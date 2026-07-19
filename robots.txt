@@ -1,0 +1,150 @@
+# robots.txt for UFIN - Ukrainian Financial Statement Analysis Tool
+# Canonical: https://ua-finance.netlify.app/
+# Mirror:    https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/
+# Repo:      https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements
+# License:   MIT
+
+# ── Default rules ────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+
+# Save crawl budget: exclude Blazor framework internals
+Disallow: /_framework/
+Disallow: /_bin/
+Disallow: /service-worker.js
+Disallow: /service-worker.published.js
+Disallow: /service-worker-assets.js
+
+# Exclude build/debug artifacts
+Disallow: /*.pdb$
+Disallow: /*.map$
+
+# Do not block ?lang=* here. Google must be allowed to crawl language-query
+# variants to see their canonical tag or the Netlify redirect that collapses
+# them to the bare URL. Blocking them creates "Blocked by robots.txt" rows in
+# Search Console and prevents canonical consolidation.
+
+# Yandex-specific: collapse ?lang=* into the bare URL instead of indexing each
+# variant. Ignored by Google and other crawlers (safe to keep).
+Clean-param: lang /
+
+# ── Social-media / preview bots (no crawl-delay) ────────────────────
+User-agent: facebookexternalhit
+Crawl-delay: 0
+
+User-agent: Facebot
+Crawl-delay: 0
+
+User-agent: Twitterbot
+Crawl-delay: 0
+
+User-agent: LinkedInBot
+Crawl-delay: 0
+
+User-agent: TelegramBot
+Crawl-delay: 0
+
+User-agent: WhatsApp
+Crawl-delay: 0
+
+User-agent: Slackbot
+Crawl-delay: 0
+
+User-agent: Slackbot-LinkExpanding
+Crawl-delay: 0
+
+User-agent: Discordbot
+Crawl-delay: 0
+
+User-agent: Redditbot
+Crawl-delay: 0
+
+User-agent: Pinterestbot
+Crawl-delay: 0
+
+# ── Blocked bots ─────────────────────────────────────────────────────
+# Aggressive SEO scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: SeekportBot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: LinkpadBot
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
+
+User-agent: linkdexbot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+User-agent: YoudaoBot
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+# Scraping / offline-copy bots
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Wget
+Disallow: /
+
+User-agent: WebReaper
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+# TikTok / ByteDance aggressive crawler
+User-agent: Bytespider
+Disallow: /
+
+# Email harvesters
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+# Malicious bots
+User-agent: BackDoorBot
+Disallow: /
+
+User-agent: BlowFish
+Disallow: /
+
+User-agent: ChinaClaw
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /

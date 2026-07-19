@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>UFIN - Redirecting...</title>
+    <script>
+        // SPA redirect for GitHub Pages and Netlify
+        // Save the path and redirect to index.html
+        (function() {
+            var host = location.hostname.toLowerCase();
+            var isGH = host === 'whitewaw.github.io';
+            var isNetlify = host === 'ua-finance.netlify.app';
+            var isLocal = host === 'localhost' || host === '127.0.0.1';
+            
+            // Set base path based on host
+            var basePath = isGH ? '/Assessment-of-Ukrainian-financial-statements/' : '/';
+            var fullPath = location.pathname + location.search + location.hash;
+            
+            // Don't save if already on base path
+            if (fullPath !== basePath && fullPath !== '/') {
+                sessionStorage.setItem('ufin-redirect-path', fullPath);
+            }
+            
+            // Redirect to index.html (which will handle the navigation)
+            location.replace(basePath);
+        })();
+    </script>
+    <style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f0f0f0}p{color:#666}</style>
+</head>
+<body>
+    <p>Redirecting...</p>
+    <noscript>
+        <p>JavaScript is required. <a href="/">Click here</a> to continue.</p>
+    </noscript>
+</body>
+</html>

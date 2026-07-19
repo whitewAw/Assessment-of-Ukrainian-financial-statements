@@ -1,0 +1,112 @@
+# Netlify config for UFIN - Optimized for AOT/WASM
+# https://ua-finance.netlify.app
+
+[build]
+  publish = "."
+
+# Redirects
+
+# NOTE: ?lang=* query variants are NOT redirected here.
+# Netlify query-based redirects with from==to path cause redirect loops.
+# Instead, the SPA serves index.html with a self-canonical tag pointing to
+# the bare URL (https://ua-finance.netlify.app/), which tells Google to
+# consolidate ?lang=* duplicates without a redirect.
+
+# Redirect legacy /ai-assistant to canonical /aiassistant (sitemap URL).
+[[redirects]]
+  from = "/ai-assistant"
+  to = "/aiassistant"
+  status = 301
+  force = true
+
+# Canonicalize extensionless app routes (strip trailing slash).
+# Without this, static prerender snapshots at /route/index.html make Netlify
+# also serve /route/, which Google reports as a duplicate "page version with
+# canonical tag". The no-slash URLs are the sitemap and canonical URLs.
+# A single splat rule handles all current and future routes.
+[[redirects]]
+  from = "/:slug/"
+  to = "/:slug"
+  status = 301
+  force = true
+
+# SPA catch-all for Blazor client-side routing.
+# Netlify serves existing static files (favicon.ico, sitemap.xml, robots.txt, etc.)
+# BEFORE evaluating redirect rules, so this only fires for Blazor routes
+# that have no corresponding file on disk.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Global headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+# HTML - no cache, indexable
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "index, follow"
+
+# WASM - AOT optimized (long cache + correct MIME)
+[[headers]]
+  for = "/*.wasm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/wasm"
+
+# DLL files (AOT compiled)
+[[headers]]
+  for = "/*.dll"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Blazor framework (not indexable)
+[[headers]]
+  for = "/_framework/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Robots-Tag = "noindex"
+
+# JS/CSS - immutable
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/x-icon"
+
+# Compressed files (Brotli/Gzip)
+[[headers]]
+  for = "/*.br"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "br"
+
+[[headers]]
+  for = "/*.gz"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
+
+
