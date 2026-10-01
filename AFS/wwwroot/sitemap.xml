@@ -7,7 +7,7 @@
 	https://ua-finance.netlify.app/
 	Optimized for Google Search
 	Supported Languages: 15 (uk, en, pl, ro, hu, cs, de, nl, fr, it, es, tr, zh, ja, ru)
-	Last Updated: 2025-01-21
+	<lastmod> values are set to the deploy date by CI (.github/workflows/main.yml)
 	-->
 
 	<!-- Homepage -->
@@ -18,7 +18,7 @@
 		<priority>1.0</priority>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://ua-finance.netlify.app/"/>
 		<image:image>
-			<image:loc>https://ua-finance.netlify.app/icon-512.png</image:loc>
+			<image:loc>https://ua-finance.netlify.app/og-image.png</image:loc>
 			<image:title>UFIN - Ukrainian Financial Analysis Tool</image:title>
 		</image:image>
 	</url>

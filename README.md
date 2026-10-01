@@ -277,7 +277,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - Any modern browser (Chrome 127+ recommended for AI features)
-- (Optional) [Visual Studio 2022](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
+- (Optional) [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
 ### Local Development
 
@@ -327,14 +327,14 @@ dotnet publish AFS/AFS.csproj -c Release -o publish
 ### Run Tests
 
 ```bash
-dotnet test AFS.Core.Tests/AFS.Core.Tests.csproj
+dotnet test --project AFS.Core.Tests/AFS.Core.Tests.csproj
 ```
 
 ### Repository Conventions
 
 - **`global.json`** pins the .NET SDK (`10.0.300`, `latestFeature` roll-forward).
 - **`Directory.Packages.props`** centrally manages every NuGet version (CPM). Project files contain `PackageReference Include="..."` with no `Version` attribute.
-- **`packages.lock.json`** is committed for each project; CI restores with `--locked-mode` to fail on any unintended dependency-graph drift.
+- **`packages.lock.json`** is committed for each project. CI restores the test project with `--locked-mode`; the WASM app uses `--force-evaluate` because the workload pack hash differs between Windows and Linux (NU1403).
 - **`Directory.Build.props`** owns shared analyzers, AOT/trim safety flags, BCL feature switches, and lock-file enablement.
 
 ---
@@ -676,7 +676,7 @@ The application supports **simultaneous deployment** to multiple hosting platfor
 | Host | Base Path | SPA Routing | Canonical | Auto-Configured |
 |------|-----------|-------------|-----------|-----------------|
 | **Netlify** (`ua-finance.netlify.app`) | `/` | `netlify.toml` SPA fallback | ⭐ **Primary** | ✅ |
-| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | `404.html` redirect | → Netlify | ✅ |
+| GitHub Pages | `/Assessment-of-Ukrainian-financial-statements/` | `404.html` redirect | → Netlify (`noindex` mirror) | ✅ |
 | Localhost | `/` | Dev server | → Netlify | ✅ |
 
 > **Why one canonical?** Both deployments serve identical content. To prevent
@@ -792,13 +792,17 @@ Yandex, DuckDuckGo, and modern AI search engines.
 - Comprehensive Open Graph + Twitter Card meta
 - 6 JSON-LD blocks: `WebApplication`, `SoftwareApplication`, `FAQPage`,
   `Organization`, `BreadcrumbList`, `WebSite` with `SearchAction`
-- 15 `hreflang` alternates (one per supported language) + `x-default`
-- `sitemap.xml` ships with **canonical (Netlify) URLs**. The GitHub Actions
-  workflow rewrites every occurrence of `https://ua-finance.netlify.app/` to
-  `https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/`
-  inside the `gh-pages` copy (same sed pattern as the `<base>` tag), so each
-  host advertises its own URLs while `<link rel="canonical">` still
-  consolidates all equity to Netlify.
+- `x-default` `hreflang` only. Prerender bakes one HTML per route, so `?lang=*`
+  variants would be duplicates; per-language alternates will be added together
+  with per-language prerender.
+- `sitemap.xml` lists **canonical (Netlify) URLs** only. The GitHub Pages mirror
+  is `noindex` and the workflow removes `sitemap.xml` and the `Sitemap:` line
+  from its `robots.txt`, so only Netlify is ever indexed. CI sets every
+  `<lastmod>` (plus JSON-LD `dateModified` / `og:updated_time`) to the deploy date.
+- **IndexNow** (Bing, Yandex, Seznam, Naver): after each deploy the workflow
+  submits all sitemap URLs to `api.indexnow.org`; ownership is proven by the
+  key file `AFS/wwwroot/<key>.txt`.
+- `llms.txt` summarises the site and its pages for AI assistants.
 - `robots.txt` explicitly allow-listing modern AI crawlers:
   `GPTBot`, `OAI-SearchBot`, `ChatGPT-User`, `ClaudeBot`, `Claude-Web`,
   `anthropic-ai`, `PerplexityBot`, `Perplexity-User`, `Google-Extended`,
@@ -809,9 +813,8 @@ Yandex, DuckDuckGo, and modern AI search engines.
 - Service worker registered with `updateViaCache: 'none'` so `service-worker.js`
   itself is never served from the HTTP cache — guarantees users pick up a new
   deploy on their next visit, not 24 hours later.
-- `manifest.json` `screenshots[]` intentionally empty until real 1280×720
-  screenshots exist (Chrome rejects under-sized entries and falls back to the
-  minimal install card).
+- `manifest.json` screenshots are generated at build time by
+  `tools/prerender/generate-screenshots.mjs` (wide + narrow form factors).
 
 ### Per-route signals (Blazor)
 The `<SeoHead>` component (`AFS.ComponentLibrary`) emits a route-specific
@@ -826,7 +829,8 @@ optional `<h1>` (defaults to `sr-only` so it indexes without altering layout):
 
 ### Build-time prerender (`tools/prerender/`)
 Puppeteer crawls every URL in `sitemap.xml`, waits for Blazor to hydrate,
-and writes `<route>/index.html` snapshots into the published `wwwroot`.
+and writes `<route>.html` snapshots into the published `wwwroot` (no `<route>/`
+folder, so hosts serve `/route` with 200 instead of a 301 to `/route/`).
 Non-JS crawlers consequently see real HTML — not just the loading spinner.
 The prerender step also removes Blazor render-fragment marker comments
 (`<!--!-->`) from snapshots so crawler-facing HTML is cleaner.
@@ -839,12 +843,11 @@ node generate-og-image.mjs ../../AFS/wwwroot/og-image.png
 ```
 
 ### Search-engine verification (manual one-time setup)
-An empty slot is reserved in `index.html`:
-```html
-<meta name="google-site-verification" content="" />
-```
-Paste the token from [Google Search Console](https://search.google.com/search-console)
-and [Bing Webmaster Tools](https://www.bing.com/webmasters), then submit
+Ownership is verified with files in `AFS/wwwroot`
+(`google*.html`, `yandex_*.html`, `BingSiteAuth.xml`). After verifying in
+[Google Search Console](https://search.google.com/search-console),
+[Bing Webmaster Tools](https://www.bing.com/webmasters) and
+[Yandex Webmaster](https://webmaster.yandex.com/), submit
 `https://ua-finance.netlify.app/sitemap.xml`.
 
 ---

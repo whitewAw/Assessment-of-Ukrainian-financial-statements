@@ -699,7 +699,10 @@
          api.visitorbadge.io, keyed by its origin only — deep routes share the
          per-host bucket so the count isn't fragmented across 25 sub-pages.
          The same `path` values are referenced by the two badges in README.md. -->
-    <img id="vbadge" alt="" aria-hidden="true" class="sr-only" loading="lazy" />
+    <!-- No loading="lazy": the 1px sr-only image sits at the end of <body>, below
+         the fold, so lazy loading delayed or skipped the hit for visitors who
+         never scrolled. fetchpriority="low" keeps it off the critical path. -->
+    <img id="vbadge" alt="" aria-hidden="true" class="sr-only" fetchpriority="low" decoding="async" />
     <script>
         // @ts-nocheck
         (function () {
