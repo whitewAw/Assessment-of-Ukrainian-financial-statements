@@ -11,6 +11,12 @@ self.addEventListener('fetch', event => {
     if (purpose.includes('prefetch') || purpose.includes('prerender')) {
         return;
     }
+    // Let the browser handle cross-origin requests (e.g. the visitor counter pixel)
+    // natively: re-fetching them here is subject to connect-src and caching them
+    // would stop the hit from being counted.
+    if (new URL(event.request.url).origin !== self.location.origin) {
+        return;
+    }
     event.respondWith(onFetch(event));
 });
 
