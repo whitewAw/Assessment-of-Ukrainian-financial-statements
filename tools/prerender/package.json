@@ -8,6 +8,6 @@
     "prerender": "node prerender.mjs"
   },
   "devDependencies": {
-    "puppeteer": "^23.0.0"
+    "puppeteer": "^25.12.0"
   }
 }
