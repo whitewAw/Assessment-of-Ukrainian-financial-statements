@@ -257,6 +257,12 @@ jobs:
               echo "⚠️ $sitemap not found, skipping"
             fi
           done
+          # Keep freshness signals consistent with the sitemap (Google uses
+          # JSON-LD dateModified / og:updated_time as page-date hints).
+          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          find release/wwwroot release-netlify/wwwroot -maxdepth 1 -name '*.html' -print0 | xargs -0 sed -i \
+            -e "s|\"dateModified\": \"[0-9-]*\"|\"dateModified\": \"$TODAY\"|g" \
+            -e "s|<meta property=\"og:updated_time\" content=\"[^\"]*\"|<meta property=\"og:updated_time\" content=\"$NOW\"|g"
 
       - name: Strip sitemap from GH Pages mirror (mirror is noindex)
         # The GH Pages mirror is fully `noindex, follow` (see earlier step).
@@ -463,6 +469,30 @@ jobs:
           clean: true
           single-commit: true
           commit-message: "Netlify: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
+
+      # IndexNow: instant re-crawl notification for Bing, Yandex, Seznam, Naver
+      # (Google does not support IndexNow; it reads sitemap.xml via Search Console).
+      # The key file AFS/wwwroot/<key>.txt proves ownership; the key is public by design.
+      - name: Submit URLs to IndexNow (Bing/Yandex)
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: 7f3c9a2e5b8d4e1fa6c0b9d2e4f81a37
+          SITE_HOST: ua-finance.netlify.app
+        run: |
+          # Netlify builds the pushed branch asynchronously; wait until the key file is live.
+          for i in $(seq 1 20); do
+            if curl -fsS "https://$SITE_HOST/$INDEXNOW_KEY.txt" | grep -q "$INDEXNOW_KEY"; then break; fi
+            sleep 15
+          done
+          urls=$(grep -oP '(?<=<loc>)[^<]+' release-netlify/wwwroot/sitemap.xml | jq -R . | jq -sc .)
+          payload=$(jq -nc --arg host "$SITE_HOST" --arg key "$INDEXNOW_KEY" \
+            --arg loc "https://$SITE_HOST/$INDEXNOW_KEY.txt" --argjson urls "$urls" \
+            '{host:$host,key:$key,keyLocation:$loc,urlList:$urls}')
+          status=$(curl -s -o /tmp/indexnow.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' -d "$payload")
+          echo "IndexNow HTTP $status ($(echo "$urls" | jq length) URLs)"
+          cat /tmp/indexnow.txt || true
+          [ "$status" = "200" ] || [ "$status" = "202" ]
 
       - name: Deployment Summary
         run: |

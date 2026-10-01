@@ -144,10 +144,6 @@
         var b = document.querySelector("base");
         if (b) b.href = basePath;
 
-        // Update preconnect to current origin when not on the canonical host
-        var pre = document.getElementById("preconnect-host");
-        if (pre && !isNetlify) pre.href = location.origin;
-
         // Canonical always points at the bare Netlify URL of the current route
         // (no `?lang=*`). Prerender bakes one HTML per route, so language
         // variants are not crawlable distinct documents and must not advertise
@@ -500,7 +496,6 @@
 
 
     <!-- Preconnect to hosting CDN (dynamic based on current host) -->
-    <link rel="preconnect" href="https://whitewaw.github.io" crossorigin id="preconnect-host" />
 
     <!-- Preload essential CSS - these are used immediately -->
     <link rel="preload" href="css/bootstrap/bootstrap.min.css" as="style" fetchpriority="high" />
