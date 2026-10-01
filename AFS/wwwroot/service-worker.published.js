@@ -33,7 +33,16 @@ const offlineAssetsInclude = [
 
 const offlineAssetsExclude = [
     /^service-worker\.js$/,
-    /^service-worker-assets\.js$/
+    /^service-worker-assets\.js$/,
+    // Rewritten by CI after hashing (404 base path, prerender) or not app assets
+    /^404\.html$/,
+    /^(yandex|google)[\w-]*\.html$/,
+    /^BingSiteAuth\.xml$/,
+    /^llms\.txt$/,
+    /^robots\.txt$/,
+    /^sitemap\.xml$/,
+    /^_redirects$/,
+    /^netlify\.toml$/
 ];
 
 // Stale-While-Revalidate patterns (for frequently updated resources)

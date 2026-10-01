@@ -38,7 +38,7 @@
   <IsAotCompatible>true</IsAotCompatible>
   <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 
-  <!-- Treat all warnings as errors for stricter code quality -->
+  <!-- Treat all warnings as errors for every project and configuration (Debug + Release) -->
   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
   <!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -46,7 +46,7 @@
   <!-- ══════════════════════════════════════════════════════════════════════ -->
   <!-- Disable unused runtime features (safe for all project types) -->
   <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
-  <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+  <MetadataUpdaterSupport Condition="'$(Configuration)' == 'Release'">false</MetadataUpdaterSupport>
   <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
   <EventSourceSupport>false</EventSourceSupport>
   <!-- Replace BCL exception/resource messages with lookup keys (~100 KB WASM saving).

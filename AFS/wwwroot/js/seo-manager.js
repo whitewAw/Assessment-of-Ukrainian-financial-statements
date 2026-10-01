@@ -582,7 +582,7 @@ detectBaseUrl() {
             },
             'about': {
                 title: 'About UFIN - Free Ukrainian Financial Analysis Tool | Open Source Project',
-                Works offline, supports 15 languages.
+                description: 'UFIN is a free, open-source Blazor WebAssembly tool for analyzing Ukrainian financial statements. Works offline, supports 15 languages.',
                 keywords: 'about UFIN, Ukrainian financial tool, open source financial analysis, free accounting software, Blazor financial app, .NET financial tool, open source accounting',
                 category: 'About, Information',
                 pageType: 'about',

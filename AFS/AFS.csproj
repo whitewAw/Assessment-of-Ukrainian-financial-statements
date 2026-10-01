@@ -2,9 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-		
+
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
 		<!-- GLOBALIZATION SETTINGS - Full ICU data for dynamic culture switching  -->
 		<!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -40,7 +39,7 @@
 		<!-- Use webcil format for better compression (smaller than .dll) -->
 		<WasmEnableWebcil>true</WasmEnableWebcil>
 		<!-- Strip debug info and reduce metadata -->
-		<DebugType>none</DebugType>
+		<DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
 		<OptimizationPreference>Size</OptimizationPreference>
 		<!-- Explicitly suppress the .symbols sourcemap files in the deployed artifact -->
 		<WasmEmitSymbolMap>false</WasmEmitSymbolMap>
@@ -116,16 +115,13 @@
 	<!-- FEATURE SWITCHES - Disable unused runtime features to reduce size          -->
 	<!-- ══════════════════════════════════════════════════════════════════════════ -->
 	<ItemGroup>
-		<!-- Disable unused reflection features -->
-		<RuntimeHostConfigurationOption Include="System.Reflection.Metadata.MetadataUpdater.IsSupported" Value="false" />
+		<!-- MetadataUpdater / EventSource / XmlResolver switches are set via MSBuild
+			 properties in Directory.Build.props (MetadataUpdaterSupport is kept on in
+			 Debug so Hot Reload works). -->
 		<!-- Disable StartupHook (not used in WASM) -->
 		<RuntimeHostConfigurationOption Include="System.StartupHookProvider.IsSupported" Value="false" />
-		<!-- Disable diagnostics tracing -->
-		<RuntimeHostConfigurationOption Include="System.Diagnostics.Tracing.EventSource.IsSupported" Value="false" />
 		<!-- Remove DefaultValueAttribute reflection support (Blazor does not rely on it) -->
 		<RuntimeHostConfigurationOption Include="System.ComponentModel.DefaultValueAttribute.IsSupported" Value="false" />
-		<!-- Remove XML networking resolver (saves ~30 KB) -->
-		<RuntimeHostConfigurationOption Include="System.Xml.XmlResolver.IsNetworkingEnabledByDefault" Value="false" />
 		<!-- Remove ComponentModel.TypeDescriptor reflection support (saves ~50 KB) -->
 		<RuntimeHostConfigurationOption Include="System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization" Value="false" />
 		<!-- Removed no-op switches: System.Console.UseStandardOutputEncoding (WASM uses
