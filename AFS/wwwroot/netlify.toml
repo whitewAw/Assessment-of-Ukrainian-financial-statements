@@ -19,15 +19,11 @@
   status = 301
   force = true
 
-# Canonicalize extensionless app routes (strip trailing slash).
-# Prerender writes flat /route.html snapshots, which Netlify serves at /route.
-# Any legacy /route/ URL is 301'd to the no-slash canonical (sitemap URL).
-# Only single-segment paths ending in "/" match; assets are never affected.
-[[redirects]]
-  from = "/:slug/"
-  to = "/:slug"
-  status = 301
-  force = true
+# NOTE: Do NOT add a "/:slug/" -> "/:slug" rule. Netlify ignores trailing
+# slashes when matching, so it also matches every root file (favicon.ico,
+# service-worker.js, icons, ...) and with force=true causes
+# ERR_TOO_MANY_REDIRECTS. Trailing-slash duplicates are handled by the
+# canonical tag instead.
 
 # SPA catch-all for Blazor client-side routing.
 # Netlify serves existing static files (favicon.ico, sitemap.xml, robots.txt, etc.)

@@ -72,13 +72,10 @@
         await JS.InvokeVoidAsync("ufinInterop.yieldToMain");
     }
 
-    private string AppHref(string relativePath)
-    {
-        var baseRelativePath = Navigation.ToBaseRelativePath(Navigation.BaseUri);
-        var appBasePath = string.IsNullOrEmpty(baseRelativePath) ? "/" : $"/{baseRelativePath.TrimEnd('/')}/";
-
-        return string.IsNullOrEmpty(relativePath) ? appBasePath : $"{appBasePath}{relativePath.TrimStart('/')}";
-    }
+    // Base-relative hrefs resolve against <base href>, so they work on Netlify ("/"),
+    // the GitHub Pages sub-path, and inside prerendered static HTML snapshots.
+    private static string AppHref(string relativePath) =>
+        string.IsNullOrEmpty(relativePath) ? "./" : relativePath.TrimStart('/');
 
     private IReadOnlyList<NavMenuItem> navigationItems => GetNavigationItems();
 

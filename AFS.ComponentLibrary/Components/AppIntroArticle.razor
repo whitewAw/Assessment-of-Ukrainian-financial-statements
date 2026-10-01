@@ -106,11 +106,5 @@
         await JS.InvokeVoidAsync("localStorage.setItem", CollapseStorageKey, _isCollapsed.ToString());
     }
 
-    private string AppHref(string relativePath)
-    {
-        var baseRelativePath = Navigation.ToBaseRelativePath(Navigation.BaseUri);
-        var appBasePath = string.IsNullOrEmpty(baseRelativePath) ? "/" : $"/{baseRelativePath.TrimEnd('/')}/";
-
-        return $"{appBasePath}{relativePath.TrimStart('/')}";
-    }
+    private static string AppHref(string relativePath) => relativePath.TrimStart('/');
 }
