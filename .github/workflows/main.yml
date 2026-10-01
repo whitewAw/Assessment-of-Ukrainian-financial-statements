@@ -7,10 +7,10 @@ on:
   # Allow manual trigger
   workflow_dispatch:
 
+# Least privilege: read-only by default. The deploy job only needs
+# contents:write to push the gh-pages / netlify-deploy branches.
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 # Prevent concurrent deployments
 concurrency:
@@ -31,21 +31,24 @@ jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
           dotnet-quality: 'ga'
 
       - name: Cache NuGet packages and .NET workloads
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         id: nuget-cache
         with:
           # ~/.nuget/packages      - package cache
@@ -171,14 +174,24 @@ jobs:
           echo "✅ SPA routing files ready"
 
       - name: Setup Node.js for prerendering
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           # Node 22 is the current LTS (Node 20 reaches EOL April 2026).
           node-version: '22'
 
       - name: Install prerender dependencies
         working-directory: tools/prerender
-        run: npm install --no-audit --no-fund --no-progress
+        # npm ci = exact versions from package-lock.json; --ignore-scripts blocks
+        # dependency install hooks (supply-chain hardening). Puppeteer's browser
+        # download is a postinstall hook, so it is run explicitly afterwards.
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --ignore-scripts --no-audit --no-fund --no-progress
+          else
+            echo "::warning::tools/prerender/package-lock.json missing - commit it to enable npm ci"
+            npm install --ignore-scripts --no-audit --no-fund --no-progress
+          fi
+          npx --no-install puppeteer browsers install chrome
 
       - name: Generate Open Graph image (1200x630)
         # Renders a real 1.91:1 OG/Twitter card via headless Chromium and

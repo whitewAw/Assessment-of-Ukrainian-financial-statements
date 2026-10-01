@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Keeps SHA-pinned actions up to date (Dependabot updates the SHA and the # vX.Y.Z comment).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Central package management (Directory.Packages.props).
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      nuget:
+        patterns: ["*"]
+
+  # Prerender / OG image tooling.
+  - package-ecosystem: npm
+    directory: /tools/prerender
+    schedule:
+      interval: weekly

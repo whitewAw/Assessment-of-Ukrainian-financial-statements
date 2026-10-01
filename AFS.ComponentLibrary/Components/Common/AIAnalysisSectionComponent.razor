@@ -155,16 +155,7 @@
     [Parameter]
     public EventCallback OnRecheckAvailability { get; set; }
 
-    private static string FormatAIResponse(string response)
-    {
-        if (string.IsNullOrWhiteSpace(response))
-            return string.Empty;
-
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
-    }
+    // AI output is untrusted; the shared helper HTML-encodes before formatting.
+    private static string FormatAIResponse(string response) =>
+        AFS.ComponentLibrary.Helpers.AIAnalysisHelper.FormatResponse(response);
 }
