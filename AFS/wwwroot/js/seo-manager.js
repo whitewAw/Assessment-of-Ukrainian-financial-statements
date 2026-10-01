@@ -17,7 +17,9 @@ constructor() {
     this.baseUrl = config.baseUrl || this.detectBaseUrl();
     this.canonicalBaseUrl = config.canonicalUrl || 'https://ua-finance.netlify.app/';
     this.siteName = 'UFIN - Ukrainian Financial Statement Analysis';
-    this.defaultImage = this.baseUrl + 'icon-512.png';
+    // Social/OG preview image (1200x630) generated in CI; logo stays the square icon.
+    this.defaultImage = this.canonicalBaseUrl.replace(/\/$/, '') + '/og-image.png';
+    this.logoImage = this.canonicalBaseUrl.replace(/\/$/, '') + '/icon-512.png';
     this.initialized = false;
     this.lastUrl = null;
     this.pageViews = 0;
@@ -363,16 +365,16 @@ detectBaseUrl() {
         // Comprehensive page metadata with SEO-optimized titles and descriptions
         const pageDescriptions = {
             '': {
-                title: 'UFIN - Free Financial Statement Analysis Tool | AI-Powered Calculator [2025]',
-                description: '🆓 100% FREE AI-powered financial analysis tool. Calculate liquidity ratios, ROA, ROE, solvency metrics instantly. ✅ No registration ✅ Works offline ✅ 16 tables + 7 charts ✅ 6 languages. Trusted by 10,000+ Ukrainian businesses.',
-                keywords: 'free financial analysis tool, financial calculator online, balance sheet analyzer, ROA calculator, ROE calculator, liquidity ratio calculator, solvency calculator, profitability calculator, debt to equity calculator, current ratio calculator, quick ratio calculator, free accounting software, AI financial analysis, business analysis tool, Ukrainian financial tools 2025',
+                title: 'UFIN – Free Ukrainian Financial Statement Analysis Tool',
+                description: 'Free, open-source tool for analyzing Ukrainian financial statements. Calculate liquidity, solvency, profitability and business-activity ratios from the balance sheet and income statement in your browser. No registration. Works offline. 15 languages.',
+                business analysis tool, Ukrainian financial tools'
                 category: 'Finance, Business Tools, Accounting Software, AI Tools',
                 pageType: 'home',
                 image: this.defaultImage
             },
             'aiassistant': {
                 title: 'Free AI Financial Advisor | Chat with Gemini Nano About Your Finances - UFIN',
-                description: '🤖 FREE AI financial advisor in your browser. Ask questions about liquidity, solvency, ROA, ROE in natural language. Chrome AI (Gemini Nano) runs 100% locally. No data sent to servers. Private AI financial analysis.',
+                description: 'Free AI financial advisor in your browser.
                 keywords: 'free AI financial advisor, AI financial chatbot, Gemini Nano finance, Chrome AI calculator, AI business analysis, private AI analysis, local AI financial advisor, free AI accounting, AI profitability analysis',
                 category: 'AI Tools, Financial AI, Business Intelligence',
                 pageType: 'ai-tool',
@@ -476,7 +478,7 @@ detectBaseUrl() {
             },
             'liquidityindicatorsofbalance': {
                 title: 'Free Liquidity Ratio Calculator | Current, Quick & Cash Ratio - UFIN',
-                description: '🆓 FREE liquidity ratio calculator. Calculate current ratio, quick ratio, cash ratio instantly. Analyze short-term solvency for any business. No signup. Export results. AI-powered insights included.',
+                description: 'Free liquidity ratio calculator.
                 keywords: 'free liquidity ratio calculator, current ratio calculator online, quick ratio calculator, cash ratio calculator, liquidity analysis tool, short-term solvency calculator, working capital ratio, acid test ratio calculator, free financial calculator',
                 category: 'Financial Analysis, Liquidity',
                 pageType: 'analysis-table',
@@ -484,7 +486,7 @@ detectBaseUrl() {
             },
             'solvencyratios': {
                 title: 'Free Solvency Ratio Calculator | Debt-to-Equity & Interest Coverage - UFIN',
-                description: '🆓 FREE solvency calculator. Calculate debt-to-equity ratio, interest coverage, financial leverage instantly. Analyze long-term financial health. No registration. AI-powered analysis.',
+                description: 'Free solvency calculator.
                 keywords: 'free solvency calculator, debt to equity ratio calculator, interest coverage calculator, financial leverage calculator, long-term solvency analysis, debt analysis tool, free debt ratio calculator',
                 category: 'Financial Analysis, Solvency',
                 pageType: 'analysis-table',
@@ -580,7 +582,7 @@ detectBaseUrl() {
             },
             'about': {
                 title: 'About UFIN - Free Ukrainian Financial Analysis Tool | Open Source Project',
-                description: 'Learn about UFIN, the free AI-powered financial analysis tool for Ukrainian businesses. Open-source project, MIT license, no registration required. Works offline, supports 6 languages. Built with .NET 10 Blazor WebAssembly.',
+                Works offline, supports 15 languages.
                 keywords: 'about UFIN, Ukrainian financial tool, open source financial analysis, free accounting software, Blazor financial app, .NET financial tool, open source accounting',
                 category: 'About, Information',
                 pageType: 'about',
@@ -610,13 +612,12 @@ detectBaseUrl() {
         this.setMetaTag('og:type', 'website', 'property');
         this.setMetaTag('og:image', pageInfo.image || this.defaultImage, 'property');
         this.setMetaTag('og:image:secure_url', pageInfo.image || this.defaultImage, 'property');
-        this.setMetaTag('og:image:width', '512', 'property');
-        this.setMetaTag('og:image:height', '512', 'property');
+        this.setMetaTag('og:image:width', '1200', 'property');
+        this.setMetaTag('og:image:height', '630', 'property');
         this.setMetaTag('og:image:alt', pageInfo.title, 'property');
         this.setMetaTag('og:site_name', this.siteName, 'property');
         this.setMetaTag('og:locale', 'en_US', 'property');
-        this.setMetaTag('og:locale:alternate', 'uk_UA', 'property');
-        this.setMetaTag('og:updated_time', new Date().toISOString(), 'property');
+
         
         console.log('[SEO] OpenGraph tags updated');
     }
@@ -636,7 +637,7 @@ detectBaseUrl() {
         this.setMetaTag('twitter:image:alt', pageInfo.title);
         this.setMetaTag('twitter:site', '@wAw_fromUkraine');
         this.setMetaTag('twitter:creator', '@wAw_fromUkraine');
-        this.setMetaTag('twitter:domain', window.location.hostname);
+        this.setMetaTag('twitter:domain', new URL(this.canonicalBaseUrl).hostname);
         
         
         console.log('[SEO] Twitter Card tags updated');
@@ -670,7 +671,7 @@ detectBaseUrl() {
         });
 
         // Ensure x-default is present and points at the bare route.
-        const baseForLinks = this.baseUrl.replace(/\/$/, '');
+        const baseForLinks = this.canonicalBaseUrl.replace(/\/$/, '');
         const fullPath = path ? `${baseForLinks}/${path}` : `${baseForLinks}/`;
 
         let xDefaultLink = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
@@ -742,7 +743,7 @@ detectBaseUrl() {
                 "name": "UFIN",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": this.defaultImage
+                    "url": this.logoImage
                 }
             },
             "image": pageInfo.image || this.defaultImage,
@@ -807,9 +808,9 @@ detectBaseUrl() {
             "inLanguage": document.documentElement.lang || "en",
             "isPartOf": {
                 "@type": "WebSite",
-                "@id": `${this.baseUrl}${this.basePath}#website`,
+                "@id": `${this.canonicalBaseUrl.replace(/\/$/, '')}/#website`,
                 "name": this.siteName,
-                "url": `${this.baseUrl}${this.basePath}`
+                "url": `${this.canonicalBaseUrl.replace(/\/$/, '')}/`
             },
             "about": {
                 "@type": "Thing",
@@ -819,8 +820,8 @@ detectBaseUrl() {
             "primaryImageOfPage": {
                 "@type": "ImageObject",
                 "url": pageInfo.image || this.defaultImage,
-                "width": 512,
-                "height": 512
+                "width": 1200,
+                "height": 630
             },
             "datePublished": "2022-01-01",
             "dateModified": new Date().toISOString(),
@@ -833,7 +834,7 @@ detectBaseUrl() {
                 "name": "UFIN",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": this.defaultImage
+                    "url": this.logoImage
                 }
             },
             "speakable": {

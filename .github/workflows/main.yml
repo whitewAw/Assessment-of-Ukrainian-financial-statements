@@ -193,8 +193,18 @@ jobs:
           node tools/prerender/generate-og-image.mjs release-netlify/wwwroot/og-image.png
           echo "✅ og-image.png (1200x630) written to both snapshots"
 
+      - name: Generate PWA screenshots
+        # Fills manifest.json "screenshots" (richer install UI on Chrome/Edge)
+        # and the JSON-LD "screenshot" field. Rendered from the Netlify
+        # snapshot (base href "/") and copied to the GH Pages snapshot.
+        # Must run BEFORE prerender so the root index.html is still the SPA shell.
+        continue-on-error: true
+        run: |
+          node tools/prerender/generate-screenshots.mjs release-netlify/wwwroot release/wwwroot
+          echo "✅ PWA screenshots written to both snapshots"
+
       - name: Prerender routes (Bing/Yandex/AI-bot SEO)
-        # Renders each route in headless Chromium and writes static <route>/index.html
+        # Renders each route in headless Chromium and writes static <route>.html
         # snapshots so non-JS crawlers see real content instead of the loading spinner.
         # Failures of individual routes do NOT fail the build.
         continue-on-error: true

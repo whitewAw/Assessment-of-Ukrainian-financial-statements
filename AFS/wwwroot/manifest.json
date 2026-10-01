@@ -14,7 +14,6 @@
   "lang": "en",
   "dir": "ltr",
   "categories": ["finance", "business", "productivity", "utilities"],
-  "iarc_rating_id": "",
   "icons": [
     {
       "src": "icon-192.png",
@@ -41,7 +40,22 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "UFIN financial statement analysis on desktop"
+    },
+    {
+      "src": "screenshot-narrow.png",
+      "sizes": "540x960",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "UFIN financial statement analysis on mobile"
+    }
+  ],
   "shortcuts": [
     {
       "name": "AI Assistant",

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
+    <ProjectReference Include="..\AFS.ComponentLibrary\AFS.ComponentLibrary.csproj" />
   </ItemGroup>
 
 </Project>

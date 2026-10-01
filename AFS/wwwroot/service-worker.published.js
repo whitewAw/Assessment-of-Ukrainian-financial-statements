@@ -372,8 +372,15 @@ async function handleNavigationRequest(request) {
             credentials: 'same-origin'
         });
 
-        // Try network first for fresh content
+        // Try network first for fresh content. Fetch the actual URL so the
+        // per-route prerendered snapshot (correct title/canonical) is served;
+        // fall back to index.html for SPA routes the host doesn't know about.
         try {
+            const routeResponse = await fetch(request);
+            if (routeResponse.ok) {
+                return routeResponse;
+            }
+
             const networkResponse = await fetch(indexRequest);
 
             if (networkResponse.ok) {

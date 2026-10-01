@@ -69,7 +69,7 @@
         
         // Yield to main thread to allow the CSS class change to paint
         // This ensures the visual update happens before any other processing
-        await JS.InvokeVoidAsync("eval", "window.UFIN?.scheduler?.yieldToMain?.() || Promise.resolve()");
+        await JS.InvokeVoidAsync("ufinInterop.yieldToMain");
     }
 
     private string AppHref(string relativePath)

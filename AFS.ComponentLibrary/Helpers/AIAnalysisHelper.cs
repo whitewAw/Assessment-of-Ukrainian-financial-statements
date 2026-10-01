@@ -1,5 +1,7 @@
 using AFS.Core.Interfaces;
 using Microsoft.JSInterop;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace AFS.ComponentLibrary.Helpers;
 
@@ -7,8 +9,16 @@ namespace AFS.ComponentLibrary.Helpers;
 /// Helper class for AI analysis functionality.
 /// Provides reusable methods to eliminate code duplication (DRY principle).
 /// </summary>
-public static class AIAnalysisHelper
+public static partial class AIAnalysisHelper
 {
+    // AI output is untrusted, and these responses are rendered as MarkupString.
+    private const int MaxFormattedLength = 50_000;
+
+    [GeneratedRegex(@"\*\*(?<text>.+?)\*\*", RegexOptions.Singleline | RegexOptions.ExplicitCapture, matchTimeoutMilliseconds: 1000)]
+    private static partial Regex BoldRegex();
+
+    [GeneratedRegex(@"(?m)^- ", RegexOptions.None, matchTimeoutMilliseconds: 1000)]
+    private static partial Regex BulletRegex();
     /// <summary>
     /// Checks if AI is available.
     /// </summary>
@@ -43,19 +53,18 @@ public static class AIAnalysisHelper
 
     /// <summary>
     /// Formats AI response for HTML display.
-    /// Converts markdown-style formatting to HTML.
+    /// HTML-encodes the input, then converts a safe subset of markdown (bold, bullets, line breaks).
     /// </summary>
     public static string FormatResponse(string? response)
     {
         if (string.IsNullOrWhiteSpace(response))
             return string.Empty;
 
-        return response
-            .Replace("\n\n", "<br/><br/>")
-            .Replace("\n", "<br/>")
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("- ", "• ");
+        var text = response.Length > MaxFormattedLength ? response[..MaxFormattedLength] : response;
+        var encoded = WebUtility.HtmlEncode(text.Replace("\r\n", "\n", StringComparison.Ordinal));
+        encoded = BoldRegex().Replace(encoded, "<strong>${text}</strong>");
+        encoded = BulletRegex().Replace(encoded, "• ");
+        return encoded.Replace("\n", "<br/>", StringComparison.Ordinal);
     }
 
     /// <summary>

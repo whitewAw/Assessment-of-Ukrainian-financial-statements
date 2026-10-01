@@ -43,8 +43,7 @@ public sealed class AppThemeService
             else
             {
                 // Check system preference
-                var prefersDark = await _jsRuntime.InvokeAsync<bool>("eval",
-          "window.matchMedia('(prefers-color-scheme: dark)').matches").ConfigureAwait(false);
+                var prefersDark = await _jsRuntime.InvokeAsync<bool>("ufinInterop.prefersDarkScheme").ConfigureAwait(false);
                 _currentTheme = prefersDark ? "dark" : "light";
             }
 
@@ -97,12 +96,9 @@ public sealed class AppThemeService
     {
         try
         {
-            await _jsRuntime.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{theme}')").ConfigureAwait(false);
-
-            // Update meta theme-color for mobile browsers
+            // Also updates meta theme-color for mobile browsers
             var themeColor = string.Equals(theme, "dark", StringComparison.Ordinal) ? "#1a1a1a" : "#512BD4";
-            await _jsRuntime.InvokeVoidAsync("eval",
-         $"document.querySelector('meta[name=\"theme-color\"]').setAttribute('content', '{themeColor}')").ConfigureAwait(false);
+            await _jsRuntime.InvokeVoidAsync("ufinInterop.applyTheme", theme, themeColor).ConfigureAwait(false);
 
             // Fix inline styles for dark mode
             if (string.Equals(theme, "dark", StringComparison.Ordinal))
@@ -123,28 +119,7 @@ public sealed class AppThemeService
     {
         try
         {
-            var script = @"
-           // Fix all elements with white/light inline backgrounds
-       const elements = document.querySelectorAll('[style*=""background""]');
-        elements.forEach(el => {
-     const style = el.getAttribute('style');
-            if (style && (
-    style.includes('background: white') ||
-          style.includes('background: #fff') ||
-        style.includes('background: #ffffff') ||
-          style.includes('background-color: white') ||
-               style.includes('background-color: #fff') ||
-                style.includes('background-color: #ffffff') ||
- style.includes('background-color: rgb(255') ||
-      style.includes('background-color: #f') ||
-     style.includes('background-color: #e')
-         )) {
- el.style.backgroundColor = '#2d2d2d';
-        }
-                });
-          ";
-
-            await _jsRuntime.InvokeVoidAsync("eval", script).ConfigureAwait(false);
+            await _jsRuntime.InvokeVoidAsync("ufinInterop.fixInlineDarkStyles").ConfigureAwait(false);
         }
         catch (Exception ex)
         {

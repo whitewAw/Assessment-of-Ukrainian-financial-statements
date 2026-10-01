@@ -708,25 +708,15 @@ Respond in {language}. Base everything on the actual financial data provided.";
     {
         try
         {
-            await JS.InvokeVoidAsync("eval",
-                "document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight");
+            await JS.InvokeVoidAsync("ufinInterop.scrollToBottom", ".chat-messages");
         }
-        catch { /* Ignore scroll errors */ }
+        catch (JSException ex)
+        {
+            Console.WriteLine($"[AI Chat] Scroll failed: {ex.Message}");
+        }
     }
 
-    private static string FormatMessage(string content)
-    {
-        if (string.IsNullOrWhiteSpace(content))
-            return string.Empty;
-
-        // Simple markdown-like formatting
-        var formatted = content
-            .Replace("**", "<strong>")
-            .Replace("**", "</strong>")
-            .Replace("\n", "<br/>");
-
-        return formatted;
-    }
+    private static string FormatMessage(string content) => AFS.ComponentLibrary.Helpers.AIAnalysisHelper.FormatResponse(content);
 
     private sealed class ChatMessage
     {

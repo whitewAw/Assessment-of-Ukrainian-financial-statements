@@ -18,24 +18,10 @@
     {
         try
         {
-            await JS.InvokeVoidAsync("eval", @"
-                (function() {
-                    // Create GitHub star button
-                    const container = document.getElementById('github-star-button');
-                    if (container) {
-                        const iframe = document.createElement('iframe');
-                        iframe.src = 'https://ghbtns.com/github-btn.html?user=whitewAw&repo=Assessment-of-Ukrainian-financial-statements&type=star&count=true&size=large';
-                        iframe.frameBorder = '0';
-                        iframe.scrolling = '0';
-                        iframe.width = '170';
-                        iframe.height = '30';
-                        iframe.title = 'GitHub Star Button';
-                        container.appendChild(iframe);
-                    }
-                })();
-            ");
+            await JS.InvokeVoidAsync("ufinInterop.mountGitHubStarButton", "github-star-button",
+                "https://ghbtns.com/github-btn.html?user=whitewAw&repo=Assessment-of-Ukrainian-financial-statements&type=star&count=true&size=large");
         }
-        catch (Exception ex)
+        catch (JSException ex)
         {
             Console.WriteLine($"[GitHub Widget] Error loading button: {ex.Message}");
         }

@@ -27,7 +27,7 @@ namespace AFS.Core.Components
             try
             {
                 // Update title
-                await _jsRuntime.InvokeVoidAsync("eval", $"document.title = '{JavaScriptEncode(title)}'").ConfigureAwait(false);
+                await _jsRuntime.InvokeVoidAsync("ufinInterop.setDocumentTitle", title).ConfigureAwait(false);
 
                 // Call SEO manager to update all meta tags
                 await _jsRuntime.InvokeVoidAsync("registerPageSeo", title, description).ConfigureAwait(false);
@@ -44,20 +44,6 @@ namespace AFS.Core.Components
         public string GetCanonicalUrl()
         {
             return _navigationManager.Uri.Replace(_navigationManager.BaseUri, "");
-        }
-
-        /// <summary>
-        /// Encode string for JavaScript
-        /// </summary>
-        private static string JavaScriptEncode(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return string.Empty;
-
-            return text.Replace("\\", "\\\\")
-                .Replace("'", "\\'")
-                .Replace("\"", "\\\"")
-                .Replace("\n", "\\n")
-                .Replace("\r", "\\r");
         }
     }
 }

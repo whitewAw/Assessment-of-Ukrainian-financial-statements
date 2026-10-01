@@ -66,7 +66,7 @@
         // The button will show :active state immediately via CSS
         
         // Yield to main thread to allow the click feedback to paint
-        await JS.InvokeVoidAsync("eval", "window.UFIN?.scheduler?.yieldToMain?.() || Promise.resolve()");
+        await JS.InvokeVoidAsync("ufinInterop.yieldToMain");
         
         // Now perform the theme toggle (which involves multiple JS interop calls)
         await AppThemeService.ToggleThemeAsync();

@@ -70,8 +70,11 @@
     // Callback for component parameters (Action delegate)
     private void OnFieldChanged() => OnModelPropertyChanged(this, EventArgs.Empty);
 
-    // EventHandler for model property subscriptions
-    private async void OnModelPropertyChanged(object? sender, EventArgs e)
+    // EventHandler for model property subscriptions. EventHandler requires a void
+    // signature, so the async work lives in a Task method that handles its own errors.
+    private void OnModelPropertyChanged(object? sender, EventArgs e) => _ = HandleModelChangedAsync();
+
+    private async Task HandleModelChangedAsync()
     {
         try
         {

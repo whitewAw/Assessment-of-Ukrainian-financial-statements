@@ -52,7 +52,7 @@ function normalizeRoute(route) {
 async function discoverRoutes() {
   const sitemapPath = path.join(root, 'sitemap.xml');
   const fallback = [
-    '/', '/aiassistant', '/ai-assistant',
+    '/', '/aiassistant',
     '/liquidityindicatorsofbalance', '/solvencyratios',
     '/generalindicatorsoffinancialstability', '/indicatorsofbusinessactivity',
     '/characteristicsofcapital', '/indicatorsofturnoverofcurrentassets',
@@ -208,12 +208,14 @@ async function main() {
       // Tag the snapshot for debuggability
       html = html.replace('</head>', `<meta name="prerender-rendered" content="${new Date().toISOString()}" /></head>`);
 
-      const outDir = normalizedRoute === '/' ? root : path.join(root, normalizedRoute.replace(/^\//, ''));
-      await fs.mkdir(outDir, { recursive: true });
-      const outFile = path.join(outDir, 'index.html');
-
-      // Don't overwrite the original root index.html for "/" — write to root only if missing,
-      // but for "/" we DO want to replace it so crawlers landing on / see prerendered HTML.
+      // Write flat `<route>.html` files (not `<route>/index.html`). Both Netlify
+      // and GitHub Pages serve `/route` from `route.html` with a 200, whereas a
+      // `route/` directory makes the host 301 `/route` -> `/route/`, which
+      // conflicts with our no-slash canonical and yields GSC "Redirect error".
+      const outFile = normalizedRoute === '/'
+        ? path.join(root, 'index.html')
+        : path.join(root, `${normalizedRoute.replace(/^\//, '')}.html`);
+      await fs.mkdir(path.dirname(outFile), { recursive: true });
       await fs.writeFile(outFile, html, 'utf8');
 
       succeeded++;

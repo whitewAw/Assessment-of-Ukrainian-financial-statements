@@ -139,22 +139,38 @@ if (!string.IsNullOrEmpty(uri.Query))
     }
 }
 
-// Initialize culture and model in parallel for faster startup
+// Initialize culture and model in parallel for faster startup.
+// Each task handles its own failure so a corrupted localStorage entry can't
+// prevent the app from starting; defaults are used instead.
 var cultureTask = Task.Run(async () =>
 {
-    var cultureStorageService = host.Services.GetService<ICultureStorageHandler>();
-    if (cultureStorageService != null)
+    try
     {
-        await cultureStorageService.InitializeCultureAsync().ConfigureAwait(false);
+        var cultureStorageService = host.Services.GetService<ICultureStorageHandler>();
+        if (cultureStorageService != null)
+        {
+            await cultureStorageService.InitializeCultureAsync().ConfigureAwait(false);
+        }
+    }
+    catch (Exception ex)
+    {
+        await Console.Error.WriteLineAsync($"Culture initialization failed, using default culture: {ex.Message}").ConfigureAwait(false);
     }
 });
 
 var modelTask = Task.Run(async () =>
 {
-    var modelStorageHandler = host.Services.GetService<IModelStorageHandler>();
-    if (modelStorageHandler != null)
+    try
     {
-        await modelStorageHandler.InitializeModelAsync().ConfigureAwait(false);
+        var modelStorageHandler = host.Services.GetService<IModelStorageHandler>();
+        if (modelStorageHandler != null)
+        {
+            await modelStorageHandler.InitializeModelAsync().ConfigureAwait(false);
+        }
+    }
+    catch (Exception ex)
+    {
+        await Console.Error.WriteLineAsync($"Model initialization failed, starting with empty model: {ex.Message}").ConfigureAwait(false);
     }
 });
 
