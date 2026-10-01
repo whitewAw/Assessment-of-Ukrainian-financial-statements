@@ -87,10 +87,9 @@ jobs:
         # Runs the AFS.Core.Tests xUnit suite. Failing tests block deployment.
         # Tests target net10.0 and don't require the wasm-tools workload.
         run: |
-          dotnet test AFS.Core.Tests/AFS.Core.Tests.csproj \
+          dotnet test --project AFS.Core.Tests/AFS.Core.Tests.csproj \
             -c Release \
-            --no-restore \
-            --logger "console;verbosity=normal"
+            --no-restore
 
       - name: Build and Publish with AOT
         run: |
