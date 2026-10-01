@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    # metrics.yml commits SVG cards with a PAT, which (unlike GITHUB_TOKEN)
+    # triggers workflows. Without this, every metrics run starts a full AOT deploy.
+    paths-ignore:
+      - 'metrics*.svg'
   # Allow manual trigger
   workflow_dispatch:
 
@@ -60,10 +64,9 @@ jobs:
             ~/.nuget/packages
             ~/.dotnet/sdk-manifests
             ~/.dotnet/packs
-          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj', '**/Directory.Build.props', 'global.json') }}
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('global.json', 'Directory.Packages.props', '**/Directory.Build.props', '**/*.csproj', '**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-dotnet-
-            ${{ runner.os }}-nuget-
 
       - name: Install .NET WebAssembly workloads
         run: |
@@ -176,8 +179,14 @@ jobs:
       - name: Setup Node.js for prerendering
         uses: actions/setup-node@v7
         with:
-          # Node 22 is the current LTS (Node 20 reaches EOL April 2026).
-          node-version: '22'
+          # Node 24 is the current Active LTS.
+          node-version: '24'
+
+      - name: Cache Puppeteer Chromium
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('tools/prerender/package.json', 'tools/prerender/package-lock.json') }}
 
       - name: Install prerender dependencies
         working-directory: tools/prerender
@@ -218,23 +227,24 @@ jobs:
       - name: Prerender routes (Bing/Yandex/AI-bot SEO)
         # Renders each route in headless Chromium and writes static <route>.html
         # snapshots so non-JS crawlers see real content instead of the loading spinner.
+        # GH Pages and Netlify snapshots are independent, so both run in parallel.
         # Failures of individual routes do NOT fail the build.
         continue-on-error: true
         run: |
           node tools/prerender/prerender.mjs release/wwwroot \
             --baseHref=/Assessment-of-Ukrainian-financial-statements/ \
-            --origin=https://ua-finance.netlify.app
-          echo "✅ Prerender step finished (GH Pages)"
-
-      - name: Prerender routes for Netlify snapshot
-        # Same prerender pass on the Netlify snapshot so ua-finance.netlify.app
-        # also serves real content to crawlers. Canonical origin is Netlify itself.
-        continue-on-error: true
-        run: |
+            --origin=https://ua-finance.netlify.app > prerender-ghpages.log 2>&1 &
+          gh_pid=$!
           node tools/prerender/prerender.mjs release-netlify/wwwroot \
             --baseHref=/ \
-            --origin=https://ua-finance.netlify.app
-          echo "✅ Prerender step finished (Netlify)"
+            --origin=https://ua-finance.netlify.app > prerender-netlify.log 2>&1 &
+          nl_pid=$!
+          gh_rc=0; nl_rc=0
+          wait $gh_pid || gh_rc=$?
+          wait $nl_pid || nl_rc=$?
+          echo "::group::Prerender (GH Pages) exit=$gh_rc"; cat prerender-ghpages.log; echo "::endgroup::"
+          echo "::group::Prerender (Netlify) exit=$nl_rc"; cat prerender-netlify.log; echo "::endgroup::"
+          [ $gh_rc -eq 0 ] && [ $nl_rc -eq 0 ]
 
       - name: Update sitemap lastmod dates
         run: |
@@ -295,12 +305,12 @@ jobs:
           /_framework/*
             Cache-Control: public, max-age=31536000, immutable
 
-          # Static assets - long cache
+          # Static assets - not fingerprinted, so revalidate (matches netlify.toml)
           /css/*
-            Cache-Control: public, max-age=604800
+            Cache-Control: public, max-age=0, must-revalidate
 
           /js/*
-            Cache-Control: public, max-age=604800
+            Cache-Control: public, max-age=0, must-revalidate
 
           # WebAssembly files - immutable cache + correct MIME type
           /*.wasm
@@ -311,55 +321,38 @@ jobs:
           /service-worker.js
             Cache-Control: no-cache, no-store, must-revalidate
 
-          # HTML files - short cache for updates
+          # HTML files - always revalidate (matches netlify.toml)
           /*.html
-            Cache-Control: public, max-age=3600
+            Cache-Control: public, max-age=0, must-revalidate
           EOF
             echo "✅ _headers written to $wwwroot"
           done
 
       - name: Fix service-worker-assets.js hashes
+        # Files rewritten after publish (prerender, sed, OG image) no longer match
+        # the SRI hashes in the manifest. Recompute them in a single Node pass.
         run: |
           for wwwroot in release/wwwroot release-netlify/wwwroot; do
-            if [ ! -f "$wwwroot/service-worker-assets.js" ]; then
-              echo "⚠️ $wwwroot/service-worker-assets.js not found, skipping hash fix"
-              continue
-            fi
-
-            pushd "$wwwroot" >/dev/null
-            jsFile=$(<service-worker-assets.js)
-            json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
-
-            if ! echo "$json" | jq empty 2>/dev/null; then
-              echo "⚠️ Invalid JSON in $wwwroot/service-worker-assets.js, skipping hash fix"
-              popd >/dev/null
-              continue
-            fi
-
-            assets=$(echo "$json" | jq '.assets[]' -c)
-            updated_count=0
-            while IFS= read -r asset; do
-              [ -z "$asset" ] && continue
-              oldHash=$(echo "$asset" | jq -r '.hash')
-              path=$(echo "$asset" | jq -r '.url')
-
-              if [[ "$path" == *"index.html"* ]] || [[ ! -f "$path" ]]; then
-                continue
-              fi
-
-              newHash="sha256-$(openssl dgst -sha256 -binary "$path" | openssl base64 -A)"
-
-              if [ "$oldHash" != "$newHash" ]; then
-                oldHashEscaped=$(printf '%s\n' "$oldHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
-                newHashEscaped=$(printf '%s\n' "$newHash" | sed 's/[[\.*^$()+?{|]/\\&/g')
-                jsFile=$(echo -n "$jsFile" | sed "s|$oldHashEscaped|$newHashEscaped|g")
-                ((++updated_count))
-              fi
-            done <<< "$assets"
-
-            echo -n "$jsFile" > service-worker-assets.js
-            popd >/dev/null
-            echo "✅ Updated $updated_count asset hashes in $wwwroot"
+            WWWROOT="$wwwroot" node --input-type=module -e '
+              import { readFileSync, writeFileSync, existsSync } from "node:fs";
+              import { createHash } from "node:crypto";
+              import { join } from "node:path";
+              const root = process.env.WWWROOT;
+              const file = join(root, "service-worker-assets.js");
+              if (!existsSync(file)) { console.log(`⚠️ ${file} not found, skipping`); process.exit(0); }
+              const src = readFileSync(file, "utf8");
+              const manifest = JSON.parse(src.replace(/^\s*self\.assetsManifest\s*=\s*/, "").replace(/;\s*$/, ""));
+              let updated = 0;
+              for (const a of manifest.assets) {
+                if (a.url.endsWith("index.html")) continue;
+                const p = join(root, a.url);
+                if (!existsSync(p)) continue;
+                const h = "sha256-" + createHash("sha256").update(readFileSync(p)).digest("base64");
+                if (h !== a.hash) { a.hash = h; updated++; }
+              }
+              writeFileSync(file, "self.assetsManifest = " + JSON.stringify(manifest, null, 2) + ";\n");
+              console.log(`✅ Updated ${updated} asset hashes in ${root}`);
+            '
           done
 
       - name: Calculate deployment statistics

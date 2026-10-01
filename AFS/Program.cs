@@ -142,7 +142,7 @@ if (!string.IsNullOrEmpty(uri.Query))
 // Initialize culture and model in parallel for faster startup.
 // Each task handles its own failure so a corrupted localStorage entry can't
 // prevent the app from starting; defaults are used instead.
-var cultureTask = Task.Run(async () =>
+async Task InitializeCultureAsync()
 {
     try
     {
@@ -156,9 +156,9 @@ var cultureTask = Task.Run(async () =>
     {
         await Console.Error.WriteLineAsync($"Culture initialization failed, using default culture: {ex.Message}").ConfigureAwait(false);
     }
-});
+}
 
-var modelTask = Task.Run(async () =>
+async Task InitializeModelAsync()
 {
     try
     {
@@ -172,9 +172,10 @@ var modelTask = Task.Run(async () =>
     {
         await Console.Error.WriteLineAsync($"Model initialization failed, starting with empty model: {ex.Message}").ConfigureAwait(false);
     }
-});
+}
 
-// Wait for both initialization tasks
-await Task.WhenAll(cultureTask, modelTask).ConfigureAwait(false);
+// Both start immediately and overlap on their localStorage interop awaits;
+// Task.Run adds no parallelism on single-threaded WASM.
+await Task.WhenAll(InitializeCultureAsync(), InitializeModelAsync()).ConfigureAwait(false);
 
 await host.RunAsync().ConfigureAwait(false);

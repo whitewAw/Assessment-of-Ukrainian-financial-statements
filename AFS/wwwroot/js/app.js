@@ -1,4 +1,4 @@
-﻿/**
+/**
  * UFIN Financial Analysis Tool - Main Application Script (Optimized for TBT)
  * Handles Blazor initialization with minimal blocking
  */
@@ -69,12 +69,8 @@
             if (type === 'dotnetjs') updateProgress('Loading runtime');
             if (type === 'assembly') updateProgress('Loading assemblies');
 
-            // Add cache-busting query param for runtime files
-            // This ensures browser re-downloads when integrity changes (new build)
-            if (type === 'dotnetjs' || type === 'dotnetwasm') {
-                return defaultUri + (integrity ? '?v=' + integrity.substring(0, 8) : '');
-            }
-            
+            // Return the URI unchanged: .NET 10 fingerprints framework files, and a
+            // query string would miss the service-worker cache (keyed by exact URL).
             return defaultUri;
         },
         environment: 'Production'

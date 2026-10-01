@@ -4,7 +4,15 @@
 self.importScripts('./service-worker-assets.js');
 self.addEventListener('install', event => event.waitUntil(onInstall(event)));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
-self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
+self.addEventListener('fetch', event => {
+    // Let the browser handle speculative prefetch/prerender itself: these are
+    // often cancelled mid-flight, which would surface as "Failed to fetch".
+    const purpose = event.request.headers.get('Sec-Purpose') || event.request.headers.get('Purpose') || '';
+    if (purpose.includes('prefetch') || purpose.includes('prerender')) {
+        return;
+    }
+    event.respondWith(onFetch(event));
+});
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
