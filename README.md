@@ -982,14 +982,21 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### Growth & Distribution 📈
 
-Technical SEO is **complete** (sitemap, hreflang ×15, JSON-LD, prerender, localized landing intro). Search-engine *visibility*, however, is downstream of authority signals (backlinks, brand searches, custom domain) — none of which can be solved in code. Items below are in **rough order of impact**, biggest first:
+Technical SEO is **complete** (sitemap, `x-default` hreflang, JSON-LD, per-route prerender, localized landing intro, `llms.txt`, IndexNow). Per-language hreflang is intentionally omitted until per-language prerender exists — `?lang=*` variants serve identical HTML and would be flagged as duplicates. Search-engine *visibility*, however, is downstream of authority signals (backlinks, brand searches, custom domain) — none of which can be solved in code. Items below are in **rough order of impact**, biggest first:
 
-- [ ] **Custom domain** (e.g. `ufin.com.ua`, `ua-finance.com`, `bilans.ua`) — $10–30/yr. The single biggest trust signal upgrade. `*.netlify.app` is treated as low-trust by Google. After registration: point CNAME at Netlify, enable HTTPS, then update `<base href>` rewrites in `.github/workflows/main.yml`, all `<loc>` entries in `sitemap.xml`, the `CANONICAL` constant in `index.html`, the JSON-LD `@id` URLs, and the `Sitemap:` line in `robots.txt`.
-- [ ] **Backlinks from Ukrainian accounting / fintech / university sites** — even 5–10 quality inbound links would 10× ranking ability for Ukrainian queries. Outreach targets: KNEU / KPI / Lviv Polytechnic accounting faculties, [Habr](https://habr.com/) Ukrainian-language post, [DOU.ua](https://dou.ua/) project showcase, Reddit `r/ukraine` / `r/Ukrainian`, accounting Telegram channels, IFA Ukraine, Ukrainian Bar Association tax-law section.
+- [ ] **Custom domain** (e.g. `ufin.com.ua`, `ua-finance.com`, `bilans.ua`) — $10–30/yr. A shared `*.netlify.app` subdomain carries no brand equity and can't be moved later without losing accumulated rankings. After registration: add the domain in Netlify (HTTPS is automatic), set it as primary so `ua-finance.netlify.app` 301-redirects, then replace every `ua-finance.netlify.app` reference (`<base href>` stays `/`):
+  - `AFS/wwwroot/index.html` — canonical, `x-default` hreflang, OG/Twitter meta (incl. `twitter:domain`), `CANONICAL` / `isNetlify` host check, JSON-LD `@id` / `url` / images
+  - `AFS/wwwroot/404.html` — `isNetlify` host check
+  - `AFS/wwwroot/sitemap.xml`, `robots.txt` (`Sitemap:`), `llms.txt`
+  - `.github/workflows/main.yml` — prerender `--origin=`, IndexNow `SITE_HOST`, deploy summary
+  - `tools/prerender/prerender.mjs` and `generate-og-image.mjs` defaults
+  - `README.md` badges/links, visitor-badge `path` (new counter starts at 0)
+  - Re-verify the new property in Google Search Console, Bing Webmaster Tools and Yandex Webmaster, and resubmit the sitemap.
+even 5–10 quality inbound links substantially improve ranking ability for Ukrainian queries.
 - [ ] **Long-form content per ratio** — turn each calculator route into an SEO landing page: `@page "/articles/current-ratio-explained"` with formula, examples, Ukrainian industry benchmarks, link to calculator. ≈ 18 routes × 15 languages × 800 words. This is exactly what `buhgalter.com.ua` and `dtkt.com.ua` do to dominate Ukrainian finance SERPs. Could be partially automated using the existing AI Assistant prompt infrastructure.
-- [ ] **Submit to directories**: [ProductHunt](https://www.producthunt.com/) launch, [AlternativeTo](https://alternativeto.net/) (under accounting/finance), [FreeCodeCamp catalog](https://www.freecodecamp.org/news/), [Awesome Blazor](https://github.com/AdrienTorris/awesome-blazor) PR, [Awesome WASM](https://github.com/mbasso/awesome-wasm) PR, [Awesome Ukrainian Open Source](https://github.com/blacklisted/awesome-ukrainian-os) PR, [Chrome AI gallery](https://developer.chrome.com/docs/ai/built-in) submission (you ship Gemini Nano integration — they're actively curating).
+[freeCodeCamp News](https://www.freecodecamp.org/news/) article, [Awesome Blazor](https://github.com/AdrienTorris/awesome-blazor) PR, [Awesome WASM](https://github.com/mbasso/awesome-wasm) PR, an "awesome Ukrainian open source" list PR, and Chrome built-in AI showcases/early-preview community (the app ships a Gemini Nano integration).
 
-**Realistic timeline if all four are pursued:**
+**Realistic timeline if all four are pursued** (rough estimates, not measured):
 
 | Effort | Expected outcome (Ukrainian market) |
 |---|---|
