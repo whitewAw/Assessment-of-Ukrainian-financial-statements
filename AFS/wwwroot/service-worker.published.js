@@ -367,8 +367,17 @@ async function staleWhileRevalidate(request) {
         return null;
     });
 
-    // Return cached version immediately if available, otherwise wait for network
-    return cachedResponse || fetchPromise;
+    // Return cached version immediately if available, otherwise wait for network.
+    // respondWith() must never receive null, so surface a real error when offline
+    // with nothing cached (onFetch turns it into the offline response).
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+    const networkResponse = await fetchPromise;
+    if (!networkResponse) {
+        throw new Error(`Offline and not cached: ${request.url}`);
+    }
+    return networkResponse;
 }
 
 /**
