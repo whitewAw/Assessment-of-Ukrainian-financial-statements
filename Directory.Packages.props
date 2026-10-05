@@ -9,14 +9,14 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Localization" Version="10.0.12" />
     <!-- UI / Charts -->
-    <PackageVersion Include="Radzen.Blazor" Version="12.0.1" />
+    <PackageVersion Include="Radzen.Blazor" Version="12.0.5" />
     <PackageVersion Include="Blazor-ApexCharts" Version="7.0.0" />
     <!-- Storage -->
     <PackageVersion Include="Blazored.LocalStorage" Version="4.5.0" />
     <!-- Analyzers (shared via Directory.Build.props) -->
-    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.290" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.294" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.35.0.4138" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="5.0.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="5.0.1" />
     <!-- Test stack (xunit.v3 on Microsoft.Testing.Platform; no VSTest adapters needed) -->
     <PackageVersion Include="xunit.v3" Version="4.0.1" />
   </ItemGroup>
