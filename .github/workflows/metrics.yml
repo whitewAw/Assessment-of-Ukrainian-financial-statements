@@ -110,7 +110,7 @@ jobs:
       # ============================================
       - name: Generate Main Metrics
         id: lowlighter_metrics_main
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
@@ -166,7 +166,7 @@ jobs:
       # ============================================
       - name: Generate Activity Metrics
         id: lowlighter_metrics_activity
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
@@ -196,7 +196,7 @@ jobs:
       # ============================================
       - name: Generate Technology Stack
         id: lowlighter_metrics_languages
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
@@ -226,7 +226,7 @@ jobs:
       # ============================================
       - name: Generate Project Stats
         id: lowlighter_metrics_stats
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
@@ -254,7 +254,7 @@ jobs:
       # ============================================
       - name: Generate Achievements
         id: lowlighter_metrics_achievements
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
@@ -282,7 +282,7 @@ jobs:
       # ============================================
       - name: Generate Compact Card
         id: lowlighter_metrics_compact
-        uses: lowlighter/metrics@v3.34
+        uses: lowlighter/metrics@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
