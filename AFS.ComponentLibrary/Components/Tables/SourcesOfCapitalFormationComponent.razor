@@ -1,0 +1,366 @@
+﻿@page "/sourcesofcapitalformation"
+@inject SourcesOfCapitalFormation SourcesOfCapitalFormation
+@inject AfsModel AfsModel
+<SeoHead Title="Sources of Capital Formation | UFIN"
+         Description="Breakdown of equity, long-term debt, short-term debt and retained earnings as funding sources from a Ukrainian balance sheet." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadTwoYearsDetail />
+        <tbody>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.TotalSourcesOfCapital.Base
+                                                      Current=@SourcesOfCapitalFormation.TotalSourcesOfCapital.Current Colspan=2 FieldName=@ResLoc["TotalSourcesOfCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.Equity.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.Equity.Base
+                                                      Current=@SourcesOfCapitalFormation.Equity.Current FieldName=@ResLoc["Equity"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.Equity.InPercentageOfAssetsBase
+                                                      Current=@SourcesOfCapitalFormation.Equity.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["in%toSourcesOfCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.OwnCurrentAssets.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OwnCurrentAssets.Base
+                                                      Current=@SourcesOfCapitalFormation.OwnCurrentAssets.Current Spacing="pl-3" FieldName=@ResLoc["OwnCurrentAssets"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityBase
+                                                      Current=@SourcesOfCapitalFormation.OwnCurrentAssets.InPercentageOfEquityCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%ToEquity"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.RaisedCapital.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.RaisedCapital.Base
+                                                      Current=@SourcesOfCapitalFormation.RaisedCapital.Current FieldName=@ResLoc["RaisedCapital"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsBase
+                                                      Current=@SourcesOfCapitalFormation.RaisedCapital.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["in%toSourcesOfCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.LongTermLiabilities.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LongTermLiabilities.Base
+                                                      Current=@SourcesOfCapitalFormation.LongTermLiabilities.Current Spacing="pl-3" FieldName=@ResLoc["LongTermLiabilities_"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalBase
+                                                      Current=@SourcesOfCapitalFormation.LongTermLiabilities.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.ShortTermLoans.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.ShortTermLoans.Base
+                                                      Current=@SourcesOfCapitalFormation.ShortTermLoans.Current Spacing="pl-3" FieldName=@ResLoc["ShortTermLoans"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalBase
+                                                      Current=@SourcesOfCapitalFormation.ShortTermLoans.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
+            </tr>
+
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.AccountsPayable.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.AccountsPayable.Base
+                                                      Current=@SourcesOfCapitalFormation.AccountsPayable.Current Spacing="pl-3" FieldName=@ResLoc["AccountsPayable"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalBase
+                                                      Current=@SourcesOfCapitalFormation.AccountsPayable.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.OtherCurrentLiabilities.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OtherCurrentLiabilities.Base
+                                                      Current=@SourcesOfCapitalFormation.OtherCurrentLiabilities.Current Spacing="pl-3" FieldName=@ResLoc["OtherCurrentLiabilities"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalBase
+                                                      Current=@SourcesOfCapitalFormation.OtherCurrentLiabilities.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Base
+                                                      Current=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.Current Spacing="pl-3" FieldName=@ResLoc["LiabilitiesRelatedNonCurrentAssetsHeldForSale"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.InPercentageOfBorrowedCapitalBase
+                                                      Current=@SourcesOfCapitalFormation.LiabilitiesRelatedNonCurrentAssetsHeldForSale.InPercentageOfBorrowedCapitalCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%OfBorrowedCapital"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@SourcesOfCapitalFormation.FutureIncome.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.FutureIncome.Base
+                                                      Current=@SourcesOfCapitalFormation.FutureIncome.Current FieldName=@ResLoc["FutureIncome"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@SourcesOfCapitalFormation.FutureIncome.InPercentageOfAssetsBase
+                                                      Current=@SourcesOfCapitalFormation.FutureIncome.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["in%toSourcesOfCapital"] />
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildCapitalStructurePrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeCapitalSources"]"
+                 LoadingMessage="AI is analyzing capital structure..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["SourcesOfCapitalFormation"];
+        int number = 10;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildCapitalStructurePrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeSourcesOfCapital(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            SourcesOfCapitalFormation.TotalSourcesOfCapital,
+            SourcesOfCapitalFormation.Equity,
+            SourcesOfCapitalFormation.OwnCurrentAssets,
+            SourcesOfCapitalFormation.RaisedCapital,
+            SourcesOfCapitalFormation.LongTermLiabilities,
+            SourcesOfCapitalFormation.ShortTermLoans,
+            SourcesOfCapitalFormation.AccountsPayable,
+            SourcesOfCapitalFormation.OtherCurrentLiabilities
+        );
+
+        return $@"You are a financial analyst specializing in capital structure, financial leverage, and corporate finance. Analyze the following Sources of Capital Formation for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+You are analyzing FOUR data points per metric (2 years Ã— 2 time points):
+- {MainModel.BaseYear} Beginning and End
+- {MainModel.CurrentYear} Beginning and End
+
+This table shows CAPITAL STRUCTURE - how the company finances its operations.
+
+CAPITAL HIERARCHY:
+Total Capital Sources (100%)
++- 1. Equity (Own Capital) + % of Total
+Â¦  +- 1.1 Own Current Assets + % of Equity
++- 2. Borrowed Capital + % of Total
+Â¦  +- 2.1 Long-term Liabilities + % of Debt
+Â¦  +- 2.2 Short-term Loans + % of Debt
+Â¦  +- 2.3 Accounts Payable + % of Debt
+Â¦  +- 2.4 Other Current Liabilities + % of Debt
+Â¦  +- 2.5 Liabilities for Assets Held for Sale
++- 3. Future Period Income
+
+NAMING CONVENTIONS:
+Use proper names:
+- ""Equity"" or ""Shareholders' Equity"" (not ""Own Capital"")
+- ""Borrowed Capital"" or ""Total Debt"" (not ""Raised Capital"")
+- ""Accounts Payable"" (supplier credit)
+- ""Own Current Assets"" (working capital from equity)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+KEY FORMULAS:
+- Equity Ratio = Equity Ã· Total Capital Ã— 100
+- Debt Ratio = Borrowed Capital Ã· Total Capital Ã— 100
+- Equity-to-Debt Ratio = Equity Ã· Borrowed Capital
+- Financial Leverage = Total Capital Ã· Equity
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (â€¢) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on MEANING
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Capital Structure Verdict**:
+   - 2-3 sentences on overall capital structure
+   - Primary finding: Financial independence or over-leveraged?
+   - Key trend: Equity increasing or decreasing?
+   - Quick verdict on financial health
+
+**2. Total Capital Sources Analysis**:
+   - Total funding trend
+   - {MainModel.BaseYear}: Begin vs End
+   - {MainModel.CurrentYear}: Begin vs End
+   - Capital adequacy assessment
+   - Growth or contraction interpretation
+
+**3. Equity (Shareholders' Equity) Analysis**:
+   - Equity level and trend
+   - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
+   - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
+   - **Interpretation:**
+     â€¢ >50% = Strong financial independence ?
+     â€¢ 40-50% = Balanced, healthy
+     â€¢ 30-40% = Moderate leverage
+     â€¢ <30% = High leverage, risky
+   - Trend: improving or deteriorating?
+
+**4. Own Current Assets Analysis - CRITICAL**:
+   - {MainModel.BaseYear}: [amount] ([percent]% of equity)
+   - {MainModel.CurrentYear}: [amount] ([percent]% of equity)
+   - **Interpretation:**
+     â€¢ Positive & Large = Equity finances working capital (conservative) ?
+     â€¢ Near Zero = Equity covers only fixed assets (balanced)
+     â€¢ NEGATIVE = Working capital ENTIRELY from debt (risky) 
+   - **This metric reveals HOW working capital is financed**
+   - Assessment and implications
+
+**5. Borrowed Capital Analysis**:
+   - Total debt and trend
+   - {MainModel.BaseYear} End: [amount] ([percent]% of capital)
+   - {MainModel.CurrentYear} End: [amount] ([percent]% of capital)
+   - **Interpretation:**
+     â€¢ <50% = Conservative, low risk 
+     â€¢ 50-60% = Moderate leverage
+     â€¢ 60-70% = Aggressive leverage
+     â€¢ >70% = High risk 
+   - Debt reliance assessment
+
+**6. Equity vs Debt Balance**:
+   - Calculate Equity-to-Debt Ratio for both years
+   - {MainModel.BaseYear}: Equity/Debt = [ratio]
+   - {MainModel.CurrentYear}: Equity/Debt = [ratio]
+   - **Benchmarks:**
+     â€¢ >1.0 = More equity than debt (conservative)
+     â€¢ 0.5-1.0 = Balanced
+     â€¢ <0.5 = Debt heavy (risky)
+   - Optimal capital structure assessment
+
+**7. Debt Component Decomposition**:
+   
+   **Long-term Liabilities:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Strategic debt for investments
+   - Maturity structure
+   
+   **Short-term Loans:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Operating credit lines
+   - Usually minimal
+   
+   **Accounts Payable (KEY):**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Supplier credit = FREE financing ?
+   - Typically largest component
+   - Payment terms assessment
+   
+   **Other Current Liabilities:**
+   - [amount] thousand UAH ([percent]% of debt)
+   - Accrued expenses, taxes
+   
+   **Which component dominates? Is this optimal?**
+
+**8. Debt Maturity Profile**:
+   - Long-term vs Short-term debt ratio
+   - Maturity balance assessment
+   - **Risks:**
+     â€¢ Too much short-term = Refinancing risk
+     â€¢ All long-term = Higher cost
+   - Optimal maturity mix recommendation
+
+**9. Capital Structure Evolution**:
+   - Four-point trend analysis
+   - Intra-year changes (within each year)
+   - Inter-year changes (2019 vs 2020)
+   - **Identify trend:**
+     â€¢ Increasing leverage?
+     â€¢ Deleveraging?
+     â€¢ Stable structure?
+   - Financial strategy assessment
+
+**10. Strategic Recommendations**:
+    
+    **Capital Structure Optimization:**
+    â€¢ Target equity % (recommend 40-50%)
+    â€¢ Target debt % (recommend 50-60%)
+    â€¢ Optimal leverage level
+    
+    **If Equity is LOW (<30%):**
+    â€¢ Retain earnings instead of dividends
+    â€¢ Consider equity injection
+    â€¢ Reduce debt where possible
+    â€¢ Target: 40% equity within 2 years
+    
+    **If Debt is HIGH (>70%):**
+    â€¢ Debt reduction priority
+    â€¢ Refinancing opportunities
+    â€¢ Asset sales if needed
+    â€¢ Target: <60% debt
+    
+    **Own Current Assets Strategy:**
+    â€¢ If NEGATIVE: Increase equity for working capital
+    â€¢ Target: At least break-even
+    â€¢ Reduce fixed asset investments temporarily
+    â€¢ Build equity buffer
+    
+    **Debt Composition Optimization:**
+    â€¢ Maximize Accounts Payable (free credit)
+    â€¢ Extend payment terms with suppliers
+    â€¢ Minimize costly bank loans
+    â€¢ Balance long-term vs short-term
+    
+    **Working Capital Financing:**
+    â€¢ How much from equity vs debt?
+    â€¢ Optimal mix for liquidity
+    â€¢ Credit line management
+    
+    **Implementation Timeline:**
+    â€¢ Immediate (30 days): [specific actions]
+    â€¢ Short-term (3-6 months): [tactical changes]
+    â€¢ Long-term (1-2 years): [strategic transformation]
+    â€¢ Quarterly monitoring: [key metrics]
+
+INTERPRETATION GUIDANCE:
+- Equity %: HIGHER is better (financial independence)
+- Debt %: LOWER is better (less risk)
+- Own Current Assets: POSITIVE is better (equity covers working capital)
+- Accounts Payable %: HIGHER is good (free financing)
+- Equity-to-Debt Ratio: HIGHER is more conservative
+
+CRITICAL INSIGHTS:
+1. Is the company financially independent or over-leveraged?
+2. Is equity % increasing (good) or decreasing (bad)?
+3. Is working capital funded by equity or debt?
+4. What's the debt composition? (long-term vs short-term, AP vs loans)
+5. Is Accounts Payable being used effectively?
+6. Are there refinancing risks?
+7. What's the optimal capital structure target?
+8. Should the company raise equity or reduce debt?
+
+WRITING STYLE:
+- Direct and professional
+- Active voice
+- Integrate numbers naturally
+- Explain WHY changes matter
+- Provide strategic context
+- Be analytical and actionable
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+        }

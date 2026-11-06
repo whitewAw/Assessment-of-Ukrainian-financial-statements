@@ -1,0 +1,75 @@
+<RadzenCard Style="width: 100%;">
+    <table class="table table-bordered py-0 table-sm">
+        <thead>
+            <tr>
+                <ThComponent />
+                <ThComponent>@MainModel.BaseYear @ResLoc["year"]</ThComponent>
+                <ThComponent>@MainModel.CurrentYear @ResLoc["year"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <TdComponent>@ResLoc["AverageNumberOfEmployees"], @ResLoc["people"]</TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.AverageNumberOfEmployeesBase class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.AverageNumberOfEmployeesCurrent class="w-100" />
+                </TdComponent>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-bordered py-0 table-sm">
+        <thead>
+            <tr>
+                <ThComponent Rowspan=2 />
+                <ThComponent Colspan=2>@ResLoc["ReceivedFixedAssets"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["RetiredFixedAssets"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent>@ResLoc["total_"]</ThComponent>
+                <ThComponent>@ResLoc["includingNew"]</ThComponent>
+                <ThComponent>@ResLoc["total_"]</ThComponent>
+                <ThComponent>@ResLoc["includingEliminated"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <TdComponent>@MainModel.BaseYear&nbsp;@ResLoc["year"]</TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedFixedAssets class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.ReceivedNewlyAcquiredFixedAssets class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LeftFixedAssets class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoBase.LiquidatedFixedAssets class="w-100" />
+                </TdComponent>
+            </tr>
+            <tr>
+                <TdComponent>@MainModel.CurrentYear&nbsp;@ResLoc["year"]</TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedFixedAssets class="w-100"  />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.ReceivedNewlyAcquiredFixedAssets class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LeftFixedAssets class="w-100" />
+                </TdComponent>
+                <TdComponent TextAlignment="MR">
+                    <RadzenNumeric TValue="double" ShowUpDown="false" @bind-Value=@MainModel.AdditionalInfo.FixedAssetsInfoCurrent.LiquidatedFixedAssets class="w-100" />
+                </TdComponent>
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public Action? FieldChanged {get; set;} 
+}

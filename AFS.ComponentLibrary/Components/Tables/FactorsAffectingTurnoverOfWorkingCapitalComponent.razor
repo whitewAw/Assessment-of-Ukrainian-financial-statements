@@ -1,0 +1,290 @@
+﻿@page "/factorsaffectingturnoverofworkingcapital"
+@inject FactorsAffectingTurnoverOfWorkingCapital FactorsAffectingTurnoverOfWorkingCapital
+@inject AfsModel AfsModel
+<SeoHead Title="Factors Affecting Working-Capital Turnover | UFIN"
+         Description="Identify the drivers of working-capital turnover â€” quantify the impact of revenue and average balances on operating-cycle efficiency." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <thead>
+            <tr>
+                <ThComponent Rowspan=3>@ResLoc["NumberInOrder"]</ThComponent>
+                <ThComponent Rowspan=3>@ResLoc["TypesOfCurrentAssets"]</ThComponent>
+                <ThComponent Colspan=3>@ResLoc["Turnover"], @ResLoc["days"]</ThComponent>
+                <ThComponent Colspan=3>@ResLoc["Deviation_"] (+,-)</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent Rowspan=2>@MainModel.BaseYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Rowspan=2>@MainModel.CurrentYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["adjustedIndicator"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["total_"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["includingDueTo"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent>@ResLoc["revenue"]</ThComponent>
+                <ThComponent>@ResLoc["averageBalances"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <TrFactorsAffectingTurnoverOfWorkingCapitalComponent FieldName=@ResLoc["MoneyAndTheirEquivalents"] Item=@FactorsAffectingTurnoverOfWorkingCapital.Money />
+            <TrFactorsAffectingTurnoverOfWorkingCapitalComponent FieldName=@ResLoc["AccountsReceivable"] Item=@FactorsAffectingTurnoverOfWorkingCapital.Receivables />
+            <TrFactorsAffectingTurnoverOfWorkingCapitalComponent FieldName=@ResLoc["Tangibles"] Item=@FactorsAffectingTurnoverOfWorkingCapital.MaterialValues />
+            <TrFactorsAffectingTurnoverOfWorkingCapitalComponent FieldName=@ResLoc["TotalWorkingCapital"] Item=@FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital />
+            <tr>
+                <TdComponent TextAlignment="ML">@FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Number</TdComponent>
+                <TdComponent TextAlignment="ML">@ResLoc["OneDaySalesRevenue"]</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.BaseYear,2)</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.CurrentYear,2)</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Total,2)</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildFactorsAnalysisPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeFactorsAffectingTurnover"]"
+                 LoadingMessage="AI is analyzing turnover factors..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["FactorsAffectingTurnoverOfWorkingCapital"];
+        int number = 3;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildFactorsAnalysisPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 3: FACTORS AFFECTING TURNOVER OF WORKING CAPITAL
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+Unit: Turnover in DAYS (lower is better)
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**1. MONEY AND ITS EQUIVALENTS (Cash)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.Money.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.Money.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.Money.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.Money.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days
+
+**2. ACCOUNTS RECEIVABLE**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.Receivables.DueToAverageBalances:N2} days
+
+**3. MATERIAL VALUES (Inventory)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.MaterialValues.DueToAverageBalances:N2} days
+
+**4. TOTAL CURRENT ASSETS (Working Capital)**
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.BaseYear:N2} days
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.CurrentYear:N2} days
+   Adjusted indicator: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.AdjustedIndicator:N2} days
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.Total:N2} days
+   Including due to:
+     - Revenues: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.DueToRevenue:N2} days
+     - Average balances: {FactorsAffectingTurnoverOfWorkingCapital.TotalWorkingCapital.DueToAverageBalances:N2} days
+
+**5. ONE-DAY REVENUE FROM SALES** [Baseline metric]
+   {MainModel.BaseYear}: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.BaseYear:N2} thousand UAH
+   {MainModel.CurrentYear}: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.CurrentYear:N2} thousand UAH
+   Total deviation: {FactorsAffectingTurnoverOfWorkingCapital.OneDaySalesRevenue.Total:N2} thousand UAH
+";
+
+        return $@"You are a financial analyst specializing in working capital efficiency and factor analysis. Analyze the Factors Affecting Turnover of Working Capital for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING FACTOR ANALYSIS:
+This table shows HOW and WHY turnover periods changed by decomposing the total change into TWO FACTORS:
+
+**TOTAL DEVIATION** = Change from {MainModel.BaseYear} to {MainModel.CurrentYear}
+  â€¢ Formula: Current year - Base year
+  â€¢ Example: 8.55 - 6.61 = 1.94 days (cash turnover WORSENED by 1.94 days)
+
+**ADJUSTED INDICATOR** = What turnover WOULD BE if ONLY revenue changed
+  â€¢ Formula: Base year average balance / Current year one-day revenue
+  â€¢ Shows isolated impact of revenue growth/decline
+  â€¢ Example: If revenue drops, this increases (takes more days to turn over same balance)
+
+**DUE TO REVENUE** = Impact of revenue changes on turnover
+  â€¢ Formula: Adjusted indicator - Base year
+  â€¢ Positive = revenue decline WORSENED turnover (more days needed)
+  â€¢ Negative = revenue growth IMPROVED turnover (fewer days needed)
+
+**DUE TO AVERAGE BALANCES** = Impact of balance changes on turnover
+  â€¢ Formula: Current year - Adjusted indicator
+  â€¢ Positive = balances grew, WORSENING turnover (more capital tied up)
+  â€¢ Negative = balances shrank, IMPROVING turnover (less capital needed)
+
+**VERIFICATION**: Total deviation = Due to revenue + Due to average balances
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat the raw data I provided
+- The user can see all data in the table
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall working capital efficiency: improved or declined?
+- PRIMARY driver: revenue changes or balance management?
+- Overall verdict
+
+**2. One-Day Revenue Context** (Row 5)
+- Revenue trend from {MainModel.BaseYear} to {MainModel.CurrentYear}
+- Impact on operational baseline
+- Sets context for all other rows
+
+**3. Cash Turnover Analysis** (Row 1)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (faster or slower?)
+- Adjusted indicator: what revenue alone would have caused
+- Factor breakdown:
+  â€¢ Revenue impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToRevenue:N2} days - explain direction
+  â€¢ Balance impact: {FactorsAffectingTurnoverOfWorkingCapital.Money.DueToAverageBalances:N2} days - explain direction
+- Dominant factor: revenue or balances?
+- Business implications: good cash management or not?
+
+**4. Accounts Receivable Turnover Analysis** (Row 2)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (collection faster or slower?)
+- Adjusted indicator interpretation
+- Factor breakdown:
+  â€¢ Revenue impact: explain what it means
+  â€¢ Balance impact: AR growing too much or shrinking appropriately?
+- Dominant factor
+- Collection efficiency assessment: improving or declining?
+- Credit policy implications
+
+**5. Inventory Turnover Analysis** (Row 3)
+- Actual change: {MainModel.BaseYear} to {MainModel.CurrentYear} (turning faster or slower?)
+- Adjusted indicator context
+- Factor breakdown:
+  â€¢ Revenue impact
+  â€¢ Balance impact: inventory accumulation or reduction?
+- Dominant factor
+- Inventory management quality: excellent, good, or concerning?
+
+**6. Total Working Capital Analysis** (Row 4)
+- Overall turnover change
+- Aggregate factor impacts
+- Synthesis: revenue vs balance management dominance
+- Overall capital efficiency verdict
+
+**7. Component Comparison**
+- Rank rows 1-3 by:
+  â€¢ Biggest total improvement/decline
+  â€¢ Most affected by revenue
+  â€¢ Most affected by balance changes
+- Identify problem areas vs strengths
+
+**8. Factor Dominance Assessment**
+- Were changes driven MORE by:
+  â€¢ Revenue performance (external/market)?
+  â€¢ Balance management (internal/operational)?
+- For each component: passive or active management?
+- Strategic control assessment
+
+**9. Efficiency vs Growth Trade-offs**
+- Did revenue decline help or hurt efficiency?
+- Were balance increases justified by business needs?
+- Company positioning:
+  â€¢ Scaling efficiently (balances growing slower than revenue drop justifies)?
+  â€¢ Over-investing (balances too high)?
+  â€¢ Under-investing (balances too low for operations)?
+
+**10. Key Findings** (3-5 bullets)
+- Most dramatic changes
+- Best managed component
+- Worst managed component
+- Surprising insights
+
+**11. Strategic Recommendations**
+**For Cash Management**:
+- If revenue-driven: [revenue strategy recommendations]
+- If balance-driven: [cash optimization recommendations]
+- Target: X days cash turnover
+
+**For Accounts Receivable**:
+- If revenue-driven: [sales/credit policy recommendations]
+- If balance-driven: [collection/AR management recommendations]
+- Target: X days collection period
+
+**For Inventory**:
+- If revenue-driven: [demand/sales recommendations]
+- If balance-driven: [inventory optimization recommendations]
+- Target: X days inventory holding
+
+**Overall Working Capital**:
+- Primary focus area (based on factor analysis)
+- Balance optimization targets
+- Timeline: Immediate (30 days), Short-term (3 months), Long-term (6-12 months)
+
+INTERPRETATION GUIDE:
+? GOOD SIGNS:
+- Total deviation is NEGATIVE (turnover shortened = faster)
+- Due to revenue is POSITIVE but small (revenue drop had minimal impact)
+- Due to balances is NEGATIVE (actively reduced balances = good management)
+
+? BAD SIGNS:
+- Total deviation is POSITIVE (turnover lengthened = slower)
+- Due to balances is POSITIVE and large (balances growing = capital tied up)
+- Balances growing faster than revenue justifies
+
+FACTOR INTERPRETATION:
+**Revenue factor** (Row X DueToRevenue):
+- Positive: Revenue decline INCREASED days needed (bad external factor)
+- Negative: Revenue growth DECREASED days needed (good external factor)
+
+**Balance factor** (Row X DueToAverageBalances):
+- Positive: Balances grew, INCREASED days (internal management choice)
+- Negative: Balances shrank, DECREASED days (internal management choice)
+
+EXAMPLE NARRATIVE:
+""Cash turnover worsened from 6.61 to 8.55 days (increase of 1.94 days). Factor analysis reveals that revenue decline contributed +0.88 days to this deterioration, while growing cash balances added another +1.06 days. This indicates that BOTH external (revenue) and internal (balance management) factors negatively impacted cash efficiency, with balance management being the slightly larger contributor.""
+
+WRITING STYLE:
+- Professional and analytical
+- Active voice
+- Integrate numbers with interpretation
+- Explain WHY each factor matters
+- Distinguish between controllable (balances) and uncontrollable (revenue) factors
+- Provide actionable insights
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on FACTOR ANALYSIS and what it reveals about management decisions vs external conditions.";
+    }
+
+        }

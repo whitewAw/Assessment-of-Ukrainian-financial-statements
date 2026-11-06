@@ -1,0 +1,19 @@
+<tr>
+    <TdComponent TextAlignment="ML">@AName</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.ABegin)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.AEnd)</TdComponent>
+    <TdComponent TextAlignment="ML">@PName</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.PBegin)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.PEnd)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.PaymentBalanceBegin)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.PaymentBalanceEnd)</TdComponent>
+</tr>
+
+@code {
+    [Parameter]
+    public LiquidityIndicatorsOfBalanceRow Item { get; set; } = new();
+    [Parameter]
+    public string? AName { get; set; } = String.Empty;
+    [Parameter]
+    public string? PName { get; set; } = String.Empty;
+}

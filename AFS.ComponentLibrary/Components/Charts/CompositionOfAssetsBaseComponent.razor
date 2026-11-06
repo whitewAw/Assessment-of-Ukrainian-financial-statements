@@ -1,0 +1,385 @@
+@page "/compositionofassetsbase"
+@using AFS.Core.Models
+@using AFS.Core.Interfaces
+@using AFS.Core.Services
+@using AFS.ComponentLibrary.Helpers
+@implements IDisposable
+@inject CompositionOfAssetsChart CompositionOfAssets
+@inject AfsModel AfsModel
+@inject IAIFinancialAdvisor AIAdvisor
+@inject IJSRuntime JS
+
+<SeoHead Title="Asset Composition Chart — Base Year | UFIN"
+         Description="Interactive pie chart showing the composition of a Ukrainian company’s assets at the start of the reporting period (base year)." />
+
+<RadzenCard>
+    <h2 class="text-center">@tableName</h2>
+    <CompositionOfAssetsDonutChartComponent @key="@("begin-" + MainModel.BaseYear)" Period=@ResLoc["atBeginOfYear"] ChartAssets=@baseList />
+    <CompositionOfAssetsDonutChartComponent @key="@("end-" + MainModel.BaseYear)" Period=@ResLoc["atEndOfYear"] ChartAssets=@currentList/>
+</RadzenCard>
+
+@* @ResLoc["AIFinancialAnalysis"] Section *@
+<RadzenCard Style="margin-top: 20px;">
+    <h3 class="text-center mb-4">
+        <RadzenIcon Icon="psychology" class="me-2" />
+        @ResLoc["AIFinancialAnalysis"]
+    </h3>
+    
+    @if (_isCheckingAvailability)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">@ResLoc["CheckingAIAvailability"]</span>
+        </div>
+    }
+    else if (!_isAIAvailable)
+    {
+        <div class="alert alert-warning">
+            <h6 class="alert-heading">
+                <RadzenIcon Icon="warning" class="me-2" />
+                @ResLoc["ChromeAINotAvailable"]
+            </h6>
+            <p class="mb-2">
+                @ResLoc["ChromeAINotAvailableMessage"]
+                <a href="aiassistant" class="alert-link">@ResLoc["AIAssistantPage"]</a>
+                @ResLoc["ForSetupInstructions"]
+            </p>
+            <button class="btn btn-sm btn-primary" @onclick="CheckAIAvailability">
+                <RadzenIcon Icon="refresh" class="me-2" />
+                @ResLoc["RecheckAvailability"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center mb-3">
+            @if (_isAnalyzing)
+            {
+                <button class="btn btn-danger me-2" @onclick="StopAnalysis">
+                    <RadzenIcon Icon="stop" class="me-2" />
+                    <span>@ResLoc["StopAnalysis"]</span>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-2" @onclick="AnalyzeAssetComposition" disabled="@(!_isAIAvailable)">
+                    <RadzenIcon Icon="search" class="me-2" />
+                    <span>@string.Format(ResLoc["AnalyzeAssetComposition"], MainModel.BaseYear)</span>
+                </button>
+            }
+            
+            @if (!string.IsNullOrEmpty(_aiAnalysis))
+            {
+                <button class="btn btn-outline-secondary" @onclick="ClearAnalysis">
+                    <RadzenIcon Icon="close" class="me-2" />
+                    @ResLoc["Clear"]
+                </button>
+            }
+        </div>
+
+        @if (_isAnalyzing || !string.IsNullOrEmpty(_aiAnalysis))
+        {
+            <div class="alert alert-info">
+                @if (_isAnalyzing && string.IsNullOrEmpty(_aiAnalysis))
+                {
+                    <div class="d-flex align-items-center">
+                        <span class="typing-indicator me-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="text-muted">AI is analyzing asset composition...</span>
+                    </div>
+                }
+                <div style="white-space: pre-wrap; line-height: 1.6;">
+                    @((MarkupString)FormatAIResponse(_aiAnalysis))
+                </div>
+            </div>
+        }
+    }
+    
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>@ResLoc["Error"]:</strong> @_errorMessage
+        </div>
+    }
+</RadzenCard>
+
+@code {
+private CancellationTokenSource? _cts;
+private string? tableName;
+IReadOnlyList<ChartDataItem>? baseList;
+IReadOnlyList<ChartDataItem>? currentList;
+
+private string _aiAnalysis = string.Empty;
+private string _errorMessage = string.Empty;
+private bool _isAnalyzing = false;
+private bool _isCheckingAvailability = true;
+private bool _isAIAvailable = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cts = new CancellationTokenSource();
+
+        string name = ResLoc["CompositionOfAssets"];
+        string number = "I.";
+
+        tableName = $"{number} {name} - {MainModel.BaseYear} {ResLoc["year"]}";
+
+        baseList = CompositionOfAssets.GetDataItem(true, true);
+        currentList= CompositionOfAssets.GetDataItem(true, false);
+
+        await CheckAIAvailability().ConfigureAwait(false);
+
+        await base.OnInitializedAsync().ConfigureAwait(false);
+    }
+
+    private async Task CheckAIAvailability()
+    {
+        _isCheckingAvailability = true;
+        StateHasChanged();
+
+        _isAIAvailable = await AIAnalysisHelper.CheckAvailabilityAsync(AIAdvisor).ConfigureAwait(false);
+
+        _isCheckingAvailability = false;
+        StateHasChanged();
+    }
+
+    private async Task AnalyzeAssetComposition()
+    {
+        if (!_isAIAvailable)
+        {
+            _errorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            return;
+        }
+
+        _isAnalyzing = true;
+        _errorMessage = string.Empty;
+        _aiAnalysis = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var prompt = BuildAssetCompositionPrompt();
+
+            await AIAdvisor.GetStreamingResponseAsync(prompt, chunk =>
+            {
+                _aiAnalysis += chunk;
+                _ = InvokeAsync(StateHasChanged);
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            var (appendText, errorMsg) = AIAnalysisHelper.HandleAnalysisException(ex, _aiAnalysis);
+            if (appendText != null) _aiAnalysis += appendText;
+            if (errorMsg != null) _errorMessage = errorMsg;
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopAnalysis()
+    {
+        await AIAnalysisHelper.StopAnalysisAsync(JS).ConfigureAwait(false);
+        _isAnalyzing = false;
+        StateHasChanged();
+    }
+
+    private string BuildAssetCompositionPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = JsonSerializationHelper.SerializeAssetComposition(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            baseList,
+            currentList
+        );
+
+        return $@"You are a financial analyst specializing in asset structure analysis and portfolio optimization. Analyze the Composition of Assets for {MainModel.CompanyName} for {MainModel.BaseYear}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see the chart data above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+You are analyzing the COMPOSITION and STRUCTURE of assets showing the breakdown of how assets are allocated between different categories at the BEGINNING and END of {MainModel.BaseYear}.
+
+Asset Composition Data:
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on STRUCTURE, BALANCE, and STRATEGIC IMPLICATIONS
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Asset Structure Overview**:
+   - 2-3 sentences on overall asset composition
+   - Primary finding: What dominates the asset structure?
+   - Key structural characteristic
+   - Balance assessment (healthy/concerning)
+
+**2. Asset Category Breakdown**:
+   For each major asset category (from largest to smallest):
+   - Category name
+   - Percentage of total assets
+   - Amount (if significant)
+   - **Interpretation:**
+     • What this category represents
+     • Why it matters
+     • Industry context
+
+**3. Current vs Non-Current Asset Balance**:
+   - Total current assets vs non-current assets
+   - Percentage split
+   - **Interpretation:**
+     • Is the balance appropriate?
+     • Liquidity implications
+     • Operational implications
+     • Strategic fit with business model
+
+**4. Changes During the Year**:
+   - Compare beginning vs end of year
+   - Which categories grew/shrank?
+   - Percentage changes
+   - **Interpretation:**
+     • What drove these changes?
+     • Strategic shifts visible?
+     • Positive or negative trend?
+
+**5. Asset Quality Assessment**:
+   - Productive vs non-productive assets
+   - Liquid vs illiquid composition
+   - Working capital allocation
+   - **Interpretation:**
+     • Asset quality level
+     • Earning potential
+     • Risk assessment
+
+**6. Strategic Implications**:
+   - What does this structure tell us about business strategy?
+   - Capital allocation priorities
+   - Growth vs stability focus
+   - **Assessment:**
+     • Strategic clarity
+     • Alignment with goals
+     • Potential conflicts
+
+**7. Risk Identification**:
+   - Concentration risks (too much in one category)
+   - Liquidity risks (too many fixed assets)
+   - Operational risks
+   - **Specific risks:**
+     • Identify top 3 risks from this structure
+     • Severity level
+     • Mitigation needs
+
+**8. Benchmark Comparison**:
+   - Industry typical asset structure
+   - How does this compare?
+   - **Assessment:**
+     • Above/below industry norms
+     • Reasons for differences
+     • Justified or concerning?
+
+**9. Optimization Opportunities**:
+   - Which asset categories seem over/underweighted?
+   - Rebalancing recommendations
+   - **Specific actions:**
+     • Increase/decrease specific categories
+     • Target percentages
+     • Timeline for rebalancing
+
+**10. Strategic Recommendations**:
+    
+    **Asset Structure Optimization:**
+    • Target composition: [specific %s]
+    • Priority adjustments: [categories to change]
+    • Timeline: [months]
+    
+    **Liquidity Enhancement:**
+    • If too many fixed assets: Increase current assets
+    • Target current ratio improvement
+    • Working capital optimization
+    
+    **Risk Mitigation:**
+    • Diversify if concentrated
+    • Balance productive vs support assets
+    • Improve asset quality
+    
+    **Performance Improvement:**
+    • Optimize asset utilization
+    • Dispose of non-performing assets
+    • Invest in high-return categories
+    
+    **Monthly Monitoring:**
+    • Asset category percentages
+    • Current vs non-current balance
+    • Asset turnover by category
+    • Return on assets by category
+
+INTERPRETATION GUIDANCE:
+- **Balanced structure** = Mix of current and non-current appropriate for business
+- **Too many fixed assets** = Low liquidity, high risk
+- **Too many current assets** = May indicate inefficiency or lack of investment
+- **Concentration** = High risk if one category dominates
+
+CRITICAL INSIGHTS:
+1. What is the overall asset structure? (% breakdown)
+2. Is it balanced for this type of business?
+3. Are there concentration risks?
+4. What changed during the year?
+5. What are the liquidity implications?
+6. What are the strategic implications?
+7. What needs to be optimized?
+8. What are the top 3 recommendations?
+
+SPECIAL CONSIDERATIONS:
+- Manufacturing companies typically have more fixed assets
+- Service companies typically have more current assets
+- Retail companies have significant inventory
+- Tech companies may have intangibles
+- Consider business model when assessing structure
+
+WRITING STYLE:
+- Clear and analytical
+- Focus on business implications
+- Explain WHY structure matters
+- Provide actionable insights
+- Balance description with prescription
+
+Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private void ClearAnalysis()
+    {
+        _aiAnalysis = string.Empty;
+        _errorMessage = string.Empty;
+    }
+
+    private static string FormatAIResponse(string response) => AIAnalysisHelper.FormatResponse(response);
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
+}

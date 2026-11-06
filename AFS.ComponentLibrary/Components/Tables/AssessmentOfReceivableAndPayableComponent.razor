@@ -1,0 +1,365 @@
+﻿@page "/assessmentofreceivableandpayable"
+@inject AssessmentOfReceivableAndPayable AssessmentOfReceivableAndPayable
+@inject AfsModel AfsModel
+<SeoHead Title="Receivables & Payables Assessment | UFIN"
+         Description="Free analysis of accounts receivable and accounts payable from a Ukrainian balance sheet. Compare base- and current-year credit positions, turnover and exposure." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <thead>
+            <tr>
+                <ThComponent Rowspan=3>@ResLoc["NumberInOrder"]</ThComponent>
+                <ThComponent Rowspan=3>@ResLoc["Settlements"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["AccountsReceivable"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["AccountsPayable"]</ThComponent>
+                <ThComponent Colspan=4>@ResLoc["ExcessOfDebt"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent Rowspan=2>@MainModel.BaseYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Rowspan=2>@MainModel.CurrentYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Rowspan=2>@MainModel.BaseYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Rowspan=2>@MainModel.CurrentYear  @ResLoc["year"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["accounts"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["receivable"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent>@MainModel.BaseYear  @ResLoc["year"]</ThComponent>
+                <ThComponent>@MainModel.CurrentYear  @ResLoc["year"]</ThComponent>
+                <ThComponent>@MainModel.BaseYear  @ResLoc["year"]</ThComponent>
+                <ThComponent>@MainModel.CurrentYear  @ResLoc["year"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers>
+                @ResLoc["WithBuyersOrSuppliers"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithLongTermLiabilities>
+                @ResLoc["WithLongTermLiabilities"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.ForBills>
+                @ResLoc["ForBills"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.FromInsurance>
+                @ResLoc["FromInsurance"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds>
+                @ResLoc["WithBudgetAndExtraBudgetaryFunds"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithAccruedIncome>
+                @ResLoc["WithAccruedIncome"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithPayroll>
+                @ResLoc["WithPayroll"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithAdvances>
+                @ResLoc["WithAdvances"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithParticipants>
+                @ResLoc["WithParticipants"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithInternalCashSettlements>
+                @ResLoc["WithInternalCashSettlements"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <TrAssessmentOfReceivableAndPayableComponent Item=AssessmentOfReceivableAndPayable.WithOther>
+                @ResLoc["WithOther"]
+            </TrAssessmentOfReceivableAndPayableComponent>
+            <tr>
+                <ThComponent TextAlignment="ML" Colspan=2>@ResLoc["Total"]</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ReceivableBase)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ReceivableCurrent)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.PayableBase)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.PayableCurrent)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ExceedingReceivableBase)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ExceedingReceivableCurrent)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ExceedingPayableBase)</ThComponent>
+                <ThComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(AssessmentOfReceivableAndPayable.Total.ExceedingPayableCurrent)</ThComponent>
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildReceivablePayablePrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeReceivablesPayables"]"
+                 LoadingMessage="AI is analyzing receivables and payables..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["AssessmentOfReceivableAndPayable"];
+        int number = 11;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildReceivablePayablePrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeReceivablePayable(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            AssessmentOfReceivableAndPayable.Total,
+            AssessmentOfReceivableAndPayable.WithBuyersOrSuppliers,
+            AssessmentOfReceivableAndPayable.WithBudgetAndExtraBudgetaryFunds,
+            AssessmentOfReceivableAndPayable.WithAdvances,
+            AssessmentOfReceivableAndPayable.WithOther
+        );
+
+        return $@"You are a financial analyst specializing in working capital management, liquidity analysis, and credit risk assessment. Analyze the following Assessment of Receivable and Payable for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes the BALANCE between what the company OWES (payables) and what is OWED TO the company (receivables) across 11 settlement categories for TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+
+SETTLEMENT CATEGORIES:
+1. With Buyers or Suppliers (Trade)
+2. With Long-term Liabilities
+3. Bills Receivable
+4. From Insurance
+5. With Budget and Off-Budget Funds (Taxes)
+6. From Accrued Income
+7. With Labor Payment (Salaries)
+8. In Advances (Prepayments)
+9. With Participants (Shareholders)
+10. With Internal Settlements
+11. With Others
+
+NAMING CONVENTIONS:
+- ""Accounts Receivable"" (money owed TO the company)
+- ""Accounts Payable"" (money the company OWES)
+- ""Excess Receivable"" (receivable > payable = net asset)
+- ""Excess Payable"" (payable > receivable = net liability)
+- ""Net Position"" (total receivable - total payable)
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+KEY FORMULAS:
+- Excess Receivable = Max(0, Receivable - Payable) for each category
+- Excess Payable = Max(0, Payable - Receivable) for each category
+- Net Position = Total Receivables - Total Payables
+- Receivable-to-Payable Ratio = Total Receivables Ã· Total Payables
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (â€¢) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on MEANING and LIQUIDITY IMPLICATIONS
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Receivables vs Payables Balance**:
+   - 2-3 sentences on overall position
+   - Primary finding: Net debtor or net creditor?
+   - Key trend: Balance improving or deteriorating?
+   - Liquidity verdict
+
+**2. Total Receivables Analysis**:
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - Change: [absolute] ([percentage]%)
+   - Collection performance assessment
+   - Receivable quality
+
+**3. Total Payables Analysis**:
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - Change: [absolute] ([percentage]%)
+   - Payment obligations
+   - Credit management
+
+**4. Net Position Assessment - CRITICAL**:
+   - Net Position = Receivables - Payables
+   - {MainModel.BaseYear}: [amount] thousand UAH
+   - {MainModel.CurrentYear}: [amount] thousand UAH
+   - **Interpretation:**
+     â€¢ POSITIVE = Net creditor (owed more than owing) ?
+     â€¢ NEGATIVE = Net debtor (owing more than owed) ??
+     â€¢ ZERO = Balanced
+   - **Liquidity Impact:**
+     â€¢ If negative: Must fund this gap from operations/credit
+     â€¢ Direct working capital drain
+     â€¢ Cash management critical
+
+**5. Receivable-to-Payable Ratio**:
+   - {MainModel.BaseYear}: [ratio]
+   - {MainModel.CurrentYear}: [ratio]
+   - **Benchmarks:**
+     â€¢ >1.0 = More receivable (favorable position)
+     â€¢ 1.0 = Balanced
+     â€¢ <1.0 = More payable (net debtor) ??
+   - Trend analysis
+
+**6. Category-by-Category Analysis**:
+   
+   **Buyers/Suppliers (Trade - LARGEST):**
+   - Receivable: [base] ? [current]
+   - Payable: [base] ? [current]
+   - Net: Excess [receivable/payable]
+   - % of total: [percentage]
+   - Trade credit analysis
+   - Collection vs payment dynamics
+   
+   **Budget and Funds (Taxes):**
+   - Receivable: [amount] (tax refunds)
+   - Payable: [amount] (taxes owed)
+   - Net: Usually receivable (favorable) ?
+   - Government settlement timing
+   
+   **Advances (Prepayments):**
+   - Receivable: Prepayments TO suppliers
+   - Payable: Customer prepayments received
+   - Net position assessment
+   - Working capital tie-up
+   
+   **Others:**
+   - Trend analysis
+   - Cleanup of miscellaneous items
+   - Risk assessment
+
+**7. Cash Flow Implications**:
+   - If all settlements occurred simultaneously:
+     â€¢ Net cash inflow or outflow?
+     â€¢ Amount: [net position]
+   - **Working Capital Requirements:**
+     â€¢ Must fund payable excess from where?
+     â€¢ Credit line adequacy
+   - Payment timing management
+
+**8. Collection vs Payment Dynamics**:
+   - Receivables declining faster/slower than payables?
+   - **Possible scenarios:**
+     â€¢ Both declining: Contraction
+     â€¢ Receivables down, payables stable: Collection acceleration
+     â€¢ Both growing: Expansion
+   - Implications for cash management
+   - Days Sales Outstanding vs Days Payable Outstanding trend
+
+**9. Liquidity and Working Capital Assessment**:
+   - Net position impact on liquidity
+   - **If net debtor (negative position):**
+     â€¢ Immediate funding need
+     â€¢ Credit line requirements
+     â€¢ Cash buffer necessity
+   - **If net creditor (positive position):**
+     â€¢ Cash collection strategy
+     â€¢ Investment of excess funds
+   - Trade credit leverage analysis
+
+**10. Strategic Recommendations**:
+    
+    **Receivable Management:**
+    â€¢ Accelerate collections if possible
+    â€¢ Review credit terms with customers
+    â€¢ Identify slow-paying customers
+    â€¢ Consider factoring for large receivables
+    â€¢ Target DSO reduction
+    â€¢ Target receivable level: [specific amount]
+    
+    **Payable Management:**
+    â€¢ Negotiate extended payment terms
+    â€¢ Optimize payment timing (don't pay early)
+    â€¢ Leverage supplier credit effectively
+    â€¢ Don't damage relationships with late payment
+    â€¢ Manage cash disbursements strategically
+    â€¢ Target payable level: [specific amount]
+    
+    **Net Position Improvement:**
+    â€¢ Current net position: [amount]
+    â€¢ Target net position: [recommended amount]
+    â€¢ Timeline: [12-18 months]
+    â€¢ **Methods:**
+      - If net debtor: Increase collections, extend payables
+      - If net creditor: Maintain favorable position
+      - Balance growth with liquidity
+    
+    **By Category Priorities:**
+    1. **Buyers/Suppliers:** [specific actions - largest impact]
+    2. **Budget/Funds:** [maintain/accelerate tax refunds]
+    3. **Advances:** [reduce/optimize prepayments]
+    4. **Others:** [clean up miscellaneous items]
+    
+    **Cash Management:**
+    â€¢ Forecast settlement funding need: [amount]
+    â€¢ Ensure adequate credit lines: [recommended amount]
+    â€¢ Monitor payment cycles closely
+    â€¢ Optimize working capital daily
+    â€¢ Weekly cash flow forecasting
+    
+    **Working Capital Targets:**
+    â€¢ Receivable-to-Payable Ratio: Target >0.90
+    â€¢ Net Position: Target <5M excess payable
+    â€¢ DSO (Days Sales Outstanding): Target [X days]
+    â€¢ DPO (Days Payable Outstanding): Target [Y days]
+    
+    **Implementation Timeline:**
+    â€¢ Immediate (30 days):
+      - Cash forecast & credit line review
+      - Identify collection opportunities
+      - Assess payment obligations
+    
+    â€¢ Short-term (3-6 months):
+      - Collection acceleration program
+      - Payment term negotiations
+      - Working capital optimization
+    
+    â€¢ Long-term (1-2 years):
+      - Structural improvement in net position
+      - Sustainable working capital model
+      - Target net position achievement
+
+INTERPRETATION GUIDANCE:
+- Net Position: POSITIVE is better (net creditor)
+- Receivable-to-Payable Ratio: HIGHER is better (>1.0 ideal)
+- Excess Receivable: Asset (will receive cash)
+- Excess Payable: Liability (must pay cash)
+
+CRITICAL INSIGHTS:
+1. Is the company a net debtor or net creditor?
+2. Is the net position improving or deteriorating?
+3. What's the receivable-to-payable ratio trend?
+4. Which category dominates the imbalance?
+5. What's the cash flow impact of settlements?
+6. Is working capital being managed effectively?
+7. Are there liquidity risks from excess payables?
+8. What's the optimal net position target?
+
+SPECIAL CONSIDERATIONS:
+- Trade receivables/payables typically largest
+- Tax receivables usually favorable (refunds)
+- Advances can tie up working capital
+- Timing mismatches create cash flow issues
+- Net debtor position = funding requirement
+
+WRITING STYLE:
+- Direct and professional
+- Active voice
+- Integrate numbers naturally
+- Explain WHY balance matters for liquidity
+- Provide cash management context
+- Be analytical and actionable
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+        }

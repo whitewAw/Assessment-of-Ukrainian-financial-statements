@@ -1,0 +1,529 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    # metrics.yml commits SVG cards with a PAT, which (unlike GITHUB_TOKEN)
+    # triggers workflows. Without this, every metrics run starts a full AOT deploy.
+    paths-ignore:
+      - 'metrics*.svg'
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Least privilege: read-only by default. The deploy job only needs
+# contents:write to push the gh-pages / netlify-deploy branches.
+permissions:
+  contents: read
+
+# Prevent concurrent deployments
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Improve AOT build performance
+  DOTNET_TC_QuickJitForLoops: 1
+  DOTNET_ReadyToRun: 0
+  # Use Node.js 24 for GitHub Actions (Node.js 20 deprecated June 2026)
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Cache NuGet packages and .NET workloads
+        uses: actions/cache@v6
+        id: nuget-cache
+        with:
+          # ~/.nuget/packages      - package cache
+          # ~/.dotnet/sdk-manifests - workload manifests
+          # ~/.dotnet/packs         - installed workload packs (wasm-tools ~200 MB)
+          # Caching the workload paths turns `dotnet workload install wasm-tools`
+          # from a 30-60 s download into a no-op on warm runs.
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/packs
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('global.json', 'Directory.Packages.props', '**/Directory.Build.props', '**/*.csproj', '**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+
+      - name: Install .NET WebAssembly workloads
+        run: |
+          dotnet workload install wasm-tools --skip-manifest-update
+          echo "✅ Workloads installed successfully"
+
+      - name: Verify workloads
+        run: dotnet workload list
+
+      - name: Restore dependencies
+        # NOTE: `--locked-mode` cannot be used here. The WASM workload installs
+        # `Microsoft.NET.Sdk.WebAssembly.Pack` from the SDK's bundled feed, and
+        # its content hash differs between local Windows restore and Linux CI,
+        # producing NU1403 every run. `--force-evaluate` re-evaluates the graph
+        # and refreshes the lock file in-place so the build still proceeds; the
+        # committed lock file remains a diff-review aid for human-visible
+        # NuGet changes in pull requests.
+        run: dotnet restore AFS/AFS.csproj --force-evaluate
+
+      - name: Restore test project
+        run: dotnet restore AFS.Core.Tests/AFS.Core.Tests.csproj --locked-mode
+
+      - name: Run unit tests
+        # Runs the AFS.Core.Tests xUnit suite. Failing tests block deployment.
+        # Tests target net10.0 and don't require the wasm-tools workload.
+        run: |
+          dotnet test --project AFS.Core.Tests/AFS.Core.Tests.csproj \
+            -c Release \
+            --no-restore
+
+      - name: Build and Publish with AOT
+        run: |
+          set -o pipefail
+          dotnet publish AFS/AFS.csproj \
+            -c Release \
+            -o release \
+            --no-restore 2>&1 | tee publish.log
+        env:
+          # Increase memory for AOT compilation
+          NODE_OPTIONS: --max_old_space_size=4096
+
+      - name: Fail on AOT-correctness warnings (IL2026 / IL3050)
+        # IL2026 = RequiresUnreferencedCode, IL3050 = RequiresDynamicCode.
+        # These two are the only AOT-correctness diagnostics that indicate runtime
+        # breakage in published WASM (everything else is a trim hint). We tolerate
+        # the curated suppressions in AFS.csproj (IL2104/IL2110/IL2111) but never
+        # IL2026/IL3050 — if one appears it is a regression in *our* code or a new
+        # third-party reflection path we have to mitigate explicitly.
+        run: |
+          if grep -E 'warning (IL2026|IL3050)\b' publish.log; then
+            echo "::error::AOT-correctness regression detected (IL2026 or IL3050). See above."
+            exit 1
+          fi
+          echo "✅ No IL2026 / IL3050 in publish log"
+
+      # Snapshot the pristine build (with <base href="/" />) BEFORE the
+      # GH-Pages-specific sed rewrite below. Netlify pulls from this snapshot
+      # so it gets a build with the correct base path for the apex domain.
+      # See the "Deploy to Netlify" step at the end of this workflow.
+      - name: Snapshot build for Netlify
+        run: |
+          # `cp -al` = archive + hardlinks. Creates release-netlify/ as a
+          # hardlink mirror of release/ in O(file-count) without copying the
+          # ~60 MB of AOT output. The subsequent sed invocations against
+          # release/wwwroot/index.html rewrite the file (new inode), which
+          # safely breaks the link for that one file only — the netlify
+          # snapshot keeps the original content.
+          cp -al release release-netlify
+          echo "✅ Pristine build snapshot taken (release-netlify/, hardlinked) before base-tag rewrite"
+
+      - name: Update base-tag for GitHub Pages
+        run: |
+          # Handle both formatted and minified base tags
+          sed -i 's|<base href="/" */>|<base href="/Assessment-of-Ukrainian-financial-statements/" />|g' release/wwwroot/index.html
+          sed -i 's|<base href="/"/>|<base href="/Assessment-of-Ukrainian-financial-statements/"/>|g' release/wwwroot/index.html
+          echo "✅ Base tag updated for GitHub Pages"
+
+      - name: Add noindex to GitHub Pages mirror
+        # Keep the mirror available to users but out of search results.
+        # Alternate-canonical and noindex exclusions in GSC are expected here.
+        run: |
+          sed -i 's|<meta name="robots" content="index, follow|<meta name="robots" content="noindex, follow|g' release/wwwroot/index.html
+          sed -i 's|<meta name="googlebot" content="index, follow|<meta name="googlebot" content="noindex, follow|g' release/wwwroot/index.html
+          echo "✅ noindex added to GH Pages mirror"
+
+      - name: Prepare SPA routing files
+        run: |
+          # Keep the custom 404.html if it exists, otherwise copy index.html
+          if [ ! -f "release/wwwroot/404.html" ]; then
+            cp release/wwwroot/index.html release/wwwroot/404.html
+            echo "✅ 404.html created from index.html (GH Pages)"
+          else
+            echo "✅ Using existing custom 404.html (GH Pages)"
+          fi
+
+          # Add .nojekyll to prevent Jekyll processing
+          touch release/wwwroot/.nojekyll
+
+          # Netlify snapshot: 404.html must exist so deep-linked routes work
+          if [ ! -f "release-netlify/wwwroot/404.html" ]; then
+            cp release-netlify/wwwroot/index.html release-netlify/wwwroot/404.html
+            echo "✅ 404.html created from index.html (Netlify)"
+          else
+            echo "✅ Using existing custom 404.html (Netlify)"
+          fi
+
+          echo "✅ SPA routing files ready"
+
+      - name: Setup Node.js for prerendering
+        uses: actions/setup-node@v7
+        with:
+          # Node 24 is the current Active LTS.
+          node-version: '24'
+
+      - name: Cache Puppeteer Chromium
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('tools/prerender/package.json', 'tools/prerender/package-lock.json') }}
+
+      - name: Install prerender dependencies
+        working-directory: tools/prerender
+        # npm ci = exact versions from package-lock.json; --ignore-scripts blocks
+        # dependency install hooks (supply-chain hardening). Puppeteer's browser
+        # download is a postinstall hook, so it is run explicitly afterwards.
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --ignore-scripts --no-audit --no-fund --no-progress
+          else
+            echo "::warning::tools/prerender/package-lock.json missing - commit it to enable npm ci"
+            npm install --ignore-scripts --no-audit --no-fund --no-progress
+          fi
+          npx --no-install puppeteer browsers install chrome
+
+      - name: Generate Open Graph image (1200x630)
+        # Renders a real 1.91:1 OG/Twitter card via headless Chromium and
+        # writes it into both deploy snapshots. Twitter/LinkedIn/Slack/Discord
+        # render <meta property="og:image"> at 1200x630 — the previous
+        # icon-512.png (square) produced a tiny thumbnail and triggered
+        # "Image not large enough" in Search Console Discover audits.
+        continue-on-error: true
+        run: |
+          node tools/prerender/generate-og-image.mjs release/wwwroot/og-image.png
+          node tools/prerender/generate-og-image.mjs release-netlify/wwwroot/og-image.png
+          echo "✅ og-image.png (1200x630) written to both snapshots"
+
+      - name: Generate PWA screenshots
+        # Fills manifest.json "screenshots" (richer install UI on Chrome/Edge)
+        # and the JSON-LD "screenshot" field. Rendered from the Netlify
+        # snapshot (base href "/") and copied to the GH Pages snapshot.
+        # Must run BEFORE prerender so the root index.html is still the SPA shell.
+        continue-on-error: true
+        run: |
+          node tools/prerender/generate-screenshots.mjs release-netlify/wwwroot release/wwwroot
+          echo "✅ PWA screenshots written to both snapshots"
+
+      - name: Test SEO output policy
+        working-directory: tools/prerender
+        run: node --test seo-output.test.mjs prerender-policy.test.mjs
+
+      - name: Prerender routes (Google/Bing/Yandex/AI-bot SEO)
+        id: prerender
+        # Renders each route in headless Chromium and writes static <route>.html
+        # snapshots so non-JS crawlers see real content instead of the loading spinner.
+        # Run hosts sequentially to avoid two AOT WASM browsers competing for resources.
+        # Missing or invalid snapshots must block deployment rather than silently
+        # publishing generic shells with homepage canonical tags on deep routes.
+        run: |
+          gh_rc=0; nl_rc=0
+          node tools/prerender/prerender.mjs release/wwwroot \
+            --baseHref=/Assessment-of-Ukrainian-financial-statements/ \
+            --origin=https://ua-finance.netlify.app > prerender-ghpages.log 2>&1 || gh_rc=$?
+          node tools/prerender/prerender.mjs release-netlify/wwwroot \
+            --baseHref=/ \
+            --origin=https://ua-finance.netlify.app > prerender-netlify.log 2>&1 || nl_rc=$?
+          echo "::group::Prerender (GH Pages) exit=$gh_rc"; cat prerender-ghpages.log; echo "::endgroup::"
+          echo "::group::Prerender (Netlify) exit=$nl_rc"; cat prerender-netlify.log; echo "::endgroup::"
+          if [ $gh_rc -ne 0 ]; then
+            echo "::error file=tools/prerender/prerender.mjs::GitHub Pages prerender failed (exit $gh_rc). See prerender-ghpages.log in the prerender-diagnostics artifact."
+          fi
+          if [ $nl_rc -ne 0 ]; then
+            echo "::error file=tools/prerender/prerender.mjs::Netlify prerender failed (exit $nl_rc). See prerender-netlify.log in the prerender-diagnostics artifact."
+          fi
+          [ $gh_rc -eq 0 ] && [ $nl_rc -eq 0 ]
+
+      - name: Upload prerender diagnostics
+        if: always() && steps.prerender.outcome != 'skipped'
+        uses: actions/upload-artifact@v7
+        with:
+          name: prerender-diagnostics
+          path: |
+            prerender-ghpages.log
+            prerender-netlify.log
+            prerender-diagnostics/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Update sitemap lastmod dates
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          for sitemap in release/wwwroot/sitemap.xml release-netlify/wwwroot/sitemap.xml; do
+            if [ -f "$sitemap" ]; then
+              sed -i "s|<lastmod>.*</lastmod>|<lastmod>$TODAY</lastmod>|g" "$sitemap"
+              echo "✅ Sitemap updated with date: $TODAY ($sitemap)"
+            else
+              echo "⚠️ $sitemap not found, skipping"
+            fi
+          done
+          # Keep freshness signals consistent with the sitemap (Google uses
+          # JSON-LD dateModified / og:updated_time as page-date hints).
+          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          find release/wwwroot release-netlify/wwwroot -maxdepth 1 -name '*.html' -print0 | xargs -0 sed -i \
+            -e "s|\"dateModified\": \"[0-9-]*\"|\"dateModified\": \"$TODAY\"|g" \
+            -e "s|<meta property=\"og:updated_time\" content=\"[^\"]*\"|<meta property=\"og:updated_time\" content=\"$NOW\"|g"
+
+      - name: Strip sitemap from GH Pages mirror (mirror is noindex)
+        # The GH Pages mirror is fully `noindex, follow` (see earlier step).
+        # Publishing a sitemap whose URLs are all noindex is a contradiction:
+        # Google Search Console reports it as "Discovered URLs: 0" and clutters
+        # the property with noise. Strategy for the mirror:
+        #   1. Delete sitemap.xml entirely so GH Pages returns 404.
+        #   2. Strip the `Sitemap:` directive from robots.txt for the same reason.
+        #   3. Do NOT rewrite the Netlify host elsewhere — the only remaining
+        #      Netlify reference in robots.txt is the comment header, which is
+        #      harmless and actually documents the canonical relationship.
+        # The Netlify snapshot (release-netlify/) keeps the canonical sitemap.xml
+        # and full robots.txt intact.
+        run: |
+          if [ -f release/wwwroot/sitemap.xml ]; then
+            rm -f release/wwwroot/sitemap.xml
+            echo "✅ Removed release/wwwroot/sitemap.xml (mirror is noindex)"
+          fi
+          if [ -f release/wwwroot/robots.txt ]; then
+            # Remove any `Sitemap:` directive lines (case-insensitive, allow leading whitespace)
+            sed -i '/^[[:space:]]*[Ss]itemap:[[:space:]]*/d' release/wwwroot/robots.txt
+            echo "✅ Stripped Sitemap: directive from release/wwwroot/robots.txt"
+          fi
+
+      - name: Create _headers file for CDN compatibility
+        # _headers is a Netlify/Cloudflare Pages convention. GitHub Pages ignores it,
+        # so we still write it to both outputs (harmless on GH Pages, required on Netlify).
+        # The heredoc body is YAML-indented; we strip a fixed prefix with sed so the
+        # final file has path lines starting at column 1 (Netlify requires this).
+        run: |
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            [ -d "$wwwroot" ] || continue
+            sed 's/^          //' > "$wwwroot/_headers" <<'EOF'
+          # Security headers for all routes
+          /*
+            X-Frame-Options: DENY
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+
+          # Framework files - immutable cache.
+          # NOTE: We deliberately do NOT set Content-Encoding here.
+          # Netlify auto-negotiates Brotli/gzip for compressible MIME types.
+          # Forcing Content-Encoding: br on raw (uncompressed) files causes
+          # ERR_CONTENT_DECODING_FAILED in the browser.
+          /_framework/*
+            Cache-Control: public, max-age=31536000, immutable
+
+          # Static assets - not fingerprinted, so revalidate (matches netlify.toml)
+          /css/*
+            Cache-Control: public, max-age=0, must-revalidate
+
+          /js/*
+            Cache-Control: public, max-age=0, must-revalidate
+
+          # WebAssembly files - immutable cache + correct MIME type
+          /*.wasm
+            Cache-Control: public, max-age=31536000, immutable
+            Content-Type: application/wasm
+
+          # Service worker - no cache (must always check for updates)
+          /service-worker.js
+            Cache-Control: no-cache, no-store, must-revalidate
+
+          # HTML files - always revalidate (matches netlify.toml)
+          /*.html
+            Cache-Control: public, max-age=0, must-revalidate
+          EOF
+            echo "✅ _headers written to $wwwroot"
+          done
+
+      - name: Fix service-worker-assets.js hashes
+        # Files rewritten after publish (prerender, sed, OG image) no longer match
+        # the SRI hashes in the manifest. Recompute them in a single Node pass.
+        run: |
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            WWWROOT="$wwwroot" node --input-type=module -e '
+              import { readFileSync, writeFileSync, existsSync } from "node:fs";
+              import { createHash } from "node:crypto";
+              import { join } from "node:path";
+              const root = process.env.WWWROOT;
+              const file = join(root, "service-worker-assets.js");
+              if (!existsSync(file)) { console.log(`⚠️ ${file} not found, skipping`); process.exit(0); }
+              const src = readFileSync(file, "utf8");
+              const manifest = JSON.parse(src.replace(/^\s*self\.assetsManifest\s*=\s*/, "").replace(/;\s*$/, ""));
+              let updated = 0;
+              for (const a of manifest.assets) {
+                if (a.url.endsWith("index.html")) continue;
+                const p = join(root, a.url);
+                if (!existsSync(p)) continue;
+                const h = "sha256-" + createHash("sha256").update(readFileSync(p)).digest("base64");
+                if (h !== a.hash) { a.hash = h; updated++; }
+              }
+              writeFileSync(file, "self.assetsManifest = " + JSON.stringify(manifest, null, 2) + ";\n");
+              console.log(`✅ Updated ${updated} asset hashes in ${root}`);
+            '
+          done
+
+      - name: Calculate deployment statistics
+        id: stats
+        run: |
+          # GH Pages output
+          TOTAL_SIZE=$(du -sh release/wwwroot | cut -f1)
+          if [ -d "release/wwwroot/_framework" ]; then
+            WASM_SIZE=$(find release/wwwroot/_framework -name "*.wasm" -exec du -cb {} + | tail -1 | cut -f1 | numfmt --to=iec-i --suffix=B 2>/dev/null || echo "N/A")
+            WASM_COUNT=$(find release/wwwroot/_framework -name "*.wasm" | wc -l)
+          else
+            WASM_SIZE="N/A"
+            WASM_COUNT=0
+          fi
+          FILE_COUNT=$(find release/wwwroot -type f | wc -l)
+
+          # Netlify output
+          if [ -d "release-netlify/wwwroot" ]; then
+            NETLIFY_TOTAL_SIZE=$(du -sh release-netlify/wwwroot | cut -f1)
+            NETLIFY_FILE_COUNT=$(find release-netlify/wwwroot -type f | wc -l)
+          else
+            NETLIFY_TOTAL_SIZE="N/A"
+            NETLIFY_FILE_COUNT=0
+          fi
+
+          {
+            echo "total_size=$TOTAL_SIZE"
+            echo "wasm_size=$WASM_SIZE"
+            echo "wasm_count=$WASM_COUNT"
+            echo "file_count=$FILE_COUNT"
+            echo "netlify_total_size=$NETLIFY_TOTAL_SIZE"
+            echo "netlify_file_count=$NETLIFY_FILE_COUNT"
+          } >> $GITHUB_OUTPUT
+
+          echo "📊 Deployment Statistics:"
+          echo "   GH Pages — total: $TOTAL_SIZE, files: $FILE_COUNT, wasm: $WASM_SIZE ($WASM_COUNT)"
+          echo "   Netlify  — total: $NETLIFY_TOTAL_SIZE, files: $NETLIFY_FILE_COUNT"
+
+      - name: Verify deployment files
+        run: |
+          MISSING=0
+          # GH Pages requires .nojekyll; Netlify does not — keep it per-output.
+          for wwwroot in release/wwwroot release-netlify/wwwroot; do
+            label="GH Pages"
+            required="index.html 404.html .nojekyll"
+            if [ "$wwwroot" = "release-netlify/wwwroot" ]; then
+              label="Netlify"
+              required="index.html 404.html"
+            fi
+            echo "=== Critical Files Check ($label) ==="
+            if [ ! -d "$wwwroot" ]; then
+              echo "::error::$wwwroot directory missing"
+              MISSING=$((MISSING + 1))
+              continue
+            fi
+            for file in $required; do
+              if [ -f "$wwwroot/$file" ]; then
+                echo "✅ $file"
+              else
+                echo "❌ $file MISSING"
+                MISSING=$((MISSING + 1))
+              fi
+            done
+            for file in sitemap.xml robots.txt manifest.json favicon.ico; do
+              if [ -f "$wwwroot/$file" ]; then
+                echo "✅ $file"
+              else
+                echo "⚠️ $file (optional)"
+              fi
+            done
+            if [ -d "$wwwroot/_framework" ]; then
+              FRAMEWORK_FILES=$(find "$wwwroot/_framework" -type f | wc -l)
+              echo "✅ _framework/ ($FRAMEWORK_FILES files)"
+            else
+              echo "❌ _framework/ MISSING"
+              MISSING=$((MISSING + 1))
+            fi
+            echo ""
+          done
+
+          if [ $MISSING -gt 0 ]; then
+            echo "::error::$MISSING critical files are missing!"
+            exit 1
+          fi
+          echo "=== Deployment Ready ==="
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: release/wwwroot
+          clean: true
+          single-commit: true
+          commit-message: "Deploy: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
+
+      # Push the pristine (no base-tag rewrite) snapshot to a dedicated branch
+      # so Netlify can serve it from ua-finance.netlify.app with the correct
+      # <base href="/" />.
+      #
+      # ONE-TIME NETLIFY SETUP (do this in the Netlify dashboard):
+      #   Site settings → Build & deploy → Continuous deployment → Branch
+      #   change "Production branch" from `gh-pages` to `netlify-deploy`.
+      - name: Deploy to Netlify branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: netlify-deploy
+          folder: release-netlify/wwwroot
+          clean: true
+          single-commit: true
+          commit-message: "Netlify: ${{ github.sha }} - Size: ${{ steps.stats.outputs.total_size }}"
+
+      # IndexNow: instant re-crawl notification for Bing, Yandex, Seznam, Naver
+      # (Google does not support IndexNow; it reads sitemap.xml via Search Console).
+      # The key file AFS/wwwroot/<key>.txt proves ownership; the key is public by design.
+      - name: Submit URLs to IndexNow (Bing/Yandex)
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: 7f3c9a2e5b8d4e1fa6c0b9d2e4f81a37
+          SITE_HOST: ua-finance.netlify.app
+        run: |
+          # Netlify builds the pushed branch asynchronously; wait until the key file is live.
+          for i in $(seq 1 20); do
+            if curl -fsS "https://$SITE_HOST/$INDEXNOW_KEY.txt" | grep -q "$INDEXNOW_KEY"; then break; fi
+            sleep 15
+          done
+          urls=$(grep -oP '(?<=<loc>)[^<]+' release-netlify/wwwroot/sitemap.xml | jq -R . | jq -sc .)
+          payload=$(jq -nc --arg host "$SITE_HOST" --arg key "$INDEXNOW_KEY" \
+            --arg loc "https://$SITE_HOST/$INDEXNOW_KEY.txt" --argjson urls "$urls" \
+            '{host:$host,key:$key,keyLocation:$loc,urlList:$urls}')
+          status=$(curl -s -o /tmp/indexnow.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' -d "$payload")
+          echo "IndexNow HTTP $status ($(echo "$urls" | jq length) URLs)"
+          cat /tmp/indexnow.txt || true
+          [ "$status" = "200" ] || [ "$status" = "202" ]
+
+      - name: Deployment Summary
+        run: |
+          {
+            echo "## 🚀 Deployment Complete"
+            echo ""
+            echo "| Metric | GH Pages | Netlify (canonical) |"
+            echo "|--------|----------|---------------------|"
+            echo "| Total Size | ${{ steps.stats.outputs.total_size }} | ${{ steps.stats.outputs.netlify_total_size }} |"
+            echo "| File Count | ${{ steps.stats.outputs.file_count }} | ${{ steps.stats.outputs.netlify_file_count }} |"
+            echo "| WASM | ${{ steps.stats.outputs.wasm_size }} (${{ steps.stats.outputs.wasm_count }} files) | — |"
+            echo "| Commit | \`${{ github.sha }}\` | \`${{ github.sha }}\` |"
+            echo ""
+            echo "🌐 **Canonical:** https://ua-finance.netlify.app/"
+            echo "🌐 **Mirror:** https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/"
+          } >> "$GITHUB_STEP_SUMMARY"

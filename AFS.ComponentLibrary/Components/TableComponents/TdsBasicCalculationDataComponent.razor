@@ -1,0 +1,15 @@
+<TdComponent TextAlignment="MR">@AfsConstraints.RoundStr(Item.BeginningOfyear)</TdComponent>
+<TdComponent TextAlignment="MR">@AfsConstraints.RoundStr(Item.EndOfYear)</TdComponent>
+<TdComponent TextAlignment="MR">@AfsConstraints.RoundStr(Item.Deviations)</TdComponent>
+<TdComponent TextAlignment="MR">@GetGrowthRateText()</TdComponent>
+
+@code {
+    [Parameter]
+    public CharacteristicsOfCapitalCalculationRow Item { get; set; } = new();
+
+    [Parameter]
+    public bool IsShowGrowthRate { get; set; } = true;
+
+    private string GetGrowthRateText() =>
+        IsShowGrowthRate ? AfsConstraints.RoundStr(Item.GrowthRate) : "x";
+}

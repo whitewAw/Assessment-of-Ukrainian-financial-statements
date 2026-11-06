@@ -1,0 +1,150 @@
+@page "/"
+@inject IModelStorageHandler ModelStorage
+@implements IAsyncDisposable
+
+<SeoHead Title="UFIN – Free Ukrainian Financial Statement Analysis Tool"
+         Description="Enter your Ukrainian balance sheet (Form 1) and income statement (Form 2) and instantly calculate liquidity, solvency, profitability and business-activity ratios. Free, open source, works offline in your browser." />
+
+@* Visible intro article — renders ~250 words of indexable content above the
+   tabs so the post-hydration DOM is not just an empty form. Fixes the Soft 404
+   classification Google Search Console was reporting for "/" and "/?lang=*".
+   The H1 lives in AppIntroArticle (so we drop SeoHead's optional Heading here
+   to avoid emitting two <h1> tags on the same page). *@
+<AppIntroArticle />
+
+<RadzenTabs TabPosition="0" RenderMode="TabRenderMode.Client">
+    <Tabs>
+        <RadzenTabsItem class="align-middle text-center" Text="@ResLoc["GeneralInformation"]">
+            <GeneralInformationComponent FieldChanged="@OnFieldChanged" />
+            <SaveLoadEraseComponent />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@ResLoc["AdditionalInfo"]">
+            <AdditionalInfoComponent FieldChanged="@OnFieldChanged" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@baseYearF1">
+            <Form1Component F1="@MainModel.F1Base" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@currentYearF1">
+            <Form1Component F1="@MainModel.F1Current" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@baseYearF2">
+            <Form2Component F2="@MainModel.F2Base" />
+        </RadzenTabsItem>
+
+        <RadzenTabsItem class="align-middle text-center" Text="@currentYearF2">
+            <Form2Component F2="@MainModel.F2Current" />
+        </RadzenTabsItem>
+    </Tabs>
+</RadzenTabs>
+
+@code
+{
+    private CancellationTokenSource? _cts;
+    // Debounce token: each field change schedules a save for 500 ms in the
+    // future, cancelling the previous pending save. Typing a 20-char company
+    // name produces ~1 localStorage write instead of ~20 synchronous writes
+    // (previous behaviour). localStorage.setItem is synchronous and the JSON
+    // serialisation is non-trivial, so this visibly reduces typing jank.
+    private CancellationTokenSource? _saveCts;
+    private const int SaveDebounceMs = 500;
+
+    private string currentYearF1 => $"{ResLoc["Balance"]} ({MainModel.CurrentYear})";
+
+    private string baseYearF1 => $"{ResLoc["Balance"]} ({MainModel.BaseYear})";
+
+    private string currentYearF2 => $"{ResLoc["StatementOfFinancialPerformance"]} ({MainModel.CurrentYear})";
+
+    private string baseYearF2 => $"{ResLoc["StatementOfFinancialPerformance"]} ({MainModel.BaseYear})";
+
+    protected override void OnInitialized()
+    {
+        _cts = new CancellationTokenSource();
+        MainModel.SubscribeOnChange(OnModelPropertyChanged);
+        base.OnInitialized();
+    }
+
+    // Callback for component parameters (Action delegate)
+    private void OnFieldChanged() => OnModelPropertyChanged(this, EventArgs.Empty);
+
+    // EventHandler for model property subscriptions. EventHandler requires a void
+    // signature, so the async work lives in a Task method that handles its own errors.
+    private void OnModelPropertyChanged(object? sender, EventArgs e) => _ = HandleModelChangedAsync();
+
+    private async Task HandleModelChangedAsync()
+    {
+        try
+        {
+            // Use InvokeAsync to ensure we're on the correct synchronization context
+            await InvokeAsync(StateHasChanged);
+            ScheduleDebouncedSave();
+        }
+        catch (Exception ex)
+        {
+            await Console.Error.WriteLineAsync($"Error in field change handler: {ex.Message}");
+        }
+    }
+
+    // Cancels any pending save and schedules a new one. The save only runs if
+    // no further change comes in during the debounce window — typical for a
+    // user who's typed and then paused.
+    private void ScheduleDebouncedSave()
+    {
+        _saveCts?.Cancel();
+        _saveCts?.Dispose();
+        _saveCts = new CancellationTokenSource();
+        var token = _saveCts.Token;
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(SaveDebounceMs, token).ConfigureAwait(false);
+                await SaveModelToLocalStorageAsync().ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected when another change arrived within the debounce window.
+            }
+        }, token);
+    }
+
+    private async Task SaveModelToLocalStorageAsync()
+    {
+        if (_cts?.Token.IsCancellationRequested == false)
+        {
+            try
+            {
+                await ModelStorage.WriteModelAsync(MainModel);
+            }
+            catch (Exception ex)
+            {
+                await Console.Error.WriteLineAsync($"Error saving model to local storage: {ex.Message}");
+            }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        MainModel.UnSubscribeOnChange(OnModelPropertyChanged);
+
+        // Flush any pending debounced save synchronously before tearing down
+        // so the user doesn't lose the last few keystrokes on rapid navigation.
+        if (_saveCts is not null)
+        {
+            await _saveCts.CancelAsync();
+            _saveCts.Dispose();
+            _saveCts = null;
+            await SaveModelToLocalStorageAsync().ConfigureAwait(false);
+        }
+
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+            _cts = null;
+        }
+    }
+}

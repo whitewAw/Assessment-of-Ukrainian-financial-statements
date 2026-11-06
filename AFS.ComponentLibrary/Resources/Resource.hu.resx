@@ -1,0 +1,1455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A1A2A3&lt;P1" xml:space="preserve">
+    <value>A1+A2+A3 &lt; L1</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &lt; L1+L2</value>
+  </data>
+  <data name="A1A2A3&lt;P1P2P3" xml:space="preserve">
+    <value>A1+A2 +A3 &lt; L1+L2+L3</value>
+  </data>
+  <data name="A1A2A3P1" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= L1</value>
+  </data>
+  <data name="A1A2A3P1P2" xml:space="preserve">
+    <value>A1+A2+A3 &gt;= L1+L2</value>
+  </data>
+  <data name="A1A2A3P1P2P3" xml:space="preserve">
+    <value>A1+A2 +A3 &gt;= L1+L2+L3</value>
+  </data>
+  <data name="A1A2P1" xml:space="preserve">
+    <value>A1+A2 &gt;= L1</value>
+  </data>
+  <data name="A1A2P1P2" xml:space="preserve">
+    <value>A1+A2 &gt;= L1+L2</value>
+  </data>
+  <data name="A1A2P1P2P3" xml:space="preserve">
+    <value>A1+A2 &gt;= L1+L2+L3</value>
+  </data>
+  <data name="A1P1" xml:space="preserve">
+    <value>A1 &gt;= L1</value>
+  </data>
+  <data name="A1P1P2" xml:space="preserve">
+    <value>A1 &gt;= L1+L2</value>
+  </data>
+  <data name="A1P1P2P3" xml:space="preserve">
+    <value>A1 &gt;= L1+L2+L3</value>
+  </data>
+  <data name="AbsoluteFinancialStabilityInit" xml:space="preserve">
+    <value>Abszolút pénzügyi stabilitás</value>
+  </data>
+  <data name="AbsoluteLiquidityRatio" xml:space="preserve">
+    <value>Abszolút likviditási mutató</value>
+  </data>
+  <data name="accounts" xml:space="preserve">
+    <value>receivable</value>
+  </data>
+  <data name="AccountsPayable" xml:space="preserve">
+    <value>Kötelezettségek</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Követelések</value>
+  </data>
+  <data name="AccountsReceivableForDebts" xml:space="preserve">
+    <value>Accounts receivable for debts</value>
+  </data>
+  <data name="AccruedDepreciationAtBegin" xml:space="preserve">
+    <value>Accrued depreciation at the beginning of the year</value>
+  </data>
+  <data name="AccruedDepreciationAtEnd" xml:space="preserve">
+    <value>Accrued depreciation at the end of the year</value>
+  </data>
+  <data name="accumulatedDepreciation" xml:space="preserve">
+    <value>Accumulated depreciation</value>
+  </data>
+  <data name="AccumulatedExchangeRateDifferences" xml:space="preserve">
+    <value>Accumulated exchange rate differences</value>
+  </data>
+  <data name="AdditionalCapital" xml:space="preserve">
+    <value>Additional capital</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Additional information</value>
+  </data>
+  <data name="AdjustedAverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Adjusted average number of ordinary shares</value>
+  </data>
+  <data name="adjustedIndicator" xml:space="preserve">
+    <value>Adjusted indicator</value>
+  </data>
+  <data name="AdjustedNetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Adjusted net profit (loss) per ordinary share</value>
+  </data>
+  <data name="AdministrativeExpenses" xml:space="preserve">
+    <value>Administrative expenses</value>
+  </data>
+  <data name="AIAnalyzingData" xml:space="preserve">
+    <value>AI is analyzing your financial data...</value>
+  </data>
+  <data name="AIAssistantName" xml:space="preserve">
+    <value>AI Asszisztens</value>
+  </data>
+  <data name="AIAssistantPage" xml:space="preserve">
+    <value>AI Assistant page</value>
+  </data>
+  <data name="AIAssistantSubtitle" xml:space="preserve">
+    <value>Get instant insights and recommendations powered by AI</value>
+  </data>
+  <data name="AIFinancialAnalysis" xml:space="preserve">
+    <value>AI Financial Analysis</value>
+  </data>
+  <data name="AIFinancialAssistant" xml:space="preserve">
+    <value>AI Financial Assistant</value>
+  </data>
+  <data name="AIFollowSetupInstructions" xml:space="preserve">
+    <value>Please follow the setup instructions above to enable Chrome AI</value>
+  </data>
+  <data name="AINotAvailable" xml:space="preserve">
+    <value>Chrome AI nem elérhető</value>
+  </data>
+  <data name="AINotReady" xml:space="preserve">
+    <value>AI Assistant Not Ready</value>
+  </data>
+  <data name="AIReady" xml:space="preserve">
+    <value>A Chrome AI használatra kész</value>
+  </data>
+  <data name="Amortization" xml:space="preserve">
+    <value>Amortizáció</value>
+  </data>
+  <data name="AnalyzeAssetComposition" xml:space="preserve">
+    <value>Eszközösszetétel elemzése ({0})</value>
+  </data>
+  <data name="AnalyzeBusinessActivity" xml:space="preserve">
+    <value>Üzleti aktivitás elemzése</value>
+  </data>
+  <data name="AnalyzeCapitalSources" xml:space="preserve">
+    <value>Tőkeforrások elemzése</value>
+  </data>
+  <data name="AnalyzeCapitalSourcesChart" xml:space="preserve">
+    <value>Tőkeforrások elemzése ({0})</value>
+  </data>
+  <data name="AnalyzeCharacteristicsOfCapital" xml:space="preserve">
+    <value>Tőke jellemzőinek elemzése</value>
+  </data>
+  <data name="AnalyzeFactorsAffectingTurnover" xml:space="preserve">
+    <value>Forgalmat befolyásoló tényezők elemzése</value>
+  </data>
+  <data name="AnalyzeFinancialHealthPrompt" xml:space="preserve">
+    <value>Analyze the overall financial health of my company based on the available data</value>
+  </data>
+  <data name="AnalyzeFinancialStabilityIndicators" xml:space="preserve">
+    <value>Pénzügyi stabilitási mutatók elemzése</value>
+  </data>
+  <data name="AnalyzeFixedAssetsEfficiency" xml:space="preserve">
+    <value>Befektetett eszközök hatékonyságának elemzése</value>
+  </data>
+  <data name="AnalyzeFixedAssetsFactors" xml:space="preserve">
+    <value>Befektetett eszközök tényezőinek elemzése</value>
+  </data>
+  <data name="AnalyzeFixedAssetsMovement" xml:space="preserve">
+    <value>Befektetett eszközök mozgásának elemzése</value>
+  </data>
+  <data name="AnalyzeFixedAssetsState" xml:space="preserve">
+    <value>Befektetett eszközök állapotának elemzése</value>
+  </data>
+  <data name="AnalyzeGeneralFinancialStability" xml:space="preserve">
+    <value>Általános pénzügyi stabilitás elemzése</value>
+  </data>
+  <data name="AnalyzeIntangibleAssetsEfficiency" xml:space="preserve">
+    <value>Immateriális javak hatékonyságának elemzése</value>
+  </data>
+  <data name="AnalyzeLiquidityIndicators" xml:space="preserve">
+    <value>Likviditási mutatók elemzése</value>
+  </data>
+  <data name="AnalyzePayableStructure" xml:space="preserve">
+    <value>Kötelezettségek struktúrájának elemzése ({0})</value>
+  </data>
+  <data name="AnalyzeReceivablesPayables" xml:space="preserve">
+    <value>Követelések és kötelezettségek elemzése</value>
+  </data>
+  <data name="AnalyzeSolvencyRatios" xml:space="preserve">
+    <value>Fizetőképességi mutatók elemzése</value>
+  </data>
+  <data name="AnalyzeStabilityClassification" xml:space="preserve">
+    <value>Stabilitási besorolás elemzése</value>
+  </data>
+  <data name="AnalyzeTurnoverIndicators" xml:space="preserve">
+    <value>Forgalmi mutatók elemzése</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalEfficiency" xml:space="preserve">
+    <value>Forgótőke hatékonyságának elemzése</value>
+  </data>
+  <data name="AnalyzeWorkingCapitalTurnover" xml:space="preserve">
+    <value>Forgótőke forgalmának elemzése</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Biztos benne?</value>
+  </data>
+  <data name="Article" xml:space="preserve">
+    <value>Cikk</value>
+  </data>
+  <data name="AskAboutFinancialData" xml:space="preserve">
+    <value>Kérdezzen a pénzügyi adatairól...</value>
+  </data>
+  <data name="AskQuestions" xml:space="preserve">
+    <value>Kérdések feltétele</value>
+  </data>
+  <data name="AssessmentOfFinancialStatements" xml:space="preserve">
+    <value>Ukrán pénzügyi kimutatások értékelése</value>
+  </data>
+  <data name="AssessmentOfReceivableAndPayable" xml:space="preserve">
+    <value>Assessment of receivable and payable</value>
+  </data>
+  <data name="Asset" xml:space="preserve">
+    <value>Eszköz</value>
+  </data>
+  <data name="AtBeginningReportingPeriod" xml:space="preserve">
+    <value>A beszámolási időszak elején</value>
+  </data>
+  <data name="atBeginOfYear" xml:space="preserve">
+    <value>Az év elején</value>
+  </data>
+  <data name="AtEndingReportingPeriod" xml:space="preserve">
+    <value>A beszámolási időszak végén</value>
+  </data>
+  <data name="atEndOf" xml:space="preserve">
+    <value>A(z) {0}. év végén</value>
+  </data>
+  <data name="atEndOfYear" xml:space="preserve">
+    <value>Az év végén</value>
+  </data>
+  <data name="AvailabilityAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Availability and movement of fixed assets</value>
+  </data>
+  <data name="AvailabilityForStockFormation" xml:space="preserve">
+    <value>Availability of own current, long-term, and short-term borrowed funds for forming reserves</value>
+  </data>
+  <data name="AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks" xml:space="preserve">
+    <value>Availability of own current and long-term borrowed funds for forming reserves</value>
+  </data>
+  <data name="AvailabilityOfWorkingCapitalForFormationOfStocks" xml:space="preserve">
+    <value>Availability of own current funds for forming reserves</value>
+  </data>
+  <data name="AverageAnnualCostOfFixedAssets" xml:space="preserve">
+    <value>Average cost of fixed assets</value>
+  </data>
+  <data name="AverageAnnualCostOfIntangibleAssets" xml:space="preserve">
+    <value>Average cost of intangible assets</value>
+  </data>
+  <data name="averageBalances" xml:space="preserve">
+    <value>average balances</value>
+  </data>
+  <data name="AverageNumberOfEmployees" xml:space="preserve">
+    <value>Average number of employees</value>
+  </data>
+  <data name="AverageNumberOrdinaryShares" xml:space="preserve">
+    <value>Average number of ordinary shares</value>
+  </data>
+  <data name="AverageWorkingCapitalBalances" xml:space="preserve">
+    <value>Average balances of current assets</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Mérleg</value>
+  </data>
+  <data name="BalanceAtBeginOfYearAtOriginalCost" xml:space="preserve">
+    <value>Beginning-of-year balance at historical cost</value>
+  </data>
+  <data name="BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost" xml:space="preserve">
+    <value>End-of-year balance at historical cost</value>
+  </data>
+  <data name="BalanceAtEndOfYearMinusDepreciation" xml:space="preserve">
+    <value>End-of-year balance net of depreciation</value>
+  </data>
+  <data name="BalanceIsLiquid" xml:space="preserve">
+    <value>Likvid mérleg</value>
+  </data>
+  <data name="BalanceIsNotLiquid" xml:space="preserve">
+    <value>Nem likvid mérleg</value>
+  </data>
+  <data name="basePeriod" xml:space="preserve">
+    <value>bázis időszak</value>
+  </data>
+  <data name="BaseYear" xml:space="preserve">
+    <value>Bázisév</value>
+  </data>
+  <data name="BrowserAI" xml:space="preserve">
+    <value>Browser AI (Chrome 127+)</value>
+  </data>
+  <data name="bySettlementsWithParticipants" xml:space="preserve">
+    <value>in settlements with participants</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets" xml:space="preserve">
+    <value>Calculation of summary indicators of efficiency in the use of fixed assets</value>
+  </data>
+  <data name="CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssetsTablName" xml:space="preserve">
+    <value>Table {0}. Calculation of summary indicators of efficiency in the use of fixed assets {1} for {2}-{3} years</value>
+  </data>
+  <data name="CalculationStockProfitabilityIndicators" xml:space="preserve">
+    <value>Calculation of stock profitability indicators</value>
+  </data>
+  <data name="CapitalInRevaluations" xml:space="preserve">
+    <value>Capital in reappraisals</value>
+  </data>
+  <data name="CapitalIntensityOfProducts" xml:space="preserve">
+    <value>Termékek tőkeintenzitása</value>
+  </data>
+  <data name="cargo" xml:space="preserve">
+    <value>goods</value>
+  </data>
+  <data name="CashCurrentFinancialInvestments" xml:space="preserve">
+    <value>Cash and current financial investments</value>
+  </data>
+  <data name="CharacteristicsOfCapital" xml:space="preserve">
+    <value>Tőke jellemzői</value>
+  </data>
+  <data name="ChatWithAI" xml:space="preserve">
+    <value>Chat with AI</value>
+  </data>
+  <data name="CheckingAIAvailability" xml:space="preserve">
+    <value>Checking AI availability...</value>
+  </data>
+  <data name="ChromeAINotAvailable" xml:space="preserve">
+    <value>Chrome AI Not Available</value>
+  </data>
+  <data name="ChromeAINotAvailableMessage" xml:space="preserve">
+    <value>Chrome AI is not currently available. Please visit the</value>
+  </data>
+  <data name="ClassificationOfTypesOfFinancialStability" xml:space="preserve">
+    <value>Classification of types of financial stability based on the degree of liquidity of working capital</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="CoefficientOfBusinessActivity" xml:space="preserve">
+    <value>Business activity ratio</value>
+  </data>
+  <data name="CoefficientOfConcentrationOfBorrowedCapital" xml:space="preserve">
+    <value>Concentration ratio of borrowed capital</value>
+  </data>
+  <data name="CoefficientOfEfficiencFinancialResources" xml:space="preserve">
+    <value>Efficiency ratio of financial resource utilization</value>
+  </data>
+  <data name="CoefficientOfFinancialDependence" xml:space="preserve">
+    <value>Financial leverage ratio</value>
+  </data>
+  <data name="CoefficientOfFinancialStability" xml:space="preserve">
+    <value>Financial stability ratio</value>
+  </data>
+  <data name="CoefficientOfIndependence" xml:space="preserve">
+    <value>Independence ratio (concentration of equity)</value>
+  </data>
+  <data name="CoefficientOfLongevityOfBorrowedFunds" xml:space="preserve">
+    <value>Long-term borrowing ratio</value>
+  </data>
+  <data name="CoefficientOfManeuverabilityOfEquity" xml:space="preserve">
+    <value>Maneuverability ratio of equity</value>
+  </data>
+  <data name="CoefficientOfOwnFundsUtilization" xml:space="preserve">
+    <value>Utilization ratio of own funds</value>
+  </data>
+  <data name="CoefficientOfStabilityOfEconomicGrowth" xml:space="preserve">
+    <value>Economic growth stability ratio</value>
+  </data>
+  <data name="CoefficientOfStructureOfLongTermInvestments" xml:space="preserve">
+    <value>Long-term investment structure ratio</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Cégnév</value>
+  </data>
+  <data name="CompositionOfAssets" xml:space="preserve">
+    <value>Eszközösszetétel</value>
+  </data>
+  <data name="ComprehensiveIncome" xml:space="preserve">
+    <value>Total income</value>
+  </data>
+  <data name="CostOfGoodsSold" xml:space="preserve">
+    <value>Cost of goods sold</value>
+  </data>
+  <data name="CostOfLeftFixedAssets" xml:space="preserve">
+    <value>Value of retired fixed assets</value>
+  </data>
+  <data name="CrisisFinancialStability" xml:space="preserve">
+    <value>Financial stability in crisis</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>uah.</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="CurrentAccountsPayableFor" xml:space="preserve">
+    <value>Current accounts payable for</value>
+  </data>
+  <data name="CurrentAssets" xml:space="preserve">
+    <value>Forgóeszközök</value>
+  </data>
+  <data name="CurrentBiologicalAssets" xml:space="preserve">
+    <value>Forgó biológiai eszközök</value>
+  </data>
+  <data name="CurrentFinancialInvestments" xml:space="preserve">
+    <value>Forgó pénzügyi befektetések</value>
+  </data>
+  <data name="CurrentLiabilitiesAndProvisions" xml:space="preserve">
+    <value>Forgó kötelezettségek és lehetőségek</value>
+  </data>
+  <data name="CurrentLiquidityFactor" xml:space="preserve">
+    <value>Tárgyév likviditási mutatója</value>
+  </data>
+  <data name="CurrentMobileAssets" xml:space="preserve">
+    <value>Forgó (mozgékony) eszközök</value>
+  </data>
+  <data name="currentPeriod" xml:space="preserve">
+    <value>jelentési időszak</value>
+  </data>
+  <data name="CurrentSupplies" xml:space="preserve">
+    <value>Forgó készletek</value>
+  </data>
+  <data name="CurrentYear" xml:space="preserve">
+    <value>Tárgyév</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>nap</value>
+  </data>
+  <data name="DeductionsSocialEvents" xml:space="preserve">
+    <value>Szociális járulékok</value>
+  </data>
+  <data name="DeferredTaxLiabilities" xml:space="preserve">
+    <value>Halasztott adó kötelezettségek</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtBegin" xml:space="preserve">
+    <value>Befektetett eszközök amortizációs azonánya az év elején</value>
+  </data>
+  <data name="DepreciationRateOfFixedAssetAtEnd" xml:space="preserve">
+    <value>Befekzetett eszközök amortizációs aránya az év végén</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>eltérés</value>
+  </data>
+  <data name="Deviation_" xml:space="preserve">
+    <value>Eltérés</value>
+  </data>
+  <data name="DisposalRate" xml:space="preserve">
+    <value>Elidegenedett adag</value>
+  </data>
+  <data name="DividendsPerSimpleShare" xml:space="preserve">
+    <value>Dividends per ordinary share</value>
+  </data>
+  <data name="DownloadingGeminiNano" xml:space="preserve">
+    <value>Downloading Gemini Nano model... {0}%</value>
+  </data>
+  <data name="Dynamics" xml:space="preserve">
+    <value>Dynamics</value>
+  </data>
+  <data name="ElementsOperatingCosts" xml:space="preserve">
+    <value>Elements of operating expenses</value>
+  </data>
+  <data name="EnableChromeAIToChat" xml:space="preserve">
+    <value>Enable Chrome AI to start chatting...</value>
+  </data>
+  <data name="Equity" xml:space="preserve">
+    <value>Equity</value>
+  </data>
+  <data name="EraseData" xml:space="preserve">
+    <value>Adatok törlése</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtBegin" xml:space="preserve">
+    <value>Assessment of balance liquidity {0} at the beginning of {1} year</value>
+  </data>
+  <data name="EstimationOfBalanceLiquidityAtEnd" xml:space="preserve">
+    <value>Assessment of balance liquidity {0} at the end of {1} year</value>
+  </data>
+  <data name="ExampleQuestion1" xml:space="preserve">
+    <value>"What does my current ratio mean?"</value>
+  </data>
+  <data name="ExampleQuestion2" xml:space="preserve">
+    <value>"How can I improve liquidity?"</value>
+  </data>
+  <data name="ExampleQuestion3" xml:space="preserve">
+    <value>"Compare this year vs last year"</value>
+  </data>
+  <data name="ExampleQuestion4" xml:space="preserve">
+    <value>"What are my biggest risks?"</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks" xml:space="preserve">
+    <value>Surplus (+), deficit (-) of own current, long-term, and short-term borrowed funds for forming reserves</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalAndLongTermForStocks" xml:space="preserve">
+    <value>Surplus (+), deficit (-) of own current funds and long-term borrowed funds for forming reserves</value>
+  </data>
+  <data name="ExcessLackOfWorkingCapitalForStocks" xml:space="preserve">
+    <value>Surplus (+), deficit (-) of own current funds for forming reserves</value>
+  </data>
+  <data name="ExcessOfDebt" xml:space="preserve">
+    <value>Excess of liabilities</value>
+  </data>
+  <data name="ExpensesIncomeFromIncomeTax" xml:space="preserve">
+    <value>Income (loss) from income tax</value>
+  </data>
+  <data name="ExplainKeyRatiosButton" xml:space="preserve">
+    <value>Kulcsmutatók magyarázata</value>
+  </data>
+  <data name="FactorAnalysisOfFixedAssets" xml:space="preserve">
+    <value>Fixed asset turnover factor analysis</value>
+  </data>
+  <data name="FactorsAffectingTurnoverOfWorkingCapital" xml:space="preserve">
+    <value>Factors influencing the turnover of current assets</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>Gyakran ismételt kérdések</value>
+  </data>
+  <data name="FAQAnswer1" xml:space="preserve">
+    <value>Yes! Browser AI uses Chrome's built-in Gemini Nano model. No API keys, no costs, no usage limits.</value>
+  </data>
+  <data name="FAQAnswer2" xml:space="preserve">
+    <value>ChatGPT runs on OpenAI's servers (requires internet/API key). Browser AI runs entirely in your browser (no server, no API key, works offline after setup).</value>
+  </data>
+  <data name="FAQAnswer3" xml:space="preserve">
+    <value>Absolutely! All AI processing happens locally in your browser. Your financial data never leaves your device. No data is sent to any server, including Google or Microsoft.</value>
+  </data>
+  <data name="FAQAnswer4" xml:space="preserve">
+    <value>Currently supported: Chrome 127+, Chrome Canary, Edge 127+ (Chromium-based). Coming soon: Firefox and Safari.</value>
+  </data>
+  <data name="FAQQuestion1" xml:space="preserve">
+    <value>Is this really free?</value>
+  </data>
+  <data name="FAQQuestion2" xml:space="preserve">
+    <value>How is this different from ChatGPT?</value>
+  </data>
+  <data name="FAQQuestion3" xml:space="preserve">
+    <value>Is my data safe?</value>
+  </data>
+  <data name="FAQQuestion4" xml:space="preserve">
+    <value>Which browsers are supported?</value>
+  </data>
+  <data name="FinancialExpenses" xml:space="preserve">
+    <value>Financial expenses</value>
+  </data>
+  <data name="FinancialHealthButton" xml:space="preserve">
+    <value>Financial Health</value>
+  </data>
+  <data name="FinancialResultBeforeTax" xml:space="preserve">
+    <value>Financial result before taxation</value>
+  </data>
+  <data name="FinancialResultFromOperatingActivities" xml:space="preserve">
+    <value>Pénzügyi eredmény az üzemeltésből</value>
+  </data>
+  <data name="FinancialResults" xml:space="preserve">
+    <value>Pénzügyi eredmények</value>
+  </data>
+  <data name="finishedProducts" xml:space="preserve">
+    <value>késztermékek</value>
+  </data>
+  <data name="FixedAssets" xml:space="preserve">
+    <value>Befektetett eszközök</value>
+  </data>
+  <data name="FixingRatioOfCurrentAssets" xml:space="preserve">
+    <value>Forgótőke forgalmi aránya</value>
+  </data>
+  <data name="ForBills" xml:space="preserve">
+    <value>Billenték fogadásához</value>
+  </data>
+  <data name="ForReportingPeriod" xml:space="preserve">
+    <value>A jelentési időszakra</value>
+  </data>
+  <data name="ForSamePeriodLastYear" xml:space="preserve">
+    <value>Az előző év hasonló időszakára</value>
+  </data>
+  <data name="ForSetupInstructions" xml:space="preserve">
+    <value>for setup instructions.</value>
+  </data>
+  <data name="fromAccruedIncome" xml:space="preserve">
+    <value>felhalmozot bevételből</value>
+  </data>
+  <data name="FromInsurance" xml:space="preserve">
+    <value>A bieztásításból</value>
+  </data>
+  <data name="fromInternalSettlements" xml:space="preserve">
+    <value>belső versenyekēdésből</value>
+  </data>
+  <data name="fromMoney" xml:space="preserve">
+    <value>Egyéb észlelőbeřések</value>
+  </data>
+  <data name="fromReceivables" xml:space="preserve">
+    <value>Követelések</value>
+  </data>
+  <data name="fromTangibleAssets" xml:space="preserve">
+    <value>Anyagi eszközök</value>
+  </data>
+  <data name="FutureExpenses" xml:space="preserve">
+    <value>Jövőbeni időszakok költségei</value>
+  </data>
+  <data name="FutureIncome" xml:space="preserve">
+    <value>Jövőbeni időszakok bevételei</value>
+  </data>
+  <data name="GeneralIndicatorsOfFinancialStability" xml:space="preserve">
+    <value>General indicators of financial stability</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Általános információ</value>
+  </data>
+  <data name="GetRecommendationsButton" xml:space="preserve">
+    <value>Ajánlások kérése</value>
+  </data>
+  <data name="goodsWorksServices" xml:space="preserve">
+    <value>Mal, munkák, szolgáltatások</value>
+  </data>
+  <data name="Gross" xml:space="preserve">
+    <value>Brutto</value>
+  </data>
+  <data name="GrossProfitPerSoldProducts" xml:space="preserve">
+    <value>Gross profit per UAH 1 of sales</value>
+  </data>
+  <data name="growthRate" xml:space="preserve">
+    <value>Növekedési ráta</value>
+  </data>
+  <data name="HardToSellAssets" xml:space="preserve">
+    <value>Hard-to-sell assets (A4)</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>Használati útmutató</value>
+  </data>
+  <data name="in%OfBorrowedCapital" xml:space="preserve">
+    <value>The same as a percentage of the attracted capital</value>
+  </data>
+  <data name="in%toCurrentMobileAssets" xml:space="preserve">
+    <value>as a percentage of working capital</value>
+  </data>
+  <data name="in%ToEquity" xml:space="preserve">
+    <value>The same as a percentage of own capital</value>
+  </data>
+  <data name="in%toSourcesOfCapital" xml:space="preserve">
+    <value>The same as a percentage of capital sources</value>
+  </data>
+  <data name="includingDueTo" xml:space="preserve">
+    <value>Including</value>
+  </data>
+  <data name="includingEliminated" xml:space="preserve">
+    <value>including liquidated</value>
+  </data>
+  <data name="includingIncomeTax" xml:space="preserve">
+    <value>Including income tax</value>
+  </data>
+  <data name="includingNew" xml:space="preserve">
+    <value>Az újakat is belértve</value>
+  </data>
+  <data name="IncomeFromEquityParticipation" xml:space="preserve">
+    <value>Tőkerészvételből szármázó jaszdaészleződövétkel</value>
+  </data>
+  <data name="IncomeTaxRelatedOtherComprehensiveIncome" xml:space="preserve">
+    <value>Az egyol dásítás és egyeb átfogó bevételhez kapcsolódó</value>
+  </data>
+  <data name="IncompleteCapitalInvestments" xml:space="preserve">
+    <value>Befejezetlen tőkebefektetések</value>
+  </data>
+  <data name="Indicators" xml:space="preserve">
+    <value>Mutatók</value>
+  </data>
+  <data name="IndicatorsOfBusinessActivity" xml:space="preserve">
+    <value>Üzletei aktivitás mutatói</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfUseOfIntangibleAssets" xml:space="preserve">
+    <value>Immateriális esz közök használata hatékonyságának mutatói</value>
+  </data>
+  <data name="IndicatorsOfEfficiencyOfWorkingCapital" xml:space="preserve">
+    <value>Forgótőke hasznosításának hatékonyságának mutatói</value>
+  </data>
+  <data name="IndicatorsOfFinancialStability" xml:space="preserve">
+    <value>Pénzügyi stabilitás mutatói</value>
+  </data>
+  <data name="IndicatorsOfStateAndMovementOfFixedAssets" xml:space="preserve">
+    <value>Befekzetett eszközök állapotának és mozgásának mutatói</value>
+  </data>
+  <data name="IndicatorsOfTurnoverOfCurrentAssets" xml:space="preserve">
+    <value>Forgótőke forgalmának mutatói</value>
+  </data>
+  <data name="initialCost" xml:space="preserve">
+    <value>Eredeti költség</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtBegin" xml:space="preserve">
+    <value>Befekzetett eszközök eredeti költsége az időszak elején</value>
+  </data>
+  <data name="InitialCostOfFixedAssetsAtEndOfPeriod" xml:space="preserve">
+    <value>Befekzetett eszközök eredeti költsége az időszak végén</value>
+  </data>
+  <data name="InLongTerm" xml:space="preserve">
+    <value>A hosszú távú perspektívából</value>
+  </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>AI Asszisztens</value>
+  </data>
+  <data name="InputData" xml:space="preserve">
+    <value>Bemeneti adatok</value>
+  </data>
+  <data name="InShortTerm" xml:space="preserve">
+    <value>In the short-term perspective</value>
+  </data>
+  <data name="IntangibleAssets" xml:space="preserve">
+    <value>Immateriális javak</value>
+  </data>
+  <data name="IntegratedIndicatorOfEfficiencyOfCurrentAssets" xml:space="preserve">
+    <value>Integrated indicator of working capital utilization efficiency</value>
+  </data>
+  <data name="IntegratedIndicatorOnFixedAssets" xml:space="preserve">
+    <value>Integrated indicator of fixed assets utilization efficiency</value>
+  </data>
+  <data name="IntermediateCoverageRatio" xml:space="preserve">
+    <value>Intermediate coverage ratio</value>
+  </data>
+  <data name="InvestmentProperty" xml:space="preserve">
+    <value>Investment property</value>
+  </data>
+  <data name="KeyRatiosPrompt" xml:space="preserve">
+    <value>Explain the most important financial ratios I should focus on</value>
+  </data>
+  <data name="LaborCapitalOfOneAverageEmployee" xml:space="preserve">
+    <value>Labor productivity of one average employee</value>
+  </data>
+  <data name="LaborProductivity" xml:space="preserve">
+    <value>Labor productivity</value>
+  </data>
+  <data name="Liabilities" xml:space="preserve">
+    <value>Kötelezettség</value>
+  </data>
+  <data name="LiabilitiesRelatedNonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Liabilities related to non-current assets held for sale and disposal groups</value>
+  </data>
+  <data name="LiabilitiesRelatedToNonCurrentAssetsForSale" xml:space="preserve">
+    <value>Liabilities related to non-current assets for sale</value>
+  </data>
+  <data name="LineCode" xml:space="preserve">
+    <value>Sorkód</value>
+  </data>
+  <data name="LiquidityIndicatorsOfBalance" xml:space="preserve">
+    <value>Mérleg likviditási mutatói</value>
+  </data>
+  <data name="LoadingPleaseWait" xml:space="preserve">
+    <value>Betöltés, kérem várjon...</value>
+  </data>
+  <data name="LongTermBankCredits" xml:space="preserve">
+    <value>Hosszé távú bankhitel</value>
+  </data>
+  <data name="LongTermBiologicalAssets" xml:space="preserve">
+    <value>Long-term biological assets</value>
+  </data>
+  <data name="LongTermFinancialIvestments" xml:space="preserve">
+    <value>Long-term financial investments</value>
+  </data>
+  <data name="longTermLiabilities" xml:space="preserve">
+    <value>long-term liabilities</value>
+  </data>
+  <data name="LongTermLiabilitiesAndCollateral" xml:space="preserve">
+    <value>Long-term liabilities and provisions</value>
+  </data>
+  <data name="LongTermLiabilitiesP" xml:space="preserve">
+    <value>Long-term liabilities (P3)</value>
+  </data>
+  <data name="LongTermLiabilities_" xml:space="preserve">
+    <value>Long-term obligations</value>
+  </data>
+  <data name="LongTermLoans" xml:space="preserve">
+    <value>Long-term provisions</value>
+  </data>
+  <data name="LongTermReceivables" xml:space="preserve">
+    <value>Long-term accounts receivable</value>
+  </data>
+  <data name="loss" xml:space="preserve">
+    <value>Veszteség</value>
+  </data>
+  <data name="LossesFromEquityParticipation" xml:space="preserve">
+    <value>Loss from participation in capital</value>
+  </data>
+  <data name="MaterialCosts" xml:space="preserve">
+    <value>Anyagköltség</value>
+  </data>
+  <data name="materialValuesTurnover" xml:space="preserve">
+    <value>Turnover of material assets</value>
+  </data>
+  <data name="MoneyAndTheirEquivalents" xml:space="preserve">
+    <value>Money and its equivalents</value>
+  </data>
+  <data name="moneyTurnover" xml:space="preserve">
+    <value>Turnover of cash</value>
+  </data>
+  <data name="MostLiquidAssets" xml:space="preserve">
+    <value>Most liquid assets (A1)</value>
+  </data>
+  <data name="MostUrgentCommitments" xml:space="preserve">
+    <value>Most urgent liabilities (P1)</value>
+  </data>
+  <data name="NetFinancialResult" xml:space="preserve">
+    <value>Net financial result</value>
+  </data>
+  <data name="NetIncomeFromSales" xml:space="preserve">
+    <value>Nettó értékesítési bevétel</value>
+  </data>
+  <data name="NetIncomeFromSalesOfProducts" xml:space="preserve">
+    <value>Nettó bevétel termékértékesítésből (áruk, munkák, szolgáltatások)</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>Nettó nyereség</value>
+  </data>
+  <data name="NetProfitLossPerOrdinaryShare" xml:space="preserve">
+    <value>Nettó nyereség (veszteség) részvényenként</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="NoDataSentDescription" xml:space="preserve">
+    <value>Az Anda pénzügyi adatai soha nem hagyják el az eszközöt</value>
+  </data>
+  <data name="NoDataSentTitle" xml:space="preserve">
+    <value>Nincsenek adatok elküldve</value>
+  </data>
+  <data name="NonCurrentAssets" xml:space="preserve">
+    <value>Befektetett eszközök</value>
+  </data>
+  <data name="NonCurrentAssetsHeldForSale" xml:space="preserve">
+    <value>Eladható hosszé távú eszközök és elidégítési csoportok</value>
+  </data>
+  <data name="NonCurrentImmobilizedAssets" xml:space="preserve">
+    <value>Befektetett (rögzített) eszközök</value>
+  </data>
+  <data name="NormalFinancialStability" xml:space="preserve">
+    <value>Normális pénzügyi stabilitás</value>
+  </data>
+  <data name="NumberInOrder" xml:space="preserve">
+    <value>Sz.</value>
+  </data>
+  <data name="NumberOfRevolutionsOfCurrentAssets" xml:space="preserve">
+    <value>Forgóeszközök körförgásának száma</value>
+  </data>
+  <data name="OfflineCapableDescription" xml:space="preserve">
+    <value>Internet nélkül működik a beállítás után</value>
+  </data>
+  <data name="OfflineCapableTitle" xml:space="preserve">
+    <value>Offline képes</value>
+  </data>
+  <data name="OneDaySalesRevenue" xml:space="preserve">
+    <value>Egynapos értékesítési bevétel</value>
+  </data>
+  <data name="onIssuedAdvances" xml:space="preserve">
+    <value>Ként nyújtott előlegekre</value>
+  </data>
+  <data name="onReceivedAdvances" xml:space="preserve">
+    <value>Kapott előlegekre</value>
+  </data>
+  <data name="OperatingCycleDuration" xml:space="preserve">
+    <value>Üzemeltési ciklus időtartama</value>
+  </data>
+  <data name="OtherAggregateIncomeAfterTax" xml:space="preserve">
+    <value>Egyéb átfogó jövedelem adó után</value>
+  </data>
+  <data name="OtherAggregatePreTaxIncome" xml:space="preserve">
+    <value>Egyéb átfogó jövedelem adó előtt</value>
+  </data>
+  <data name="OtherCurrentAssets" xml:space="preserve">
+    <value>Egyéb forgó eszközök</value>
+  </data>
+  <data name="OtherCurrentLiabilities" xml:space="preserve">
+    <value>Egyéb forgó kötelezettségek</value>
+  </data>
+  <data name="OtherCurrentReceivables" xml:space="preserve">
+    <value>Egyéb forgó követelések</value>
+  </data>
+  <data name="OtherExpenses" xml:space="preserve">
+    <value>Egyéb költségek</value>
+  </data>
+  <data name="OtherFinancialIncome" xml:space="preserve">
+    <value>Egyéb pénzügyi bevétel</value>
+  </data>
+  <data name="otherFinancialInvestments" xml:space="preserve">
+    <value>Egyéb pénzügyi befektetések</value>
+  </data>
+  <data name="OtherFixedAssets" xml:space="preserve">
+    <value>Egyéb hosszé távú eszközök</value>
+  </data>
+  <data name="OtherIncome" xml:space="preserve">
+    <value>Egyéb bevétel</value>
+  </data>
+  <data name="OtherLongTermLiabilities" xml:space="preserve">
+    <value>Egyéb hosszé távú kötelezettségek</value>
+  </data>
+  <data name="OtherOperatingExpenses" xml:space="preserve">
+    <value>Egyéb üzemeltési költségek</value>
+  </data>
+  <data name="OtherOperatingIncome" xml:space="preserve">
+    <value>Egyéb üzemeltési bevétel</value>
+  </data>
+  <data name="OtherTotalIncome" xml:space="preserve">
+    <value>Egyéb átfogó jövedelem</value>
+  </data>
+  <data name="OverallLiquidityRatio" xml:space="preserve">
+    <value>Összes likviditási arány</value>
+  </data>
+  <data name="OwnCurrentAssets" xml:space="preserve">
+    <value>Own current assets</value>
+  </data>
+  <data name="PaymentSurplusOrShortage" xml:space="preserve">
+    <value>Payment surplus (+) or deficit (-)</value>
+  </data>
+  <data name="people" xml:space="preserve">
+    <value>people</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Időszak</value>
+  </data>
+  <data name="PermanentLiabilities" xml:space="preserve">
+    <value>Permanent liabilities (P4)</value>
+  </data>
+  <data name="PostponedTaxAssets" xml:space="preserve">
+    <value>Deferred tax assets</value>
+  </data>
+  <data name="PreCrisisFinancialStability" xml:space="preserve">
+    <value>Pre-crisis financial stability</value>
+  </data>
+  <data name="PrivacyAndSecurity" xml:space="preserve">
+    <value>Adatvédelem és biztonság</value>
+  </data>
+  <data name="PrivateDescription" xml:space="preserve">
+    <value>All AI processing happens in your browser</value>
+  </data>
+  <data name="PrivateTitle" xml:space="preserve">
+    <value>100% privát</value>
+  </data>
+  <data name="ProceedsFromSales" xml:space="preserve">
+    <value>Revenue from sales of products</value>
+  </data>
+  <data name="productionStocks" xml:space="preserve">
+    <value>production inventories</value>
+  </data>
+  <data name="ProductivityOfOneAverageEmployee" xml:space="preserve">
+    <value>Labor productivity of one average employee</value>
+  </data>
+  <data name="profit" xml:space="preserve">
+    <value>profit</value>
+  </data>
+  <data name="ProfitabilityOfCurrentAssets" xml:space="preserve">
+    <value>Turnover profitability of current assets</value>
+  </data>
+  <data name="ProfitabilityOnFixedAssets" xml:space="preserve">
+    <value>Profitability of fixed assets</value>
+  </data>
+  <data name="ProfitabilityRatioOfEnterprise" xml:space="preserve">
+    <value>Vállalkozás jövedelmezőségi aránya</value>
+  </data>
+  <data name="ProfitFromOperatingActivities" xml:space="preserve">
+    <value>Üzemi eredmény</value>
+  </data>
+  <data name="ProfitLossFromDiscontinuedOperationsAfterTax" xml:space="preserve">
+    <value>Nyereség (veszteség) az üzemstellungéből adó után</value>
+  </data>
+  <data name="PromissoryNotesIssued" xml:space="preserve">
+    <value>Kibocsatott valtok</value>
+  </data>
+  <data name="PromissoryNotesReceived" xml:space="preserve">
+    <value>Kapott valtok</value>
+  </data>
+  <data name="QuickAction1" xml:space="preserve">
+    <value>Click &lt;strong&gt;Financial Health&lt;/strong&gt; for overall analysis</value>
+  </data>
+  <data name="QuickAction2" xml:space="preserve">
+    <value>Click &lt;strong&gt;Get Recommendations&lt;/strong&gt; for actionable advice</value>
+  </data>
+  <data name="QuickAction3" xml:space="preserve">
+    <value>Click &lt;strong&gt;Explain Key Ratios&lt;/strong&gt; to understand metrics</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Gyors műveletek</value>
+  </data>
+  <data name="QuickSellingAssets" xml:space="preserve">
+    <value>Gyors eszközok (A2)</value>
+  </data>
+  <data name="RaisedCapital" xml:space="preserve">
+    <value>Felhalmozott toke</value>
+  </data>
+  <data name="RatedCapitalStructureRatio" xml:space="preserve">
+    <value>Tokestruktura aranya</value>
+  </data>
+  <data name="RatioOfBorrowedCapitalAndEquity" xml:space="preserve">
+    <value>Idegen es sajat toke aranya</value>
+  </data>
+  <data name="RatioOfMobileToImmobilized" xml:space="preserve">
+    <value>Mozgo befektetett aranya</value>
+  </data>
+  <data name="receivable" xml:space="preserve">
+    <value>hételeztokdősek</value>
+  </data>
+  <data name="ReceivablesForProducts" xml:space="preserve">
+    <value>Követelések termerék, áruk, munkák, szolgáltatások eladásért</value>
+  </data>
+  <data name="receivablesTurnover" xml:space="preserve">
+    <value>Követelések forgalma</value>
+  </data>
+  <data name="ReceivedFixedAssets" xml:space="preserve">
+    <value>Kapott befekzetett eszkozok</value>
+  </data>
+  <data name="ReceivedForReportingPeriod" xml:space="preserve">
+    <value>A jelentes idoszakaban kapott</value>
+  </data>
+  <data name="RecheckAvailability" xml:space="preserve">
+    <value>Elérhetőség újraellenőrzése</value>
+  </data>
+  <data name="RecommendationsPrompt" xml:space="preserve">
+    <value>Mik a fő ajánlásai a cégem pénzügyi helyzetének javítására?</value>
+  </data>
+  <data name="RecoveryRate" xml:space="preserve">
+    <value>Helyreallitasi arany</value>
+  </data>
+  <data name="RegisteredCapital" xml:space="preserve">
+    <value>Bejegyzett (reszvenyek) toke</value>
+  </data>
+  <data name="ReleaseOrLackOfCurrentAssetsDueTurnover" xml:space="preserve">
+    <value>Release (-), absence of current assets (+) due to changes in their turnover</value>
+  </data>
+  <data name="ReserveCapital" xml:space="preserve">
+    <value>Tartaléktőke</value>
+  </data>
+  <data name="ResponseStoppedByUser" xml:space="preserve">
+    <value>[Válasz megállítva felhasználó által]</value>
+  </data>
+  <data name="RetainedEarnings" xml:space="preserve">
+    <value>Undistributed profit (uncovered loss)</value>
+  </data>
+  <data name="RetiredFixedAssets" xml:space="preserve">
+    <value>Decommissioned fixed assets</value>
+  </data>
+  <data name="ReturnOnEquityPeriod" xml:space="preserve">
+    <value>Payback period of own capital</value>
+  </data>
+  <data name="ReturnOnFixedAssets" xml:space="preserve">
+    <value>Fixed asset turnover</value>
+  </data>
+  <data name="ReturnOnIntangibleAssets" xml:space="preserve">
+    <value>Intangible asset turnover</value>
+  </data>
+  <data name="RevaluationDepreciationFinancialInstruments" xml:space="preserve">
+    <value>Revaluation of financial instruments</value>
+  </data>
+  <data name="RevaluationDepreciationNonCurrentAssets" xml:space="preserve">
+    <value>Revaluation of non-current assets</value>
+  </data>
+  <data name="revenue" xml:space="preserve">
+    <value>revenues</value>
+  </data>
+  <data name="revolutions" xml:space="preserve">
+    <value>turnovers</value>
+  </data>
+  <data name="SalaryExpenses" xml:space="preserve">
+    <value>Labor costs</value>
+  </data>
+  <data name="Samein%OfAssets" xml:space="preserve">
+    <value>Ugyanaz, mint az eszközök %-a</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Mentés fájlba</value>
+  </data>
+  <data name="SellingExpenses" xml:space="preserve">
+    <value>Labor costs</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>Üzenet küldése</value>
+  </data>
+  <data name="Settlements" xml:space="preserve">
+    <value>Settlements</value>
+  </data>
+  <data name="settlementsWithBudget" xml:space="preserve">
+    <value>settlements with the budget</value>
+  </data>
+  <data name="settlementsWithInsurance" xml:space="preserve">
+    <value>elszámolások biztosítással</value>
+  </data>
+  <data name="settlementsWithPayroll" xml:space="preserve">
+    <value>elszámolások munkabérre</value>
+  </data>
+  <data name="SetupRequired" xml:space="preserve">
+    <value>Beállítás szükséges</value>
+  </data>
+  <data name="SetupStep1" xml:space="preserve">
+    <value>Chrome AI zászlók engedélyezése</value>
+  </data>
+  <data name="SetupStep2" xml:space="preserve">
+    <value>Gemini Nano modell letöltése</value>
+  </data>
+  <data name="SetupStep3" xml:space="preserve">
+    <value>Újraindítás Chrome</value>
+  </data>
+  <data name="ShareOtherComprehensiveIncome" xml:space="preserve">
+    <value>Részesedés egyéb átfogó jövedelemből társult vállalkozásokból és közös vállalkozásokból</value>
+  </data>
+  <data name="ShortTermBankCredits" xml:space="preserve">
+    <value>Rövid lejáratú banki hitelek</value>
+  </data>
+  <data name="ShortTermLiabilities" xml:space="preserve">
+    <value>Rövid lejáratú kötelezettségek (P2)</value>
+  </data>
+  <data name="ShortTermLoans" xml:space="preserve">
+    <value>Rövid lejáratú kölcsönök</value>
+  </data>
+  <data name="SlowSellingAssets" xml:space="preserve">
+    <value>Lassan likvid eszközök (A3)</value>
+  </data>
+  <data name="SolvencyLossRatio" xml:space="preserve">
+    <value>Fizetőképesség veszteségi aránya</value>
+  </data>
+  <data name="SolvencyRatios" xml:space="preserve">
+    <value>Fizetőképességi mutatók</value>
+  </data>
+  <data name="SolvencyRecoveryRatio" xml:space="preserve">
+    <value>Fizetőképesség helyreállítási aránya</value>
+  </data>
+  <data name="SourcesOfCapitalFormation" xml:space="preserve">
+    <value>Tőkeképzési források</value>
+  </data>
+  <data name="StabilityType" xml:space="preserve">
+    <value>Stabilitás típusa</value>
+  </data>
+  <data name="StatementOfFinancialPerformance" xml:space="preserve">
+    <value>Eredménykimut atás (Átfogó jövedelmi kimutatás)</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Készletek</value>
+  </data>
+  <data name="StopAnalysis" xml:space="preserve">
+    <value>Elemzés leállítása</value>
+  </data>
+  <data name="StopGeneration" xml:space="preserve">
+    <value>Generálás leállítása</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Adatok törlése</value>
+  </data>
+  <data name="StructureOfAccountsPayable" xml:space="preserve">
+    <value>Kötelezettségek struktúrája</value>
+  </data>
+  <data name="SuitabilityRatioForBegin" xml:space="preserve">
+    <value>Alkalmazhatósági arány az év elején</value>
+  </data>
+  <data name="SuitabilityRatioForEnd" xml:space="preserve">
+    <value>Alkalmazhatósági arány az év végén</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Táblázat</value>
+  </data>
+  <data name="TangibleCurrentAssets" xml:space="preserve">
+    <value>Mat eriális forgó eszközök</value>
+  </data>
+  <data name="Tangibles" xml:space="preserve">
+    <value>Anyagi értékek</value>
+  </data>
+  <data name="TargetedFinancing" xml:space="preserve">
+    <value>Célzott finanszírozás</value>
+  </data>
+  <data name="TheCostOfNewFixedAssets" xml:space="preserve">
+    <value>Üzembe helyezett új befektetett eszközök költsége</value>
+  </data>
+  <data name="thousandUAH" xml:space="preserve">
+    <value>ezer hrivnya</value>
+  </data>
+  <data name="times" xml:space="preserve">
+    <value>alkalommal</value>
+  </data>
+  <data name="Tip1" xml:space="preserve">
+    <value>Legyen konkrét a kérdéseiben</value>
+  </data>
+  <data name="Tip2" xml:space="preserve">
+    <value>Hivatkozzon konkrét arányokra vagy mutatókra</value>
+  </data>
+  <data name="Tip3" xml:space="preserve">
+    <value>Kérdezzen rákövetkező kérdéseket az egyértelműség érdekében</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tippek</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Összesen</value>
+  </data>
+  <data name="TotalAssets" xml:space="preserve">
+    <value>Teljes tőke (eszközök)</value>
+  </data>
+  <data name="TotalCoverageRatio" xml:space="preserve">
+    <value>Teljes fedézeti arány</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Teljes jövedelem</value>
+  </data>
+  <data name="TotalReturnOnAssets" xml:space="preserve">
+    <value>Átfogó hozam az összes eszközből</value>
+  </data>
+  <data name="TotalSection" xml:space="preserve">
+    <value>Összes szakasz szerint</value>
+  </data>
+  <data name="TotalSourcesOfCapital" xml:space="preserve">
+    <value>Tőke forrásainak összege</value>
+  </data>
+  <data name="TotalWorkingCapital" xml:space="preserve">
+    <value>Összes forgó eszköz</value>
+  </data>
+  <data name="total_" xml:space="preserve">
+    <value>összesen</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>Forgalom</value>
+  </data>
+  <data name="TurnoverInSettlements" xml:space="preserve">
+    <value>Számlapénz forgalma elszámolásokban</value>
+  </data>
+  <data name="TurnoverOfCurrentAssets" xml:space="preserve">
+    <value>Forgó eszközök forgalma</value>
+  </data>
+  <data name="TurnoverOfEquity" xml:space="preserve">
+    <value>Saját tőke forgalma</value>
+  </data>
+  <data name="TurnoverOfInventories" xml:space="preserve">
+    <value>Gyártási készletek forgalma</value>
+  </data>
+  <data name="TurnoverOfTotalCapital" xml:space="preserve">
+    <value>Teljes tőke forgalma</value>
+  </data>
+  <data name="TurnoverOfWorkingCapital" xml:space="preserve">
+    <value>Forgótőke forgalma</value>
+  </data>
+  <data name="TypesOfCurrentAssets" xml:space="preserve">
+    <value>Forgó eszközök típusai</value>
+  </data>
+  <data name="unfinishedProduction" xml:space="preserve">
+    <value>befejezetlen gyártás</value>
+  </data>
+  <data name="UnpaidCapital" xml:space="preserve">
+    <value>Kifizetetlen tőke</value>
+  </data>
+  <data name="UploadFromFile" xml:space="preserve">
+    <value>Betöltés fájlból</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Érték</value>
+  </data>
+  <data name="ViewSetupGuide" xml:space="preserve">
+    <value>Beállítási útmutató megtekintése</value>
+  </data>
+  <data name="wear" xml:space="preserve">
+    <value>elhasálódás</value>
+  </data>
+  <data name="whichAccountedForUsingEquityMethod" xml:space="preserve">
+    <value>saját tőke módszerrel elszámolt más vállalatok</value>
+  </data>
+  <data name="WithAccruedIncome" xml:space="preserve">
+    <value>Felhalmozott bevételekből</value>
+  </data>
+  <data name="WithAdvances" xml:space="preserve">
+    <value>Előlegekben</value>
+  </data>
+  <data name="withBudget" xml:space="preserve">
+    <value>a költségvetéssel</value>
+  </data>
+  <data name="WithBudgetAndExtraBudgetaryFunds" xml:space="preserve">
+    <value>A költségvetéssel és költségvetésen kívüli alapokkal</value>
+  </data>
+  <data name="WithBuyersOrSuppliers" xml:space="preserve">
+    <value>Vásárlókkal vagy szállítókkal</value>
+  </data>
+  <data name="WithdrawnCapital" xml:space="preserve">
+    <value>Kivont tőke</value>
+  </data>
+  <data name="WithdrewInReportingPeriod" xml:space="preserve">
+    <value>A beszámoló időszakban kileve</value>
+  </data>
+  <data name="WithInternalCashSettlements" xml:space="preserve">
+    <value>Belső elszámolásokkal</value>
+  </data>
+  <data name="WithLongTermLiabilities" xml:space="preserve">
+    <value>Hosszú lejáratú kötelezettségekkel</value>
+  </data>
+  <data name="WithOther" xml:space="preserve">
+    <value>Másokkal</value>
+  </data>
+  <data name="WithParticipants" xml:space="preserve">
+    <value>Résztvevőkkel</value>
+  </data>
+  <data name="WithPayroll" xml:space="preserve">
+    <value>Munkabér fizetéssel</value>
+  </data>
+  <data name="WorkingCapitalTurnoverTime" xml:space="preserve">
+    <value>Forgó eszközök forgalmi ideje</value>
+  </data>
+  <data name="year" xml:space="preserve">
+    <value>év</value>
+  </data>
+  <data name="years" xml:space="preserve">
+    <value>évek</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="You" xml:space="preserve">
+    <value>Ön</value>
+  </data>
+  <data name="EnjoyingUFIN" xml:space="preserve">
+  <value>Tetszik az UFIN?</value>
+</data>
+<data name="StarOnGitHubMessage" xml:space="preserve">
+  <value>Ha hasznosnak találja ezt az eszközt, kérjük, adjon neki csillagot a GitHubon! Segít más fejlesztőknek felfedezni a projektet.</value>
+</data>
+ <data name="StarOnGitHub" xml:space="preserve">
+   <value>Csillagozás a GitHubon</value>
+ </data>
+  <data name="IntroHeading" xml:space="preserve">
+    <value>Ukrán pénzügyi kimutatások elemzése</value>
+  </data>
+  <data name="IntroLede" xml:space="preserve">
+    <value>Ingyenes, nyílt forráskódú eszköz ukrán mérlegek (1. űrlap) és eredménykimutatások (2. űrlap) elemzéséhez. Számítsa ki a likviditási, fizetőképességi, jövedelmezőségi és üzleti aktivitási mutatókat közvetlenül a böngészőben — regisztráció nélkül, szerverhívás nélkül, 100% privát. Eredmények 15 nyelven. Opcionális helyi AI-asszisztens (Chrome Gemini Nano).</value>
+  </data>
+  <data name="IntroFeatureLiquidity" xml:space="preserve">
+    <value>&lt;strong&gt;Likviditás és fizetőképesség&lt;/strong&gt; — likviditási mutató, gyorsráta, pénzmutató, forgótőke, eladósodottság, kamatfedezet.</value>
+  </data>
+  <data name="IntroFeatureProfitability" xml:space="preserve">
+    <value>&lt;strong&gt;Jövedelmezőség&lt;/strong&gt; — ROA, ROE, bruttó és nettó árrés, működési árrés.</value>
+  </data>
+  <data name="IntroFeatureBusinessActivity" xml:space="preserve">
+    <value>&lt;strong&gt;Üzleti aktivitás&lt;/strong&gt; — eszköz-, követelés-, készlet- és kötelezettségforgás, működési ciklus elemzése.</value>
+  </data>
+  <data name="IntroFeatureAI" xml:space="preserve">
+    <value>&lt;strong&gt;Opcionális AI-asszisztens&lt;/strong&gt; — beépített Chrome Gemini Nano. Offline válaszol az adatairól; semmi nem hagyja el az eszközt.</value>
+  </data>
+  <data name="IntroJumpPrefix" xml:space="preserve">
+    <value>Ugrás egy konkrét kalkulátorra:</value>
+  </data>
+  <data name="IntroJumpSuffix" xml:space="preserve">
+    <value>vagy adja meg az adatait az alábbi űrlapon.</value>
+  </data>
+  <data name="IntroJumpLiquidity" xml:space="preserve">
+    <value>Likviditás</value>
+  </data>
+  <data name="IntroJumpSolvency" xml:space="preserve">
+    <value>Fizetőképesség</value>
+  </data>
+  <data name="IntroJumpBusinessActivity" xml:space="preserve">
+    <value>Üzleti aktivitás</value>
+  </data>
+  <data name="IntroJumpStability" xml:space="preserve">
+    <value>Pénzügyi stabilitás</value>
+  </data>
+  <data name="IntroShow" xml:space="preserve">
+    <value>Bevezető megjelenítése</value>
+  </data>
+  <data name="IntroHide" xml:space="preserve">
+    <value>Bevezető elrejtése</value>
+  </data>
+</root>

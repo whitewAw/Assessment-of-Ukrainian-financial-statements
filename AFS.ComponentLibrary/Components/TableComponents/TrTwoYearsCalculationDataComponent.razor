@@ -1,0 +1,30 @@
+<tr>
+    <TdComponent TextAlignment="ML">@Item.Number</TdComponent>
+    <TdComponent TextAlignment="ML" Spacing=@Spacing>@ChildContent</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.Deviations, Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@GetGrowthRate()</TdComponent>
+</tr>
+
+@code {
+    [Parameter]
+    public TwoYearsCalculationData Item { get; set; } = new();
+    [Parameter]
+    public int Digits { get; set; } = 1;
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string? Spacing { get; set; } = String.Empty;
+    [Parameter]
+    public bool? IsShowGrowthRate { get; set; } = true;
+
+    private string GetGrowthRate()
+    {
+        if (IsShowGrowthRate == false)
+        {
+            return "x";
+        }
+        return AfsConstraints.RoundStr(Item.GrowthRate, Digits > 2 ? 2 : Digits);
+    }
+}

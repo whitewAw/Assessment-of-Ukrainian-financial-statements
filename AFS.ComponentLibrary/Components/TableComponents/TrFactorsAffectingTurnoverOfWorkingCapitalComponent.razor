@@ -1,0 +1,20 @@
+@using AFS.Core.Models.TablsModels
+
+<tr>
+    <TdComponent TextAlignment="ML">@Item.Number</TdComponent>
+    <TdComponent TextAlignment="ML">@FieldName</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseYear, 2)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentYear, 2)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.AdjustedIndicator, 2)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.Total, 2)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.DueToRevenue, 2)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.DueToAverageBalances, 2)</TdComponent>
+</tr>
+
+@code {
+    [Parameter]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public FactorsAffectingTurnover Item { get; set; } = new();
+}

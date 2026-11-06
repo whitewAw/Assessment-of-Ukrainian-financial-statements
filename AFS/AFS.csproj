@@ -1,0 +1,133 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- GLOBALIZATION SETTINGS - Full ICU data for dynamic culture switching  -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- HybridGlobalization was tested and cannot be used here: Program.cs
+			 changes CultureInfo.DefaultThreadCurrentCulture during startup (based
+			 on the user's stored LocalStorage preference), which Blazor's Hybrid
+			 mode explicitly rejects with:
+			   "Blazor detected a change in the application's culture that is not
+				supported with the current project configuration."
+			 Full ICU data is required to support the 15 languages plus startup-
+			 time culture selection. This costs ~1 MB extra download on first load
+			 but is cached by the service worker forever after. -->
+		<InvariantGlobalization>false</InvariantGlobalization>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+		
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- AOT COMPILATION - Ahead-of-time compilation for best runtime speed     -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<RunAOTCompilation>true</RunAOTCompilation>
+		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
+		
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- WASM SIZE OPTIMIZATIONS                                                -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<WasmEnableSIMD>true</WasmEnableSIMD>
+		<WasmEnableExceptionHandling>true</WasmEnableExceptionHandling>
+		<WasmBuildNative>true</WasmBuildNative>
+		<WasmNativeStrip>true</WasmNativeStrip>
+		<WasmDedup>true</WasmDedup>
+		<!-- Maximum Emscripten optimization for size -->
+		<EmccLinkOptimizationFlag>-Oz</EmccLinkOptimizationFlag>
+		<EmccCompileOptimizationFlag>-Oz</EmccCompileOptimizationFlag>
+		<!-- Use webcil format for better compression (smaller than .dll) -->
+		<WasmEnableWebcil>true</WasmEnableWebcil>
+		<!-- Strip debug info and reduce metadata -->
+		<DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+		<OptimizationPreference>Size</OptimizationPreference>
+		<!-- Explicitly suppress the .symbols sourcemap files in the deployed artifact -->
+		<WasmEmitSymbolMap>false</WasmEmitSymbolMap>
+		<!-- Cap the WASM heap so the linker can pre-allocate a tight segment (2 GB max for wasm32) -->
+		<EmccMaximumHeapSize>2147483648</EmccMaximumHeapSize>
+
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- BLAZOR-SPECIFIC SETTINGS (inherited AOT/trim analyzers from Directory.Build.props) -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- Trimming Configuration - Partial mode preserves assemblies marked IsTrimmable=false -->
+		<IsTrimmable>true</IsTrimmable>
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>partial</TrimMode>
+		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+
+		<!-- JSON Serialization - Keep reflection enabled for third-party libraries (Radzen, Blazored) -->
+		<!-- Our code uses source-generated AfsJsonSerializerContext, but libraries need reflection -->
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+
+		<!-- Blazor Compression -->
+		<BlazorEnableCompression>true</BlazorEnableCompression>
+		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+
+		<!-- WASM-specific optimizations (safe for PWA) -->
+		<UseNativeHttpHandler>true</UseNativeHttpHandler>
+		<!-- Disable debugger metadata only in Release: keeps Debugger.Break, rich stacks
+			 and DebuggerDisplayAttribute working during `dotnet run`/F5 in Debug. -->
+		<DebuggerSupport Condition="'$(Configuration)' == 'Release'">false</DebuggerSupport>
+		<!-- Keep StackTraceSupport enabled for proper error handling in WASM -->
+
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- SUPPRESS TRIMMING WARNINGS FROM THIRD-PARTY ASSEMBLIES                -->
+		<!-- ══════════════════════════════════════════════════════════════════════ -->
+		<!-- IL2104: Third-party assemblies (Radzen, ApexCharts, Blazored) warnings -->
+		<!-- IL2110/IL2111: Router.NotFoundPage and LayoutView.Layout warnings      -->
+		<NoWarn>$(NoWarn);IL2104;IL2110;IL2111</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AFS.ComponentLibrary\AFS.ComponentLibrary.csproj" />
+		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
+	</ItemGroup>
+	
+
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<!-- TRIMMER CONFIGURATION - Preserve assemblies needed for Blazor reflection  -->
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<ItemGroup>
+		<!-- Required: Blazor components need constructors preserved for DI -->
+		<TrimmerRootAssembly Include="AFS" />
+		<!-- Required: Router.AdditionalAssemblies uses reflection to discover @page components -->
+		<TrimmerRootAssembly Include="AFS.ComponentLibrary" />
+		<!-- Required: IStringLocalizer<T> uses reflection for resource loading -->
+		<TrimmerRootAssembly Include="Microsoft.Extensions.Localization" />
+	</ItemGroup>
+
+	<!-- Preserve satellite assemblies (localization resources) from trimming -->
+	<ItemGroup>
+		<RuntimeHostConfigurationOption Include="System.Globalization.PredefinedCulturesOnly" Value="false" />
+	</ItemGroup>
+
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<!-- FEATURE SWITCHES - Disable unused runtime features to reduce size          -->
+	<!-- ══════════════════════════════════════════════════════════════════════════ -->
+	<ItemGroup>
+		<!-- MetadataUpdater / EventSource / XmlResolver switches are set via MSBuild
+			 properties in Directory.Build.props (MetadataUpdaterSupport is kept on in
+			 Debug so Hot Reload works). -->
+		<!-- Disable StartupHook (not used in WASM) -->
+		<RuntimeHostConfigurationOption Include="System.StartupHookProvider.IsSupported" Value="false" />
+		<!-- Remove DefaultValueAttribute reflection support (Blazor does not rely on it) -->
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.DefaultValueAttribute.IsSupported" Value="false" />
+		<!-- Remove ComponentModel.TypeDescriptor reflection support (saves ~50 KB) -->
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization" Value="false" />
+		<!-- Removed no-op switches: System.Console.UseStandardOutputEncoding (WASM uses
+			 browser console), System.Text.RegularExpressions.Regex.IsMatchedTimeoutSupported
+			 (not a real .NET switch), Switch.System.ComponentModel.UseLegacyPropertyDescriptor
+			 (.NET Framework only). They were emitted into the runtime manifest but had no effect. -->
+	</ItemGroup>
+
+	</Project>

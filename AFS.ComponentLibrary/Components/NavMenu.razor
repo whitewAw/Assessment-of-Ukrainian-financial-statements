@@ -1,0 +1,128 @@
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<nav class="top-row ps-1 navbar navbar-dark" role="navigation" aria-label="@mainNavigationLabel">
+    <div class="container-fluid px-1">
+        <a class="navbar-brand" href="@AppHref(string.Empty)" aria-label="@homeLabel">
+            @ResLoc["AssessmentOfFinancialStatements"]
+        </a>
+        <button title="@toggleMenuLabel"
+                class="navbar-toggler"
+                @onclick="ToggleNavMenu"
+                @onclick:stopPropagation="true"
+                aria-expanded="@(!collapseNavMenu)"
+                aria-controls="main-nav"
+                aria-label="@toggleMenuLabel">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="@NavMenuCssClass" id="main-nav" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item nav-item-highlight px-3">
+            <NavLink class="nav-link" href="@AppHref(string.Empty)" Match="NavLinkMatch.All">
+                <RadzenIcon Icon="edit" />
+                @ResLoc["InputData"]
+            </NavLink>
+        </div>
+
+        <div class="nav-item nav-item-highlight nav-item-ai px-3">
+          <NavLink class="nav-link" href="@AppHref("aiassistant")">
+             <RadzenIcon Icon="auto_awesome" />
+                @ResLoc["AIAssistant"]
+          </NavLink>
+        </div>
+
+        @foreach (var item in navigationItems)
+        {
+            <div class="nav-item px-3" @key="item.Href">
+                <NavLink class="nav-link" href="@AppHref(item.Href)">
+                    @if (!string.IsNullOrEmpty(item.Number))
+                    {
+                        @item.Number
+                
+                        @:. @item.Label
+                    }
+                    else
+                    {
+                        @item.Label
+                    }
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string mainNavigationLabel => ResLoc?["MainNavigation"] ?? "Main Navigation";
+    private string homeLabel => ResLoc?["Home"] ?? "Home";
+    private string toggleMenuLabel => ResLoc?["ToggleNavigation"] ?? "Toggle Navigation";
+
+    private async Task ToggleNavMenu()
+    {
+        // INP Optimization: Toggle state immediately for visual feedback
+        collapseNavMenu = !collapseNavMenu;
+        
+        // Yield to main thread to allow the CSS class change to paint
+        // This ensures the visual update happens before any other processing
+        await JS.InvokeVoidAsync("ufinInterop.yieldToMain");
+    }
+
+    // Base-relative hrefs resolve against <base href>, so they work on Netlify ("/"),
+    // the GitHub Pages sub-path, and inside prerendered static HTML snapshots.
+    private static string AppHref(string relativePath) =>
+        string.IsNullOrEmpty(relativePath) ? "./" : relativePath.TrimStart('/');
+
+    private IReadOnlyList<NavMenuItem> navigationItems => GetNavigationItems();
+
+    // Cache: the menu is rebuilt only when the current UI culture changes, not on every render.
+    // Previously this property allocated a 25-element array + 30 localizer lookups + 6 string
+    // concatenations every StateHasChanged() — pure waste because the list is otherwise static.
+    private IReadOnlyList<NavMenuItem>? _cachedItems;
+    private string? _cachedCultureName;
+
+    private IReadOnlyList<NavMenuItem> GetNavigationItems()
+    {
+        var cultureName = System.Globalization.CultureInfo.CurrentUICulture.Name;
+        if (_cachedItems is not null && _cachedCultureName == cultureName)
+        {
+            return _cachedItems;
+        }
+
+        _cachedCultureName = cultureName;
+        _cachedItems = new NavMenuItem[]
+        {
+            new("1", ResLoc["CharacteristicsOfCapital"], "characteristicsofcapital"),
+            new("2", ResLoc["IndicatorsOfTurnoverOfCurrentAssets"], "indicatorsofturnoverofcurrentassets"),
+            new("3", ResLoc["FactorsAffectingTurnoverOfWorkingCapital"], "factorsaffectingturnoverofworkingcapital"),
+            new("4", ResLoc["IndicatorsOfEfficiencyOfWorkingCapital"], "indicatorsofefficiencyofworkingcapital"),
+            new("5", ResLoc["AvailabilityAndMovementOfFixedAssets"], "availabilityandmovementoffixedassets"),
+            new("6", ResLoc["IndicatorsOfStateAndMovementOfFixedAssets"], "indicatorsofstateandmovementoffixedassets"),
+            new("7", ResLoc["CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets"], "calculationofindicatorsofefficiencyofuseoffixedassets"),
+            new("8", ResLoc["FactorAnalysisOfFixedAssets"], "factoranalysisoffixedassets"),
+            new("9", ResLoc["IndicatorsOfEfficiencyOfUseOfIntangibleAssets"], "indicatorsofefficiencyofuseofintangibleassets"),
+            new("10", ResLoc["SourcesOfCapitalFormation"], "sourcesofcapitalformation"),
+            new("11", ResLoc["AssessmentOfReceivableAndPayable"], "assessmentofreceivableandpayable"),
+            new("12", ResLoc["IndicatorsOfBusinessActivity"], "indicatorsofbusinessactivity"),
+            new("13", ResLoc["LiquidityIndicatorsOfBalance"], "liquidityindicatorsofbalance"),
+            new("14", ResLoc["SolvencyRatios"], "solvencyratios"),
+            new("15", ResLoc["GeneralIndicatorsOfFinancialStability"], "generalindicatorsoffinancialstability"),
+            new("16", ResLoc["ClassificationOfTypesOfFinancialStability"], "classificationoftypesoffinancialstability"),
+            new("17", ResLoc["IndicatorsOfFinancialStability"], "indicatorsoffinancialstability"),
+            new("I", $"{ResLoc["CompositionOfAssets"]} - {ResLoc["basePeriod"]}", "compositionofassetsbase"),
+            new("II", $"{ResLoc["CompositionOfAssets"]} - {ResLoc["currentPeriod"]}", "compositionofassetscurrent"),
+            new("III", ResLoc["WorkingCapitalTurnoverTime"], "workingcapitalturnovertime"),
+            new("IV", $"{ResLoc["SourcesOfCapitalFormation"]} - {ResLoc["basePeriod"]}", "sourcesofcapitalformationbase"),
+            new("V", $"{ResLoc["SourcesOfCapitalFormation"]} - {ResLoc["currentPeriod"]}", "sourcesofcapitalformationcurrent"),
+            new("VI", $"{ResLoc["StructureOfAccountsPayable"]} - {ResLoc["basePeriod"]}", "structureofaccountspayablebase"),
+            new("VII", $"{ResLoc["StructureOfAccountsPayable"]} - {ResLoc["currentPeriod"]}", "structureofaccountspayablecurrent")
+        };
+        return _cachedItems;
+    }
+
+    private sealed record NavMenuItem(string Number, string Label, string Href);
+}

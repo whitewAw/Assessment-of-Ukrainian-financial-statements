@@ -1,0 +1,443 @@
+@page "/liquidityindicatorsofbalance"
+@inject LiquidityIndicatorsOfBalance LiquidityIndicatorsOfBalance
+@inject AfsModel AfsModel
+
+<SeoHead Title="Liquidity Ratios Calculator | UFIN"
+         Description="Free liquidity analysis of a Ukrainian balance sheet. Calculate current ratio, quick ratio, cash ratio and absolute liquidity from Form 1 line items. Runs locally in your browser." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <thead>
+            <tr>
+                <ThComponent Rowspan=2>@ResLoc["Asset"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["AtBeginningReportingPeriod"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["AtEndingReportingPeriod"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["Liabilities"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["AtBeginningReportingPeriod"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["AtEndingReportingPeriod"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["PaymentSurplusOrShortage"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent>@ResLoc["AtBeginningReportingPeriod"]</ThComponent>
+                <ThComponent>@ResLoc["AtEndingReportingPeriod"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <ThComponent Colspan=8>@MainModel.BaseYear&nbsp;@ResLoc["year"]</ThComponent>
+            </tr>
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["MostLiquidAssets"] PName=@ResLoc["MostUrgentCommitments"]
+                                                     Item=LiquidityIndicatorsOfBalance.A1P1Bace />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["QuickSellingAssets"] PName=@ResLoc["ShortTermLiabilities"]
+                                                     Item=LiquidityIndicatorsOfBalance.A2P2Bace />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["SlowSellingAssets"] PName=@ResLoc["LongTermLiabilitiesP"]
+                                                     Item=LiquidityIndicatorsOfBalance.A3P3Bace />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["HardToSellAssets"] PName=@ResLoc["PermanentLiabilities"]
+                                                     Item=LiquidityIndicatorsOfBalance.A4P4Bace />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["Balance"] PName=@ResLoc["Balance"]
+                                                     Item=LiquidityIndicatorsOfBalance.TotalBace />
+            <tr>
+                <ThComponent Colspan=8>@MainModel.CurrentYear&nbsp;@ResLoc["year"]</ThComponent>
+            </tr>
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["MostLiquidAssets"] PName=@ResLoc["MostUrgentCommitments"]
+                                                     Item=LiquidityIndicatorsOfBalance.A1P1Current />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["QuickSellingAssets"] PName=@ResLoc["ShortTermLiabilities"]
+                                                     Item=LiquidityIndicatorsOfBalance.A2P2Current />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["SlowSellingAssets"] PName=@ResLoc["LongTermLiabilitiesP"]
+                                                     Item=LiquidityIndicatorsOfBalance.A3P3Current />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["HardToSellAssets"] PName=@ResLoc["PermanentLiabilities"]
+                                                     Item=LiquidityIndicatorsOfBalance.A4P4Current />
+            <TrLiquidityIndicatorsOfBalanceComponent AName=@ResLoc["Balance"] PName=@ResLoc["Balance"]
+                                                     Item=LiquidityIndicatorsOfBalance.TotalCurrent />
+        </tbody>
+    </table>
+    <br/>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <tbody>
+            <tr>
+                <TdComponent>@EstimationOfBalanceLiquidityAtBeginBase</TdComponent>
+            </tr>
+            <tr>
+                <ThComponent>@GetLiquidity(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace, true)</ThComponent>
+            </tr>
+            <tr>
+                <TdComponent>@EstimationOfBalanceLiquidityAtEndBase</TdComponent>
+            </tr>
+            <tr>
+                <ThComponent>@GetLiquidity(LiquidityIndicatorsOfBalance.A1P1Bace, LiquidityIndicatorsOfBalance.A2P2Bace, LiquidityIndicatorsOfBalance.A3P3Bace, LiquidityIndicatorsOfBalance.A4P4Bace, false)</ThComponent>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <tbody>
+            <tr>
+                <TdComponent>@EstimationOfBalanceLiquidityAtBeginCurrent</TdComponent>
+            </tr>
+            <tr>
+                <ThComponent>@GetLiquidity(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current, true)</ThComponent>
+            </tr>
+            <tr>
+                <TdComponent>@EstimationOfBalanceLiquidityAtEndCurrent</TdComponent>
+            </tr>
+            <tr>
+                <ThComponent>@GetLiquidity(LiquidityIndicatorsOfBalance.A1P1Current, LiquidityIndicatorsOfBalance.A2P2Current, LiquidityIndicatorsOfBalance.A3P3Current, LiquidityIndicatorsOfBalance.A4P4Current, false)</ThComponent>
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildLiquidityPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeLiquidityIndicators"]"
+                 LoadingMessage="AI is analyzing balance liquidity..." />
+
+@code {
+    private string? tableName;
+    private string? EstimationOfBalanceLiquidityAtBeginBase;
+    private string? EstimationOfBalanceLiquidityAtEndBase;
+    private string? EstimationOfBalanceLiquidityAtBeginCurrent;
+    private string? EstimationOfBalanceLiquidityAtEndCurrent;
+
+    protected override void OnInitialized()
+    {
+        string name = ResLoc["LiquidityIndicatorsOfBalance"];
+        const int number = 13;
+
+        tableName = string.Format(System.Globalization.CultureInfo.CurrentCulture,
+            "{0} {1}. {2} {3} {4}-{5} {6}",
+            ResLoc["Table"], number, name, MainModel.CompanyName,
+            MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+
+        EstimationOfBalanceLiquidityAtBeginBase    = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.BaseYear);
+        EstimationOfBalanceLiquidityAtEndBase      = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtEnd"],   MainModel.CompanyName, MainModel.BaseYear);
+        EstimationOfBalanceLiquidityAtBeginCurrent = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtBegin"], MainModel.CompanyName, MainModel.CurrentYear);
+        EstimationOfBalanceLiquidityAtEndCurrent   = string.Format(System.Globalization.CultureInfo.CurrentCulture, ResLoc["EstimationOfBalanceLiquidityAtEnd"],   MainModel.CompanyName, MainModel.CurrentYear);
+    }
+
+    private string BuildLiquidityPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeLiquidityIndicators(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            LiquidityIndicatorsOfBalance.A1P1Bace,
+            LiquidityIndicatorsOfBalance.A2P2Bace,
+            LiquidityIndicatorsOfBalance.A3P3Bace,
+            LiquidityIndicatorsOfBalance.A4P4Bace,
+            LiquidityIndicatorsOfBalance.A1P1Current,
+            LiquidityIndicatorsOfBalance.A2P2Current,
+            LiquidityIndicatorsOfBalance.A3P3Current,
+            LiquidityIndicatorsOfBalance.A4P4Current
+        );
+
+        return $@"You are a financial analyst specializing in liquidity analysis, cash management, and solvency assessment. Analyze the following Liquidity Indicators of Balance for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes BALANCE LIQUIDITY by grouping assets and liabilities by their liquidity/urgency for FOUR time points across TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}):
+- Beginning of {MainModel.BaseYear}
+- End of {MainModel.BaseYear}
+- Beginning of {MainModel.CurrentYear}
+- End of {MainModel.CurrentYear}
+
+LIQUIDITY GROUPING:
+Assets are grouped by how QUICKLY they can be converted to cash:
+- **A1 - Most Liquid Assets:** Cash and cash equivalents
+- **A2 - Quick-Liquid Assets:** Receivables and other quick assets
+- **A3 - Slow-Liquid Assets:** Inventory and prepayments
+- **A4 - Hard-to-Sell Assets:** Non-current assets (fixed assets, intangibles)
+
+Liabilities are grouped by URGENCY of payment:
+- **P1 - Most Urgent Liabilities:** Current payables (accounts payable)
+- **P2 - Short-term Liabilities:** Short-term loans and credits
+- **P3 - Long-term Liabilities:** Long-term debt
+- **P4 - Permanent Liabilities:** Equity and reserves
+
+LIQUIDITY CONDITIONS:
+For balance to be LIQUID, ALL four conditions must be met:
+1. **A1 = P1** (Most liquid assets cover most urgent liabilities)
+2. **A2 = P2** (Quick assets cover short-term liabilities)
+3. **A3 = P3** (Slow assets cover long-term liabilities)
+4. **A4 = P4** (Non-current assets funded by permanent capital)
+
+If ANY condition fails, balance is ILLIQUID.
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (•) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on LIQUIDITY RISK and SOLVENCY
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Liquidity Verdict**:
+   - 2-3 sentences on overall liquidity position
+   - Primary finding: Liquid or illiquid balance?
+   - Trend: Improving or deteriorating?
+   - Critical liquidity risk level (Low/Medium/High/Critical)
+
+**2. Liquidity Assessment Timeline**:
+   For each of the FOUR time points, state:
+   - **{MainModel.BaseYear} Beginning:** [Liquid/Illiquid]
+   - **{MainModel.BaseYear} End:** [Liquid/Illiquid]
+   - **{MainModel.CurrentYear} Beginning:** [Liquid/Illiquid]
+   - **{MainModel.CurrentYear} End:** [Liquid/Illiquid]
+   
+   **Overall Trend:**
+   - All periods liquid ? = Consistently strong liquidity
+   - All periods illiquid ? = Structural liquidity problem
+   - Mixed = Transitioning or volatile
+
+**3. Condition 1 Analysis: A1 vs P1 (Most Liquid vs Most Urgent)**:
+   **{MainModel.BaseYear} End:**
+   - A1 (Cash): [amount] thousand UAH
+   - P1 (Urgent payables): [amount] thousand UAH
+   - Surplus/Deficit: [amount] thousand UAH
+   - Status: [? Condition met / ? Condition failed]
+   
+   **{MainModel.CurrentYear} End:**
+   - A1 (Cash): [amount] thousand UAH
+   - P1 (Urgent payables): [amount] thousand UAH
+   - Surplus/Deficit: [amount] thousand UAH
+   - Status: [? Condition met / ? Condition failed]
+   
+   **Interpretation:**
+   - This is THE MOST CRITICAL condition
+   - Tests if company can pay immediate obligations
+   - Negative surplus = SEVERE liquidity crisis !!
+   - Coverage ratio: A1 ÷ P1
+     • >1.0 = Can cover ?
+     • <1.0 = Cannot cover ?
+   
+   **Trend Analysis:**
+   - Is deficit/surplus improving?
+   - Root causes of changes
+
+**4. Condition 2 Analysis: A2 vs P2 (Quick-Liquid vs Short-term)**:
+   **{MainModel.BaseYear} End:**
+   - A2 (Receivables, etc.): [amount]
+   - P2 (Short-term loans): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **{MainModel.CurrentYear} End:**
+   - A2: [amount]
+   - P2: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests near-term solvency (within 3-6 months)
+   - Receivables must cover short-term credit
+   - Positive surplus = Good working capital ?
+   - Assessment and trend
+
+**5. Condition 3 Analysis: A3 vs P3 (Slow-Liquid vs Long-term)**:
+   **{MainModel.BaseYear} End:**
+   - A3 (Inventory, etc.): [amount]
+   - P3 (Long-term debt): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **{MainModel.CurrentYear} End:**
+   - A3: [amount]
+   - P3: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests medium-term solvency
+   - Inventory should cover long-term debt
+   - Assessment and trend
+
+**6. Condition 4 Analysis: A4 vs P4 (Hard-to-Sell vs Permanent)**:
+   **{MainModel.BaseYear} End:**
+   - A4 (Fixed assets): [amount]
+   - P4 (Equity): [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [? A4 = P4 / ? A4 > P4]
+   
+   **{MainModel.CurrentYear} End:**
+   - A4: [amount]
+   - P4: [amount]
+   - Surplus/Deficit: [amount]
+   - Status: [?/?]
+   
+   **Interpretation:**
+   - Tests capital structure soundness
+   - Non-current assets should be funded by permanent capital
+   - A4 > P4 = Fixed assets funded by debt (risky) ?
+   - A4 = P4 = Healthy capital structure ?
+   - Assessment and trend
+
+**7. Overall Liquidity Assessment**:
+   Count conditions met vs failed:
+   - **{MainModel.BaseYear} End:** [X/4] conditions met
+   - **{MainModel.CurrentYear} End:** [X/4] conditions met
+   
+   **Liquidity Score:**
+   - 4/4 = Excellent liquidity ?
+   - 3/4 = Good liquidity ?
+   - 2/4 = Marginal liquidity ?
+   - 1/4 = Poor liquidity ?
+   - 0/4 = Critical liquidity crisis ?
+   
+   **Which conditions are failing?**
+   - Identify specific weaknesses
+   - Prioritize by criticality
+   - Assess severity
+
+**8. Liquidity Risk Identification**:
+   Identify specific liquidity risks:
+   
+   **Immediate Risks (A1 vs P1):**
+   - Can company pay bills today?
+   - Cash shortfall amount if any
+   - Days of payables coverage
+   
+   **Near-term Risks (A2 vs P2):**
+   - Collection vs payment timing
+   - Receivables quality concerns
+   - Credit line dependency
+   
+   **Medium-term Risks (A3 vs P3):**
+   - Inventory liquidity
+   - Long-term debt burden
+   - Asset-liability maturity mismatch
+   
+   **Structural Risks (A4 vs P4):**
+   - Over-leveraged capital structure
+   - Fixed assets funded by debt
+   - Equity adequacy
+
+**9. Trend Analysis and Dynamics**:
+   - Four-point progression analysis
+   - Intra-year changes (begin vs end each year)
+   - Inter-year changes (2019 vs 2020)
+   - **Key questions:**
+     • Is liquidity improving or deteriorating?
+     • Are deficits growing or shrinking?
+     • Which categories show most improvement/decline?
+     • What's driving changes?
+
+**10. Strategic Recommendations**:
+    
+    **Immediate Actions (if illiquid):**
+    
+    **For A1 < P1 (Cash shortage):**
+    • Accelerate receivables collection
+    • Negotiate payment term extensions
+    • Secure emergency credit line
+    • Reduce non-essential spending
+    • Sell liquid assets if necessary
+    • Target: A1 = P1 within 30 days
+    
+    **For A2 < P2 (Near-term pressure):**
+    • Improve collection processes
+    • Renegotiate short-term debt
+    • Consider factoring receivables
+    • Reduce inventory where possible
+    • Target: A2 = P2 within 90 days
+    
+    **For A3 < P3 (Medium-term concern):**
+    • Optimize inventory levels
+    • Refinance long-term debt
+    • Extend debt maturity
+    • Improve working capital efficiency
+    • Target: A3 = P3 within 180 days
+    
+    **For A4 > P4 (Capital structure):**
+    • Increase equity through retained earnings
+    • Reduce fixed asset investments
+    • Sell non-core assets
+    • Deleverage over time
+    • Target: A4 = P4 within 1-2 years
+    
+    **Liquidity Improvement Strategies:**
+    • Cash management optimization
+    • Working capital reduction
+    • Asset-liability matching
+    • Diversification of funding sources
+    • Contingency planning
+    
+    **Monitoring and Control:**
+    • Daily cash position monitoring
+    • Weekly liquidity reports
+    • Monthly condition testing
+    • Quarterly strategic review
+    
+    **Target Liquidity Position:**
+    • All 4 conditions met consistently
+    • Positive cash buffer: [specific amount]
+    • Coverage ratios: A1/P1 > 1.2, A2/P2 > 1.5
+    • Timeline: [specific months]
+
+INTERPRETATION GUIDANCE:
+- **Positive Surplus:** Asset > Liability (GOOD)
+- **Negative Surplus:** Asset < Liability (PROBLEM)
+- **Most Critical:** A1 vs P1 (immediate cash needs)
+- **Strategic:** A4 vs P4 (capital structure)
+
+CRITICAL INSIGHTS:
+1. Is the balance liquid or illiquid?
+2. Which specific conditions are failing?
+3. How severe is the liquidity problem?
+4. What's the trend (improving/deteriorating)?
+5. Where is the biggest liquidity risk?
+6. Can the company meet immediate obligations?
+7. Is there a cash crisis?
+8. What immediate actions are needed?
+
+SPECIAL CONSIDERATIONS:
+- Illiquid balance = High bankruptcy risk
+- A1 < P1 deficit is MOST dangerous (can't pay bills)
+- All four conditions must be met for true liquidity
+- Consistent illiquidity = Structural problem requiring major action
+- Single period illiquidity may be temporary
+
+WRITING STYLE:
+- Direct and urgent (if illiquid)
+- Clear risk assessment
+- Explain CONSEQUENCES of illiquidity
+- Prioritize actions by criticality
+- Be analytical but action-oriented
+- Emphasize cash management
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+    private string GetLiquidity(LiquidityIndicatorsOfBalanceRow A1P1, LiquidityIndicatorsOfBalanceRow A2P2, LiquidityIndicatorsOfBalanceRow A3P3, LiquidityIndicatorsOfBalanceRow A4P4, bool beginOfYear)
+    {
+        if (beginOfYear)
+        {
+            if (A1P1.ABegin >= A1P1.PBegin && A2P2.ABegin >= A2P2.PBegin && A3P3.ABegin >= A3P3.PBegin && A4P4.ABegin <= A4P4.PBegin)
+            {
+                return ResLoc["BalanceIsLiquid"];
+            }
+            return ResLoc["BalanceIsNotLiquid"];
+        }
+        if (A1P1.AEnd >= A1P1.PEnd && A2P2.AEnd >= A2P2.PEnd && A3P3.AEnd >= A3P3.PEnd && A4P4.AEnd <= A4P4.PEnd)
+        {
+            return ResLoc["BalanceIsLiquid"];
+        }
+        return ResLoc["BalanceIsNotLiquid"];
+    }
+}

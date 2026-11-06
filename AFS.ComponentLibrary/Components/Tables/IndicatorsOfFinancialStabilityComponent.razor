@@ -1,0 +1,444 @@
+﻿@page "/indicatorsoffinancialstability"
+@inject IndicatorsOfFinancialStability IndicatorsOfFinancialStability
+@inject AfsModel AfsModel
+<SeoHead Title="Financial Stability Ratios | UFIN"
+         Description="Detailed financial-stability ratios for Ukrainian businesses â€” autonomy, financial independence, leverage and own/borrowed capital ratios." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadCommonComponent />
+        <tbody>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.TotalReturnOnAssets>@ResLoc["TotalReturnOnAssets"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfIndependence>@ResLoc["CoefficientOfIndependence"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfFinancialDependence>@ResLoc["CoefficientOfFinancialDependence"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfFinancialStability>@ResLoc["CoefficientOfFinancialStability"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity>@ResLoc["CoefficientOfManeuverabilityOfEquity"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital>@ResLoc["CoefficientOfConcentrationOfBorrowedCapital"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments>@ResLoc["CoefficientOfStructureOfLongTermInvestments"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds>@ResLoc["CoefficientOfLongevityOfBorrowedFunds"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.RatedCapitalStructureRatio>@ResLoc["RatedCapitalStructureRatio"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity>@ResLoc["RatioOfBorrowedCapitalAndEquity"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories>@ResLoc["RatioOfOwnAndLongTermBorrowedFundsInInventories"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.RatioOfMobileToImmobilized>@ResLoc["RatioOfMobileToImmobilized"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Digits=4 Item=@IndicatorsOfFinancialStability.TotalCoverageRatio>@ResLoc["TotalCoverageRatio"]</TrTwoYearsCalculationDataComponent>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildStabilityIndicatorsPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeFinancialStabilityIndicators"]"
+                 LoadingMessage="AI is analyzing stability indicators..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["IndicatorsOfFinancialStability"];
+        int number = 17;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildStabilityIndicatorsPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeFinancialStabilityIndicators(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            IndicatorsOfFinancialStability.TotalReturnOnAssets,
+            IndicatorsOfFinancialStability.CoefficientOfIndependence,
+            IndicatorsOfFinancialStability.CoefficientOfFinancialDependence,
+            IndicatorsOfFinancialStability.CoefficientOfFinancialStability,
+            IndicatorsOfFinancialStability.CoefficientOfManeuverabilityOfEquity,
+            IndicatorsOfFinancialStability.CoefficientOfConcentrationOfBorrowedCapital,
+            IndicatorsOfFinancialStability.CoefficientOfStructureOfLongTermInvestments,
+            IndicatorsOfFinancialStability.CoefficientOfLongevityOfBorrowedFunds,
+            IndicatorsOfFinancialStability.RatedCapitalStructureRatio,
+            IndicatorsOfFinancialStability.RatioOfBorrowedCapitalAndEquity,
+            IndicatorsOfFinancialStability.RatioOfOwnAndLongTermBorrowedFundsInInventories,
+            IndicatorsOfFinancialStability.RatioOfMobileToImmobilized,
+            IndicatorsOfFinancialStability.TotalCoverageRatio
+        );
+
+        return $@"You are a financial analyst specializing in financial stability analysis, capital structure optimization, and leverage assessment. Analyze the following Indicators of Financial Stability for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes FINANCIAL STABILITY through 13 COMPREHENSIVE INDICATORS covering capital structure, leverage, independence, and maneuverability for TWO YEARS ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+
+THE 13 KEY STABILITY INDICATORS:
+
+**1. Total Return on Assets (Asset Utilization)**
+- Formula: Revenue Ã· Average Total Assets
+- Measures revenue generation per asset unit
+- Higher = Better asset productivity
+- Benchmark: Industry-specific
+
+**2. Independence Ratio (Equity Ratio)**
+- Formula: Equity Ã· Total Assets
+- Measures financial independence from creditors
+- Benchmark: =0.5 (=50% equity) preferred
+- Critical stability indicator
+
+**3. Financial Leverage Ratio (Equity Multiplier)**
+- Formula: Total Assets Ã· Equity (or 1 Ã· Independence Ratio)
+- Measures financial risk and asset leverage
+- Lower = Less risky
+- Benchmark: <2.0 preferred
+
+**4. Financial Stability Ratio**
+- Similar to independence ratio
+- Measures sustainable capital structure
+- Higher = More stable
+
+**5. Maneuverability Ratio of Equity**
+- Formula: Own Working Capital Ã· Equity
+- Measures equity flexibility for working capital
+- **NEGATIVE = All equity locked in fixed assets**
+- Benchmark: 0.2-0.5 (20-50% mobile)
+
+**6. Concentration of Borrowed Capital**
+- Formula: Borrowed Capital Ã· Total Assets
+- Inverse of independence ratio
+- Lower = Less debt dependence
+- Benchmark: <0.5 (< 50% debt)
+
+**7. Long-term Investment Structure Ratio**
+- Formula: Long-term Debt Ã· Non-current Assets
+- Shows fixed asset funding from long-term debt
+- Measures stable funding adequacy
+
+**8. Long-term Borrowing Ratio**
+- Formula: Long-term Debt Ã· (Long-term Debt + Equity)
+- Shows long-term debt in permanent capital
+- Lower = Less long-term obligation
+
+**9. Capital Structure Ratio**
+- Formula: Long-term Debt Ã· Total Debt
+- Shows debt maturity structure
+- Higher = More stable debt structure
+
+**10. Debt-to-Equity Ratio**
+- Formula: Total Debt Ã· Equity
+- **CRITICAL LEVERAGE METRIC**
+- Benchmark: <1.0 (more equity than debt) preferred
+- >2.0 = Over-leveraged
+
+**11. Own Funds in Inventories Ratio**
+- Formula: Equity Ã· Inventory
+- Shows equity coverage of inventory
+- Higher = Better coverage
+
+**12. Mobile to Immobilized Ratio**
+- Formula: Current Assets Ã· Non-current Assets
+- Shows asset structure balance
+- ~1.0 = Balanced structure
+
+**13. Total Coverage Ratio**
+- Formula: Current Assets Ã· Current Liabilities
+- Similar to current ratio
+- =1.0 = Can cover current obligations
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (â€¢) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on CAPITAL STRUCTURE and LEVERAGE RISK
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Financial Stability Verdict**:
+   - 2-3 sentences on overall stability
+   - Primary finding: Strong/Weak stability?
+   - Key weakness and key strength
+   - Risk level (Low/Medium/High/Critical)
+
+**2. Equity Independence Analysis (Indicators #2, #4)**:
+   **Independence Ratio:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Trend: [improving/declining]
+   
+   **Interpretation:**
+   - Benchmark: =0.5 (=50% equity) preferred
+   - Current: [value] = [X]% equity-financed
+   - Remaining [100-X]% is DEBT-financed
+   - **Assessment:**
+     â€¢ =0.5 = Strong independence
+     â€¢ 0.3-0.5 = Moderate independence
+     â€¢ <0.3 = HIGH debt dependence
+   
+   **Your Status:** [Current value 0.326 = 32.6% equity]
+   - BELOW 50% benchmark
+   - 67.4% debt-dependent
+   - Financial independence: WEAK
+
+**3. Leverage Assessment (Indicators #3, #10)**:
+   **Financial Leverage Ratio:**
+   - {MainModel.BaseYear}: [value]x
+   - {MainModel.CurrentYear}: [value]x
+   - Shows assets are [X]x larger than equity
+   
+   **Debt-to-Equity Ratio - CRITICAL:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - **Interpretation:**
+     â€¢ <1.0 = More equity than debt
+     â€¢ 1.0 = Equal equity and debt
+     â€¢ 1.0-2.0 = Moderate leverage
+     â€¢ >2.0 = OVER-LEVERAGED
+   
+   **Your Status:** [Current 2.06]
+   - ABOVE 1.0 benchmark
+   - 2.06x MORE DEBT than equity
+   - Over-leveraged position
+   - High financial risk
+
+**4. Equity Maneuverability Analysis (Indicator #5) - CRITICAL**:
+   **Maneuverability Ratio:**
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Trend: [improving/declining]
+   
+   **Interpretation:**
+   - Benchmark: 0.2-0.5 (20-50% mobile equity)
+   - **NEGATIVE value means:**
+     â€¢ ALL equity tied up in FIXED ASSETS
+     â€¢ ZERO equity available for working capital
+     â€¢ Working capital entirely DEBT-funded
+     â€¢ High liquidity risk
+   
+   **Your Status:** [Current -0.41]
+   - NEGATIVE = Critical issue
+   - Entire equity locked in non-current assets
+   - No financial flexibility
+   - Working capital depends 100% on debt
+
+**5. Debt Concentration Analysis (Indicator #6)**:
+   **Borrowed Capital Concentration:**
+   - {MainModel.BaseYear}: [value] ([X]++)
+   - {MainModel.CurrentYear}: [value] ([X]++)
+   - Benchmark: <0.5 (<50%)
+   
+   **Your Status:** [Current 0.671 = 67.1%]
+   - ABOVE 50% benchmark
+   - Company is 67% DEBT-financed
+   - High creditor dependence
+
+**6. Debt Structure Analysis (Indicators #7, #8, #9)**:
+   **Long-term Investment Structure:**
+   - Shows how much of fixed assets funded by long-term debt
+   - Current: [value]
+   
+   **Long-term Borrowing Ratio:**
+   - Long-term debt in permanent capital
+   - Current: [value]
+   
+   **Capital Structure Ratio:**
+   - Long-term vs total debt
+   - Current: [value]
+   - Higher = More stable debt maturity
+   
+   **Debt Maturity Assessment:**
+   - What % is long-term vs short-term?
+   - Is debt structure stable?
+   - Refinancing risk level
+
+**7. Asset Coverage Analysis (Indicators #11, #12, #13)**:
+   **Own Funds in Inventories:**
+   - Equity coverage of inventory
+   - Current: [value]
+   - Higher = Better
+   
+   **Mobile to Immobilized Ratio:**
+   - Current vs non-current assets balance
+   - Current: [value]
+   - ~1.0 = Balanced
+   
+   **Total Coverage Ratio:**
+   - Current assets vs current liabilities
+   - Current: [value]
+   - =1.0 = Adequate coverage
+
+**8. Asset Utilization (Indicator #1)**:
+   **Total Return on Assets:**
+   - Revenue per asset unit
+   - {MainModel.BaseYear}: [value]
+   - {MainModel.CurrentYear}: [value]
+   - Efficiency assessment
+
+**9. Comprehensive Stability Assessment**:
+   **Score: [X/13] indicators meeting benchmarks**
+   
+   Count indicators meeting their benchmarks:
+   - Independence =0.5: [?/?]
+   - Leverage <2.0: [?/?]
+   - Debt-to-Equity <1.0: [?/?]
+   - Maneuverability >0: [?/?]
+   - Debt Concentration <0.5: [?/?]
+   - Coverage =1.0: [?/?]
+   - Other indicators: [status]
+   
+   **Overall Stability Score:**
+   - 11-13/13 = Excellent
+   - 9-10/13 = Good
+   - 7-8/13 = Acceptable
+   - 5-6/13 = Weak
+   - <5/13 = Poor
+   
+   **Your Status:** [X/13]
+
+**10. Strategic Recommendations**:
+    
+    **CRITICAL PRIORITY: Fix Negative Maneuverability**
+    Current: -0.41 (All equity in fixed assets)
+    
+    **Immediate Actions (3-6 months):**
+    â€¢ Reduce fixed assets if possible
+    â€¢ Increase equity via retained earnings
+    â€¢ Reduce short-term debt
+    â€¢ Free up equity for working capital
+    â€¢ Target: Maneuverability >0 (minimum)
+    â€¢ Ultimate target: 0.2-0.5 (20-50% mobile)
+    
+    **Methods:**
+    - Sell non-core fixed assets
+    - Reduce CAPEX
+    - Retain ALL profits
+    - Pay down short-term debt
+    - Convert short-term to long-term debt
+    
+    **HIGH PRIORITY: Reduce Debt-to-Equity Ratio**
+    Current: 2.06 (Target: <1.0)
+    
+    **6-12 Month Plan:**
+    â€¢ Current: 2.06 (2x more debt than equity)
+    â€¢ Interim target: <1.5 within 12 months
+    â€¢ Ultimate target: <1.0 within 24 months
+    
+    **Methods:**
+    - Debt paydown program
+    - Profit retention (no dividends)
+    - Equity injection (if possible)
+    - Asset sales to reduce debt
+    - Operating cash flow to debt reduction
+    
+    **MEDIUM PRIORITY: Increase Equity Independence**
+    Current: 32.6% (Target: >50%)
+    
+    **12-24 Month Plan:**
+    â€¢ Build equity from 32.6% to 40%+ within 18 months
+    â€¢ Ultimate target: >50% within 24-36 months
+    
+    **Methods:**
+    - Retained earnings accumulation
+    - Additional equity capital (if feasible)
+    - Debt reduction
+    - Asset optimization
+    - Profitability improvement
+    
+    **Debt Structure Optimization:**
+    â€¢ Convert short-term to long-term debt where possible
+    â€¢ Extend debt maturities
+    â€¢ Reduce refinancing risk
+    â€¢ Negotiate better terms
+    â€¢ Reduce interest burden
+    
+    **Overall Capital Structure Target (24-36 months):**
+    â€¢ Independence ratio: >0.50 (>50% equity)
+    â€¢ Debt-to-equity: <1.0 (more equity than debt)
+    â€¢ Maneuverability: 0.3-0.5 (30-50% mobile equity)
+    â€¢ Financial leverage: <2.0x
+    â€¢ Debt concentration: <0.50 (<50% debt)
+    
+    **Implementation Timeline:**
+    
+    **Phase 1 (Months 1-6): Emergency Stabilization**
+    - Fix negative maneuverability (target >0)
+    - Reduce short-term debt by 20%
+    - Retain all earnings
+    - Build cash reserves
+    
+    **Phase 2 (Months 7-12): Leverage Reduction**
+    - Debt-to-equity from 2.06 to <1.8
+    - Independence ratio to 35%+
+    - Maneuverability to 0.1-0.2
+    - Continue debt paydown
+    
+    **Phase 3 (Months 13-24): Structural Improvement**
+    - Debt-to-equity to <1.5
+    - Independence ratio to 40%+
+    - Maneuverability to 0.2-0.3
+    - Sustainable capital structure
+    
+    **Phase 4 (Months 25-36): Target Achievement**
+    - Debt-to-equity to <1.0
+    - Independence ratio to 50%+
+    - Maneuverability to 0.3-0.5
+    - Strong financial stability
+    
+    **Monthly Monitoring KPIs:**
+    â€¢ Independence ratio (equity %)
+    â€¢ Debt-to-equity ratio
+    â€¢ Maneuverability ratio (CRITICAL)
+    â€¢ Financial leverage ratio
+    â€¢ Debt concentration
+    â€¢ Total coverage ratio
+
+INTERPRETATION GUIDANCE:
+- **Higher independence = Better** (more equity)
+- **Lower leverage = Better** (less risk)
+- **Positive maneuverability = Better** (flexibility)
+- **Lower debt-to-equity = Better** (<1.0 target)
+- **Negative maneuverability = CRITICAL PROBLEM**
+
+CRITICAL INSIGHTS:
+1. How financially independent is the company?
+2. Is leverage at safe levels?
+3. Is equity mobile or locked in fixed assets?
+4. What's the debt-to-equity ratio? (>2.0 = over-leveraged)
+5. Can company cover obligations from assets?
+6. Is debt structure stable (long-term vs short-term)?
+7. What are the top 3 stability risks?
+8. What's the path to strong stability?
+
+SPECIAL CONSIDERATIONS:
+- Negative maneuverability = All equity in fixed assets (very risky)
+- Debt-to-equity >2.0 = Over-leveraged (high risk)
+- Independence <30% = Excessive debt dependence
+- All three together = STRUCTURAL STABILITY CRISIS
+
+WRITING STYLE:
+- Direct and clear
+- Risk-focused when appropriate
+- Explain CONSEQUENCES of weak indicators
+- Provide concrete improvement paths
+- Be analytical and actionable
+- Emphasize capital structure optimization
+
+All ratios are dimensionless (pure numbers) or percentages. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+        }

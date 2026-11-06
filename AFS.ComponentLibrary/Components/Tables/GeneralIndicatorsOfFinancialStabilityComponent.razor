@@ -1,0 +1,378 @@
+﻿@page "/generalindicatorsoffinancialstability"
+@inject GeneralIndicatorsOfFinancialStability GeneralIndicatorsOfFinancialStability
+@inject AfsModel AfsModel
+<SeoHead Title="Financial Stability Indicators | UFIN"
+         Description="Free assessment of financial stability for Ukrainian businesses. Working-capital coverage of inventories, three-component stability indicator and own/borrowed source structure." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadTwoYearsDetail />
+        <tbody>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation.Current FieldName=@ResLoc["AvailabilityOfWorkingCapitalForFormationOfStocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.Stocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.Stocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.Stocks.Current FieldName=@ResLoc["Stocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalForStocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalAndLongTermForStocks"] />
+            </tr>
+            <tr>
+                <TdComponent TextAlignment="ML">@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Base
+                                                      Current=@GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks.Current FieldName=@ResLoc["ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks"] />
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildFinancialStabilityPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeGeneralFinancialStability"]"
+                 LoadingMessage="AI is analyzing financial stability..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["GeneralIndicatorsOfFinancialStability"];
+        int number = 15;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildFinancialStabilityPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Use AOT-optimized JSON serialization
+        var jsonData = AFS.Core.Services.JsonSerializationHelper.SerializeGeneralFinancialStability(
+            MainModel.CompanyName,
+            MainModel.BaseYear,
+            MainModel.CurrentYear,
+            GeneralIndicatorsOfFinancialStability.AvailabilityOfWorkingCapitalForFormationOfStocks,
+            GeneralIndicatorsOfFinancialStability.AvailabilityOfOwnCurrentAndLongTermBorrowedForStocks,
+            GeneralIndicatorsOfFinancialStability.AvailabilityForStockFormation,
+            GeneralIndicatorsOfFinancialStability.Stocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalForStocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermForStocks,
+            GeneralIndicatorsOfFinancialStability.ExcessLackOfWorkingCapitalAndLongTermAndShortTermForStocks
+        );
+
+        return $@"You are a financial analyst specializing in financial stability analysis, inventory financing, and working capital management. Analyze the following General Indicators of Financial Stability for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat raw data values in table format
+- The user can see all data in the table above
+- Focus on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+DATA STRUCTURE:
+This table analyzes FINANCIAL STABILITY through the lens of INVENTORY FINANCING. It examines how inventory (stocks) is financed using SEVEN KEY INDICATORS across FOUR time points (2 years Ã— 2 time points each).
+
+The central question: Is inventory financed by stable (own equity) or unstable (short-term debt) sources?
+
+INDICATOR STRUCTURE (3 Sources + 1 Inventory + 3 Deficits):
+
+**AVAILABLE SOURCES (How inventory can be financed):**
+1. **Own Working Capital** (Most stable)
+   - Own current assets = Equity - Non-current assets
+   - Conservative funding source
+   
+2. **Own + Long-term Borrowed** (Moderately stable)
+   - Own working capital + Long-term debt
+   - Acceptable funding mix
+   
+3. **Total Available** (Includes short-term)
+   - Own + Long-term + Short-term loans
+   - Risky if dependent on short-term
+
+**INVENTORY REQUIREMENT:**
+4. **Stocks (Inventory)** (What needs financing)
+   - Total inventory value
+   - Must be funded from somewhere
+
+**SURPLUS/DEFICIT ANALYSIS:**
+5. **Deficit from Own Capital** = Own Working Capital - Inventory
+   - Negative = Inventory NOT covered by own capital
+   - Positive = Inventory fully covered by equity
+   
+6. **Deficit from Own + Long-term** = (Own + Long-term) - Inventory
+   - Negative = Need short-term debt
+   - Positive = Covered by stable sources
+   
+7. **Deficit from Total Sources** = Total Available - Inventory
+   - Negative = CANNOT fund inventory (crisis)
+   - Positive = Inventory fully funded
+
+Financial Data ({MainModel.BaseYear}-{MainModel.CurrentYear}):
+{jsonData}
+
+FINANCIAL STABILITY CLASSIFICATION:
+Based on deficits, companies are classified into 4 types:
+
+**Type 1: Absolute Stability (Best)**
+- Surplus from own capital (Deficit #5 = 0)
+- Inventory funded entirely by equity
+- Maximum financial independence
+- Very rare, highly conservative
+
+**Type 2: Normal Stability (Good)**
+- Deficit from own capital (Deficit #5 < 0)
+- BUT surplus from own + long-term (Deficit #6 = 0)
+- Inventory funded by equity + stable long-term debt
+- Acceptable and common
+
+**Type 3: Unstable Financial State (Risky)**
+- Deficit from own + long-term (Deficit #6 < 0)
+- BUT surplus from total sources (Deficit #7 = 0)
+- Inventory dependent on SHORT-TERM debt
+- High refinancing risk
+
+**Type 4: Crisis Financial State (Critical)**
+- Deficit from total sources (Deficit #7 < 0)
+- CANNOT fund inventory even with all sources
+- Insolvency risk
+- Emergency action required
+
+RESPONSE FORMAT:
+- Professional narrative style
+- Headings with ** (e.g., **1. Executive Summary**)
+- Bullet points (â€¢) for lists
+- Numbers integrated into sentences
+- NO tables or raw data dumps
+- Focus on STABILITY RISK and FUNDING SOURCES
+
+ANALYSIS SECTIONS:
+
+**1. Executive Summary - Financial Stability Verdict**:
+   - 2-3 sentences on overall stability
+   - Primary finding: Which stability type? (1, 2, 3, or 4)
+   - Key weakness: What's the funding gap?
+   - Stability risk level (Low/Medium/High/Critical)
+
+**2. Inventory Financing Requirement**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Trend: Increasing or decreasing
+   - This is what MUST be financed
+
+**3. Own Working Capital Analysis (Source #1)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - **Interpretation:**
+     â€¢ Positive = Own capital available for inventory
+     â€¢ Negative = All equity tied up in fixed assets
+   - Current status: [NEGATIVE -9.6M] = NO own capital for inventory!
+
+**4. Own + Long-term Capital Analysis (Source #2)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Addition of long-term debt to funding
+   - Still negative? Stability concerns
+
+**5. Total Available Funding (Source #3)**:
+   - {MainModel.BaseYear} End: [amount] thousand UAH
+   - {MainModel.CurrentYear} End: [amount] thousand UAH
+   - Includes ALL sources (equity + long-term + short-term)
+   - Final funding capacity
+
+**6. Deficit from Own Capital Analysis (Indicator #5) - PRIMARY TEST**:
+   - Formula: Own Working Capital - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     â€¢ =0 = Absolute Stability (Type 1)
+     â€¢ <0 = Need external funding (Type 2, 3, or 4)
+   - Current: [-14.7M] = LARGE DEFICIT
+   - Meaning: Inventory CANNOT be funded by own capital alone
+
+**7. Deficit from Own + Long-term (Indicator #6) - SECONDARY TEST**:
+   - Formula: (Own + Long-term) - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     â€¢ =0 = Normal Stability (Type 2)
+     â€¢ <0 = Unstable/Crisis (Type 3 or 4)
+   - Current: [-10.4M] = STILL DEFICIT
+   - Meaning: Even with long-term debt, cannot cover inventory
+
+**8. Deficit from Total Sources (Indicator #7) - FINAL TEST**:
+   - Formula: Total Available - Inventory
+   - {MainModel.BaseYear} End: [value] thousand UAH
+   - {MainModel.CurrentYear} End: [value] thousand UAH
+   - **Interpretation:**
+     â€¢ =0 = Unstable but funded (Type 3)
+     â€¢ <0 = Crisis (Type 4) - Cannot fund inventory
+   - Current: [-10.2M] = CRISIS
+   - Meaning: CANNOT fund inventory even with ALL sources!
+
+**9. Financial Stability Classification**:
+   **Four-Point Timeline Assessment:**
+   
+   {MainModel.BaseYear} Beginning:
+   â€¢ Test 1 (Own capital): [Pass/Fail]
+   â€¢ Test 2 (Own + Long-term): [Pass/Fail]
+   â€¢ Test 3 (Total sources): [Pass/Fail]
+   â€¢ Classification: Type [1/2/3/4]
+   
+   {MainModel.BaseYear} End:
+   â€¢ Classification: Type [X]
+   
+   {MainModel.CurrentYear} Beginning:
+   â€¢ Classification: Type [X]
+   
+   {MainModel.CurrentYear} End:
+   â€¢ Classification: Type [X]
+   
+   **Overall Pattern:**
+   - Consistent type or changing?
+   - Improving or deteriorating?
+   - Current state vs historical
+
+**10. Strategic Recommendations**:
+    
+    **If Type 4 (Crisis) - Current Situation:**
+    â€¢ CRITICAL: Cannot fund inventory even with all sources!
+    
+    **Immediate Actions (30 days):**
+    â€¢ Emergency inventory reduction
+      - Target: Reduce inventory by [X]M UAH
+      - Sell slow-moving stock
+      - Just-in-time ordering
+      - Free up working capital
+    
+    â€¢ Increase funding sources
+      - Secure additional short-term credit
+      - Negotiate extended supplier credit
+      - Consider factoring receivables
+      - Emergency capital injection
+    
+    â€¢ Working capital optimization
+      - Accelerate receivables collection
+      - Extend payables (carefully)
+      - Release tied-up capital
+    
+    **If Type 3 (Unstable):**
+    â€¢ HIGH RISK: Dependent on short-term debt
+    
+    â€¢ Reduce short-term debt dependency
+    â€¢ Convert short-term to long-term debt
+    â€¢ Increase own working capital
+    â€¢ Optimize inventory levels
+    â€¢ Target: Move to Type 2 within 12 months
+    
+    **If Type 2 (Normal Stability):**
+    â€¢ ACCEPTABLE: Funded by equity + long-term
+    
+    â€¢ Maintain stable funding mix
+    â€¢ Monitor deficit trends
+    â€¢ Gradual improvement toward Type 1
+    â€¢ Focus on profitability to build equity
+    
+    **If Type 1 (Absolute Stability):**
+    â€¢ EXCELLENT: Fully funded by equity
+    
+    â€¢ Maintain conservative position
+    â€¢ Leverage for growth if appropriate
+    â€¢ Industry leadership position
+    
+    **Long-term Stability Improvement (Type 4 to 2 to 1):**
+    
+    **Step 1: Exit Crisis (Type 4 to 3)**
+    Timeline: 3-6 months
+    â€¢ Reduce inventory by 30-40%
+    â€¢ Secure adequate credit lines
+    â€¢ Stabilize operations
+    
+    **Step 2: Achieve Normal Stability (Type 3 to 2)**
+    Timeline: 12-18 months
+    â€¢ Build own working capital
+    â€¢ Reduce short-term debt
+    â€¢ Extend debt maturity
+    â€¢ Increase equity through retained earnings
+    
+    **Step 3: Target Absolute Stability (Type 2 to 1)**
+    Timeline: 2-3 years
+    â€¢ Continue equity accumulation
+    â€¢ Reduce all debt gradually
+    â€¢ Conservative inventory policies
+    â€¢ Strong profitability focus
+    
+    **Monthly Monitoring:**
+    â€¢ All 7 stability indicators
+    â€¢ Stability type classification
+    â€¢ Inventory levels
+    â€¢ Working capital position
+    â€¢ Short-term debt exposure
+    
+    **Key Targets:**
+    â€¢ Deficit #5 (Own capital): Target =0 (long-term)
+    â€¢ Deficit #6 (Own + Long-term): Target =0 (medium-term)
+    â€¢ Deficit #7 (Total): Target =0 (immediate priority)
+    â€¢ Stability Type: Minimum Type 2, target Type 1
+
+INTERPRETATION GUIDANCE:
+- **Negative deficits = Funding gap**
+- **Positive surplus = Funded**
+- **Type 1 > Type 2 > Type 3 > Type 4** (Best to worst)
+- **Own capital preferred** over debt for inventory
+
+CRITICAL INSIGHTS:
+1. What financial stability type is the company?
+2. Can inventory be funded from available sources?
+3. Is company dependent on short-term debt?
+4. What's the size of funding deficit?
+5. Is stability improving or deteriorating?
+6. What immediate actions are needed?
+7. Can company survive if credit tightens?
+8. What's the path to stability improvement?
+
+SPECIAL CONSIDERATIONS:
+- Type 4 = Cannot fund inventory = Crisis
+- Negative own working capital = All equity in fixed assets
+- Short-term debt for inventory = High refinancing risk
+- Large deficits = Urgent restructuring needed
+
+WRITING STYLE:
+- Direct and urgent if crisis
+- Clear risk assessment
+- Explain CONSEQUENCES of instability
+- Prioritize by urgency
+- Be analytical and actionable
+- Focus on funding sources
+
+All amounts in thousand UAH. Write entire response in {languageInstruction}. DO NOT CREATE ANY TABLES.";
+    }
+
+        }

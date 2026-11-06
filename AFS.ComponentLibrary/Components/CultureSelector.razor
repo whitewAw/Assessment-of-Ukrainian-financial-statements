@@ -1,0 +1,114 @@
+@using System.Globalization
+@inject ICultureStorageHandler CultureHandler
+@inject NavigationManager Navigator
+
+<div class="culture-selector" role="region" aria-label="@selectLanguageLabel">
+    <RadzenDropDown TValue="CultureDisplayItem"
+                    Data="@cultureItems"
+                    @bind-Value="@selectedItem"
+                    Change="CultureChanged"
+                    Style="min-width: 150px;"
+                    Placeholder="@selectLanguageLabel"
+                    TextProperty="@nameof(CultureDisplayItem.DisplayText)"
+                    aria-label="@selectLanguageLabel" />
+</div>
+
+@code {
+    // AOT-safe wrapper class to avoid dynamic template binding
+    private sealed class CultureDisplayItem
+    {
+        public required CultureInfo Culture { get; init; }
+        public required string DisplayText { get; init; }
+    }
+
+    private static readonly Dictionary<string, (string Flag, string NativeName)> cultureDisplayData = new()
+    {
+        ["en"] = ("🇺🇸", "English"),
+        ["uk-UA"] = ("🇺🇦", "Українська"),
+        ["ru"] = ("🇷🇺", "Русский"),
+        ["es"] = ("🇪🇸", "Español"),
+        ["de"] = ("🇩🇪", "Deutsch"),
+        ["fr"] = ("🇫🇷", "Français"),
+        ["pl"] = ("🇵🇱", "Polski"),
+        ["tr"] = ("🇹🇷", "Türkçe"),
+        ["it"] = ("🇮🇹", "Italiano"),
+        ["zh"] = ("🇨🇳", "简体中文"),
+        ["ro"] = ("🇷🇴", "Română"),
+        ["hu"] = ("🇭🇺", "Magyar"),
+        ["cs"] = ("🇨🇿", "Čeština"),
+        ["nl"] = ("🇳🇱", "Nederlands"),
+        ["ja"] = ("🇯🇵", "日本語")
+    };
+
+    // Ordered by importance for Ukraine''s economy:
+    private static readonly CultureInfo[] supportedCultures =
+    [
+        CultureInfo.GetCultureInfo("uk-UA"),  // Native
+        CultureInfo.GetCultureInfo("en"),     // International business
+        CultureInfo.GetCultureInfo("pl"),     // Neighbor, largest diaspora
+        CultureInfo.GetCultureInfo("ro"),     // Neighbor
+        CultureInfo.GetCultureInfo("hu"),     // Neighbor
+        CultureInfo.GetCultureInfo("cs"),     // Neighbor region
+        CultureInfo.GetCultureInfo("de"),     // Major EU trade partner
+        CultureInfo.GetCultureInfo("nl"),     // EU partner
+        CultureInfo.GetCultureInfo("fr"),     // EU partner
+        CultureInfo.GetCultureInfo("it"),     // EU partner
+        CultureInfo.GetCultureInfo("es"),     // EU partner
+        CultureInfo.GetCultureInfo("tr"),     // Black Sea partner
+        CultureInfo.GetCultureInfo("zh"),     // Growing trade
+        CultureInfo.GetCultureInfo("ja"),     // Technology
+        CultureInfo.GetCultureInfo("ru")      // Historical context (last due to current situation)
+    ];
+
+    private readonly List<CultureDisplayItem> cultureItems = supportedCultures
+        .Select(c => new CultureDisplayItem
+        {
+            Culture = c,
+            DisplayText = GetDisplayText(c)
+        })
+        .ToList();
+
+    private CultureDisplayItem? selectedItem;
+    private string selectLanguageLabel => ResLoc?["SelectLanguage"] ?? "Select Language";
+
+    private static string GetFlag(CultureInfo culture) =>
+        cultureDisplayData.TryGetValue(culture.Name, out var data) ? data.Flag : "🌐";
+
+    private static string GetNativeName(CultureInfo culture) =>
+        cultureDisplayData.TryGetValue(culture.Name, out var data) ? data.NativeName : culture.NativeName;
+
+    private static string GetDisplayText(CultureInfo culture) =>
+        $"{GetFlag(culture)} {GetNativeName(culture)}";
+
+    protected override void OnInitialized()
+    {
+        // Get the current culture and find the matching supported culture
+        var current = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.CurrentCulture;
+
+        // Try to find exact match first, then by two-letter ISO code
+        var matchingCulture = supportedCultures.FirstOrDefault(c => c.Name == current.Name) ??
+                             supportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == current.TwoLetterISOLanguageName) ??
+                             CultureInfo.GetCultureInfo("en");
+
+        selectedItem = cultureItems.FirstOrDefault(i => i.Culture.Name == matchingCulture.Name);
+
+        base.OnInitialized();
+    }
+
+    private async Task CultureChanged(object? param)
+    {
+        if (selectedItem is not null)
+        {
+            try
+            {
+                await CultureHandler.WriteCultureAsync(selectedItem.Culture);
+                Navigator.NavigateTo(Navigator.Uri, forceLoad: true);
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't break the app
+                await Console.Error.WriteLineAsync($"Failed to change culture: {ex.Message}");
+            }
+        }
+    }
+}

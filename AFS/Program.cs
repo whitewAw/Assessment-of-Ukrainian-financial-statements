@@ -1,0 +1,181 @@
+using AFS;
+using AFS.Core.Components;
+using AFS.Core.Interfaces;
+using AFS.Core.Models;
+using AFS.Core.Services;
+using AFS.Core.Services.DataCalculations;
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Radzen;
+using System.Globalization;
+using System.Web;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+// Configure for better performance
+builder.Logging.SetMinimumLevel(LogLevel.Warning);
+
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+// Use singleton HttpClient for better performance
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+// Singleton services (stateful, shared across app)
+builder.Services.AddSingleton<AfsModel>();
+builder.Services.AddSingleton<AfsConstraints>();
+builder.Services.AddSingleton<AppThemeService>();
+
+// Localization - no need to set ResourcesPath since resources are in referenced AFS.ComponentLibrary
+builder.Services.AddLocalization();
+
+// Blazored LocalStorage - using string-based methods for AOT compatibility
+// We manually serialize/deserialize with AfsJsonSerializerContext in our handlers
+builder.Services.AddBlazoredLocalStorage();
+
+// Radzen services - REQUIRED for Radzen components
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
+
+// Scoped services (per-user session)
+builder.Services.AddScoped<ICultureStorageHandler, LocalStorageCultureHandler>();
+builder.Services.AddScoped<IModelStorageHandler, LocalStorageModelHandler>();
+builder.Services.AddScoped<IModelExportImportHandler, BrowserExportImportHandler>();
+builder.Services.AddScoped<JsInterop>();
+builder.Services.AddScoped<PageSeoHelper>();
+
+// AI Services - Configure based on appsettings.json using AOT-safe configuration access
+var aiSection = builder.Configuration.GetSection("AI");
+var aiEnabled = bool.TryParse(aiSection["Enabled"], out var enabled) && enabled;
+var aiProvider = aiSection["Provider"] ?? "Browser";
+
+if (aiEnabled)
+{
+    if (aiProvider.Equals("Browser", StringComparison.OrdinalIgnoreCase))
+    {
+        // Use Chrome Built-in AI (Gemini Nano) - Default, no API key required
+        builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
+    }
+    else if (aiProvider.Equals("OpenAI", StringComparison.OrdinalIgnoreCase))
+    {
+        // Use OpenAI - Requires API key in appsettings.json
+        builder.Services.AddScoped<IAIFinancialAdvisor>(sp =>
+        {
+            var httpClient = sp.GetRequiredService<HttpClient>();
+            var openAiSection = builder.Configuration.GetSection("OpenAI");
+            var apiKey = openAiSection["ApiKey"] ?? "";
+            var model = openAiSection["Model"] ?? "gpt-4o-mini";
+            return new OpenAIFinancialAdvisor(httpClient, apiKey, model);
+        });
+    }
+    else
+    {
+        // Fallback to Browser AI
+        builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
+    }
+}
+else
+{
+    // Disabled - use a no-op implementation
+    builder.Services.AddScoped<IAIFinancialAdvisor, BrowserAIFinancialAdvisor>();
+}
+
+// Transient services (lightweight calculation services)
+builder.Services.AddTransient<CharacteristicsOfCapital>();
+builder.Services.AddTransient<IndicatorsOfTurnoverOfCurrentAssets>();
+builder.Services.AddTransient<FactorsAffectingTurnoverOfWorkingCapital>();
+builder.Services.AddTransient<IndicatorsOfEfficiencyOfWorkingCapital>();
+builder.Services.AddTransient<AvailabilityAndMovementOfFixedAssets>();
+builder.Services.AddTransient<IndicatorsOfStateAndMovementOfFixedAssets>();
+builder.Services.AddTransient<CalculationOfIndicatorsOfEfficiencyOfUseOfFixedAssets>();
+builder.Services.AddTransient<FactorAnalysisOfFixedAssets>();
+builder.Services.AddTransient<IndicatorsOfEfficiencyOfUseOfIntangibleAssets>();
+builder.Services.AddTransient<SourcesOfCapitalFormation>();
+builder.Services.AddTransient<AssessmentOfReceivableAndPayable>();
+builder.Services.AddTransient<IndicatorsOfBusinessActivity>();
+builder.Services.AddTransient<LiquidityIndicatorsOfBalance>();
+builder.Services.AddTransient<SolvencyRatios>();
+builder.Services.AddTransient<GeneralIndicatorsOfFinancialStability>();
+builder.Services.AddTransient<ClassificationOfTypesOfFinancialStability>();
+builder.Services.AddTransient<IndicatorsOfFinancialStability>();
+
+// Charts
+builder.Services.AddTransient<CompositionOfAssetsChart>();
+builder.Services.AddTransient<WorkingCapitalTurnoverTimeChart>();
+builder.Services.AddTransient<SourcesOfCapitalFormationChart>();
+builder.Services.AddTransient<StructureOfAccountsPayableChart>();
+
+var host = builder.Build();
+
+// Check for ?lang= query parameter and set culture
+var navigationManager = host.Services.GetRequiredService<NavigationManager>();
+var uri = new Uri(navigationManager.Uri);
+
+if (!string.IsNullOrEmpty(uri.Query))
+{
+    var query = HttpUtility.ParseQueryString(uri.Query);
+    var langParam = query.Get("lang");
+
+    if (!string.IsNullOrEmpty(langParam))
+    {
+        try
+        {
+            var cultureStorageService = host.Services.GetRequiredService<ICultureStorageHandler>();
+            var requestedCulture = CultureInfo.GetCultureInfo(langParam);
+
+            await cultureStorageService.WriteCultureAsync(requestedCulture).ConfigureAwait(false);
+            CultureInfo.DefaultThreadCurrentCulture = requestedCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = requestedCulture;
+        }
+        catch (Exception ex)
+        {
+            // Log error but continue - will use default culture
+            Console.WriteLine($"Failed to set culture from URL parameter: {ex.Message}");
+        }
+    }
+}
+
+// Initialize culture and model in parallel for faster startup.
+// Each task handles its own failure so a corrupted localStorage entry can't
+// prevent the app from starting; defaults are used instead.
+async Task InitializeCultureAsync()
+{
+    try
+    {
+        var cultureStorageService = host.Services.GetService<ICultureStorageHandler>();
+        if (cultureStorageService != null)
+        {
+            await cultureStorageService.InitializeCultureAsync().ConfigureAwait(false);
+        }
+    }
+    catch (Exception ex)
+    {
+        await Console.Error.WriteLineAsync($"Culture initialization failed, using default culture: {ex.Message}").ConfigureAwait(false);
+    }
+}
+
+async Task InitializeModelAsync()
+{
+    try
+    {
+        var modelStorageHandler = host.Services.GetService<IModelStorageHandler>();
+        if (modelStorageHandler != null)
+        {
+            await modelStorageHandler.InitializeModelAsync().ConfigureAwait(false);
+        }
+    }
+    catch (Exception ex)
+    {
+        await Console.Error.WriteLineAsync($"Model initialization failed, starting with empty model: {ex.Message}").ConfigureAwait(false);
+    }
+}
+
+// Both start immediately and overlap on their localStorage interop awaits;
+// Task.Run adds no parallelism on single-threaded WASM.
+await Task.WhenAll(InitializeCultureAsync(), InitializeModelAsync()).ConfigureAwait(false);
+
+await host.RunAsync().ConfigureAwait(false);

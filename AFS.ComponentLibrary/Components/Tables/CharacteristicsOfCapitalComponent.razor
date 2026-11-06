@@ -1,0 +1,362 @@
+﻿@page "/characteristicsofcapital"
+@inject CharacteristicsOfCapital CharacteristicsOfCapital
+@inject AfsModel AfsModel
+<SeoHead Title="Characteristics of Capital | UFIN"
+         Description="Analyze capital structure and working-capital characteristics from a Ukrainian balance sheet â€” own, borrowed and total capital with year-over-year comparison." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadTwoYearsDetail />
+        <tbody>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.TotalAssets.Base
+                                                      Current=@CharacteristicsOfCapital.TotalAssets.Current Colspan=2 FieldName=@ResLoc["TotalAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base
+                                                      Current=@CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current FieldName=@ResLoc["NonCurrentImmobilizedAssets"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase
+                                                      Current=@CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["Samein%OfAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.CurrentMobileAssets.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.CurrentMobileAssets.Base
+                                                      Current=@CharacteristicsOfCapital.CurrentMobileAssets.Current FieldName=@ResLoc["CurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase
+                                                      Current=@CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["Samein%OfAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.TangibleCurrentAssets.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.TangibleCurrentAssets.Base
+                                                      Current=@CharacteristicsOfCapital.TangibleCurrentAssets.Current Spacing="pl-3" FieldName=@ResLoc["TangibleCurrentAssets"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase
+                                                      Current=@CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%toCurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.AccountsReceivable.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.AccountsReceivable.Base
+                                                      Current=@CharacteristicsOfCapital.AccountsReceivable.Current Spacing="pl-3" FieldName=@ResLoc["AccountsReceivable"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase
+                                                      Current=@CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%toCurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.CashCurrentFinancialInvestments.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base
+                                                      Current=@CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current Spacing="pl-3" FieldName=@ResLoc["CashCurrentFinancialInvestments"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase
+                                                      Current=@CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%toCurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.OtherCurrentAssets.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.OtherCurrentAssets.Base
+                                                      Current=@CharacteristicsOfCapital.OtherCurrentAssets.Current Spacing="pl-3" FieldName=@ResLoc["OtherCurrentAssets"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.OtherCurrentAssets.InPercentageOfCurrentAssetsBase
+                                                      Current=@CharacteristicsOfCapital.OtherCurrentAssets.InPercentageOfCurrentAssetsCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%toCurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Base
+                                                      Current=@CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.Current Spacing="pl-3" FieldName=@ResLoc["NonCurrentAssetsHeldForSale"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.InPercentageOfCurrentAssetsBase
+                                                      Current=@CharacteristicsOfCapital.NonCurrentAssetsHeldForSale.InPercentageOfCurrentAssetsCurrent IsShowGrowthRate="false" Spacing="pl-3" FieldName=@ResLoc["in%toCurrentMobileAssets"] />
+            </tr>
+            <tr>
+                <TdComponent Rowspan="2" TextAlignment="ML">@CharacteristicsOfCapital.FutureExpenses.Number</TdComponent>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.FutureExpenses.Base
+                                                      Current=@CharacteristicsOfCapital.FutureExpenses.Current FieldName=@ResLoc["FutureExpenses"] />
+            </tr>
+            <tr>
+                <TdsCharacteristicsOfCapitalComponent Base=@CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase
+                                                      Current=@CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent IsShowGrowthRate="false" FieldName=@ResLoc["Samein%OfAssets"] />
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildFinancialAnalysisPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeTurnoverIndicators"]"
+                 LoadingMessage="AI is analyzing..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["CharacteristicsOfCapital"];
+        int number = 1;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildFinancialAnalysisPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 1: CHARACTERISTICS OF CAPITAL
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+Unit: thousand UAH
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**TOTAL CAPITAL (ASSETS)** [No numbering - header row]
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TotalAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TotalAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TotalAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.TotalAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TotalAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TotalAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TotalAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.TotalAssets.Current.GrowthRate:N2}%
+
+**1. NON-CURRENT (FIXED) ASSETS** [Row 1]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.NonCurrentImmobilizedFunds.InPercentageOfAssetsCurrent.Deviations:N2}%
+
+**2. CURRENT (MOBILE) ASSETS** [Row 2]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.CurrentMobileAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.CurrentMobileAssets.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CurrentMobileAssets.InPercentageOfAssetsCurrent.Deviations:N2}%
+
+**2.1. MATERIAL CURRENT ASSETS (Inventory)** [Row 2.1]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.TangibleCurrentAssets.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.TangibleCurrentAssets.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.TangibleCurrentAssets.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**2.2. ACCOUNTS RECEIVABLE** [Row 2.2]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.AccountsReceivable.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.AccountsReceivable.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.AccountsReceivable.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.AccountsReceivable.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.AccountsReceivable.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**2.3. CASH AND CURRENT FINANCIAL INVESTMENTS** [Row 2.3]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.Current.GrowthRate:N2}%
+   
+   As % of working capital:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.CashCurrentFinancialInvestments.InPercentageOfCurrentAssetsCurrent.Deviations:N2}%
+
+**3. FUTURE PERIOD EXPENSES** [Row 3]
+   Absolute values (thousand UAH):
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.Base.BeginningOfyear:N2}
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.FutureExpenses.Base.EndOfYear:N2}
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.Base.Deviations:N2}
+   {MainModel.BaseYear} - Growth Rate: {CharacteristicsOfCapital.FutureExpenses.Base.GrowthRate:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.Current.BeginningOfyear:N2}
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.FutureExpenses.Current.EndOfYear:N2}
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.Current.Deviations:N2}
+   {MainModel.CurrentYear} - Growth Rate: {CharacteristicsOfCapital.FutureExpenses.Current.GrowthRate:N2}%
+   
+   As % of total assets:
+   {MainModel.BaseYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.BeginningOfyear:N2}%
+   {MainModel.BaseYear} - End: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.EndOfYear:N2}%
+   {MainModel.BaseYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsBase.Deviations:N2}%
+   
+   {MainModel.CurrentYear} - Beginning: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.BeginningOfyear:N2}%
+   {MainModel.CurrentYear} - End: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.EndOfYear:N2}%
+   {MainModel.CurrentYear} - Deviation: {CharacteristicsOfCapital.FutureExpenses.InPercentageOfAssetsCurrent.Deviations:N2}%
+";
+
+        return $@"You are a financial analyst specializing in capital structure and asset composition analysis. Analyze the Characteristics of Capital for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING THE DATA STRUCTURE:
+â€¢ Each year ({MainModel.BaseYear} and {MainModel.CurrentYear}) has TWO time points: Beginning and End
+â€¢ This gives FOUR total observations to track trends
+â€¢ Each row shows absolute values AND percentages
+â€¢ Rows 1-2 show % of TOTAL ASSETS
+â€¢ Rows 2.1-2.3 show % of WORKING CAPITAL
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables in your response
+- DO NOT repeat the raw data I just provided
+- The user can see all data in the table above
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall capital structure: improving, stable, or concerning?
+- Most important single finding
+- Overall verdict
+
+**2. Total Assets Trend** (Header row)
+- How Total Assets evolved across all four points
+- Consistent trend or reversals?
+- Momentum: accelerating or decelerating?
+
+**3. Fixed vs Mobile Assets Balance** (Rows 1 & 2)
+- Non-Current Assets trend (Row 1): absolute & % of assets
+- Current Assets trend (Row 2): absolute & % of assets
+- Shift in asset structure: more fixed or more liquid?
+- Implications for business strategy
+
+**4. Working Capital Composition** (Rows 2.1-2.3)
+- Inventory (2.1): absolute, % of working capital, trends
+- Accounts Receivable (2.2): absolute, % of working capital, collection implications
+- Cash & Investments (2.3): absolute, % of working capital, liquidity assessment
+- Which component dominates working capital?
+- Any concerning concentrations?
+
+**5. Future Expenses** (Row 3)
+- Trend in prepaid/deferred expenses
+- % of assets significance
+- Any unusual movements?
+
+**6. Intra-Year vs Inter-Year Patterns**
+- Compare {MainModel.BaseYear} beginning-to-end vs {MainModel.CurrentYear} beginning-to-end
+- Which year showed more change?
+- Consistent year-end patterns or shifting?
+
+**7. Key Findings** (3-5 bullets)
+- Most dramatic changes (absolute & percentage)
+- Most stable elements
+- Positive trends
+- Concerning patterns
+
+**8. Risk Assessment**
+- Liquidity position: strong or weak?
+- Asset concentration risks
+- Receivables quality concerns?
+- Inventory accumulation issues?
+- Overall capital structure health
+
+**9. Strategic Recommendations**
+- **Immediate (0-30 days)**: 2-3 urgent actions
+- **Short-term (3 months)**: Priority improvements with targets
+- **Long-term (6-12 months)**: Strategic capital reallocation
+- **Target metrics**: Specific % composition goals
+
+INTERPRETATION GUIDE:
+? POSITIVE TRENDS:
+- Balanced fixed/mobile asset mix
+- Increasing cash as % of working capital
+- Decreasing receivables as % (faster collection)
+- Stable or decreasing inventory as %
+
+? CONCERNING TRENDS:
+- Too much capital in fixed assets (low liquidity)
+- Receivables growing faster than revenue
+- Cash declining as %
+- Inventory accumulating
+
+WRITING STYLE:
+- Professional and direct
+- Active voice
+- Integrate numbers: ""Non-Current Assets grew from 33.6% to 46.2% of total assets, indicating significant capital investment in fixed capacity""
+- Explain WHY changes matter
+- Provide actionable business context
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on MEANING and RECOMMENDATIONS.";
+    }
+
+        }

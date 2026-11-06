@@ -1,0 +1,91 @@
+<Project>
+<PropertyGroup>
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- PROJECT / REPOSITORY METADATA - Shared by all projects                 -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <Product>Assessment of Ukrainian Financial Statements</Product>
+  <Company>whitewAw</Company>
+  <Authors>Alex (Oleksandr) Shevchenko</Authors>
+  <Copyright>Copyright © 2022-$([System.DateTime]::UtcNow.Year) whitewAw</Copyright>
+  <Description>Blazor WebAssembly PWA for analyzing Ukrainian financial statements with local AI (Chrome Gemini Nano) and 17 analysis tables + 7 charts.</Description>
+  <PackageProjectUrl>https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements</PackageProjectUrl>
+  <RepositoryUrl>https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements.git</RepositoryUrl>
+  <RepositoryType>git</RepositoryType>
+  <RepositoryBranch>main</RepositoryBranch>
+  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  <PackageTags>blazor;webassembly;wasm;pwa;financial-analysis;ukraine;aot;ai;gemini-nano</PackageTags>
+  <NeutralLanguage>uk-UA</NeutralLanguage>
+
+  <!-- Deterministic builds + Source Link for reproducible diagnostics -->
+  <Deterministic>true</Deterministic>
+  <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+  <!-- Nullable reference types -->
+  <Nullable>enable</Nullable>
+
+  <!-- Implicit usings -->
+  <ImplicitUsings>enable</ImplicitUsings>
+
+  <!-- Code Analysis - Recommended level -->
+  <AnalysisLevel>latest</AnalysisLevel>
+  <AnalysisMode>Recommended</AnalysisMode>
+
+  <!-- Enforce code style during build -->
+  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+  <!-- AOT/Trimming Safety - Enable analyzers (trimming is configured per-project) -->
+  <IsAotCompatible>true</IsAotCompatible>
+  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+
+  <!-- Treat all warnings as errors for every project and configuration (Debug + Release) -->
+  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- RUNTIME FEATURE SWITCHES - Safe for AOT/WASM                          -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- Disable unused runtime features (safe for all project types) -->
+  <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+  <MetadataUpdaterSupport Condition="'$(Configuration)' == 'Release'">false</MetadataUpdaterSupport>
+  <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+  <EventSourceSupport>false</EventSourceSupport>
+  <!-- Replace BCL exception/resource messages with lookup keys (~100 KB WASM saving).
+       Trade-off: BCL errors in dev console become terse codes instead of full prose. -->
+  <UseSystemResourceKeys>true</UseSystemResourceKeys>
+  <!-- XmlUrlResolver/XmlDocument.Load network stack (we don't use XmlReader with remote URIs) -->
+  <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
+  <!-- COM interop is meaningless in WASM / browser -->
+  <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+  <!-- macOS/iOS-only native autorelease pools -->
+  <AutoreleasePoolSupport>false</AutoreleasePoolSupport>
+  <!-- C++/CLI hosting (Windows-only, not applicable to WASM) -->
+  <EnableCppCLIHostActivation>false</EnableCppCLIHostActivation>
+  <!-- Legacy UTF-7 encoding (unsafe, obsolete) -->
+  <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- RESTORE / LOCK FILES - Deterministic dependency graph for CI           -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- Generate packages.lock.json next to each csproj on restore. CI must run
+       restore in locked mode to fail on any unintended graph change. -->
+  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+  </PropertyGroup>
+
+
+  <!-- Code Analyzers - Applied to all projects (versions in Directory.Packages.props) -->
+  <ItemGroup>
+    <PackageReference Include="Meziantou.Analyzer">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Roslynator.Analyzers">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

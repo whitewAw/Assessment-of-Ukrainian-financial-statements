@@ -1,0 +1,288 @@
+﻿@page "/indicatorsofturnoverofcurrentassets"
+@inject IndicatorsOfTurnoverOfCurrentAssets IndicatorsOfTurnoverOfCurrentAssets
+@inject AfsModel AfsModel
+<SeoHead Title="Current Assets Turnover Analysis | UFIN"
+         Description="Calculate inventory, receivables and current-asset turnover ratios from Ukrainian financial statements with year-over-year comparison." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <THeadCommonComponent />
+        <tbody>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.AverageWorkingCapitalBalances>@ResLoc["AverageWorkingCapitalBalances"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.AverageFromMoney
+                                                Spacing="pl-3">- @ResLoc["fromMoney"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.AverageFromReceivables
+                                                Spacing="pl-3">- @ResLoc["fromReceivables"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.AverageFromMaterialValues
+                                                Spacing="pl-3">- @ResLoc["fromTangibleAssets"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.NetIncomeFromSales>@ResLoc["NetIncomeFromSales"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.OneDaySalesRevenue
+                                                Digits="2">@ResLoc["OneDaySalesRevenue"], @ResLoc["thousandUAH"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.TurnoverOfWorkingCapital
+                                                Digits=2>@ResLoc["TurnoverOfWorkingCapital"], @ResLoc["days"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.MoneyTurnover
+                                                Digits=2
+                                                Spacing="pl-3">- @ResLoc["moneyTurnover"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.ReceivablesTurnover Digits=2
+                                                Spacing="pl-3">- @ResLoc["receivablesTurnover"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.MaterialValuesTurnover Digits=2
+                                                Spacing="pl-3">- @ResLoc["materialValuesTurnover"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.NumberOfRevolutionsOfCurrentAssets
+                                                Digits=2>@ResLoc["NumberOfRevolutionsOfCurrentAssets"], @ResLoc["times"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromMoney Digits=2
+                                                Spacing="pl-3">- @ResLoc["fromMoney"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromReceivables Digits=2
+                                                Spacing="pl-3">- @ResLoc["fromReceivables"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromTangibleAssets Digits=2
+                                                Spacing="pl-3">- @ResLoc["fromTangibleAssets"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfTurnoverOfCurrentAssets.FixingRatioOfCurrentAssets Digits=4
+                                                IsShowGrowthRate=false>@ResLoc["FixingRatioOfCurrentAssets"]</TrTwoYearsCalculationDataComponent>
+            <tr>
+                <TdComponent TextAlignment="ML">6.</TdComponent>
+                <TdComponent TextAlignment="ML">@ResLoc["ReleaseOrLackOfCurrentAssetsDueTurnover"]</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(@IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear, 4)</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+                <TdComponent TextAlignment="MR" Spacing="pr-2">x</TdComponent>
+            </tr>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildTurnoverAnalysisPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeTurnoverIndicators"]"
+                 LoadingMessage="AI is analyzing balance liquidity..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["IndicatorsOfTurnoverOfCurrentAssets"];
+        int number = 2;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildTurnoverAnalysisPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Build structured data with proper row numbering matching table structure
+        var structuredData = $@"TABLE 2: INDICATORS OF TURNOVER OF CURRENT ASSETS
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+
+ROW-BY-ROW DATA STRUCTURE:
+
+**1. Average balances of current assets (thousand UAH)**
+   Base Year ({MainModel.BaseYear}): {IndicatorsOfTurnoverOfCurrentAssets.AverageWorkingCapitalBalances.BaseYear:N2}
+   Current Year ({MainModel.CurrentYear}): {IndicatorsOfTurnoverOfCurrentAssets.AverageWorkingCapitalBalances.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.AverageWorkingCapitalBalances.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.AverageWorkingCapitalBalances.GrowthRate:N2}%
+
+   **1.1. - Cash**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMoney.BaseYear:N2}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMoney.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMoney.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMoney.GrowthRate:N2}%
+
+   **1.2. - Accounts receivable**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromReceivables.BaseYear:N2}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromReceivables.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromReceivables.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromReceivables.GrowthRate:N2}%
+
+   **1.3. - Material assets (Inventory)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMaterialValues.BaseYear:N2}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMaterialValues.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMaterialValues.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.AverageFromMaterialValues.GrowthRate:N2}%
+
+**2. Net revenue from sales (thousand UAH)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.NetIncomeFromSales.BaseYear:N2}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.NetIncomeFromSales.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.NetIncomeFromSales.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.NetIncomeFromSales.GrowthRate:N2}%
+
+   **2.1. One-day revenue from sales (thousand UAH)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.OneDaySalesRevenue.BaseYear:N2}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.OneDaySalesRevenue.CurrentYear:N2}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.OneDaySalesRevenue.Deviations:N2}
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.OneDaySalesRevenue.GrowthRate:N2}%
+   Formula: Net revenue / 360 days
+
+**3. Turnover of current assets (days)** [LOWER IS BETTER]
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.TurnoverOfWorkingCapital.BaseYear:N2} days
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.TurnoverOfWorkingCapital.CurrentYear:N2} days
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.TurnoverOfWorkingCapital.Deviations:N2} days
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.TurnoverOfWorkingCapital.GrowthRate:N2}%
+   Formula: Average working capital / One-day revenue
+
+   **3.1. - Turnover of cash (days)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.MoneyTurnover.BaseYear:N2} days
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.MoneyTurnover.CurrentYear:N2} days
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.MoneyTurnover.Deviations:N2} days
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.MoneyTurnover.GrowthRate:N2}%
+
+   **3.2. - Turnover of receivables (days)** [Collection period]
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.ReceivablesTurnover.BaseYear:N2} days
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.ReceivablesTurnover.CurrentYear:N2} days
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.ReceivablesTurnover.Deviations:N2} days
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.ReceivablesTurnover.GrowthRate:N2}%
+
+   **3.3. - Turnover of material assets (days)** [Inventory holding period]
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.MaterialValuesTurnover.BaseYear:N2} days
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.MaterialValuesTurnover.CurrentYear:N2} days
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.MaterialValuesTurnover.Deviations:N2} days
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.MaterialValuesTurnover.GrowthRate:N2}%
+
+**4. Number of turnovers of current assets (times)** [HIGHER IS BETTER]
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.NumberOfRevolutionsOfCurrentAssets.BaseYear:N2} times
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.NumberOfRevolutionsOfCurrentAssets.CurrentYear:N2} times
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.NumberOfRevolutionsOfCurrentAssets.Deviations:N2} times
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.NumberOfRevolutionsOfCurrentAssets.GrowthRate:N2}%
+   Formula: Net revenue / Average working capital
+
+   **4.1. - Cash turnovers (times)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromMoney.BaseYear:N2} times
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromMoney.CurrentYear:N2} times
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromMoney.Deviations:N2} times
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromMoney.GrowthRate:N2}%
+
+   **4.2. - Accounts receivable turnovers (times)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromReceivables.BaseYear:N2} times
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromReceivables.CurrentYear:N2} times
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromReceivables.Deviations:N2} times
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromReceivables.GrowthRate:N2}%
+
+   **4.3. - Material assets turnovers (times)**
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromTangibleAssets.BaseYear:N2} times
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromTangibleAssets.CurrentYear:N2} times
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromTangibleAssets.Deviations:N2} times
+   Dynamics: {IndicatorsOfTurnoverOfCurrentAssets.RevolutionsFromTangibleAssets.GrowthRate:N2}%
+
+**5. Working capital turnover ratio** [LOWER IS BETTER]
+   Base Year: {IndicatorsOfTurnoverOfCurrentAssets.FixingRatioOfCurrentAssets.BaseYear:N4}
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.FixingRatioOfCurrentAssets.CurrentYear:N4}
+   Deviation: {IndicatorsOfTurnoverOfCurrentAssets.FixingRatioOfCurrentAssets.Deviations:N4}
+   Dynamics: x (not applicable for ratios)
+   Formula: Average working capital / Net revenue
+
+**6. Release (-) or Absence (+) of current assets due to changes in turnover**
+   Current Year: {IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear:N4} thousand UAH
+   Interpretation: {(IndicatorsOfTurnoverOfCurrentAssets.ReleaseOrLackOfCurrentAssetsDueTurnover.CurrentYear < 0 ? "CAPITAL RELEASED (freed up) - GOOD" : "MORE CAPITAL NEEDED - CONCERNING")}
+   Formula: One-day revenue (current year) Ã— Change in turnover days
+";
+
+        return $@"You are a financial analyst specializing in working capital management and efficiency analysis. Analyze the following Indicators of Turnover of Current Assets for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+KEY FORMULAS TO UNDERSTAND:
+â€¢ Row 1: Average balances = (Beginning balance + Ending balance) / 2
+â€¢ Row 2.1: One-day revenue = Net revenue / 360 days
+â€¢ Row 3: Turnover days = Average balance / One-day revenue (LOWER = BETTER)
+â€¢ Row 4: Number of turnovers = Net revenue / Average balance (HIGHER = BETTER)
+â€¢ Row 5: Turnover ratio = Average working capital / Net revenue (LOWER = BETTER)
+â€¢ Row 6: Capital release = One-day revenue Ã— Change in turnover days (NEGATIVE = GOOD)
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables in your response
+- DO NOT repeat the raw data values I just provided
+- The user can see all data in the table above
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference specific numbers when making points, but integrate them into sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Overall working capital efficiency: improved or declined?
+- Most important single finding
+- Overall verdict
+
+**2. Average Balances Analysis** (Row 1 & sub-rows)
+- Total working capital changed from {MainModel.BaseYear} to {MainModel.CurrentYear}: direction & magnitude
+- For each component (1.1 Cash, 1.2 Receivables, 1.3 Inventory):
+  â€¢ What changed and why it matters
+  â€¢ Alignment with revenue growth
+
+**3. Revenue Performance** (Row 2)
+- Net revenue trend and business implications
+- One-day revenue as efficiency baseline
+
+**4. Turnover Days Analysis** (Row 3 & sub-rows)
+- Overall working capital cycle: faster or slower?
+- Cash turnover (3.1): cash conversion efficiency
+- Receivables turnover (3.2): collection performance
+- Inventory turnover (3.3): inventory management quality
+- Identify best and worst performers
+- Cash flow implications
+
+**5. Turnover Frequency Analysis** (Row 4 & sub-rows)
+- How many times capital cycled through?
+- Each component's turnover frequency (4.1, 4.2, 4.3)
+- Benchmark assessment
+- Strongest vs weakest areas
+
+**6. Capital Efficiency Ratio** (Row 5)
+- Working capital turnover ratio trend
+- What it reveals about capital utilization
+- Industry comparison context
+
+**7. Capital Impact** (Row 6)
+- How much capital was released or tied up?
+- Quantify the cash flow impact
+- Business implications: is this good or bad?
+
+**8. Key Findings** (3-5 bullet points)
+- Most significant changes
+- Positive trends
+- Concerning patterns
+
+**9. Risk Assessment**
+- Liquidity risks
+- Collection risks
+- Inventory accumulation risks
+- Overall working capital adequacy
+
+**10. Strategic Recommendations**
+- **Immediate (0-30 days)**: 2-3 quick wins
+- **Short-term (3 months)**: Priority improvements
+- **Long-term (6-12 months)**: Strategic initiatives
+- **Target metrics**: Specific numerical goals
+
+INTERPRETATION GUIDE:
+? GOOD TRENDS:
+- Row 3 (days): DECREASING = faster turnover
+- Row 4 (times): INCREASING = more frequent cycling
+- Row 5 (ratio): DECREASING = less capital needed
+- Row 6: NEGATIVE number = capital freed up
+
+? BAD TRENDS:
+- Row 3 (days): INCREASING = slower turnover
+- Row 4 (times): DECREASING = less frequent cycling
+- Row 5 (ratio): INCREASING = more capital tied up
+- Row 6: POSITIVE number = more capital needed
+
+WRITING STYLE:
+- Direct and professional
+- Active voice
+- Integrate numbers into narrative: ""Receivables turnover improved from 259.78 days to 233.30 days, accelerating collection by 26.48 days""
+- Explain WHY changes matter, not just WHAT changed
+- Provide actionable business context
+- Be concise but thorough
+
+Remember: Write your entire response in {languageInstruction}. Do NOT create tables. Focus on MEANING and RECOMMENDATIONS, not raw data repetition.";
+    }
+
+        }

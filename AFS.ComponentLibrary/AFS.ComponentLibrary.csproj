@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<NeutralLanguage>uk-UA</NeutralLanguage>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazor-ApexCharts" />
+		<PackageReference Include="Microsoft.Extensions.Localization" />
+		<PackageReference Include="Radzen.Blazor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AFS.Core\AFS.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Resource.Designer.cs">
+		<DesignTime>True</DesignTime>
+		<AutoGen>True</AutoGen>
+		<DependentUpon>Resource.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<!-- Localization Resources - PUBLIC code generator for Resource.Designer.cs -->
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Resource.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resource.Designer.cs" />
+	</ItemGroup>
+
+	</Project>

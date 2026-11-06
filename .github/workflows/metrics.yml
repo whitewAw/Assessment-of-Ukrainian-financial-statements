@@ -1,0 +1,371 @@
+name: Metrics
+
+on:
+  schedule:
+    # Sunday 00:07 UTC. Off-the-hour to avoid the cron stampede on GitHub
+    # Actions (jobs scheduled at :00 routinely sit in queue 10-30 min).
+    - cron: "7 0 * * 0"
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/metrics.yml'
+
+# Prevent concurrent runs (a second push while a run is in flight will cancel
+# the in-flight one rather than queueing - metrics are idempotent, so the
+# latest config wins).
+concurrency:
+  group: "metrics"
+  cancel-in-progress: true
+
+# Workflow-wide read-only default; the job below grants contents:write.
+permissions:
+  contents: read
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    # Workflow-wide defaults - applied to every metrics step.
+    env:
+      METRICS_USER: whitewAw
+      METRICS_TZ: Europe/Kyiv
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # ============================================
+      # Preflight: fail fast with a clear message if METRICS_TOKEN is missing.
+      # Without this, the metrics action errors deep in its internals with a
+      # vague "Bad credentials" message that is hard to diagnose.
+      # ============================================
+      - name: Verify METRICS_TOKEN secret exists
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          if [ -z "$METRICS_TOKEN" ]; then
+            echo "::error::METRICS_TOKEN secret is not configured."
+            echo "Create a classic PAT with: read:user, public_repo, read:org"
+            echo "(fine-grained PATs do NOT work with lowlighter/metrics — it"
+            echo "needs cross-user GraphQL access that fine-grained tokens can't grant)"
+            echo "and add it as a repository secret named METRICS_TOKEN."
+            exit 1
+          fi
+          echo "✅ METRICS_TOKEN is configured"
+
+      # ============================================
+      # Validate the token can actually authenticate against GitHub.
+      # The metrics action errors out with a single confusing line if the
+      # token is expired, lacks scopes, or is a fine-grained PAT (which
+      # the action does not support); surface that with a useful message.
+      # ============================================
+      - name: Validate METRICS_TOKEN works
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          set -e
+          status=$(curl -s -o /tmp/who.json -w '%{http_code}' \
+            -H "Authorization: Bearer $METRICS_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user)
+          if [ "$status" != "200" ]; then
+            echo "::error::METRICS_TOKEN failed to authenticate (HTTP $status)."
+            echo "  - 401: token expired or revoked — regenerate the PAT"
+            echo "  - 403: token lacks scopes — needs read:user, public_repo, read:org"
+            echo "  - 404: token belongs to a deleted user"
+            cat /tmp/who.json || true
+            exit 1
+          fi
+          login=$(grep -oP '"login":\s*"\K[^"]+' /tmp/who.json | head -1)
+          echo "✅ METRICS_TOKEN authenticates as: $login"
+          if [ "${login,,}" != "${METRICS_USER,,}" ]; then
+            echo "::warning::Token user ($login) differs from METRICS_USER ($METRICS_USER) — metrics may target the wrong account."
+          fi
+          # Surface granted scopes so failures are easier to diagnose
+          scopes=$(curl -sI \
+            -H "Authorization: Bearer $METRICS_TOKEN" \
+            https://api.github.com/user | grep -i '^x-oauth-scopes:' || true)
+          echo "Token scopes: ${scopes:-<none — likely a fine-grained PAT, which is NOT supported>}"
+
+      # ============================================
+      # Main Repository Metrics Card
+      #
+      # NOTE: every metrics step `id` MUST start with `lowlighter_metrics_`.
+      # The action derives its image source from the step id via:
+      #   METRICS_SOURCE=$(echo $id | sed -E 's/metrics.*?$//g' | sed -E 's/_//g')
+      # If the result is `lowlighter`, the prebuilt image
+      # ghcr.io/lowlighter/metrics:v3.34 is pulled. Any other value (e.g. a
+      # short id like `main` or `activity`) makes the action treat the run as
+      # a forked version and rebuild the Dockerfile from scratch — which
+      # currently fails when `gem install licensed` tries to extract
+      # nokogiri's bundled libxml2 (xzcat is not in the base image).
+      # ============================================
+      - name: Generate Main Metrics
+        id: lowlighter_metrics_main
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.svg
+          # output_action defaults to 'commit' — the action writes the SVG into
+          # the workspace and pushes a single commit per card. This is the
+          # action's primary supported code path; 'none' + manual collection
+          # produced silent failures (empty /metrics_renders) regardless of
+          # plugin configuration.
+          # 'verify: yes' is omitted because its validator silently deletes
+          # SVGs it doesn't approve, with no actionable diagnostic.
+
+          user: ${{ env.METRICS_USER }}
+          template: classic
+          base: header, activity, community, repositories, metadata
+
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_display: large
+          config_animations: yes
+          config_output: svg
+
+          plugin_lines: yes
+          plugin_lines_history_limit: 1
+          plugin_lines_repositories_limit: 4
+          plugin_lines_sections: base
+
+          plugin_languages: yes
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          plugin_languages_sections: most-used
+          plugin_languages_indepth: yes
+          plugin_languages_analysis_timeout: 30
+
+          plugin_stargazers: yes
+          plugin_stargazers_charts: yes
+          plugin_stargazers_charts_type: chartist
+
+          plugin_traffic: yes
+
+          plugin_followup: yes
+          plugin_followup_sections: repositories
+
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+
+          plugin_code: yes
+          plugin_code_lines: 12
+          plugin_code_load: 400
+          plugin_code_visibility: public
+        continue-on-error: true
+
+      # ============================================
+      # Repository Activity Metrics
+      # ============================================
+      - name: Generate Activity Metrics
+        id: lowlighter_metrics_activity
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-activity.svg
+
+          user: ${{ env.METRICS_USER }}
+          template: classic
+          base: ""
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_animations: yes
+          config_output: svg
+
+          plugin_activity: yes
+          plugin_activity_limit: 5
+          plugin_activity_days: 14
+          plugin_activity_filter: all
+          plugin_activity_visibility: public
+          plugin_activity_timestamps: yes
+
+          plugin_reactions: yes
+          plugin_reactions_limit: 200
+          plugin_reactions_days: 14
+          plugin_reactions_display: absolute
+        continue-on-error: true
+
+      # ============================================
+      # Language & Technology Stack
+      # ============================================
+      - name: Generate Technology Stack
+        id: lowlighter_metrics_languages
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-languages.svg
+
+          user: ${{ env.METRICS_USER }}
+          template: classic
+          base: ""
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_animations: yes
+          config_output: svg
+
+          plugin_languages: yes
+          plugin_languages_details: bytes-size, percentage, lines
+          plugin_languages_limit: 10
+          plugin_languages_sections: most-used, recently-used
+          plugin_languages_indepth: yes
+          plugin_languages_analysis_timeout: 45
+          plugin_languages_categories: markup, programming, data
+          plugin_languages_colors: github
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 30
+          plugin_languages_recent_load: 400
+        continue-on-error: true
+
+      # ============================================
+      # Project Statistics with Traffic
+      # ============================================
+      - name: Generate Project Stats
+        id: lowlighter_metrics_stats
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-stats.svg
+
+          user: ${{ env.METRICS_USER }}
+          template: classic
+          base: ""
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_animations: yes
+          config_output: svg
+
+          plugin_stargazers: yes
+          plugin_stargazers_charts: yes
+          plugin_stargazers_charts_type: chartist
+
+          plugin_traffic: yes
+
+          plugin_followup: yes
+          plugin_followup_sections: repositories, user
+          plugin_followup_indepth: yes
+        continue-on-error: true
+
+      # ============================================
+      # Achievements & Milestones
+      # ============================================
+      - name: Generate Achievements
+        id: lowlighter_metrics_achievements
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-achievements.svg
+
+          user: ${{ env.METRICS_USER }}
+          template: classic
+          base: ""
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_animations: yes
+          config_output: svg
+
+          plugin_achievements: yes
+          plugin_achievements_display: detailed
+          plugin_achievements_secrets: yes
+          plugin_achievements_threshold: C
+
+          plugin_notable: yes
+          plugin_notable_from: organization
+          plugin_notable_repositories: yes
+          plugin_notable_indepth: yes
+        continue-on-error: true
+
+      # ============================================
+      # Compact Repository Card (for README)
+      # ============================================
+      - name: Generate Compact Card
+        id: lowlighter_metrics_compact
+        uses: lowlighter/metrics@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-compact.svg
+
+          user: ${{ env.METRICS_USER }}
+          template: repository
+          repo: Assessment-of-Ukrainian-financial-statements
+          config_timezone: ${{ env.METRICS_TZ }}
+          config_animations: yes
+          config_output: svg
+
+          base: header, repositories
+          plugin_lines: yes
+          plugin_lines_sections: base
+          plugin_languages: yes
+          plugin_languages_limit: 4
+          plugin_languages_sections: most-used
+          plugin_traffic: yes
+        continue-on-error: true
+
+      # ============================================
+      # Safety net: upload generated SVGs as a workflow artifact even if the
+      # metrics action's auto-commit fails (rate limit, permission drift, etc.).
+      # The action writes SVGs to the repo root before committing, so they're
+      # available in the workspace regardless of commit outcome.
+      # ============================================
+      - name: Upload metrics artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: metrics-svgs
+          path: |
+            metrics*.svg
+          if-no-files-found: warn
+          retention-days: 30
+
+      # ============================================
+      # Summary - reports per-card outcome (success/failure) so silent
+      # `continue-on-error` failures are still visible in the run log.
+      # ============================================
+      - name: Metrics Generation Summary
+        if: always()
+        env:
+          MAIN_OUTCOME: ${{ steps.lowlighter_metrics_main.outcome }}
+          ACTIVITY_OUTCOME: ${{ steps.lowlighter_metrics_activity.outcome }}
+          LANGUAGES_OUTCOME: ${{ steps.lowlighter_metrics_languages.outcome }}
+          STATS_OUTCOME: ${{ steps.lowlighter_metrics_stats.outcome }}
+          ACHIEVEMENTS_OUTCOME: ${{ steps.lowlighter_metrics_achievements.outcome }}
+          COMPACT_OUTCOME: ${{ steps.lowlighter_metrics_compact.outcome }}
+        run: |
+          icon() {
+            case "$1" in
+              success)   echo "✅" ;;
+              failure)   echo "❌" ;;
+              skipped)   echo "⏭️" ;;
+              cancelled) echo "🚫" ;;
+              *)         echo "❔" ;;
+            esac
+          }
+
+          {
+            echo "## 📊 Metrics Generation Complete"
+            echo ""
+            echo "| Metric | File | Outcome |"
+            echo "|--------|------|---------|"
+            echo "| Main Metrics  | \`metrics.svg\`              | $(icon "$MAIN_OUTCOME") $MAIN_OUTCOME |"
+            echo "| Activity      | \`metrics-activity.svg\`     | $(icon "$ACTIVITY_OUTCOME") $ACTIVITY_OUTCOME |"
+            echo "| Languages     | \`metrics-languages.svg\`    | $(icon "$LANGUAGES_OUTCOME") $LANGUAGES_OUTCOME |"
+            echo "| Stats         | \`metrics-stats.svg\`        | $(icon "$STATS_OUTCOME") $STATS_OUTCOME |"
+            echo "| Achievements  | \`metrics-achievements.svg\` | $(icon "$ACHIEVEMENTS_OUTCOME") $ACHIEVEMENTS_OUTCOME |"
+            echo "| Compact       | \`metrics-compact.svg\`      | $(icon "$COMPACT_OUTCOME") $COMPACT_OUTCOME |"
+            echo ""
+            echo "🕒 Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo "📦 SVGs are also available as the **metrics-svgs** workflow artifact (30-day retention)."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Surface a non-fatal warning in the run log if any card failed,
+          # so the run is still marked green but the failure is visible.
+          failed=0
+          for outcome in "$MAIN_OUTCOME" "$ACTIVITY_OUTCOME" "$LANGUAGES_OUTCOME" \
+                          "$STATS_OUTCOME" "$ACHIEVEMENTS_OUTCOME" "$COMPACT_OUTCOME"; do
+            [ "$outcome" = "failure" ] && failed=$((failed + 1))
+          done
+          if [ "$failed" -gt 0 ]; then
+            echo "::warning::$failed metrics card(s) failed - see step logs above."
+          fi

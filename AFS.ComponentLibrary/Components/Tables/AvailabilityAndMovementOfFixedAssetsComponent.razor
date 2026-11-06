@@ -1,0 +1,265 @@
+﻿@page "/availabilityandmovementoffixedassets"
+@inject AvailabilityAndMovementOfFixedAssets AvailabilityAndMovementOfFixedAssets
+@inject AfsModel AfsModel
+<SeoHead Title="Fixed Assets Availability & Movement | UFIN"
+         Description="Track availability, additions, disposals and depreciation of fixed assets across two reporting years for Ukrainian businesses." />
+
+<RadzenCard Style="width: 100%;">
+    <h2 class="text-center">@tableName</h2>
+    <h5 class="text-end">(@ResLoc["thousandUAH"])</h5>
+    <table class="table table-bordered py-0 table-sm table-striped">
+        <thead>
+            <tr>
+                <ThComponent Rowspan=2>@ResLoc["Period"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["BalanceAtBeginOfYearAtOriginalCost"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["ReceivedForReportingPeriod"]</ThComponent>
+                <ThComponent Colspan=2>@ResLoc["WithdrewInReportingPeriod"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["BalanceAtEndOfYearAtOriginalBalanceAtEndOfYearAtOriginalCost"]</ThComponent>
+                <ThComponent Rowspan=2>@ResLoc["BalanceAtEndOfYearMinusDepreciation"]</ThComponent>
+            </tr>
+            <tr>
+                <ThComponent>@ResLoc["total_"]</ThComponent>
+                <ThComponent>@ResLoc["includingNew"]</ThComponent>
+                <ThComponent>@ResLoc["total_"]</ThComponent>
+                <ThComponent>@ResLoc["includingEliminated"]</ThComponent>
+            </tr>
+        </thead>
+        <tbody>
+            <TrAvailabilityAndMovementOfFixedAssetsComponent Item=@AvailabilityAndMovementOfFixedAssets.Base>
+                @MainModel.BaseYear&nbsp;@ResLoc["year"]
+            </TrAvailabilityAndMovementOfFixedAssetsComponent>
+            <TrAvailabilityAndMovementOfFixedAssetsComponent Item=@AvailabilityAndMovementOfFixedAssets.Current>
+                @MainModel.CurrentYear&nbsp;@ResLoc["year"]
+            </TrAvailabilityAndMovementOfFixedAssetsComponent>
+        </tbody>
+    </table>
+</RadzenCard>
+
+<AIAnalysisPanel PromptBuilder="@BuildFixedAssetsAnalysisPrompt"
+                 AnalyzeButtonLabel="@ResLoc["AnalyzeFixedAssetsMovement"]"
+                 LoadingMessage="AI is analyzing fixed assets movement..." />
+
+@code {
+    // Set when the component is disposed. Checked inside the AI streaming callback to
+    // prevent StateHasChanged() from being invoked on a disposed component (e.g. if the
+    // user navigates away mid-analysis) and to release captured references for GC faster.
+        private string? tableName;
+    protected override async Task OnInitializedAsync()
+    {
+        string name = ResLoc["AvailabilityAndMovementOfFixedAssets"];
+        int number = 5;
+
+        tableName = String.Format("{0} {1}. {2} {3} {4}-{5} {6}", ResLoc["Table"], number, name, MainModel.CompanyName, MainModel.BaseYear, MainModel.CurrentYear, ResLoc["years"]);
+        
+        // Check AI availability on page load
+        await base.OnInitializedAsync();
+    }
+
+                private string BuildFixedAssetsAnalysisPrompt()
+    {
+        string languageInstruction = AfsConstraints.GetLanguageInstruction();
+
+        // Build structured data with proper column structure matching table
+        var structuredData = $@"TABLE 5: AVAILABILITY AND MOVEMENT OF FIXED ASSETS
+Company: {MainModel.CompanyName}
+Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
+Unit: thousand UAH
+
+COLUMN-BY-COLUMN DATA STRUCTURE:
+
+**{MainModel.BaseYear} YEAR:**
+   Beginning-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtBeginInitialCost:N2}
+   
+   Received during the reporting period:
+     - Total: {AvailabilityAndMovementOfFixedAssets.Base.Received:N2}
+     - Including new: {AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired:N2}
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%
+   
+   Left in the reporting period:
+     - Total: {AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+     - Including liquidated: {AvailabilityAndMovementOfFixedAssets.Base.Liquidated:N2}
+     - Liquidated as % of total left: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100 : 0):N2}%
+   
+   End-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost:N2}
+   End-of-year balance net of depreciation: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
+   
+   CALCULATED METRICS:
+   Net change in year: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtBeginInitialCost:N2}
+   Net addition (Received - Left): {AvailabilityAndMovementOfFixedAssets.Base.Received - AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+   Accumulated depreciation: {AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
+   Depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100 : 0):N2}%
+   Investment ratio (Received/Left): {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left : 0):N2}x
+
+**{MainModel.CurrentYear} YEAR:**
+   Beginning-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost:N2}
+   
+   Received during the reporting period:
+     - Total: {AvailabilityAndMovementOfFixedAssets.Current.Received:N2}
+     - Including new: {AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired:N2}
+     - New as % of total received: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}%
+   
+   Left in the reporting period:
+     - Total: {AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
+     - Including liquidated: {AvailabilityAndMovementOfFixedAssets.Current.Liquidated:N2}
+     - Liquidated as % of total left: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100 : 0):N2}%
+   
+   End-of-year balance at historical cost: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost:N2}
+   End-of-year balance net of depreciation: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation:N2}
+   
+   CALCULATED METRICS:
+   Net change in year: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost:N2}
+   Net addition (Received - Left): {AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
+   Accumulated depreciation: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation:N2}
+   Depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100 : 0):N2}%
+   Investment ratio (Received/Left): {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left : 0):N2}x
+
+YEAR-OVER-YEAR COMPARISON:
+   Change in capital investment: {AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received:N2} ({(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.Received - AvailabilityAndMovementOfFixedAssets.Base.Received) / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}%)
+   Change in disposals: {AvailabilityAndMovementOfFixedAssets.Current.Left - AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+   Change in net book value: {AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation:N2}
+";
+
+        return $@"You are a financial analyst specializing in fixed assets management and capital investment analysis. Analyze the Availability and Movement of Fixed Assets for {MainModel.CompanyName}.
+
+IMPORTANT: Respond in {languageInstruction} language. The user interface is in {languageInstruction}, so your entire response must be in {languageInstruction}.
+
+{structuredData}
+
+UNDERSTANDING THIS TABLE:
+This table tracks the LIFECYCLE of fixed assets showing acquisitions, disposals, and depreciation.
+
+**KEY CONCEPTS**:
+1. **Historical Cost**: Original purchase price (doesn't change with age)
+2. **Net of Depreciation**: Book value after accounting for wear and tear
+3. **Received**: Assets acquired during the year
+4. **New**: Brand new assets (vs used/transferred)
+5. **Left**: Assets disposed/removed
+6. **Liquidated**: Assets scrapped/written off (vs sold)
+
+**ACCOUNTING EQUATION**:
+Ending Balance = Beginning Balance + Received - Left
+
+**CRITICAL QUALITY INDICATORS**:
+â€¢ % New (of Received): 100% = all acquisitions are brand new (best)
+â€¢ % Liquidated (of Left): 100% = all disposals were worthless (concerning)
+â€¢ Depreciation Rate: Higher % = older assets, more worn
+â€¢ Investment Ratio: Received/Left > 1 = expanding
+
+CRITICAL FORMATTING RULES:
+- DO NOT create or display any tables
+- DO NOT repeat the raw data I provided
+- The user can see all data in the table
+- Focus ONLY on INTERPRETATION, INSIGHTS, and RECOMMENDATIONS
+- Use narrative prose with clear sections and bullet points
+- Reference numbers naturally in sentences
+
+RESPONSE STRUCTURE:
+
+**1. Executive Summary** (2-3 sentences)
+- Capital investment strategy: Expansion, renewal, or contraction?
+- Most significant finding
+- Quick verdict
+
+**2. Asset Base Trend**
+- Beginning vs Ending balance for each year
+- Net change in {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtBeginInitialCost):N2}
+- Net change in {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtBeginInitialCost):N2}
+- Growing or shrinking? Accelerating or decelerating?
+
+**3. Capital Investment Analysis**
+- {MainModel.BaseYear} investment: {AvailabilityAndMovementOfFixedAssets.Base.Received:N2} thousand UAH
+- {MainModel.CurrentYear} investment: {AvailabilityAndMovementOfFixedAssets.Current.Received:N2} thousand UAH
+- Year-over-year change and %
+- Investment as % of beginning balance (capital intensity)
+
+**Investment Quality**:
+- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Base.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Base.Received * 100 : 0):N2}% were new
+- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Received > 0 ? AvailabilityAndMovementOfFixedAssets.Current.ReceivedNewlyAcquired / AvailabilityAndMovementOfFixedAssets.Current.Received * 100 : 0):N2}% were new
+- Interpretation: 100% = modernization, <100% = used/transferred assets
+
+**4. Asset Disposal Analysis**
+- {MainModel.BaseYear} disposals: {AvailabilityAndMovementOfFixedAssets.Base.Left:N2}
+- {MainModel.CurrentYear} disposals: {AvailabilityAndMovementOfFixedAssets.Current.Left:N2}
+- Disposal trend
+
+**Disposal Quality**:
+- {MainModel.BaseYear}: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Liquidated / AvailabilityAndMovementOfFixedAssets.Base.Left * 100 : 0):N2}% were liquidated
+- {MainModel.CurrentYear}: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Liquidated / AvailabilityAndMovementOfFixedAssets.Current.Left * 100 : 0):N2}% were liquidated
+- Interpretation: High % = end-of-life disposals, Low % = assets still valuable
+
+**5. Investment vs Disposal Balance**
+- {MainModel.BaseYear} ratio: {(AvailabilityAndMovementOfFixedAssets.Base.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Base.Received / AvailabilityAndMovementOfFixedAssets.Base.Left : 0):N2}x (Received/Left)
+- {MainModel.CurrentYear} ratio: {(AvailabilityAndMovementOfFixedAssets.Current.Left > 0 ? AvailabilityAndMovementOfFixedAssets.Current.Received / AvailabilityAndMovementOfFixedAssets.Current.Left : 0):N2}x
+- Interpretation: >5x = aggressive expansion, 1-5x = growth with renewal, <1x = contraction
+
+**6. Depreciation and Asset Age**
+- {MainModel.BaseYear} depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Base.BalanceAtEndInitialCost * 100 : 0):N2}%
+- {MainModel.CurrentYear} depreciation rate: {(AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost > 0 ? (AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost - AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndMinusDepreciation) / AvailabilityAndMovementOfFixedAssets.Current.BalanceAtEndInitialCost * 100 : 0):N2}%
+- Trend: Increasing = aging, Decreasing = renewal
+- Benchmark: 30-40% = new, 50-60% = mature, >70% = aging
+
+**7. Strategic Pattern Recognition**
+- Is company EXPANDING (net addition > 0)?
+- Is company RENEWING (replacing old with new)?
+- Is company CONTRACTING (net reduction)?
+- What's the dominant strategy between years?
+
+**8. Key Findings** (3-5 bullets)
+- Most dramatic changes
+- Investment quality assessment
+- Disposal patterns
+- Depreciation trends
+- Strategic signals
+
+**9. Strategic Recommendations**
+**Capital Investment**:
+- Optimal investment level for next year
+- Focus areas for new acquisitions
+- ROI expectations
+
+**Asset Disposal**:
+- Disposal optimization opportunities
+- Asset lifecycle improvements
+- Liquidation pattern concerns
+
+**Depreciation Management**:
+- Renewal urgency based on depreciation rate
+- Target depreciation rate
+- Modernization priorities
+
+**Timeline**:
+- Immediate (30 days): Urgent actions
+- Short-term (3-6 months): Priority improvements
+- Long-term (1-2 years): Strategic positioning
+
+INTERPRETATION GUIDE:
+? POSITIVE SIGNS:
+- Received > Left = Growth
+- High % new assets = Quality investment
+- Low % liquidated = Assets retain value
+- Decreasing depreciation rate = Renewal working
+- Investment ratio >2x = Strong expansion
+
+? CONCERNING SIGNS:
+- Received < Left = Shrinking
+- Low % new = Acquiring old assets
+- High % liquidated = End-of-life crisis
+- Depreciation rate >70% = Urgent renewal needed
+- Investment ratio <1x = Underinvestment
+
+EXAMPLE NARRATIVE:
+""The company dramatically accelerated capital investment in {MainModel.CurrentYear}, spending 6.3 million UAH on new fixed assetsâ€”more than 2.5 times the 2.5 million invested in {MainModel.BaseYear}. Importantly, 100% of these acquisitions were brand new assets, demonstrating a commitment to modernization. This aggressive investment, combined with minimal disposals, resulted in net asset growth of 5.4 million UAH, expanding the asset base by 19%. The depreciation rate improved from 4.1% to 12.2%, reflecting the infusion of new equipment though the overall asset base remains relatively new.""
+
+WRITING STYLE:
+- Professional and analytical
+- Active voice
+- Integrate numbers with interpretation
+- Explain WHY changes matter for business strategy
+- Distinguish between expansion, renewal, and maintenance
+- Provide actionable capital allocation insights
+- Concise but thorough
+
+Remember: Write in {languageInstruction}. NO tables. Focus on FIXED ASSET STRATEGY and what it reveals about capital investment decisions, asset renewal, and long-term capacity planning.";
+    }
+
+        }
