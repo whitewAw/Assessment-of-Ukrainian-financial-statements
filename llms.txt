@@ -1,0 +1,43 @@
+# UFIN - Ukrainian Financial Statement Analysis Tool
+
+> Free, open-source, browser-based tool for analyzing Ukrainian financial statements (balance sheet Form 1 and income statement Form 2). Calculates liquidity, solvency, financial stability, business activity, working capital, fixed and intangible asset ratios. No registration, works offline (PWA), 15 languages, optional on-device AI assistant (Chrome Gemini Nano). Data never leaves the browser.
+
+Canonical site: https://ua-finance.netlify.app/
+Source code (MIT): https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements
+
+## Main pages
+
+- [Home / data input](https://ua-finance.netlify.app/): enter balance sheet and income statement values for base and current period
+- [AI assistant](https://ua-finance.netlify.app/aiassistant): on-device AI chat about the entered statements
+- [Help](https://ua-finance.netlify.app/help): how to use the tool
+- [About](https://ua-finance.netlify.app/about): project information
+
+## Analysis tables
+
+- [Liquidity indicators of balance](https://ua-finance.netlify.app/liquidityindicatorsofbalance)
+- [Solvency ratios](https://ua-finance.netlify.app/solvencyratios)
+- [General indicators of financial stability](https://ua-finance.netlify.app/generalindicatorsoffinancialstability)
+- [Indicators of financial stability](https://ua-finance.netlify.app/indicatorsoffinancialstability)
+- [Classification of types of financial stability](https://ua-finance.netlify.app/classificationoftypesoffinancialstability)
+- [Indicators of business activity](https://ua-finance.netlify.app/indicatorsofbusinessactivity)
+- [Characteristics of capital](https://ua-finance.netlify.app/characteristicsofcapital)
+- [Sources of capital formation](https://ua-finance.netlify.app/sourcesofcapitalformation)
+- [Turnover of current assets](https://ua-finance.netlify.app/indicatorsofturnoverofcurrentassets)
+- [Factors affecting turnover of working capital](https://ua-finance.netlify.app/factorsaffectingturnoverofworkingcapital)
+- [Efficiency of working capital](https://ua-finance.netlify.app/indicatorsofefficiencyofworkingcapital)
+- [Availability and movement of fixed assets](https://ua-finance.netlify.app/availabilityandmovementoffixedassets)
+- [State and movement of fixed assets](https://ua-finance.netlify.app/indicatorsofstateandmovementoffixedassets)
+- [Efficiency of use of fixed assets](https://ua-finance.netlify.app/calculationofindicatorsofefficiencyofuseoffixedassets)
+- [Factor analysis of fixed assets](https://ua-finance.netlify.app/factoranalysisoffixedassets)
+- [Efficiency of use of intangible assets](https://ua-finance.netlify.app/indicatorsofefficiencyofuseofintangibleassets)
+- [Receivables and payables assessment](https://ua-finance.netlify.app/assessmentofreceivableandpayable)
+
+## Charts
+
+- [Composition of assets (base)](https://ua-finance.netlify.app/compositionofassetsbase)
+- [Composition of assets (current)](https://ua-finance.netlify.app/compositionofassetscurrent)
+- [Sources of capital formation (base)](https://ua-finance.netlify.app/sourcesofcapitalformationbase)
+- [Sources of capital formation (current)](https://ua-finance.netlify.app/sourcesofcapitalformationcurrent)
+- [Structure of accounts payable (base)](https://ua-finance.netlify.app/structureofaccountspayablebase)
+- [Structure of accounts payable (current)](https://ua-finance.netlify.app/structureofaccountspayablecurrent)
+- [Working capital turnover time](https://ua-finance.netlify.app/workingcapitalturnovertime)
