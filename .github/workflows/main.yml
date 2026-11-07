@@ -498,10 +498,15 @@ jobs:
           SITE_HOST: ua-finance.netlify.app
         run: |
           # Netlify builds the pushed branch asynchronously; wait until the key file is live.
+          key_live=false
           for i in $(seq 1 20); do
-            if curl -fsS "https://$SITE_HOST/$INDEXNOW_KEY.txt" | grep -q "$INDEXNOW_KEY"; then break; fi
+            if curl -fsS "https://$SITE_HOST/$INDEXNOW_KEY.txt" | grep -q "$INDEXNOW_KEY"; then key_live=true; break; fi
             sleep 15
           done
+          if [ "$key_live" != "true" ]; then
+            echo "::warning::IndexNow key file not reachable at https://$SITE_HOST/$INDEXNOW_KEY.txt - skipping submission"
+            exit 0
+          fi
           urls=$(grep -oP '(?<=<loc>)[^<]+' release-netlify/wwwroot/sitemap.xml | jq -R . | jq -sc .)
           payload=$(jq -nc --arg host "$SITE_HOST" --arg key "$INDEXNOW_KEY" \
             --arg loc "https://$SITE_HOST/$INDEXNOW_KEY.txt" --argjson urls "$urls" \
@@ -510,7 +515,11 @@ jobs:
             -H 'Content-Type: application/json; charset=utf-8' -d "$payload")
           echo "IndexNow HTTP $status ($(echo "$urls" | jq length) URLs)"
           cat /tmp/indexnow.txt || true
-          [ "$status" = "200" ] || [ "$status" = "202" ]
+          case "$status" in
+            200|202) ;;
+            403) echo "::warning::IndexNow 403: key not yet verified by search engines (usually resolves after first crawl of the key file)" ;;
+            *) echo "::error::IndexNow submission failed with HTTP $status"; exit 1 ;;
+          esac
 
       - name: Deployment Summary
         run: |
