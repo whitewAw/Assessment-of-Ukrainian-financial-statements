@@ -1,0 +1,116 @@
+# Netlify config for UFIN - Optimized for AOT/WASM
+# https://ua-finance.netlify.app
+
+[build]
+  publish = "."
+
+# Redirects
+
+# NOTE: ?lang=* query variants are NOT redirected here.
+# Netlify query-based redirects with from==to path cause redirect loops.
+# Instead, the SPA serves index.html with a self-canonical tag pointing to
+# the bare URL (https://ua-finance.netlify.app/), which tells Google to
+# consolidate ?lang=* duplicates without a redirect.
+
+# Redirect legacy /ai-assistant to canonical /aiassistant (sitemap URL).
+[[redirects]]
+  from = "/ai-assistant"
+  to = "/aiassistant"
+  status = 301
+  force = true
+
+# NOTE: Do NOT add a "/:slug/" -> "/:slug" rule. Netlify ignores trailing
+# slashes when matching, so it also matches every root file (favicon.ico,
+# service-worker.js, icons, ...) and with force=true causes
+# ERR_TOO_MANY_REDIRECTS. Trailing-slash duplicates are handled by the
+# canonical tag instead.
+
+# SPA catch-all for Blazor client-side routing.
+# Netlify serves existing static files (favicon.ico, sitemap.xml, robots.txt, etc.)
+# BEFORE evaluating redirect rules, so this only fires for Blazor routes
+# that have no corresponding file on disk.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Global headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    # No 'unsafe-eval': all JS interop goes through named functions (js/interop.js).
+    # 'wasm-unsafe-eval' is required to instantiate the Blazor WASM runtime.
+    # 'unsafe-inline' is still needed for the bootstrap scripts in index.html.
+    # api.visitorbadge.io is the visitor counter pixel.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.visitorbadge.io; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+# HTML - no cache, indexable
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "index, follow"
+
+# WASM - AOT optimized (long cache + correct MIME)
+[[headers]]
+  for = "/*.wasm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/wasm"
+
+# DLL files (AOT compiled)
+[[headers]]
+  for = "/*.dll"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Blazor framework (not indexable)
+[[headers]]
+  for = "/_framework/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Robots-Tag = "noindex"
+
+# JS/CSS - not fingerprinted, so revalidate (immutable would pin stale files for a year)
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Images
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/x-icon"
+
+# Compressed files (Brotli/Gzip)
+[[headers]]
+  for = "/*.br"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "br"
+
+[[headers]]
+  for = "/*.gz"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
+
+
