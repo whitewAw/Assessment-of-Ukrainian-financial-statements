@@ -16,6 +16,7 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
 
     private Action<string>? _currentStreamCallback;
     private Action<int>? _downloadProgressCallback;
+    private readonly SemaphoreSlim _streamGate = new(1, 1);
 
     public BrowserAIFinancialAdvisor(IJSRuntime jsRuntime)
     {
@@ -104,18 +105,21 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
         }
     }
 
-    public async Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived)
+    public async Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived, CancellationToken cancellationToken = default)
     {
+        await _streamGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        var dotNetReference = DotNetObjectReference.Create(this);
+        _currentStreamCallback = onChunkReceived;
+
         try
         {
-            _currentStreamCallback = onChunkReceived;
-            _dotNetReference = DotNetObjectReference.Create(this);
-
             var module = await _moduleTask.Value.ConfigureAwait(false);
+            using var cancellationRegistration = cancellationToken.Register(() => _ = AbortStreamingOperationAsync(module));
             var result = await module.InvokeAsync<JsonElement>(
                 "promptStreaming",
+                cancellationToken,
                 prompt,
-                _dotNetReference,
+                dotNetReference,
                 nameof(ReceiveStreamChunk)).ConfigureAwait(false);
 
             var success = result.GetProperty("success").GetBoolean();
@@ -124,6 +128,10 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
                 var error = result.TryGetProperty("error", out var errorProp) ? errorProp.GetString() : "Unknown error";
                 throw new AIServiceException($"AI Streaming Error: {error}");
             }
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (AIServiceException)
         {
@@ -135,9 +143,29 @@ public sealed class BrowserAIFinancialAdvisor : IAIFinancialAdvisor, IAsyncDispo
         }
         finally
         {
-            _dotNetReference?.Dispose();
-            _dotNetReference = null;
             _currentStreamCallback = null;
+            dotNetReference.Dispose();
+            _streamGate.Release();
+        }
+    }
+
+    private static async Task AbortStreamingOperationAsync(IJSObjectReference module)
+    {
+        try
+        {
+            await module.InvokeVoidAsync("abortCurrentOperation", CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (JSDisconnectedException ex)
+        {
+            await Console.Error.WriteLineAsync($"Unable to abort AI streaming after JS disconnect: {ex.Message}").ConfigureAwait(false);
+        }
+        catch (ObjectDisposedException ex)
+        {
+            await Console.Error.WriteLineAsync($"Unable to abort AI streaming after module disposal: {ex.Message}").ConfigureAwait(false);
+        }
+        catch (JSException ex)
+        {
+            await Console.Error.WriteLineAsync($"JavaScript failed to abort AI streaming: {ex.Message}").ConfigureAwait(false);
         }
     }
 
@@ -205,15 +233,28 @@ Keep it brief and easy to understand.";
 
     public async ValueTask DisposeAsync()
     {
-        if (_moduleTask.IsValueCreated)
+        await _streamGate.WaitAsync().ConfigureAwait(false);
+        try
         {
-            var module = await _moduleTask.Value.ConfigureAwait(false);
-            await module.InvokeVoidAsync("destroySession").ConfigureAwait(false);
-            await module.DisposeAsync().ConfigureAwait(false);
+            if (_moduleTask.IsValueCreated)
+            {
+                var module = await _moduleTask.Value.ConfigureAwait(false);
+                try
+                {
+                    await module.InvokeVoidAsync("destroySession").ConfigureAwait(false);
+                }
+                finally
+                {
+                    await module.DisposeAsync().ConfigureAwait(false);
+                }
+            }
         }
-
-        _dotNetReference?.Dispose();
-
-        GC.SuppressFinalize(this);
+        finally
+        {
+            _dotNetReference?.Dispose();
+            _streamGate.Release();
+            _streamGate.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

@@ -53,7 +53,9 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
         }
     }
 
-    public async Task<string> GetResponseAsync(string prompt)
+    public Task<string> GetResponseAsync(string prompt) => GetResponseAsync(prompt, CancellationToken.None);
+
+    private async Task<string> GetResponseAsync(string prompt, CancellationToken cancellationToken)
     {
         try
         {
@@ -78,13 +80,17 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
             };
 
             var content = JsonContent.Create(requestBody, AfsJsonSerializerContext.Default.OpenAIRequest);
-            var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content).ConfigureAwait(false);
+            var response = await _httpClient.PostAsync(OpenAIApiEndpoint, content, cancellationToken).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync(AfsJsonSerializerContext.Default.OpenAIResponse).ConfigureAwait(false);
+            var result = await response.Content.ReadFromJsonAsync(AfsJsonSerializerContext.Default.OpenAIResponse, cancellationToken).ConfigureAwait(false);
 
             return result?.Choices?[0]?.Message?.Content ?? string.Empty;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (AIServiceException)
         {
@@ -96,11 +102,12 @@ public sealed class OpenAIFinancialAdvisor : IAIFinancialAdvisor
         }
     }
 
-    public async Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived)
+    public async Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived, CancellationToken cancellationToken = default)
     {
         // For simplicity, we'll use non-streaming for OpenAI
         // Implementing true streaming would require SSE (Server-Sent Events) handling
-        var response = await GetResponseAsync(prompt).ConfigureAwait(false);
+        var response = await GetResponseAsync(prompt, cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
         onChunkReceived?.Invoke(response);
     }
 

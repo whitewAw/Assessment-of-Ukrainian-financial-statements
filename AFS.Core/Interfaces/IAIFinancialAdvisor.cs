@@ -22,8 +22,9 @@ public interface IAIFinancialAdvisor
     /// </summary>
     /// <param name="prompt">The user's question or prompt</param>
     /// <param name="onChunkReceived">Callback for each chunk of the response</param>
+    /// <param name="cancellationToken">Token used to cancel the request</param>
     /// <returns>Complete response</returns>
-    Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived);
+    Task GetStreamingResponseAsync(string prompt, Action<string> onChunkReceived, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generate financial insights based on company data

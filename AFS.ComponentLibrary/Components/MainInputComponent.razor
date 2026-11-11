@@ -50,6 +50,7 @@
     // (previous behaviour). localStorage.setItem is synchronous and the JSON
     // serialisation is non-trivial, so this visibly reduces typing jank.
     private CancellationTokenSource? _saveCts;
+    private Task _saveTask = Task.CompletedTask;
     private const int SaveDebounceMs = 500;
 
     private string currentYearF1 => $"{ResLoc["Balance"]} ({MainModel.CurrentYear})";
@@ -96,19 +97,36 @@
         _saveCts?.Cancel();
         _saveCts?.Dispose();
         _saveCts = new CancellationTokenSource();
-        var token = _saveCts.Token;
-        _ = Task.Run(async () =>
+        _saveTask = DebounceAndSaveAsync(_saveCts.Token, _saveTask);
+    }
+
+    private async Task DebounceAndSaveAsync(CancellationToken cancellationToken, Task previousSave)
+    {
+        if (!await WaitForDebounceAsync(cancellationToken))
         {
-            try
-            {
-                await Task.Delay(SaveDebounceMs, token).ConfigureAwait(false);
-                await SaveModelToLocalStorageAsync().ConfigureAwait(false);
-            }
-            catch (TaskCanceledException)
-            {
-                // Expected when another change arrived within the debounce window.
-            }
-        }, token);
+            return;
+        }
+
+        await previousSave;
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
+
+        await SaveModelToLocalStorageAsync();
+    }
+
+    private static async Task<bool> WaitForDebounceAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(SaveDebounceMs, cancellationToken);
+            return true;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return false;
+        }
     }
 
     private async Task SaveModelToLocalStorageAsync()
@@ -137,7 +155,8 @@
             await _saveCts.CancelAsync();
             _saveCts.Dispose();
             _saveCts = null;
-            await SaveModelToLocalStorageAsync().ConfigureAwait(false);
+            await _saveTask;
+            await SaveModelToLocalStorageAsync();
         }
 
         if (_cts is not null)

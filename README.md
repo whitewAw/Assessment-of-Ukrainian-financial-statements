@@ -144,10 +144,11 @@ This application provides a powerful, browser-based tool for comprehensive analy
 | 15 | 🇷🇺 | Russian (Русский) | Historical context (last due to current situation) |
 
 ### 💾 Data Management
-- **Local Storage** - Save your data securely in browser
-- **Import/Export** - JSON-based data portability
+- **Local Storage** - Save your data securely in browser; invalid saved models are rejected
+- **Import/Export** - JSON-based data portability with validation and a 10 KB upload limit
 - **Sample Data** - Pre-loaded examples for learning
-- **Auto-Save** - Never lose your work
+- **Auto-Save** - Debounced saves reduce storage work while preserving the latest edits
+- **Undefined Ratios** - Ratios with zero or invalid denominators are shown as unavailable, not zero
 
 ### ⚡ Performance
 - **AOT Compilation** - Ahead-of-time compiled for maximum speed

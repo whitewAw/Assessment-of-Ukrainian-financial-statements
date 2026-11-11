@@ -8,6 +8,10 @@
 
 <div class="row mb-4 align-middle text-right">
     <div class="col">
+        @if (!string.IsNullOrEmpty(importError))
+        {
+            <div class="alert alert-danger" role="alert">@importError</div>
+        }
         <RadzenButton Icon="save" BusyText="Saving ..." IsBusy=@isSave Click=@OnLoadClick Text="@ResLoc["SaveToFile"]" ButtonStyle="ButtonStyle.Success" />
         <RadzenButton Icon="upload_file" BusyText="Uploading ..." IsBusy=@isUpload Click=@OnUploadClick Text="@ResLoc["UploadFromFile"]" ButtonStyle="ButtonStyle.Secondary" />
         <RadzenButton Icon="delete_forever" BusyText="Erasing ..." IsBusy=@isErase Click=@OnEraseClick Text="@ResLoc["EraseData"]" ButtonStyle="ButtonStyle.Primary" />
@@ -20,6 +24,7 @@
 bool isSave;
 bool isUpload;
 bool isErase;
+private string importError = string.Empty;
 
 private const string filePickerId = "filePickerId";
 
@@ -37,14 +42,34 @@ async Task OnLoadClick()
 
     private async Task LoadFiles(InputFileChangeEventArgs file)
     {
-        if (file.File.Size < Constraints.MaxFileSize)
+        importError = string.Empty;
+        if (file.File.Size > Constraints.MaxFileSize)
         {
-            isUpload = true;
-            UploadingDialog();
+            importError = $"The selected file exceeds the {Constraints.MaxFileSize / 1024} KB limit.";
+            return;
+        }
+
+        isUpload = true;
+        UploadingDialog();
+        try
+        {
             await Task.Delay(100);
-            using var stream = file.File.OpenReadStream();
+            await using var stream = file.File.OpenReadStream(Constraints.MaxFileSize);
             AfsModel? model = await ExportImportHandler.ImportAsync(stream);
+            if (model is null)
+            {
+                importError = "The selected file is not a valid financial model.";
+                return;
+            }
+
             ExportImportHandler.InitializeModel(model);
+        }
+        catch (IOException ex)
+        {
+            importError = ex.Message;
+        }
+        finally
+        {
             DialogService.Close();
             isUpload = false;
         }

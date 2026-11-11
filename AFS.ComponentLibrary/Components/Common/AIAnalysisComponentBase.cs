@@ -1,7 +1,6 @@
 using AFS.Core.Interfaces;
 using AFS.Core.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace AFS.ComponentLibrary.Components.Common;
 
@@ -9,16 +8,16 @@ namespace AFS.ComponentLibrary.Components.Common;
 /// Base class for components that use AI analysis functionality.
 /// Provides common state management and methods (DRY principle).
 /// </summary>
-public abstract class AIAnalysisComponentBase : ComponentBase
+public abstract class AIAnalysisComponentBase : ComponentBase, IDisposable
 {
     [Inject]
     protected IAIFinancialAdvisor AIAdvisor { get; set; } = default!;
 
     [Inject]
-    protected IJSRuntime JS { get; set; } = default!;
-
-    [Inject]
     protected AfsModel MainModel { get; set; } = default!;
+
+    private CancellationTokenSource? _analysisCancellation;
+    private string _aiUnavailableMessage = "AI analysis is unavailable.";
 
     protected string AIAnalysis { get; set; } = string.Empty;
     protected string ErrorMessage { get; set; } = string.Empty;
@@ -36,12 +35,14 @@ public abstract class AIAnalysisComponentBase : ComponentBase
 
         try
         {
-            var (isAvailable, _) = await AIAdvisor.CheckAvailabilityAsync().ConfigureAwait(false);
+            var (isAvailable, message) = await AIAdvisor.CheckAvailabilityAsync();
             IsAIAvailable = isAvailable;
+            _aiUnavailableMessage = message;
         }
         catch (Exception)
         {
             IsAIAvailable = false;
+            _aiUnavailableMessage = "Unable to check AI availability.";
         }
         finally
         {
@@ -57,13 +58,15 @@ public abstract class AIAnalysisComponentBase : ComponentBase
     {
         if (!IsAIAvailable)
         {
-            ErrorMessage = "Chrome AI is not available. Please check the setup instructions.";
+            ErrorMessage = _aiUnavailableMessage;
             return;
         }
 
         IsAnalyzing = true;
         ErrorMessage = string.Empty;
         AIAnalysis = string.Empty;
+        _analysisCancellation?.Dispose();
+        _analysisCancellation = new CancellationTokenSource();
         StateHasChanged();
 
         try
@@ -72,7 +75,7 @@ public abstract class AIAnalysisComponentBase : ComponentBase
             {
                 AIAnalysis += chunk;
                 _ = InvokeAsync(StateHasChanged);
-            }).ConfigureAwait(false);
+            }, _analysisCancellation.Token);
         }
         catch (Exception ex)
         {
@@ -81,6 +84,8 @@ public abstract class AIAnalysisComponentBase : ComponentBase
         finally
         {
             IsAnalyzing = false;
+            _analysisCancellation?.Dispose();
+            _analysisCancellation = null;
             StateHasChanged();
         }
     }
@@ -88,22 +93,10 @@ public abstract class AIAnalysisComponentBase : ComponentBase
     /// <summary>
     /// Stops the current AI analysis.
     /// </summary>
-    protected async Task StopAnalysisAsync()
+    protected Task StopAnalysisAsync()
     {
-        try
-        {
-            var module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/chromeai.js").ConfigureAwait(false);
-            await module.InvokeVoidAsync("abortCurrentOperation").ConfigureAwait(false);
-
-            IsAnalyzing = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            await Console.Error.WriteLineAsync($"Error stopping analysis: {ex.Message}").ConfigureAwait(false);
-            IsAnalyzing = false;
-            StateHasChanged();
-        }
+        _analysisCancellation?.Cancel();
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -123,9 +116,25 @@ public abstract class AIAnalysisComponentBase : ComponentBase
     /// <summary>
     /// Handles exceptions during analysis.
     /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _analysisCancellation?.Cancel();
+            _analysisCancellation?.Dispose();
+            _analysisCancellation = null;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
     private void HandleAnalysisException(Exception ex)
     {
-        if (ex.Message.Contains("cancelled", StringComparison.OrdinalIgnoreCase) || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
+        if (ex is OperationCanceledException || ex.Message.Contains("cancelled", StringComparison.OrdinalIgnoreCase) || ex.Message.Contains("abort", StringComparison.OrdinalIgnoreCase))
         {
             if (!string.IsNullOrEmpty(AIAnalysis))
             {

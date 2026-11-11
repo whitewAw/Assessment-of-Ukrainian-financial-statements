@@ -47,7 +47,13 @@ namespace AFS.Core.Services
             {
                 try
                 {
-                    return JsonSerializer.Deserialize(jsonModel, AfsJsonSerializerContext.Default.AfsModel);
+                    var storedModel = JsonSerializer.Deserialize(jsonModel, AfsJsonSerializerContext.Default.AfsModel);
+                    if (AfsModelValidator.TryValidate(storedModel, out var validationError))
+                    {
+                        return storedModel;
+                    }
+
+                    Log.ImportFailed(logger, validationError);
                 }
                 catch (JsonException ex)
                 {
@@ -56,7 +62,13 @@ namespace AFS.Core.Services
             }
             try
             {
-                return await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
+                var sampleModel = await http.GetFromJsonAsync("PJSC_AZOVSTAL_IRON_2019_2020.json", AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
+                if (AfsModelValidator.TryValidate(sampleModel, out var validationError))
+                {
+                    return sampleModel;
+                }
+
+                Log.ImportFailed(logger, validationError);
             }
             catch (HttpRequestException ex)
             {

@@ -3,6 +3,7 @@
 
 let session = null;
 let currentAbortController = null;
+let isStreaming = false;
 
 // Check if Chrome AI is available
 export async function checkAvailability() {
@@ -134,6 +135,10 @@ export async function createSession(progressCallback = null) {
 
 // Create a new AI session with download progress monitoring
 export async function createSessionWithProgress(dotnetHelper, progressCallbackMethodName) {
+    if (isStreaming) {
+        return { success: false, message: "An AI streaming request is already in progress." };
+    }
+
     try {
         // Verify API is available
         if (typeof LanguageModel === 'undefined') {
@@ -216,6 +221,10 @@ export function abortCurrentOperation() {
 
 // Send a prompt to the AI
 export async function prompt(message) {
+    if (isStreaming) {
+        return { success: false, response: null, error: "An AI streaming request is already in progress." };
+    }
+
     try {
         // Ensure session exists
         if (!session) {
@@ -247,6 +256,11 @@ export async function prompt(message) {
 
 // Send a prompt with streaming response
 export async function promptStreaming(message, dotnetHelper, callbackMethodName) {
+    if (isStreaming) {
+        return { success: false, error: "Another AI streaming request is already in progress." };
+    }
+
+    isStreaming = true;
     try {
         // Ensure session exists
         if (!session) {
@@ -297,11 +311,18 @@ export async function promptStreaming(message, dotnetHelper, callbackMethodName)
         }
 
         return { success: false, response: null, error: error.message };
+    } finally {
+        currentAbortController = null;
+        isStreaming = false;
     }
 }
 
 // Destroy the session
 export async function destroySession() {
+    if (isStreaming) {
+        return { success: false, message: "Cannot destroy the AI session while a response is streaming." };
+    }
+
     try {
         if (session) {
             session.destroy();

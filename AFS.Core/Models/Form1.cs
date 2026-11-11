@@ -69,6 +69,9 @@ namespace AFS.Core.Models
             F1625, F1630, F1635, F1640, F1645, F1660, F1665, F1690, F1700
         ];
 
+        internal bool HasFiniteValues() => GetAllFieldsArray().All(field =>
+            field is not null && double.IsFinite(field.Begin) && double.IsFinite(field.End));
+
         internal void Init(Form1 form1)
         {
             var thisFields = GetAllFieldsArray();

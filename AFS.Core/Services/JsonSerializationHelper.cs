@@ -784,10 +784,10 @@ public static class JsonSerializationHelper
 
     private static SolvencyRatioItem CreateSolvencyRatioItem(IHasSolvencyRatio source)
     {
-        var baseBegin = SafeValue(source.BaseBegin);
-        var baseEnd = SafeValue(source.BaseEnd);
-        var currentBegin = SafeValue(source.CurrentBegin);
-        var currentEnd = SafeValue(source.CurrentEnd);
+        var baseBegin = NullableFiniteValue(source.BaseBegin);
+        var baseEnd = NullableFiniteValue(source.BaseEnd);
+        var currentBegin = NullableFiniteValue(source.CurrentBegin);
+        var currentEnd = NullableFiniteValue(source.CurrentEnd);
 
         return new SolvencyRatioItem
         {
@@ -795,23 +795,25 @@ public static class JsonSerializationHelper
             BaseEnd = baseEnd,
             CurrentBegin = currentBegin,
             CurrentEnd = currentEnd,
-            DeviationBase = baseEnd - baseBegin,
-            DeviationCurrent = currentEnd - currentBegin
+            DeviationBase = baseBegin.HasValue && baseEnd.HasValue ? baseEnd - baseBegin : null,
+            DeviationCurrent = currentBegin.HasValue && currentEnd.HasValue ? currentEnd - currentBegin : null
         };
     }
 
     private static SolvencyRatioSimpleItem CreateSolvencyRatioSimpleItem(IHasSolvencyRatio source)
     {
-        var baseEnd = SafeValue(source.BaseEnd);
-        var currentEnd = SafeValue(source.CurrentEnd);
+        var baseEnd = NullableFiniteValue(source.BaseEnd);
+        var currentEnd = NullableFiniteValue(source.CurrentEnd);
 
         return new SolvencyRatioSimpleItem
         {
             BaseEnd = baseEnd,
             CurrentEnd = currentEnd,
-            Deviation = currentEnd - baseEnd
+            Deviation = baseEnd.HasValue && currentEnd.HasValue ? currentEnd - baseEnd : null
         };
     }
+
+    private static double? NullableFiniteValue(double value) => double.IsFinite(value) ? value : null;
 
     /// <summary>
     /// Create JsonSerializerOptions for chart data with proper formatting

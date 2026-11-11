@@ -31,8 +31,22 @@ namespace AFS.Core.Models
         /// <summary>
         /// Safe division that returns 0 when denominator is zero or invalid.
         /// </summary>
-        public static double SafeDivide(double numerator, double denominator, double defaultValue = 0) =>
-            IsZeroOrInvalid(denominator) ? defaultValue : numerator / denominator;
+        public static double SafeDivide(double numerator, double denominator, double defaultValue = 0)
+        {
+            if (!double.IsFinite(numerator) || IsZeroOrInvalid(denominator))
+            {
+                return defaultValue;
+            }
+
+            var result = numerator / denominator;
+            return double.IsFinite(result) ? result : defaultValue;
+        }
+
+        /// <summary>
+        /// Calculates a ratio and preserves an undefined result for display/serialization as unavailable.
+        /// </summary>
+        public static double SafeRatio(double numerator, double denominator) =>
+            SafeDivide(numerator, denominator, double.NaN);
 
         /// <summary>
         /// Calculates growth rate percentage safely.

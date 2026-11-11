@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class FixedAssetsInfo : TrackedEntity
     {
@@ -33,6 +33,12 @@
             get => liquidatedFixedAssets;
             set => SetProperty(ref liquidatedFixedAssets, AfsConstraints.RoundStat(value));
         }
+
+        internal bool HasFiniteValues() =>
+            double.IsFinite(ReceivedFixedAssets) &&
+            double.IsFinite(ReceivedNewlyAcquiredFixedAssets) &&
+            double.IsFinite(LeftFixedAssets) &&
+            double.IsFinite(LiquidatedFixedAssets);
 
         internal void Init(FixedAssetsInfo info)
         {

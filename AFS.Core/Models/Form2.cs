@@ -33,6 +33,16 @@ namespace AFS.Core.Models
         public CurrentPrevious F2615 { get; set; } = new();
         public CurrentPrevious F2650 { get; set; } = new();
 
+        internal bool HasFiniteValues() => GetAllFieldsArray().All(field =>
+            field is not null && double.IsFinite(field.Current) && double.IsFinite(field.Previous));
+
+        private CurrentPrevious[] GetAllFieldsArray() =>
+        [
+            F2000, F2050, F2120, F2130, F2150, F2180, F2200, F2220, F2240, F2250,
+            F2255, F2270, F2300, F2305, F2400, F2405, F2410, F2415, F2445, F2455,
+            F2500, F2505, F2510, F2515, F2520, F2600, F2605, F2610, F2615, F2650
+        ];
+
         internal void Init(Form2 form2)
         {
             F2000.Init(form2.F2000);

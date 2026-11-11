@@ -1,5 +1,7 @@
 using AFS.Core.Models;
+using AFS.Core.Services;
 using AFS.Core.Services.DataCalculations;
+using System.Text.Json;
 using Xunit;
 
 namespace AFS.Core.Tests.Services;
@@ -72,5 +74,36 @@ public class SolvencyRatiosTests
         };
 
         Assert.Equal(ExpectedNumbers, numbers);
+    }
+
+    [Fact]
+    public void ZeroDenominatorsAreUnavailableInTheTableAndAIData()
+    {
+        var ratios = new SolvencyRatios(new AfsModel());
+
+        Assert.True(double.IsNaN(ratios.OverallLiquidityRatio.BaseBegin));
+        Assert.True(double.IsNaN(ratios.AbsoluteLiquidityRatio.BaseBegin));
+        Assert.True(double.IsNaN(ratios.IntermediateCoverageRatio.BaseBegin));
+        Assert.True(double.IsNaN(ratios.CurrentLiquidityFactor.BaseBegin));
+
+        var json = JsonSerializationHelper.SerializeSolvencyRatios(
+            "Test Company", 2024, 2025,
+            ratios.OverallLiquidityRatio,
+            ratios.AbsoluteLiquidityRatio,
+            ratios.IntermediateCoverageRatio,
+            ratios.CurrentLiquidityFactor,
+            ratios.SolvencyRecoveryRatio,
+            ratios.SolvencyLossRatio);
+
+        using var document = JsonDocument.Parse(json);
+        var ratio = document.RootElement.GetProperty("OverallLiquidityRatio").GetProperty("Base_Begin");
+        Assert.Equal(JsonValueKind.Null, ratio.ValueKind);
+    }
+
+    [Fact]
+    public void SafeRatioPreservesRealZeroAndMarksZeroDenominatorUnavailable()
+    {
+        Assert.Equal(0, AfsConstraints.SafeRatio(0, 10));
+        Assert.True(double.IsNaN(AfsConstraints.SafeRatio(10, 0)));
     }
 }

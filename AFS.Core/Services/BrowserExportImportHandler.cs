@@ -39,15 +39,26 @@ namespace AFS.Core.Services
 
         public async Task<AfsModel?> ImportAsync(Stream inputStream)
         {
+            ArgumentNullException.ThrowIfNull(inputStream);
+
+            AfsModel? importedModel;
             try
             {
-                return await JsonSerializer.DeserializeAsync(inputStream, AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
+                importedModel = await JsonSerializer.DeserializeAsync(inputStream, AfsJsonSerializerContext.Default.AfsModel).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (JsonException ex)
             {
                 Log.ImportFailed(logger, ex.Message);
+                return null;
             }
-            return null;
+
+            if (!AfsModelValidator.TryValidate(importedModel, out var validationError))
+            {
+                Log.ImportFailed(logger, validationError);
+                return null;
+            }
+
+            return importedModel;
         }
 
         public void InitializeModel(AfsModel? model)

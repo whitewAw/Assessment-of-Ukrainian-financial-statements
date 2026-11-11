@@ -1,4 +1,4 @@
-﻿namespace AFS.Core.Models
+namespace AFS.Core.Models
 {
     public class AdditionalCompanyInfo : TrackedEntity
     {
@@ -18,6 +18,12 @@
             get => averageNumberOfEmployeesCurrent;
             set => SetProperty(ref averageNumberOfEmployeesCurrent, AfsConstraints.RoundStat(value));
         }
+
+        internal bool HasFiniteValues() =>
+            double.IsFinite(AverageNumberOfEmployeesBase) &&
+            double.IsFinite(AverageNumberOfEmployeesCurrent) &&
+            FixedAssetsInfoBase is not null && FixedAssetsInfoBase.HasFiniteValues() &&
+            FixedAssetsInfoCurrent is not null && FixedAssetsInfoCurrent.HasFiniteValues();
 
         internal void Init(AdditionalCompanyInfo info)
         {
