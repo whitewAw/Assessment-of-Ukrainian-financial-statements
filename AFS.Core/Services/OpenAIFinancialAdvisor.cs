@@ -1,7 +1,6 @@
 using AFS.Core.Exceptions;
 using AFS.Core.Interfaces;
 using AFS.Core.Json;
-using System.Net.Http.Json;
 
 namespace AFS.Core.Services;
 

@@ -177,7 +177,7 @@ public static class JsonSerializationHelper
         IHasStabilityValues precrisisStability,
         IHasStabilityValues crisisStability)
     {
-        bool IsPass(string value) => string.Equals(value, "+", StringComparison.Ordinal);
+        static bool IsPass(string value) => string.Equals(value, "+", StringComparison.Ordinal);
 
         var data = new StabilityClassificationData
         {

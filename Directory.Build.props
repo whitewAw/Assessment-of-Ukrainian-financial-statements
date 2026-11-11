@@ -40,6 +40,10 @@
 
   <!-- Treat all warnings as errors for every project and configuration (Debug + Release) -->
   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  <!-- ASP.NET Core 11 Components analyzers (pulled in by Radzen.Blazor 13) flag existing patterns.
+       BL0012: intermediate StateHasChanged() calls during async work; BL0016: unguarded JS interop.
+       Suppressed to keep runtime behavior unchanged; review and fix individually. -->
+  <NoWarn>$(NoWarn);BL0012;BL0016</NoWarn>
 
   <!-- ══════════════════════════════════════════════════════════════════════ -->
   <!-- RUNTIME FEATURE SWITCHES - Safe for AOT/WASM                          -->

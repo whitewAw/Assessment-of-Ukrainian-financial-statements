@@ -1,6 +1,6 @@
 # Assessment of Ukrainian Financial Statements (AFS)
 
-[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![.NET 11](https://img.shields.io/badge/.NET-11.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)](https://blazor.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Deploy to GitHub Pages](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml/badge.svg)](https://github.com/whitewAw/Assessment-of-Ukrainian-financial-statements/actions/workflows/main.yml)
@@ -154,7 +154,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - **PWA Support** - Install as standalone app
 - **Optimized Bundle** - Compressed and trimmed for fast loading
 - **Service Worker** - Offline caching for instant access
-- **.NET 10** - Latest performance improvements
+- **.NET 11** - Latest performance improvements
 
 ---
 
@@ -162,17 +162,17 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime and SDK |
-| [Blazor WebAssembly](https://blazor.net/) | 10.0 | UI Framework |
-| [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 14.0 | Programming Language |
-| [Radzen Blazor](https://blazor.radzen.com/) | 10.4.6 | UI Component Library |
-| [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 6.1.0 | AOT-Compatible Charts |
+| [.NET](https://dotnet.microsoft.com/) | 11.0 | Runtime and SDK |
+| [Blazor WebAssembly](https://blazor.net/) | 11.0 | UI Framework |
+| [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | 15.0 | Programming Language |
+| [Radzen Blazor](https://blazor.radzen.com/) | 13.0.0 | UI Component Library |
+| [Blazor-ApexCharts](https://apexcharts.github.io/Blazor-ApexCharts/) | 8.0.0 | AOT-Compatible Charts |
 | [Bootstrap](https://getbootstrap.com/) | 5.3 | CSS Framework (local, offline PWA) |
 | [Chrome AI](https://developer.chrome.com/docs/ai/built-in) | Gemini Nano | Local AI Assistant |
 | WebAssembly | SIMD | Execution Environment |
-| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.98 | Code Analysis |
-| [SonarAnalyzer](https://www.sonarqube.org/) | 10.27.0 | Code Quality |
-| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 4.15.0 | Refactoring & Analysis |
+| [Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer) | 3.0.325 | Code Analysis |
+| [SonarAnalyzer](https://www.sonarqube.org/) | 10.36.0 | Code Quality |
+| [Roslynator](https://github.com/JosefPihrt/Roslynator) | 5.0.1 | Refactoring & Analysis |
 
 ### Build Features
 - ✅ AOT (Ahead-of-Time) Compilation
@@ -181,10 +181,12 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ IL Trimming for smaller bundles (`TrimMode=partial`)
 - ✅ Brotli Compression
 - ✅ Native WASM optimization (`-Oz` compile and link)
-- ✅ .NET 10 performance enhancements
+- ✅ .NET 11 performance enhancements
+- ✅ **Runtime async** - `<Features>runtime-async=on</Features>` in `Directory.Build.props`
+  (.NET 11 compiler feature; remove that line to revert)
 - ✅ **Full ICU globalization data** - required for startup-time dynamic culture
   switching across 15 languages. `HybridGlobalization` is incompatible with this
-  pattern in .NET 10 (culture must not change after runtime init).
+  pattern (culture must not change after runtime init).
 - ✅ **BCL feature switches** - `UseSystemResourceKeys`, `XmlResolverIsNetworkingEnabledByDefault=false`,
   `BuiltInComInteropSupport=false`, `AutoreleasePoolSupport=false`,
 - ✅ **Release-only `DebuggerSupport=false`** - strips debugger metadata from the
@@ -275,7 +277,7 @@ This application provides a powerful, browser-based tool for comprehensive analy
 
 ### Prerequisites
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [.NET 11 SDK](https://dotnet.microsoft.com/download/dotnet/11.0)
 - Any modern browser (Chrome 127+ recommended for AI features)
 - (Optional) [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
@@ -332,10 +334,10 @@ dotnet test --project AFS.Core.Tests/AFS.Core.Tests.csproj
 
 ### Repository Conventions
 
-- **`global.json`** pins the .NET SDK (`10.0.300`, `latestFeature` roll-forward).
+- **`global.json`** pins the .NET SDK (`11.0.100`, `latestFeature` roll-forward).
 - **`Directory.Packages.props`** centrally manages every NuGet version (CPM). Project files contain `PackageReference Include="..."` with no `Version` attribute.
 - **`packages.lock.json`** is committed for each project. CI restores the test project with `--locked-mode`; the WASM app uses `--force-evaluate` because the workload pack hash differs between Windows and Linux (NU1403).
-- **`Directory.Build.props`** owns shared analyzers, AOT/trim safety flags, BCL feature switches, and lock-file enablement.
+- **`Directory.Build.props`** owns shared analyzers, AOT/trim safety flags, BCL feature switches, runtime-async, and lock-file enablement. `BL0012`/`BL0016` (ASP.NET Core 11 Components analyzers) are suppressed there pending individual fixes.
 
 ---
 
@@ -712,7 +714,7 @@ The app automatically detects the hostname and configures:
 Deployment is automated via GitHub Actions on push to `main` branch.
 
 **Workflow Features:**
-- .NET 10 with AOT compilation
+- .NET 11 with AOT compilation
 - WASM SIMD enabled for faster calculations
 - WebAssembly optimization (`-Oz`)
 - IL stripping for smaller bundles
@@ -897,7 +899,7 @@ After deploying SEO changes:
 
 ### Technical Resources
 - [Blazor WebAssembly Docs](https://learn.microsoft.com/aspnet/core/blazor/)
-- [.NET 10 What's New](https://learn.microsoft.com/dotnet/core/whats-new/dotnet-10/overview)
+- [.NET 11 What's New](https://learn.microsoft.com/dotnet/core/whats-new/dotnet-11/overview)
 - [Chrome AI API](https://developer.chrome.com/docs/ai/built-in)
 - [Radzen Blazor Components](https://blazor.radzen.com/)
 - [Ukrainian Accounting Standards](https://mof.gov.ua/en/accounting-standards)
@@ -983,7 +985,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [x] **Gemini Nano integration**
 - [x] **Context-aware financial analysis**
 - [x] **Streaming AI responses**
-- [x] **.NET 10 migration**
+- [x] **.NET 11 migration**
 - [x] **WASM SIMD for faster calculations**
 - [x] **Multi-host deployment (GitHub Pages + Netlify)**
 - [x] **SEO optimization for Google Search**
@@ -1043,7 +1045,7 @@ even 5–10 quality inbound links substantially improve ranking ability for Ukra
 ![GitHub forks](https://img.shields.io/github/forks/whitewAw/Assessment-of-Ukrainian-financial-statements?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/whitewAw/Assessment-of-Ukrainian-financial-statements)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/whitewAw/Assessment-of-Ukrainian-financial-statements)
-![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)
+![.NET 11](https://img.shields.io/badge/.NET-11.0-512BD4)
 ![AI Powered](https://img.shields.io/badge/AI-Powered-brightgreen)
 
 ### Key Metrics
