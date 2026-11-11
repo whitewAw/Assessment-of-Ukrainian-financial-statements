@@ -53,7 +53,6 @@ public static class ApexChartsHelper
 
         options.DataLabels = new DataLabels
         {
-            Formatter = "function(val) { return val.toFixed(1) + '%'; }",
             Style = new DataLabelsStyle
             {
                 Colors = new List<string> { "#fff" }

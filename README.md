@@ -201,6 +201,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 - ✅ **Heap pre-reservation** - `EmccMaximumHeapSize=2 GiB` lets the linker pre-allocate a tight segment
 - ✅ **AOT-safe JSON serialization** (source-generated, reflection disabled)
 - ✅ **AOT-safe charts** (ApexCharts with lambda expressions, no reflection)
+  Pie and donut labels use ApexCharts' built-in one-decimal percentage formatter.
+  Avoid JavaScript formatter strings: Blazor-ApexCharts evaluates them with `eval`,
+  which the site's Content Security Policy intentionally blocks (no `unsafe-eval`).
 - ✅ **AOT-safe events** (EventHandler pattern, no dynamic delegates)
 - ✅ **AOT-safe regex** (GeneratedRegex with timeout and ExplicitCapture)
 - ✅ **Runtime feature switches** - Disabled unused features (EventSource, StartupHook, etc.)
