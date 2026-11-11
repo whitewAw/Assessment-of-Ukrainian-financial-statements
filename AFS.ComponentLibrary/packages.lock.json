@@ -4,9 +4,9 @@
     "net10.0": {
       "Blazor-ApexCharts": {
         "type": "Direct",
-        "requested": "[7.1.0, )",
-        "resolved": "7.1.0",
-        "contentHash": "QR5xWNETy0DkgFQ0TFQIdmHi7J402hBRpegzOlbFAAaYgcgM+YZs5LL1qaZRf8nMWP+jRE/R4JbnxFUqOPbZNw==",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "oQzHx0yiqlnM1EgaXv64tuQm+Silxbddb3zujIByjBsK/a3Tanm+U9LFRG/bbG1mcuF2tSFuhFWYaY7mkTx4bg==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "10.0.0",
           "Microsoft.AspNetCore.Components.Web": "10.0.0",
@@ -15,9 +15,9 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[3.0.321, )",
-        "resolved": "3.0.321",
-        "contentHash": "aFP7GiBBIb2x9rBTuUpw/jSs0JVbTofADlt6WxmYVYQ24KPAjFYyxcnNNVVf4F/eqKyzjik170nOpURmmyJDKg=="
+        "requested": "[3.0.322, )",
+        "resolved": "3.0.322",
+        "contentHash": "aaynUqEHHeD0v1/RDW/Rq3d/gRkF8bRKJcvblhvuvyTAB+hGuzgFl4pBD9g6jGu+VqMWPinEGqu4hzG12TtnqQ=="
       },
       "Microsoft.Extensions.Localization": {
         "type": "Direct",
@@ -33,15 +33,15 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[10.0.14, )",
-        "resolved": "10.0.14",
-        "contentHash": "YlTamXppEQls6DYWt7RdUuwWDb0lyw/vXCaGeQpLCpsLmfwGuCkOz/vIGgMTV7ECsJcavkCOkxZXv9s8rdAHkQ=="
+        "requested": "[10.0.11, )",
+        "resolved": "10.0.11",
+        "contentHash": "IBf7lbovvjGWVWXZX5cJ/cO0WXbId0Zq4BuSeT94mGZuOAP66oMeH9PTBZ9Jpp3Jb6jtK0qm/NyUbPRo1gC/wQ=="
       },
       "Radzen.Blazor": {
         "type": "Direct",
-        "requested": "[12.1.12, )",
-        "resolved": "12.1.12",
-        "contentHash": "cw0JzfHEXllxfEA+wPUxspZRi0j52SvjJnPhkSJ6tJDtEaRhx1aKd+Pf/QbMh2Td2LPzNt4TU2eAJN+i0RzEaA==",
+        "requested": "[12.2.0, )",
+        "resolved": "12.2.0",
+        "contentHash": "d0Js78r+dEWo2rXoJYq2zcCZJSuX9AE0yj9qmdLHPO+hXDYWOTND7c8cHRYP/5bZKKFnBJnJSF9IOrLzHh+NEA==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "10.0.14",
           "Microsoft.AspNetCore.Components.Web": "10.0.14",
