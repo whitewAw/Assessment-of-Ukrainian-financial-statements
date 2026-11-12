@@ -1,0 +1,428 @@
+/* Manifest version: TbJg1mVV */
+// Caution! Be sure you understand the caveats before publishing an application with
+// offline support. See https://aka.ms/blazor-offline-considerations
+
+self.importScripts('./service-worker-assets.js');
+self.addEventListener('install', event => event.waitUntil(onInstall()));
+self.addEventListener('activate', event => event.waitUntil(onActivate()));
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        event.waitUntil(self.skipWaiting());
+    }
+});
+self.addEventListener('fetch', event => {
+    // Let the browser handle speculative prefetch/prerender itself: these are
+    // often cancelled mid-flight, which would surface as "Failed to fetch".
+    const purpose = event.request.headers.get('Sec-Purpose') || event.request.headers.get('Purpose') || '';
+    if (purpose.includes('prefetch') || purpose.includes('prerender')) {
+        return;
+    }
+    // Let the browser handle cross-origin requests (e.g. the visitor counter pixel)
+    // natively: re-fetching them here is subject to connect-src and caching them
+    // would stop the hit from being counted.
+    if (new URL(event.request.url).origin !== self.location.origin) {
+        return;
+    }
+
+    const backgroundTasks = [];
+    const responsePromise = onFetch(event, backgroundTasks);
+    event.respondWith(responsePromise);
+    event.waitUntil(responsePromise.then(() => Promise.all(backgroundTasks)));
+});
+
+const cacheNamePrefix = 'offline-cache-';
+const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
+
+// Optimized cache patterns - more specific ordering for better performance
+const offlineAssetsInclude = [
+    /\.wasm$/,  // WebAssembly files (largest, most important)
+    /\.dll$/,      // .NET assemblies
+    /\.dat$/,     // ICU data files
+    /\.blat$/,       // Blazor boot resources
+    /\.js$/,        // JavaScript files
+    /\.css$/,            // Stylesheets
+    /\.html$/,           // HTML files
+    /\.json$/,     // JSON configuration
+    /\.woff2?$/,         // Web fonts (woff and woff2)
+    /\.ttf$/,            // TrueType fonts
+    /\.eot$/,            // Embedded OpenType fonts
+    /\.svg$/,            // SVG files (icons, images)
+    /\.png$/,// PNG images
+    /\.jpe?g$/,          // JPEG images
+    /\.gif$/,            // GIF images
+    /\.webp$/,      // WebP images
+    /\.ico$/,            // Favicons
+    /\.pdb$/     // Debug symbols (only in debug builds)
+];
+
+const offlineAssetsExclude = [
+    /^service-worker\.js$/,
+    /^service-worker-assets\.js$/,
+    // Rewritten by CI after hashing (404 base path, prerender) or not app assets
+    /^404\.html$/,
+    /^(yandex|google)[\w-]*\.html$/,
+    /^BingSiteAuth\.xml$/,
+    /^llms\.txt$/,
+    /^robots\.txt$/,
+    /^sitemap\.xml$/,
+    /^_redirects$/,
+    /^netlify\.toml$/
+];
+
+// Stale-While-Revalidate patterns (for frequently updated resources)
+const staleWhileRevalidatePatterns = [
+    /\.json$/,     // Configuration files may update
+    /api\//        // API calls
+];
+
+// Cache-First patterns (for immutable resources)
+const cacheFirstPatterns = [
+    /\.wasm$/,
+    /\.dll$/,
+    /\.dat$/,
+    /\.woff2?$/,
+    /\.ttf$/,
+    /\.eot$/
+];
+
+/**
+ * Install event - cache all static assets
+ */
+async function onInstall() {
+    console.info('Service worker: Install started');
+
+    const assetsToCache = self.assetsManifest.assets
+        .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
+        .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)));
+
+    if (!assetsToCache.some(asset => /(^|\/)index\.html$/.test(asset.url))) {
+        throw new Error('Service worker: index.html is missing from the offline asset list');
+    }
+
+    console.info(`Service worker: Caching ${assetsToCache.length} assets`);
+
+    const cacheAlreadyExists = await caches.has(cacheName);
+    const cache = await caches.open(cacheName);
+    const indexAssets = assetsToCache.filter(asset => /(^|\/)index\.html$/.test(asset.url));
+    const otherAssets = assetsToCache.filter(asset => !/(^|\/)index\.html$/.test(asset.url));
+    const assetsRequests = otherAssets.map(asset =>
+        new Request(asset.url, {
+            integrity: asset.hash,
+            cache: 'no-cache',
+            mode: 'cors',
+            credentials: 'omit'
+        })
+    );
+
+    try {
+        // CI rewrites index.html after publish, so its generated integrity hash
+        // is stale. Require a successful fetch, but do not use that stale hash.
+        for (const asset of indexAssets) {
+            const request = new Request(asset.url, {
+                cache: 'no-cache',
+                mode: 'cors',
+                credentials: 'omit'
+            });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new Error(`Service worker: Failed to fetch ${request.url} (${response.status})`);
+            }
+            await cache.put(request, response);
+        }
+
+        const batchSize = 50;
+        for (let i = 0; i < assetsRequests.length; i += batchSize) {
+            const batch = assetsRequests.slice(i, i + batchSize);
+            await cache.addAll(batch);
+            console.info(`Service worker: Cached batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(assetsRequests.length / batchSize)}`);
+        }
+
+        console.info('Service worker: Install completed successfully');
+    } catch (error) {
+        console.error('Service worker: Required offline asset caching failed', error);
+        if (!cacheAlreadyExists) {
+            await caches.delete(cacheName);
+        }
+        throw error;
+    }
+}
+
+/**
+ * Activate event - clean up old caches
+ */
+async function onActivate() {
+    console.info('Service worker: Activate started');
+
+    // Take control of all clients immediately
+    await self.clients.claim();
+
+    // Delete old caches
+    try {
+        const cacheKeys = await caches.keys();
+        const oldCacheKeys = cacheKeys.filter(key =>
+            key.startsWith(cacheNamePrefix) && key !== cacheName
+        );
+
+        if (oldCacheKeys.length > 0) {
+            console.info(`Service worker: Deleting ${oldCacheKeys.length} old cache(s)`);
+            await Promise.all(oldCacheKeys.map(key => caches.delete(key)));
+        }
+
+        console.info('Service worker: Activate completed successfully');
+    } catch (error) {
+        console.error('Service worker: Activation cleanup failed', error);
+    }
+}
+
+/**
+ * Fetch event - serve from cache or network
+ */
+async function onFetch(event, backgroundTasks) {
+    const { request } = event;
+    const url = new URL(request.url);
+
+    // Only handle GET requests
+    if (request.method !== 'GET') {
+        return fetch(request);
+    }
+
+    // Don't cache chrome-extension:// or other non-http(s) requests
+    if (!url.protocol.startsWith('http')) {
+        return fetch(request);
+    }
+
+    // Determine caching strategy based on URL pattern
+    const isCacheFirst = cacheFirstPatterns.some(pattern => pattern.test(url.pathname));
+    const isStaleWhileRevalidate = staleWhileRevalidatePatterns.some(pattern => pattern.test(url.pathname));
+    const isNavigationRequest = request.mode === 'navigate';
+
+    try {
+        // Cache-First strategy for immutable resources
+        if (isCacheFirst) {
+            return await cacheFirst(request, backgroundTasks);
+        }
+
+        // Stale-While-Revalidate for frequently updated resources
+        if (isStaleWhileRevalidate) {
+            return await staleWhileRevalidate(request, backgroundTasks);
+        }
+
+        // Navigation requests (page loads)
+        if (isNavigationRequest) {
+            return await handleNavigationRequest(request, backgroundTasks);
+        }
+
+        // Default: Network-First with cache fallback
+        return await networkFirst(request, backgroundTasks);
+
+    } catch (error) {
+        console.error('Service worker: Fetch error for', request.url, error);
+
+        // Final fallback: try to serve index.html for navigation requests
+        if (isNavigationRequest) {
+            try {
+                const cache = await caches.open(cacheName);
+                const indexResponse = await cache.match('index.html');
+                if (indexResponse) {
+                    console.info('Service worker: Serving cached index.html as fallback');
+                    return indexResponse;
+                }
+            } catch (cacheError) {
+                console.error('Service worker: Cache fallback failed', cacheError);
+            }
+        }
+
+        // Return a user-friendly offline page instead of raw 503
+        return new Response(
+            `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>UFIN - Offline</title>
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                           display: flex; align-items: center; justify-content: center; 
+                           min-height: 100vh; margin: 0; background: #1a1a1a; color: #e8e8e8; }
+                    .container { text-align: center; padding: 2rem; }
+                    h1 { color: #512BD4; }
+                    button { background: #512BD4; color: white; border: none; padding: 12px 24px; 
+                             border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 1rem; }
+                    button:hover { background: #6B3FA0; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>📊 UFIN</h1>
+                    <h2>You're Offline</h2>
+                    <p>Please check your internet connection and try again.</p>
+                    <button onclick="location.reload()">Retry</button>
+                </div>
+            </body>
+            </html>`,
+            {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+            }
+        );
+    }
+}
+
+function trackBackgroundTask(backgroundTasks, promise, description) {
+    backgroundTasks.push(Promise.resolve(promise).catch(error => {
+        console.warn(`Service worker: ${description} failed`, error);
+    }));
+}
+
+/**
+ * Cache-First strategy - check cache first, fallback to network
+ */
+async function cacheFirst(request, backgroundTasks) {
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(request);
+
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+
+    // Not in cache, fetch from network and cache it
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+        trackBackgroundTask(backgroundTasks, cache.put(request, networkResponse.clone()), 'Cache write');
+    }
+    return networkResponse;
+}
+
+/**
+ * Network-First strategy - try network first, fallback to cache
+ */
+async function networkFirst(request, backgroundTasks) {
+    const cache = await caches.open(cacheName);
+    
+    try {
+        const networkResponse = await fetch(request);
+
+        // Cache successful responses
+        if (networkResponse.ok) {
+            trackBackgroundTask(backgroundTasks, cache.put(request, networkResponse.clone()), 'Cache write');
+        }
+
+        return networkResponse;
+    } catch (error) {
+        // Network failed, try cache
+        const cachedResponse = await cache.match(request);
+
+        if (cachedResponse) {
+            console.info('Service worker: Serving from cache (offline)', request.url);
+            return cachedResponse;
+        }
+
+        // No cache available - return a more helpful error for non-critical resources
+        console.warn('Service worker: No cache available for', request.url);
+        
+        // For non-critical resources, return an empty response instead of throwing
+        const url = new URL(request.url);
+        if (url.pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot)$/i)) {
+            // Return empty response for images/fonts - they're not critical
+            return new Response('', { status: 200, statusText: 'OK (offline placeholder)' });
+        }
+        
+        throw error;
+    }
+}
+
+/**
+ * Stale-While-Revalidate - serve cached version while fetching fresh version
+ */
+async function staleWhileRevalidate(request, backgroundTasks) {
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(request);
+
+    // Fetch fresh version in the background and keep the fetch event alive.
+    const fetchPromise = fetch(request).then(async networkResponse => {
+        if (networkResponse.ok) {
+            try {
+                await cache.put(request, networkResponse.clone());
+            } catch (error) {
+                console.warn('Service worker: Cache update failed', error);
+            }
+        }
+        return networkResponse;
+    }).catch(error => {
+        console.warn('Service worker: Background fetch failed', error);
+        return null;
+    });
+    backgroundTasks.push(fetchPromise);
+
+    // Return cached version immediately if available, otherwise wait for network.
+    // respondWith() must never receive null, so surface a real error when offline
+    // with nothing cached (onFetch turns it into the offline response).
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+    const networkResponse = await fetchPromise;
+    if (!networkResponse) {
+        throw new Error(`Offline and not cached: ${request.url}`);
+    }
+    return networkResponse;
+}
+
+/**
+ * Handle navigation requests, serving prerendered routes or the SPA shell.
+ */
+async function handleNavigationRequest(request, backgroundTasks) {
+    const cache = await caches.open(cacheName);
+    const url = new URL(request.url);
+
+    // Determine base path (for GitHub Pages subdirectory deployment)
+    const basePath = url.pathname.includes('/Assessment-of-Ukrainian-financial-statements/') 
+        ? '/Assessment-of-Ukrainian-financial-statements/' 
+        : '/';
+    const indexPath = basePath + 'index.html';
+
+    try {
+        // Fall back to the SPA shell when the host does not serve this route.
+        const indexRequest = new Request(indexPath, {
+            method: 'GET',
+            headers: request.headers,
+            mode: 'same-origin',
+            credentials: 'same-origin'
+        });
+
+        // Try network first for fresh content. Fetch the actual URL so the
+        // per-route prerendered snapshot (correct title/canonical) is served;
+        // fall back to index.html for SPA routes the host doesn't know about.
+        try {
+            const routeResponse = await fetch(request);
+            if (routeResponse.ok) {
+                return routeResponse;
+            }
+
+            const networkResponse = await fetch(indexRequest);
+
+            if (networkResponse.ok) {
+                trackBackgroundTask(backgroundTasks, cache.put('index.html', networkResponse.clone()), 'Navigation cache write');
+                return networkResponse;
+            }
+        } catch (networkError) {
+            // Network failed, will try cache below
+            console.info('Service worker: Network unavailable, trying cache');
+        }
+
+        // Network failed or not ok, serve cached index.html
+        const cachedResponse = await cache.match('index.html');
+
+        if (cachedResponse) {
+            console.info('Service worker: Serving cached index.html for SPA route');
+            return cachedResponse;
+        }
+
+        // No cached index.html, throw to trigger offline page
+        throw new Error('No cached index.html available');
+
+    } catch (error) {
+        console.error('Service worker: Navigation handling failed', error);
+        throw error;
+    }
+}
