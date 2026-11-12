@@ -25,6 +25,8 @@ constructor() {
     this.pageViews = 0;
     this.metaCache = new Map();
     this.prerenderHints = new Set();
+    this.observedLinks = new WeakSet();
+    this.prerenderObserver = null;
     this.supportedLanguages = ['en', 'uk', 'pl', 'ro', 'hu', 'cs', 'de', 'nl', 'fr', 'it', 'es', 'tr', 'zh', 'ja', 'ru'];
 }
     
@@ -69,6 +71,11 @@ detectBaseUrl() {
      * Initialize SEO Manager - should be called after Blazor loads
      */
     init() {
+        if (this.initialized) {
+            this.handleNavigation();
+            return;
+        }
+
         console.log('[SEO] Initializing Advanced SEO Manager v2.1');
 
         // Set initial canonical URL and meta tags
@@ -77,6 +84,7 @@ detectBaseUrl() {
         this.updateOpenGraph();
         this.updateStructuredData();
         this.addSpeculationRules();
+        this.lastUrl = window.location.href;
 
         // Listen to Blazor navigation events
         this.setupBlazorNavigation();
@@ -153,22 +161,27 @@ detectBaseUrl() {
             return;
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const link = entry.target;
-                    const href = link.getAttribute('href');
-                    if (href && !this.prerenderHints.has(href) && href.startsWith(this.basePath)) {
-                        this.addPrefetchHint(href);
-                        this.prerenderHints.add(href);
+        if (!this.prerenderObserver) {
+            this.prerenderObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const link = entry.target;
+                        const href = link.getAttribute('href');
+                        if (href && !this.prerenderHints.has(href) && href.startsWith(this.basePath)) {
+                            this.addPrefetchHint(href);
+                            this.prerenderHints.add(href);
+                        }
                     }
-                }
-            });
-        }, { rootMargin: '100px' });
+                });
+            }, { rootMargin: '100px' });
+        }
 
-        // Observe all internal links
+        // Observe each internal link once, including links added after navigation.
         document.querySelectorAll('a[href^="/"]').forEach(link => {
-            observer.observe(link);
+            if (!this.observedLinks.has(link)) {
+                this.prerenderObserver.observe(link);
+                this.observedLinks.add(link);
+            }
         });
     }
 
@@ -210,7 +223,6 @@ detectBaseUrl() {
             // Check if URL has changed
             const currentUrl = window.location.href;
             if (this.lastUrl !== currentUrl) {
-                this.lastUrl = currentUrl;
                 console.log('[SEO] URL changed via MutationObserver:', currentUrl);
                 this.handleNavigation();
             }
@@ -229,6 +241,12 @@ detectBaseUrl() {
      * Handle navigation changes
      */
     handleNavigation() {
+        const currentUrl = window.location.href;
+        if (this.lastUrl === currentUrl) {
+            return;
+        }
+        this.lastUrl = currentUrl;
+
         console.log('[SEO] Handling navigation to:', window.location.pathname);
 
         this.pageViews++;
@@ -245,8 +263,8 @@ detectBaseUrl() {
         // Notify search engines and analytics of navigation
         this.notifyPageView();
 
-        // Update prerender hints for new page
-        setTimeout(() => this.setupPrerenderObserver(), 500);
+        // Observe links rendered for the new route.
+        this.setupPrerenderObserver();
     }
 
     /**
@@ -907,23 +925,21 @@ detectBaseUrl() {
      * Call this after Blazor renders new content
      */
     registerPage(title, description, keywords = null) {
-        // Update page title
         if (title) {
             document.title = title;
+            this.setMetaTag('og:title', title, 'property');
+            this.setMetaTag('twitter:title', title);
         }
 
-        // Update meta description
         if (description) {
             this.setMetaTag('description', description);
+            this.setMetaTag('og:description', description, 'property');
+            this.setMetaTag('twitter:description', description);
         }
 
-        // Update keywords
         if (keywords) {
             this.setMetaTag('keywords', keywords);
         }
-
-        // Trigger general update
-        this.handleNavigation();
 
         console.log('[SEO] Page manually registered:', title);
     }
