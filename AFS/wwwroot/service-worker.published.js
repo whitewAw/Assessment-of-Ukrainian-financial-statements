@@ -3,7 +3,7 @@
 
 self.importScripts('./service-worker-assets.js');
 self.addEventListener('install', event => event.waitUntil(onInstall()));
-self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
+self.addEventListener('activate', event => event.waitUntil(onActivate()));
 self.addEventListener('message', event => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         event.waitUntil(self.skipWaiting());
@@ -22,7 +22,11 @@ self.addEventListener('fetch', event => {
     if (new URL(event.request.url).origin !== self.location.origin) {
         return;
     }
-    event.respondWith(onFetch(event));
+
+    const backgroundTasks = [];
+    const responsePromise = onFetch(event, backgroundTasks);
+    event.respondWith(responsePromise);
+    event.waitUntil(responsePromise.then(() => Promise.all(backgroundTasks)));
 });
 
 const cacheNamePrefix = 'offline-cache-';
@@ -145,7 +149,7 @@ async function onInstall() {
 /**
  * Activate event - clean up old caches
  */
-async function onActivate(event) {
+async function onActivate() {
     console.info('Service worker: Activate started');
 
     // Take control of all clients immediately
@@ -172,7 +176,7 @@ async function onActivate(event) {
 /**
  * Fetch event - serve from cache or network
  */
-async function onFetch(event) {
+async function onFetch(event, backgroundTasks) {
     const { request } = event;
     const url = new URL(request.url);
 
@@ -194,21 +198,21 @@ async function onFetch(event) {
     try {
         // Cache-First strategy for immutable resources
         if (isCacheFirst) {
-            return await cacheFirst(request);
+            return await cacheFirst(request, backgroundTasks);
         }
 
         // Stale-While-Revalidate for frequently updated resources
         if (isStaleWhileRevalidate) {
-            return await staleWhileRevalidate(request);
+            return await staleWhileRevalidate(request, backgroundTasks);
         }
 
         // Navigation requests (page loads)
         if (isNavigationRequest) {
-            return await handleNavigationRequest(request);
+            return await handleNavigationRequest(request, backgroundTasks);
         }
 
         // Default: Network-First with cache fallback
-        return await networkFirst(request);
+        return await networkFirst(request, backgroundTasks);
 
     } catch (error) {
         console.error('Service worker: Fetch error for', request.url, error);
@@ -264,10 +268,16 @@ async function onFetch(event) {
     }
 }
 
+function trackBackgroundTask(backgroundTasks, promise, description) {
+    backgroundTasks.push(Promise.resolve(promise).catch(error => {
+        console.warn(`Service worker: ${description} failed`, error);
+    }));
+}
+
 /**
  * Cache-First strategy - check cache first, fallback to network
  */
-async function cacheFirst(request) {
+async function cacheFirst(request, backgroundTasks) {
     const cache = await caches.open(cacheName);
     const cachedResponse = await cache.match(request);
 
@@ -278,7 +288,7 @@ async function cacheFirst(request) {
     // Not in cache, fetch from network and cache it
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-        cache.put(request, networkResponse.clone());
+        trackBackgroundTask(backgroundTasks, cache.put(request, networkResponse.clone()), 'Cache write');
     }
     return networkResponse;
 }
@@ -286,7 +296,7 @@ async function cacheFirst(request) {
 /**
  * Network-First strategy - try network first, fallback to cache
  */
-async function networkFirst(request) {
+async function networkFirst(request, backgroundTasks) {
     const cache = await caches.open(cacheName);
     
     try {
@@ -294,7 +304,7 @@ async function networkFirst(request) {
 
         // Cache successful responses
         if (networkResponse.ok) {
-            cache.put(request, networkResponse.clone());
+            trackBackgroundTask(backgroundTasks, cache.put(request, networkResponse.clone()), 'Cache write');
         }
 
         return networkResponse;
@@ -324,20 +334,25 @@ async function networkFirst(request) {
 /**
  * Stale-While-Revalidate - serve cached version while fetching fresh version
  */
-async function staleWhileRevalidate(request) {
+async function staleWhileRevalidate(request, backgroundTasks) {
     const cache = await caches.open(cacheName);
     const cachedResponse = await cache.match(request);
 
-    // Fetch fresh version in the background
-    const fetchPromise = fetch(request).then(networkResponse => {
+    // Fetch fresh version in the background and keep the fetch event alive.
+    const fetchPromise = fetch(request).then(async networkResponse => {
         if (networkResponse.ok) {
-            cache.put(request, networkResponse.clone());
+            try {
+                await cache.put(request, networkResponse.clone());
+            } catch (error) {
+                console.warn('Service worker: Cache update failed', error);
+            }
         }
         return networkResponse;
     }).catch(error => {
         console.warn('Service worker: Background fetch failed', error);
         return null;
     });
+    backgroundTasks.push(fetchPromise);
 
     // Return cached version immediately if available, otherwise wait for network.
     // respondWith() must never receive null, so surface a real error when offline
@@ -353,10 +368,9 @@ async function staleWhileRevalidate(request) {
 }
 
 /**
- * Handle navigation requests (page loads)
- * For SPAs, always serve index.html for navigation requests
+ * Handle navigation requests, serving prerendered routes or the SPA shell.
  */
-async function handleNavigationRequest(request) {
+async function handleNavigationRequest(request, backgroundTasks) {
     const cache = await caches.open(cacheName);
     const url = new URL(request.url);
 
@@ -367,8 +381,7 @@ async function handleNavigationRequest(request) {
     const indexPath = basePath + 'index.html';
 
     try {
-        // For SPA routing, fetch index.html instead of the actual URL
-        // This is because Blazor handles all routes client-side
+        // Fall back to the SPA shell when the host does not serve this route.
         const indexRequest = new Request(indexPath, {
             method: 'GET',
             headers: request.headers,
@@ -388,7 +401,7 @@ async function handleNavigationRequest(request) {
             const networkResponse = await fetch(indexRequest);
 
             if (networkResponse.ok) {
-                cache.put('index.html', networkResponse.clone());
+                trackBackgroundTask(backgroundTasks, cache.put('index.html', networkResponse.clone()), 'Navigation cache write');
                 return networkResponse;
             }
         } catch (networkError) {
