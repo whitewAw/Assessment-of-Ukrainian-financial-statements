@@ -47,8 +47,10 @@
     # No 'unsafe-eval': all JS interop goes through named functions (js/interop.js).
     # 'wasm-unsafe-eval' is required to instantiate the Blazor WASM runtime.
     # 'unsafe-inline' is still needed for the bootstrap scripts in index.html.
-    # api.visitorbadge.io is the visitor counter pixel.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.visitorbadge.io; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    # api.visitorbadge.io is the visitor counter pixel; api.openai.com is the
+    # optional browser-side OpenAI provider. Any configured key is visible to
+    # every visitor and must not be a shared secret.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.visitorbadge.io; font-src 'self' data:; connect-src 'self' https://api.openai.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
 # HTML - no cache, indexable
 [[headers]]

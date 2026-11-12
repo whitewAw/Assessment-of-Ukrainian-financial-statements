@@ -218,9 +218,12 @@ jobs:
         # and the JSON-LD "screenshot" field. Rendered from the Netlify
         # snapshot (base href "/") and copied to the GH Pages snapshot.
         # Must run BEFORE prerender so the root index.html is still the SPA shell.
-        continue-on-error: true
         run: |
           node tools/prerender/generate-screenshots.mjs release-netlify/wwwroot release/wwwroot
+          test -s release-netlify/wwwroot/screenshot-wide.png
+          test -s release-netlify/wwwroot/screenshot-narrow.png
+          test -s release/wwwroot/screenshot-wide.png
+          test -s release/wwwroot/screenshot-narrow.png
           echo "✅ PWA screenshots written to both snapshots"
 
       - name: Test SEO output policy

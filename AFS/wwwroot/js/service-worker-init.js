@@ -6,8 +6,36 @@
 (function () {
     'use strict';
 
+    let autoUpdateServiceWorker = false;
+
+    function initializeUpdatePreference() {
+        try {
+            const storedPreference = localStorage.getItem('autoUpdateServiceWorker');
+            if (storedPreference === null) {
+                localStorage.setItem('autoUpdateServiceWorker', 'false');
+            } else {
+                autoUpdateServiceWorker = storedPreference === 'true';
+            }
+        } catch (error) {
+            console.warn('Unable to initialize service worker update preference; updates will require confirmation:', error);
+        }
+    }
+
+    function saveUpdatePreference(enabled) {
+        autoUpdateServiceWorker = enabled;
+        try {
+            localStorage.setItem('autoUpdateServiceWorker', String(enabled));
+        } catch (error) {
+            console.warn('Unable to save service worker update preference:', error);
+        }
+    }
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
+            initializeUpdatePreference();
+            const hadController = Boolean(navigator.serviceWorker.controller);
+            let isReloading = false;
+
             // Get the base path from the document's base element or default to root
             const baseElement = document.querySelector('base');
             const basePath = baseElement ? baseElement.getAttribute('href') : '/';
@@ -35,7 +63,9 @@
                     });
 
                     // Update service worker on page load
-                    registration.update();
+                    registration.update().catch(err => {
+                        console.debug('Service Worker load update failed:', err);
+                    });
 
                     // Handle waiting service worker
                     if (registration.waiting) {
@@ -59,9 +89,15 @@
                     console.warn('Service Worker registration failed:', error);
                 });
 
-            // Handle service worker controller changes
+            // Reload once after an approved update takes control. Initial control
+            // on a first visit must not interrupt the page that just loaded.
             navigator.serviceWorker.addEventListener('controllerchange', function () {
-                console.log('Service Worker controller changed - reloading page');
+                if (!hadController || isReloading) {
+                    return;
+                }
+
+                isReloading = true;
+                console.log('Updated service worker took control - reloading page');
                 window.location.reload();
             });
 
@@ -79,10 +115,11 @@
      * @param {ServiceWorker} worker - The waiting service worker
      */
     function promptUserToUpdate(worker) {
-        // Check if user wants auto-update
-        const autoUpdate = localStorage.getItem('autoUpdateServiceWorker');
+        if (document.getElementById('sw-update-banner')) {
+            return;
+        }
 
-        if (autoUpdate === 'true') {
+        if (autoUpdateServiceWorker) {
             worker.postMessage({ type: 'SKIP_WAITING' });
             return;
         }
@@ -92,22 +129,25 @@
         updateBanner.id = 'sw-update-banner';
         updateBanner.className = 'alert alert-info position-fixed bottom-0 start-0 end-0 m-3';
         updateBanner.innerHTML = `
-            <div class="d-flex align-items-center justify-content-between">
-   <span>
- <strong>Update Available!</strong> A new version of UFIN is ready.
-         </span>
-       <div>
-       <button class="btn btn-sm btn-primary me-2" onclick="updateServiceWorker()">
-         Update Now
-    </button>
-        <button class="btn btn-sm btn-secondary" onclick="dismissUpdateBanner()">
-           Later
-       </button>
-     </div>
-   </div>
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span><strong>Update Available!</strong> A new version of UFIN is ready.</span>
+                <div>
+                    <button class="btn btn-sm btn-primary me-2" onclick="updateServiceWorker()">Update Now</button>
+                    <button class="btn btn-sm btn-secondary" onclick="dismissUpdateBanner()">Later</button>
+                </div>
+            </div>
+            <label class="d-flex align-items-center gap-2 mt-2">
+                <input id="auto-update-service-worker" type="checkbox">
+                Automatically install future updates
+            </label>
         `;
 
         document.body.appendChild(updateBanner);
+        const autoUpdateCheckbox = updateBanner.querySelector('#auto-update-service-worker');
+        autoUpdateCheckbox.checked = autoUpdateServiceWorker;
+        autoUpdateCheckbox.addEventListener('change', () => {
+            saveUpdatePreference(autoUpdateCheckbox.checked);
+        });
 
         // Make update function globally available
         window.updateServiceWorker = function () {

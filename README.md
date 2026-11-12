@@ -88,7 +88,9 @@ This application provides a powerful, browser-based tool for comprehensive analy
 #### Requirements:
 - Google Chrome 127+ with Prompt API enabled
 - Automatic Gemini Nano model download (first use)
-- No API keys, subscriptions, or cloud services required
+- No API keys, subscriptions, or cloud services required for the default Gemini Nano provider
+
+The project also contains an optional OpenAI provider. Because this app runs as client-side WebAssembly, any API key configured in `appsettings.json` is downloadable and visible to every user. Do not deploy a shared secret there; this provider is suitable only for local testing or deployments where exposing that key to every visitor is intentional. For shared credentials, use a server-side proxy. When enabled on Netlify, the Content Security Policy permits requests to `api.openai.com`.
 
 [Learn more about Chrome AI setup →](BROWSER_AI_SETUP.md)
 

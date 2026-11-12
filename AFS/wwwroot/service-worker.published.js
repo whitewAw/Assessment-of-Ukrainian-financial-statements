@@ -2,8 +2,13 @@
 // offline support. See https://aka.ms/blazor-offline-considerations
 
 self.importScripts('./service-worker-assets.js');
-self.addEventListener('install', event => event.waitUntil(onInstall(event)));
+self.addEventListener('install', event => event.waitUntil(onInstall()));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        event.waitUntil(self.skipWaiting());
+    }
+});
 self.addEventListener('fetch', event => {
     // Let the browser handle speculative prefetch/prerender itself: these are
     // often cancelled mid-flight, which would surface as "Failed to fetch".
@@ -78,24 +83,23 @@ const cacheFirstPatterns = [
 /**
  * Install event - cache all static assets
  */
-async function onInstall(event) {
+async function onInstall() {
     console.info('Service worker: Install started');
 
-    // Take control immediately
-    self.skipWaiting();
-
-    // Filter and prepare assets for caching
     const assetsToCache = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)));
 
+    if (!assetsToCache.some(asset => /(^|\/)index\.html$/.test(asset.url))) {
+        throw new Error('Service worker: index.html is missing from the offline asset list');
+    }
+
     console.info(`Service worker: Caching ${assetsToCache.length} assets`);
 
-    // Separate index.html from other assets (it changes frequently)
-    const indexAssets = assetsToCache.filter(asset => /index\.html$/.test(asset.url));
-    const otherAssets = assetsToCache.filter(asset => !/index\.html$/.test(asset.url));
-
-    // Create requests with integrity check for immutable assets
+    const cacheAlreadyExists = await caches.has(cacheName);
+    const cache = await caches.open(cacheName);
+    const indexAssets = assetsToCache.filter(asset => /(^|\/)index\.html$/.test(asset.url));
+    const otherAssets = assetsToCache.filter(asset => !/(^|\/)index\.html$/.test(asset.url));
     const assetsRequests = otherAssets.map(asset =>
         new Request(asset.url, {
             integrity: asset.hash,
@@ -105,68 +109,36 @@ async function onInstall(event) {
         })
     );
 
-    // Create requests WITHOUT integrity check for index.html (it changes frequently)
-    const indexRequests = indexAssets.map(asset =>
-        new Request(asset.url, {
-            cache: 'no-cache',
-            mode: 'cors',
-            credentials: 'omit'
-        })
-    );
-
     try {
-        const cache = await caches.open(cacheName);
-
-        // Cache index.html without integrity check
-        if (indexRequests.length > 0) {
-            try {
-                await Promise.allSettled(
-                    indexRequests.map(async req => {
-                        try {
-                            const response = await fetch(req.clone());
-                            if (response.ok) {
-                                await cache.put(req, response);
-                                console.info(`Service worker: Cached ${req.url} (no integrity check)`);
-                            }
-                        } catch (e) {
-                            console.warn(`Service worker: Failed to cache ${req.url}`, e);
-                        }
-                    })
-                );
-            } catch (error) {
-                console.warn('Service worker: Failed to cache index.html', error);
+        // CI rewrites index.html after publish, so its generated integrity hash
+        // is stale. Require a successful fetch, but do not use that stale hash.
+        for (const asset of indexAssets) {
+            const request = new Request(asset.url, {
+                cache: 'no-cache',
+                mode: 'cors',
+                credentials: 'omit'
+            });
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw new Error(`Service worker: Failed to fetch ${request.url} (${response.status})`);
             }
+            await cache.put(request, response);
         }
 
-        // Cache other assets in batches with integrity checks
         const batchSize = 50;
         for (let i = 0; i < assetsRequests.length; i += batchSize) {
             const batch = assetsRequests.slice(i, i + batchSize);
-            try {
-                await cache.addAll(batch);
-                console.info(`Service worker: Cached batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(assetsRequests.length / batchSize)}`);
-            } catch (error) {
-                console.warn(`Service worker: Failed to cache batch ${Math.floor(i / batchSize) + 1}`, error);
-                // Try to cache individually for this batch
-                await Promise.allSettled(
-                    batch.map(async req => {
-                        try {
-                            const response = await fetch(req.clone());
-                            if (response.ok) {
-                                await cache.put(req, response);
-                            }
-                        } catch (e) {
-                            console.warn(`Service worker: Failed to cache ${req.url}`, e);
-                        }
-                    })
-                );
-            }
+            await cache.addAll(batch);
+            console.info(`Service worker: Cached batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(assetsRequests.length / batchSize)}`);
         }
 
         console.info('Service worker: Install completed successfully');
     } catch (error) {
-        console.error('Service worker: Install failed', error);
-        // Continue anyway - will fall back to network
+        console.error('Service worker: Required offline asset caching failed', error);
+        if (!cacheAlreadyExists) {
+            await caches.delete(cacheName);
+        }
+        throw error;
     }
 }
 
