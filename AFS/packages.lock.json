@@ -4,9 +4,9 @@
     "net11.0": {
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[3.0.325, )",
-        "resolved": "3.0.325",
-        "contentHash": "PzHmufFYo18iOVTvqs41Qv4d0XdysEh1j2JtzyLl4W/f9RgfZo5ExZpvr67DDQ0aixw0Ggki3qZP2ZqwAzY8bg=="
+        "requested": "[3.0.341, )",
+        "resolved": "3.0.341",
+        "contentHash": "zpogT6IwYBgNRa9+oETzs7aTU6Te3M/Osdkk/HN1TlJTDjz9dZwoUgh/yWqovT3jTofQGGLB1JqEK8I4uA6+yA=="
       },
       "Microsoft.AspNetCore.App.Internal.Assets": {
         "type": "Direct",
@@ -45,7 +45,7 @@
         "type": "Direct",
         "requested": "[11.0.0, )",
         "resolved": "11.0.0",
-        "contentHash": "FEynzvzaX8UyUAl2Dsgs3v/cAZbCN0//V4sKhVMWxOyqEtTLosVEA1NvVbG4FZI5NB4N6u2Q/nLa179g9XvYog=="
+        "contentHash": "fvNAQsY36JwF/UNNkcPw+jEbcfHCNVkqKlgL7PBlolyXa+rSODtI5bQ4QLl3jr3QyRIAC6bIXGpXghH35+jI0w=="
       },
       "Roslynator.Analyzers": {
         "type": "Direct",

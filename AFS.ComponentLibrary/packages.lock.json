@@ -15,9 +15,9 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[3.0.325, )",
-        "resolved": "3.0.325",
-        "contentHash": "PzHmufFYo18iOVTvqs41Qv4d0XdysEh1j2JtzyLl4W/f9RgfZo5ExZpvr67DDQ0aixw0Ggki3qZP2ZqwAzY8bg=="
+        "requested": "[3.0.341, )",
+        "resolved": "3.0.341",
+        "contentHash": "zpogT6IwYBgNRa9+oETzs7aTU6Te3M/Osdkk/HN1TlJTDjz9dZwoUgh/yWqovT3jTofQGGLB1JqEK8I4uA6+yA=="
       },
       "Microsoft.Extensions.Localization": {
         "type": "Direct",
@@ -36,9 +36,9 @@
       },
       "Radzen.Blazor": {
         "type": "Direct",
-        "requested": "[13.0.0, )",
-        "resolved": "13.0.0",
-        "contentHash": "ZkJ/G4vn+MhA8qPkuCEMKKtu6X8vHUJQjhbgh6zKmGHlLtomiWTtrXj2rv+XPcExkLft4DW39UM0hfZmhUzy0A==",
+        "requested": "[13.1.0, )",
+        "resolved": "13.1.0",
+        "contentHash": "ksfTnYKEr6KcaieKvmBhOoQqAYmvRRpv1sMYBGNs8J2yJDVLVDnFb3pjrnkaz6bdeTbRmbd+bhVtDW4Y5WI28g==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "11.0.0",
           "Microsoft.AspNetCore.Components.Web": "11.0.0",
