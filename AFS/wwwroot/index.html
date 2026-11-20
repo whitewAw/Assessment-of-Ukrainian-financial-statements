@@ -671,25 +671,24 @@
     <!-- Performance monitoring - Lowest priority -->
     <script src="js/performance.js" defer async></script>
 
-    <!-- Host-aware visitor counter (privacy-friendly: no cookies, no personal data).
-         Each host (Netlify, GitHub Pages, localhost) increments its own bucket on
-         api.visitorbadge.io, keyed by its origin only — deep routes share the
-         per-host bucket so the count isn't fragmented across 25 sub-pages.
-         The same `path` values are referenced by the two badges in README.md. -->
-    <!-- No loading="lazy": the 1px sr-only image sits at the end of <body>, below
-         the fold, so lazy loading delayed or skipped the hit for visitors who
-         never scrolled. fetchpriority="low" keeps it off the critical path. -->
+    <!-- Keep the image eager so document loads can be counted without scrolling. -->
     <img id="vbadge" alt="" aria-hidden="true" class="sr-only" fetchpriority="low" decoding="async" />
     <script>
         // @ts-nocheck
         (function () {
-            var host = location.hostname.toLowerCase();
-            // Skip local dev so dev visits don't pollute either production counter
-            if (host === "localhost" || host === "127.0.0.1" || host === "") return;
-            var basePath = host === "whitewaw.github.io" ? "/Assessment-of-Ukrainian-financial-statements" : "";
-            var bucket = encodeURIComponent("https://" + host + basePath);
+            // Keep the existing per-deployment IDs used by the README reports.
+            var bucket;
+            if (location.origin === "https://ua-finance.netlify.app") {
+                bucket = location.origin;
+            } else if (location.origin === "https://whitewaw.github.io") {
+                var projectPath = "/Assessment-of-Ukrainian-financial-statements";
+                if (location.pathname !== projectPath && !location.pathname.startsWith(projectPath + "/")) return;
+                bucket = location.origin + projectPath;
+            } else {
+                return;
+            }
             document.getElementById("vbadge").src =
-                "https://api.visitorbadge.io/api/combined?path=" + bucket +
+                "https://api.visitorbadge.io/api/combined?path=" + encodeURIComponent(bucket) +
                 "&labelColor=%23512BD4&countColor=%23263759&style=flat&labelStyle=upper";
         })();
     </script>

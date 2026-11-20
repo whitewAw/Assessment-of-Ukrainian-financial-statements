@@ -206,9 +206,9 @@ jobs:
           test -s release/wwwroot/screenshot-narrow.png
           echo "✅ PWA screenshots written to both snapshots"
 
-      - name: Test SEO output policy
+      - name: Test SEO output and traffic tracking
         working-directory: tools/prerender
-        run: node --test seo-output.test.mjs prerender-policy.test.mjs
+        run: node --test seo-output.test.mjs prerender-policy.test.mjs traffic-tracking.test.mjs
 
       - name: Prerender routes (Google/Bing/Yandex/AI-bot SEO)
         id: prerender
