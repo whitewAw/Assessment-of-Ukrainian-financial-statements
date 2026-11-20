@@ -46,8 +46,16 @@ test('Development, previews, and unrelated Pages paths do not request the pixel'
   }
 });
 
-test('README links to both reports without embedding counting images', () => {
-  const reports = [...readme.matchAll(/\]\((https:\/\/www\.visitorbadge\.io\/status\?[^)]+)\)/g)];
-  assert.deepEqual(reports.map(([, url]) => new URL(url).searchParams.get('path')).sort(), [netlify, pages].sort());
-  assert.doesNotMatch(readme, /api\.visitorbadge\.io|komarev\.com\/ghpvc/);
+test('README embeds both live counters with the same buckets as the site pixels', () => {
+  const links = [...readme.matchAll(/\[!\[[^\]]+\]\((https:\/\/api\.visitorbadge\.io\/api\/visitors\?[^)]+)\)\]\(([^)]+)\)/g)];
+  assert.deepEqual(links.map(([, image, target]) => [new URL(image).searchParams.get('path'), target]), [
+    [netlify, `${netlify}/`],
+    [pages, `${pages}/`],
+  ]);
+});
+
+test('README profile badge uses the matching GitHub account', () => {
+  const [, image, target] = readme.match(/\[!\[GitHub Profile Views\]\((https:\/\/komarev\.com\/ghpvc\/\?[^)]+)\)\]\(([^)]+)\)/);
+  assert.equal(new URL(image).searchParams.get('username'), 'whitewAw');
+  assert.equal(target, 'https://github.com/whitewAw');
 });

@@ -9,10 +9,9 @@
 [![Stand With Ukraine](https://img.shields.io/badge/Stand_With-Ukraine-FFD500?labelColor=005BBB)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 [![Developed by](https://img.shields.io/badge/Developed_by-Alex_%28Oleksandr%29_Shevchenko-0066CC?logo=github)](https://github.com/whitewAw)
 
-[![Netlify tracked hits](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/traffic-netlify.svg)](https://www.visitorbadge.io/status?path=https%3A%2F%2Fua-finance.netlify.app)
-[![GitHub Pages tracked hits](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/traffic-github-pages.svg)](https://www.visitorbadge.io/status?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements)
-
-The [Metrics workflow](.github/workflows/metrics.yml) refreshes these snapshots weekly; click either badge for the current report. These are tracked hits, not unique visitors. Historical totals include proxy requests and automated browsers. For Netlify pageviews and unique IPs, use [Netlify Web Analytics](https://docs.netlify.com/manage/monitoring/web-analytics/overview/).
+[![Netlify Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fua-finance.netlify.app&label=Netlify%20Visitors&labelColor=%2300C7B7&countColor=%23263759&style=flat&labelStyle=upper)](https://ua-finance.netlify.app/)
+[![GitHub Pages Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements&label=GitHub%20Pages%20Visitors&labelColor=%23181717&countColor=%23263759&style=flat&labelStyle=upper)](https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/)
+[![GitHub Profile Views](https://komarev.com/ghpvc/?username=whitewAw&label=Profile%20Views&color=0e75b6&style=flat)](https://github.com/whitewAw)
 
 > 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 

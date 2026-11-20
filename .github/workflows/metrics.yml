@@ -11,7 +11,6 @@ on:
       - main
     paths:
       - '.github/workflows/metrics.yml'
-      - 'tools/metrics/**'
 
 # Prevent concurrent runs (a second push while a run is in flight will cancel
 # the in-flight one rather than queueing - metrics are idempotent, so the
@@ -388,16 +387,6 @@ jobs:
               exit 1
             fi
           done
-
-      - name: Set up Node.js for traffic badges
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-
-      - name: Test and render traffic badges
-        run: |
-          node --test tools/metrics/traffic-badges.test.mjs
-          node tools/metrics/traffic-badges.mjs rendered-metrics
 
       - name: Publish SVGs to the metrics-output branch
         uses: JamesIves/github-pages-deploy-action@v4
