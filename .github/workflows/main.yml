@@ -152,28 +152,8 @@ jobs:
           sed -i 's|<meta name="googlebot" content="index, follow|<meta name="googlebot" content="noindex, follow|g' release/wwwroot/index.html
           echo "✅ noindex added to GH Pages mirror"
 
-      - name: Prepare SPA routing files
-        run: |
-          # Keep the custom 404.html if it exists, otherwise copy index.html
-          if [ ! -f "release/wwwroot/404.html" ]; then
-            cp release/wwwroot/index.html release/wwwroot/404.html
-            echo "✅ 404.html created from index.html (GH Pages)"
-          else
-            echo "✅ Using existing custom 404.html (GH Pages)"
-          fi
-
-          # Add .nojekyll to prevent Jekyll processing
-          touch release/wwwroot/.nojekyll
-
-          # Netlify snapshot: 404.html must exist so deep-linked routes work
-          if [ ! -f "release-netlify/wwwroot/404.html" ]; then
-            cp release-netlify/wwwroot/index.html release-netlify/wwwroot/404.html
-            echo "✅ 404.html created from index.html (Netlify)"
-          else
-            echo "✅ Using existing custom 404.html (Netlify)"
-          fi
-
-          echo "✅ SPA routing files ready"
+      - name: Disable Jekyll processing on GitHub Pages
+        run: touch release/wwwroot/.nojekyll
 
       - name: Setup Node.js for prerendering
         uses: actions/setup-node@v7
@@ -266,24 +246,6 @@ jobs:
             prerender-diagnostics/
           if-no-files-found: ignore
           retention-days: 7
-
-      - name: Update sitemap lastmod dates
-        run: |
-          TODAY=$(date +%Y-%m-%d)
-          for sitemap in release/wwwroot/sitemap.xml release-netlify/wwwroot/sitemap.xml; do
-            if [ -f "$sitemap" ]; then
-              sed -i "s|<lastmod>.*</lastmod>|<lastmod>$TODAY</lastmod>|g" "$sitemap"
-              echo "✅ Sitemap updated with date: $TODAY ($sitemap)"
-            else
-              echo "⚠️ $sitemap not found, skipping"
-            fi
-          done
-          # Keep freshness signals consistent with the sitemap (Google uses
-          # JSON-LD dateModified / og:updated_time as page-date hints).
-          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          find release/wwwroot release-netlify/wwwroot -maxdepth 1 -name '*.html' -print0 | xargs -0 sed -i \
-            -e "s|\"dateModified\": \"[0-9-]*\"|\"dateModified\": \"$TODAY\"|g" \
-            -e "s|<meta property=\"og:updated_time\" content=\"[^\"]*\"|<meta property=\"og:updated_time\" content=\"$NOW\"|g"
 
       - name: Strip sitemap from GH Pages mirror (mirror is noindex)
         # The GH Pages mirror is fully `noindex, follow` (see earlier step).
@@ -510,7 +472,13 @@ jobs:
             echo "::warning::IndexNow key file not reachable at https://$SITE_HOST/$INDEXNOW_KEY.txt - skipping submission"
             exit 0
           fi
-          urls=$(grep -oP '(?<=<loc>)[^<]+' release-netlify/wwwroot/sitemap.xml | jq -R . | jq -sc .)
+          urls=$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            import { sitemapLocations } from "./tools/prerender/prerender-policy.mjs";
+            const urls = sitemapLocations(readFileSync(process.argv[1], "utf8"));
+            if (urls.length === 0) throw new Error("IndexNow: sitemap contains no active URLs");
+            console.log(JSON.stringify(urls));
+          ' release-netlify/wwwroot/sitemap.xml)
           payload=$(jq -nc --arg host "$SITE_HOST" --arg key "$INDEXNOW_KEY" \
             --arg loc "https://$SITE_HOST/$INDEXNOW_KEY.txt" --argjson urls "$urls" \
             '{host:$host,key:$key,keyLocation:$loc,urlList:$urls}')

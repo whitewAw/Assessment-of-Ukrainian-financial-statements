@@ -389,12 +389,11 @@ async function handleNavigationRequest(request, backgroundTasks) {
             credentials: 'same-origin'
         });
 
-        // Try network first for fresh content. Fetch the actual URL so the
-        // per-route prerendered snapshot (correct title/canonical) is served;
-        // fall back to index.html for SPA routes the host doesn't know about.
+        // Fetch the prerendered route first. Only the GitHub Pages mirror
+        // needs the SPA fallback for online 404s; Netlify has a real error page.
         try {
             const routeResponse = await fetch(request);
-            if (routeResponse.ok) {
+            if (routeResponse.ok || (routeResponse.status === 404 && url.hostname !== 'whitewaw.github.io')) {
                 return routeResponse;
             }
 

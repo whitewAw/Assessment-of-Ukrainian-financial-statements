@@ -98,19 +98,13 @@ jobs:
       # ============================================
       # Main Repository Metrics Card
       #
-      # NOTE: every metrics step `id` MUST start with `lowlighter_metrics_`.
-      # The action derives its image source from the step id via:
-      #   METRICS_SOURCE=$(echo $id | sed -E 's/metrics.*?$//g' | sed -E 's/_//g')
-      # If the result is `lowlighter`, the prebuilt image
-      # ghcr.io/lowlighter/metrics:v3.34 is pulled. Any other value (e.g. a
-      # short id like `main` or `activity`) makes the action treat the run as
-      # a forked version and rebuild the Dockerfile from scratch — which
-      # currently fails when `gem install licensed` tries to extract
-      # nokogiri's bundled libxml2 (xzcat is not in the base image).
+      # Pin every card to v3.34: the upstream v4 branch has no action manifest.
+      # Keep the `lowlighter_metrics_` step IDs so the action pulls the official
+      # prebuilt image instead of rebuilding the Dockerfile.
       # ============================================
       - name: Generate Main Metrics
         id: lowlighter_metrics_main
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
@@ -166,7 +160,7 @@ jobs:
       # ============================================
       - name: Generate Activity Metrics
         id: lowlighter_metrics_activity
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
@@ -196,7 +190,7 @@ jobs:
       # ============================================
       - name: Generate Technology Stack
         id: lowlighter_metrics_languages
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
@@ -226,7 +220,7 @@ jobs:
       # ============================================
       - name: Generate Project Stats
         id: lowlighter_metrics_stats
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
@@ -254,7 +248,7 @@ jobs:
       # ============================================
       - name: Generate Achievements
         id: lowlighter_metrics_achievements
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
@@ -282,7 +276,7 @@ jobs:
       # ============================================
       - name: Generate Compact Card
         id: lowlighter_metrics_compact
-        uses: lowlighter/metrics@v4
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg

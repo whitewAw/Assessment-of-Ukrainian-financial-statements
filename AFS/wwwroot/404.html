@@ -4,41 +4,31 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="robots" content="noindex, follow"/>
-    <title>UFIN - Redirecting...</title>
+    <title>Page Not Found | UFIN</title>
     <script>
-        // SPA redirect for GitHub Pages and Netlify
-        // Save the path and redirect to index.html
+        // Keep the SPA fallback only on the GitHub Pages mirror.
         (function() {
-            var host = location.hostname.toLowerCase();
-            var isGH = host === 'whitewaw.github.io';
-            var isNetlify = host === 'ua-finance.netlify.app';
-            var isLocal = host === 'localhost' || host === '127.0.0.1';
-            
-            // Set base path based on host. GitHub Pages also serves this 404 for
-            // paths outside the project sub-path (e.g. /characteristicsofcapital
-            // on the user root); re-prefix them so the app still loads the route.
-            var basePath = isGH ? '/Assessment-of-Ukrainian-financial-statements/' : '/';
+            if (location.hostname.toLowerCase() !== 'whitewaw.github.io') return;
+
+            var basePath = '/Assessment-of-Ukrainian-financial-statements/';
             var pathname = location.pathname;
-            if (isGH && pathname.indexOf(basePath) !== 0 && pathname.indexOf(basePath.slice(0, -1)) !== 0) {
+            if (pathname.indexOf(basePath) !== 0 && pathname !== basePath.slice(0, -1)) {
                 pathname = basePath + pathname.replace(/^\//, '');
             }
             var fullPath = pathname + location.search + location.hash;
-            
-            // Don't save if already on base path
-            if (fullPath !== basePath && fullPath !== '/') {
+            if (fullPath !== basePath) {
                 sessionStorage.setItem('ufin-redirect-path', fullPath);
             }
-            
-            // Redirect to index.html (which will handle the navigation)
             location.replace(basePath);
         })();
     </script>
-    <style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f0f0f0}p{color:#666}</style>
+    <style>body{font-family:system-ui;display:grid;place-items:center;min-height:100vh;margin:0;padding:1rem;box-sizing:border-box;background:#f0f0f0}main{text-align:center}</style>
 </head>
 <body>
-    <p>Redirecting...</p>
-    <noscript>
-        <p>JavaScript is required. <a href="/">Click here</a> to continue.</p>
-    </noscript>
+    <main>
+        <h1>Page not found</h1>
+        <p>The requested page does not exist or has moved.</p>
+        <p><a href="https://ua-finance.netlify.app/">Go to the UFIN homepage</a></p>
+    </main>
 </body>
 </html>

@@ -805,11 +805,14 @@ Yandex, DuckDuckGo, and modern AI search engines.
   with per-language prerender.
 - `sitemap.xml` lists **canonical (Netlify) URLs** only. The GitHub Pages mirror
   is `noindex` and the workflow removes `sitemap.xml` and the `Sitemap:` line
-  from its `robots.txt`, so Netlify is the intended indexed host. CI sets every
-  `<lastmod>` (plus JSON-LD `dateModified` / `og:updated_time`) to the deploy date.
+  from the mirror copy of `robots.txt`. Add `<lastmod>` only when the date of a
+  significant change to that page is known; CI does not stamp deployment dates.
+- Netlify serves the custom `404.html` with HTTP 404 for unknown paths. Valid
+  routes are served from prerendered HTML, and `/ai-assistant` still redirects
+  to `/aiassistant`. The GitHub Pages mirror retains its SPA fallback.
 - **IndexNow** (Bing, Yandex, Seznam, Naver): after each deploy the workflow
-  submits all sitemap URLs to `api.indexnow.org`; ownership is proven by the
-  key file `AFS/wwwroot/<key>.txt`.
+  submits active sitemap URLs to `api.indexnow.org` using the prerender parser;
+  it ignores XML comments. Ownership is proven by `AFS/wwwroot/<key>.txt`.
 - `llms.txt` summarises the site and its pages for AI assistants.
 - `robots.txt` explicitly allow-listing modern AI crawlers:
   `GPTBot`, `OAI-SearchBot`, `ChatGPT-User`, `ClaudeBot`, `Claude-Web`,
@@ -882,8 +885,10 @@ After deploying SEO changes:
    language preferences with the homepage canonical, not redirect loops.
 3. Check a trailing-slash calculator URL resolves to the same canonical page,
    without a redirect chain cycling between slash and slashless versions.
-4. Confirm the GitHub Pages mirror retains its project base path, `noindex`,
-   and a canonical pointing to the matching Netlify route.
+4. Request an unknown Netlify URL and confirm it returns HTTP 404 without a
+   redirect to the homepage. Confirm the GitHub Pages mirror retains its
+   project base path, `noindex`, and a canonical pointing to the matching
+   Netlify route.
 5. Resubmit the Netlify sitemap, request indexing for the important canonical
    pages, and use Validate fix for resolved redirect errors. Allow Google to
    recrawl; expected duplicate exclusions need not disappear.

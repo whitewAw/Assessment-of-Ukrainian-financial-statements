@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 import { normalizeSnapshot, validateSnapshot } from './seo-output.mjs';
 
 const route = 'https://ua-finance.netlify.app/indicatorsoffinancialstability';
@@ -62,4 +64,74 @@ test('Rejects an unrendered shell', () => {
 test('Rejects an additional empty canonical', () => {
   const html = normalizeSnapshot(source, route, '/').replace('</head>', '<link rel="canonical"></head>');
   assert.throws(() => validateSnapshot(html, route, '/'), /exactly one canonical/);
+});
+
+const mirror = 'https://whitewaw.github.io/Assessment-of-Ukrainian-financial-statements/';
+const errorPage = readFileSync(new URL('../../AFS/wwwroot/404.html', import.meta.url), 'utf8');
+const errorPageScript = errorPage.match(/<script>([\s\S]*?)<\/script>/)[1];
+
+function runErrorPage(url) {
+  const calls = [];
+  const location = new URL(url);
+  location.replace = target => calls.push(['redirect', target]);
+  runInNewContext(errorPageScript, {
+    location,
+    sessionStorage: { setItem: (key, value) => calls.push(['store', key, value]) },
+  });
+  return calls;
+}
+
+test('Netlify error page stays on the requested URL and is noindex', () => {
+  assert.deepEqual(runErrorPage('https://ua-finance.netlify.app/not-a-page'), []);
+  assert.match(errorPage, /<meta name="robots" content="noindex, follow"/);
+  assert.match(errorPage, /<h1>Page not found<\/h1>/);
+});
+
+test('GitHub Pages error fallback preserves the requested route, query and fragment', () => {
+  const base = new URL(mirror).pathname;
+  assert.deepEqual(runErrorPage(`${mirror}ai-assistant?lang=en#details`), [
+    ['store', 'ufin-redirect-path', `${base}ai-assistant?lang=en#details`],
+    ['redirect', base],
+  ]);
+});
+
+const worker = readFileSync(new URL('../../AFS/wwwroot/service-worker.published.js', import.meta.url), 'utf8');
+
+async function runWorkerNavigation(url, routeResponse) {
+  const shell = new Response('SPA shell');
+  const requests = [];
+  const backgroundTasks = [];
+  const response = await runInNewContext(`${worker}\nhandleNavigationRequest(request, backgroundTasks);`, {
+    self: { importScripts() {}, addEventListener() {}, assetsManifest: { version: 'test' } },
+    URL,
+    Request: class extends Request { constructor(path, options) { super(new URL(path, url), options); } },
+    request: new Request(url),
+    backgroundTasks,
+    caches: { open: async () => ({ put: async () => {}, match: async () => shell }) },
+    fetch: async request => {
+      requests.push(new URL(request.url).pathname);
+      if (request.url !== url) return shell;
+      if (!routeResponse) throw new TypeError('Network unavailable');
+      return routeResponse;
+    },
+    console: { info() {} },
+  });
+  await Promise.all(backgroundTasks);
+  return { response, requests };
+}
+
+test('Service worker passes through Netlify 404 without requesting the homepage', async () => {
+  const notFound = new Response('Page not found', { status: 404 });
+  const result = await runWorkerNavigation('https://ua-finance.netlify.app/not-a-page', notFound);
+  assert.equal(result.response, notFound);
+  assert.deepEqual(result.requests, ['/not-a-page']);
+});
+
+test('Service worker still serves the SPA shell for GitHub Pages fallback and offline navigation', async () => {
+  const github = await runWorkerNavigation(`${mirror}ai-assistant`, new Response(null, { status: 404 }));
+  assert.equal(await github.response.text(), 'SPA shell');
+  assert.deepEqual(github.requests, [new URL(`${mirror}ai-assistant`).pathname, new URL(`${mirror}index.html`).pathname]);
+  const offline = await runWorkerNavigation('https://ua-finance.netlify.app/aiassistant');
+  assert.equal(await offline.response.text(), 'SPA shell');
+  assert.deepEqual(offline.requests, ['/aiassistant']);
 });

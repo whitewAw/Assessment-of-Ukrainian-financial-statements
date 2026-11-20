@@ -19,20 +19,20 @@
   status = 301
   force = true
 
+[[redirects]]
+  from = "/Assessment-of-Ukrainian-financial-statements/aiassistant"
+  to = "/aiassistant"
+  status = 301
+  force = true
+
 # NOTE: Do NOT add a "/:slug/" -> "/:slug" rule. Netlify ignores trailing
 # slashes when matching, so it also matches every root file (favicon.ico,
 # service-worker.js, icons, ...) and with force=true causes
 # ERR_TOO_MANY_REDIRECTS. Trailing-slash duplicates are handled by the
 # canonical tag instead.
 
-# SPA catch-all for Blazor client-side routing.
-# Netlify serves existing static files (favicon.ico, sitemap.xml, robots.txt, etc.)
-# BEFORE evaluating redirect rules, so this only fires for Blazor routes
-# that have no corresponding file on disk.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Valid routes have prerendered HTML. Let Netlify serve 404.html with HTTP 404
+# for unmatched paths instead of rewriting them to the homepage.
 
 # Global headers
 [[headers]]
@@ -52,12 +52,11 @@
     # every visitor and must not be a shared secret.
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.visitorbadge.io; font-src 'self' data:; connect-src 'self' https://api.openai.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
-# HTML - no cache, indexable
+# HTML - revalidate; robots directives are set per page.
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    X-Robots-Tag = "index, follow"
 
 # WASM - AOT optimized (long cache + correct MIME)
 [[headers]]

@@ -7,13 +7,12 @@
 	https://ua-finance.netlify.app/
 	Optimized for Google Search
 	Supported Languages: 15 (uk, en, pl, ro, hu, cs, de, nl, fr, it, es, tr, zh, ja, ru)
-	<lastmod> values are set to the deploy date by CI (.github/workflows/main.yml)
+	Add lastmod only when a significant page update date is known.
 	-->
 
 	<!-- Homepage -->
 	<url>
 		<loc>https://ua-finance.netlify.app/</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>1.0</priority>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://ua-finance.netlify.app/"/>
@@ -26,7 +25,6 @@
 	<!-- AI Assistant -->
 	<url>
 		<loc>https://ua-finance.netlify.app/aiassistant</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.95</priority>
 		<xhtml:link rel="alternate" hreflang="x-default" href="https://ua-finance.netlify.app/aiassistant"/>
@@ -35,7 +33,6 @@
 	<!-- Liquidity Analysis -->
 	<url>
 		<loc>https://ua-finance.netlify.app/liquidityindicatorsofbalance</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.9</priority>
 	</url>
@@ -43,7 +40,6 @@
 	<!-- Solvency Ratios -->
 	<url>
 		<loc>https://ua-finance.netlify.app/solvencyratios</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.9</priority>
 	</url>
@@ -51,7 +47,6 @@
 	<!-- Financial Stability -->
 	<url>
 		<loc>https://ua-finance.netlify.app/generalindicatorsoffinancialstability</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.9</priority>
 	</url>
@@ -59,7 +54,6 @@
 	<!-- Business Activity -->
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsofbusinessactivity</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.9</priority>
 	</url>
@@ -67,7 +61,6 @@
 	<!-- Capital Structure -->
 	<url>
 		<loc>https://ua-finance.netlify.app/characteristicsofcapital</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
@@ -75,7 +68,6 @@
 	<!-- Current Assets Turnover -->
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsofturnoverofcurrentassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
@@ -83,7 +75,6 @@
 	<!-- Working Capital Factors -->
 	<url>
 		<loc>https://ua-finance.netlify.app/factorsaffectingturnoverofworkingcapital</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -91,7 +82,6 @@
 	<!-- Working Capital Efficiency -->
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsofefficiencyofworkingcapital</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
@@ -99,28 +89,24 @@
 	<!-- Fixed Assets -->
 	<url>
 		<loc>https://ua-finance.netlify.app/availabilityandmovementoffixedassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsofstateandmovementoffixedassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/calculationofindicatorsofefficiencyofuseoffixedassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/factoranalysisoffixedassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -128,7 +114,6 @@
 	<!-- Intangible Assets -->
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsofefficiencyofuseofintangibleassets</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -136,7 +121,6 @@
 	<!-- Capital Sources -->
 	<url>
 		<loc>https://ua-finance.netlify.app/sourcesofcapitalformation</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
@@ -144,7 +128,6 @@
 	<!-- Receivables & Payables -->
 	<url>
 		<loc>https://ua-finance.netlify.app/assessmentofreceivableandpayable</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
@@ -152,14 +135,12 @@
 	<!-- Financial Stability Details -->
 	<url>
 		<loc>https://ua-finance.netlify.app/indicatorsoffinancialstability</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.85</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/classificationoftypesoffinancialstability</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -167,49 +148,42 @@
 	<!-- Charts -->
 	<url>
 		<loc>https://ua-finance.netlify.app/compositionofassetsbase</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/compositionofassetscurrent</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/sourcesofcapitalformationbase</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/sourcesofcapitalformationcurrent</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/structureofaccountspayablebase</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/structureofaccountspayablecurrent</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/workingcapitalturnovertime</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
@@ -217,14 +191,12 @@
 	<!-- Help & About -->
     <!--<url>
 		<loc>https://ua-finance.netlify.app/help</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.6</priority>
 	</url>
 
 	<url>
 		<loc>https://ua-finance.netlify.app/about</loc>
-		<lastmod>2025-01-21</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.6</priority>
 	</url>-->
