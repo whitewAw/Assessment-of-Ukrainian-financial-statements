@@ -9,9 +9,10 @@
 [![Stand With Ukraine](https://img.shields.io/badge/Stand_With-Ukraine-FFD500?labelColor=005BBB)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 [![Developed by](https://img.shields.io/badge/Developed_by-Alex_%28Oleksandr%29_Shevchenko-0066CC?logo=github)](https://github.com/whitewAw)
 
-**Traffic reports:** [Netlify tracked hits](https://www.visitorbadge.io/status?path=https%3A%2F%2Fua-finance.netlify.app) · [GitHub Pages tracked hits](https://www.visitorbadge.io/status?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements)
+[![Netlify tracked hits](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/traffic-netlify.svg)](https://www.visitorbadge.io/status?path=https%3A%2F%2Fua-finance.netlify.app)
+[![GitHub Pages tracked hits](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/traffic-github-pages.svg)](https://www.visitorbadge.io/status?path=https%3A%2F%2Fwhitewaw.github.io%2FAssessment-of-Ukrainian-financial-statements)
 
-These are VisitorBadge.io pixel hits on document loads, not unique visitors or counts of every in-app navigation. Historical totals include requests from the former README badges and automated browsers. For Netlify pageviews and unique IPs, use [Netlify Web Analytics](https://docs.netlify.com/manage/monitoring/web-analytics/overview/). No GitHub profile-view total is shown here: the former badge counted proxy requests from this repository, not just visits to the profile.
+The [Metrics workflow](.github/workflows/metrics.yml) refreshes these snapshots weekly; click either badge for the current report. These are tracked hits, not unique visitors. Historical totals include proxy requests and automated browsers. For Netlify pageviews and unique IPs, use [Netlify Web Analytics](https://docs.netlify.com/manage/monitoring/web-analytics/overview/).
 
 > 🎯 A comprehensive Progressive Web App (PWA) for analyzing Ukrainian financial statements with **AI-powered insights**, built with Blazor WebAssembly and optimized for performance with AOT compilation.
 
