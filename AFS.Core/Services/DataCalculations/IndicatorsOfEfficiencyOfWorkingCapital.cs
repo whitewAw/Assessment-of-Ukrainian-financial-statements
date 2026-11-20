@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -8,9 +8,9 @@ namespace AFS.Core.Services.DataCalculations
         public TwoYearsCalculationData NetIncomeFromSales { get; private set; } = new();
         public TwoYearsCalculationData AverageWorkingCapitalBalances { get; private set; } = new();
         public TwoYearsCalculationData NetProfit { get; private set; } = new();
-        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; private set; } = new();
-        public TwoYearsCalculationData ProfitabilityOfCurrentAssets { get; private set; } = new();
-        public TwoYearsCalculationData IntegratedIndicatorOfEfficiencyOfCurrentAssets { get; private set; } = new();
+        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; private set; } = new() { PreserveUnavailable = true };
+        public TwoYearsCalculationData ProfitabilityOfCurrentAssets { get; private set; } = new() { PreserveUnavailable = true };
+        public TwoYearsCalculationData IntegratedIndicatorOfEfficiencyOfCurrentAssets { get; private set; } = new() { PreserveUnavailable = true };
 
         public IndicatorsOfEfficiencyOfWorkingCapital(AfsModel model) => Init(model);
 
@@ -41,8 +41,8 @@ namespace AFS.Core.Services.DataCalculations
         private void NetProfitInit(AfsModel model)
         {
             NetProfit.Number = "3.";
-            NetProfit.BaseYear = model.F2Base.GetF2465Current();
-            NetProfit.CurrentYear = model.F2Current.GetF2465Current();
+            NetProfit.BaseYear = model.F2Base.GetNetResultCurrent();
+            NetProfit.CurrentYear = model.F2Current.GetNetResultCurrent();
         }
         private void TurnoverOfWorkingCapitalTimesInit(IndicatorsOfTurnoverOfCurrentAssets iTCA)
         {

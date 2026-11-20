@@ -1,4 +1,4 @@
-﻿using AFS.Core.Interfaces;
+using AFS.Core.Interfaces;
 
 namespace AFS.Core.Models.TablsModels
 {
@@ -8,6 +8,7 @@ namespace AFS.Core.Models.TablsModels
         private double _currentYear;
 
         public string? Number { get; set; }
+        public bool PreserveUnavailable { get; init; }
 
         public double BaseYear
         {
@@ -27,6 +28,10 @@ namespace AFS.Core.Models.TablsModels
         {
             get
             {
+                if (PreserveUnavailable)
+                {
+                    return SafeValue(AfsConstraints.SafeRatio(CurrentYear, BaseYear) * 100);
+                }
                 if (AfsConstraints.IsEffectivelyZero(BaseYear))
                 {
                     return AfsConstraints.IsEffectivelyZero(CurrentYear) ? 0 : 100;
@@ -35,16 +40,13 @@ namespace AFS.Core.Models.TablsModels
             }
         }
 
-        /// <summary>
-        /// Ensures the value is safe for JSON serialization (no NaN or Infinity)
-        /// </summary>
-        private static double SafeValue(double value)
+        private double SafeValue(double value)
         {
-            if (double.IsNaN(value) || double.IsInfinity(value))
+            if (double.IsFinite(value))
             {
-                return 0;
+                return value;
             }
-            return value;
+            return PreserveUnavailable ? double.NaN : 0;
         }
     }
 }

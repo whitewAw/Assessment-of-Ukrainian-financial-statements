@@ -646,6 +646,11 @@ Update `README.md`:
 - Fixed Assets Productivity
 - Intangible Assets ROI
 
+Gross margin and working-capital profitability retain losses as negative values.
+Working-capital profitability uses Form 2 net profit or loss (lines 2350/2355),
+not comprehensive income (line 2465). An em dash marks an undefined ratio or a
+stability classification with no closing balance data for that year.
+
 ### Interactive Visualizations
 - 📊 Pie charts for composition analysis
 - 📈 Line charts for trend analysis
@@ -1100,26 +1105,30 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 
 ## 📊 Repository Metrics
 
+The [Metrics workflow](.github/workflows/metrics.yml) saves fresh SVGs as a run
+artifact and publishes a complete set to `metrics-output`, without writing to
+`main`. The cards below become available after the first successful publish.
+
 ### Project Statistics
 
-![Metrics](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics.svg)
+![Metrics](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/metrics.svg)
 
 ### Technology Stack
 
-![Languages](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-languages.svg)
+![Languages](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/metrics-languages.svg)
 
 ### Activity & Growth
 
 <div align="center">
-  
-![Activity](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-activity.svg)
-  
-![Stats](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-stats.svg)
+
+![Activity](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/metrics-activity.svg)
+
+![Stats](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/metrics-stats.svg)
 
 </div>
 
 ### Achievements
 
-![Achievements](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/main/metrics-achievements.svg)
+![Achievements](https://raw.githubusercontent.com/whitewAw/Assessment-of-Ukrainian-financial-statements/metrics-output/metrics-achievements.svg)
 
 ---

@@ -1,28 +1,30 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
 {
     public class IndicatorsOfBusinessActivity
     {
-        public TwoYearsCalculationData GrossProfitPerSoldProducts { get; private set; } = new();
-        public TwoYearsCalculationData CoefficientOfBusinessActivity { get; private set; } = new();
-        public TwoYearsCalculationData CoefficientOfEfficiencFinancialResources { get; private set; } = new();
-        public TwoYearsCalculationData CoefficientOfOwnFundsUtilization { get; private set; } = new();
-        public TwoYearsCalculationData ProfitabilityRatioOfEnterprise { get; private set; } = new();
-        public TwoYearsCalculationData ProductivityOfOneAverageEmployee { get; private set; } = new();
-        public TwoYearsCalculationData ReturnOnFixedAssets { get; private set; } = new();
-        public TwoYearsCalculationData RevolutionsFromReceivables { get; private set; } = new();
-        public TwoYearsCalculationData ReceivablesTurnover { get; private set; } = new();
-        public TwoYearsCalculationData TurnoverOfInventoriesRevolutions { get; private set; } = new();
-        public TwoYearsCalculationData TurnoverOfInventoriesDays { get; private set; } = new();
-        public TwoYearsCalculationData OperatingCycleDuration { get; private set; } = new();
-        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; private set; } = new();
-        public TwoYearsCalculationData TurnoverOfWorkingCapital { get; private set; } = new();
-        public TwoYearsCalculationData TurnoverOfEquity { get; private set; } = new();
-        public TwoYearsCalculationData TurnoverOfTotalCapital { get; private set; } = new();
-        public TwoYearsCalculationData CoefficientOfStabilityOfEconomicGrowth { get; private set; } = new();
-        public TwoYearsCalculationData ReturnOnEquityPeriod { get; private set; } = new();
+        public TwoYearsCalculationData GrossProfitPerSoldProducts { get; } = NewMetric();
+        public TwoYearsCalculationData CoefficientOfBusinessActivity { get; } = NewMetric();
+        public TwoYearsCalculationData CoefficientOfEfficiencFinancialResources { get; } = NewMetric();
+        public TwoYearsCalculationData CoefficientOfOwnFundsUtilization { get; } = NewMetric();
+        public TwoYearsCalculationData ProfitabilityRatioOfEnterprise { get; } = NewMetric();
+        public TwoYearsCalculationData ProductivityOfOneAverageEmployee { get; } = NewMetric();
+        public TwoYearsCalculationData ReturnOnFixedAssets { get; } = NewMetric();
+        public TwoYearsCalculationData RevolutionsFromReceivables { get; } = NewMetric();
+        public TwoYearsCalculationData ReceivablesTurnover { get; } = NewMetric();
+        public TwoYearsCalculationData TurnoverOfInventoriesRevolutions { get; } = NewMetric();
+        public TwoYearsCalculationData TurnoverOfInventoriesDays { get; } = NewMetric();
+        public TwoYearsCalculationData OperatingCycleDuration { get; } = NewMetric();
+        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; } = NewMetric();
+        public TwoYearsCalculationData TurnoverOfWorkingCapital { get; } = NewMetric();
+        public TwoYearsCalculationData TurnoverOfEquity { get; } = NewMetric();
+        public TwoYearsCalculationData TurnoverOfTotalCapital { get; } = NewMetric();
+        public TwoYearsCalculationData CoefficientOfStabilityOfEconomicGrowth { get; } = NewMetric();
+        public TwoYearsCalculationData ReturnOnEquityPeriod { get; } = NewMetric();
+
+        private static TwoYearsCalculationData NewMetric() => new() { PreserveUnavailable = true };
 
         public IndicatorsOfBusinessActivity(AfsModel model) => Init(model);
         private void Init(AfsModel model)
@@ -54,8 +56,8 @@ namespace AFS.Core.Services.DataCalculations
         private void GrossProfitPerSoldProductsInit(AfsModel model)
         {
             GrossProfitPerSoldProducts.Number = "1.";
-            GrossProfitPerSoldProducts.BaseYear = model.F2Base.GetF2090Current() / model.F2Base.F2000.Current;
-            GrossProfitPerSoldProducts.CurrentYear = model.F2Current.GetF2090Current() / model.F2Current.F2000.Current;
+            GrossProfitPerSoldProducts.BaseYear = AfsConstraints.SafeRatio(model.F2Base.GetGrossResultCurrent(), model.F2Base.F2000.Current);
+            GrossProfitPerSoldProducts.CurrentYear = AfsConstraints.SafeRatio(model.F2Current.GetGrossResultCurrent(), model.F2Current.F2000.Current);
         }
         private void CoefficientOfBusinessActivityInit(AfsModel model)
         {
@@ -66,8 +68,8 @@ namespace AFS.Core.Services.DataCalculations
         private void CoefficientOfEfficiencFinancialResourcesInit(AfsModel model)
         {
             CoefficientOfEfficiencFinancialResources.Number = "3.";
-            CoefficientOfEfficiencFinancialResources.BaseYear = model.F2Base.GetF2290Current() / ((model.F1Base.GetF1900Begin() + model.F1Base.GetF1900End()) / 2);
-            CoefficientOfEfficiencFinancialResources.CurrentYear = model.F2Current.GetF2290Current() / ((model.F1Current.GetF1900Begin() + model.F1Current.GetF1900End()) / 2);
+            CoefficientOfEfficiencFinancialResources.BaseYear = model.F2Base.GetPreTaxResultCurrent() / ((model.F1Base.GetF1900Begin() + model.F1Base.GetF1900End()) / 2);
+            CoefficientOfEfficiencFinancialResources.CurrentYear = model.F2Current.GetPreTaxResultCurrent() / ((model.F1Current.GetF1900Begin() + model.F1Current.GetF1900End()) / 2);
         }
         private void CoefficientOfOwnFundsUtilizationInit(AfsModel model, SourcesOfCapitalFormation sOCF)
         {

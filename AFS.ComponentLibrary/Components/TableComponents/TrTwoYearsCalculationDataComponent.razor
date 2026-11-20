@@ -1,9 +1,9 @@
 <tr>
     <TdComponent TextAlignment="ML">@Item.Number</TdComponent>
     <TdComponent TextAlignment="ML" Spacing=@Spacing>@ChildContent</TdComponent>
-    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.BaseYear, Digits)</TdComponent>
-    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.CurrentYear, Digits)</TdComponent>
-    <TdComponent TextAlignment="MR" Spacing="pr-2">@AfsConstraints.RoundStr(Item.Deviations, Digits)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@FormatMetric(Item.BaseYear)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@FormatMetric(Item.CurrentYear)</TdComponent>
+    <TdComponent TextAlignment="MR" Spacing="pr-2">@FormatMetric(Item.Deviations)</TdComponent>
     <TdComponent TextAlignment="MR" Spacing="pr-2">@GetGrowthRate()</TdComponent>
 </tr>
 
@@ -18,6 +18,21 @@
     public string? Spacing { get; set; } = String.Empty;
     [Parameter]
     public bool? IsShowGrowthRate { get; set; } = true;
+    [Parameter]
+    public bool AsPercentage { get; set; }
+
+    private string FormatMetric(double value) => Format(AsPercentage ? value * 100 : value, Digits);
+
+    private string Format(double value, int digits)
+    {
+        if (!Item.PreserveUnavailable)
+        {
+            return AfsConstraints.RoundStr(value, digits);
+        }
+        return double.IsFinite(value)
+            ? AfsConstraints.Round(value, digits).ToString($"F{digits}", System.Globalization.CultureInfo.CurrentCulture)
+            : "—";
+    }
 
     private string GetGrowthRate()
     {
@@ -25,6 +40,6 @@
         {
             return "x";
         }
-        return AfsConstraints.RoundStr(Item.GrowthRate, Digits > 2 ? 2 : Digits);
+        return Format(Item.GrowthRate, Digits > 2 ? 2 : Digits);
     }
 }

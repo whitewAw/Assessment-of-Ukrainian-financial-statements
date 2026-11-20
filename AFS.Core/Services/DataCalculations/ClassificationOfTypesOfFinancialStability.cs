@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -18,7 +18,25 @@ namespace AFS.Core.Services.DataCalculations
             NormalFinancialStabilityInit(lIOB);
             PreCrisisFinancialStabilityInit(lIOB);
             CrisisFinancialStabilityInit(lIOB);
+
+            var hasBase = HasClosingData(lIOB.A1P1Bace, lIOB.A2P2Bace, lIOB.A3P3Bace, lIOB.A4P4Bace);
+            var hasCurrent = HasClosingData(lIOB.A1P1Current, lIOB.A2P2Current, lIOB.A3P3Current, lIOB.A4P4Current);
+            foreach (var row in new[] { AbsoluteFinancialStability, NormalFinancialStability, PreCrisisFinancialStability, CrisisFinancialStability })
+            {
+                if (!hasBase)
+                {
+                    row.CurrentBVal = row.ShortBVal = row.LongBVal = "—";
+                }
+                if (!hasCurrent)
+                {
+                    row.CurrentCVal = row.ShortCVal = row.LongCVal = "—";
+                }
+            }
         }
+
+        private static bool HasClosingData(params LiquidityIndicatorsOfBalanceRow[] groups) =>
+            Array.Exists(groups, group => !AfsConstraints.IsZeroOrInvalid(group.AEnd) || !AfsConstraints.IsZeroOrInvalid(group.PEnd));
+
         private void AbsoluteFinancialStabilityInit(LiquidityIndicatorsOfBalance lIOB)
         {
             AbsoluteFinancialStability.Number = "1.";

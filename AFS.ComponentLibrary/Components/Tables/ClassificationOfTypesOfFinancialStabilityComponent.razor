@@ -1,4 +1,4 @@
-﻿@page "/classificationoftypesoffinancialstability"
+@page "/classificationoftypesoffinancialstability"
 @inject ClassificationOfTypesOfFinancialStability ClassificationOfTypesOfFinancialStability
 @inject AfsModel AfsModel
 <SeoHead Title="Financial Stability Classification | UFIN"
@@ -99,7 +99,8 @@ CRITICAL FORMATTING RULES:
 - Reference numbers naturally in sentences
 
 DATA STRUCTURE:
-This table provides the FINAL VERDICT on financial stability by testing the company against FOUR stability types across THREE time perspectives (Current, Short-term, Long-term) for TWO years ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+This table tests FOUR stability types across THREE time perspectives (Current, Short-term, Long-term) for TWO years ({MainModel.BaseYear} and {MainModel.CurrentYear}).
+A null result means insufficient closing balance data. Do not treat it as a pass or fail, and do not assign a stability type for that year.
 
 THE FOUR TYPES OF FINANCIAL STABILITY:
 

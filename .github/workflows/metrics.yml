@@ -19,16 +19,13 @@ concurrency:
   group: "metrics"
   cancel-in-progress: true
 
-# Workflow-wide read-only default; the job below grants contents:write.
 permissions:
   contents: read
 
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: write
+    timeout-minutes: 100
 
     # Workflow-wide defaults - applied to every metrics step.
     env:
@@ -105,16 +102,11 @@ jobs:
       - name: Generate Main Metrics
         id: lowlighter_metrics_main
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics.svg
-          # output_action defaults to 'commit' — the action writes the SVG into
-          # the workspace and pushes a single commit per card. This is the
-          # action's primary supported code path; 'none' + manual collection
-          # produced silent failures (empty /metrics_renders) regardless of
-          # plugin configuration.
-          # 'verify: yes' is omitted because its validator silently deletes
-          # SVGs it doesn't approve, with no actionable diagnostic.
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -161,9 +153,11 @@ jobs:
       - name: Generate Activity Metrics
         id: lowlighter_metrics_activity
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-activity.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -191,9 +185,11 @@ jobs:
       - name: Generate Technology Stack
         id: lowlighter_metrics_languages
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-languages.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -221,9 +217,11 @@ jobs:
       - name: Generate Project Stats
         id: lowlighter_metrics_stats
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-stats.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -249,9 +247,11 @@ jobs:
       - name: Generate Achievements
         id: lowlighter_metrics_achievements
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-achievements.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: classic
@@ -277,9 +277,11 @@ jobs:
       - name: Generate Compact Card
         id: lowlighter_metrics_compact
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        timeout-minutes: 15
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           filename: metrics-compact.svg
+          output_action: none
 
           user: ${{ env.METRICS_USER }}
           template: repository
@@ -297,20 +299,14 @@ jobs:
           plugin_traffic: yes
         continue-on-error: true
 
-      # ============================================
-      # Safety net: upload generated SVGs as a workflow artifact even if the
-      # metrics action's auto-commit fails (rate limit, permission drift, etc.).
-      # The action writes SVGs to the repo root before committing, so they're
-      # available in the workspace regardless of commit outcome.
-      # ============================================
-      - name: Upload metrics artifacts
-        if: always()
+      - name: Upload freshly rendered SVGs
+        id: upload_metrics
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
           name: metrics-svgs
-          path: |
-            metrics*.svg
-          if-no-files-found: warn
+          path: /metrics_renders/metrics*.svg
+          if-no-files-found: error
           retention-days: 30
 
       # ============================================
@@ -326,6 +322,7 @@ jobs:
           STATS_OUTCOME: ${{ steps.lowlighter_metrics_stats.outcome }}
           ACHIEVEMENTS_OUTCOME: ${{ steps.lowlighter_metrics_achievements.outcome }}
           COMPACT_OUTCOME: ${{ steps.lowlighter_metrics_compact.outcome }}
+          ARTIFACT_URL: ${{ steps.upload_metrics.outputs.artifact-url }}
         run: |
           icon() {
             case "$1" in
@@ -349,17 +346,53 @@ jobs:
             echo "| Achievements  | \`metrics-achievements.svg\` | $(icon "$ACHIEVEMENTS_OUTCOME") $ACHIEVEMENTS_OUTCOME |"
             echo "| Compact       | \`metrics-compact.svg\`      | $(icon "$COMPACT_OUTCOME") $COMPACT_OUTCOME |"
             echo ""
-            echo "🕒 Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-            echo "📦 SVGs are also available as the **metrics-svgs** workflow artifact (30-day retention)."
+            echo "🕒 Summary generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            if [ -n "$ARTIFACT_URL" ]; then
+              echo "📦 Fresh renders: [metrics-svgs]($ARTIFACT_URL) (30-day retention)."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-          # Surface a non-fatal warning in the run log if any card failed,
-          # so the run is still marked green but the failure is visible.
-          failed=0
           for outcome in "$MAIN_OUTCOME" "$ACTIVITY_OUTCOME" "$LANGUAGES_OUTCOME" \
                           "$STATS_OUTCOME" "$ACHIEVEMENTS_OUTCOME" "$COMPACT_OUTCOME"; do
-            [ "$outcome" = "failure" ] && failed=$((failed + 1))
+            if [ "$outcome" != "success" ]; then
+              echo "::error::One or more metrics cards did not render successfully; not publishing a partial set."
+              exit 1
+            fi
           done
-          if [ "$failed" -gt 0 ]; then
-            echo "::warning::$failed metrics card(s) failed - see step logs above."
-          fi
+
+  publish-metrics:
+    needs: github-metrics
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Download fresh renders
+        uses: actions/download-artifact@v8
+        with:
+          name: metrics-svgs
+          path: rendered-metrics
+
+      - name: Verify the complete SVG set
+        run: |
+          for card in metrics metrics-activity metrics-languages metrics-stats metrics-achievements metrics-compact; do
+            file="rendered-metrics/$card.svg"
+            if [ ! -s "$file" ] || ! grep -q '<svg[[:space:]>]' "$file"; then
+              echo "::error file=$file::Missing or invalid metrics SVG."
+              exit 1
+            fi
+          done
+
+      - name: Publish SVGs to the metrics-output branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: metrics-output
+          folder: rendered-metrics
+          clean: true
+          force: false
+          commit-message: "Update repository metrics"

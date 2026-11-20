@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -7,10 +7,10 @@ namespace AFS.Core.Services.DataCalculations
     {
         public TwoYearsCalculationData NetIncomeFromSales { get; private set; } = new();
         public TwoYearsCalculationData AverageNumberOfEmployees { get; private set; } = new();
-        public TwoYearsCalculationData ProductivityOfOneAverageEmployee { get; private set; } = new();
+        public TwoYearsCalculationData ProductivityOfOneAverageEmployee { get; private set; } = new() { PreserveUnavailable = true };
         public TwoYearsCalculationData AverageAnnualCostOfFixedAssets { get; private set; } = new();
         public TwoYearsCalculationData LaborCapitalOfOneAverageEmployee { get; private set; } = new();
-        public TwoYearsCalculationData ReturnOnFixedAssets { get; private set; } = new();
+        public TwoYearsCalculationData ReturnOnFixedAssets { get; private set; } = new() { PreserveUnavailable = true };
 
         public FactorAnalysisOfFixedAssets(AfsModel model) => Init(model);
         private void Init(AfsModel model)

@@ -153,16 +153,20 @@ public static class JsonSerializationHelper
         NonCurrentAssets = new BalanceItemData { Beginning = SafeValue(f1.GetF1095Begin()), End = SafeValue(f1.GetF1095End()) },
         CurrentAssets = new BalanceItemData { Beginning = SafeValue(f1.GetF1195Begin()), End = SafeValue(f1.GetF1195End()) },
         Equity = new BalanceItemData { Beginning = SafeValue(f1.GetF1495Begin()), End = SafeValue(f1.GetF1495End()) },
-        TotalLiabilities = new BalanceItemData { Beginning = SafeValue(f1.GetF1900Begin()), End = SafeValue(f1.GetF1900End()) },
+        TotalLiabilities = new BalanceItemData
+        {
+            Beginning = SafeValue(f1.GetF1595Begin() + f1.GetF1695Begin() + f1.F1700.Begin),
+            End = SafeValue(f1.GetF1595End() + f1.GetF1695End() + f1.F1700.End)
+        },
         CurrentLiabilities = new BalanceItemData { Beginning = SafeValue(f1.GetF1695Begin()), End = SafeValue(f1.GetF1695End()) }
     };
 
     private static YearIncomeData CreateYearIncomeData(Form2 f2) => new()
     {
         Revenue = SafeValue(f2.F2000.Current),
-        GrossProfit = SafeValue(f2.F2050.Current),
-        OperatingProfit = SafeValue(f2.GetF2190Current()),
-        NetProfit = SafeValue(f2.GetF2350Current())
+        GrossProfit = SafeValue(f2.GetGrossResultCurrent()),
+        OperatingProfit = SafeValue(f2.GetOperatingResultCurrent()),
+        NetProfit = SafeValue(f2.GetNetResultCurrent())
     };
 
     /// <summary>
@@ -177,7 +181,12 @@ public static class JsonSerializationHelper
         IHasStabilityValues precrisisStability,
         IHasStabilityValues crisisStability)
     {
-        static bool IsPass(string value) => string.Equals(value, "+", StringComparison.Ordinal);
+        static bool? IsPass(string value) => value switch
+        {
+            "+" => true,
+            "-" => false,
+            _ => null
+        };
 
         var data = new StabilityClassificationData
         {
@@ -713,18 +722,12 @@ public static class JsonSerializationHelper
         };
     }
 
-    private static BusinessActivityMetricData CreateBusinessActivityMetric(IHasBaseCurrentYear source)
+    private static BusinessActivityMetricData CreateBusinessActivityMetric(IHasBaseCurrentYear source) => new()
     {
-        var baseYear = SafeValue(source.BaseYear);
-        var currentYear = SafeValue(source.CurrentYear);
-
-        return new BusinessActivityMetricData
-        {
-            BaseYear = baseYear,
-            CurrentYear = currentYear,
-            Change = CalculatePercentageChange(baseYear, currentYear)
-        };
-    }
+        BaseYear = NullableFiniteValue(source.BaseYear),
+        CurrentYear = NullableFiniteValue(source.CurrentYear),
+        Change = NullableFiniteValue(AfsConstraints.SafeRatio(source.CurrentYear - source.BaseYear, source.BaseYear) * 100)
+    };
 
     private static IntangibleAssetMetricData CreateIntangibleAssetMetric(IHasBaseCurrentYear source)
     {
@@ -746,10 +749,10 @@ public static class JsonSerializationHelper
     {
         return new TurnoverMetricData
         {
-            RevolutionsBase = SafeValue(revolutionsSource.BaseYear),
-            RevolutionsCurrent = SafeValue(revolutionsSource.CurrentYear),
-            DaysBase = SafeValue(daysSource.BaseYear),
-            DaysCurrent = SafeValue(daysSource.CurrentYear)
+            RevolutionsBase = NullableFiniteValue(revolutionsSource.BaseYear),
+            RevolutionsCurrent = NullableFiniteValue(revolutionsSource.CurrentYear),
+            DaysBase = NullableFiniteValue(daysSource.BaseYear),
+            DaysCurrent = NullableFiniteValue(daysSource.CurrentYear)
         };
     }
 

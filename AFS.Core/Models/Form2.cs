@@ -153,6 +153,11 @@ namespace AFS.Core.Models
         public double GetF2095Current() => F2000.Current < F2050.Current ? F2000.Current - F2050.Current : 0;
         public double GetF2095Previous() => F2000.Previous < F2050.Previous ? F2000.Previous - F2050.Previous : 0;
 
+        public double GetGrossResultCurrent() => F2000.Current - F2050.Current;
+        public double GetOperatingResultCurrent() => FinancialResultFromOperatingActivities(true);
+        public double GetPreTaxResultCurrent() => FinancialResultBeforeTax(true);
+        public double GetNetResultCurrent() => NetFinancialResult(true);
+
         public double GetF2190Current()
         {
             double res = FinancialResultFromOperatingActivities(true);

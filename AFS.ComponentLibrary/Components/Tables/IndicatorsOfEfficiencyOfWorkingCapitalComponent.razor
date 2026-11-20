@@ -1,4 +1,4 @@
-﻿@page "/indicatorsofefficiencyofworkingcapital"
+@page "/indicatorsofefficiencyofworkingcapital"
 @inject IndicatorsOfEfficiencyOfWorkingCapital IndicatorsOfEfficiencyOfWorkingCapital
 @inject AfsModel AfsModel
 <SeoHead Title="Working-Capital Efficiency Metrics | UFIN"
@@ -51,6 +51,7 @@ Company: {MainModel.CompanyName}
 Period: {MainModel.BaseYear}-{MainModel.CurrentYear}
 
 ROW-BY-ROW DATA STRUCTURE:
+Non-finite values (NaN) mean the metric is unavailable; do not treat them as zero or infer a result from them.
 
 **1. NET REVENUE FROM SALES** (thousand UAH)
    {MainModel.BaseYear}: {IndicatorsOfEfficiencyOfWorkingCapital.NetIncomeFromSales.BaseYear:N2}

@@ -10,7 +10,7 @@
     <table class="table table-bordered py-0 table-sm table-striped">
         <THeadCommonComponent />
         <tbody>
-            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts Digits=2>@ResLoc["GrossProfitPerSoldProducts"], @ResLoc["currency"]</TrTwoYearsCalculationDataComponent>
+            <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfBusinessActivity.GrossProfitPerSoldProducts Digits=2 AsPercentage=true IsShowGrowthRate=false>@ResLoc["GrossProfitPerSoldProducts"], %</TrTwoYearsCalculationDataComponent>
             <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfBusinessActivity.CoefficientOfBusinessActivity Digits=2 IsShowGrowthRate=false>@ResLoc["CoefficientOfBusinessActivity"]</TrTwoYearsCalculationDataComponent>
             <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfBusinessActivity.CoefficientOfEfficiencFinancialResources Digits=2 IsShowGrowthRate=false>@ResLoc["CoefficientOfEfficiencFinancialResources"]</TrTwoYearsCalculationDataComponent>
             <TrTwoYearsCalculationDataComponent Item=@IndicatorsOfBusinessActivity.CoefficientOfOwnFundsUtilization Digits=2 IsShowGrowthRate=false>@ResLoc["CoefficientOfOwnFundsUtilization"]</TrTwoYearsCalculationDataComponent>

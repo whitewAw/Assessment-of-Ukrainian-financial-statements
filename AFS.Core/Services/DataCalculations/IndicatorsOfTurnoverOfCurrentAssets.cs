@@ -1,4 +1,4 @@
-﻿using AFS.Core.Models;
+using AFS.Core.Models;
 using AFS.Core.Models.TablsModels;
 
 namespace AFS.Core.Services.DataCalculations
@@ -53,7 +53,7 @@ namespace AFS.Core.Services.DataCalculations
         /// Lower is better (faster turnover)
         /// Example: 319.54 (2019) → 281.09 (2020) = improvement of 38.45 days
         /// </summary>
-        public TwoYearsCalculationData TurnoverOfWorkingCapital { get; private set; } = new();
+        public TwoYearsCalculationData TurnoverOfWorkingCapital { get; private set; } = new() { PreserveUnavailable = true };
 
         /// <summary>
         /// 3.1. - Turnover of cash, days
@@ -65,7 +65,7 @@ namespace AFS.Core.Services.DataCalculations
         /// 3.2. - Turnover of receivables, days
         /// Example: 259.78 (2019) → 233.30 (2020) = collection improved by 26.48 days
         /// </summary>
-        public TwoYearsCalculationData ReceivablesTurnover { get; private set; } = new();
+        public TwoYearsCalculationData ReceivablesTurnover { get; private set; } = new() { PreserveUnavailable = true };
 
         /// <summary>
         /// 3.3. - Turnover of material assets, days
@@ -79,7 +79,7 @@ namespace AFS.Core.Services.DataCalculations
         /// Higher is better (more frequent turnover)
         /// Example: 1.13 (2019) → 1.28 (2020) = 0.15 more cycles
         /// </summary>
-        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; private set; } = new();
+        public TwoYearsCalculationData NumberOfRevolutionsOfCurrentAssets { get; private set; } = new() { PreserveUnavailable = true };
 
         /// <summary>
         /// 4.1. - Cash turnovers, times
@@ -91,7 +91,7 @@ namespace AFS.Core.Services.DataCalculations
         /// 4.2. - Accounts receivable turnovers, times
         /// Example: 1.39 (2019) → 1.54 (2020) = faster collection
         /// </summary>
-        public TwoYearsCalculationData RevolutionsFromReceivables { get; private set; } = new();
+        public TwoYearsCalculationData RevolutionsFromReceivables { get; private set; } = new() { PreserveUnavailable = true };
 
         /// <summary>
         /// 4.3. - Material assets turnovers, times
@@ -502,21 +502,7 @@ namespace AFS.Core.Services.DataCalculations
                 OneDaySalesRevenue.CurrentYear * TurnoverOfWorkingCapital.Deviations;
         }
 
-        /// <summary>
-        /// Safe division to prevent division by zero errors
-        /// Returns 0 if denominator is zero or result is NaN/Infinity
-        /// </summary>
-        private static double SafeDivide(double numerator, double denominator)
-        {
-            if (AfsConstraints.IsZeroOrInvalid(denominator))
-                return 0;
-
-            var result = numerator / denominator;
-
-            if (double.IsNaN(result) || double.IsInfinity(result))
-                return 0;
-
-            return result;
-        }
+        private static double SafeDivide(double numerator, double denominator) =>
+            AfsConstraints.SafeRatio(numerator, denominator);
     }
 }
