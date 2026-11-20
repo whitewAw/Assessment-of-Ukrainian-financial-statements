@@ -1,0 +1,750 @@
+/* Open-Iconic removed - using Radzen Material icons instead (saves ~162KB) */
+
+/* ========================================
+   BASE STYLES & TYPOGRAPHY
+   ======================================== */
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first font sizing */
+html {
+    font-size: 16px;
+}
+
+@media (max-width: 575px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1:focus {
+    outline: none;
+}
+
+/* Mobile-optimized heading sizes */
+@media (max-width: 767px) {
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+}
+
+/* ========================================
+   LINKS & BUTTONS
+   ======================================== */
+
+a, .btn-link {
+    color: #0071c1;
+    text-decoration: none;
+}
+
+a:hover, .btn-link:hover {
+    color: #005a9c;
+    text-decoration: underline;
+}
+
+/* Touch-friendly sizing on mobile */
+@media (max-width: 767px) {
+    a, .btn-link, button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem;
+    }
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #1b6ec2 !important;
+    border-color: #1861ac !important;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #1861ac !important;
+    border-color: #164e8e !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   LAYOUT & CONTENT
+   ======================================== */
+
+.content {
+    padding-top: 1.1rem;
+    max-width: 100%;
+}
+
+/* ========================================
+   APEXCHARTS RESPONSIVE SIZING
+   ======================================== */
+
+.chart-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.apexcharts-canvas {
+    margin: 0 auto;
+}
+
+.apexcharts-pie,
+.apexcharts-pie-area {
+    transform-origin: center center;
+}
+
+.rz-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    .content {
+        padding: 0.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .content {
+        padding: 1rem 1.5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .content {
+        padding: 1.5rem 2rem;
+    }
+}
+
+/* ========================================
+   FORMS & VALIDATION
+   ======================================== */
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 767px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 44px;
+        padding: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+}
+
+/* ========================================
+   ERROR HANDLING
+   ======================================== */
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+@media (max-width: 575px) {
+    #blazor-error-ui {
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+
+    #blazor-error-ui .dismiss {
+        position: static;
+        display: block;
+        margin-top: 0.5rem;
+    }
+}
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+@media (max-width: 575px) {
+    .blazor-error-boundary {
+        padding: 1rem;
+        background-position: center top 0.5rem;
+        padding-top: 3rem;
+        text-align: center;
+    }
+}
+
+/* ========================================
+   TABLES - MOBILE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 767px) {
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tbody,
+    table tr,
+    table td {
+        display: block;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+    }
+
+    table td {
+        text-align: right;
+        padding: 0.5rem;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.5rem;
+        width: 45%;
+        padding-right: 0.5rem;
+        text-align: left;
+        font-weight: bold;
+    }
+}
+
+/* ========================================
+   RADZEN COMPONENTS - MOBILE OPTIMIZATION
+   ======================================== */
+
+@media (max-width: 767px) {
+    .rz-dialog {
+        width: 95vw !important;
+        max-width: none !important;
+        margin: 2.5vh auto !important;
+        max-height: 95vh !important;
+    }
+
+    .rz-dialog-content {
+        max-height: calc(95vh - 100px) !important;
+        overflow-y: auto !important;
+    }
+
+    .rz-datatable-scrollable-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .rz-chart {
+        max-width: 100%;
+        height: auto !important;
+        min-height: 300px;
+    }
+
+    .rz-button {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.d-mobile-none {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    .d-mobile-none {
+        display: block !important;
+    }
+}
+
+.d-desktop-none {
+    display: block !important;
+}
+
+@media (min-width: 768px) {
+    .d-desktop-none {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .text-mobile-center {
+        text-align: center !important;
+    }
+}
+
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================================
+   PERFORMANCE & INP OPTIMIZATIONS
+   ======================================== */
+
+.animated {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+    .sidebar .nav-item {
+        contain: layout paint;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* GPU acceleration & touch optimization for interactive elements */
+.theme-toggle,
+.navbar-toggler,
+.nav-link,
+.btn,
+.rz-button,
+.sidebar .nav-item,
+.collapse {
+    will-change: transform, opacity;
+    contain: layout style;
+    touch-action: manipulation;
+}
+
+/* Fast transitions */
+.theme-toggle,
+.navbar-toggler,
+.btn,
+.rz-button {
+    transition: transform 0.1s ease-out, background-color 0.15s ease, opacity 0.1s ease-out;
+}
+
+/* Immediate visual feedback for INP */
+.theme-toggle:active,
+.navbar-toggler:active,
+.btn:active,
+.rz-button:active,
+.nav-link:active,
+.clicked {
+    transform: scale(0.95);
+    opacity: 0.85;
+    transition: transform 0.05s ease-out, opacity 0.05s ease-out !important;
+}
+
+.sidebar .collapse {
+    transition: height 0.15s ease-out;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .sidebar,
+    .navbar,
+    footer,
+    button {
+        display: none !important;
+    }
+
+    main,
+    .content {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+}
+
+/* ========================================
+   TYPING INDICATOR ANIMATION
+   Used in AI analysis components
+   ======================================== */
+
+.typing-indicator {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #0056b3;
+    animation: bounce 1.4s infinite ease-in-out;
+    display: inline-block;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   INPUT FIELDS - ENHANCED VISIBILITY
+   Makes input fields clearly distinguishable
+   from label/display fields in both themes
+   ======================================== */
+
+/* Base styles for Radzen inputs */
+.rz-numeric,
+.rz-textbox,
+.rz-spinner,
+.rz-dropdown {
+    transition: all 0.2s ease;
+}
+
+/* Light mode - Input field styling variables */
+:root {
+    --input-bg-light: #fff8e1;
+    --input-border-light: #ffc107;
+    --input-focus-border-light: #ff9800;
+    --input-focus-shadow-light: rgba(255, 193, 7, 0.35);
+    --input-hover-bg-light: #fff3cd;
+}
+
+/* ========================================
+   LIGHT MODE INPUT STYLING
+   ======================================== */
+
+/* General inputs (Cards, Forms) */
+.rz-textbox,
+.rz-dropdown {
+    background-color: var(--input-bg-light) !important;
+    border: 2px solid var(--input-border-light) !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.rz-textbox:hover,
+.rz-dropdown:hover {
+    background-color: var(--input-hover-bg-light) !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-light) !important;
+}
+
+.rz-textbox:focus-within,
+.rz-dropdown:focus-within,
+.rz-dropdown.rz-state-focused {
+    background-color: #ffffff !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 4px var(--input-focus-shadow-light), 
+                inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
+}
+
+.rz-textbox input,
+.rz-dropdown .rz-dropdown-label {
+    font-weight: 500 !important;
+    color: #212529 !important;
+}
+
+.rz-textbox input::placeholder {
+    color: #6c757d !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+}
+
+/* Table inputs - Light mode */
+td .rz-numeric,
+td .rz-textbox,
+td .rz-spinner,
+th .rz-numeric,
+th .rz-textbox,
+th .rz-spinner {
+    background-color: var(--input-bg-light) !important;
+    border: 2px solid var(--input-border-light) !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 0.75rem !important;
+    font-weight: 500 !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+td .rz-numeric:hover,
+td .rz-textbox:hover,
+td .rz-spinner:hover,
+th .rz-numeric:hover,
+th .rz-textbox:hover,
+th .rz-spinner:hover {
+    background-color: var(--input-hover-bg-light) !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-light) !important;
+}
+
+td .rz-numeric:focus-within,
+td .rz-textbox:focus-within,
+td .rz-spinner:focus-within,
+th .rz-numeric:focus-within,
+th .rz-textbox:focus-within,
+th .rz-spinner:focus-within {
+    background-color: #ffffff !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 4px var(--input-focus-shadow-light), 
+                inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
+}
+
+td .rz-numeric input,
+td .rz-textbox input,
+td .rz-spinner input,
+th .rz-numeric input,
+th .rz-textbox input,
+th .rz-spinner input {
+    background: transparent !important;
+    font-weight: 500 !important;
+    color: #212529 !important;
+}
+
+td .rz-numeric input::placeholder,
+td .rz-textbox input::placeholder,
+th .rz-numeric input::placeholder,
+th .rz-textbox input::placeholder {
+    color: #6c757d !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+}
+
+/* ========================================
+   MISC INPUT STYLING
+   ======================================== */
+
+/* Section headers in forms */
+th[colspan] {
+    font-weight: 600 !important;
+}
+
+/* Form input helper text */
+.input-helper-text {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+[data-theme="dark"] .input-helper-text {
+    color: #adb5bd;
+}
+
+/* Visual indicator for input cells */
+td:has(.rz-numeric)::before,
+td:has(.rz-textbox)::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to bottom, var(--input-border-light), var(--input-focus-border-light));
+    border-radius: 2px 0 0 2px;
+}
+
+[data-theme="dark"] td:has(.rz-numeric)::before,
+[data-theme="dark"] td:has(.rz-textbox)::before {
+    background: linear-gradient(to bottom, #5bc0de, #7dd3fc);
+}
+
+/* Pulse animation for light mode inputs */
+@keyframes input-pulse-light {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.3); }
+}
+
+td .rz-numeric:not(:focus-within) input:placeholder-shown,
+td .rz-textbox:not(:focus-within) input:placeholder-shown {
+    animation: input-pulse-light 2s ease-in-out infinite;
+}
+
+/* Mobile optimization for inputs */
+@media (max-width: 767px) {
+    td .rz-numeric,
+    td .rz-textbox,
+    td .rz-spinner {
+        border-width: 3px !important;
+        padding: 0.75rem !important;
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+
+    td .rz-numeric input,
+    td .rz-textbox input {
+        font-size: 16px !important;
+    }
+}
+
+/* ========================================
+   CHAT INPUT STYLING
+   AI Assistant chat input field
+   ======================================== */
+
+/* Light mode - Chat input */
+.chat-input,
+.form-control.chat-input {
+    background-color: var(--input-bg-light) !important;
+    border: 2px solid var(--input-border-light) !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    transition: all 0.2s ease;
+}
+
+.chat-input:hover,
+.form-control.chat-input:hover {
+    background-color: var(--input-hover-bg-light) !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-light) !important;
+}
+
+.chat-input:focus,
+.form-control.chat-input:focus {
+    background-color: #ffffff !important;
+    border-color: var(--input-focus-border-light) !important;
+    box-shadow: 0 0 0 4px var(--input-focus-shadow-light), 
+                inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
+}
+
+.chat-input::placeholder,
+.form-control.chat-input::placeholder {
+    color: #6c757d !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+}
+
+/* Disabled state */
+.chat-input:disabled,
+.form-control.chat-input:disabled {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+    opacity: 0.7 !important;
+    cursor: not-allowed;
+}
+
+/* Dark mode - Chat input (handled by radzen-dark-theme.css pattern) */
+[data-theme="dark"] .chat-input,
+[data-theme="dark"] .form-control.chat-input {
+    background-color: #1a3a5c !important;
+    border: 2px solid #5bc0de !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 192, 222, 0.3) !important;
+}
+
+[data-theme="dark"] .chat-input:hover,
+[data-theme="dark"] .form-control.chat-input:hover {
+    background-color: #234b73 !important;
+    border-color: #7dd3fc !important;
+    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .chat-input:focus,
+[data-theme="dark"] .form-control.chat-input:focus {
+    background-color: #1e4976 !important;
+    border-color: #7dd3fc !important;
+    box-shadow: 0 0 0 4px rgba(91, 192, 222, 0.5), 0 0 12px rgba(125, 211, 252, 0.4) !important;
+}
+
+[data-theme="dark"] .chat-input::placeholder,
+[data-theme="dark"] .form-control.chat-input::placeholder {
+    color: #9ecbeb !important;
+    font-style: italic !important;
+}
+
+[data-theme="dark"] .chat-input:disabled,
+[data-theme="dark"] .form-control.chat-input:disabled {
+    background-color: #2d2d2d !important;
+    border-color: #4a4a4a !important;
+    color: #999999 !important;
+}
